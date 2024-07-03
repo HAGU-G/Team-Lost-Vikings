@@ -22,20 +22,21 @@ public class Building : MonoBehaviour
 
     private IInteractable interact;
 
-
-    public Building(string name, int cost, BUILDING_TYPE type)
+    private void Awake()
     {
-        Name = name;
-        Cost = cost;
-        Type = type;
-
-        switch(Type)
+        switch (Type)
         {
             case BUILDING_TYPE.HOSPITAL:
                 interact = new HospitalInteract();
                 break;
 
         }
+    }
+    public Building(string name, int cost, BUILDING_TYPE type)
+    {
+        Name = name;
+        Cost = cost;
+        Type = type;
     }
 
     public void Interact()

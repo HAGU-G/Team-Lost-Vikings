@@ -24,20 +24,21 @@ public class VillageTest : MonoBehaviour
             worldPos.z = 0f;
             var build = Instantiate(building, worldPos, Quaternion.identity);
             var buildingComponent = building.GetComponent<Building>();
-            isSelected = false;
             villageManager.construectedBuildings.Add(buildingComponent);
 
             Debug.Log($"Name : {buildingComponent.Name}, Cost : {buildingComponent.Cost}, Type : {buildingComponent.Type}");
+            isSelected = false;
+            return;
         }
 
         if(Input.GetMouseButtonDown(0) && !isSelected)
         {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Collider2D hitCollider = Physics2D.OverlapPoint(mousePos);
+            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, 100f);
 
-            if(hitCollider != null)
+            if(hit.collider != null)
             {
-                Building building = hitCollider.GetComponent<Building>();
+                Building building = hit.transform.gameObject.GetComponent<Building>();
                 if(building != null)
                 {
                     building.Interact();
