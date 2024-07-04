@@ -1,14 +1,14 @@
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 [Serializable]
 public abstract class Unit : MonoBehaviour
 {
-    protected UnitStats stats;
+    public UnitStats stats;
 
-    protected virtual void Init()
+    protected virtual void ResetUnit()
     {
-        stats.Init();
+        stats.ResetStats();
     }
 }

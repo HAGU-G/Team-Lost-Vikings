@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 [Serializable]
@@ -56,7 +56,7 @@ public class UnitStats
     }
     #endregion
 
-    public void Init()
+    public void ResetStats()
     {
         CurrentHP = MaxHP = defaultMaxHP;
 
