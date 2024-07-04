@@ -7,6 +7,11 @@ public abstract class Unit : MonoBehaviour
 {
     public UnitStats stats;
 
+    protected virtual void Init()
+    {
+
+    }
+
     protected virtual void ResetUnit()
     {
         stats.ResetStats();

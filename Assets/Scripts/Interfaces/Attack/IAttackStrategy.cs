@@ -1,6 +1,6 @@
-using System;
+﻿using System;
 
 public interface IAttackStrategy
 {
-    public void Attack(int damage, params IDamagedable[] targets);
+    public bool Attack(int damage, params IDamagedable[] targets);
 }

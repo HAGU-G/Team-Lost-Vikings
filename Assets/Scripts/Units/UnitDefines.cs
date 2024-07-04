@@ -1,20 +1,23 @@
-﻿public enum CLASS_TYPE
+﻿namespace UNIT
 {
-    NONE,
-    TEST_CLASS
-}
+    public enum CLASS
+    {
+        NONE,
+        TEST_CLASS
+    }
 
-public enum UNIT_GROUP
-{
-    PLAYER,
-    MONSTER
-}
+    public enum GROUP
+    {
+        PLAYER,
+        MONSTER
+    }
 
-public enum UNIT_STATE_TYPE
-{
-    IDLE,
-    TRACE,
-    ATTACK,
-    GOTO_TOWN,
-    DEAD
+    public enum STATE_ON_DUNGEON
+    {
+        IDLE,
+        TRACE,
+        ATTACK,
+        GOTO_TOWN,
+        DEAD
+    }
 }

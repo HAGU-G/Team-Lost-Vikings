@@ -5,8 +5,8 @@ using UnityEngine;
 public class UnitStats
 {
     #region DEFAULT_STATS
-    public UNIT_GROUP unitGroup;
-    public CLASS_TYPE classType;
+    public UNIT.GROUP unitGroup;
+    public UNIT.CLASS classType;
     public int defaultMaxHP;
     public int defaultAttackDamage;
     public float defaultAttackRange;
@@ -33,7 +33,7 @@ public class UnitStats
         get => _currentHP;
         set
         {
-            _currentHP = Mathf.Clamp(_currentHP + value, 0, MaxHP);
+            _currentHP = Mathf.Clamp(value, 0, MaxHP);
         }
     }
 

@@ -1,18 +1,23 @@
 ﻿using UnityEngine;
 
-public interface IState
-{ 
-    /// <summary>
-    /// 상태 전환 가능 여부
-    /// </summary>
-    public bool CanExit { get; protected set; }
-
-    public void EnterState();
-    public void ExitState();
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public void ResetState();
-
+public abstract class IState<T> : MonoBehaviour
+{
+    protected T controller;
+    public virtual void Init(T controller)
+    {
+        this.controller = controller;
+    }
+    public virtual void ResetState()
+    { 
+        enabled = false;
+    }
+    public virtual void EnterState() 
+    { 
+        enabled = true;
+    }
+    public virtual void ExitState() 
+    {
+        enabled = false;
+    }
+    public virtual bool CanExit() { return true; }
 }

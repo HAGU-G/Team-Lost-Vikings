@@ -1,19 +1,15 @@
-﻿public class IdleOnDungeon : IState
+﻿using UnityEngine;
+
+public class IdleOnDungeon : IState<UnitOnDungeon>
 {
-    bool IState.CanExit { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-
-    public void ResetState()
+    public override void EnterState()
     {
-        throw new System.NotImplementedException();
+        controller.state = UNIT.STATE_ON_DUNGEON.IDLE;
+        base.EnterState();
     }
 
-    void IState.EnterState()
+    private void Update()
     {
-        throw new System.NotImplementedException();
-    }
-
-    void IState.ExitState()
-    {
-        throw new System.NotImplementedException();
+        controller.spriteRenderer.color = Color.white;
     }
 }

@@ -1,13 +1,16 @@
-using System;
+﻿using System;
 
 [Serializable]
 public class AttackDefault : IAttackStrategy
 {
-    public void Attack(int damage, params IDamagedable[] targets)
+    public bool Attack(int damage, params IDamagedable[] targets)
     {
+        bool result = false;
         foreach (var unit in targets)
         {
-            unit.TakeDamage(damage);
+            result = unit.TakeDamage(damage);
         }
+
+        return result;
     }
 }
