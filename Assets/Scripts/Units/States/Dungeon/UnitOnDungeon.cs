@@ -68,7 +68,6 @@ public class UnitOnDungeon : Unit, IDamagedable
 
         if (stats.CurrentHP == 0)
         {
-            dungeonManager.unitCount--;
             Destroy(gameObject);
             return -1;
         }

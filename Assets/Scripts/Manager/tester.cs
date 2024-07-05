@@ -6,10 +6,7 @@ using UnityEngine;
 public class tester : MonoBehaviour
 {
     private Dictionary<int, (float, int)> data = new();
-
-
     public List<DungeonManager> list = new();
-
 
     public float frame;
     public int unitCount;
@@ -20,7 +17,8 @@ public class tester : MonoBehaviour
         unitCount = 0;
         foreach (var dungeon in list)
         {
-            unitCount += dungeon.unitCount;
+            unitCount += dungeon.players.Count;
+            unitCount += dungeon.monsters.Count;
         }
 
         if (data.ContainsKey(unitCount))
