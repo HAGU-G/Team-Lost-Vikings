@@ -8,6 +8,7 @@ public class VillageTest : MonoBehaviour
 
     private GameObject building;
     public GameObject hospital;
+    public Transform secondFloor;
     private bool isSelected;
 
     private void Start()
@@ -22,11 +23,11 @@ public class VillageTest : MonoBehaviour
             var mousePos = Input.mousePosition;
             var worldPos = Camera.main.ScreenToWorldPoint(mousePos);
             worldPos.z = 0f;
-            var build = Instantiate(building, worldPos, Quaternion.identity);
+            var build = Instantiate(building, worldPos, Quaternion.identity, secondFloor);
             var buildingComponent = building.GetComponent<Building>();
             villageManager.construectedBuildings.Add(buildingComponent);
 
-            Debug.Log($"Name : {buildingComponent.Name}, Cost : {buildingComponent.Cost}, Type : {buildingComponent.Type}");
+            Debug.Log($"Name : {buildingComponent.Name},  Type : {buildingComponent.Type}");
             isSelected = false;
             return;
         }
