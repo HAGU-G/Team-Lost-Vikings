@@ -5,6 +5,8 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {
     public TileInfo tileInfo;
+    [field: SerializeField]
+    public List<Tile> AdjacentTiles { get; set; } = new List<Tile>();
 
     private void Awake()
     {

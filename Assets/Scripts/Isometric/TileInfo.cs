@@ -24,5 +24,6 @@ public class TileInfo
     public Layer ObjectLayer { get; set; }
 
     public TileType TileType { get; set; } = TileType.NONE;
+   
 
 }

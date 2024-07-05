@@ -215,8 +215,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Name>k__BackingField: testHospital
-  <Cost>k__BackingField: 100
+  <WidthSize>k__BackingField: 0
+  <HeightSize>k__BackingField: 0
   <Type>k__BackingField: 0
+  <CanMultiBuild>k__BackingField: 0
+  <UnlockTownLevel>k__BackingField: 0
+  <UpgradeId>k__BackingField: 0
+  <AssetFileName>k__BackingField: 
 --- !u!1839735485 &7910110430590196566
 Tilemap:
   m_ObjectHideFlags: 0
@@ -306,7 +311,7 @@ PolygonCollider2D:
       - {x: 0.52145946, y: -0.5238154}
       - {x: 0.5332029, y: 0.023815513}
   m_UseDelaunayMesh: 0
---- !u!114 &-1229864865938986110
+--- !u!114 &9203930896783579594
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
