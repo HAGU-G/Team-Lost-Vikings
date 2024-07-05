@@ -5,6 +5,7 @@ using UnityEngine;
 public class VillageTest : MonoBehaviour
 {
     public VillageManager villageManager;
+    public Grid grid;
 
     private GameObject building;
     public GameObject hospital;

@@ -36,7 +36,8 @@ public class Grid : MonoBehaviour
             var pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             var index = PosToIndex(pos);
             Debug.Log($"선택된 Position : {pos}");
-            Debug.Log($"선택된 타일 인덱스 : {index}");
+            //Debug.Log($"선택된 타일 인덱스 : {index}");
+            Debug.Log($"선택된 타일 Position : {IndexToPos(index)}");
         }
        
     }
@@ -103,20 +104,28 @@ public class Grid : MonoBehaviour
         float x = position.x;
         float y = position.y;
 
-        int tileX = Mathf.RoundToInt((2f * y + x) / gridInfo.cellSize);
-        int tileY = Mathf.RoundToInt((2f * y - x) / gridInfo.cellSize);
+        int indexX = Mathf.RoundToInt((2f * y + x) / gridInfo.cellSize);
+        int indexY = Mathf.RoundToInt((2f * y - x) / gridInfo.cellSize);
 
-        if (tileX < 0 || tileY < 0)
+        if (indexX < 0 || indexY < 0)
         {
             Debug.Log("Out Of Index");
             return new Vector2Int(-1,-1);
         }
 
-        return new Vector2Int(tileX, tileY);
+        return new Vector2Int(indexX, indexY);
     }
 
     public Vector3 IndexToPos(Vector2Int index)
     {
+        int indexX = index.x;
+        int indexY = index.y;
+        float x = (indexX - indexY) * gridInfo.cellSize / 2f;
+        float y = (indexX + indexY) * gridInfo.cellSize / 4f;
+
+        return new Vector3(x, y, 0);
+
+
         return Vector3.zero;
     }
 }
