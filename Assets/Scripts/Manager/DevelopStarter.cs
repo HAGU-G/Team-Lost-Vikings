@@ -1,24 +1,34 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
-using TMPro;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-public class DevelopSceneStarter : MonoBehaviour
+public class DevelopStarter : MonoBehaviour
 {
+    public static DevelopStarter Instance { get; private set; }
+
     public List<AssetReference> scenes = new();
     private List<AsyncOperationHandle> operations = new();
 
     private int completeCount;
     private float progress;
-    public TextMeshProUGUI progressText;
+
+    public event System.Action OnCompleted;
 
     private void Awake()
     {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+
         foreach (var scene in scenes)
         {
-            operations.Add(Addressables.LoadSceneAsync(scene, LoadSceneMode.Additive));
+
+            //TODO 하나 로딩 완료되면 다음거 로딩
+            var operation = Addressables.LoadSceneAsync(scene, LoadSceneMode.Additive, false);
+            operations.Add(operation);
         }
     }
 
@@ -31,9 +41,12 @@ public class DevelopSceneStarter : MonoBehaviour
             if (operation.IsDone)
                 completeCount++;
         }
-        progressText.text = (progress * 50f).ToString();
+        Debug.Log($"{progress * 100f / operations.Count}%");
 
-        if (completeCount == operations.Count)
-            SceneManager.UnloadSceneAsync(0);
+        if (completeCount > operations.Count)
+        {
+            OnCompleted?.Invoke();
+            Destroy(gameObject);
+        }
     }
 }
