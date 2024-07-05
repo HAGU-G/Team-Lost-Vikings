@@ -10,8 +10,7 @@ public class GridMap : MonoBehaviour
     public GridInfo gridInfo;
     private int CurrentCol;
     private int CurrentRow;
-    //public List<GameObject> tiles = new List<GameObject>();
-    public Dictionary<Vector2Int, GameObject> tiles = new Dictionary<Vector2Int, GameObject>();
+    public Dictionary<Vector2Int, Tile> tiles = new Dictionary<Vector2Int, Tile>();
     public GameObject cellPrefab;
 
 
@@ -45,7 +44,7 @@ public class GridMap : MonoBehaviour
                 var tile = cell.GetComponent<Tile>();
                 tile.tileInfo.id = new Vector2Int(x, y);
                 text.text = $"{tile.tileInfo.id}";
-                tiles.Add(tile.tileInfo.id, cell);
+                tiles.Add(tile.tileInfo.id, tile);
                 tileArray[x, y] = tile;
             }
         }
@@ -106,8 +105,5 @@ public class GridMap : MonoBehaviour
         float y = (indexX + indexY) * gridInfo.cellSize / 4f;
 
         return new Vector3(x, y, 0);
-
-
-        return Vector3.zero;
     }
 }

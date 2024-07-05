@@ -22,8 +22,9 @@ public class VillageTest : MonoBehaviour
         {
             var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             var tileIndex = gridMap.PosToIndex(worldPos);
-            var grid = gridMap.tiles.GetValueOrDefault(tileIndex);
-            var build = Instantiate(building, gridMap.IndexToPos(tileIndex), Quaternion.identity, grid.transform);
+            var tile = gridMap.tiles.GetValueOrDefault(tileIndex);
+            tile.UpdateTileInfo(TileType.OBJECT, building);
+            var build = Instantiate(building, gridMap.IndexToPos(tileIndex), Quaternion.identity, tile.transform);
             var buildingComponent = building.GetComponent<Building>();
             villageManager.construectedBuildings.Add(buildingComponent);
 

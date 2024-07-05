@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,9 +31,30 @@ public class Tile : MonoBehaviour
         };
     }
 
-    public void UpdateTileInfo(Tile tile)
+    public void UpdateTileInfo(TileType type, GameObject obj)
     {
-        
+        switch (type)
+        {
+            case TileType.ROAD:
+                tileInfo.RoadLayer.LayerObject = obj;
+                tileInfo.RoadLayer.IsEmpty = false;
+                break;
+            case TileType.OBJECT:
+                tileInfo.ObjectLayer.LayerObject = obj;
+                tileInfo.ObjectLayer.IsEmpty = false;
+                break;
+        }
+    }
+
+    public void ClearTileInfo()
+    {
+        tileInfo.RoadLayer.LayerObject = null;
+        tileInfo.RoadLayer.IsEmpty = true;
+        tileInfo.ObjectLayer.LayerObject = null;
+        tileInfo.ObjectLayer.IsEmpty = true;
+        tileInfo.TileType = TileType.NONE;
+
+        //TO-DO : 인접 타일들이 가지는 정보도 수정해줘야함
     }
 
     private void UpdateTileObject()
