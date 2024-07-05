@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -12,10 +13,32 @@ public class Grid : MonoBehaviour
     private List<GameObject> tiles = new List<GameObject>();
     public GameObject cellPrefab;
 
+    private float timer = 0f;
+    private float duration = 1f;
+
 
     private void Awake()
     {
         DrawGrid(gridInfo.col, gridInfo.row);
+    }
+
+    private void Update()
+    {
+        //timer += Time.deltaTime;
+        //if(timer >= duration)
+        //{
+        //    Debug.Log(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        //    timer = 0f;
+        //}
+
+        if(Input.GetMouseButtonDown(0))
+        {
+            var pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            var index = PosToIndex(pos);
+            Debug.Log($"선택된 Position : {pos}");
+            Debug.Log($"선택된 타일 인덱스 : {index}");
+        }
+       
     }
 
     private void DrawGrid(int col, int row)
@@ -73,5 +96,27 @@ public class Grid : MonoBehaviour
     private void UpdateGrid()
     {
         //tiles[i].UpdateTileInfo(tile);
+    }
+
+    public Vector2Int PosToIndex(Vector3 position)
+    {
+        float x = position.x;
+        float y = position.y;
+
+        int tileX = Mathf.RoundToInt((2f * y + x) / gridInfo.cellSize);
+        int tileY = Mathf.RoundToInt((2f * y - x) / gridInfo.cellSize);
+
+        if (tileX < 0 || tileY < 0)
+        {
+            Debug.Log("Out Of Index");
+            return new Vector2Int(-1,-1);
+        }
+
+        return new Vector2Int(tileX, tileY);
+    }
+
+    public Vector3 IndexToPos(Vector2Int index)
+    {
+        return Vector3.zero;
     }
 }
