@@ -1,20 +1,18 @@
-using System;
+癤퓎sing System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
 
-public class Grid : MonoBehaviour
+public class GridMap : MonoBehaviour
 {
     public GridInfo gridInfo;
     private int CurrentCol;
     private int CurrentRow;
-    private List<GameObject> tiles = new List<GameObject>();
+    //public List<GameObject> tiles = new List<GameObject>();
+    public Dictionary<Vector2Int, GameObject> tiles = new Dictionary<Vector2Int, GameObject>();
     public GameObject cellPrefab;
-
-    private float timer = 0f;
-    private float duration = 1f;
 
 
     private void Awake()
@@ -24,22 +22,6 @@ public class Grid : MonoBehaviour
 
     private void Update()
     {
-        //timer += Time.deltaTime;
-        //if(timer >= duration)
-        //{
-        //    Debug.Log(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-        //    timer = 0f;
-        //}
-
-        if(Input.GetMouseButtonDown(0))
-        {
-            var pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            var index = PosToIndex(pos);
-            Debug.Log($"선택된 Position : {pos}");
-            //Debug.Log($"선택된 타일 인덱스 : {index}");
-            Debug.Log($"선택된 타일 Position : {IndexToPos(index)}");
-        }
-       
     }
 
     private void DrawGrid(int col, int row)
@@ -63,7 +45,7 @@ public class Grid : MonoBehaviour
                 var tile = cell.GetComponent<Tile>();
                 tile.tileInfo.id = new Vector2Int(x, y);
                 text.text = $"{tile.tileInfo.id}";
-                tiles.Add(cell);
+                tiles.Add(tile.tileInfo.id, cell);
                 tileArray[x, y] = tile;
             }
         }
