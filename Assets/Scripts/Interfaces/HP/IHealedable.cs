@@ -1,4 +1,4 @@
-public interface IHealedable
+﻿public interface IHealedable
 {
-	public virtual void TakeHeal(int heal) { }
+    public int TakeHeal(int heal);
 }

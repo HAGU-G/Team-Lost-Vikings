@@ -1,21 +1,45 @@
 ﻿using UnityEngine;
 
-public class TraceOnDungeon : IState<UnitOnDungeon>
+public class TraceOnDungeon : State<UnitOnDungeon>
 {
     public override void EnterState()
     {
-        controller.state = UNIT.STATE_ON_DUNGEON.TRACE;
-        base.EnterState();
+        owner.currentState = UnitOnDungeon.STATE.TRACE;
+        owner.spriteRenderer.color = Color.yellow;
     }
 
-    private void Update()
+    public override void ExitState()
     {
-        if (controller.attackTarget == null)
+    }
+
+    public override void ResetState()
+    {
+    }
+
+    public override void Update()
+    {
+        if (Transition())
             return;
 
-        controller.spriteRenderer.color = Color.yellow;
+        var moveDirection = owner.transform.position - (owner.attackTarget).transform.position;
+        owner.transform.position -= moveDirection.normalized * Time.deltaTime * 5f;
+    }
 
-        var moveDirection = controller.transform.position - (controller.attackTarget as UnitOnDungeon).transform.position;
-        transform.position -= moveDirection.normalized * Time.deltaTime * 5f;
+
+    /// <returns>상태가 전환 됐을 경우 true</returns>
+    protected override bool Transition()
+    {
+        if (owner.attackTarget == null)
+        {
+            controller.ChangeState((int)UnitOnDungeon.STATE.IDLE);
+            return true;
+        }
+        else if (Vector3.Distance(owner.transform.position, owner.attackTarget.transform.position) <= 1f)
+        {
+            controller.ChangeState((int)UnitOnDungeon.STATE.ATTACK);
+            return true;
+        }
+
+        return false;
     }
 }

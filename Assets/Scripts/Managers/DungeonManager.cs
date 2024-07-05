@@ -1,8 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Data.Common;
-using System.IO;
-using System.Text;
 using UnityEngine;
 
 public class DungeonManager : MonoBehaviour
@@ -15,14 +12,18 @@ public class DungeonManager : MonoBehaviour
 
     public int unitCount;
 
-
     private void Update()
     {
+        for (int i = Mathf.Max(players.Count, monsters.Count) - 1; i >= 0; i--)
+        {
+            if (i < players.Count && players[i] == null)
+                players.RemoveAt(i);
 
-        players.RemoveAll(x => x == null);
-        monsters.RemoveAll(x => x == null);
-
+            if (i < monsters.Count && monsters[i] == null)
+                monsters.RemoveAt(i);
+        }
     }
+
 
     public void Spawn()
     {

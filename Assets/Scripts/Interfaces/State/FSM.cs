@@ -1,20 +1,20 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 public class FSM<T>
 {
-    private T controller;
-    private List<IState<T>> states = new();
-    private int defaultState = 0;
-    private IState<T> currentState;
+    private T owner;
 
-    public void Init(T controller, int defaultState, params IState<T>[] states)
+    private List<State<T>> states = new();
+    private int defaultState = 0;
+    private State<T> currentState;
+
+    public void Init(T owner, int defaultState, params State<T>[] states)
     {
-        this.controller = controller;
+        this.owner = owner;
         this.states.Clear();
         foreach (var state in states)
         {
-            state.Init(controller);
+            state.Init(owner, this);
             this.states.Add(state);
         }
         this.defaultState = defaultState;
@@ -37,7 +37,7 @@ public class FSM<T>
     }
 
     /// <returns>true : 변경 성공, false : 변경 실패</returns>
-    public bool ChangeState(IState<T> state)
+    public bool ChangeState(State<T> state)
     {
         if (!states.Contains(state))
         {
@@ -53,5 +53,10 @@ public class FSM<T>
         currentState = state;
 
         return true;
+    }
+
+    public void Update()
+    {
+        currentState.Update();
     }
 }

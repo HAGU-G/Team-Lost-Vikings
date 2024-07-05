@@ -1,6 +1,5 @@
-﻿using System;
-
-public interface IAttackStrategy
+﻿public interface IAttackStrategy
 {
-    public bool Attack(int damage, params IDamagedable[] targets);
+    /// <returns>입힌 피해</returns>
+    public int Attack(int damage, params IDamagedable[] targets);
 }

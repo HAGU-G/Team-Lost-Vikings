@@ -1,20 +1,28 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.Networking;
 
 public class UnitOnDungeon : Unit, IDamagedable
 {
+    #region INSPECTOR
+    public SpriteRenderer spriteRenderer;
+    #endregion
+
+    public enum STATE
+    {
+        IDLE,
+        TRACE,
+        ATTACK
+    }
+
+    private FSM<UnitOnDungeon> dungeonFSM;
+    public STATE currentState;
+
     private IAttackStrategy attackBehaviour = new AttackDefault();
     public UnitOnDungeon attackTarget;
-    public DungeonManager dungeonManager;
-    private List<UnitOnDungeon> targets;
+    public List<UnitOnDungeon> Targets {get; private set;}
 
-    public UNIT.STATE_ON_DUNGEON state;
-    private FSM<UnitOnDungeon> dungeonFSM;
-    public SpriteRenderer spriteRenderer;
+    public DungeonManager dungeonManager;
 
     #region EVENT
     public event Action OnDamaged;
@@ -28,15 +36,10 @@ public class UnitOnDungeon : Unit, IDamagedable
 
     private void Start()
     {
-
         if (stats.unitGroup == UNIT.GROUP.PLAYER)
-        {
-            targets = dungeonManager.monsters;
-        }
+            Targets = dungeonManager.monsters;
         else
-        {
-            targets = dungeonManager.players;
-        }
+            Targets = dungeonManager.players;
     }
 
     protected override void Init()
@@ -45,22 +48,20 @@ public class UnitOnDungeon : Unit, IDamagedable
 
         dungeonFSM = new();
         dungeonFSM.Init(this, 0,
-            gameObject.AddComponent<IdleOnDungeon>(),
-            gameObject.AddComponent<TraceOnDungeon>(),
-            gameObject.AddComponent<AttackOnDungeon>());
+            new IdleOnDungeon(),
+            new TraceOnDungeon(),
+            new AttackOnDungeon());
     }
 
     protected override void ResetUnit()
     {
         base.ResetUnit();
-
         dungeonFSM.ResetFSM();
     }
 
-    public bool TakeDamage(int damage)
+    public int TakeDamage(int damage)
     {
-        if (stats.CurrentHP == 0)
-            return true;
+        var preHP = stats.CurrentHP;
 
         stats.CurrentHP -= damage;
         OnDamaged?.Invoke();
@@ -69,56 +70,22 @@ public class UnitOnDungeon : Unit, IDamagedable
         {
             dungeonManager.unitCount--;
             Destroy(gameObject);
-            return true;
+            return -1;
         }
-        return false;
+        return preHP - stats.CurrentHP;
     }
 
-    public void TryAttack()
+    /// <returns>공격 실패시 -1 반환</returns>
+    public int TryAttack()
     {
         if (attackTarget == null)
-            return;
+            return -1;
 
-        if (attackBehaviour.Attack(stats.AttackDamage, attackTarget))
-        {
-            attackTarget = null;
-        }
+        return attackBehaviour.Attack(stats.AttackDamage, attackTarget);
     }
 
     private void Update()
     {
-        if (attackTarget != null)
-        {
-            if (state != UNIT.STATE_ON_DUNGEON.ATTACK)
-            {
-                if (state != UNIT.STATE_ON_DUNGEON.TRACE)
-                {
-                    dungeonFSM.ChangeState((int)UNIT.STATE_ON_DUNGEON.TRACE);
-                }
-                else if (Vector3.Distance(transform.position, attackTarget.transform.position) <= 1f)
-                {
-                    dungeonFSM.ChangeState((int)UNIT.STATE_ON_DUNGEON.ATTACK);
-                }
-            }
-        }
-        else if (state == UNIT.STATE_ON_DUNGEON.IDLE)
-        {
-            float min = float.MaxValue;
-            foreach (var target in targets)
-            {
-                var d = Vector3.Distance(target.transform.position, transform.position);
-                if (d < min)
-                {
-                    min = d;
-                    attackTarget = target;
-                }
-            }
-
-        }
-        else
-        {
-            dungeonFSM.ChangeState((int)UNIT.STATE_ON_DUNGEON.IDLE);
-        }
-
+        dungeonFSM.Update();
     }
 }

@@ -1,27 +1,44 @@
 ﻿using UnityEngine;
 
-public class AttackOnDungeon : IState<UnitOnDungeon>
+public class AttackOnDungeon : State<UnitOnDungeon>
 {
     private float attackTimer;
 
     public override void EnterState()
     {
-        controller.state = UNIT.STATE_ON_DUNGEON.ATTACK;
-        base.EnterState();
+        owner.currentState = UnitOnDungeon.STATE.ATTACK;
+        owner.spriteRenderer.color = Color.red;
     }
 
-    private void Update()
+    public override void ExitState()
     {
-        if (controller.attackTarget == null)
+    }
+
+    public override void ResetState()
+    {
+    }
+
+    public override void Update()
+    {
+        if (Transition())
             return;
 
-        controller.spriteRenderer.color = Color.red;
-
         attackTimer += Time.deltaTime;
-        if (attackTimer >= controller.stats.AttackInterval)
+        if (attackTimer >= owner.stats.AttackInterval)
         {
             attackTimer = 0f;
-            controller.TryAttack();
+            owner.TryAttack();
         }
+    }
+
+    protected override bool Transition()
+    {
+        if (owner.attackTarget == null)
+        {
+            controller.ChangeState((int)UnitOnDungeon.STATE.IDLE);
+            return true;
+        }
+
+        return false;
     }
 }
