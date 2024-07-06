@@ -2,13 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DungeonManager : MonoBehaviour
+public class Dungeon : MonoBehaviour
 {
     public UnitOnDungeon player;
     public UnitOnDungeon monster;
 
     public List<UnitOnDungeon> players = new();
     public List<UnitOnDungeon> monsters = new();
+
+    private void Awake()
+    {
+        GameStarter.Instance.SetActiveOnComplete(gameObject);
+    }
 
     private void Update()
     {

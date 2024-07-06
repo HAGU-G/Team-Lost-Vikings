@@ -22,7 +22,7 @@ public class UnitOnDungeon : Unit, IDamagedable
     public UnitOnDungeon attackTarget;
     public List<UnitOnDungeon> Targets {get; private set;}
 
-    public DungeonManager dungeonManager;
+    public Dungeon dungeonManager;
 
     #region EVENT
     public event Action OnDamaged;

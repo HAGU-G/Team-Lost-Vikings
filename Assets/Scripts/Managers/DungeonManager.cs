@@ -3,13 +3,18 @@ using System.IO;
 using System.Text;
 using UnityEngine;
 
-public class tester : MonoBehaviour
+public class DungeonManager : MonoBehaviour
 {
     private Dictionary<int, (float, int)> data = new();
-    public List<DungeonManager> list = new();
+    public List<Dungeon> list = new();
 
     public float frame;
     public int unitCount;
+
+    private void Awake()
+    {
+        GameStarter.Instance.SetActiveOnComplete(gameObject);
+    }
 
     private void Update()
     {

@@ -211,7 +211,7 @@ GameObject:
   - component: {fileID: 1917313726}
   - component: {fileID: 1917313725}
   m_Layer: 0
-  m_Name: Develop Starter
+  m_Name: GameStarter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -230,11 +230,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scenes:
-  - m_AssetGUID: 2cda990e2423bbf4892e6590ba056729
+  - m_AssetGUID: 810bdd4e13f08d8449cdbb84e523a2fa
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
-  - m_AssetGUID: 810bdd4e13f08d8449cdbb84e523a2fa
+  - m_AssetGUID: 2cda990e2423bbf4892e6590ba056729
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
