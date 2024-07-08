@@ -1,48 +1,65 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using UnityEngine;
 
 public class DungeonManager : MonoBehaviour
 {
-    public UnitOnDungeon player;
-    public UnitOnDungeon monster;
+    private Dictionary<int, (float, int)> data = new();
+    public List<Dungeon> list = new();
 
-    public List<UnitOnDungeon> players = new();
-    public List<UnitOnDungeon> monsters = new();
-
+    public float frame;
     public int unitCount;
+
+    private void Awake()
+    {
+        GameStarter.Instance.SetActiveOnComplete(gameObject);
+    }
 
     private void Update()
     {
-        for (int i = Mathf.Max(players.Count, monsters.Count) - 1; i >= 0; i--)
+        frame = 1f / Time.deltaTime;
+        unitCount = 0;
+        foreach (var dungeon in list)
         {
-            if (i < players.Count && players[i] == null)
-                players.RemoveAt(i);
+            unitCount += dungeon.players.Count;
+            unitCount += dungeon.monsters.Count;
+        }
 
-            if (i < monsters.Count && monsters[i] == null)
-                monsters.RemoveAt(i);
+        if (data.ContainsKey(unitCount))
+        {
+            var d = data[unitCount];
+            data[unitCount] = (d.Item1 + (frame - d.Item1) / (d.Item2 + 1), (d.Item2 + 1));
+        }
+        else
+        {
+            data.Add(unitCount, (frame, 1));
         }
     }
 
 
-    public void Spawn()
+    private void OnApplicationQuit()
     {
-        StartCoroutine(CoSpawn());
+        if (data == null)
+            return;
+
+        var sb = new StringBuilder();
+        foreach (var d in data)
+        {
+            sb.AppendLine($"{d.Key},{d.Value.Item1}");
+        }
+
+        using (var sw = new StreamWriter(Application.persistentDataPath + "/test.csv"))
+        {
+            sw.Write(sb);
+        }
+        Debug.Log(sb.ToString());
     }
 
-    IEnumerator CoSpawn()
+    private void OnGUI()
     {
-        for (int i = 0; i < 30; i++)
-        {
-            unitCount++;
-            unitCount++;
-            var p = Instantiate(player, transform.position + (Vector3)Random.insideUnitCircle * 20f, Quaternion.identity);
-            var m = Instantiate(monster, transform.position + (Vector3)Random.insideUnitCircle * 20f, Quaternion.identity);
-            p.dungeonManager = this;
-            m.dungeonManager = this;
-            players.Add(p);
-            monsters.Add(m);
-            yield return new WaitForEndOfFrame();
-        }
+        GUILayout.Label(frame.ToString());
+        GUILayout.Label(unitCount.ToString());
     }
+
 }
