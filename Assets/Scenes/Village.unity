@@ -199,7 +199,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   construectedBuildings: []
   gridMap: {fileID: 286098943}
-  hospital: {fileID: 7081529146770008461, guid: fd0431f8f7e6ad64789e9204c3cc0b3d, type: 3}
+  hospital: {fileID: 4125673889435522284, guid: 0a52a2dfc707d5447ba9d2fafb7c2323, type: 3}
 --- !u!4 &927712893
 Transform:
   m_ObjectHideFlags: 0

@@ -54,6 +54,9 @@ public class VillageManager : MonoBehaviour
         }
 
         var instancedObj = Instantiate(obj, gridMap.IndexToPos(tileId), Quaternion.identity, tile.transform);
+        var pos = instancedObj.transform.position; 
+        pos.y = instancedObj.transform.position.y - gridMap.gridInfo.cellSize / 4f;
+        instancedObj.transform.position = pos;
         construectedBuildings.Add(instancedObj);
         var buildingComponent = instancedObj.GetComponent<Building>();
         buildingComponent.placedTiles.Add(tile);
