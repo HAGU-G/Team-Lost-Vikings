@@ -17,5 +17,6 @@
 
     public abstract void Update();
 
+    /// <returns>상태가 전환 됐을 경우 true</returns>
     protected abstract bool Transition();
 }

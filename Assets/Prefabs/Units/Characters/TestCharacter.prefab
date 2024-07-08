@@ -98,11 +98,79 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats:
-    unitGroup: 0
-    classType: 1
-    defaultMaxHP: 100
-    defaultAttackDamage: 10
-    defaultAttackRange: 0
-    defaultAttackInterval: 0.2
-  state: 0
+    <DefaultStats>k__BackingField:
+      <MaxStress>k__BackingField: 0
+      <MaxStamina>k__BackingField: 0
+      <HP>k__BackingField: 0
+      <Vit>k__BackingField: 0
+      <VitWeight>k__BackingField: 0
+      <Str>k__BackingField: 0
+      <StrWeight>k__BackingField: 0
+      <Mag>k__BackingField: 0
+      <MagWeight>k__BackingField: 0
+      <Agi>k__BackingField: 0
+      <AgiWeight>k__BackingField: 0
+      <UnitSize>k__BackingField: 0
+      <MoveSpeed>k__BackingField: 0
+      <RecognizeRange>k__BackingField: 0
+      <AttackRange>k__BackingField: 0
+      <AttackSpeed>k__BackingField: 0
+      <CriticalChance>k__BackingField: 0
+      <CriticalWeight>k__BackingField: 0
+      <CombatPoint>k__BackingField: 0
+    <CurrentStats>k__BackingField:
+      <MaxStress>k__BackingField: 0
+      <MaxStamina>k__BackingField: 0
+      <HP>k__BackingField: 0
+      <Vit>k__BackingField: 0
+      <VitWeight>k__BackingField: 0
+      <Str>k__BackingField: 0
+      <StrWeight>k__BackingField: 0
+      <Mag>k__BackingField: 0
+      <MagWeight>k__BackingField: 0
+      <Agi>k__BackingField: 0
+      <AgiWeight>k__BackingField: 0
+      <UnitSize>k__BackingField: 0
+      <MoveSpeed>k__BackingField: 0
+      <RecognizeRange>k__BackingField: 0
+      <AttackRange>k__BackingField: 0
+      <AttackSpeed>k__BackingField: 0
+      <CriticalChance>k__BackingField: 0
+      <CriticalWeight>k__BackingField: 0
+      <CombatPoint>k__BackingField: 0
   spriteRenderer: {fileID: 8553073083624957745}
+  group: 0
+  currentState: 0
+  attackTarget: {fileID: 0}
+  dungeonManager: {fileID: 0}
+  data:
+    <Name>k__BackingField: 
+    <Id>k__BackingField: 0
+    <GachaChance>k__BackingField: 0
+    <GachaLevel>k__BackingField: 0
+    <Job>k__BackingField: 0
+    <BasicAttackType>k__BackingField: 0
+    <HP>k__BackingField: 300
+    <Stamina>k__BackingField: 0
+    <Stress>k__BackingField: 0
+    <RecognizeRange>k__BackingField: 10
+    <BasicAttackRange>k__BackingField: 1
+    <SizeRange>k__BackingField: 0.5
+    <MoveSpeed>k__BackingField: 5
+    <StrMin>k__BackingField: 10
+    <StrMax>k__BackingField: 20
+    <StrWeight>k__BackingField: 1
+    <MagMin>k__BackingField: 0
+    <MagMax>k__BackingField: 0
+    <MagWeight>k__BackingField: 0
+    <AgiMin>k__BackingField: 0
+    <AgiMax>k__BackingField: 0
+    <AgiWeight>k__BackingField: 0
+    <AttackSpeed>k__BackingField: 0.2
+    <CriticalChance>k__BackingField: 0
+    <CriticalHitWeight>k__BackingField: 0
+    <VitMin>k__BackingField: 0
+    <VitMax>k__BackingField: 0
+    <VitWeight>k__BackingField: 0
+    <SkillId1>k__BackingField: 0
+    <SkillId2>k__BackingField: 0

@@ -22,11 +22,10 @@ public class TraceOnDungeon : State<UnitOnDungeon>
             return;
 
         var moveDirection = owner.transform.position - (owner.attackTarget).transform.position;
-        owner.transform.position -= moveDirection.normalized * Time.deltaTime * 5f;
+        owner.transform.position -= moveDirection.normalized * Time.deltaTime * owner.stats.CurrentStats.MoveSpeed;
     }
 
 
-    /// <returns>상태가 전환 됐을 경우 true</returns>
     protected override bool Transition()
     {
         if (owner.attackTarget == null)
@@ -34,7 +33,7 @@ public class TraceOnDungeon : State<UnitOnDungeon>
             controller.ChangeState((int)UnitOnDungeon.STATE.IDLE);
             return true;
         }
-        else if (Vector3.Distance(owner.transform.position, owner.attackTarget.transform.position) <= 1f)
+        else if (Vector3.Distance(owner.transform.position, owner.attackTarget.transform.position) <= owner.stats.CurrentStats.AttackRange)
         {
             controller.ChangeState((int)UnitOnDungeon.STATE.ATTACK);
             return true;

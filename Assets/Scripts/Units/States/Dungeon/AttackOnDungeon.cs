@@ -24,7 +24,7 @@ public class AttackOnDungeon : State<UnitOnDungeon>
             return;
 
         attackTimer += Time.deltaTime;
-        if (attackTimer >= owner.stats.AttackInterval)
+        if (attackTimer >= owner.stats.CurrentStats.AttackSpeed)
         {
             attackTimer = 0f;
             owner.TryAttack();
