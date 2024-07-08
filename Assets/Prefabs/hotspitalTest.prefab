@@ -164,6 +164,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4555037041092377118}
   - component: {fileID: 1641638181682937083}
+  - component: {fileID: -3271026448895980520}
+  - component: {fileID: 6048428328207040334}
   m_Layer: 0
   m_Name: hotspitalTest
   m_TagString: Untagged
@@ -199,16 +201,89 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16e120b65961f8543b286e5d368be52d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Name>k__BackingField: testHospital
-  <WidthSize>k__BackingField: 2
-  <HeightSize>k__BackingField: 2
-  <Type>k__BackingField: 0
-  <CanMultiBuild>k__BackingField: 0
+  <StructureName>k__BackingField: 
+  <Width>k__BackingField: 1
+  <Length>k__BackingField: 1
+  <StructureType>k__BackingField: 1
   <UnlockTownLevel>k__BackingField: 0
+  <CanMultiBuild>k__BackingField: 0
+  <CanReverse>k__BackingField: 0
+  <CanReplace>k__BackingField: 0
+  <CanDestroy>k__BackingField: 0
   <UpgradeId>k__BackingField: 0
-  <AssetFileName>k__BackingField: 
+  <StructureAssetFileName>k__BackingField: 
   placedTiles:
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+--- !u!114 &-3271026448895980520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4125673889435522284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33831851ca5978840aa7938db72726d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  building: {fileID: 0}
+  parameterTypes: 1
+  recoveryAmount: 10
+  recoveryTime: 5
+--- !u!60 &6048428328207040334
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4125673889435522284}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.013830125, y: 1.0227644}
+      - {x: -0.4965406, y: 0.7584827}
+      - {x: -0.51246405, y: 0.23476344}
+      - {x: 0.0037982464, y: -0.028630346}
+      - {x: 0.5248509, y: 0.24828112}
+      - {x: 0.504222, y: 0.7810252}
+  m_UseDelaunayMesh: 0
 --- !u!1 &8548390260897181990
 GameObject:
   m_ObjectHideFlags: 0
@@ -301,7 +376,7 @@ PolygonCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8548390260897181990}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:

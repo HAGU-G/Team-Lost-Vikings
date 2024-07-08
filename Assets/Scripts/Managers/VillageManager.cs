@@ -38,8 +38,8 @@ public class VillageManager : MonoBehaviour
     public void PlaceObject(GameObject obj, Tile tile)
     {
         var objInfo = obj.GetComponent<Building>();
-        var width = objInfo.WidthSize;
-        var height = objInfo.HeightSize;
+        var width = objInfo.Width;
+        var height = objInfo.Length;
 
         objInfo.placedTiles.Clear();
         var tileId = tile.tileInfo.id;
@@ -78,8 +78,8 @@ public class VillageManager : MonoBehaviour
     {
         var obj = tile.tileInfo.ObjectLayer.LayerObject;
         var objInfo = obj.GetComponent<Building>();
-        var width = objInfo.WidthSize;
-        var height = objInfo.HeightSize;
+        var width = objInfo.Width;
+        var height = objInfo.Length;
 
         if (objInfo.placedTiles == null || !objInfo.placedTiles.Any()) 
             return;
@@ -152,7 +152,6 @@ public class VillageManager : MonoBehaviour
             var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             var tile = GetTile(worldPos);
             Debug.Log(tile.tileInfo.TileType.ToString());
-            Debug.Log(tile.tileInfo.ObjectLayer.LayerObject);
         }
 
         if (Input.GetMouseButtonDown(0) && isRemoveTime)
