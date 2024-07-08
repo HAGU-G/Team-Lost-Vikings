@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEditor;
+using UnityEditor.Build.Content;
 using UnityEngine;
 
 public class GridMap : MonoBehaviour
@@ -19,9 +20,6 @@ public class GridMap : MonoBehaviour
         DrawGrid(gridInfo.col, gridInfo.row);
     }
 
-    private void Update()
-    {
-    }
 
     private void DrawGrid(int col, int row)
     {
@@ -55,10 +53,12 @@ public class GridMap : MonoBehaviour
             {
                 Tile currentTile = tileArray[x, y];
 
-                if (x > 0) currentTile.AdjacentTiles.Add(tileArray[x - 1, y]); // Left
-                if (x < col - 1) currentTile.AdjacentTiles.Add(tileArray[x + 1, y]); // Right
-                if (y > 0) currentTile.AdjacentTiles.Add(tileArray[x, y - 1]); // Bottom
-                if (y < row - 1) currentTile.AdjacentTiles.Add(tileArray[x, y + 1]); // Top
+                if (y > 0) currentTile.adjacentTiles[(int)Sides.Bottom] = (tileArray[x, y - 1]); // Bottom
+                if (x < col - 1) currentTile.adjacentTiles[(int)Sides.Right] = (tileArray[x + 1, y]); // Right
+                if (x > 0) currentTile.adjacentTiles[(int)Sides.Left] = (tileArray[x - 1, y]); // Left
+                if (y < row - 1) currentTile.adjacentTiles[(int)Sides.Top] = (tileArray[x, y + 1]); // Top
+
+                //currentTile.UpdateAutoTileId();
 
                 //if (x > 0 && y > 0) currentTile.AdjacentTiles.Add(tileArray[x - 1, y - 1]); // Bottom-Left
                 //if (x < col - 1 && y < row - 1) currentTile.AdjacentTiles.Add(tileArray[x + 1, y + 1]); // Top-Right

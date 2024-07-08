@@ -43,8 +43,8 @@ public class VillageManager : MonoBehaviour
 
         objInfo.placedTiles.Clear();
         var tileId = tile.tileInfo.id;
-        var indexX = tileId.x - width +1;
-        var indexY = tileId.y - height +1;
+        var indexX = tileId.x + width - 1;
+        var indexY = tileId.y + height - 1;
 
         if (indexX < 0 || indexY < 0 || indexX > gridMap.gridInfo.row || indexY > gridMap.gridInfo.col)
         {
@@ -54,22 +54,20 @@ public class VillageManager : MonoBehaviour
         }
 
         var instancedObj = Instantiate(obj, gridMap.IndexToPos(tileId), Quaternion.identity, tile.transform);
-        tile.UpdateTileInfo(TileType.OBJECT, instancedObj);
         construectedBuildings.Add(instancedObj);
         var buildingComponent = instancedObj.GetComponent<Building>();
         buildingComponent.placedTiles.Add(tile);
 
-        for (int i = tileId.x; i >= indexX; --i)
+        for (int i = tileId.x; i <= indexX; ++i)
         {
-            for (int j = tileId.y; j >= indexY; --j)
+            for (int j = tileId.y; j <= indexY; ++j)
             {
                 var t = gridMap.tiles.GetValueOrDefault(new Vector2Int(i, j));
                 t.UpdateTileInfo(TileType.OBJECT, instancedObj);
+                
                 objInfo.placedTiles.Add(t);
             }
         }
-        
-
         isSelected = false;
     }
 
@@ -84,14 +82,15 @@ public class VillageManager : MonoBehaviour
             return;
 
         var standardTile = objInfo.placedTiles.First();
-        var indexX = standardTile.tileInfo.id.x - width + 1;
-        var indexY = standardTile.tileInfo.id.y - height + 1;
-        for (int i = standardTile.tileInfo.id.x; i >= indexX; --i)
+        var indexX = standardTile.tileInfo.id.x + width - 1;
+        var indexY = standardTile.tileInfo.id.y + height - 1;
+        for (int i = standardTile.tileInfo.id.x; i <= indexX; ++i)
         {
-            for (int j = standardTile.tileInfo.id.y; j >= indexY; --j)
+            for (int j = standardTile.tileInfo.id.y; j <= indexY; ++j)
             {
                 var t = gridMap.tiles.GetValueOrDefault(new Vector2Int(i, j));
                 t?.ResetTileInfo();
+
             }
         }
 
@@ -117,9 +116,17 @@ public class VillageManager : MonoBehaviour
         }
     }
 
+    public void PlaceRoad(Tile tile)
+    {
+        //tile.tileInfo.ObjectLayer = 
+        //tile.UpdateTileInfo(TileType.ROAD, tilePrefab);
+    }
+
     public Tile GetTile(Vector3 position)
     {
         var tileId = gridMap.PosToIndex(position);
+        if (tileId.x < 0 || tileId.y < 0)
+            return null;
         return gridMap.tiles[tileId];
     }
 
@@ -137,20 +144,29 @@ public class VillageManager : MonoBehaviour
             InteractObject();
         }
 
-        //if(Input.GetMouseButtonDown(0))
-        //{
-        //    var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //    var tile = GetTile(worldPos);
-        //    Debug.Log(tile.tileInfo.TileType.ToString());
-        //    Debug.Log(tile.tileInfo.ObjectLayer.LayerObject);
-        //}
+        if (Input.GetMouseButtonDown(0))
+        {
+            var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            var tile = GetTile(worldPos);
+            Debug.Log(tile.tileInfo.TileType.ToString());
+            Debug.Log(tile.tileInfo.ObjectLayer.LayerObject);
+        }
 
-        if(Input.GetMouseButtonDown(0) && isRemoveTime)
+        if (Input.GetMouseButtonDown(0) && isRemoveTime)
         {
             var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             var tile = GetTile(worldPos);
             RemoveObject(tile);
-            
         }
+
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //    if (GetTile(worldPos) != null)
+        //    {
+        //        var tile = GetTile(worldPos);
+        //        Debug.Log($"autoTileId : {tile.tileInfo.autoTileId}");
+        //    }
+        //}
     }
 }

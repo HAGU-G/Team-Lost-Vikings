@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,20 +10,19 @@ public class Layer
 
 public enum TileType
 {
-    NONE,
-    ROAD,
-    OBJECT
+    NONE = -1,
+    ROAD = 0,
+    OBJECT = 15,
 }
 
 public class TileInfo
 {
     public Vector2Int id;
+    public int autoTileId;
     public int Weight {  get; set; }
     public Layer BaseLayer { get; set; }
     public Layer RoadLayer { get; set; }
     public Layer ObjectLayer { get; set; }
-
+    public Texture2D defaultTileTexture { get; set; }
     public TileType TileType { get; set; } = TileType.NONE;
-   
-
 }
