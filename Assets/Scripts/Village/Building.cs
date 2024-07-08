@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -13,7 +13,7 @@ public enum STRUCTURE_TYPE
 
 public class Building : MonoBehaviour
 {
-    [field:SerializeField] //µ¥ÀÌÅÍ Å×ÀÌºí¿¡¼­ ¹Ş¾Æ¿À±â Àü ÀÓ½Ã·Î ÀÔ·Â
+    [field:SerializeField] //ë°ì´í„° í…Œì´ë¸”ì—ì„œ ë°›ì•„ì˜¤ê¸° ì „ ì„ì‹œë¡œ ì…ë ¥
     public string Name { get; set; }
     [field: SerializeField]
     public int WidthSize { get; set; }
@@ -29,13 +29,12 @@ public class Building : MonoBehaviour
     public int UpgradeId { get; set; }
     [field: SerializeField]
     public string AssetFileName { get; set; }
-
+    public List<Tile> placedTiles = new List<Tile>();
 
     private IInteractable interact;
 
     private void Awake()
     {
-
 
         switch (Type)
         {
@@ -45,11 +44,6 @@ public class Building : MonoBehaviour
 
         }
     }
-    //public Building(string name, STRUCTURE_TYPE type)
-    //{
-    //    Name = name;
-    //    Type = type;
-    //}
 
     public void Interact()
     {

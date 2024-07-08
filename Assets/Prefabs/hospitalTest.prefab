@@ -215,13 +215,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Name>k__BackingField: testHospital
-  <WidthSize>k__BackingField: 0
-  <HeightSize>k__BackingField: 0
+  <WidthSize>k__BackingField: 2
+  <HeightSize>k__BackingField: 2
   <Type>k__BackingField: 0
   <CanMultiBuild>k__BackingField: 0
   <UnlockTownLevel>k__BackingField: 0
   <UpgradeId>k__BackingField: 0
   <AssetFileName>k__BackingField: 
+  placedTiles:
+  - {fileID: 0}
 --- !u!1839735485 &7910110430590196566
 Tilemap:
   m_ObjectHideFlags: 0

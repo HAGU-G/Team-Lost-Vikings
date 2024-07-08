@@ -31,6 +31,15 @@ public class Tile : MonoBehaviour
         };
     }
 
+    public void ResetTileInfo()
+    {
+        tileInfo.RoadLayer.LayerObject = null;
+        tileInfo.RoadLayer.IsEmpty = true;
+        tileInfo.ObjectLayer.LayerObject = null;
+        tileInfo.ObjectLayer.IsEmpty = true;
+        tileInfo.TileType = TileType.NONE;
+    }
+
     public void UpdateTileInfo(TileType type, GameObject obj)
     {
         switch (type)
@@ -38,10 +47,12 @@ public class Tile : MonoBehaviour
             case TileType.ROAD:
                 tileInfo.RoadLayer.LayerObject = obj;
                 tileInfo.RoadLayer.IsEmpty = false;
+                tileInfo.TileType = TileType.ROAD;
                 break;
             case TileType.OBJECT:
                 tileInfo.ObjectLayer.LayerObject = obj;
                 tileInfo.ObjectLayer.IsEmpty = false;
+                tileInfo.TileType = TileType.OBJECT;
                 break;
         }
     }
