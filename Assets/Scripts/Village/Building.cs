@@ -49,9 +49,16 @@ public class Building : MonoBehaviour
         switch (StructureType)
         {
             case STRUCTURE_TYPE.PARAMETER_RECOVERY:
-                interactWithPlayer = null;
-                interactWithUnit = null;
                 interactWithUnit = gameObject.GetComponent<ParameterRecoveryBuilding>();
+                break;
+            case STRUCTURE_TYPE.STAT_UPGRADE:
+                interactWithPlayer = gameObject.GetComponent<StatUpgradeBuilding>();
+                break;
+            case STRUCTURE_TYPE.ITEM_PRODUCE:
+                interactWithPlayer = gameObject.GetComponent<ItemProduceBuilding>();
+                break;
+            case STRUCTURE_TYPE.ITEM_SELL:
+                interactWithPlayer = gameObject.GetComponent<ItemSellBuilding>();
                 break;
 
         }
