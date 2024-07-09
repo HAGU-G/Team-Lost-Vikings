@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using UnityEngine;
 
+//TODO 클래스 내용 모두 테스트코드입니다.
 public class DungeonManager : MonoBehaviour
 {
     private Dictionary<int, (float, int)> data = new();
@@ -49,10 +50,12 @@ public class DungeonManager : MonoBehaviour
             sb.AppendLine($"{d.Key},{d.Value.Item1}");
         }
 
-        using (var sw = new StreamWriter(Application.persistentDataPath + "/test.csv"))
-        {
-            sw.Write(sb);
-        }
+        //TEST CODE 측정 데이터 파일로 출력하는 부분
+        //using (var sw = new StreamWriter(Application.persistentDataPath + "/test.csv"))
+        //{
+        //    sw.Write(sb);
+        //}
+
         Debug.Log(sb.ToString());
     }
 

@@ -16,6 +16,7 @@ public class UnitOnDungeon : Unit, IDamagedable
     }
 
     private FSM<UnitOnDungeon> dungeonFSM;
+    public UNIT_GROUP group;
     public STATE currentState;
 
     private IAttackStrategy attackBehaviour = new AttackDefault();
@@ -35,12 +36,15 @@ public class UnitOnDungeon : Unit, IDamagedable
     }
 
     private void Start()
-    {
-        if (stats.unitGroup == UNIT.GROUP.PLAYER)
+    { 
+        if (group == UNIT_GROUP.PLAYER)
             Targets = dungeonManager.monsters;
         else
             Targets = dungeonManager.players;
     }
+
+    //TESTCODE
+
 
     protected override void Init()
     {
@@ -51,6 +55,8 @@ public class UnitOnDungeon : Unit, IDamagedable
             new IdleOnDungeon(),
             new TraceOnDungeon(),
             new AttackOnDungeon());
+
+
     }
 
     protected override void ResetUnit()
@@ -66,8 +72,9 @@ public class UnitOnDungeon : Unit, IDamagedable
         stats.CurrentHP -= damage;
         OnDamaged?.Invoke();
 
-        if (stats.CurrentHP == 0)
+        if (stats.CurrentHP <= 0)
         {
+            stats.CurrentHP = 0;
             Destroy(gameObject);
             return -1;
         }
@@ -80,7 +87,7 @@ public class UnitOnDungeon : Unit, IDamagedable
         if (attackTarget == null)
             return -1;
 
-        return attackBehaviour.Attack(stats.AttackDamage, attackTarget);
+        return attackBehaviour.Attack(stats.CurrentStats.CombatPoint, attackTarget);
     }
 
     private void Update()

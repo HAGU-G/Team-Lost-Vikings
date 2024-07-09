@@ -24,8 +24,8 @@ public class IdleOnDungeon : State<UnitOnDungeon>
         float min = float.MaxValue;
         foreach (var target in owner.Targets)
         {
-            var d = Vector3.Distance(target.transform.position, owner.transform.position);
-            if (d < min)
+            var d = Vector3.Distance(target.transform.position, owner.transform.position) - target.stats.CurrentStats.UnitSize;
+            if (d <= owner.stats.CurrentStats.RecognizeRange && d < min)
             {
                 min = d;
                 owner.attackTarget = target;
