@@ -17,9 +17,13 @@ public class GridMap : MonoBehaviour
 
     private void Awake()
     {
-        DrawGrid(gridInfo.col, gridInfo.row);
+        GameStarter.Instance.SetActiveOnComplete(gameObject);
     }
 
+    private void Start()
+    {
+        DrawGrid(gridInfo.col, gridInfo.row);
+    }
 
     private void DrawGrid(int col, int row)
     {

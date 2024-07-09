@@ -16,6 +16,11 @@ public class VillageManager : MonoBehaviour
 
     private GameObject selectedObj;
 
+    private void Awake()
+    {
+        GameStarter.Instance.SetActiveOnComplete(gameObject);
+    }
+
     private void Start()
     {
         objectList.Add("Hospital", hospital);
