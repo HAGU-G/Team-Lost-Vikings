@@ -38,15 +38,6 @@ public class UnitStats
         ResetStats();
     }
 
-    //Don't Save
-    public string Name { get; private set; }
-    public UNIT_JOB UnitJob { get; private set; }
-    public ATTACK_TYPE AttackType { get; private set; }
-    public int CurrentMaxHP { get; private set; }
-    public int CurrentHP { get; set; }
-    public int CurrentStress { get; private set; }
-    public int CurrentStamina { get; set; }
-
     //Save
     public int Id { get; private set; }
     public UNIT_GRADE UnitGrade { get; private set; }
@@ -55,10 +46,44 @@ public class UnitStats
     public int SkillId1 { get; private set; }
     public int SkillId2 { get; private set; }
 
+    private int _currentHP;
+    private int _currentStress;
+    private int _currentStamina;
 
+    //Don't Save
+    public string Name { get; private set; }
+    public UNIT_JOB UnitJob { get; private set; }
+    public ATTACK_TYPE AttackType { get; private set; }
+    public int CurrentMaxHP { get; private set; }
+    public int CurrentHP
+    { 
+        get => _currentHP;
+        set
+        {
+            _currentHP = Mathf.Clamp(value, 0, CurrentMaxHP);
+        }
+    }
+    public int CurrentStress
+    {
+        get => _currentStress;
+        set
+        {
+            _currentStress = Mathf.Clamp(value, 0, CurrentStats.MaxStress);
+        }
+    }
+    public int CurrentStamina 
+    {
+        get => _currentStamina;
+        set
+        {
+            _currentStamina = Mathf.Clamp(value, 0, CurrentStats.MaxStamina);
+        }
+    }
+    public float HPRatio => (float)CurrentHP / CurrentMaxHP;
+    public float StressRatio => (float)CurrentStress / CurrentStats.MaxStress;
+    public float StaminaRatio => (float)CurrentStamina / CurrentStats.MaxStamina;
 
     //Methods
-
     public void ResetStats()
     {
         CurrentStats = DefaultStats.Clone();
@@ -85,7 +110,7 @@ public class UnitStats
 
     private void UpdateMaxHP()
     {
-        CurrentMaxHP = CurrentStats.HP + StatMath.GetWeightedStat(CurrentStats.Vit, CurrentStats.VitWeight);
+        CurrentMaxHP = CurrentStats.BaseHP + StatMath.GetWeightedStat(CurrentStats.Vit, CurrentStats.VitWeight);
 
         if (CurrentHP > CurrentMaxHP)
             CurrentHP = CurrentMaxHP;
@@ -98,7 +123,7 @@ public class UnitStats
             MaxStress = data.Stress,
             MaxStamina = data.Stamina,
 
-            HP = data.HP,
+            BaseHP = data.HP,
             Vit = Random.Range(data.VitMin, data.VitMax + 1),
             VitWeight = data.VitWeight,
 
@@ -120,4 +145,5 @@ public class UnitStats
             CriticalWeight = data.CriticalHitWeight
         };
     }
+
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 
 public class AttackOnDungeon : State<UnitOnDungeon>
 {
@@ -35,7 +36,11 @@ public class AttackOnDungeon : State<UnitOnDungeon>
     {
         if (owner.attackTarget == null)
         {
-            controller.ChangeState((int)UnitOnDungeon.STATE.IDLE);
+            if (owner.IsNeedReturn)
+                controller.ChangeState((int)UnitOnDungeon.STATE.RETURN);
+            else
+                controller.ChangeState((int)UnitOnDungeon.STATE.IDLE);
+
             return true;
         }
 

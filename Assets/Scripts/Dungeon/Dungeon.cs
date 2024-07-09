@@ -35,12 +35,14 @@ public class Dungeon : MonoBehaviour
 
     IEnumerator CoSpawn()
     {
-        for (int i = 0; i < 30; i++)
+        for (int i = 0; i < 1; i++)
         {
             var p = Instantiate(player, transform.position + (Vector3)Random.insideUnitCircle * 20f, Quaternion.identity);
             var m = Instantiate(monster, transform.position + (Vector3)Random.insideUnitCircle * 20f, Quaternion.identity);
-            p.dungeonManager = this;
-            m.dungeonManager = this;
+            p.dungeon = this;
+            m.dungeon = this;
+            p.Ready();
+            m.Ready();
             players.Add(p);
             monsters.Add(m);
             yield return new WaitForEndOfFrame();

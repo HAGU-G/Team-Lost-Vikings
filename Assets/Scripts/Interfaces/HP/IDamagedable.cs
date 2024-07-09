@@ -1,5 +1,5 @@
 ﻿public interface IDamagedable
 {
-    ///<returns>받은 피해, 죽은 경우 음수로 반환</returns>
-    public int TakeDamage(int damage);
+    ///<returns>이 공격으로 죽었을 경우 true 반환</returns>
+    public bool TakeDamage(int damage);
 }
