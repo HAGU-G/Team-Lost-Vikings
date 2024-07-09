@@ -38,6 +38,8 @@ public class VillageManager : MonoBehaviour
         {
             isRemoveTime = true;
         }
+
+        
     }
 
     public void PlaceObject(GameObject obj, Tile tile)
@@ -165,15 +167,5 @@ public class VillageManager : MonoBehaviour
             var tile = GetTile(worldPos);
             RemoveObject(tile);
         }
-
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //    if (GetTile(worldPos) != null)
-        //    {
-        //        var tile = GetTile(worldPos);
-        //        Debug.Log($"autoTileId : {tile.tileInfo.autoTileId}");
-        //    }
-        //}
     }
 }

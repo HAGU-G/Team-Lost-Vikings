@@ -39,6 +39,7 @@ public class Building : MonoBehaviour
     public string StructureAssetFileName { get; set; }
 
     public List<Tile> placedTiles;
+    public Tile entranceTile;
 
     private IInteractableWithPlayer interactWithPlayer;
     private IInteractableWithUnit interactWithUnit;

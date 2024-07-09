@@ -45,7 +45,7 @@ public class UnitStats
     public int CurrentMaxHP { get; private set; }
     public int CurrentHP { get; set; }
     public int CurrentStress { get; private set; }
-    public int CurrentStamina { get; private set; }
+    public int CurrentStamina { get; set; }
 
     //Save
     public int Id { get; private set; }

@@ -13,7 +13,7 @@ public class GridMap : MonoBehaviour
     private int CurrentRow;
     public Dictionary<Vector2Int, Tile> tiles = new Dictionary<Vector2Int, Tile>();
     public GameObject cellPrefab;
-
+    private List<Tile> path;
 
     private void Awake()
     {
@@ -62,26 +62,12 @@ public class GridMap : MonoBehaviour
                 if (x > 0) currentTile.adjacentTiles[(int)Sides.Left] = (tileArray[x - 1, y]); // Left
                 if (y < row - 1) currentTile.adjacentTiles[(int)Sides.Top] = (tileArray[x, y + 1]); // Top
 
-                //currentTile.UpdateAutoTileId();
-
                 //if (x > 0 && y > 0) currentTile.AdjacentTiles.Add(tileArray[x - 1, y - 1]); // Bottom-Left
                 //if (x < col - 1 && y < row - 1) currentTile.AdjacentTiles.Add(tileArray[x + 1, y + 1]); // Top-Right
                 //if (x > 0 && y < row - 1) currentTile.AdjacentTiles.Add(tileArray[x - 1, y + 1]); // Top-Left
                 //if (x < col - 1 && y > 0) currentTile.AdjacentTiles.Add(tileArray[x + 1, y - 1]); // Bottom-Right
             }
         }
-    }
-
-   private void ExpandGrid()
-    {
-        ++CurrentCol;
-        ++CurrentRow;
-        
-    }
-
-    private void UpdateGrid()
-    {
-        //tiles[i].UpdateTileInfo(tile);
     }
 
     public Vector2Int PosToIndex(Vector3 position)
@@ -109,5 +95,79 @@ public class GridMap : MonoBehaviour
         float y = (indexX + indexY) * gridInfo.cellSize / 4f;
 
         return new Vector3(x, y, 0);
+    }
+    private int Heuristic(Tile a, Tile b)
+    {
+        int ax = a.tileInfo.id.x;
+        int ay = a.tileInfo.id.y;
+        int bx = b.tileInfo.id.x;
+        int by = b.tileInfo.id.y;
+
+        return Mathf.Abs(ax - bx) + Mathf.Abs(ay - by);
+    }
+
+    public List<Tile> PathFinding(Tile start, Tile goal)
+    {
+        path = new List<Tile>();
+
+        var distances = new int[tiles.Count];
+        var scores = new int[tiles.Count];
+
+        for (int i = 0; i < distances.Length; ++i)
+        {
+            distances[i] = scores[i] = int.MaxValue;
+            tiles[new Vector2Int(i / gridInfo.row, i % gridInfo.row)].Clear();
+        }
+
+        var startId = (start.tileInfo.id.x / gridInfo.row) + (start.tileInfo.id.y % gridInfo.row);
+        distances[startId] = 0;
+        scores[startId] = Heuristic(start, goal);
+
+        var pq = new PriorityQueue<(int, Tile)>((lhs, rhs) => lhs.Item1.CompareTo(rhs.Item1));
+        distances[startId] = 0;
+        pq.Enqueue((scores[startId], start));
+
+        while (!pq.IsEmpty)
+        {
+            var current = pq.Dequeue();
+            var currentTile = current.Item2;
+            if (currentTile == goal) //찾은 경우
+            {
+                Tile step = goal;
+                while (step != null) //step.previous != null
+                {
+                    path.Add(step);
+                    step = step.previous;
+                }
+                path.Reverse();
+                return path;
+            }
+
+            foreach (var adjacentTile in currentTile.adjacentTiles)
+            {
+                if (adjacentTile == null /*|| adjacentTile.tileInfo.Weight == int.MaxValue*/) //가중치 추가되면 수정하기
+                    continue;
+
+                var currentTileId = (currentTile.tileInfo.id.x / gridInfo.row) + (currentTile.tileInfo.id.y % gridInfo.row);
+                var adjacentTileId = (adjacentTile.tileInfo.id.x / gridInfo.row) + (adjacentTile.tileInfo.id.y % gridInfo.row);
+                var newdistance = distances[currentTileId] /*+ adjacentNode.Weight*/;
+
+                if (newdistance < distances[adjacentTileId])
+                {
+                    distances[adjacentTileId] = newdistance;
+                    scores[adjacentTileId] = distances[adjacentTileId] + Heuristic(adjacentTile, goal);
+
+                    adjacentTile.previous = currentTile;
+                    pq.Enqueue((scores[adjacentTileId], adjacentTile));
+                }
+            }
+        }
+        return path; //못 찾은 경우
+    }
+
+    public Tile FindBuildingEntrance(STRUCTURE_TYPE structureType, PARAMETER_TYPES parameterType)
+    {
+
+        return new Tile();
     }
 }

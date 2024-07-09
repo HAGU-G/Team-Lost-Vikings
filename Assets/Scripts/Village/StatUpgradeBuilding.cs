@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum StatTypes
+public enum STATTYPES
 {
     STR,
     MAG,
@@ -12,7 +12,7 @@ public enum StatTypes
 public class StatUpgradeBuilding : MonoBehaviour, IInteractableWithPlayer
 {
     public Building building;
-    public StatTypes risingStat; //나중에 데이터형 수정하기
+    public STATTYPES risingStat; //나중에 데이터형 수정하기
     public int risingValue;
 
     private void Awake()
@@ -29,11 +29,11 @@ public class StatUpgradeBuilding : MonoBehaviour, IInteractableWithPlayer
     {
         switch (risingStat)
         {
-            case StatTypes.STR:
+            case STATTYPES.STR:
                 break;
-            case StatTypes.MAG:
+            case STATTYPES.MAG:
                 break;
-            case StatTypes.AGI:
+            case STATTYPES.AGI:
                 break;
         }
     }

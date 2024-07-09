@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ParameterTypes
+public enum PARAMETER_TYPES
 {
     NONE = 0,
     HP,
     STAMINA,
+    STRESS,
 }
 
 public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
 {
     public Building building;
-    public ParameterTypes parameterTypes;
+    public PARAMETER_TYPES parameterTypes;
     public float recoveryAmount;
     public float recoveryTime;
 

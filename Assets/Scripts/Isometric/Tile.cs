@@ -17,6 +17,7 @@ public class Tile : MonoBehaviour
     public TileInfo tileInfo;
 
     public Tile[] adjacentTiles { get; } = new Tile[4];
+    public Tile previous = null;
 
     private void Awake()
     {
@@ -46,6 +47,11 @@ public class Tile : MonoBehaviour
         {
             return (tileInfo.autoTileId != (int)TileType.NONE && tileInfo.autoTileId != (int)TileType.OBJECT);
         }
+    }
+
+    public void Clear()
+    {
+        previous = null;
     }
 
     public void ResetTileInfo()
