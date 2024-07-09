@@ -27,7 +27,8 @@ public class Dungeon : MonoBehaviour
         }
     }
 
-
+    //TESTCODE
+    //아래는 모두 테스트코드
     public void Spawn()
     {
         StartCoroutine(CoSpawn());

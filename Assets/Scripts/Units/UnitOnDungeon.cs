@@ -64,8 +64,8 @@ public class UnitOnDungeon
         }
     }
 
-    // TESTCODE 소환 후 리셋함수
-    // Init와 ResetUnit을 public으로 교체할 예정
+    // TESTCODE 소환 후 초기 설정함수
+    // TODO Init와 ResetUnit을 public으로 변경할 예정
     public void Ready()
     {
         Init();
@@ -74,7 +74,7 @@ public class UnitOnDungeon
 
     protected override void Init()
     {
-        base.Init();
+        //base.Init();
 
         dungeonFSM = new();
         dungeonFSM.Init(this, 0,
