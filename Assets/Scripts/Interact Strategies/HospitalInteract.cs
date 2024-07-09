@@ -1,11 +1,11 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HospitalInteract : IInteractable
+public class HospitalInteract : IInteractableWithPlayer
 {
-    public void Interact()
+    public void InteractWithPlayer()
     {
-        Debug.Log("º´¿øÀÔ´Ï´Ù.");
+        Debug.Log("ë³‘ì›ì…ë‹ˆë‹¤.");
     }
 }

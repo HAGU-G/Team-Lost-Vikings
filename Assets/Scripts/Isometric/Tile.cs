@@ -1,12 +1,22 @@
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
+
+public enum Sides
+{
+    Bottom,
+    Right,
+    Left,
+    Top,
+}
 
 public class Tile : MonoBehaviour
 {
     public TileInfo tileInfo;
-    [field: SerializeField]
-    public List<Tile> AdjacentTiles { get; set; } = new List<Tile>();
+
+    public Tile[] adjacentTiles { get; } = new Tile[4];
 
     private void Awake()
     {
@@ -30,16 +40,98 @@ public class Tile : MonoBehaviour
             IsEmpty = true
         };
     }
-
-    public void UpdateTileInfo(Tile tile)
+    public bool CanMove
     {
-        
+        get
+        {
+            return (tileInfo.autoTileId != (int)TileType.NONE && tileInfo.autoTileId != (int)TileType.OBJECT);
+        }
     }
 
-    private void UpdateTileObject()
+    public void ResetTileInfo()
     {
+        tileInfo.RoadLayer.LayerObject = null;
+        tileInfo.RoadLayer.IsEmpty = true;
+        tileInfo.ObjectLayer.LayerObject = null;
+        tileInfo.ObjectLayer.IsEmpty = true;
+        tileInfo.TileType = TileType.NONE;
 
+        UpdateAutoTileId();
+    }
 
-        //UpdateTileInfo();
+    public void UpdateTileInfo(TileType type, GameObject obj)
+    {
+        switch (type)
+        {
+            case TileType.ROAD:
+                tileInfo.RoadLayer.LayerObject = obj;
+                tileInfo.RoadLayer.IsEmpty = false;
+                tileInfo.TileType = TileType.ROAD;
+                break;
+            case TileType.OBJECT:
+                tileInfo.ObjectLayer.LayerObject = obj;
+                tileInfo.ObjectLayer.IsEmpty = false;
+                tileInfo.TileType = TileType.OBJECT;
+                break;
+        }
+        UpdateAutoTileId();
+    }
+
+    public void ClearTileInfo()
+    {
+        tileInfo.RoadLayer.LayerObject = null;
+        tileInfo.RoadLayer.IsEmpty = true;
+        tileInfo.ObjectLayer.LayerObject = null;
+        tileInfo.ObjectLayer.IsEmpty = true;
+        tileInfo.TileType = TileType.NONE;
+
+        UpdateAutoTileId();
+
+        //TO-DO : 인접 타일들이 가지는 정보도 수정해줘야함
+    }
+
+    public void UpdateAutoTileId()
+    {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < adjacentTiles.Length; ++i)
+        {
+            if (adjacentTiles[i] != null)
+                sb.Append(
+                    (adjacentTiles[i].tileInfo.TileType != TileType.OBJECT) //임시로 모두 길이라고 설정
+                    //(adjacentTiles[i].tileInfo.TileType != TileType.NONE)
+                    //&&(adjacentTiles[i].tileInfo.TileType != TileType.OBJECT)
+                    ? "1" : "0");
+        }
+        tileInfo.autoTileId = Convert.ToInt32(sb.ToString(), 2); //2진수를 10진수로 변환해서 autoTileId에 할당해줌
+    }
+
+    public void RemoveAdjacents(Tile tile)
+    {
+        for (int i = 0; i < adjacentTiles.Length; ++i)
+        {
+            if (adjacentTiles[i] == null)
+            { continue; }
+
+            if (adjacentTiles[i].tileInfo.id == tile.tileInfo.id)
+            {
+                adjacentTiles[i] = null; //TO-DO : 수정하기
+                break;
+            }
+        }
+        UpdateAutoTileId();
+    }
+
+    public void ClearAdjacents() //연결된 타일도 지우고 내 이웃도 지우기
+    {
+        for (int i = 0; i < adjacentTiles.Length; ++i)
+        {
+            if (adjacentTiles[i] == null)
+            { continue; }
+
+            adjacentTiles[i].RemoveAdjacents(this);
+            adjacentTiles[i] = null;
+        }
+        UpdateAutoTileId();
     }
 }

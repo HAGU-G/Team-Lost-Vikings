@@ -1,63 +1,72 @@
-using System.Collections;
+Ôªøusing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public enum STRUCTURE_TYPE
 {
-    HOSPITAL,
-    WEAPON_STORE,
-    ACCESSORY_STORE,
-    RESTAURANT,
+    HOSPITAL = -1,
+    STAT_UPGRADE,
+    PARAMETER_RECOVERY,
+    ITEM_PRODUCE,
+    ITEM_SELL,
+    REVIVE,
 }
 
 public class Building : MonoBehaviour
 {
-    [field:SerializeField] //µ•¿Ã≈Õ ≈◊¿Ã∫Ìø°º≠ πﬁæ∆ø¿±‚ ¿¸ ¿”Ω√∑Œ ¿‘∑¬
-    public string Name { get; set; }
+    [field:SerializeField] //Îç∞Ïù¥ÌÑ∞ ÌÖåÏù¥Î∏îÏóêÏÑú Î∞õÏïÑÏò§Í∏∞ Ï†Ñ ÏûÑÏãúÎ°ú ÏûÖÎ†•
+    public string StructureName { get; set; }
     [field: SerializeField]
-    public int WidthSize { get; set; }
+    public int Width { get; set; }
     [field: SerializeField]
-    public int HeightSize { get; set; }
+    public int Length { get; set; }
     [field: SerializeField]
-    public STRUCTURE_TYPE Type { get; set; }
-    [field: SerializeField]
-    public bool CanMultiBuild { get; set; }
+    public STRUCTURE_TYPE StructureType { get; set; }
     [field: SerializeField]
     public int UnlockTownLevel { get; set; }
     [field: SerializeField]
+    public bool CanMultiBuild { get; set; }
+    [field: SerializeField]
+    public bool CanReverse { get; set; }
+    [field: SerializeField]
+    public bool CanReplace { get; set; }
+    [field: SerializeField]
+    public bool CanDestroy { get; set; }
+    [field: SerializeField]
     public int UpgradeId { get; set; }
     [field: SerializeField]
-    public string AssetFileName { get; set; }
+    public string StructureAssetFileName { get; set; }
 
+    public List<Tile> placedTiles;
 
-    private IInteractable interact;
+    private IInteractableWithPlayer interactWithPlayer;
+    private IInteractableWithUnit interactWithUnit;
 
     private void Awake()
     {
-
-
-        switch (Type)
+        placedTiles = new List<Tile>();
+        switch (StructureType)
         {
-            case STRUCTURE_TYPE.HOSPITAL:
-                interact = new HospitalInteract();
+            case STRUCTURE_TYPE.PARAMETER_RECOVERY:
+                interactWithUnit = gameObject.GetComponent<ParameterRecoveryBuilding>();
+                break;
+            case STRUCTURE_TYPE.STAT_UPGRADE:
+                interactWithPlayer = gameObject.GetComponent<StatUpgradeBuilding>();
+                break;
+            case STRUCTURE_TYPE.ITEM_PRODUCE:
+                interactWithPlayer = gameObject.GetComponent<ItemProduceBuilding>();
+                break;
+            case STRUCTURE_TYPE.ITEM_SELL:
+                interactWithPlayer = gameObject.GetComponent<ItemSellBuilding>();
                 break;
 
         }
     }
-    //public Building(string name, STRUCTURE_TYPE type)
-    //{
-    //    Name = name;
-    //    Type = type;
-    //}
 
     public void Interact()
     {
-        interact?.Interact();
-    }
-
-    private void Update()
-    {
-
+        interactWithPlayer?.InteractWithPlayer();
+        interactWithUnit?.InteractWithUnit();
     }
 }
