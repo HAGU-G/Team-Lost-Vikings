@@ -30,7 +30,10 @@ public class TraceOnDungeon : State<UnitOnDungeon>
     {
         if (owner.attackTarget == null)
         {
-            controller.ChangeState((int)UnitOnDungeon.STATE.IDLE);
+            if (owner.IsNeedReturn)
+                controller.ChangeState((int)UnitOnDungeon.STATE.RETURN);
+            else
+                controller.ChangeState((int)UnitOnDungeon.STATE.IDLE);
             return true;
         }
         else if (Vector3.Distance(owner.transform.position, owner.attackTarget.transform.position) <= owner.stats.CurrentStats.AttackRange)

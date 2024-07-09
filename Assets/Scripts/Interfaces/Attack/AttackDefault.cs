@@ -3,15 +3,9 @@
 [Serializable]
 public class AttackDefault : IAttackStrategy
 {
-    public int Attack(int damage, params IDamagedable[] targets)
+    public bool Attack(int damage, IDamagedable target)
     {
-        int totalDamage = 0;
-        foreach (var unit in targets)
-        {
-            var damaged = unit.TakeDamage(damage);
-            totalDamage += damaged >= 0 ? damaged : 0;
-        }
-
-        return totalDamage;
+        var damaged = target.TakeDamage(damage);
+        return true;
     }
 }

@@ -2,6 +2,8 @@
 
 public static class StatMath
 {
+
+    /// <param name="correctionFunc">null일 경우 내림 처리</param>
     public static int GetWeightedStat(int value, float weight, System.Func<float, int> correctionFunc = null)
     {
         correctionFunc ??= Mathf.FloorToInt;

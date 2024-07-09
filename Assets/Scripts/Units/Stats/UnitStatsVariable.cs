@@ -9,7 +9,7 @@ public class UnitStatsVariable
     [field: SerializeField] public int MaxStamina { get; set; }
 
     //Stats
-    [field: SerializeField] public int HP { get; set; }
+    [field: SerializeField] public int BaseHP { get; set; }
     [field: SerializeField] public int Vit { get; set; }
     [field: SerializeField] public float VitWeight { get; set; }
 
@@ -43,7 +43,7 @@ public class UnitStatsVariable
         clone.MaxStress = MaxStress;
         clone.MaxStamina = MaxStamina;
 
-        clone.HP = HP;
+        clone.BaseHP = BaseHP;
         clone.Vit = Vit;
         clone.VitWeight = VitWeight;
 
