@@ -13,34 +13,17 @@ public class GotoOnVillage : State<UnitOnVillage>
         switch(lackedParameter)
         {
             case UnitOnVillage.LACKING_PARAMETER.HP:
-                if (owner.villageManager.FindBuilding(STRUCTURE_TYPE.PARAMETER_RECOVERY,
-                   (x) => { return x.GetComponent<ParameterRecoveryBuilding>().parameterTypes == PARAMETER_TYPES.HP; }))
-                {
-                    owner.destination
-                    = owner.villageManager.FindBuildingEntrance(STRUCTURE_TYPE.PARAMETER_RECOVERY,
-                    (x) => { return x.GetComponent<ParameterRecoveryBuilding>().parameterTypes == PARAMETER_TYPES.HP; });
-                }
+                SetDestination(PARAMETER_TYPES.HP);
                 break;
             case UnitOnVillage.LACKING_PARAMETER.STAMINA:
-                if(owner.villageManager.FindBuilding(STRUCTURE_TYPE.PARAMETER_RECOVERY,
-                    (x) => { return x.GetComponent<ParameterRecoveryBuilding>().parameterTypes == PARAMETER_TYPES.STAMINA; }))
-                {
-                    owner.destination
-                    = owner.villageManager.FindBuildingEntrance(STRUCTURE_TYPE.PARAMETER_RECOVERY,
-                    (x) => { return x.GetComponent<ParameterRecoveryBuilding>().parameterTypes == PARAMETER_TYPES.STAMINA; });
-                }
+                SetDestination(PARAMETER_TYPES.STAMINA);
                 break;
             case UnitOnVillage.LACKING_PARAMETER.STRESS:
-                if (owner.villageManager.FindBuilding(STRUCTURE_TYPE.PARAMETER_RECOVERY,
-                   (x) => { return x.GetComponent<ParameterRecoveryBuilding>().parameterTypes == PARAMETER_TYPES.STRESS; }))
-                {
-                    owner.destination
-                    = owner.villageManager.FindBuildingEntrance(STRUCTURE_TYPE.PARAMETER_RECOVERY,
-                    (x) => { return x.GetComponent<ParameterRecoveryBuilding>().parameterTypes == PARAMETER_TYPES.STRESS; });
-                }
+                SetDestination(PARAMETER_TYPES.STRESS);
                 break;
             case UnitOnVillage.LACKING_PARAMETER.NONE:
-                controller.ChangeState((int)UnitOnVillage.STATE.IDLE); //부족한 파라미터가 없으면 일단 돌아다니게
+                controller.ChangeState((int)UnitOnVillage.STATE.IDLE);
+                //부족한 파라미터가 없으면 일단 돌아다니게
                 break;
         }
         
@@ -52,12 +35,9 @@ public class GotoOnVillage : State<UnitOnVillage>
             var path = owner.FindPath(startTile, owner.destination);
             if (path != null)
             {
-                if (owner.unitMove.MoveTo(startTile, owner.destination))
-                {
-                    controller.ChangeState((int)UnitOnVillage.STATE.IDLE);
-                }
+                owner.unitMove.OnEntranceTile += OnEntranceTile;
+                owner.unitMove.MoveTo(startTile, owner.destination);
             }
-                
             else
                 Debug.Log("가야할 건물의 타입이 없습니다.");
         }
@@ -85,5 +65,26 @@ public class GotoOnVillage : State<UnitOnVillage>
     {
         
         return false;
+    }
+
+    private void SetDestination(PARAMETER_TYPES parameterType)
+    {
+        if (owner.villageManager.FindBuilding(STRUCTURE_TYPE.PARAMETER_RECOVERY,
+                   (x) => { return x.GetComponent<ParameterRecoveryBuilding>().parameterType == parameterType; }))
+        {
+            owner.destination
+            = owner.villageManager.FindBuildingEntrance(STRUCTURE_TYPE.PARAMETER_RECOVERY,
+            (x) => { return x.GetComponent<ParameterRecoveryBuilding>().parameterType == parameterType; });
+        }
+    }
+
+    private void OnEntranceTile(Tile tile)
+    {
+        if(tile == owner.destination)
+        {
+            owner.unitMove.OnEntranceTile -= OnEntranceTile;
+            Debug.Log("ChangeState");
+            controller.ChangeState((int)UnitOnVillage.STATE.INTERACT);
+        }
     }
 }

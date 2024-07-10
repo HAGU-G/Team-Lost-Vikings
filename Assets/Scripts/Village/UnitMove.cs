@@ -21,6 +21,7 @@ public class UnitMove : MonoBehaviour
     public event Action OnMoveStart;
     public event Action OnMoveEnd;
     public event Action<Tile> OnTile;
+    public event Action<Tile> OnEntranceTile;
 
     private void Awake()
     {
@@ -37,6 +38,7 @@ public class UnitMove : MonoBehaviour
         {
             timer = 0f;
             currentTile = path[0];
+            OnEntranceTile?.Invoke(currentTile);
             OnTile?.Invoke(currentTile);
 
             path.RemoveAt(0);

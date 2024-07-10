@@ -11,7 +11,7 @@ public class VillageManager : MonoBehaviour
     public GridMap gridMap;
     private bool isSelected = false;
     private bool isRemoveTime = false;
-    public Dictionary<string, GameObject> objectList = new Dictionary<string, GameObject>();
+    public Dictionary<int, GameObject> objectList = new Dictionary<int, GameObject>();
     public List<GameObject> installableBuilding = new();
     public GameObject hospital;
 
@@ -27,7 +27,7 @@ public class VillageManager : MonoBehaviour
         foreach(var obj in installableBuilding)
         {
             var building = obj.GetComponent<Building>();
-            objectList.Add(building.StructureName, obj);
+            objectList.Add(building.StructureId, obj);
         }
         
     }
@@ -36,19 +36,19 @@ public class VillageManager : MonoBehaviour
     {
         if (GUI.Button(new Rect(0f, 150f, 70f, 70f), "hp"))
         {
-            selectedObj = objectList.GetValueOrDefault(BuildingName.hpRecovery);
+            selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.HP_RECOVERY);
             isSelected = true;
         }
 
         if (GUI.Button(new Rect(0f, 220, 70f, 70f), "stamina"))
         {
-            selectedObj = objectList.GetValueOrDefault(BuildingName.staminaRecovery);
+            selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STAMINA_RECOVERY);
             isSelected = true;
         }
 
         if (GUI.Button(new Rect(0f, 290, 70f, 70f), "stress"))
         {
-            selectedObj = objectList.GetValueOrDefault(BuildingName.stressRecovery);
+            selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STRESS_RECOVERY);
             isSelected = true;
         }
 
@@ -56,8 +56,6 @@ public class VillageManager : MonoBehaviour
         {
             isRemoveTime = true;
         }
-
-        
     }
 
     public void PlaceBuilding(GameObject obj, Tile tile)
@@ -159,6 +157,11 @@ public class VillageManager : MonoBehaviour
         return gridMap.tiles[tileId];
     }
 
+    public Tile GetTile(Vector2Int vector)
+    {
+        return gridMap.tiles[vector];
+    }
+
     private void Update()
     {
         if (Input.GetMouseButtonDown(0) && isSelected)
@@ -194,7 +197,7 @@ public class VillageManager : MonoBehaviour
     {
         if (construectedBuildings.Count <= 0)
             return false;
-
+        Debug.Log(construectedBuildings.FindIndex(predicate));
         var building = construectedBuildings[construectedBuildings.FindIndex(predicate)];
         var tile = building.GetComponent<Building>().entranceTile;
         if (tile == null)

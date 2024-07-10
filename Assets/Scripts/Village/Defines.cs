@@ -41,3 +41,10 @@ public static class BuildingName
     public readonly static string staminaRecovery = "staminaRecovery";
     public readonly static string stressRecovery = "stressRecovery";
 }
+
+public enum STRUCTURE_ID
+{
+    HP_RECOVERY,
+    STAMINA_RECOVERY,
+    STRESS_RECOVERY,
+}

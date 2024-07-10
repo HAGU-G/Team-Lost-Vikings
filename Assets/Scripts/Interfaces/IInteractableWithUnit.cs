@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IInteractableWithUnit
 {
-    public void InteractWithUnit();
+    public void InteractWithUnit(UnitOnVillage unit);
 }

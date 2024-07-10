@@ -1,17 +1,27 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 public class InteractOnVillage : State<UnitOnVillage>
 {
+    private Action OnInteract;
+    private IInteractableWithUnit unitInteractBuilding;
+
     public override void EnterState()
     {
         owner.currentState = UnitOnVillage.STATE.INTERACT;
+        var currentTile = owner.villageManager.GetTile(owner.gameObject.transform.position);
+        Interact(currentTile);
+
+        OnInteract?.Invoke();
     }
 
     public override void ExitState()
     {
-        
+        OnInteract = null;
+
     }
 
     public override void ResetState()
@@ -27,6 +37,44 @@ public class InteractOnVillage : State<UnitOnVillage>
 
     protected override bool Transition()
     {
+
+
         return false;
+    }
+
+    private void Interact(Tile tile)
+    {
+        var tileId = tile.tileInfo.id;
+        tileId.x += 1;
+        var obj = owner.villageManager.GetTile(tileId).tileInfo.ObjectLayer.LayerObject;
+        var buildingComponent = obj.GetComponent<Building>();
+        if(buildingComponent.interactWithUnit != null)
+        {
+            buildingComponent.interactWithUnit?.InteractWithUnit(owner);
+            var parameterComponent = obj.GetComponent<ParameterRecoveryBuilding>();
+            parameterComponent.OnRecoveryDone += RecoveryDone;
+        }
+        
+        buildingComponent.interactWithPlayer?.InteractWithPlayer();
+        return ;
+    }
+
+    public void RecoveryDone(PARAMETER_TYPES type)
+    {
+        switch(type)
+        {
+            case PARAMETER_TYPES.HP:
+                if(owner.stats.CurrentHP  == owner.stats.CurrentMaxHP)
+                    controller.ChangeState((int)UnitOnVillage.STATE.IDLE);
+                break;
+            case PARAMETER_TYPES.STAMINA:
+                if (owner.stats.CurrentStamina == owner.stats.CurrentStats.MaxStamina)
+                    controller.ChangeState((int)UnitOnVillage.STATE.IDLE);
+                break;
+            case PARAMETER_TYPES.STRESS:
+                if (owner.stats.CurrentStress == owner.stats.CurrentStats.MaxStress)
+                    controller.ChangeState((int)UnitOnVillage.STATE.IDLE);
+                break;
+        }
     }
 }

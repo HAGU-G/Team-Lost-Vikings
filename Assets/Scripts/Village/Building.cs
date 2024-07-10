@@ -9,6 +9,8 @@ public class Building : MonoBehaviour
     [field:SerializeField] //데이터 테이블에서 받아오기 전 임시로 입력
     public string StructureName { get; set; }
     [field: SerializeField]
+    public int StructureId { get; set; }
+    [field: SerializeField]
     public int Width { get; set; }
     [field: SerializeField]
     public int Length { get; set; }
@@ -32,10 +34,15 @@ public class Building : MonoBehaviour
     public List<Tile> placedTiles;
     public Tile entranceTile;
 
-    private IInteractableWithPlayer interactWithPlayer;
-    private IInteractableWithUnit interactWithUnit;
+    public IInteractableWithPlayer interactWithPlayer { get; private set; }
+    public IInteractableWithUnit interactWithUnit { get; private set; }
 
     private void Awake()
+    {
+        
+    }
+
+    private void Start()
     {
         placedTiles = new List<Tile>();
         switch (StructureType)
@@ -52,13 +59,15 @@ public class Building : MonoBehaviour
             case STRUCTURE_TYPE.ITEM_SELL:
                 interactWithPlayer = gameObject.GetComponent<ItemSellBuilding>();
                 break;
-
         }
     }
 
     public void Interact()
     {
         interactWithPlayer?.InteractWithPlayer();
-        interactWithUnit?.InteractWithUnit();
+        interactWithUnit?.InteractWithUnit(new UnitOnVillage());
+        //TO-DO : 수정하기
     }
+
+    
 }

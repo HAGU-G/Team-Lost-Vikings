@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <StructureName>k__BackingField: hpRecovery
+  <StructureId>k__BackingField: 0
   <Width>k__BackingField: 1
   <Length>k__BackingField: 1
   <StructureType>k__BackingField: 1
@@ -78,7 +79,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   building: {fileID: 0}
-  parameterTypes: 1
+  parameterType: 1
   recoveryAmount: 20
   recoveryTime: 10
 --- !u!60 &1399237571645923287
