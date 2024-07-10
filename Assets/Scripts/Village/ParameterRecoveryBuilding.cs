@@ -24,55 +24,66 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
     public void InteractWithUnit(UnitOnVillage unit)
     {
         SetUnit(unit);
-        if(!isRecovering)
+        if (!isRecovering)
         {
             StartCoroutine(recoveryCoroutine);
         }
-        
+
     }
 
     private void Update()
     {
-        
     }
 
     private IEnumerator CoRecovery()
     {
         isRecovering = true;
+        Debug.Log(recoveryTime);
+        Debug.Log($"hp : {unit.stats.CurrentHP}");
         yield return new WaitForSeconds(recoveryTime);
         bool isComplete = false;
 
         while (true)
         {
-                switch (parameterType)
-                {
-                    case PARAMETER_TYPES.HP:
-                        unit.stats.CurrentHP += recoveryAmount;
-                        if (unit.stats.CurrentHP >= unit.stats.CurrentMaxHP)
-                        {
-                            unit.stats.CurrentHP = unit.stats.CurrentMaxHP;
-                            isComplete = true;
-                        }
-                        break;
-                    case PARAMETER_TYPES.STAMINA:
-                        unit.stats.CurrentStamina += recoveryAmount;
-                        if (unit.stats.CurrentStamina >= unit.stats.CurrentStats.MaxStamina)
-                        {
-                            unit.stats.CurrentStamina = unit.stats.CurrentStats.MaxStamina;
-                            isComplete = true;
-                        }
-                        break;
-                    case PARAMETER_TYPES.STRESS:
-                        unit.stats.CurrentStress += recoveryAmount;
-                        if (unit.stats.CurrentStress >= unit.stats.CurrentStats.MaxStress)
-                        {
-                            unit.stats.CurrentStress = unit.stats.CurrentStats.MaxStress;
-                            isComplete = true;
-                        }
-                        break;
-            }
-            if(isComplete)
+            switch (parameterType)
             {
+                case PARAMETER_TYPES.HP:
+                    unit.stats.CurrentHP += recoveryAmount;
+                    Debug.Log($"hp : {unit.stats.CurrentHP}");
+                    if(unit.stats.CurrentHP < unit.stats.CurrentMaxHP)
+                        yield return new WaitForSeconds(recoveryTime);
+                    else if (unit.stats.CurrentHP >= unit.stats.CurrentMaxHP)
+                    {
+                        unit.stats.CurrentHP = unit.stats.CurrentMaxHP;
+                        isComplete = true;
+                    }
+                    break;
+                case PARAMETER_TYPES.STAMINA:
+                    unit.stats.CurrentStamina += recoveryAmount;
+                    if (unit.stats.CurrentHP < unit.stats.CurrentStats.MaxStamina)
+                        yield return new WaitForSeconds(recoveryTime);
+                    else if (unit.stats.CurrentStamina >= unit.stats.CurrentStats.MaxStamina)
+                    {
+                        unit.stats.CurrentStamina = unit.stats.CurrentStats.MaxStamina;
+                        isComplete = true;
+                    }
+                    break;
+                case PARAMETER_TYPES.STRESS:
+                    unit.stats.CurrentStress += recoveryAmount;
+                    if (unit.stats.CurrentHP < unit.stats.CurrentStats.MaxStress)
+                        yield return new WaitForSeconds(recoveryTime);
+                    else if (unit.stats.CurrentStress >= unit.stats.CurrentStats.MaxStress)
+                    {
+                        unit.stats.CurrentStress = unit.stats.CurrentStats.MaxStress;
+                        isComplete = true;
+                    }
+                    break;
+            }
+            if (isComplete)
+            {
+                Debug.Log($"hp : {unit.stats.CurrentHP}");
+                //Debug.Log($"stamina : {unit.stats.CurrentStamina}");
+                //Debug.Log($"stress : {unit.stats.CurrentStress}");
                 isRecovering = false;
                 OnRecoveryDone?.Invoke(parameterType);
                 OnRecoveryDone = null;
