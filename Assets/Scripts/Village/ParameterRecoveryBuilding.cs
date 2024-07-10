@@ -2,14 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PARAMETER_TYPES
-{
-    NONE = 0,
-    HP,
-    STAMINA,
-    STRESS,
-}
-
 public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
 {
     public Building building;

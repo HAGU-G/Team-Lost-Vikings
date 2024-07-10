@@ -57,12 +57,14 @@ public class UnitMove : MonoBehaviour
             transform.position = Vector3.Lerp(start, end, timer / moveTime);
         }
     }
-    public void MoveTo(Tile target)
+    
+    public void MoveTo(Tile startTile, Tile target)
     {
+        currentTile = startTile;
         if (!target.CanMove)
             return;
 
-        path = gridMap.PathFinding(isMoving ? path[0] : currentTile, target);
+        path = gridMap.PathFinding(isMoving ? path[0] : startTile, target);
         if (path.Count == 0)
             return;
 

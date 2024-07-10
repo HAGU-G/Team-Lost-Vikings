@@ -3,15 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public enum STRUCTURE_TYPE
-{
-    HOSPITAL = -1,
-    STAT_UPGRADE,
-    PARAMETER_RECOVERY,
-    ITEM_PRODUCE,
-    ITEM_SELL,
-    REVIVE,
-}
 
 public class Building : MonoBehaviour
 {

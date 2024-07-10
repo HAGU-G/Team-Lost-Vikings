@@ -13,7 +13,6 @@ public class VillageManager : MonoBehaviour
     private bool isRemoveTime = false;
     public Dictionary<string, GameObject> objectList = new Dictionary<string, GameObject>();
     public GameObject hospital;
-    private Camera cam;
 
     private GameObject selectedObj;
 
@@ -173,12 +172,22 @@ public class VillageManager : MonoBehaviour
         //}
     }
 
+    public bool FindBuilding(STRUCTURE_TYPE structureType, Predicate<GameObject> predicate)
+    {
+        if (construectedBuildings.Count <= 0)
+            return false;
+
+        var building = construectedBuildings[construectedBuildings.FindIndex(predicate)];
+        var tile = building.GetComponent<Building>().entranceTile;
+        if (tile == null)
+            return false;
+
+        return true;
+    }
+
     public Tile FindBuildingEntrance(STRUCTURE_TYPE structureType, Predicate<GameObject> predicate)
     {
-        if(construectedBuildings.Count < 0)
-        {
-            Debug.Log("가야하는 타입의 건물이 없습니다.");
-        }
+       
         var building = construectedBuildings[construectedBuildings.FindIndex(predicate)];
         var tile = building.GetComponent<Building>().entranceTile;
         Debug.Log($"입구 타일의 인덱스 : {tile.tileInfo.id.x}, {tile.tileInfo.id.y}");

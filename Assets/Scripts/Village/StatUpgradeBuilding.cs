@@ -2,12 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum STATTYPES
-{
-    STR,
-    MAG,
-    AGI,
-}
 
 public class StatUpgradeBuilding : MonoBehaviour, IInteractableWithPlayer
 {

@@ -5,7 +5,7 @@ using UnityEngine;
 public class ItemSellBuilding : MonoBehaviour, IInteractableWithPlayer
 {
     public Building building;
-    public Recipe recipeId;
+    public RECIPE recipeId;
 
     private void Awake()
     {

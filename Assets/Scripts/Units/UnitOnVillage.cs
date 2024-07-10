@@ -8,6 +8,7 @@ public class UnitOnVillage : Unit
     public STATE currentState;
     public Tile destination = new();
     public VillageManager villageManager;
+    public UnitMove unitMove;
 
     public enum STATE
     {
@@ -34,6 +35,7 @@ public class UnitOnVillage : Unit
     {
         base.Init();
         villageManager = FindObjectOfType<VillageManager>();
+        unitMove = GetComponent<UnitMove>();
         villageFSM = new();
         villageFSM.Init(this, 0,
             new IdleOnVillage(),
@@ -55,12 +57,6 @@ public class UnitOnVillage : Unit
     public List<Tile> FindPath(Tile start, Tile end)
     {
         return villageManager.gridMap.PathFinding(start, end);
-    }
-
-    public void MoveTo(Tile destination)
-    {
-        var unitMove = GetComponent<UnitMove>();
-        
     }
 
     public LACKING_PARAMETER CheckParameter()
