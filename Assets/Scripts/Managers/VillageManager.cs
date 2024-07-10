@@ -13,6 +13,7 @@ public class VillageManager : MonoBehaviour
     private bool isRemoveTime = false;
     public Dictionary<string, GameObject> objectList = new Dictionary<string, GameObject>();
     public GameObject hospital;
+    private Camera cam;
 
     private GameObject selectedObj;
 
@@ -60,6 +61,7 @@ public class VillageManager : MonoBehaviour
             return;
         }
 
+        objInfo.entranceTile = gridMap.tiles[new Vector2Int(tile.tileInfo.id.x -1, tile.tileInfo.id.y)];
         var instancedObj = Instantiate(obj, gridMap.IndexToPos(tileId), Quaternion.identity, tile.transform);
         var pos = instancedObj.transform.position; 
         pos.y = instancedObj.transform.position.y - gridMap.gridInfo.cellSize / 4f;
@@ -149,23 +151,37 @@ public class VillageManager : MonoBehaviour
             PlaceObject(selectedObj, tile);
         }
 
-        if (Input.GetMouseButtonDown(0) && !isSelected)
-        {
-            InteractObject();
-        }
+        //if (Input.GetMouseButtonDown(0) && !isSelected)
+        //{
+        //    var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //    if(GetTile(worldPos) != null)
+        //        InteractObject();
+        //}
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            var tile = GetTile(worldPos);
-            Debug.Log(tile.tileInfo.TileType.ToString());
-        }
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //    var tile = GetTile(worldPos);
+        //    Debug.Log(tile.tileInfo.TileType.ToString());
+        //}
 
-        if (Input.GetMouseButtonDown(0) && isRemoveTime)
+        //if (Input.GetMouseButtonDown(0) && isRemoveTime)
+        //{
+        //    var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //    var tile = GetTile(worldPos);
+        //    RemoveObject(tile);
+        //}
+    }
+
+    public Tile FindBuildingEntrance(STRUCTURE_TYPE structureType, Predicate<GameObject> predicate)
+    {
+        if(construectedBuildings.Count < 0)
         {
-            var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            var tile = GetTile(worldPos);
-            RemoveObject(tile);
+            Debug.Log("가야하는 타입의 건물이 없습니다.");
         }
+        var building = construectedBuildings[construectedBuildings.FindIndex(predicate)];
+        var tile = building.GetComponent<Building>().entranceTile;
+        Debug.Log($"입구 타일의 인덱스 : {tile.tileInfo.id.x}, {tile.tileInfo.id.y}");
+        return building.GetComponent<Building>().entranceTile;
     }
 }

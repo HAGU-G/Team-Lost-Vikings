@@ -119,7 +119,7 @@ public class GridMap : MonoBehaviour
             tiles[new Vector2Int(i / gridInfo.row, i % gridInfo.row)].Clear();
         }
 
-        var startId = (start.tileInfo.id.x / gridInfo.row) + (start.tileInfo.id.y % gridInfo.row);
+        var startId = (start.tileInfo.id.x * gridInfo.row) + start.tileInfo.id.y;
         distances[startId] = 0;
         scores[startId] = Heuristic(start, goal);
 
@@ -140,6 +140,7 @@ public class GridMap : MonoBehaviour
                     step = step.previous;
                 }
                 path.Reverse();
+
                 return path;
             }
 
@@ -148,8 +149,8 @@ public class GridMap : MonoBehaviour
                 if (adjacentTile == null /*|| adjacentTile.tileInfo.Weight == int.MaxValue*/) //가중치 추가되면 수정하기
                     continue;
 
-                var currentTileId = (currentTile.tileInfo.id.x / gridInfo.row) + (currentTile.tileInfo.id.y % gridInfo.row);
-                var adjacentTileId = (adjacentTile.tileInfo.id.x / gridInfo.row) + (adjacentTile.tileInfo.id.y % gridInfo.row);
+                var currentTileId = (currentTile.tileInfo.id.x * gridInfo.row) + currentTile.tileInfo.id.y;
+                var adjacentTileId = (adjacentTile.tileInfo.id.x * gridInfo.row) + adjacentTile.tileInfo.id.y;
                 var newdistance = distances[currentTileId] /*+ adjacentNode.Weight*/;
 
                 if (newdistance < distances[adjacentTileId])
@@ -165,9 +166,5 @@ public class GridMap : MonoBehaviour
         return path; //못 찾은 경우
     }
 
-    public Tile FindBuildingEntrance(STRUCTURE_TYPE structureType, PARAMETER_TYPES parameterType)
-    {
-
-        return new Tile();
-    }
+    
 }

@@ -14,7 +14,10 @@ public class GotoOnVillage : State<UnitOnVillage>
             case UnitOnVillage.LACKING_PARAMETER.HP:
                 break;
             case UnitOnVillage.LACKING_PARAMETER.STAMINA:
-               // owner.destination = owner.villageManager.gridMap.FindBuildingEntrance(STRUCTURE_TYPE.PARAMETER_RECOVERY, );
+                owner.destination
+                    = owner.villageManager.FindBuildingEntrance(STRUCTURE_TYPE.PARAMETER_RECOVERY,
+                    (x) => { return x.GetComponent<ParameterRecoveryBuilding>().parameterTypes == PARAMETER_TYPES.STAMINA; });
+                
                 break;
             case UnitOnVillage.LACKING_PARAMETER.STRESS:
                 break;
@@ -25,6 +28,9 @@ public class GotoOnVillage : State<UnitOnVillage>
         
         var path = owner.FindPath(owner.villageManager.gridMap.tiles[new Vector2Int(0,0)] ,owner.destination);
         //시작 타일은 임시로 0,0에서 시작하도록 설정
+
+        //실제 유닛 이동하는 메소드
+        
     }
 
     public override void ExitState()

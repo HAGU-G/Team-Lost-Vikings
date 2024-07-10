@@ -6,7 +6,7 @@ public class UnitOnVillage : Unit
 {
     private FSM<UnitOnVillage> villageFSM;
     public STATE currentState;
-    public Tile destination;
+    public Tile destination = new();
     public VillageManager villageManager;
 
     public enum STATE
@@ -33,7 +33,7 @@ public class UnitOnVillage : Unit
     protected override void Init()
     {
         base.Init();
-
+        villageManager = FindObjectOfType<VillageManager>();
         villageFSM = new();
         villageFSM.Init(this, 0,
             new IdleOnVillage(),
@@ -55,6 +55,12 @@ public class UnitOnVillage : Unit
     public List<Tile> FindPath(Tile start, Tile end)
     {
         return villageManager.gridMap.PathFinding(start, end);
+    }
+
+    public void MoveTo(Tile destination)
+    {
+        var unitMove = GetComponent<UnitMove>();
+        
     }
 
     public LACKING_PARAMETER CheckParameter()
