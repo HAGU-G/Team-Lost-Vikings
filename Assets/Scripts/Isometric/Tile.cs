@@ -45,7 +45,7 @@ public class Tile : MonoBehaviour
     {
         get
         {
-            return (tileInfo.autoTileId != (int)TileType.NONE && tileInfo.autoTileId != (int)TileType.OBJECT);
+            return (/*tileInfo.TileType != TileType.NONE && */tileInfo.TileType != TileType.OBJECT);
         }
     }
 

@@ -72,16 +72,37 @@ public class UnitOnVillage : Unit
     }
 
     //-------Test용 메소드-----------------------------------------------
+    
+
+    private void ReduceHp()
+    {
+        stats.CurrentHP = 30;
+    }
     public void ReduceStamina()
     {
-        stats.CurrentStamina -= 70;
+        stats.CurrentStamina = 30;
+    }
+
+    private void ReduceStress()
+    {
+        stats.CurrentStress = 30;
     }
 
     private void OnGUI()
     {
-        if (GUI.Button(new Rect(0f, 160f, 70f, 70f), "ReduceStamina"))
+        if (GUI.Button(new Rect(800f, 0f, 100f, 70f), "ReduceHp"))
+        {
+            ReduceHp();
+        }
+
+        if (GUI.Button(new Rect(800f, 100f, 100f, 70f), "ReduceStamina"))
         {
             ReduceStamina();
+        }
+
+        if (GUI.Button(new Rect(800f, 200f, 100f, 70f), "ReduceStress"))
+        {
+            ReduceStress();
         }
     }
     //------------------------------------------------------------------

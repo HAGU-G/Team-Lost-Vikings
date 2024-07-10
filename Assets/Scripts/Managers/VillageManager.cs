@@ -12,6 +12,7 @@ public class VillageManager : MonoBehaviour
     private bool isSelected = false;
     private bool isRemoveTime = false;
     public Dictionary<string, GameObject> objectList = new Dictionary<string, GameObject>();
+    public List<GameObject> installableBuilding = new();
     public GameObject hospital;
 
     private GameObject selectedObj;
@@ -23,14 +24,31 @@ public class VillageManager : MonoBehaviour
 
     private void Start()
     {
-        objectList.Add("Hospital", hospital);
+        foreach(var obj in installableBuilding)
+        {
+            var building = obj.GetComponent<Building>();
+            objectList.Add(building.StructureName, obj);
+        }
+        
     }
 
     private void OnGUI()
     {
-        if (GUI.Button(new Rect(0f, 0f, 70f, 70f), "Hospital"))
+        if (GUI.Button(new Rect(0f, 150f, 70f, 70f), "hp"))
         {
-            selectedObj = objectList.GetValueOrDefault("Hospital");
+            selectedObj = objectList.GetValueOrDefault(BuildingName.hpRecovery);
+            isSelected = true;
+        }
+
+        if (GUI.Button(new Rect(0f, 220, 70f, 70f), "stamina"))
+        {
+            selectedObj = objectList.GetValueOrDefault(BuildingName.staminaRecovery);
+            isSelected = true;
+        }
+
+        if (GUI.Button(new Rect(0f, 290, 70f, 70f), "stress"))
+        {
+            selectedObj = objectList.GetValueOrDefault(BuildingName.stressRecovery);
             isSelected = true;
         }
 
@@ -42,7 +60,7 @@ public class VillageManager : MonoBehaviour
         
     }
 
-    public void PlaceObject(GameObject obj, Tile tile)
+    public void PlaceBuilding(GameObject obj, Tile tile)
     {
         var objInfo = obj.GetComponent<Building>();
         var width = objInfo.Width;
@@ -82,7 +100,7 @@ public class VillageManager : MonoBehaviour
         isSelected = false;
     }
 
-    public void RemoveObject(Tile tile)
+    public void RemoveBuilding(Tile tile)
     {
         var obj = tile.tileInfo.ObjectLayer.LayerObject;
         var objInfo = obj.GetComponent<Building>();
@@ -112,7 +130,7 @@ public class VillageManager : MonoBehaviour
         isRemoveTime = false;
     }
 
-    private void InteractObject()
+    private void InteractWithBuilding()
     {
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, 100f);
@@ -147,14 +165,14 @@ public class VillageManager : MonoBehaviour
         {
             var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             var tile = GetTile(worldPos);
-            PlaceObject(selectedObj, tile);
+            PlaceBuilding(selectedObj, tile);
         }
 
         //if (Input.GetMouseButtonDown(0) && !isSelected)
         //{
         //    var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         //    if(GetTile(worldPos) != null)
-        //        InteractObject();
+        //        InteractWithBuilding();
         //}
 
         //if (Input.GetMouseButtonDown(0))
@@ -168,7 +186,7 @@ public class VillageManager : MonoBehaviour
         //{
         //    var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         //    var tile = GetTile(worldPos);
-        //    RemoveObject(tile);
+        //    RemoveBuilding(tile);
         //}
     }
 

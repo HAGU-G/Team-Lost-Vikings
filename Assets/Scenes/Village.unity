@@ -199,6 +199,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   construectedBuildings: []
   gridMap: {fileID: 286098943}
+  installableBuilding:
+  - {fileID: 5574859836534748875, guid: 57003cf95450f1b4d8896cfe98442766, type: 3}
+  - {fileID: 4125673889435522284, guid: 0a52a2dfc707d5447ba9d2fafb7c2323, type: 3}
+  - {fileID: 7845117778571857193, guid: 867cc1057633b004dbc24db4a330134f, type: 3}
   hospital: {fileID: 4125673889435522284, guid: 0a52a2dfc707d5447ba9d2fafb7c2323, type: 3}
 --- !u!4 &927712893
 Transform:

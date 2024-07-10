@@ -58,15 +58,21 @@ public class UnitMove : MonoBehaviour
         }
     }
     
-    public void MoveTo(Tile startTile, Tile target)
+    public bool MoveTo(Tile startTile, Tile target)
     {
         currentTile = startTile;
         if (!target.CanMove)
-            return;
+            return false;
+
+        if(gridMap.PathFinding(startTile, target) == null)
+        {
+            Debug.Log("경로를 찾지 못했습니다.");
+            return false;
+        }    
 
         path = gridMap.PathFinding(isMoving ? path[0] : startTile, target);
         if (path.Count == 0)
-            return;
+            return false;
 
         if (!isMoving)
         {
@@ -78,5 +84,6 @@ public class UnitMove : MonoBehaviour
         }
 
         goalTile = target;
+        return true;
     }
 }

@@ -13,6 +13,13 @@ public class GotoOnVillage : State<UnitOnVillage>
         switch(lackedParameter)
         {
             case UnitOnVillage.LACKING_PARAMETER.HP:
+                if (owner.villageManager.FindBuilding(STRUCTURE_TYPE.PARAMETER_RECOVERY,
+                   (x) => { return x.GetComponent<ParameterRecoveryBuilding>().parameterTypes == PARAMETER_TYPES.HP; }))
+                {
+                    owner.destination
+                    = owner.villageManager.FindBuildingEntrance(STRUCTURE_TYPE.PARAMETER_RECOVERY,
+                    (x) => { return x.GetComponent<ParameterRecoveryBuilding>().parameterTypes == PARAMETER_TYPES.HP; });
+                }
                 break;
             case UnitOnVillage.LACKING_PARAMETER.STAMINA:
                 if(owner.villageManager.FindBuilding(STRUCTURE_TYPE.PARAMETER_RECOVERY,
@@ -22,25 +29,37 @@ public class GotoOnVillage : State<UnitOnVillage>
                     = owner.villageManager.FindBuildingEntrance(STRUCTURE_TYPE.PARAMETER_RECOVERY,
                     (x) => { return x.GetComponent<ParameterRecoveryBuilding>().parameterTypes == PARAMETER_TYPES.STAMINA; });
                 }
-                else
-                {
-                    Debug.Log("가야할 건물의 타입이 없습니다.");
-                }
                 break;
             case UnitOnVillage.LACKING_PARAMETER.STRESS:
+                if (owner.villageManager.FindBuilding(STRUCTURE_TYPE.PARAMETER_RECOVERY,
+                   (x) => { return x.GetComponent<ParameterRecoveryBuilding>().parameterTypes == PARAMETER_TYPES.STRESS; }))
+                {
+                    owner.destination
+                    = owner.villageManager.FindBuildingEntrance(STRUCTURE_TYPE.PARAMETER_RECOVERY,
+                    (x) => { return x.GetComponent<ParameterRecoveryBuilding>().parameterTypes == PARAMETER_TYPES.STRESS; });
+                }
                 break;
             case UnitOnVillage.LACKING_PARAMETER.NONE:
                 controller.ChangeState((int)UnitOnVillage.STATE.IDLE); //부족한 파라미터가 없으면 일단 돌아다니게
                 break;
         }
-        //시작 타일은 임시로 0,0에서 시작하도록 설정
         
         if(owner.destination != null)
         {
-            var startTile = owner.villageManager.gridMap.tiles[new Vector2Int(0, 0)];
+            var tileId = owner.villageManager.gridMap.PosToIndex(owner.gameObject.transform.position);
+            var startTile = owner.villageManager.gridMap
+                .tiles[new Vector2Int(tileId.x, tileId.y)];
             var path = owner.FindPath(startTile, owner.destination);
             if (path != null)
-                owner.unitMove.MoveTo(startTile, owner.destination);
+            {
+                if (owner.unitMove.MoveTo(startTile, owner.destination))
+                {
+                    controller.ChangeState((int)UnitOnVillage.STATE.IDLE);
+                }
+            }
+                
+            else
+                Debug.Log("가야할 건물의 타입이 없습니다.");
         }
     }
 

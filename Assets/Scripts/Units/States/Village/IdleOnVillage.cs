@@ -19,7 +19,6 @@
     {
         if (Transition())
             return;
-
     }
 
     protected override bool Transition()

@@ -34,3 +34,10 @@ public enum STATTYPES
     MAG,
     AGI,
 }
+
+public static class BuildingName
+{
+    public readonly static string hpRecovery = "hpRecovery";
+    public readonly static string staminaRecovery = "staminaRecovery";
+    public readonly static string stressRecovery = "stressRecovery";
+}
