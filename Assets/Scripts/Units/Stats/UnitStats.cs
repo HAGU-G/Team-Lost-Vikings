@@ -45,19 +45,20 @@ public class UnitStats
     //Save
     public int Id { get; private set; }
     public UNIT_GRADE UnitGrade { get; private set; }
-    [field: SerializeField] private UnitStatsVariable DefaultStats { get; set; }
+    [field: SerializeField] public UnitStatsVariable DefaultStats { get; private set; }
     [field: SerializeField] public UnitStatsVariable CurrentStats { get; private set; }
     public int SkillId1 { get; private set; }
     public int SkillId2 { get; private set; }
 
     private int _currentHP;
-    private int _currentStress;
     private int _currentStamina;
+    private int _currentStress;
 
     //Don't Save
     public string Name { get; private set; }
     public UNIT_JOB UnitJob { get; private set; }
     public ATTACK_TYPE BasicAttackType { get; private set; }
+
     public int CurrentMaxHP { get; private set; }
     public int CurrentHP
     {
@@ -67,14 +68,8 @@ public class UnitStats
             _currentHP = Mathf.Clamp(value, 0, CurrentMaxHP);
         }
     }
-    public int CurrentStress
-    {
-        get => _currentStress;
-        set
-        {
-            _currentStress = Mathf.Clamp(value, 0, CurrentStats.MaxStress);
-        }
-    }
+
+    public int CurrentMaxStamina => CurrentStats.MaxStamina;
     public int CurrentStamina
     {
         get => _currentStamina;
@@ -83,9 +78,20 @@ public class UnitStats
             _currentStamina = Mathf.Clamp(value, 0, CurrentStats.MaxStamina);
         }
     }
+
+    public int CurrentMaxStress => CurrentStats.MaxStress;
+    public int CurrentStress
+    {
+        get => _currentStress;
+        set
+        {
+            _currentStress = Mathf.Clamp(value, 0, CurrentStats.MaxStress);
+        }
+    }
     public float HPRatio => (float)CurrentHP / CurrentMaxHP;
-    public float StressRatio => (float)CurrentStress / CurrentStats.MaxStress;
     public float StaminaRatio => (float)CurrentStamina / CurrentStats.MaxStamina;
+    public float StressRatio => (float)CurrentStress / CurrentStats.MaxStress;
+
 
     //Methods
     public void Init(UnitStatsData data, UnitStatsVariable defaultStats = null)
@@ -173,5 +179,4 @@ public class UnitStats
             CriticalWeight = data.CriticalHitWeight
         };
     }
-
 }

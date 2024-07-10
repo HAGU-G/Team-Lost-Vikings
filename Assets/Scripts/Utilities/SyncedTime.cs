@@ -147,7 +147,7 @@ public static class SyncedTime
                             CorrectionSeconds, CorrectionMilliSeconds, SecondCorrectionTick).Ticks;
 
                         var serverDiff = newServerTime.Ticks - LastSyncedTimeServer.Ticks;
-                        SecondCorrectionTick = new DateTime(newNow - lastNow - serverDiff).Ticks;
+                        SecondCorrectionTick = newNow - lastNow - serverDiff;
                         IsMillisecondSynced = true;
                         Debug.Log("밀리초 동기화 완료");
                     }

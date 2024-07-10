@@ -5,8 +5,8 @@ using UnityEngine;
 public class UnitStatsVariable
 {
     //Parameters
-    [field: SerializeField] public int MaxStress { get; set; }
     [field: SerializeField] public int MaxStamina { get; set; }
+    [field: SerializeField] public int MaxStress { get; set; }
 
     //Stats
     [field: SerializeField] public int BaseHP { get; set; }

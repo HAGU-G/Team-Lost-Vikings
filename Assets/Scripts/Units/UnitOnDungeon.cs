@@ -37,6 +37,8 @@ public class UnitOnDungeon
 
     //Event
     public event Action OnDamaged;
+    public event Action OnAttacked;
+    public event Action OnUpdated;
 
     //AdditionalStats
     private int staminaToConsume;
@@ -45,7 +47,7 @@ public class UnitOnDungeon
     {
         get
         {
-            return stats.HPRatio < 1f
+            return stats.HPRatio < 0.1f
                 || stats.StaminaRatio < 0.5f
                 || stats.StressRatio < 0.5f;
         }
@@ -53,12 +55,14 @@ public class UnitOnDungeon
 
     private void Update()
     {
+        OnUpdated?.Invoke();
+
         dungeonFSM.Update();
     }
 
     private void OnDestroy()
     {
-        foreach(var target in attackedTargets)
+        foreach (var target in attackedTargets)
         {
             target.Key.UnSubscrive(this);
         }
@@ -82,6 +86,10 @@ public class UnitOnDungeon
             new TraceOnDungeon(),
             new AttackOnDungeon(),
             new ReturnOnDungeon());
+
+        //TESTCODE
+        skills.SetSkills(0);
+        skills.SetSkill(0, new Skill(testSkillData,this));
     }
 
     protected override void ResetUnit()
@@ -101,6 +109,14 @@ public class UnitOnDungeon
             Enemies = dungeon.players;
     }
 
+    protected override void ResetEvents()
+    {
+        base.ResetEvents();
+        OnDamaged = null;
+        OnAttacked = null;
+        OnUpdated = null;
+    }
+
     public bool TakeDamage(int damage)
     {
         stats.CurrentHP -= damage;
@@ -108,14 +124,14 @@ public class UnitOnDungeon
 
         if (!IsDead && stats.CurrentHP <= 0)
         {
-            OnDead();
+            Dead();
             return true;
         }
 
         return false;
     }
 
-    public void OnDead()
+    public void Dead()
     {
         IsDead = true;
         foreach (var observer in attackers)
@@ -135,6 +151,8 @@ public class UnitOnDungeon
     {
         if (attackTarget == null)
             return -1;
+
+        OnAttacked?.Invoke();
 
         attackTarget.Subscribe(this);
         StackStaminaToConsume(1, attackTarget);
