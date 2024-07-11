@@ -162,9 +162,9 @@ public static class SyncedTime
                     CorrectionSeconds = newCorrectionSeconds;
                     CorrectionMilliSeconds = newCorrectionMilliSeconds;
 
-                    lastSyncedTime = Now;
                     IsSynced = true;
                     IsSyncing = false;
+                    lastSyncedTime = Now;
                 }
                 else
                 {
