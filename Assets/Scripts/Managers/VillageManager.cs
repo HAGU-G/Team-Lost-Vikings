@@ -58,6 +58,15 @@ public class VillageManager : MonoBehaviour
         }
     }
 
+    private void OnEntranceTileChanged(Tile tile)
+    {
+        if (gridMap.tiles.TryGetValue(tile.tileInfo.id, out Tile gridTile))
+        {
+            var building = gridTile.tileInfo.ObjectLayer.LayerObject.GetComponent<Building>();
+            building.entranceTile = tile;
+        }
+    }
+
     public void PlaceBuilding(GameObject obj, Tile tile)
     {
         var objInfo = obj.GetComponent<Building>();
@@ -68,17 +77,21 @@ public class VillageManager : MonoBehaviour
         var tileId = tile.tileInfo.id;
         var indexX = tileId.x + width - 1;
         var indexY = tileId.y + height - 1;
-        //var entranceX = objInfo.entranceTile.tileInfo.id.x;
-        //var entranceY = objInfo.entranceTile.tileInfo.id.y;
 
-        if (indexX < 0 || indexY < 0 /*|| entranceX < 0 || entranceY < 0*/)
+        var entranceX = tile.tileInfo.id.x - 1;
+        var entranceY = tile.tileInfo.id.y;
+
+        if (indexX < 0 || indexY < 0 
+            || indexX > gridMap.gridInfo.row -1 || indexY > gridMap.gridInfo.col-1
+            || entranceX < 0 || entranceY < 0
+            || entranceX > gridMap.gridInfo.row-1 || entranceY > gridMap.gridInfo.col-1)
         {
             Debug.Log("건물을 설치할 수 없습니다.");
             isSelected = false;
             return;
         }
 
-        objInfo.entranceTile = gridMap.tiles[new Vector2Int(tile.tileInfo.id.x -1, tile.tileInfo.id.y)];
+        objInfo.entranceTile = gridMap.tiles[new Vector2Int(tile.tileInfo.id.x - 1, tile.tileInfo.id.y)];
         var instancedObj = Instantiate(obj, gridMap.IndexToPos(tileId), Quaternion.identity, tile.transform);
         var pos = instancedObj.transform.position; 
         pos.y = instancedObj.transform.position.y - gridMap.gridInfo.cellSize / 4f;
@@ -232,12 +245,12 @@ public class VillageManager : MonoBehaviour
         return true;
     }
 
-    public Tile FindBuildingEntrance(STRUCTURE_TYPE structureType, Predicate<GameObject> predicate)
+    public GameObject FindBuildingEntrance(STRUCTURE_TYPE structureType, Predicate<GameObject> predicate)
     {
        
         var building = construectedBuildings[construectedBuildings.FindIndex(predicate)];
         var tile = building.GetComponent<Building>().entranceTile;
         Debug.Log($"입구 타일의 인덱스 : {tile.tileInfo.id.x}, {tile.tileInfo.id.y}");
-        return building.GetComponent<Building>().entranceTile;
+        return building;
     }
 }

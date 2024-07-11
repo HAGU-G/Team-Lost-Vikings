@@ -39,7 +39,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
     {
         isRecovering = true;
         Debug.Log(recoveryTime);
-        Debug.Log($"hp : {unit.stats.CurrentHP}");
+        Debug.Log($"hp : {unit.stats.CurrentHP}\nstamina : {unit.stats.CurrentStamina}\nstress : {unit.stats.CurrentStress}");
         yield return new WaitForSeconds(recoveryTime);
         bool isComplete = false;
 
@@ -60,7 +60,8 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
                     break;
                 case PARAMETER_TYPES.STAMINA:
                     unit.stats.CurrentStamina += recoveryAmount;
-                    if (unit.stats.CurrentHP < unit.stats.CurrentStats.MaxStamina)
+                    Debug.Log($"stamina : {unit.stats.CurrentStamina}");
+                    if (unit.stats.CurrentStamina < unit.stats.CurrentStats.MaxStamina)
                         yield return new WaitForSeconds(recoveryTime);
                     else if (unit.stats.CurrentStamina >= unit.stats.CurrentStats.MaxStamina)
                     {
@@ -70,7 +71,8 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
                     break;
                 case PARAMETER_TYPES.STRESS:
                     unit.stats.CurrentStress += recoveryAmount;
-                    if (unit.stats.CurrentHP < unit.stats.CurrentStats.MaxStress)
+                    Debug.Log($"stress : {unit.stats.CurrentStress}");
+                    if (unit.stats.CurrentStress < unit.stats.CurrentStats.MaxStress)
                         yield return new WaitForSeconds(recoveryTime);
                     else if (unit.stats.CurrentStress >= unit.stats.CurrentStats.MaxStress)
                     {

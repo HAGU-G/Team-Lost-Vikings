@@ -45,6 +45,8 @@ public class GridMap : MonoBehaviour
 
                 var tile = cell.GetComponent<Tile>();
                 tile.tileInfo.id = new Vector2Int(x, y);
+
+                cell.name = $"{tile.tileInfo.id}";
                 text.text = $"{tile.tileInfo.id}";
                 tiles.Add(tile.tileInfo.id, tile);
                 tileArray[x, y] = tile;
@@ -166,5 +168,6 @@ public class GridMap : MonoBehaviour
         return path; //못 찾은 경우
     }
 
-    
+
+
 }

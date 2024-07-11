@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -32,17 +33,19 @@ public class Building : MonoBehaviour
     public List<Tile> placedTiles = new List<Tile>();
     public Tile entranceTile;
     private bool isFlip = false;
+    private GridMap gridMap;
 
     public IInteractableWithPlayer interactWithPlayer { get; private set; }
     public IInteractableWithUnit interactWithUnit { get; private set; }
 
     private void Awake()
     {
-        
+        gridMap = GameObject.FindWithTag("GridMap").GetComponent<GridMap>();
     }
 
     private void Start()
     {
+        
         switch (StructureType)
         {
             case STRUCTURE_TYPE.PARAMETER_RECOVERY:
@@ -58,6 +61,8 @@ public class Building : MonoBehaviour
                 interactWithPlayer = gameObject.GetComponent<ItemSellBuilding>();
                 break;
         }
+
+
     }
 
     public void Interact()
@@ -79,7 +84,7 @@ public class Building : MonoBehaviour
                 var building = hit.transform.gameObject.GetComponent<Building>();
                 if (building != null)
                 {
-                    //RotateBuilding();
+                    RotateBuilding(building);
                 }
             }
         }
@@ -90,27 +95,26 @@ public class Building : MonoBehaviour
         
     }
 
-    public void RotateBuilding()
+    public void RotateBuilding(Building building)
     {
-        var trans = gameObject.transform.rotation;
-        if (!isFlip)
+        var localScale = building.transform.localScale;
+        var transedId = building.entranceTile.tileInfo.id;
+        if (!building.isFlip)
         {
-            trans.y += 180f;
-            isFlip = true;
+            localScale.x *= -1;
+            building.isFlip = true;
+            transedId.x += 1;
+            transedId.y -= 1;
         }
         else
         {
-            trans.y -= 180f;
-            isFlip = false;
+            localScale.x *= -1;
+            building.isFlip = false;
+            transedId.x -= 1;
+            transedId.y += 1;
         }
-            
-        gameObject.transform.rotation = trans;
-
-        var tileId = entranceTile.tileInfo.id;
-        tileId.x += 1;
-        tileId.y -= 1;
-        entranceTile.ResetTileInfo();
-        entranceTile.tileInfo.id = tileId;
-        Debug.Log(entranceTile.tileInfo.id);
+        building.transform.localScale = localScale;
+        building.entranceTile.ResetTileInfo();
+        building.entranceTile = gridMap.tiles[transedId];
     }
 }

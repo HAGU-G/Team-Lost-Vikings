@@ -32,11 +32,11 @@ public class GotoOnVillage : State<UnitOnVillage>
             var tileId = owner.villageManager.gridMap.PosToIndex(owner.gameObject.transform.position);
             var startTile = owner.villageManager.gridMap
                 .tiles[new Vector2Int(tileId.x, tileId.y)];
-            var path = owner.FindPath(startTile, owner.destination);
+            var path = owner.FindPath(startTile, owner.destinationTile);
             if (path != null)
             {
                 owner.unitMove.OnEntranceTile += OnEntranceTile;
-                owner.unitMove.MoveTo(startTile, owner.destination);
+                owner.unitMove.MoveTo(startTile, owner.destinationTile);
             }
             else
                 Debug.Log("가야할 건물의 타입이 없습니다.");
@@ -75,12 +75,15 @@ public class GotoOnVillage : State<UnitOnVillage>
             owner.destination
             = owner.villageManager.FindBuildingEntrance(STRUCTURE_TYPE.PARAMETER_RECOVERY,
             (x) => { return x.GetComponent<ParameterRecoveryBuilding>().parameterType == parameterType; });
+            owner.destinationTile = owner.destination.GetComponent<Building>().entranceTile;
         }
+        
     }
 
     private void OnEntranceTile(Tile tile)
     {
-        if(tile == owner.destination)
+        
+        if (tile == owner.destinationTile)
         {
             owner.unitMove.OnEntranceTile -= OnEntranceTile;
             Debug.Log("ChangeState");

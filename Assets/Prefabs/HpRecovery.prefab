@@ -80,8 +80,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   building: {fileID: 0}
   parameterType: 1
-  recoveryAmount: 20
-  recoveryTime: 10
+  recoveryAmount: 100
+  recoveryTime: 3
 --- !u!60 &1399237571645923287
 PolygonCollider2D:
   m_ObjectHideFlags: 0

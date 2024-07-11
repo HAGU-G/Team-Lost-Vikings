@@ -12,8 +12,9 @@ public class InteractOnVillage : State<UnitOnVillage>
     public override void EnterState()
     {
         owner.currentState = UnitOnVillage.STATE.INTERACT;
-        var currentTile = owner.villageManager.GetTile(owner.gameObject.transform.position);
-        Interact(currentTile);
+        //var currentTile = owner.villageManager.GetTile(owner.gameObject.transform.position);
+        //var building = currentTile.tileInfo.ObjectLayer.LayerObject;
+        Interact(owner.destination);
 
         OnInteract?.Invoke();
     }
@@ -42,16 +43,13 @@ public class InteractOnVillage : State<UnitOnVillage>
         return false;
     }
 
-    private void Interact(Tile tile)
+    private void Interact(GameObject building)
     {
-        var tileId = tile.tileInfo.id;
-        tileId.x += 1;
-        var obj = owner.villageManager.GetTile(tileId).tileInfo.ObjectLayer.LayerObject;
-        var buildingComponent = obj.GetComponent<Building>();
+        var buildingComponent = building.GetComponent<Building>();
         if(buildingComponent.interactWithUnit != null)
         {
             buildingComponent.interactWithUnit?.InteractWithUnit(owner);
-            var parameterComponent = obj.GetComponent<ParameterRecoveryBuilding>();
+            var parameterComponent = building.GetComponent<ParameterRecoveryBuilding>();
             parameterComponent.OnRecoveryDone += RecoveryDone;
         }
         

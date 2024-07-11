@@ -6,7 +6,9 @@ public class UnitOnVillage : Unit
 {
     private FSM<UnitOnVillage> villageFSM;
     public STATE currentState;
-    public Tile destination = new();
+    public LACKING_PARAMETER lackParameter;
+    public GameObject destination;
+    public Tile destinationTile = new();
     public VillageManager villageManager;
     public UnitMove unitMove;
 
