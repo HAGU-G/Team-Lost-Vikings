@@ -21,7 +21,7 @@ public class InteractOnVillage : State<UnitOnVillage>
 
     public override void ExitState()
     {
-        OnInteract = null;
+        //OnInteract = null;
 
     }
 

@@ -13,12 +13,11 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
     private bool isRecovering;
 
     public event Action<PARAMETER_TYPES> OnRecoveryDone;
-    private IEnumerator recoveryCoroutine;
+    private Coroutine recoveryCoroutine;
 
     private void Awake()
     {
         building = GetComponent<Building>();
-        recoveryCoroutine = CoRecovery();
     }
 
     public void InteractWithUnit(UnitOnVillage unit)
@@ -26,7 +25,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
         SetUnit(unit);
         if (!isRecovering)
         {
-            StartCoroutine(recoveryCoroutine);
+            recoveryCoroutine = StartCoroutine(CoRecovery());
         }
 
     }
@@ -39,7 +38,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
     {
         isRecovering = true;
         Debug.Log(recoveryTime);
-        Debug.Log($"hp : {unit.stats.CurrentHP}\nstamina : {unit.stats.CurrentStamina}\nstress : {unit.stats.CurrentStress}");
+        Debug.Log($"hp : {unit.stats.CurrentHP} stamina : {unit.stats.CurrentStamina} stress : {unit.stats.CurrentStress}");
         yield return new WaitForSeconds(recoveryTime);
         bool isComplete = false;
 
