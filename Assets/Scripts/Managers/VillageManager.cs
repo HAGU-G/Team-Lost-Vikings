@@ -68,8 +68,10 @@ public class VillageManager : MonoBehaviour
         var tileId = tile.tileInfo.id;
         var indexX = tileId.x + width - 1;
         var indexY = tileId.y + height - 1;
+        //var entranceX = objInfo.entranceTile.tileInfo.id.x;
+        //var entranceY = objInfo.entranceTile.tileInfo.id.y;
 
-        if (indexX < 0 || indexY < 0 || indexX > gridMap.gridInfo.row || indexY > gridMap.gridInfo.col)
+        if (indexX < 0 || indexY < 0 /*|| entranceX < 0 || entranceY < 0*/)
         {
             Debug.Log("건물을 설치할 수 없습니다.");
             isSelected = false;
@@ -151,9 +153,13 @@ public class VillageManager : MonoBehaviour
 
     public Tile GetTile(Vector3 position)
     {
+        if (gridMap.PosToIndex(position) == new Vector2Int(-1, -1))
+            return null;
+
         var tileId = gridMap.PosToIndex(position);
         if (tileId.x < 0 || tileId.y < 0)
             return null;
+
         return gridMap.tiles[tileId];
     }
 
@@ -167,30 +173,50 @@ public class VillageManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && isSelected)
         {
             var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            var tile = GetTile(worldPos);
-            PlaceBuilding(selectedObj, tile);
+            if (GetTile(worldPos) != null)
+            {
+                var tile = GetTile(worldPos);
+                PlaceBuilding(selectedObj, tile);
+            }
+            else
+            {
+                isSelected = false;
+                return;
+            }
         }
 
         //if (Input.GetMouseButtonDown(0) && !isSelected)
         //{
         //    var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //    if(GetTile(worldPos) != null)
+        //    if (GetTile(worldPos) != null)
         //        InteractWithBuilding();
         //}
 
         //if (Input.GetMouseButtonDown(0))
         //{
         //    var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //    var tile = GetTile(worldPos);
-        //    Debug.Log(tile.tileInfo.TileType.ToString());
+        //    if(GetTile(worldPos) != null)
+        //    {
+        //        var tile = GetTile(worldPos);
+        //        Debug.Log(tile.tileInfo.TileType.ToString());
+        //    }
         //}
 
-        //if (Input.GetMouseButtonDown(0) && isRemoveTime)
-        //{
-        //    var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //    var tile = GetTile(worldPos);
-        //    RemoveBuilding(tile);
-        //}
+        if (Input.GetMouseButtonDown(0) && isRemoveTime)
+        {
+            var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            if (GetTile(worldPos) != null)
+            {
+                var tile = GetTile(worldPos);
+                RemoveBuilding(tile);
+            }
+            else
+            {
+                Debug.Log("잘못된 인덱스 선택");
+                isRemoveTime = false;
+            }
+            
+        }
     }
 
     public bool FindBuilding(STRUCTURE_TYPE structureType, Predicate<GameObject> predicate)

@@ -80,7 +80,6 @@ public class Tile : MonoBehaviour
                 tileInfo.TileType = TileType.OBJECT;
                 break;
         }
-        UpdateAutoTileId();
     }
 
     public void ClearTileInfo()
@@ -90,10 +89,6 @@ public class Tile : MonoBehaviour
         tileInfo.ObjectLayer.LayerObject = null;
         tileInfo.ObjectLayer.IsEmpty = true;
         tileInfo.TileType = TileType.NONE;
-
-        UpdateAutoTileId();
-
-        //TO-DO : 인접 타일들이 가지는 정보도 수정해줘야함
     }
 
     public void UpdateAutoTileId()

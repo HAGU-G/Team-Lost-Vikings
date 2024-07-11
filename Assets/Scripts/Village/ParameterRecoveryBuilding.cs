@@ -81,9 +81,6 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
             }
             if (isComplete)
             {
-                Debug.Log($"hp : {unit.stats.CurrentHP}");
-                //Debug.Log($"stamina : {unit.stats.CurrentStamina}");
-                //Debug.Log($"stress : {unit.stats.CurrentStress}");
                 isRecovering = false;
                 OnRecoveryDone?.Invoke(parameterType);
                 OnRecoveryDone = null;

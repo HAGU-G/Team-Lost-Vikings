@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 
 public class Building : MonoBehaviour
@@ -31,8 +29,9 @@ public class Building : MonoBehaviour
     [field: SerializeField]
     public string StructureAssetFileName { get; set; }
 
-    public List<Tile> placedTiles;
+    public List<Tile> placedTiles = new List<Tile>();
     public Tile entranceTile;
+    private bool isFlip = false;
 
     public IInteractableWithPlayer interactWithPlayer { get; private set; }
     public IInteractableWithUnit interactWithUnit { get; private set; }
@@ -44,7 +43,6 @@ public class Building : MonoBehaviour
 
     private void Start()
     {
-        placedTiles = new List<Tile>();
         switch (StructureType)
         {
             case STRUCTURE_TYPE.PARAMETER_RECOVERY:
@@ -69,5 +67,50 @@ public class Building : MonoBehaviour
         //TO-DO : 수정하기
     }
 
-    
+    private void Update()
+    {
+        if(Input.GetMouseButtonDown(0))
+        {
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, 100f);
+
+            if (hit.collider != null)
+            {
+                var building = hit.transform.gameObject.GetComponent<Building>();
+                if (building != null)
+                {
+                    //RotateBuilding();
+                }
+            }
+        }
+    }
+
+    private void OnGUI()
+    {
+        
+    }
+
+    public void RotateBuilding()
+    {
+        var trans = gameObject.transform.rotation;
+        if (!isFlip)
+        {
+            trans.y += 180f;
+            isFlip = true;
+        }
+        else
+        {
+            trans.y -= 180f;
+            isFlip = false;
+        }
+            
+        gameObject.transform.rotation = trans;
+
+        var tileId = entranceTile.tileInfo.id;
+        tileId.x += 1;
+        tileId.y -= 1;
+        entranceTile.ResetTileInfo();
+        entranceTile.tileInfo.id = tileId;
+        Debug.Log(entranceTile.tileInfo.id);
+    }
 }
