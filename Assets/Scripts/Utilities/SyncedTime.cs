@@ -15,12 +15,12 @@ public static class SyncedTime
     /// <summary>
     /// 마지막으로 동기화 한 시간 (서버)
     /// </summary>
-    public static DateTime LastSyncedTimeLocal { get; private set; } = DateTime.MinValue;
     public static DateTime LastSyncedTimeServer { get; private set; } = DateTime.MinValue;
     public static float LastSyncedTimeUnity { get; private set; }
     public static bool IsSynced { get; private set; }
     public static bool IsMillisecondSynced { get; private set; }
     public static bool IsSyncing { get; private set; }
+    private static DateTime lastSyncedTime;
 
     private static UnityWebRequest webRequest = null;
     private static CoroutineObject autoSyncCoroutine = null;
@@ -36,12 +36,12 @@ public static class SyncedTime
             if (!IsSynced && IsNetworkReachable())
                 Sync();
 
-            return Correction(Time.realtimeSinceStartup, LastSyncedTimeUnity, LastSyncedTimeServer,
+            return CorrectionTime(Time.realtimeSinceStartup, LastSyncedTimeUnity, LastSyncedTimeServer,
                 CorrectionSeconds, CorrectionMilliSeconds, SecondCorrectionTick);
         }
     }
 
-    private static DateTime Correction(float unityTime, float lastSyncedTimeUnity, DateTime lastSyncedTimeServer,
+    private static DateTime CorrectionTime(float unityTime, float lastSyncedTimeUnity, DateTime lastSyncedTimeServer,
         int correctionSeconds, int correctionMilliseconds, long secondCorrectionTick)
     {
         var delta = unityTime - lastSyncedTimeUnity;
@@ -54,9 +54,9 @@ public static class SyncedTime
 
     public static void AutoSync(bool value)
     {
-        if (setting.syncInterval == 0f)
+        if (setting.syncInterval == 0)
         {
-            Debug.LogWarning("시간 동기화 주기가 0입니다. 설정을 확인해주세요.");
+            Error("시간 동기화 주기는 0 초과여야 합니다.");
             return;
         }
 
@@ -116,6 +116,12 @@ public static class SyncedTime
             return;
         }
 
+        if(IsSynced && (Now - lastSyncedTime).Seconds < setting.syncLimitSeconds)
+        {
+            Debug.Log("최근 동기화를 완료했습니다. 잠시 후 다시 시도해주세요.");
+            return;
+        }
+
         IsSyncing = true;
 
         var requestTime = Time.realtimeSinceStartup;
@@ -141,9 +147,9 @@ public static class SyncedTime
 
                     if (!IsMillisecondSynced && IsSynced)
                     {
-                        var newNow = Correction(0f, newUnityTime, newServerTime,
+                        var newNow = CorrectionTime(0f, newUnityTime, newServerTime,
                             newCorrectionSeconds, newCorrectionMilliSeconds, 0).Ticks;
-                        var lastNow = Correction(0f, LastSyncedTimeUnity, LastSyncedTimeServer,
+                        var lastNow = CorrectionTime(0f, LastSyncedTimeUnity, LastSyncedTimeServer,
                             CorrectionSeconds, CorrectionMilliSeconds, SecondCorrectionTick).Ticks;
 
                         var serverDiff = newServerTime.Ticks - LastSyncedTimeServer.Ticks;
@@ -156,7 +162,7 @@ public static class SyncedTime
                     CorrectionSeconds = newCorrectionSeconds;
                     CorrectionMilliSeconds = newCorrectionMilliSeconds;
 
-
+                    lastSyncedTime = Now;
                     IsSynced = true;
                     IsSyncing = false;
                 }

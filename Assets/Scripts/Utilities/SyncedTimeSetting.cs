@@ -62,4 +62,5 @@ public class SyncedTimeSetting : ScriptableObject
     }
     public SYNC_INTERVAL_TYPE syncIntervalType = SYNC_INTERVAL_TYPE.MINUTE;
     public int syncInterval = 30;
+    public int syncLimitSeconds = 4;
 }
