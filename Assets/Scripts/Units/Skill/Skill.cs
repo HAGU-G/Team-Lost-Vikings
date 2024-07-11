@@ -69,27 +69,20 @@ public class Skill
                 break;
 
             case SKILL_ACTIVE_TYPE.COOLTIME:
-                ownerOnDungeon.OnUpdated += Update;
+                ownerOnDungeon.OnUpdated += ConditionUpdate;
 
                 break;
             case SKILL_ACTIVE_TYPE.PROBABILITY:
+                ownerOnDungeon.OnAttacked += ConditionUpdate;
                 break;
 
             case SKILL_ACTIVE_TYPE.ATTACK_COUNT:
-                ownerOnDungeon.OnAttacked += Update;
+                ownerOnDungeon.OnAttacked += ConditionUpdate;
                 break;
 
             default:
                 break;
         }
-    }
-
-    public void Update()
-    {
-        ConditionUpdate();
-
-        if (IsReady)
-            Use();
     }
 
     public void Use()
@@ -111,6 +104,7 @@ public class Skill
             case SKILL_ACTIVE_TYPE.COOLTIME:
                 UpdateCoolTime();
                 break;
+
             case SKILL_ACTIVE_TYPE.PROBABILITY:
                 break;
 

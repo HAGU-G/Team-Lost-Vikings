@@ -10,6 +10,8 @@ public class UnitOnDungeon
     public SpriteRenderer spriteRenderer;
     #endregion
 
+    public Vector3 destinationPos;
+
     //TESTCODE 던전 임시 연결
     public Dungeon dungeon;
 
@@ -20,7 +22,8 @@ public class UnitOnDungeon
         IDLE,
         TRACE,
         ATTACK,
-        RETURN
+        RETURN,
+        SKILL
     }
 
     private FSM<UnitOnDungeon> dungeonFSM;
@@ -41,6 +44,7 @@ public class UnitOnDungeon
     public event Action OnUpdated;
 
     //AdditionalStats
+    public float AttackTimer { get; private set; }
     private int staminaToConsume;
     public bool IsDead { get; private set; }
     public bool IsNeedReturn
@@ -55,9 +59,14 @@ public class UnitOnDungeon
 
     private void Update()
     {
+        if (AttackTimer < stats.CurrentStats.AttackSpeed)
+        {
+            AttackTimer += Time.deltaTime;
+        }
         OnUpdated?.Invoke();
 
         dungeonFSM.Update();
+
     }
 
     private void OnDestroy()
@@ -85,17 +94,17 @@ public class UnitOnDungeon
             new IdleOnDungeon(),
             new TraceOnDungeon(),
             new AttackOnDungeon(),
-            new ReturnOnDungeon());
+            new ReturnOnDungeon(),
+            new UseSkillOnDungeon());
 
         //TESTCODE
         skills.SetSkills(0);
-        skills.SetSkill(0, new Skill(testSkillData,this));
+        skills.SetSkill(0, new Skill(testSkillData, this));
     }
 
     protected override void ResetUnit()
     {
         base.ResetUnit();
-        dungeonFSM.ResetFSM();
 
         OnDamaged = null;
         IsDead = false;
@@ -107,6 +116,8 @@ public class UnitOnDungeon
             Enemies = dungeon.monsters;
         else
             Enemies = dungeon.players;
+
+        dungeonFSM.ResetFSM();
     }
 
     protected override void ResetEvents()

@@ -179,7 +179,7 @@ MonoBehaviour:
     <SkillDivision>k__BackingField: 0
     <ActiveType>k__BackingField: 2
     <ActiveValue>k__BackingField: 3
-    <CastRange>k__BackingField: 0
+    <CastRange>k__BackingField: 5
     <SkillAttackType>k__BackingField: 0
     <SkillDmgRatio>k__BackingField: 0
     <SkillAttackNum>k__BackingField: 0
@@ -189,6 +189,7 @@ MonoBehaviour:
     <PassiveValue>k__BackingField: 0
   skillEffect: {fileID: 3626259152316059793, guid: 6341a3398fc25f542b01bea9363c8387, type: 3}
   spriteRenderer: {fileID: 8553073083624957745}
+  destinationPos: {x: 0, y: 0, z: 0}
   dungeon: {fileID: 0}
   group: 0
   currentState: 0

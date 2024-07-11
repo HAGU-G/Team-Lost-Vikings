@@ -149,7 +149,6 @@ public static class SyncedTime
                         var serverDiff = newServerTime.Ticks - LastSyncedTimeServer.Ticks;
                         SecondCorrectionTick = newNow - lastNow - serverDiff;
                         IsMillisecondSynced = true;
-                        Debug.Log("밀리초 동기화 완료");
                     }
 
                     LastSyncedTimeUnity = newUnityTime;
@@ -160,7 +159,6 @@ public static class SyncedTime
 
                     IsSynced = true;
                     IsSyncing = false;
-                    Debug.Log(Now);
                 }
                 else
                 {

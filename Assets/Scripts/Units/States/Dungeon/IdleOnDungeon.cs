@@ -1,7 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Globalization;
+using UnityEngine;
 
 public class IdleOnDungeon : State<UnitOnDungeon>
 {
+    private bool isMoving;
+    private Vector3 dest;
+
     public override void EnterState()
     {
         owner.currentState = UnitOnDungeon.STATE.IDLE;
@@ -18,10 +22,7 @@ public class IdleOnDungeon : State<UnitOnDungeon>
 
     public override void Update()
     {
-        if (Transition())
-            return;
-
-        float min = float.MaxValue;
+                float min = float.MaxValue;
         foreach (var target in owner.Enemies)
         {
             var d = Vector3.Distance(target.transform.position, owner.transform.position) - target.stats.CurrentStats.UnitSize;
@@ -31,6 +32,26 @@ public class IdleOnDungeon : State<UnitOnDungeon>
                 owner.attackTarget = target;
             }
         }
+
+        if (Transition())
+            return;
+
+        if (!isMoving)
+        {
+            do
+            {
+                dest = owner.transform.position + (Vector3)Random.insideUnitCircle.normalized * owner.stats.CurrentStats.MoveSpeed;
+            }
+            while (Vector3.Distance(dest, owner.dungeon.transform.position) > 10f);
+
+            isMoving = true;
+        }
+
+        owner.transform.position += (dest - owner.transform.position).normalized
+            * owner.stats.CurrentStats.MoveSpeed * Time.deltaTime;
+
+        if (Vector3.Distance(dest, owner.transform.position) <= 0.2f)
+            isMoving = false;
     }
 
     protected override bool Transition()
