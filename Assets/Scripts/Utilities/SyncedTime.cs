@@ -8,16 +8,19 @@ public static class SyncedTime
 {
     private static SyncedTimeSetting setting = SyncedTimeSetting.Instance;
 
-    public static long CorrectionTick { get; private set; }
+    public static int CorrectionSeconds { get; private set; }
+    public static int CorrectionMilliSeconds { get; private set; }
+    public static long SecondCorrectionTick { get; private set; }
 
     /// <summary>
     /// 마지막으로 동기화 한 시간 (서버)
     /// </summary>
-    public static DateTime LastSyncedTimeLocal { get; private set; } = DateTime.MinValue;
     public static DateTime LastSyncedTimeServer { get; private set; } = DateTime.MinValue;
+    public static float LastSyncedTimeUnity { get; private set; }
     public static bool IsSynced { get; private set; }
     public static bool IsMillisecondSynced { get; private set; }
-    private static bool isSyncing;
+    public static bool IsSyncing { get; private set; }
+    private static DateTime lastSyncedTime;
 
     private static UnityWebRequest webRequest = null;
     private static CoroutineObject autoSyncCoroutine = null;
@@ -33,15 +36,27 @@ public static class SyncedTime
             if (!IsSynced && IsNetworkReachable())
                 Sync();
 
-            return DateTime.Now.AddTicks(CorrectionTick);
+            return CorrectionTime(Time.realtimeSinceStartup, LastSyncedTimeUnity, LastSyncedTimeServer,
+                CorrectionSeconds, CorrectionMilliSeconds, SecondCorrectionTick);
         }
+    }
+
+    private static DateTime CorrectionTime(float unityTime, float lastSyncedTimeUnity, DateTime lastSyncedTimeServer,
+        int correctionSeconds, int correctionMilliseconds, long secondCorrectionTick)
+    {
+        var delta = unityTime - lastSyncedTimeUnity;
+
+        return lastSyncedTimeServer
+        .AddSeconds(correctionSeconds + Mathf.FloorToInt(delta))
+        .AddMilliseconds(correctionMilliseconds + Mathf.FloorToInt(delta % 1f * 1000f))
+        .AddTicks(secondCorrectionTick);
     }
 
     public static void AutoSync(bool value)
     {
-        if (setting.syncInterval == 0f)
+        if (setting.syncInterval == 0)
         {
-            Debug.LogWarning("시간 동기화 주기가 0입니다. 설정을 확인해주세요.");
+            Error("시간 동기화 주기는 0 초과여야 합니다.");
             return;
         }
 
@@ -95,51 +110,66 @@ public static class SyncedTime
             return;
         }
 
-        if (isSyncing || webRequest != null)
+        if (IsSyncing || webRequest != null)
         {
             Debug.LogWarning("이미 동기화 시도 중입니다.");
             return;
         }
 
-        isSyncing = true;
+        if(IsSynced && (Now - lastSyncedTime).Seconds < setting.syncLimitSeconds)
+        {
+            Debug.Log("최근 동기화를 완료했습니다. 잠시 후 다시 시도해주세요.");
+            return;
+        }
 
-        var requestTime = DateTime.Now.Ticks;
+        IsSyncing = true;
+
+        var requestTime = Time.realtimeSinceStartup;
         webRequest = UnityWebRequest.Get(setting.serverURI);
 
         webRequest.SendWebRequest().completed += operation =>
         {
+            var newUnityTime = Time.realtimeSinceStartup;
             if (webRequest.error != null)
             {
                 Error(webRequest.error);
-                isSyncing = false;
+                IsSyncing = false;
             }
             else
             {
                 if (DateTime.TryParse(webRequest.GetResponseHeader("date"), out var result))
                 {
-                    var responseTime = DateTime.Now;
-                    CorrectionTick = result.ToLocalTime().Ticks - requestTime;
+                    var responseDeltaTime = (newUnityTime - requestTime) / 2f;
 
-                    if (!IsMillisecondSynced && LastSyncedTimeLocal != DateTime.MinValue)
+                    var newServerTime = result.ToLocalTime();
+                    var newCorrectionSeconds = -Mathf.FloorToInt(responseDeltaTime);
+                    var newCorrectionMilliSeconds = -Mathf.FloorToInt(responseDeltaTime % 1f * 1000f);
+
+                    if (!IsMillisecondSynced && IsSynced)
                     {
-                        var localDiff = responseTime.Ticks - LastSyncedTimeLocal.Ticks;
-                        var serverDiff = responseTime.AddTicks(CorrectionTick).Ticks - LastSyncedTimeServer.Ticks;
-                        CorrectionTick += new DateTime(localDiff - serverDiff).Ticks;
+                        var newNow = CorrectionTime(0f, newUnityTime, newServerTime,
+                            newCorrectionSeconds, newCorrectionMilliSeconds, 0).Ticks;
+                        var lastNow = CorrectionTime(0f, LastSyncedTimeUnity, LastSyncedTimeServer,
+                            CorrectionSeconds, CorrectionMilliSeconds, SecondCorrectionTick).Ticks;
+
+                        var serverDiff = newServerTime.Ticks - LastSyncedTimeServer.Ticks;
+                        SecondCorrectionTick = newNow - lastNow - serverDiff;
                         IsMillisecondSynced = true;
-                        Debug.Log("밀리초 동기화 완료");
                     }
 
-                    LastSyncedTimeLocal = responseTime;
-                    LastSyncedTimeServer = responseTime.AddTicks(CorrectionTick);
+                    LastSyncedTimeUnity = newUnityTime;
+                    LastSyncedTimeServer = newServerTime;
+                    CorrectionSeconds = newCorrectionSeconds;
+                    CorrectionMilliSeconds = newCorrectionMilliSeconds;
 
+                    lastSyncedTime = Now;
                     IsSynced = true;
-                    isSyncing = false;
-                    Debug.Log(Now);
+                    IsSyncing = false;
                 }
                 else
                 {
                     Error("헤더를 찾을 수 없음");
-                    isSyncing = false;
+                    IsSyncing = false;
                 }
             }
             webRequest.Dispose();

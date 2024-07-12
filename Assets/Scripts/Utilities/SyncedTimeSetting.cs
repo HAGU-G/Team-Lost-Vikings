@@ -61,5 +61,6 @@ public class SyncedTimeSetting : ScriptableObject
         HOUR
     }
     public SYNC_INTERVAL_TYPE syncIntervalType = SYNC_INTERVAL_TYPE.MINUTE;
-    public float syncInterval = 30f;
+    public int syncInterval = 30;
+    public int syncLimitSeconds = 4;
 }

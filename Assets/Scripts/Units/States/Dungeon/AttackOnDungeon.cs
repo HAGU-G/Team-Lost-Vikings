@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class AttackOnDungeon : State<UnitOnDungeon>
 {
-    private float attackTimer;
+
 
     public override void EnterState()
     {
@@ -21,15 +21,11 @@ public class AttackOnDungeon : State<UnitOnDungeon>
 
     public override void Update()
     {
+        owner.TryAttack();
+
         if (Transition())
             return;
 
-        attackTimer += Time.deltaTime;
-        if (attackTimer >= owner.stats.CurrentStats.AttackSpeed)
-        {
-            attackTimer = 0f;
-            owner.TryAttack();
-        }
     }
 
     protected override bool Transition()
@@ -40,10 +36,10 @@ public class AttackOnDungeon : State<UnitOnDungeon>
                 controller.ChangeState((int)UnitOnDungeon.STATE.RETURN);
             else
                 controller.ChangeState((int)UnitOnDungeon.STATE.IDLE);
-
-            return true;
         }
 
-        return false;
+        controller.ChangeState((int)UnitOnDungeon.STATE.TRACE);
+
+        return true;
     }
 }

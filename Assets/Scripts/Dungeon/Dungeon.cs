@@ -10,6 +10,9 @@ public class Dungeon : MonoBehaviour
     public List<UnitOnDungeon> players = new();
     public List<UnitOnDungeon> monsters = new();
 
+    public GameObject portal;
+    public GameObject portal2;
+
     private void Awake()
     {
         GameStarter.Instance.SetActiveOnComplete(gameObject);
@@ -27,15 +30,16 @@ public class Dungeon : MonoBehaviour
         }
     }
 
-
-    public void Spawn()
+    //TESTCODE
+    //아래는 모두 테스트코드
+    public void Spawn(int count)
     {
-        StartCoroutine(CoSpawn());
+        StartCoroutine(CoSpawn(count));
     }
 
-    IEnumerator CoSpawn()
+    IEnumerator CoSpawn(int count)
     {
-        for (int i = 0; i < 1; i++)
+        for (int i = 0; i < count; i++)
         {
             var p = Instantiate(player, transform.position + (Vector3)Random.insideUnitCircle * 20f, Quaternion.identity);
             var m = Instantiate(monster, transform.position + (Vector3)Random.insideUnitCircle * 20f, Quaternion.identity);

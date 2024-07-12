@@ -3,9 +3,11 @@
 public class ReturnOnDungeon : State<UnitOnDungeon>
 {
     private float recoveryTimer;
+    Transform ownerTransform;
 
     public override void EnterState()
     {
+        ownerTransform = owner.transform;
         owner.attackTarget = null;
         owner.currentState = UnitOnDungeon.STATE.RETURN;
         owner.spriteRenderer.color = Color.black;
@@ -19,20 +21,25 @@ public class ReturnOnDungeon : State<UnitOnDungeon>
     {
     }
 
+
     public override void Update()
     {
-        recoveryTimer += Time.deltaTime;
-        if (recoveryTimer >= 5f)
-        {
-            recoveryTimer = 0f;
-            owner.stats.ResetStats();
-            Transition();
-        }
+        if (Transition())
+            return;
+
+
+        ownerTransform.position += (owner.destinationPos - ownerTransform.position).normalized
+            * owner.stats.CurrentStats.MoveSpeed * Time.deltaTime;
     }
 
     protected override bool Transition()
     {
-        controller.ChangeState((int)UnitOnDungeon.STATE.IDLE);
-        return true;
+        if (Vector3.Distance(ownerTransform.position, owner.destinationPos) <= 0.2f)
+        {
+            owner.stats.ResetStats();
+            controller.ChangeState((int)UnitOnDungeon.STATE.IDLE);
+            return true;
+        }
+        return false;
     }
 }

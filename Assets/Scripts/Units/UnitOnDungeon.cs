@@ -10,6 +10,8 @@ public class UnitOnDungeon
     public SpriteRenderer spriteRenderer;
     #endregion
 
+    public Vector3 destinationPos;
+
     //TESTCODE 던전 임시 연결
     public Dungeon dungeon;
 
@@ -20,7 +22,8 @@ public class UnitOnDungeon
         IDLE,
         TRACE,
         ATTACK,
-        RETURN
+        RETURN,
+        SKILL
     }
 
     private FSM<UnitOnDungeon> dungeonFSM;
@@ -37,15 +40,18 @@ public class UnitOnDungeon
 
     //Event
     public event Action OnDamaged;
+    public event Action OnAttacked;
+    public event Action OnUpdated;
 
     //AdditionalStats
+    public float AttackTimer { get; private set; }
     private int staminaToConsume;
     public bool IsDead { get; private set; }
     public bool IsNeedReturn
     {
         get
         {
-            return stats.HPRatio < 1f
+            return stats.HPRatio < 0.1f
                 || stats.StaminaRatio < 0.5f
                 || stats.StressRatio < 0.5f;
         }
@@ -53,19 +59,26 @@ public class UnitOnDungeon
 
     private void Update()
     {
+        if (AttackTimer < stats.CurrentStats.AttackSpeed)
+        {
+            AttackTimer += Time.deltaTime;
+        }
+        OnUpdated?.Invoke();
+
         dungeonFSM.Update();
+
     }
 
     private void OnDestroy()
     {
-        foreach(var target in attackedTargets)
+        foreach (var target in attackedTargets)
         {
             target.Key.UnSubscrive(this);
         }
     }
 
-    // TESTCODE 소환 후 리셋함수
-    // Init와 ResetUnit을 public으로 교체할 예정
+    // TESTCODE 소환 후 초기 설정함수
+    // TODO Init와 ResetUnit을 public으로 변경할 예정
     public void Ready()
     {
         Init();
@@ -74,20 +87,24 @@ public class UnitOnDungeon
 
     protected override void Init()
     {
-        base.Init();
+        //base.Init();
 
         dungeonFSM = new();
         dungeonFSM.Init(this, 0,
             new IdleOnDungeon(),
             new TraceOnDungeon(),
             new AttackOnDungeon(),
-            new ReturnOnDungeon());
+            new ReturnOnDungeon(),
+            new UseSkillOnDungeon());
+
+        //TESTCODE
+        skills.SetSkills(0);
+        skills.SetSkill(0, new Skill(testSkillData, this));
     }
 
     protected override void ResetUnit()
     {
         base.ResetUnit();
-        dungeonFSM.ResetFSM();
 
         OnDamaged = null;
         IsDead = false;
@@ -99,6 +116,16 @@ public class UnitOnDungeon
             Enemies = dungeon.monsters;
         else
             Enemies = dungeon.players;
+
+        dungeonFSM.ResetFSM();
+    }
+
+    protected override void ResetEvents()
+    {
+        base.ResetEvents();
+        OnDamaged = null;
+        OnAttacked = null;
+        OnUpdated = null;
     }
 
     public bool TakeDamage(int damage)
@@ -108,14 +135,14 @@ public class UnitOnDungeon
 
         if (!IsDead && stats.CurrentHP <= 0)
         {
-            OnDead();
+            Dead();
             return true;
         }
 
         return false;
     }
 
-    public void OnDead()
+    public void Dead()
     {
         IsDead = true;
         foreach (var observer in attackers)
@@ -135,6 +162,8 @@ public class UnitOnDungeon
     {
         if (attackTarget == null)
             return -1;
+
+        OnAttacked?.Invoke();
 
         attackTarget.Subscribe(this);
         StackStaminaToConsume(1, attackTarget);

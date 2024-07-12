@@ -23,6 +23,7 @@ public class TraceOnDungeon : State<UnitOnDungeon>
 
         var moveDirection = owner.transform.position - (owner.attackTarget).transform.position;
         owner.transform.position -= moveDirection.normalized * Time.deltaTime * owner.stats.CurrentStats.MoveSpeed;
+
     }
 
 
@@ -36,10 +37,27 @@ public class TraceOnDungeon : State<UnitOnDungeon>
                 controller.ChangeState((int)UnitOnDungeon.STATE.IDLE);
             return true;
         }
-        else if (Vector3.Distance(owner.transform.position, owner.attackTarget.transform.position) <= owner.stats.CurrentStats.AttackRange)
+        else
         {
-            controller.ChangeState((int)UnitOnDungeon.STATE.ATTACK);
-            return true;
+            foreach (var skill in owner.skills.SkillList)
+            {
+                if (skill.IsReady
+                    && Vector3.Distance(owner.transform.position,
+                        owner.attackTarget.transform.position) <= skill.Data.CastRange
+                    )
+                {
+                    controller.ChangeState((int)UnitOnDungeon.STATE.SKILL);
+                    return true;
+                }
+            }
+
+            if (owner.AttackTimer >= owner.stats.CurrentStats.AttackSpeed
+                && Vector3.Distance(owner.transform.position,
+                    owner.attackTarget.transform.position) <= owner.stats.CurrentStats.AttackRange)
+            {
+                controller.ChangeState((int)UnitOnDungeon.STATE.ATTACK);
+                return true;
+            }
         }
 
         return false;
