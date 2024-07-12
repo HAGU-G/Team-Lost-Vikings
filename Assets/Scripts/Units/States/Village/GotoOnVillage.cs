@@ -70,11 +70,25 @@ public class GotoOnVillage : State<UnitOnVillage>
     private void SetDestination(PARAMETER_TYPES parameterType)
     {
         if (owner.villageManager.FindBuilding(STRUCTURE_TYPE.PARAMETER_RECOVERY,
-                   (x) => { return x.GetComponent<ParameterRecoveryBuilding>().parameterType == parameterType; }))
+                   (x) => { if(x.GetComponent<ParameterRecoveryBuilding>() != null)
+                       {
+                           return x.GetComponent<ParameterRecoveryBuilding>().parameterType == parameterType;
+                       }
+                       return false;
+                        }))
         {
             owner.destination
             = owner.villageManager.FindBuildingEntrance(STRUCTURE_TYPE.PARAMETER_RECOVERY,
-            (x) => { return x.GetComponent<ParameterRecoveryBuilding>().parameterType == parameterType; });
+            (x) =>
+            {
+                {
+                    if (x.GetComponent<ParameterRecoveryBuilding>() != null)
+                    {
+                        return x.GetComponent<ParameterRecoveryBuilding>().parameterType == parameterType;
+                    }
+                    return false;
+                }
+            });
             owner.destinationTile = owner.destination.GetComponent<Building>().entranceTile;
         }
         
