@@ -164,7 +164,11 @@ public class GridMap : MonoBehaviour
 
             foreach (var adjacentTile in currentTile.adjacentTiles)
             {
-                if (adjacentTile == null || adjacentTile.tileInfo.TileType == TileType.OBJECT/*|| adjacentTile.tileInfo.Weight == int.MaxValue*/) //가중치 추가되면 수정하기
+                if (adjacentTile == null 
+                    || adjacentTile.tileInfo.TileType == TileType.OBJECT
+                    || !usingTileList.Contains(adjacentTile)
+                    /*|| adjacentTile.tileInfo.Weight == int.MaxValue*/   //가중치 추가되면 수정하기
+                    )
                     continue;
 
                 var currentTileId = (currentTile.tileInfo.id.x * gridInfo.row) + currentTile.tileInfo.id.y;
