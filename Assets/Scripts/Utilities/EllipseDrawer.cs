@@ -32,7 +32,7 @@ public class EllipseDrawer : MonoBehaviour
     {
         ellipse.position = transform.position;
         Draw(ellipse.a, ellipse.b, ellipse.position, lineRenderer);
-        if (ellipse.IsCollisoinedWith(other.ellipse,point) <= 0f)
+        if (Ellipse.CollisionDepth(ellipse, other.ellipse, point) > 0f)
         {
             Debug.Log($"{name}, {other.name} 충돌!");
         }

@@ -680,9 +680,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 160890149}
     - target: {fileID: 2709216688799977807, guid: 4f6e0e59e1754fd4ba311dbc0b3b1119, type: 3}
+      propertyPath: spawnCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2709216688799977807, guid: 4f6e0e59e1754fd4ba311dbc0b3b1119, type: 3}
       propertyPath: selectImage
       value: 
       objectReference: {fileID: 1145069861}
+    - target: {fileID: 2709216688799977807, guid: 4f6e0e59e1754fd4ba311dbc0b3b1119, type: 3}
+      propertyPath: dataTable.<BasicAttackRange>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3146889159010668702, guid: 4f6e0e59e1754fd4ba311dbc0b3b1119, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

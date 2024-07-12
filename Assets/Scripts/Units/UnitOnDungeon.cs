@@ -69,23 +69,31 @@ public class UnitOnDungeon
         OnUpdated?.Invoke();
 
         dungeonFSM.Update();
-        ellipse.position = transform.position;
 
+        ellipse.position = transform.position;
 
         foreach (var unit in dungeon.players)
         {
+            if (unit == this)
+                continue;
             RePosition(unit);
         }
 
         foreach (var unit in dungeon.monsters)
         {
+            if (unit == this)
+                continue;
             RePosition(unit);
         }
     }
 
     public void RePosition(UnitOnDungeon unit)
     {
-        transform.position = transform.position - (unit.transform.position - transform.position).normalized * ellipse.IsCollisoinedWith(unit.ellipse, null);
+        var collisionDepth = ellipse.CollisionDepthWith(unit.ellipse);
+        if(collisionDepth > 0f)
+        {
+            transform.position -= (unit.transform.position - transform.position).normalized * collisionDepth;
+        }
     }
 
     private void OnDestroy()
