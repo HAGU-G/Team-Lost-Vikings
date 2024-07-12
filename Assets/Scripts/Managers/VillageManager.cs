@@ -13,7 +13,9 @@ public class VillageManager : MonoBehaviour
     public GridMap gridMap;
     public Dictionary<int, GameObject> objectList = new();
     public List<GameObject> installableBuilding = new();
-    public GameObject hospital;
+    public GameObject standardBuilding;
+
+    private int playerLevel = 1;
 
     private GameObject selectedObj;
 
@@ -24,12 +26,19 @@ public class VillageManager : MonoBehaviour
 
     private void Start()
     {
+        Init();
+    }
+
+    private void Init()
+    {
         foreach (var obj in installableBuilding)
         {
             var building = obj.GetComponent<Building>();
             objectList.Add(building.StructureId, obj);
         }
-
+        gridMap.SetUsingTileList(1);
+        var standard = construct.ConstructStandardBuilding(standardBuilding, gridMap);
+        construectedBuildings.Add(standard);
     }
 
     private void OnGUI()
@@ -58,13 +67,21 @@ public class VillageManager : MonoBehaviour
         }
     }
 
-    private void OnEntranceTileChanged(Tile tile)
+    //private void OnEntranceTileChanged(Tile tile)
+    //{
+    //    if (gridMap.tiles.TryGetValue(tile.tileInfo.id, out Tile gridTile))
+    //    {
+    //        var building = gridTile.tileInfo.ObjectLayer.LayerObject.GetComponent<Building>();
+    //        building.entranceTile = tile;
+    //    }
+    //}
+
+
+    public void LevelUp()
     {
-        if (gridMap.tiles.TryGetValue(tile.tileInfo.id, out Tile gridTile))
-        {
-            var building = gridTile.tileInfo.ObjectLayer.LayerObject.GetComponent<Building>();
-            building.entranceTile = tile;
-        }
+        ++playerLevel;
+        gridMap.SetUsingTileList(playerLevel);
+
     }
 
     private void InteractWithBuilding()
@@ -113,6 +130,12 @@ public class VillageManager : MonoBehaviour
             if (GetTile(worldPos) != null)
             {
                 var tile = GetTile(worldPos);
+                if (!gridMap.usingTileList.Contains(tile))
+                {
+                    Debug.Log("확장되지 않은 영역에 설치를 시도했습니다.");
+                    construct.isSelected = false;
+                    return;
+                }
                 var building = construct.PlaceBuilding(selectedObj, tile, gridMap);
                 construectedBuildings.Add(building);
             }
@@ -121,6 +144,11 @@ public class VillageManager : MonoBehaviour
                 construct.isSelected = false;
                 return;
             }
+        }
+
+        if(Input.GetKeyDown(KeyCode.U))
+        {
+            LevelUp();
         }
 
         //if (Input.GetMouseButtonDown(0) && !isSelected)

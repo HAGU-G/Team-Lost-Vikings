@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum STRUCTURE_TYPE
 {
-    HOSPITAL = -1,
+    STANDARD = -1,
     STAT_UPGRADE,
     PARAMETER_RECOVERY,
     ITEM_PRODUCE,

@@ -88,4 +88,26 @@ public class ConstructBuilding : MonoBehaviour
 
         return obj;
     }
+
+    public GameObject ConstructStandardBuilding(GameObject standard, GridMap gridMap)
+    {
+        var buildingComponent = standard.GetComponent<Building>();
+
+        var index = new Vector2Int(32, 31);
+        var tile = gridMap.tiles[index];
+        var entranceX = tile.tileInfo.id.x - 1;
+        var entranceY = tile.tileInfo.id.y;
+        buildingComponent.entranceTile = gridMap.tiles[new Vector2Int(entranceX, entranceY)];
+
+        buildingComponent.placedTiles.Add(tile);
+        tile.UpdateTileInfo(TileType.OBJECT, standard);
+
+        var standardBuilding = Instantiate(standard, gridMap.IndexToPos(index), Quaternion.identity, tile.transform);
+        var pos = standard.transform.position;
+        pos.y = standard.transform.position.y - gridMap.gridInfo.cellSize / 4f;
+        standard.transform.position = pos;
+        //TO-DO : 기준건물 설치 위치 수정하기
+
+        return standardBuilding;
+    }
 }
