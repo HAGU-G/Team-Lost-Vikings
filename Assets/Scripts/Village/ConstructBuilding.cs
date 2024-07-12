@@ -48,6 +48,7 @@ public class ConstructBuilding : MonoBehaviour
            
 
         objInfo.entranceTile = gridMap.tiles[new Vector2Int(tile.tileInfo.id.x - 1, tile.tileInfo.id.y)];
+        objInfo.entranceTile.TileColorChange();
         var instancedObj = Instantiate(obj, gridMap.IndexToPos(tileId), Quaternion.identity, tile.transform);
         var pos = instancedObj.transform.position;
         pos.y = instancedObj.transform.position.y - gridMap.gridInfo.cellSize / 4f;
@@ -81,6 +82,8 @@ public class ConstructBuilding : MonoBehaviour
 
         if (objInfo.placedTiles == null || !objInfo.placedTiles.Any())
             return null;
+
+        objInfo.entranceTile.RestoreTileColor();
 
         var standardTile = objInfo.placedTiles.First();
         var indexX = standardTile.tileInfo.id.x + width - 1;

@@ -116,5 +116,6 @@ public class Building : MonoBehaviour
         building.transform.localScale = localScale;
         building.entranceTile.ResetTileInfo();
         building.entranceTile = gridMap.tiles[transedId];
+        building.entranceTile.TileColorChange();
     }
 }

@@ -62,6 +62,13 @@ public class UnitMove : MonoBehaviour
     
     public bool MoveTo(Tile startTile, Tile target)
     {
+        if(startTile == target)
+        {
+            currentTile = target;
+            OnEntranceTile?.Invoke(currentTile);
+            return true;
+        }
+
         currentTile = startTile;
         if (!target.CanMove)
             return false;

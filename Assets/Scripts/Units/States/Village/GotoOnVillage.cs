@@ -33,7 +33,7 @@ public class GotoOnVillage : State<UnitOnVillage>
             var startTile = owner.villageManager.gridMap
                 .tiles[new Vector2Int(tileId.x, tileId.y)];
             var path = owner.FindPath(startTile, owner.destinationTile);
-            if (path != null)
+            if (path != null || startTile == owner.destinationTile)
             {
                 owner.unitMove.OnEntranceTile += OnEntranceTile;
                 owner.unitMove.MoveTo(startTile, owner.destinationTile);
@@ -70,12 +70,14 @@ public class GotoOnVillage : State<UnitOnVillage>
     private void SetDestination(PARAMETER_TYPES parameterType)
     {
         if (owner.villageManager.FindBuilding(STRUCTURE_TYPE.PARAMETER_RECOVERY,
-                   (x) => { if(x.GetComponent<ParameterRecoveryBuilding>() != null)
+                   (x) => 
+                   {
+                       if (x.GetComponent<ParameterRecoveryBuilding>() != null)
                        {
                            return x.GetComponent<ParameterRecoveryBuilding>().parameterType == parameterType;
                        }
                        return false;
-                        }))
+                   }))
         {
             owner.destination
             = owner.villageManager.FindBuildingEntrance(STRUCTURE_TYPE.PARAMETER_RECOVERY,
