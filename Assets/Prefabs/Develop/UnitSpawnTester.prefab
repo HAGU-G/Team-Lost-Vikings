@@ -1610,7 +1610,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 83.5, y: -351.285}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 167, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2532820648152808819
 CanvasRenderer:
@@ -2882,8 +2882,8 @@ MonoBehaviour:
     <Job>k__BackingField: 2
     <BasicAttackType>k__BackingField: 0
     <HP>k__BackingField: 500
-    <Stamina>k__BackingField: 100
-    <Stress>k__BackingField: 100
+    <Stamina>k__BackingField: 20
+    <Stress>k__BackingField: 20
     <RecognizeRange>k__BackingField: 7
     <BasicAttackRange>k__BackingField: 0.5
     <SizeRange>k__BackingField: 0.5

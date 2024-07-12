@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using static UnityEngine.UI.CanvasScaler;
 
 public class UnitOnDungeon
     : Unit, IDamagedable, IObserver<UnitOnDungeon>, ISubject<UnitOnDungeon>
@@ -14,6 +16,7 @@ public class UnitOnDungeon
 
     //TESTCODE 던전 임시 연결
     public Dungeon dungeon;
+    public Ellipse ellipse;
 
 
     //State
@@ -66,7 +69,23 @@ public class UnitOnDungeon
         OnUpdated?.Invoke();
 
         dungeonFSM.Update();
+        ellipse.position = transform.position;
 
+
+        foreach (var unit in dungeon.players)
+        {
+            RePosition(unit);
+        }
+
+        foreach (var unit in dungeon.monsters)
+        {
+            RePosition(unit);
+        }
+    }
+
+    public void RePosition(UnitOnDungeon unit)
+    {
+        transform.position = transform.position - (unit.transform.position - transform.position).normalized * ellipse.IsCollisoinedWith(unit.ellipse, null);
     }
 
     private void OnDestroy()
@@ -118,6 +137,8 @@ public class UnitOnDungeon
             Enemies = dungeon.players;
 
         dungeonFSM.ResetFSM();
+        ellipse.a = stats.CurrentStats.UnitSize;
+        ellipse.b = stats.CurrentStats.UnitSize * 0.75f;
     }
 
     protected override void ResetEvents()
