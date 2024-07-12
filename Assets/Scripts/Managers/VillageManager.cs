@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.Build.Pipeline.Utilities;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class VillageManager : MonoBehaviour
@@ -24,12 +25,12 @@ public class VillageManager : MonoBehaviour
 
     private void Start()
     {
-        foreach(var obj in installableBuilding)
+        foreach (var obj in installableBuilding)
         {
             var building = obj.GetComponent<Building>();
             objectList.Add(building.StructureId, obj);
         }
-        
+
     }
 
     private void OnGUI()
@@ -81,10 +82,10 @@ public class VillageManager : MonoBehaviour
         var entranceX = tile.tileInfo.id.x - 1;
         var entranceY = tile.tileInfo.id.y;
 
-        if (indexX < 0 || indexY < 0 
-            || indexX > gridMap.gridInfo.row -1 || indexY > gridMap.gridInfo.col-1
+        if (indexX < 0 || indexY < 0
+            || indexX > gridMap.gridInfo.row - 1 || indexY > gridMap.gridInfo.col - 1
             || entranceX < 0 || entranceY < 0
-            || entranceX > gridMap.gridInfo.row-1 || entranceY > gridMap.gridInfo.col-1)
+            || entranceX > gridMap.gridInfo.row - 1 || entranceY > gridMap.gridInfo.col - 1)
         {
             Debug.Log("건물을 설치할 수 없습니다.");
             isSelected = false;
@@ -93,7 +94,7 @@ public class VillageManager : MonoBehaviour
 
         objInfo.entranceTile = gridMap.tiles[new Vector2Int(tile.tileInfo.id.x - 1, tile.tileInfo.id.y)];
         var instancedObj = Instantiate(obj, gridMap.IndexToPos(tileId), Quaternion.identity, tile.transform);
-        var pos = instancedObj.transform.position; 
+        var pos = instancedObj.transform.position;
         pos.y = instancedObj.transform.position.y - gridMap.gridInfo.cellSize / 4f;
         instancedObj.transform.position = pos;
         construectedBuildings.Add(instancedObj);
@@ -106,7 +107,7 @@ public class VillageManager : MonoBehaviour
             {
                 var t = gridMap.tiles.GetValueOrDefault(new Vector2Int(i, j));
                 t.UpdateTileInfo(TileType.OBJECT, instancedObj);
-                
+
                 objInfo.placedTiles.Add(t);
             }
         }
@@ -120,7 +121,7 @@ public class VillageManager : MonoBehaviour
         var width = objInfo.Width;
         var height = objInfo.Length;
 
-        if (objInfo.placedTiles == null || !objInfo.placedTiles.Any()) 
+        if (objInfo.placedTiles == null || !objInfo.placedTiles.Any())
             return;
 
         var standardTile = objInfo.placedTiles.First();
@@ -157,7 +158,6 @@ public class VillageManager : MonoBehaviour
             }
         }
     }
-
     public void PlaceRoad(Tile tile)
     {
         //tile.tileInfo.ObjectLayer = 
@@ -228,7 +228,7 @@ public class VillageManager : MonoBehaviour
                 Debug.Log("잘못된 인덱스 선택");
                 isRemoveTime = false;
             }
-            
+
         }
     }
 
@@ -247,7 +247,7 @@ public class VillageManager : MonoBehaviour
 
     public GameObject FindBuildingEntrance(STRUCTURE_TYPE structureType, Predicate<GameObject> predicate)
     {
-       
+
         var building = construectedBuildings[construectedBuildings.FindIndex(predicate)];
         var tile = building.GetComponent<Building>().entranceTile;
         Debug.Log($"입구 타일의 인덱스 : {tile.tileInfo.id.x}, {tile.tileInfo.id.y}");

@@ -15,6 +15,11 @@ public class GridMap : MonoBehaviour
     public GameObject cellPrefab;
     private List<Tile> path;
 
+    public List<Tile> usingTileList = new(); //gridMap 내에서 사용 가능한 타일 리스트
+    public List<List<Tile>> usableTileList = new(); //usingTileList에 단계별로 할당하기 위한 List
+
+    int num = 0;
+
     private void Awake()
     {
         GameStarter.Instance.SetActiveOnComplete(gameObject);
@@ -23,6 +28,7 @@ public class GridMap : MonoBehaviour
     private void Start()
     {
         DrawGrid(gridInfo.col, gridInfo.row);
+        InitializeUsableTileList();
     }
 
     private void DrawGrid(int col, int row)
@@ -71,6 +77,8 @@ public class GridMap : MonoBehaviour
             }
         }
     }
+
+    
 
     public Vector2Int PosToIndex(Vector3 position)
     {
@@ -168,6 +176,75 @@ public class GridMap : MonoBehaviour
         return path; //못 찾은 경우
     }
 
+    private void InitializeUsableTileList()
+    {
+        List<Tile> initialTiles = new List<Tile>(tiles.Values);
+        usableTileList.Add(new List<Tile>(initialTiles));
 
+        int minRow = gridInfo.minRow - 1, maxRow = gridInfo.row - 1;
+        int minCol = gridInfo.minCol - 1, maxCol = gridInfo.col - 1;
 
+        int x = 0, y = 0;
+
+        while (minRow <= maxRow - x && minCol <= maxCol - y)
+        {
+            if (minCol >= maxCol - y + 1 && minRow >= maxRow - x)
+                break;
+            ExcludeTiles(x, maxRow, y, maxCol);
+            y++;
+            if (minCol >= maxCol - y + 1 && minRow >= maxRow - x) 
+                break;
+            ExcludeTiles(x, maxRow, y, maxCol);
+            maxRow--;
+            if (minCol >= maxCol - y + 1 && minRow >= maxRow - x)
+                break;
+            ExcludeTiles(x, maxRow, y, maxCol);
+            maxCol--;
+            if (minCol >= maxCol - y + 1 && minRow >= maxRow - x)
+                break;
+            ExcludeTiles(x, maxRow, y, maxCol);
+            x++;
+        }
+    }
+
+    private void ExcludeTiles(int minRow, int maxRow, int minCol, int maxCol)
+    {
+        List<Tile> previousList = usableTileList[usableTileList.Count - 1];
+        List<Tile> newTiles = new List<Tile>();
+
+        foreach (var tile in previousList)
+        {
+            if (tile.tileInfo.id.x >= minCol && tile.tileInfo.id.x <= maxCol &&
+               tile.tileInfo.id.y >= minRow && tile.tileInfo.id.y <= maxRow)
+            {
+                newTiles.Add(tile);
+            }
+        }
+        usableTileList.Add(new List<Tile>(newTiles));
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (num >= usableTileList.Count)
+                return;
+
+            if (num > 0)
+            {
+                foreach (var i in usableTileList[num - 1])
+                {
+                    if (usableTileList[num] == null)
+                        return;
+                    i.GetComponent<SpriteRenderer>().material.color = Color.white;
+                }
+            }
+
+            foreach (var t in usableTileList[num])
+            {
+                t.GetComponent<SpriteRenderer>().material.color = Color.blue;
+            }
+            ++num;
+        }
+    }
 }

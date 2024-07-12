@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3c60f404e6e80b4ca41a98d79b8038f, type: 3}
   m_Name: GridTest
   m_EditorClassIdentifier: 
-  col: 64
   row: 64
+  col: 64
+  minRow: 7
+  minCol: 7
   cellSize: 10
