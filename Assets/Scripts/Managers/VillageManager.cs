@@ -13,7 +13,7 @@ public class VillageManager : MonoBehaviour
     public GridMap gridMap;
     public Dictionary<int, GameObject> objectList = new();
     public List<GameObject> installableBuilding = new();
-    public GameObject standardBuilding;
+    public GameObject standardPrefab;
 
     private int playerLevel = 1;
 
@@ -37,7 +37,7 @@ public class VillageManager : MonoBehaviour
             objectList.Add(building.StructureId, obj);
         }
         gridMap.SetUsingTileList(1);
-        var standard = construct.ConstructStandardBuilding(standardBuilding, gridMap);
+        var standard = construct.ConstructStandardBuilding(standardPrefab, gridMap);
         construectedBuildings.Add(standard);
     }
 
@@ -130,13 +130,9 @@ public class VillageManager : MonoBehaviour
             if (GetTile(worldPos) != null)
             {
                 var tile = GetTile(worldPos);
-                if (!gridMap.usingTileList.Contains(tile))
-                {
-                    Debug.Log("확장되지 않은 영역에 설치를 시도했습니다.");
-                    construct.isSelected = false;
-                    return;
-                }
                 var building = construct.PlaceBuilding(selectedObj, tile, gridMap);
+                if (building == null)
+                    return;
                 construectedBuildings.Add(building);
             }
             else
@@ -176,7 +172,6 @@ public class VillageManager : MonoBehaviour
                 var tile = GetTile(worldPos);
                 var building = construct.RemoveBuilding(tile, gridMap);
                 construectedBuildings.Remove(building);
-
             }
             else
             {

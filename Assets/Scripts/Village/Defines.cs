@@ -28,7 +28,7 @@ public enum PARAMETER_TYPES
     STRESS,
 }
 
-public enum STATTYPES
+public enum STAT_TYPES
 {
     STR,
     MAG,
@@ -47,4 +47,5 @@ public enum STRUCTURE_ID
     HP_RECOVERY,
     STAMINA_RECOVERY,
     STRESS_RECOVERY,
+    STANDARD,
 }

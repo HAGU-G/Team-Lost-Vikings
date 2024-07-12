@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using UnityEngine;
 
@@ -10,6 +11,12 @@ public class ConstructBuilding : MonoBehaviour
 
     public GameObject PlaceBuilding(GameObject obj, Tile tile, GridMap gridMap)
     {
+        if (!gridMap.usingTileList.Contains(tile))
+        {
+            Debug.Log("확장되지 않은 영역에 설치를 시도했습니다.");
+            isSelected = false;
+            return null;
+        }
         var objInfo = obj.GetComponent<Building>();
         var width = objInfo.Width;
         var height = objInfo.Length;
@@ -31,6 +38,14 @@ public class ConstructBuilding : MonoBehaviour
             isSelected = false;
             return null;
         }
+
+        if (!gridMap.usingTileList.Contains(gridMap.tiles[new Vector2Int(tile.tileInfo.id.x - 1, tile.tileInfo.id.y)]))
+        {
+            Debug.Log("입구 타일이 유효한 위치에 설정되지 못해 설치할 수 없습니다.");
+            isSelected = false;
+            return null;
+        }
+           
 
         objInfo.entranceTile = gridMap.tiles[new Vector2Int(tile.tileInfo.id.x - 1, tile.tileInfo.id.y)];
         var instancedObj = Instantiate(obj, gridMap.IndexToPos(tileId), Quaternion.identity, tile.transform);

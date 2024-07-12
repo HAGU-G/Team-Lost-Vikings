@@ -6,7 +6,7 @@ using UnityEngine;
 public class StatUpgradeBuilding : MonoBehaviour, IInteractableWithPlayer
 {
     public Building building;
-    public STATTYPES risingStat; //나중에 데이터형 수정하기
+    public STAT_TYPES risingStat; //나중에 데이터형 수정하기
     public int risingValue;
 
     private void Awake()
@@ -23,11 +23,11 @@ public class StatUpgradeBuilding : MonoBehaviour, IInteractableWithPlayer
     {
         switch (risingStat)
         {
-            case STATTYPES.STR:
+            case STAT_TYPES.STR:
                 break;
-            case STATTYPES.MAG:
+            case STAT_TYPES.MAG:
                 break;
-            case STATTYPES.AGI:
+            case STAT_TYPES.AGI:
                 break;
         }
     }
