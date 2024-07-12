@@ -2,21 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(LineRenderer))]
 public class EllipseDrawer : MonoBehaviour
 {
     public LineRenderer lineRenderer;
     public Ellipse ellipse;
-    public EllipseDrawer other;
-    public GameObject point;
-
-    private void Awake()
-    {
-        GameStarter.Instance.SetActiveOnComplete(gameObject);
-    }
+    public UnitOnDungeon owner;
 
     private void Start()
     {
+        lineRenderer = GetComponent<LineRenderer>();
+        owner = GetComponent<UnitOnDungeon>();
+
+        lineRenderer.loop = true;
+        lineRenderer.startWidth = 0.1f;
+        lineRenderer.endWidth = 0.1f;
+
+        ellipse = owner.hitCollider;
         Draw(ellipse.a, ellipse.b, Vector2.zero, lineRenderer);
+        lineRenderer.useWorldSpace = false;
     }
 
     public void Draw(float a, float b, Vector2 pos, LineRenderer lineRenderer)
@@ -31,11 +35,6 @@ public class EllipseDrawer : MonoBehaviour
     public void Update()
     {
         ellipse.position = transform.position;
-        Draw(ellipse.a, ellipse.b, ellipse.position, lineRenderer);
-        if (Ellipse.CollisionDepth(ellipse, other.ellipse, point) > 0f)
-        {
-            Debug.Log($"{name}, {other.name} 충돌!");
-        }
     }
 
 }

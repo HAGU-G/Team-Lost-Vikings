@@ -1,9 +1,20 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UIElements;
 
-[Serializable]
-public struct Ellipse
+[System.Serializable]
+public class Ellipse
 {
+    public static readonly float ratio = 0.75f;
+
+    public Ellipse(float majorAxis, float minorAxis, Vector3 pos)
+    {
+        SetAxies(majorAxis, minorAxis);
+        position = pos;
+    }
+    public Ellipse(float majorAxis, float minorAxis) : this(majorAxis, minorAxis, Vector2.zero) { }
+    public Ellipse(float majorAxis, Vector2 pos) : this(majorAxis, majorAxis * ratio, pos) { }
+    public Ellipse(float majorAxis) : this(majorAxis, Vector2.zero) { }
+
     public float a;
     public float b;
 
@@ -19,9 +30,27 @@ public struct Ellipse
         return IsCollided(this, other);
     }
 
+    public void SetAxies(float majorAxis, float minorAxis)
+    {
+        a = majorAxis;
+        b = minorAxis;
+    }
+    public void SetAxies(float majorAxis)
+    {
+        a = majorAxis;
+        b = majorAxis * ratio;
+    }
+    public void SetAxies(float majorAxis, Vector2 pos)
+    {
+        a = majorAxis;
+        b = majorAxis * ratio;
+        position = pos;
+    }
+
     public static Vector2 GetPoint(float a, float b, Vector2 zeroPos, float radian)
     {
-        return new(zeroPos.x + a * Mathf.Cos(radian), zeroPos.y + b * Mathf.Sin(radian));
+        float t = Mathf.Atan2(a * Mathf.Sin(radian), b * Mathf.Cos(radian));
+        return new Vector2(zeroPos.x + a * Mathf.Cos(t), zeroPos.y + b * Mathf.Sin(t));
     }
 
     public static Vector2 GetPoint(Ellipse ellipse, float radian)
@@ -34,15 +63,21 @@ public struct Ellipse
         return CollisionDepth(ellipse1, ellipse2) > 0f;
     }
 
-    public static float CollisionDepth(Ellipse ellipse1, Ellipse ellipse2, GameObject point = null)
+    public static float CollisionDepth(Ellipse ellipse1, Ellipse ellipse2)
     {
-        var direc = (ellipse2.position - ellipse1.position);
+        var direc = ellipse2.position - ellipse1.position;
         var angle = Mathf.Atan2(direc.y, direc.x);
-        if (point != null)
-            point.transform.position = GetPoint(ellipse1, angle);
-        var radius1 = (GetPoint(ellipse1, angle + Mathf.PI) - ellipse1.position).magnitude;
-        var radius2 = (GetPoint(ellipse2, angle) - ellipse2.position).magnitude;
+        var radius1 = (GetPoint(ellipse1, angle) - ellipse1.position).magnitude;
+        var radius2 = (GetPoint(ellipse2, angle + Mathf.PI) - ellipse2.position).magnitude;
 
         return (radius1 + radius2) - direc.magnitude;
+    }
+
+    public static bool IsPointInEllipse(Ellipse ellipse, Vector2 point)
+    {
+        var pointDiff = point - ellipse.position;
+        return Mathf.Pow(pointDiff.x, 2f) / Mathf.Pow(ellipse.a, 2)
+            + Mathf.Pow(pointDiff.y, 2f) / Mathf.Pow(ellipse.b, 2)
+            <= 1f;
     }
 }

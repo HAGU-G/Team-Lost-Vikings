@@ -5,7 +5,7 @@ public class TraceOnDungeon : State<UnitOnDungeon>
     public override void EnterState()
     {
         owner.currentState = UnitOnDungeon.STATE.TRACE;
-        owner.spriteRenderer.color = Color.yellow;
+        //owner.spriteRenderer.color = Color.yellow;
     }
 
     public override void ExitState()
@@ -42,9 +42,7 @@ public class TraceOnDungeon : State<UnitOnDungeon>
             foreach (var skill in owner.skills.SkillList)
             {
                 if (skill.IsReady
-                    && Vector3.Distance(owner.transform.position,
-                        owner.attackTarget.transform.position) <= skill.Data.CastRange
-                    )
+                    && owner.attackTarget.hitCollider.IsCollidedWith(new(skill.Data.CastRange, owner.transform.position)))
                 {
                     controller.ChangeState((int)UnitOnDungeon.STATE.SKILL);
                     return true;
@@ -52,8 +50,7 @@ public class TraceOnDungeon : State<UnitOnDungeon>
             }
 
             if (owner.AttackTimer >= owner.stats.CurrentStats.AttackSpeed
-                && Vector3.Distance(owner.transform.position,
-                    owner.attackTarget.transform.position) <= owner.stats.CurrentStats.AttackRange)
+                && owner.attackTarget.hitCollider.IsCollidedWith(new(owner.stats.CurrentStats.AttackRange, owner.transform.position)))
             {
                 controller.ChangeState((int)UnitOnDungeon.STATE.ATTACK);
                 return true;

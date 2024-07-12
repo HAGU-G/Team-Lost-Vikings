@@ -16,7 +16,6 @@ public class UnitOnDungeon
 
     //TESTCODE 던전 임시 연결
     public Dungeon dungeon;
-    public Ellipse ellipse;
 
 
     //State
@@ -47,6 +46,7 @@ public class UnitOnDungeon
     public event Action OnUpdated;
 
     //AdditionalStats
+    public Ellipse hitCollider;
     public float AttackTimer { get; private set; }
     private int staminaToConsume;
     public bool IsDead { get; private set; }
@@ -68,29 +68,34 @@ public class UnitOnDungeon
         }
         OnUpdated?.Invoke();
 
+
+        hitCollider.position = transform.position;
         dungeonFSM.Update();
+        CollisionUpdate();
+    }
 
-        ellipse.position = transform.position;
-
+    private void CollisionUpdate()
+    {
         foreach (var unit in dungeon.players)
         {
             if (unit == this)
                 continue;
-            RePosition(unit);
+            Collision(unit);
         }
 
         foreach (var unit in dungeon.monsters)
         {
             if (unit == this)
                 continue;
-            RePosition(unit);
+            Collision(unit);
         }
     }
 
-    public void RePosition(UnitOnDungeon unit)
+
+    private void Collision(UnitOnDungeon unit)
     {
-        var collisionDepth = ellipse.CollisionDepthWith(unit.ellipse);
-        if(collisionDepth > 0f)
+        var collisionDepth = hitCollider.CollisionDepthWith(unit.hitCollider);
+        if(collisionDepth >= 0f)
         {
             transform.position -= (unit.transform.position - transform.position).normalized * collisionDepth;
         }
@@ -144,9 +149,9 @@ public class UnitOnDungeon
         else
             Enemies = dungeon.players;
 
+        hitCollider.SetAxies(stats.CurrentStats.UnitSize);
+        hitCollider.position = transform.position;
         dungeonFSM.ResetFSM();
-        ellipse.a = stats.CurrentStats.UnitSize;
-        ellipse.b = stats.CurrentStats.UnitSize * 0.75f;
     }
 
     protected override void ResetEvents()
