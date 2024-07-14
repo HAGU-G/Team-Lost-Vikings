@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 [System.Serializable]
 public class Ellipse
 {
-    public static readonly float ratio = 0.75f;
+    private static UtilitySetting setting = UtilitySetting.Instance;
 
     public Ellipse(float majorAxis, float minorAxis, Vector3 pos)
     {
@@ -12,11 +12,12 @@ public class Ellipse
         position = pos;
     }
     public Ellipse(float majorAxis, float minorAxis) : this(majorAxis, minorAxis, Vector2.zero) { }
-    public Ellipse(float majorAxis, Vector2 pos) : this(majorAxis, majorAxis * ratio, pos) { }
+    public Ellipse(float majorAxis, Vector2 pos) : this(majorAxis, majorAxis * setting.ellipseRatio, pos) { }
     public Ellipse(float majorAxis) : this(majorAxis, Vector2.zero) { }
 
-    public float a;
-    public float b;
+    public float a; //major
+    public float b; //minor
+    public float maxAxis;
 
     public Vector2 position;
 
@@ -34,16 +35,19 @@ public class Ellipse
     {
         a = majorAxis;
         b = minorAxis;
+        maxAxis = Mathf.Max(a, b);
     }
     public void SetAxies(float majorAxis)
     {
         a = majorAxis;
-        b = majorAxis * ratio;
+        b = majorAxis * setting.ellipseRatio;
+        maxAxis = Mathf.Max(a, b);
     }
     public void SetAxies(float majorAxis, Vector2 pos)
     {
         a = majorAxis;
-        b = majorAxis * ratio;
+        b = majorAxis * setting.ellipseRatio;
+        maxAxis = Mathf.Max(a, b);
         position = pos;
     }
 
@@ -65,6 +69,9 @@ public class Ellipse
 
     public static float CollisionDepth(Ellipse ellipse1, Ellipse ellipse2)
     {
+        if ((ellipse1.position - ellipse2.position).magnitude > ellipse1.maxAxis + ellipse2.maxAxis)
+            return -1f;
+
         var direc = ellipse2.position - ellipse1.position;
         var angle = Mathf.Atan2(direc.y, direc.x);
         var radius1 = (GetPoint(ellipse1, angle) - ellipse1.position).magnitude;

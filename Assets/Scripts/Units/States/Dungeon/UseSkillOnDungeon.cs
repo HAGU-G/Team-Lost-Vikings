@@ -27,7 +27,7 @@ public class UseSkillOnDungeon : State<UnitOnDungeon>
         foreach (var skill in owner.skills.SkillList)
         {
             if (skill.IsReady
-                && owner.attackTarget.hitCollider.IsCollidedWith(new(skill.Data.CastRange, owner.transform.position)))
+                && owner.attackTarget.SizeEllipse.IsCollidedWith(skill.CastEllipse))
             {
                 skill.Use();
                 break;

@@ -18,7 +18,7 @@ public class EllipseDrawer : MonoBehaviour
         lineRenderer.startWidth = 0.1f;
         lineRenderer.endWidth = 0.1f;
 
-        ellipse = owner.hitCollider;
+        ellipse = owner.SizeEllipse;
         Draw(ellipse.a, ellipse.b, Vector2.zero, lineRenderer);
         lineRenderer.useWorldSpace = false;
     }

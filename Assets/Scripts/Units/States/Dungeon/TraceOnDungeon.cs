@@ -42,7 +42,7 @@ public class TraceOnDungeon : State<UnitOnDungeon>
             foreach (var skill in owner.skills.SkillList)
             {
                 if (skill.IsReady
-                    && owner.attackTarget.hitCollider.IsCollidedWith(new(skill.Data.CastRange, owner.transform.position)))
+                    && owner.attackTarget.SizeEllipse.IsCollidedWith(skill.CastEllipse))
                 {
                     controller.ChangeState((int)UnitOnDungeon.STATE.SKILL);
                     return true;
@@ -50,7 +50,7 @@ public class TraceOnDungeon : State<UnitOnDungeon>
             }
 
             if (owner.AttackTimer >= owner.stats.CurrentStats.AttackSpeed
-                && owner.attackTarget.hitCollider.IsCollidedWith(new(owner.stats.CurrentStats.AttackRange, owner.transform.position)))
+                && owner.attackTarget.SizeEllipse.IsCollidedWith(owner.BasicAttackEllipse))
             {
                 controller.ChangeState((int)UnitOnDungeon.STATE.ATTACK);
                 return true;

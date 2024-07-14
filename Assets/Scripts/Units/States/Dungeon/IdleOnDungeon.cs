@@ -26,11 +26,9 @@ public class IdleOnDungeon : State<UnitOnDungeon>
         float maxDepth = float.MinValue;
         foreach (var target in owner.Enemies)
         {
-            var depth = Ellipse.CollisionDepth(
-                new(owner.stats.CurrentStats.RecognizeRange, owner.transform.position),
-                target.hitCollider);
+            var depth = Ellipse.CollisionDepth(owner.RecognizeEllipse, target.SizeEllipse);
 
-            if (depth  >= 0f && depth >= maxDepth)
+            if (depth >= 0f && depth >= maxDepth)
             {
                 maxDepth = depth;
                 owner.attackTarget = target;
@@ -44,21 +42,21 @@ public class IdleOnDungeon : State<UnitOnDungeon>
         //배회
         if (!isMoving)
         {
-            do
-            {
-                dest = owner.transform.position + (Vector3)Random.insideUnitCircle.normalized * owner.stats.CurrentStats.MoveSpeed;
-            }
-            while (Vector3.Distance(dest, owner.dungeon.transform.position) > 10f);
+            dest = owner.transform.position + (Vector3)Random.insideUnitCircle.normalized * owner.stats.CurrentStats.MoveSpeed;
+
             // TODO 던전 밖으로 이동 못하게 하는 조건으로 대체 ex) 이동 가능 타일 검사
-
-            isMoving = true;
+            if (Vector3.Distance(dest, owner.dungeon.transform.position) <= 10f)
+                isMoving = true;
         }
+        else
+        {
 
-        owner.transform.position += (dest - owner.transform.position).normalized
-            * owner.stats.CurrentStats.MoveSpeed * Time.deltaTime;
+            owner.transform.position += (dest - owner.transform.position).normalized
+                * owner.stats.CurrentStats.MoveSpeed * Time.deltaTime;
 
-        if (Vector3.Distance(dest, owner.transform.position) <= 0.2f)
-            isMoving = false;
+            if (Vector3.Distance(dest, owner.transform.position) <= 0.2f)
+                isMoving = false;
+        }
     }
 
     protected override bool Transition()

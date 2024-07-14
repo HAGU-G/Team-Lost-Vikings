@@ -46,9 +46,11 @@ public class UnitOnDungeon
     public event Action OnUpdated;
 
     //AdditionalStats
-    public Ellipse hitCollider;
+    public Ellipse SizeEllipse { get; private set; }
+    public Ellipse BasicAttackEllipse { get; private set; }
+    public Ellipse RecognizeEllipse { get; private set; }
+
     public float AttackTimer { get; private set; }
-    private int staminaToConsume;
     public bool IsDead { get; private set; }
     public bool IsNeedReturn
     {
@@ -69,7 +71,7 @@ public class UnitOnDungeon
         OnUpdated?.Invoke();
 
 
-        hitCollider.position = transform.position;
+        UpdateEllipsePosition();
         dungeonFSM.Update();
         CollisionUpdate();
     }
@@ -89,17 +91,26 @@ public class UnitOnDungeon
                 continue;
             Collision(unit);
         }
+        UpdateEllipsePosition();
     }
 
 
-    private void Collision(UnitOnDungeon unit)
+    private void Collision(UnitOnDungeon other)
     {
-        var collisionDepth = hitCollider.CollisionDepthWith(unit.hitCollider);
-        if(collisionDepth >= 0f)
+        var collisionDepth = SizeEllipse.CollisionDepthWith(other.SizeEllipse);
+        if (collisionDepth >= 0f)
         {
-            transform.position -= (unit.transform.position - transform.position).normalized * collisionDepth;
+            transform.position -= (other.transform.position - transform.position).normalized * collisionDepth;
         }
     }
+
+    private void UpdateEllipsePosition()
+    {
+        SizeEllipse.position = transform.position;
+        BasicAttackEllipse.position = transform.position;
+        RecognizeEllipse.position = transform.position;
+    }
+
 
     private void OnDestroy()
     {
@@ -129,6 +140,12 @@ public class UnitOnDungeon
             new ReturnOnDungeon(),
             new UseSkillOnDungeon());
 
+        var currentStats = stats.CurrentStats;
+        SizeEllipse = new(currentStats.UnitSize, transform.position);
+        BasicAttackEllipse = new(currentStats.AttackRange, transform.position);
+        RecognizeEllipse = new(currentStats.RecognizeRange, transform.position);
+
+
         //TESTCODE
         skills.SetSkills(0);
         skills.SetSkill(0, new Skill(testSkillData, this));
@@ -149,8 +166,12 @@ public class UnitOnDungeon
         else
             Enemies = dungeon.players;
 
-        hitCollider.SetAxies(stats.CurrentStats.UnitSize);
-        hitCollider.position = transform.position;
+        var currentStats = stats.CurrentStats;
+        SizeEllipse.SetAxies(currentStats.UnitSize, transform.position);
+        BasicAttackEllipse.SetAxies(currentStats.AttackRange, transform.position);
+        RecognizeEllipse.SetAxies(currentStats.RecognizeRange, transform.position);
+
+
         dungeonFSM.ResetFSM();
     }
 

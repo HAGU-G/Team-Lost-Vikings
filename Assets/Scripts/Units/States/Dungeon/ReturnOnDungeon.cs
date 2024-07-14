@@ -34,7 +34,7 @@ public class ReturnOnDungeon : State<UnitOnDungeon>
 
     protected override bool Transition()
     {
-        if (Ellipse.IsPointInEllipse(owner.hitCollider, owner.destinationPos))
+        if (Ellipse.IsPointInEllipse(owner.SizeEllipse, owner.destinationPos))
         {
             owner.stats.ResetStats();
             controller.ChangeState((int)UnitOnDungeon.STATE.IDLE);

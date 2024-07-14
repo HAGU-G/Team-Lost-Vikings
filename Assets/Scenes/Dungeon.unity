@@ -172,7 +172,7 @@ MonoBehaviour:
   monsters: []
   portal: {fileID: 2014117560}
   portal2: {fileID: 789232968}
---- !u!1 &173092480
+--- !u!1 &575372333
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -180,58 +180,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 173092482}
-  - component: {fileID: 173092481}
-  m_Layer: 0
-  m_Name: Test1 (4)
-  m_TagString: GameController
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &173092481
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 173092480}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698b5776abd7fcc42badbba5d8255466, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 5123246219790320037, guid: ee8173d09160d4344b7748f6a6ed13a8, type: 3}
-  monster: {fileID: 5123246219790320037, guid: 79c7d36189653e341b61bd54638a95cb, type: 3}
-  players: []
-  monsters: []
-  portal: {fileID: 2014117560}
-  portal2: {fileID: 789232968}
---- !u!4 &173092482
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 173092480}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -6.6, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &304764401
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 304764403}
-  - component: {fileID: 304764402}
+  - component: {fileID: 575372335}
+  - component: {fileID: 575372334}
   m_Layer: 0
   m_Name: Test1 (1)
   m_TagString: GameController
@@ -239,13 +189,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &304764402
+--- !u!114 &575372334
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 304764401}
+  m_GameObject: {fileID: 575372333}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 698b5776abd7fcc42badbba5d8255466, type: 3}
@@ -257,63 +207,13 @@ MonoBehaviour:
   monsters: []
   portal: {fileID: 2014117560}
   portal2: {fileID: 789232968}
---- !u!4 &304764403
+--- !u!4 &575372335
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 304764401}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -6.6, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &625536833
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 625536835}
-  - component: {fileID: 625536834}
-  m_Layer: 0
-  m_Name: Test1 (2)
-  m_TagString: GameController
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &625536834
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 625536833}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698b5776abd7fcc42badbba5d8255466, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 5123246219790320037, guid: ee8173d09160d4344b7748f6a6ed13a8, type: 3}
-  monster: {fileID: 5123246219790320037, guid: 79c7d36189653e341b61bd54638a95cb, type: 3}
-  players: []
-  monsters: []
-  portal: {fileID: 2014117560}
-  portal2: {fileID: 789232968}
---- !u!4 &625536835
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 625536833}
+  m_GameObject: {fileID: 575372333}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -6.6, z: 0}
@@ -658,19 +558,19 @@ PrefabInstance:
     - target: {fileID: 2709216688799977807, guid: 4f6e0e59e1754fd4ba311dbc0b3b1119, type: 3}
       propertyPath: dungeons.Array.data[1]
       value: 
-      objectReference: {fileID: 304764402}
+      objectReference: {fileID: 575372334}
     - target: {fileID: 2709216688799977807, guid: 4f6e0e59e1754fd4ba311dbc0b3b1119, type: 3}
       propertyPath: dungeons.Array.data[2]
       value: 
-      objectReference: {fileID: 625536834}
+      objectReference: {fileID: 945098711}
     - target: {fileID: 2709216688799977807, guid: 4f6e0e59e1754fd4ba311dbc0b3b1119, type: 3}
       propertyPath: dungeons.Array.data[3]
       value: 
-      objectReference: {fileID: 1084670310}
+      objectReference: {fileID: 1214566928}
     - target: {fileID: 2709216688799977807, guid: 4f6e0e59e1754fd4ba311dbc0b3b1119, type: 3}
       propertyPath: dungeons.Array.data[4]
       value: 
-      objectReference: {fileID: 173092481}
+      objectReference: {fileID: 1708949966}
     - target: {fileID: 2709216688799977807, guid: 4f6e0e59e1754fd4ba311dbc0b3b1119, type: 3}
       propertyPath: dataTable.<SizeRange>k__BackingField
       value: 0.4
@@ -1161,7 +1061,7 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 989819288833091137, guid: 4f6e0e59e1754fd4ba311dbc0b3b1119, type: 3}
   m_PrefabInstance: {fileID: 858048843}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1084670309
+--- !u!1 &945098710
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1169,22 +1069,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1084670311}
-  - component: {fileID: 1084670310}
+  - component: {fileID: 945098712}
+  - component: {fileID: 945098711}
   m_Layer: 0
-  m_Name: Test1 (3)
+  m_Name: Test1 (2)
   m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1084670310
+--- !u!114 &945098711
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1084670309}
+  m_GameObject: {fileID: 945098710}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 698b5776abd7fcc42badbba5d8255466, type: 3}
@@ -1196,13 +1096,13 @@ MonoBehaviour:
   monsters: []
   portal: {fileID: 2014117560}
   portal2: {fileID: 789232968}
---- !u!4 &1084670311
+--- !u!4 &945098712
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1084670309}
+  m_GameObject: {fileID: 945098710}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -6.6, z: 0}
@@ -1291,6 +1191,56 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1214566927
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1214566929}
+  - component: {fileID: 1214566928}
+  m_Layer: 0
+  m_Name: Test1 (3)
+  m_TagString: GameController
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1214566928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1214566927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 698b5776abd7fcc42badbba5d8255466, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 5123246219790320037, guid: ee8173d09160d4344b7748f6a6ed13a8, type: 3}
+  monster: {fileID: 5123246219790320037, guid: 79c7d36189653e341b61bd54638a95cb, type: 3}
+  players: []
+  monsters: []
+  portal: {fileID: 2014117560}
+  portal2: {fileID: 789232968}
+--- !u!4 &1214566929
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1214566927}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -6.6, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1397,6 +1347,56 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1708949965
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1708949967}
+  - component: {fileID: 1708949966}
+  m_Layer: 0
+  m_Name: Test1 (4)
+  m_TagString: GameController
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1708949966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1708949965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 698b5776abd7fcc42badbba5d8255466, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 5123246219790320037, guid: ee8173d09160d4344b7748f6a6ed13a8, type: 3}
+  monster: {fileID: 5123246219790320037, guid: 79c7d36189653e341b61bd54638a95cb, type: 3}
+  players: []
+  monsters: []
+  portal: {fileID: 2014117560}
+  portal2: {fileID: 789232968}
+--- !u!4 &1708949967
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1708949965}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -6.6, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2014117560
 GameObject:
   m_ObjectHideFlags: 0
@@ -1486,10 +1486,10 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 160890148}
-  - {fileID: 304764403}
-  - {fileID: 625536835}
-  - {fileID: 1084670311}
-  - {fileID: 173092482}
+  - {fileID: 575372335}
+  - {fileID: 945098712}
+  - {fileID: 1214566929}
+  - {fileID: 1708949967}
   - {fileID: 1283129107}
   - {fileID: 1145069863}
   - {fileID: 2014117562}
