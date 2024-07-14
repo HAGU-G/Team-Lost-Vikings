@@ -38,7 +38,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
     {
         isRecovering = true;
         Debug.Log(recoveryTime);
-        Debug.Log($"hp : {unit.stats.CurrentHP} stamina : {unit.stats.CurrentStamina} stress : {unit.stats.CurrentStress}");
+        Debug.Log($"hp : {unit.stats.HP} stamina : {unit.stats.Stamina} stress : {unit.stats.Stress}");
         yield return new WaitForSeconds(recoveryTime);
         bool isComplete = false;
 
@@ -47,35 +47,35 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
             switch (parameterType)
             {
                 case PARAMETER_TYPES.HP:
-                    unit.stats.CurrentHP += recoveryAmount;
-                    Debug.Log($"hp : {unit.stats.CurrentHP}");
-                    if(unit.stats.CurrentHP < unit.stats.CurrentMaxHP)
+                    unit.stats.HP += recoveryAmount;
+                    Debug.Log($"hp : {unit.stats.HP}");
+                    if(unit.stats.HP < unit.stats.CurrentMaxHP)
                         yield return new WaitForSeconds(recoveryTime);
-                    else if (unit.stats.CurrentHP >= unit.stats.CurrentMaxHP)
+                    else if (unit.stats.HP >= unit.stats.CurrentMaxHP)
                     {
-                        unit.stats.CurrentHP = unit.stats.CurrentMaxHP;
+                        unit.stats.HP = unit.stats.CurrentMaxHP;
                         isComplete = true;
                     }
                     break;
                 case PARAMETER_TYPES.STAMINA:
-                    unit.stats.CurrentStamina += recoveryAmount;
-                    Debug.Log($"stamina : {unit.stats.CurrentStamina}");
-                    if (unit.stats.CurrentStamina < unit.stats.CurrentStats.MaxStamina)
+                    unit.stats.Stamina += recoveryAmount;
+                    Debug.Log($"stamina : {unit.stats.Stamina}");
+                    if (unit.stats.Stamina < unit.stats.CurrentStats.MaxStamina)
                         yield return new WaitForSeconds(recoveryTime);
-                    else if (unit.stats.CurrentStamina >= unit.stats.CurrentStats.MaxStamina)
+                    else if (unit.stats.Stamina >= unit.stats.CurrentStats.MaxStamina)
                     {
-                        unit.stats.CurrentStamina = unit.stats.CurrentStats.MaxStamina;
+                        unit.stats.Stamina = unit.stats.CurrentStats.MaxStamina;
                         isComplete = true;
                     }
                     break;
                 case PARAMETER_TYPES.STRESS:
-                    unit.stats.CurrentStress += recoveryAmount;
-                    Debug.Log($"stress : {unit.stats.CurrentStress}");
-                    if (unit.stats.CurrentStress < unit.stats.CurrentStats.MaxStress)
+                    unit.stats.Stress += recoveryAmount;
+                    Debug.Log($"stress : {unit.stats.Stress}");
+                    if (unit.stats.Stress < unit.stats.CurrentStats.MaxStress)
                         yield return new WaitForSeconds(recoveryTime);
-                    else if (unit.stats.CurrentStress >= unit.stats.CurrentStats.MaxStress)
+                    else if (unit.stats.Stress >= unit.stats.CurrentStats.MaxStress)
                     {
-                        unit.stats.CurrentStress = unit.stats.CurrentStats.MaxStress;
+                        unit.stats.Stress = unit.stats.CurrentStats.MaxStress;
                         isComplete = true;
                     }
                     break;

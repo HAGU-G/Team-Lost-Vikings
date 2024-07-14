@@ -122,11 +122,11 @@ public class UnitSpawnTester : MonoBehaviour
             maxStress.text = selected.stats.CurrentMaxStress.ToString();
 
             if (!hp.isFocused)
-                hp.text = selected.stats.CurrentHP.ToString();
+                hp.text = selected.stats.HP.ToString();
             if (!stamina.isFocused)
-                stamina.text = selected.stats.CurrentStamina.ToString();
+                stamina.text = selected.stats.Stamina.ToString();
             if (!stress.isFocused)
-                stress.text = selected.stats.CurrentStress.ToString();
+                stress.text = selected.stats.Stress.ToString();
         }
         else
         {
@@ -146,7 +146,7 @@ public class UnitSpawnTester : MonoBehaviour
 
         if (int.TryParse(text, out var hp))
         {
-            selected.stats.CurrentHP = hp;
+            selected.stats.HP = hp;
         }
     }
 
@@ -157,7 +157,7 @@ public class UnitSpawnTester : MonoBehaviour
 
         if (int.TryParse(text, out var stamina))
         {
-            selected.stats.CurrentStamina = stamina;
+            selected.stats.Stamina = stamina;
         }
     }
 
@@ -168,7 +168,7 @@ public class UnitSpawnTester : MonoBehaviour
 
         if (int.TryParse(text, out var stress))
         {
-            selected.stats.CurrentStress = stress;
+            selected.stats.Stress = stress;
         }
     }
 }

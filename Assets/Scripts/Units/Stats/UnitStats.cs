@@ -35,79 +35,58 @@ public enum UNIT_GRADE
 [System.Serializable]
 public class UnitStats
 {
-    /// <param name="defaultStats">얕은 복사. UnitStatsVariable 객체의 Clone() 메서드로 깊은 복사가 가능합니다.</param>
-    public UnitStats(UnitStatsData data, UnitStatsVariable defaultStats)
-    {
-        Init(data, defaultStats);
-        ResetUnitStats();
-    }
-    public UnitStats(UnitStatsData data)
+    public int Id { get; private set; }
+    public UNIT_GRADE UnitGrade { get; private set; }
+    public string Name { get; private set; }
+    public UNIT_JOB UnitJob { get; private set; }
+    public ATTACK_TYPE BasicAttackType { get; private set; }
+
+    //Parameters
+    public Parameter HP { get; set; } = new();
+    public Parameter Stamina { get; set; } = new();
+    public Parameter Stress { get; set; } = new();
+
+    //Stats
+    [field: SerializeField] public StatInt BaseHP { get; set; } = new();
+    [field: SerializeField] public StatInt Vit { get; set; } = new();
+    [field: SerializeField] public StatFloat VitWeight { get; set; } = new();
+
+    [field: SerializeField] public StatInt Str { get; set; } = new();
+    [field: SerializeField] public StatFloat StrWeight { get; set; } = new();
+    [field: SerializeField] public StatInt Mag { get; set; } = new();
+    [field: SerializeField] public StatFloat MagWeight { get; set; } = new();
+    [field: SerializeField] public StatInt Agi { get; set; } = new();
+    [field: SerializeField] public StatFloat AgiWeight { get; set; } = new();
+
+    [field: SerializeField] public StatFloat UnitSize { get; set; } = new();
+    [field: SerializeField] public StatFloat MoveSpeed { get; set; } = new();
+    [field: SerializeField] public StatFloat RecognizeRange { get; set; } = new();
+
+    [field: SerializeField] public StatFloat AttackRange { get; set; } = new();
+    [field: SerializeField] public StatFloat AttackSpeed { get; set; } = new();
+
+    [field: SerializeField] public StatFloat CriticalChance { get; set; } = new();
+    [field: SerializeField] public StatFloat CriticalWeight { get; set; } = new();
+
+    [field: SerializeField] public int CombatPoint { get; private set; }
+    public int SkillId1 { get; private set; }
+    public int SkillId2 { get; private set; }
+
+
+    public UnitStats(UnitStatsData data = null)
     {
         Init(data);
         ResetUnitStats();
     }
 
 
-    //Save
-    public int Id { get; private set; }
-    public UNIT_GRADE UnitGrade { get; private set; }
-
-
-    [field: SerializeField] public UnitStatsVariable DefaultStats { get; private set; }
-    public int SkillId1 { get; private set; }
-    public int SkillId2 { get; private set; }
-
-    private int _currentHP;
-    private int _currentStamina;
-    private int _currentStress;
-
-    //Don't Save
-    public string Name { get; private set; }
-    public UNIT_JOB UnitJob { get; private set; }
-    public ATTACK_TYPE BasicAttackType { get; private set; }
-    public static UnitStatsVariable upgradeStats = new();
-    [field: SerializeField] public UnitStatsVariable CurrentStats { get; private set; }
-
-    public int CurrentMaxHP { get; private set; }
-    public int CurrentMaxStamina => CurrentStats.MaxStamina;
-    public int CurrentMaxStress => CurrentStats.MaxStress;
-
-    public int CurrentHP
-    {
-        get => _currentHP;
-        set
-        {
-            _currentHP = Mathf.Clamp(value, 0, CurrentMaxHP);
-        }
-    }
-    public int CurrentStamina
-    {
-        get => _currentStamina;
-        set
-        {
-            _currentStamina = Mathf.Clamp(value, 0, CurrentStats.MaxStamina);
-        }
-    }
-    public int CurrentStress
-    {
-        get => _currentStress;
-        set
-        {
-            _currentStress = Mathf.Clamp(value, 0, CurrentStats.MaxStress);
-        }
-    }
-
-    public float HPRatio => (float)CurrentHP / CurrentMaxHP;
-    public float StaminaRatio => (float)CurrentStamina / CurrentStats.MaxStamina;
-    public float StressRatio => (float)CurrentStress / CurrentStats.MaxStress;
-
 
 
     //Methods
-
-    /// <param name="defaultStats">얕은 복사. UnitStatsVariable 객체의 Clone() 메서드로 깊은 복사가 가능합니다.</param>
-    public void Init(UnitStatsData data, UnitStatsVariable defaultStats)
+    public void Init(UnitStatsData data)
     {
+
+        if(data != null)
         SetDefaultStats(defaultStats);
         SetConstantStats(data.Name, data.Job, data.BasicAttackType);
 
@@ -118,17 +97,14 @@ public class UnitStats
         DefaultStats.UpdateCombatPoint();
         CurrentStats = new();
     }
-    public void Init(UnitStatsData data)
-    {
-        Init(data, GachaStats(data));
-    }
+
     public void ResetUnitStats()
     {
         UpdateUnitStats();
 
-        CurrentHP = CurrentMaxHP;
-        CurrentStress = CurrentStats.MaxStress;
-        CurrentStamina = CurrentStats.MaxStamina;
+        HP = CurrentMaxHP;
+        Stress = CurrentStats.MaxStress;
+        Stamina = CurrentStats.MaxStamina;
     }
 
     public void UpdateUnitStats()
@@ -146,56 +122,54 @@ public class UnitStats
         BasicAttackType = basicAttackType;
     }
 
+    public void UpdateCombatPoint()
+    {
+
+    }
+
     public void GachaDefaultStats(UnitStatsData data)
     {
-        DefaultStats = GachaStats(data);
-    }
+        Stress.max.defaultValue = data.Stress;
+        Stamina.max.defaultValue = data.Stamina;
 
-    /// <summary>
-    /// 얕은 복사. UnitStatsVariable 객체의 Clone() 메서드로 깊은 복사가 가능합니다.
-    /// </summary>
-    public void SetDefaultStats(UnitStatsVariable defaultStats)
+        BaseHP.defaultValue = data.HP;
+        Vit.defaultValue = Random.Range(data.VitMin, data.VitMax + 1);
+        VitWeight.defaultValue = data.VitWeight;
+
+        Str.defaultValue = Random.Range(data.StrMin, data.StrMax + 1);
+        StrWeight.defaultValue = data.StrWeight;
+        Mag.defaultValue = Random.Range(data.MagMin, data.MagMax + 1);
+        MagWeight.defaultValue = data.MagWeight;
+        Agi.defaultValue = Random.Range(data.AgiMin, data.AgiMax + 1);
+        AgiWeight.defaultValue = data.AgiWeight;
+
+        UnitSize.defaultValue = data.SizeRange;
+        MoveSpeed.defaultValue = data.MoveSpeed;
+        RecognizeRange.defaultValue = data.RecognizeRange;
+
+        AttackRange.defaultValue = data.BasicAttackRange;
+        AttackSpeed.defaultValue = data.AttackSpeed;
+
+        CriticalChance.defaultValue = data.CriticalChance;
+        CriticalWeight.defaultValue = data.CriticalHitWeight;
+
+        UpdateCombatPoint();
+    }
+    public static UnitStats GachaNewStats(UnitStatsData data)
     {
-        DefaultStats = defaultStats;
-    }
+        var gacha = new UnitStats();
+        gacha.GachaDefaultStats(data);
 
+        return gacha;
+    }
 
 
     private void UpdateMaxHP()
     {
-        CurrentMaxHP = CurrentStats.BaseHP + StatMath.GetWeightedStat(CurrentStats.Vit, CurrentStats.VitWeight);
-
-        if (CurrentHP > CurrentMaxHP)
-            CurrentHP = CurrentMaxHP;
+        MaxHP.defaultValue = BaseHP.defaultValue + StatMath.GetWeightedStat(Vit.defaultValue, VitWeight.defaultValue);
+        if (HP > MaxHP)
+            HP.Current = MaxHP.Value;
     }
 
-    public static UnitStatsVariable GachaStats(UnitStatsData data)
-    {
-        return new UnitStatsVariable()
-        {
-            MaxStress = data.Stress,
-            MaxStamina = data.Stamina,
 
-            BaseHP = data.HP,
-            Vit = Random.Range(data.VitMin, data.VitMax + 1),
-            VitWeight = data.VitWeight,
-
-            Str = Random.Range(data.StrMin, data.StrMax + 1),
-            StrWeight = data.StrWeight,
-            Mag = Random.Range(data.MagMin, data.MagMax + 1),
-            MagWeight = data.MagWeight,
-            Agi = Random.Range(data.AgiMin, data.AgiMax + 1),
-            AgiWeight = data.AgiWeight,
-
-            UnitSize = data.SizeRange,
-            MoveSpeed = data.MoveSpeed,
-            RecognizeRange = data.RecognizeRange,
-
-            AttackRange = data.BasicAttackRange,
-            AttackSpeed = data.AttackSpeed,
-
-            CriticalChance = data.CriticalChance,
-            CriticalWeight = data.CriticalHitWeight
-        };
-    }
 }

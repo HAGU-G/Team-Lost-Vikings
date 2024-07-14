@@ -185,10 +185,10 @@ public class UnitOnDungeon
 
     public bool TakeDamage(int damage)
     {
-        stats.CurrentHP -= damage;
+        stats.HP -= damage;
         OnDamaged?.Invoke();
 
-        if (!IsDead && stats.CurrentHP <= 0)
+        if (!IsDead && stats.HP <= 0)
         {
             Dead();
             return true;
@@ -225,7 +225,7 @@ public class UnitOnDungeon
 
         if (attackBehaviour.Attack(stats.CurrentStats.CombatPoint, attackTarget))
         {
-            stats.CurrentStress--;
+            stats.Stress--;
             return 1;
         }
         return 0;
@@ -244,7 +244,7 @@ public class UnitOnDungeon
         if (!attackedTargets.ContainsKey(target))
             return;
 
-        stats.CurrentStamina -= attackedTargets[target];
+        stats.Stamina -= attackedTargets[target];
         attackedTargets.Remove(target);
     }
 

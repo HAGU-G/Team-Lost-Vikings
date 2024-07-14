@@ -63,11 +63,11 @@ public class UnitOnVillage : Unit
 
     public LACKING_PARAMETER CheckParameter()
     {
-        if(stats.CurrentHP < stats.CurrentMaxHP * 0.5)
+        if(stats.HP < stats.CurrentMaxHP * 0.5)
             return LACKING_PARAMETER.HP;
-        else if(stats.CurrentStamina < stats.CurrentStats.MaxStamina * 0.5)
+        else if(stats.Stamina < stats.CurrentStats.MaxStamina * 0.5)
             return LACKING_PARAMETER.STAMINA;
-        else if (stats.CurrentStress < stats.CurrentStats.MaxStress * 0.5)
+        else if (stats.Stress < stats.CurrentStats.MaxStress * 0.5)
             return LACKING_PARAMETER.STRESS;
         else
             return LACKING_PARAMETER.NONE;
@@ -78,16 +78,16 @@ public class UnitOnVillage : Unit
 
     private void ReduceHp()
     {
-        stats.CurrentHP = 30;
+        stats.HP = 30;
     }
     public void ReduceStamina()
     {
-        stats.CurrentStamina = 30;
+        stats.Stamina = 30;
     }
 
     private void ReduceStress()
     {
-        stats.CurrentStress = 30;
+        stats.Stress = 30;
     }
 
     private void OnGUI()
