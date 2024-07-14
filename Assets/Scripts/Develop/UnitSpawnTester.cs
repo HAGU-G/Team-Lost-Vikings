@@ -46,9 +46,13 @@ public class UnitSpawnTester : MonoBehaviour
     {
         GameStarter.Instance.SetActiveOnComplete(gameObject);
 
+        //UnitStats.UpgradeStats.BaseHP = 1000;
+        gachaResult = UnitStats.GachaStats(dataTable);
+
         buttonReroll.onClick.AddListener(() =>
         {
             gachaResult = UnitStats.GachaStats(dataTable);
+            gachaResult.UpdateCombatPoint();
 
             var sb = new StringBuilder();
             foreach (var item in gachaResult.GetType().GetProperties())
@@ -98,9 +102,7 @@ public class UnitSpawnTester : MonoBehaviour
 
     private void Update()
     {
-        if (gachaResult != null
-            && SyncedTime.IsSynced
-            && SyncedTime.Now >= lastSpawnTime.AddSeconds(spawnInterval))
+        if (SyncedTime.IsSynced && SyncedTime.Now >= lastSpawnTime.AddSeconds(spawnInterval))
         {
             lastSpawnTime = SyncedTime.Now;
 

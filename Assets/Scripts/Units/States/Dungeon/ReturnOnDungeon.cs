@@ -36,7 +36,7 @@ public class ReturnOnDungeon : State<UnitOnDungeon>
     {
         if (Ellipse.IsPointInEllipse(owner.SizeEllipse, owner.destinationPos))
         {
-            owner.stats.ResetStats();
+            owner.stats.ResetUnitStats();
             controller.ChangeState((int)UnitOnDungeon.STATE.IDLE);
             return true;
         }

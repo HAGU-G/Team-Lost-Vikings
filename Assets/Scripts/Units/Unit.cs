@@ -28,7 +28,7 @@ public abstract class Unit : MonoBehaviour
     protected virtual void ResetUnit()
     {
         ResetEvents();
-        stats.ResetStats();
+        stats.ResetUnitStats();
         skills.ResetSkills();
     }
 

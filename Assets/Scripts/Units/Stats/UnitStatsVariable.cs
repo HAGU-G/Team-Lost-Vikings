@@ -32,7 +32,10 @@ public class UnitStatsVariable
     [field: SerializeField] public float CriticalWeight { get; set; }
 
     [field: SerializeField] public int CombatPoint { get; private set; }
-
+    public void UpdateCombatPoint()
+    {
+        CombatPoint = StatMath.CalculateCombatPoint(this);
+    }
 
 
 
@@ -66,8 +69,58 @@ public class UnitStatsVariable
         return clone;
     }
 
-    public void UpdateCombatPoint()
+    public UnitStatsVariable AddStats(UnitStatsVariable stats)
     {
-        CombatPoint = StatMath.CalculateCombatPoint(this);
+        MaxStress += stats.MaxStress;
+        MaxStamina += stats.MaxStamina;
+
+        BaseHP += stats.BaseHP;
+        Vit+= stats.Vit;
+        VitWeight += stats.VitWeight;
+
+        Str += stats.Str;
+        StrWeight += stats.StrWeight;
+        Mag += stats.Mag;
+        MagWeight += stats.MagWeight;
+        Agi += stats.Agi;
+        AgiWeight += stats.AgiWeight;
+
+        UnitSize += stats.UnitSize;
+        MoveSpeed += stats.MoveSpeed;
+        RecognizeRange += stats.RecognizeRange;
+        AttackRange += stats.AttackRange;
+        AttackSpeed += stats.AttackSpeed;    
+
+        CriticalChance += stats.CriticalChance;
+        CriticalWeight += stats.CriticalWeight;
+
+        return this;
+    }
+    public UnitStatsVariable ResetStats()
+    {
+        MaxStress = 0;
+        MaxStamina = 0;
+
+        BaseHP = 0;
+        Vit = 0;
+        VitWeight = 0f;
+
+        Str = 0;
+        StrWeight = 0f;
+        Mag = 0;
+        MagWeight = 0f;
+        Agi = 0;
+        AgiWeight = 0f;
+
+        UnitSize = 0f;
+        MoveSpeed = 0f;
+        RecognizeRange = 0f;
+        AttackRange = 0f;
+        AttackSpeed = 0f;
+
+        CriticalChance = 0f;
+        CriticalWeight = 0f;
+
+        return this;
     }
 }
