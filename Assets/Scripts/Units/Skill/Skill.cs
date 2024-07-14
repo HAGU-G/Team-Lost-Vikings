@@ -21,6 +21,7 @@ public class Skill
     public float CurrentActiveValue { get; private set; }
 
     //Don't Save
+    public Ellipse CastEllipse {get; private set; }
     public bool IsReady
     {
         get
@@ -42,6 +43,7 @@ public class Skill
     {
         SetData(data);
         SetOwner(owner);
+        CastEllipse = new(data.CastRange, owner.transform.position);
     }
 
     public void SetData(SkillData data)
@@ -56,9 +58,14 @@ public class Skill
 
     private void SetConditionUpdate()
     {
-        var ownerOnDungeon = owner as UnitOnDungeon;
-        if (ownerOnDungeon == null)
+        var unit = owner as UnitOnDungeon;
+        if (unit == null)
             return;
+
+        unit.OnUpdated += () => 
+        {
+            CastEllipse.position = unit.transform.position;
+        };
 
         switch (Data.ActiveType)
         {
@@ -69,15 +76,15 @@ public class Skill
                 break;
 
             case SKILL_ACTIVE_TYPE.COOLTIME:
-                ownerOnDungeon.OnUpdated += ConditionUpdate;
+                unit.OnUpdated += ConditionUpdate;
 
                 break;
             case SKILL_ACTIVE_TYPE.PROBABILITY:
-                ownerOnDungeon.OnAttacked += ConditionUpdate;
+                unit.OnAttacked += ConditionUpdate;
                 break;
 
             case SKILL_ACTIVE_TYPE.ATTACK_COUNT:
-                ownerOnDungeon.OnAttacked += ConditionUpdate;
+                unit.OnAttacked += ConditionUpdate;
                 break;
 
             default:

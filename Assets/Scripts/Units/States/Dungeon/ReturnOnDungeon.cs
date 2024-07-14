@@ -10,7 +10,7 @@ public class ReturnOnDungeon : State<UnitOnDungeon>
         ownerTransform = owner.transform;
         owner.attackTarget = null;
         owner.currentState = UnitOnDungeon.STATE.RETURN;
-        owner.spriteRenderer.color = Color.black;
+        //owner.spriteRenderer.color = Color.black;
     }
 
     public override void ExitState()
@@ -34,7 +34,7 @@ public class ReturnOnDungeon : State<UnitOnDungeon>
 
     protected override bool Transition()
     {
-        if (Vector3.Distance(ownerTransform.position, owner.destinationPos) <= 0.2f)
+        if (Ellipse.IsPointInEllipse(owner.SizeEllipse, owner.destinationPos))
         {
             owner.stats.ResetStats();
             controller.ChangeState((int)UnitOnDungeon.STATE.IDLE);

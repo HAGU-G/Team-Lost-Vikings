@@ -2,6 +2,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 using DateTime = System.DateTime;
 
 public class UnitSpawnTester : MonoBehaviour
@@ -15,7 +16,7 @@ public class UnitSpawnTester : MonoBehaviour
 
     public UnitStatsData dataTable;
 
-    public Dungeon dungeon;
+    public List<Dungeon> dungeons;
     public UnitOnDungeon unit;
     public UnitOnDungeon monster;
 
@@ -59,13 +60,17 @@ public class UnitSpawnTester : MonoBehaviour
 
         buttonSpawnUnit.onClick.AddListener(() =>
         {
-            var u = Instantiate(unit, dungeon.portal.transform.position, Quaternion.identity);
-            u.gameObject.AddComponent<UnitSelectorTest>().spawner = this;
-            u.dungeon = dungeon;
-            u.stats = new UnitStats(dataTable, gachaResult.Clone());
-            u.destinationPos = dungeon.portal.transform.position;
-            u.Ready();
-            dungeon.players.Add(u);
+            foreach (var dungeon in dungeons)
+            {
+                var u = Instantiate(unit, dungeon.portal.transform.position, Quaternion.identity);
+                u.gameObject.AddComponent<UnitSelectorTest>().spawner = this;
+                u.dungeon = dungeon;
+                u.stats = new UnitStats(dataTable, gachaResult.Clone());
+                u.destinationPos = dungeon.portal.transform.position;
+                u.Ready();
+                u.gameObject.AddComponent<EllipseDrawer>();
+                dungeon.players.Add(u);
+            }
         });
 
         buttonSpawnMonster.onClick.AddListener(SpawnMonster);
@@ -73,13 +78,17 @@ public class UnitSpawnTester : MonoBehaviour
 
     private void SpawnMonster()
     {
-        var m = Instantiate(monster, dungeon.portal2.transform.position, Quaternion.identity);
-        m.gameObject.AddComponent<UnitSelectorTest>().spawner = this;
-        m.dungeon = dungeon;
-        m.stats = new UnitStats(dataTable);
-        m.destinationPos = dungeon.portal2.transform.position;
-        m.Ready();
-        dungeon.monsters.Add(m);
+        foreach (var dungeon in dungeons)
+        {
+            var m = Instantiate(monster, dungeon.portal2.transform.position, Quaternion.identity);
+            m.gameObject.AddComponent<UnitSelectorTest>().spawner = this;
+            m.dungeon = dungeon;
+            m.stats = new UnitStats(dataTable);
+            m.destinationPos = dungeon.portal2.transform.position;
+            m.Ready();
+            m.gameObject.AddComponent<EllipseDrawer>();
+            dungeon.monsters.Add(m);
+        }
     }
 
     private void Start()

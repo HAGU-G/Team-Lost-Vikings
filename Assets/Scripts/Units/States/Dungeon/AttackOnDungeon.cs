@@ -8,7 +8,7 @@ public class AttackOnDungeon : State<UnitOnDungeon>
     public override void EnterState()
     {
         owner.currentState = UnitOnDungeon.STATE.ATTACK;
-        owner.spriteRenderer.color = Color.red;
+        //owner.spriteRenderer.color = Color.red;
     }
 
     public override void ExitState()

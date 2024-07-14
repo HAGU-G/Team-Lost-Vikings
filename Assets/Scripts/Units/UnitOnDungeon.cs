@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using static UnityEngine.UI.CanvasScaler;
 
 public class UnitOnDungeon
     : Unit, IDamagedable, IObserver<UnitOnDungeon>, ISubject<UnitOnDungeon>
@@ -44,8 +46,11 @@ public class UnitOnDungeon
     public event Action OnUpdated;
 
     //AdditionalStats
+    public Ellipse SizeEllipse { get; private set; }
+    public Ellipse BasicAttackEllipse { get; private set; }
+    public Ellipse RecognizeEllipse { get; private set; }
+
     public float AttackTimer { get; private set; }
-    private int staminaToConsume;
     public bool IsDead { get; private set; }
     public bool IsNeedReturn
     {
@@ -65,9 +70,47 @@ public class UnitOnDungeon
         }
         OnUpdated?.Invoke();
 
-        dungeonFSM.Update();
 
+        UpdateEllipsePosition();
+        dungeonFSM.Update();
+        CollisionUpdate();
     }
+
+    private void CollisionUpdate()
+    {
+        foreach (var unit in dungeon.players)
+        {
+            if (unit == this)
+                continue;
+            Collision(unit);
+        }
+
+        foreach (var unit in dungeon.monsters)
+        {
+            if (unit == this)
+                continue;
+            Collision(unit);
+        }
+        UpdateEllipsePosition();
+    }
+
+
+    private void Collision(UnitOnDungeon other)
+    {
+        var collisionDepth = SizeEllipse.CollisionDepthWith(other.SizeEllipse);
+        if (collisionDepth >= 0f)
+        {
+            transform.position -= (other.transform.position - transform.position).normalized * collisionDepth;
+        }
+    }
+
+    private void UpdateEllipsePosition()
+    {
+        SizeEllipse.position = transform.position;
+        BasicAttackEllipse.position = transform.position;
+        RecognizeEllipse.position = transform.position;
+    }
+
 
     private void OnDestroy()
     {
@@ -97,6 +140,12 @@ public class UnitOnDungeon
             new ReturnOnDungeon(),
             new UseSkillOnDungeon());
 
+        var currentStats = stats.CurrentStats;
+        SizeEllipse = new(currentStats.UnitSize, transform.position);
+        BasicAttackEllipse = new(currentStats.AttackRange, transform.position);
+        RecognizeEllipse = new(currentStats.RecognizeRange, transform.position);
+
+
         //TESTCODE
         skills.SetSkills(0);
         skills.SetSkill(0, new Skill(testSkillData, this));
@@ -116,6 +165,12 @@ public class UnitOnDungeon
             Enemies = dungeon.monsters;
         else
             Enemies = dungeon.players;
+
+        var currentStats = stats.CurrentStats;
+        SizeEllipse.SetAxies(currentStats.UnitSize, transform.position);
+        BasicAttackEllipse.SetAxies(currentStats.AttackRange, transform.position);
+        RecognizeEllipse.SetAxies(currentStats.RecognizeRange, transform.position);
+
 
         dungeonFSM.ResetFSM();
     }
