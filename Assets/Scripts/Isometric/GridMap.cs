@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEditor;
 using UnityEditor.Build.Content;
+using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 
 public class GridMap : MonoBehaviour
@@ -17,6 +18,15 @@ public class GridMap : MonoBehaviour
     public List<List<Tile>> usableTileList = new(); //usingTileList에 단계별로 할당하기 위한 List
 
     int num = 0;
+
+    public Tile GetTile(int x, int y)
+    {
+        Vector2Int key = new Vector2Int(x, y);
+        if (tiles.ContainsKey(key))
+            return tiles[key];
+
+        return null;
+    }
 
     private void Awake()
     {

@@ -11,12 +11,14 @@ public class ConstructBuilding : MonoBehaviour
 
     public GameObject PlaceBuilding(GameObject obj, Tile tile, GridMap gridMap)
     {
-        if (!gridMap.usingTileList.Contains(tile))
+        if (!CanBuild(obj, tile, gridMap))
         {
-            Debug.Log("확장되지 않은 영역에 설치를 시도했습니다.");
+            Debug.Log("건물을 설치할 수 없습니다.");
             isSelected = false;
             return null;
         }
+            
+        
         var objInfo = obj.GetComponent<Building>();
         var width = objInfo.Width;
         var height = objInfo.Length;
@@ -25,35 +27,13 @@ public class ConstructBuilding : MonoBehaviour
         var tileId = tile.tileInfo.id;
         var indexX = tileId.x + width - 1;
         var indexY = tileId.y + height - 1;
-
-        var entranceX = tile.tileInfo.id.x - 1;
-        var entranceY = tile.tileInfo.id.y;
-
-        if (indexX < 0 || indexY < 0
-            || indexX > gridMap.gridInfo.row - 1 || indexY > gridMap.gridInfo.col - 1
-            || entranceX < 0 || entranceY < 0
-            || entranceX > gridMap.gridInfo.row - 1 || entranceY > gridMap.gridInfo.col - 1)
-        {
-            Debug.Log("건물을 설치할 수 없습니다.");
-            isSelected = false;
-            return null;
-        }
-
-        if (!gridMap.usingTileList.Contains(gridMap.tiles[new Vector2Int(tile.tileInfo.id.x - 1, tile.tileInfo.id.y)]))
-        {
-            Debug.Log("입구 타일이 유효한 위치에 설정되지 못해 설치할 수 없습니다.");
-            isSelected = false;
-            return null;
-        }
-           
-
+                  
         objInfo.entranceTile = gridMap.tiles[new Vector2Int(tile.tileInfo.id.x - 1, tile.tileInfo.id.y)];
         objInfo.entranceTile.TileColorChange();
         var instancedObj = Instantiate(obj, gridMap.IndexToPos(tileId), Quaternion.identity, tile.transform);
         var pos = instancedObj.transform.position;
         pos.y = instancedObj.transform.position.y - gridMap.gridInfo.cellSize / 4f;
         instancedObj.transform.position = pos;
-        //construectedBuildings.Add(instancedObj);
 
         var buildingComponent = instancedObj.GetComponent<Building>();
         buildingComponent.placedTiles.Add(tile);
@@ -128,4 +108,61 @@ public class ConstructBuilding : MonoBehaviour
 
         return standardBuilding;
     }
+
+    public bool CanBuild(GameObject obj, Tile tile, GridMap gridMap)
+    {
+        var building = obj.GetComponent<Building>();
+        var width = building.Width;
+        var length = building.Length;
+
+        var indexX = tile.tileInfo.id.x + width - 1;
+        var indexY = tile.tileInfo.id.y + length - 1;
+
+        var entranceX = tile.tileInfo.id.x - 1;
+        var entranceY = tile.tileInfo.id.y;
+
+        if (indexX < 0 || indexY < 0
+            || indexX > gridMap.gridInfo.row - 1 || indexY > gridMap.gridInfo.col - 1
+            || entranceX < 0 || entranceY < 0
+            || entranceX > gridMap.gridInfo.row - 1 || entranceY > gridMap.gridInfo.col - 1)
+        {
+            return false;
+        }
+
+        if (gridMap.GetTile(entranceX, entranceY).tileInfo.TileType == TileType.OBJECT)
+            return false;
+
+        if (!gridMap.usingTileList.Contains(tile)
+            || !gridMap.usingTileList.Contains(gridMap.tiles[new Vector2Int(entranceX, entranceY)]))
+            return false;
+
+        if(!building.CanMultiBuild)
+        {
+            for(int i = 0; i < gridMap.gridInfo.row -1; ++i)
+            {
+                for(int j = 0; j < gridMap.gridInfo.col -1; ++j)
+                {
+                    if(gridMap.GetTile(i,j).tileInfo.ObjectLayer.LayerObject != null 
+                        && gridMap.GetTile(i,j).tileInfo.ObjectLayer.LayerObject
+                        .GetComponent<Building>().StructureId
+                        == obj.GetComponent<Building>().StructureId)
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        for (int i = tile.tileInfo.id.x; i <= indexX; ++i)
+        {
+            for(int j = tile.tileInfo.id.y; j <= indexY; ++j)
+            {
+                if (gridMap.GetTile(i,j).tileInfo.TileType == TileType.OBJECT)
+                    return false;
+            }
+        }
+
+        return true;
+    }
+
 }

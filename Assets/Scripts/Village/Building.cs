@@ -101,17 +101,25 @@ public class Building : MonoBehaviour
         var transedId = building.entranceTile.tileInfo.id;
         if (!building.isFlip)
         {
-            localScale.x *= -1;
-            building.isFlip = true;
             transedId.x += 1;
             transedId.y -= 1;
+            if (!gridMap.usingTileList.Contains(gridMap.tiles[transedId])
+                || gridMap.tiles[transedId].tileInfo.TileType == TileType.OBJECT)
+                return;
+
+            localScale.x *= -1;
+            building.isFlip = true;
         }
         else
         {
-            localScale.x *= -1;
-            building.isFlip = false;
             transedId.x -= 1;
             transedId.y += 1;
+            if (!gridMap.usingTileList.Contains(gridMap.tiles[transedId])
+                || gridMap.tiles[transedId].tileInfo.TileType == TileType.OBJECT)
+                return;
+
+            localScale.x *= -1;
+            building.isFlip = false;
         }
         building.transform.localScale = localScale;
         building.entranceTile.ResetTileInfo();
