@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4104750300176006690}
   - component: {fileID: 8553073083624957745}
-  - component: {fileID: 5123246219790320037}
   - component: {fileID: 2391047946162651872}
+  - component: {fileID: 7625488896232799804}
   m_Layer: 0
   m_Name: TestMonster
   m_TagString: Player
@@ -86,118 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5123246219790320037
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7619623962398697375}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ddd0aee46b9fc8943a58ce29bd5922ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stats:
-    <DefaultStats>k__BackingField:
-      <MaxStamina>k__BackingField: 0
-      <MaxStress>k__BackingField: 0
-      <BaseHP>k__BackingField: 0
-      <Vit>k__BackingField: 0
-      <VitWeight>k__BackingField: 0
-      <Str>k__BackingField: 0
-      <StrWeight>k__BackingField: 0
-      <Mag>k__BackingField: 0
-      <MagWeight>k__BackingField: 0
-      <Agi>k__BackingField: 0
-      <AgiWeight>k__BackingField: 0
-      <UnitSize>k__BackingField: 0
-      <MoveSpeed>k__BackingField: 0
-      <RecognizeRange>k__BackingField: 0
-      <AttackRange>k__BackingField: 0
-      <AttackSpeed>k__BackingField: 0
-      <CriticalChance>k__BackingField: 0
-      <CriticalWeight>k__BackingField: 0
-      <CombatPoint>k__BackingField: 0
-    <CurrentStats>k__BackingField:
-      <MaxStamina>k__BackingField: 0
-      <MaxStress>k__BackingField: 0
-      <BaseHP>k__BackingField: 0
-      <Vit>k__BackingField: 0
-      <VitWeight>k__BackingField: 0
-      <Str>k__BackingField: 0
-      <StrWeight>k__BackingField: 0
-      <Mag>k__BackingField: 0
-      <MagWeight>k__BackingField: 0
-      <Agi>k__BackingField: 0
-      <AgiWeight>k__BackingField: 0
-      <UnitSize>k__BackingField: 0
-      <MoveSpeed>k__BackingField: 0
-      <RecognizeRange>k__BackingField: 0
-      <AttackRange>k__BackingField: 0
-      <AttackSpeed>k__BackingField: 0
-      <CriticalChance>k__BackingField: 0
-      <CriticalWeight>k__BackingField: 0
-      <CombatPoint>k__BackingField: 0
-  skills:
-    <SkillList>k__BackingField: []
-  testData:
-    <Name>k__BackingField: "\uBAAC\uC2A4\uD130"
-    <Id>k__BackingField: 0
-    <GachaChance>k__BackingField: 0
-    <GachaLevel>k__BackingField: 0
-    <Job>k__BackingField: 0
-    <BasicAttackType>k__BackingField: 0
-    <HP>k__BackingField: 300
-    <Stamina>k__BackingField: 100
-    <Stress>k__BackingField: 100
-    <RecognizeRange>k__BackingField: 7
-    <BasicAttackRange>k__BackingField: 1
-    <SizeRange>k__BackingField: 1
-    <MoveSpeed>k__BackingField: 5
-    <StrMin>k__BackingField: 10
-    <StrMax>k__BackingField: 20
-    <StrWeight>k__BackingField: 1
-    <MagMin>k__BackingField: 0
-    <MagMax>k__BackingField: 0
-    <MagWeight>k__BackingField: 0
-    <AgiMin>k__BackingField: 0
-    <AgiMax>k__BackingField: 0
-    <AgiWeight>k__BackingField: 0
-    <AttackSpeed>k__BackingField: 0.2
-    <CriticalChance>k__BackingField: 0
-    <CriticalHitWeight>k__BackingField: 0
-    <VitMin>k__BackingField: 0
-    <VitMax>k__BackingField: 0
-    <VitWeight>k__BackingField: 0
-    <SkillId1>k__BackingField: 0
-    <SkillId2>k__BackingField: 0
-  testSkillData:
-    <Name>k__BackingField: 
-    <Id>k__BackingField: 0
-    <SkillRankPoint>k__BackingField: 0
-    <SkillDivision>k__BackingField: 1
-    <ActiveType>k__BackingField: 4
-    <ActiveValue>k__BackingField: 10
-    <CastRange>k__BackingField: 3
-    <SkillAttackType>k__BackingField: 0
-    <SkillDmgRatio>k__BackingField: 0
-    <SkillAttackNum>k__BackingField: 0
-    <StatType>k__BackingField: 0
-    <ParameterType>k__BackingField: 0
-    <PassiveReturnType>k__BackingField: 0
-    <PassiveValue>k__BackingField: 0
-  skillEffect: {fileID: 5370980921516771431, guid: 90ef0521292fd934ab5de33bf491a7e5, type: 3}
-  spriteRenderer: {fileID: 8553073083624957745}
-  destinationPos: {x: 0, y: 0, z: 0}
-  dungeon: {fileID: 0}
-  group: 1
-  currentState: 0
-  attackTarget: {fileID: 0}
-  hitCollider:
-    a: 0
-    b: 0
-    position: {x: 0, y: 0}
 --- !u!60 &2391047946162651872
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -246,3 +134,64 @@ PolygonCollider2D:
       - {x: -0.5, y: -0.28866667}
       - {x: 0.5, y: -0.28866667}
   m_UseDelaunayMesh: 0
+--- !u!114 &7625488896232799804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7619623962398697375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9378c86433d2bb845a55aaedc673d372, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  testData:
+    <MonsterName>k__BackingField: "\uBAAC\uC2A4\uD130"
+    <MonsterId>k__BackingField: 0
+    <MoveSpeed>k__BackingField: 5
+    <SizeRange>k__BackingField: 0.4
+    <RecognizeRange>k__BackingField: 7
+    <PresenseRange>k__BackingField: 3
+    <BasicAttackRange>k__BackingField: 0.6
+    <CombatPoint>k__BackingField: 30
+    <AttackSpeed>k__BackingField: 0.2
+    <MaxHP>k__BackingField: 500
+    <PhysicalDef>k__BackingField: 0
+    <MagicalDef>k__BackingField: 0
+    <SpecialDef>k__BackingField: 0
+    <DropId>k__BackingField: 0
+    <MonsterAssetFileName>k__BackingField: 
+  stats:
+    group: 2
+    <Id>k__BackingField: 0
+    <Name>k__BackingField: 
+    <HP>k__BackingField:
+      defaultValue: 0
+      min: 0
+      max: 2147483647
+    <MoveSpeed>k__BackingField:
+      defaultValue: 0
+    <UnitSize>k__BackingField:
+      defaultValue: 0
+    <RecognizeRange>k__BackingField:
+      defaultValue: 0
+    <PresenseRange>k__BackingField:
+      defaultValue: 0
+    <AttackRange>k__BackingField:
+      defaultValue: 0
+    <AttackSpeed>k__BackingField:
+      defaultValue: 0
+    <CombatPoint>k__BackingField: 0
+    transform: {fileID: 0}
+    <PhysicalDef>k__BackingField:
+      defaultValue: 0
+    <MagicalDef>k__BackingField:
+      defaultValue: 0
+    <SpecialDef>k__BackingField:
+      defaultValue: 0
+    <DropId>k__BackingField: 0
+    <MonsterAssetFileName>k__BackingField: 
+  dungeon: {fileID: 0}
+  currentState: 0
+  attackTarget: {fileID: 0}

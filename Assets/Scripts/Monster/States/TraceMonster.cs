@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 
-public class TraceOnDungeon : State<UnitOnDungeon>
+public class TraceMonster : State<Monster>
 {
     private bool isCollidedWithTarget;
 
     public override void EnterState()
     {
-        owner.currentState = UnitOnDungeon.STATE.TRACE;
-        //owner.spriteRenderer.color = Color.yellow;
+        owner.currentState = Monster.STATE.TRACE;
     }
 
     public override void ExitState()
@@ -25,32 +24,17 @@ public class TraceOnDungeon : State<UnitOnDungeon>
 
         var moveDirection = owner.transform.position - (owner.attackTarget).transform.position;
         owner.transform.position -= moveDirection.normalized * Time.deltaTime * owner.stats.MoveSpeed.Current;
-
     }
-
 
     protected override bool Transition()
     {
         if (owner.attackTarget == null)
         {
-            if (owner.IsNeedReturn)
-                controller.ChangeState((int)UnitOnDungeon.STATE.RETURN);
-            else
-                controller.ChangeState((int)UnitOnDungeon.STATE.IDLE);
+            controller.ChangeState((int)UnitOnDungeon.STATE.IDLE);
             return true;
         }
         else
         {
-            foreach (var skill in owner.skills.SkillList)
-            {
-                if (skill.IsReady
-                    && owner.attackTarget.stats.SizeEllipse.IsCollidedWith(skill.CastEllipse))
-                {
-                    controller.ChangeState((int)UnitOnDungeon.STATE.SKILL);
-                    return true;
-                }
-            }
-
             isCollidedWithTarget = owner.attackTarget.stats.SizeEllipse.IsCollidedWith(owner.stats.BasicAttackEllipse);
 
             if (owner.stats.AttackTimer >= owner.stats.AttackSpeed.Current && isCollidedWithTarget)

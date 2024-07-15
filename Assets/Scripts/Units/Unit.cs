@@ -2,9 +2,11 @@
 using UnityEngine;
 
 [Serializable]
-public abstract class Unit : MonoBehaviour
+public abstract class Unit : MonoBehaviour, IStatUsable
 {
     public UnitStats stats = new();
+    public virtual STAT_GROUP StatGroup => STAT_GROUP.UNIT_ON_VILLAGE;
+    public Stats GetStats => stats;
     public UnitSkills skills;
 
     //TESTCODE
@@ -19,7 +21,8 @@ public abstract class Unit : MonoBehaviour
     {
         //TESTCODE
         //TODO 스탯 할당, 스킬 할당
-        stats.Init(testData);
+        stats.InitStats(testData);
+        stats.InitEllipses(transform);
     }
 
     /// <summary>
@@ -29,6 +32,7 @@ public abstract class Unit : MonoBehaviour
     {
         ResetEvents();
         stats.ResetStats();
+        stats.ResetEllipses();
         skills.ResetSkills();
     }
 

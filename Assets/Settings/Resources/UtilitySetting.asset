@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8095774809cff948927245d5c4f770e, type: 3}
+  m_Script: {fileID: 11500000, guid: dd05155e8efca8240a16f18f58d714c0, type: 3}
   m_Name: UtilitySetting
   m_EditorClassIdentifier: 
   serverURI: google.com
@@ -17,3 +17,4 @@ MonoBehaviour:
   syncInterval: 30
   syncLimitSeconds: 4
   ellipseRatio: 0.75
+  monsterRoamTime: 3

@@ -7,18 +7,18 @@ public class EllipseDrawer : MonoBehaviour
 {
     public LineRenderer lineRenderer;
     public Ellipse ellipse;
-    public UnitOnDungeon owner;
+    public IStatUsable owner;
 
     private void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
-        owner = GetComponent<UnitOnDungeon>();
+        owner = GetComponent<IStatUsable>();
 
         lineRenderer.loop = true;
         lineRenderer.startWidth = 0.1f;
         lineRenderer.endWidth = 0.1f;
 
-        ellipse = owner.SizeEllipse;
+        ellipse = owner.GetStats.SizeEllipse;
         Draw(ellipse.a, ellipse.b, Vector2.zero, lineRenderer);
         lineRenderer.useWorldSpace = false;
     }

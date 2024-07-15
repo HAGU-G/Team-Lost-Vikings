@@ -14,7 +14,8 @@ public enum ATTACK_TYPE
 {
     PHYSICAL,
     MAGIC,
-    SPECIAL
+    SPECIAL,
+    NONE
 }
 
 public enum UNIT_GRADE
@@ -35,24 +36,24 @@ public class UnitStats : Stats
     public int SkillId2 { get; private set; }
 
     //Parameters
-    public Parameter Stamina { get; set; } = new();
-    public Parameter Stress { get; set; } = new();
+    [field: SerializeField] public Parameter Stamina { get; private set; } = new();
+    [field: SerializeField] public Parameter Stress { get; private set; } = new();
 
     //Stats
-    [field: SerializeField] public StatInt BaseHP { get; set; } = new();
-    [field: SerializeField] public StatInt Vit { get; set; } = new();
-    [field: SerializeField] public StatFloat VitWeight { get; set; } = new();
-    [field: SerializeField] public StatInt Str { get; set; } = new();
-    [field: SerializeField] public StatFloat StrWeight { get; set; } = new();
-    [field: SerializeField] public StatInt Mag { get; set; } = new();
-    [field: SerializeField] public StatFloat MagWeight { get; set; } = new();
-    [field: SerializeField] public StatInt Agi { get; set; } = new();
-    [field: SerializeField] public StatFloat AgiWeight { get; set; } = new();
+    [field: SerializeField] public StatInt BaseHP { get; private set; } = new();
+    [field: SerializeField] public StatInt Vit { get; private set; } = new();
+    [field: SerializeField] public StatFloat VitWeight { get; private set; } = new();
+    [field: SerializeField] public StatInt Str { get; private set; } = new();
+    [field: SerializeField] public StatFloat StrWeight { get; private set; } = new();
+    [field: SerializeField] public StatInt Mag { get; private set; } = new();
+    [field: SerializeField] public StatFloat MagWeight { get; private set; } = new();
+    [field: SerializeField] public StatInt Agi { get; private set; } = new();
+    [field: SerializeField] public StatFloat AgiWeight { get; private set; } = new();
 
     [field: SerializeField] public StatFloat CriticalChance { get; set; } = new();
     [field: SerializeField] public StatFloat CriticalWeight { get; set; } = new();
 
-    public void Init(UnitStatsData data = null)
+    public void InitStats(UnitStatsData data = null)
     {
         if (data == null)
             return;
@@ -63,12 +64,16 @@ public class UnitStats : Stats
 
     public override void ResetStats()
     {
+        SetMaxHP();
+        base.ResetStats();
+
         Stress.Reset();
         Stamina.Reset();
-        base.ResetStats();
+
+        UpdateCombatPoint();
     }
 
-    public override void UpdateCombatPoint()
+    public void UpdateCombatPoint()
     {
         CombatPoint =
             GetWeightedStat(Str.Current, StrWeight.Current)
@@ -117,14 +122,15 @@ public class UnitStats : Stats
         return gacha;
     }
 
-    protected void SetConstantStats(UnitStatsData data)
+    private void SetConstantStats(UnitStatsData data)
     {
+        Id = data.Id;
         Name = data.Name;
         Job = data.Job;
         BasicAttackType = data.BasicAttackType;
     }
 
-    protected override void SetMaxHP()
+    private void SetMaxHP()
     {
         HP.max = BaseHP.Current + GetWeightedStat(Vit.Current, VitWeight.Current);
 
@@ -132,7 +138,7 @@ public class UnitStats : Stats
             HP.Current = HP.max;
     }
 
-    protected void CalulateGrade()
+    private void CalulateGrade()
     {
         //TODO 유닛 등급 계산 필요
     }

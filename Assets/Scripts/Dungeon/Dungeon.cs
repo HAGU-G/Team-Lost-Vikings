@@ -5,10 +5,10 @@ using UnityEngine;
 public class Dungeon : MonoBehaviour
 {
     public UnitOnDungeon player;
-    public UnitOnDungeon monster;
+    public Monster monster;
 
     public List<UnitOnDungeon> players = new();
-    public List<UnitOnDungeon> monsters = new();
+    public List<Monster> monsters = new();
 
     public GameObject portal;
     public GameObject portal2;
@@ -42,12 +42,14 @@ public class Dungeon : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             var p = Instantiate(player, transform.position + (Vector3)Random.insideUnitCircle * 20f, Quaternion.identity);
-            var m = Instantiate(monster, transform.position + (Vector3)Random.insideUnitCircle * 20f, Quaternion.identity);
             p.dungeon = this;
-            m.dungeon = this;
             p.Ready();
-            m.Ready();
             players.Add(p);
+
+            var m = Instantiate(monster, transform.position + (Vector3)Random.insideUnitCircle * 20f, Quaternion.identity);
+            m.dungeon = this;
+            m.Init();
+            m.ResetMonster();
             monsters.Add(m);
             yield return new WaitForEndOfFrame();
         }

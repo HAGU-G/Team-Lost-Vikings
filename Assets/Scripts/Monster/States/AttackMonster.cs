@@ -1,11 +1,11 @@
-﻿public class AttackOnDungeon : State<UnitOnDungeon>
+﻿
+using UnityEngine;
+
+public class AttackMonster : State<Monster>
 {
-
-
     public override void EnterState()
     {
-        owner.currentState = UnitOnDungeon.STATE.ATTACK;
-        //owner.spriteRenderer.color = Color.red;
+        owner.currentState = Monster.STATE.ATTACK;
     }
 
     public override void ExitState()
@@ -22,18 +22,12 @@
 
         if (Transition())
             return;
-
     }
 
     protected override bool Transition()
     {
         if (owner.attackTarget == null)
-        {
-            if (owner.IsNeedReturn)
-                controller.ChangeState((int)UnitOnDungeon.STATE.RETURN);
-            else
-                controller.ChangeState((int)UnitOnDungeon.STATE.IDLE);
-        }
+            controller.ChangeState((int)UnitOnDungeon.STATE.IDLE);
 
         controller.ChangeState((int)UnitOnDungeon.STATE.TRACE);
 

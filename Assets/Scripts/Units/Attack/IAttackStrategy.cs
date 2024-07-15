@@ -1,5 +1,5 @@
 ﻿public interface IAttackStrategy
 {
     /// <returns>이 공격으로 죽었을 경우 true 반환</returns>
-    public bool Attack(int damage, IDamagedable target);
+    public bool Attack(IDamagedable target, int damage, ATTACK_TYPE type = ATTACK_TYPE.NONE);
 }

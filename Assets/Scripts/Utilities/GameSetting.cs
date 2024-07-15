@@ -4,7 +4,7 @@ using System.Text;
 using UnityEditor;
 #endif
 
-public class UtilitySetting : ScriptableObject
+public class GameSetting : ScriptableObject
 {
 #if UNITY_EDITOR
     private static string[] fileDirectory = {
@@ -20,17 +20,18 @@ public class UtilitySetting : ScriptableObject
     }
 #endif
 
+    #region INSTANCE
     private static string fileName = "UtilitySetting";
 
-    private static UtilitySetting _instance;
-    public static UtilitySetting Instance
+    private static GameSetting _instance;
+    public static GameSetting Instance
     {
 
         get
         {
             if (_instance == null)
             {
-                _instance = Resources.Load<UtilitySetting>(fileName);
+                _instance = Resources.Load<GameSetting>(fileName);
 #if UNITY_EDITOR
                 if (_instance == null)
                 {
@@ -45,7 +46,7 @@ public class UtilitySetting : ScriptableObject
                     }
                     filePath.Append(string.Concat("/", fileName));
 
-                    _instance = CreateInstance<UtilitySetting>();
+                    _instance = CreateInstance<GameSetting>();
                     AssetDatabase.CreateAsset(_instance, string.Concat(filePath.ToString(), ".asset"));
                 }
 #endif
@@ -53,7 +54,11 @@ public class UtilitySetting : ScriptableObject
             return _instance;
         }
     }
+    #endregion
 
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    // 시간 설정 /////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////
     public string serverURI = "google.com";
     public enum SYNC_INTERVAL_TYPE
     {
@@ -64,5 +69,19 @@ public class UtilitySetting : ScriptableObject
     public int syncInterval = 30;
     public int syncLimitSeconds = 4;
 
+
+
+
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    // 타일 설정 /////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////
     public float ellipseRatio = 0.75f;
+
+
+
+
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    // AI 설정 ///////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    public float monsterRoamTime = 6f;
 }

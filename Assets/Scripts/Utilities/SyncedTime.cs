@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 
 public static class SyncedTime
 {
-    private static UtilitySetting setting = UtilitySetting.Instance;
+    private static GameSetting setting = GameSetting.Instance;
 
     public static int CorrectionSeconds { get; private set; }
     public static int CorrectionMilliSeconds { get; private set; }
@@ -90,10 +90,10 @@ public static class SyncedTime
             Sync();
             switch (setting.syncIntervalType)
             {
-                case UtilitySetting.SYNC_INTERVAL_TYPE.MINUTE:
+                case GameSetting.SYNC_INTERVAL_TYPE.MINUTE:
                     yield return new WaitForSecondsRealtime(setting.syncInterval * 60f);
                     break;
-                case UtilitySetting.SYNC_INTERVAL_TYPE.HOUR:
+                case GameSetting.SYNC_INTERVAL_TYPE.HOUR:
                     yield return new WaitForSecondsRealtime(setting.syncInterval * 3600f);
                     break;
             }

@@ -1,22 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using UnityEditor.Experimental.GraphView;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.UI.CanvasScaler;
 
-public class UnitOnDungeon
-    : Unit, IDamagedable, IObserver<UnitOnDungeon>, ISubject<UnitOnDungeon>
+public class UnitOnDungeon : Unit, IDamagedable, IObserver<Monster>, IAttackable
 {
-    #region INSPECTOR
-    public SpriteRenderer spriteRenderer;
-    #endregion
-
-    public Vector3 destinationPos;
-
     //TESTCODE 던전 임시 연결
     public Dungeon dungeon;
-
+    public Vector3 destinationPos;
 
     //State
     public enum STATE
@@ -25,32 +14,27 @@ public class UnitOnDungeon
         TRACE,
         ATTACK,
         RETURN,
-        SKILL
+        SKILL,
+        DEAD
     }
 
-    private FSM<UnitOnDungeon> dungeonFSM;
-    public UNIT_GROUP group;
+    private FSM<UnitOnDungeon> fsm;
     public STATE currentState;
 
     //Attack
     private IAttackStrategy attackBehaviour = new AttackDefault();
-    public UnitOnDungeon attackTarget;
-    public List<UnitOnDungeon> Enemies { get; private set; }
+    public Monster attackTarget;
+    public List<Monster> Enemies { get; private set; }
 
-    public List<IObserver<UnitOnDungeon>> attackers = new();
-    private Dictionary<UnitOnDungeon, int> attackedTargets = new();
+    private Dictionary<Monster, int> attackedTargets = new();
 
     //Event
-    public event Action OnDamaged;
-    public event Action OnAttacked;
-    public event Action OnUpdated;
+    public event System.Action OnDamaged;
+    public event System.Action OnAttacked;
+    public event System.Action OnUpdated;
 
     //AdditionalStats
-    public Ellipse SizeEllipse { get; private set; }
-    public Ellipse BasicAttackEllipse { get; private set; }
-    public Ellipse RecognizeEllipse { get; private set; }
-
-    public float AttackTimer { get; private set; }
+    public override STAT_GROUP StatGroup => STAT_GROUP.UNIT_ON_DUNGEON;
     public bool IsDead { get; private set; }
     public bool IsNeedReturn
     {
@@ -62,17 +46,15 @@ public class UnitOnDungeon
         }
     }
 
+
     private void Update()
     {
-        if (AttackTimer < stats.AttackSpeed.Current)
-        {
-            AttackTimer += Time.deltaTime;
-        }
+        stats.UpdateAttackTimer();
+
         OnUpdated?.Invoke();
 
-
-        UpdateEllipsePosition();
-        dungeonFSM.Update();
+        stats.UpdateEllipses();
+        fsm.Update();
         CollisionUpdate();
     }
 
@@ -82,33 +64,16 @@ public class UnitOnDungeon
         {
             if (unit == this)
                 continue;
-            Collision(unit);
+            stats.Collision(unit.stats);
         }
 
         foreach (var unit in dungeon.monsters)
         {
             if (unit == this)
                 continue;
-            Collision(unit);
+            stats.Collision(unit.stats);
         }
-        UpdateEllipsePosition();
-    }
-
-
-    private void Collision(UnitOnDungeon other)
-    {
-        var collisionDepth = SizeEllipse.CollisionDepthWith(other.SizeEllipse);
-        if (collisionDepth >= 0f)
-        {
-            transform.position -= (other.transform.position - transform.position).normalized * collisionDepth;
-        }
-    }
-
-    private void UpdateEllipsePosition()
-    {
-        SizeEllipse.position = transform.position;
-        BasicAttackEllipse.position = transform.position;
-        RecognizeEllipse.position = transform.position;
+        stats.UpdateEllipses();
     }
 
 
@@ -132,17 +97,16 @@ public class UnitOnDungeon
     {
         //base.Init();
 
-        dungeonFSM = new();
-        dungeonFSM.Init(this, 0,
+        stats.InitEllipses(transform);
+
+        fsm = new();
+        fsm.Init(this, 0,
             new IdleOnDungeon(),
             new TraceOnDungeon(),
             new AttackOnDungeon(),
             new ReturnOnDungeon(),
-            new UseSkillOnDungeon());
-
-        SizeEllipse = new(stats.UnitSize.Current, transform.position);
-        BasicAttackEllipse = new(stats.AttackRange.Current, transform.position);
-        RecognizeEllipse = new(stats.RecognizeRange.Current, transform.position);
+            new UseSkillOnDungeon(),
+            new DeadOnDungeon());
 
 
         //TESTCODE
@@ -154,23 +118,12 @@ public class UnitOnDungeon
     {
         base.ResetUnit();
 
-        OnDamaged = null;
         IsDead = false;
 
         attackedTargets.Clear();
-        attackers.Clear();
+        Enemies = dungeon.monsters;
 
-        if (group == UNIT_GROUP.PLAYER)
-            Enemies = dungeon.monsters;
-        else
-            Enemies = dungeon.players;
-
-        SizeEllipse.SetAxies(stats.UnitSize.Current, transform.position);
-        BasicAttackEllipse.SetAxies(stats.AttackRange.Current, transform.position);
-        RecognizeEllipse.SetAxies(stats.RecognizeRange.Current, transform.position);
-
-
-        dungeonFSM.ResetFSM();
+        fsm.ResetFSM();
     }
 
     protected override void ResetEvents()
@@ -181,47 +134,37 @@ public class UnitOnDungeon
         OnUpdated = null;
     }
 
-    public bool TakeDamage(int damage)
+    public bool TakeDamage(int damage, ATTACK_TYPE type)
     {
         stats.HP.Current -= damage;
         OnDamaged?.Invoke();
 
         if (!IsDead && stats.HP.Current <= 0)
         {
-            Dead();
+            IsDead = true;
+            fsm.ChangeState((int)STATE.DEAD);
             return true;
         }
 
         return false;
     }
-
-    public void Dead()
-    {
-        IsDead = true;
-        foreach (var observer in attackers)
-        {
-            if (observer == null)
-            {
-                Debug.LogWarning($"{name}의 옵저버가 null입니다.");
-                continue;
-            }
-            observer.ReceiveNotification(this);
-        }
-        Destroy(gameObject);
-    }
-
-    /// <returns>공격 실패: -1, 성공: 0, 이 공격으로 죽었을 경우 : 1</returns>
+    
     public int TryAttack()
     {
         if (attackTarget == null)
             return -1;
 
         OnAttacked?.Invoke();
+        stats.AttackTimer = 0f;
 
         attackTarget.Subscribe(this);
         StackStaminaToConsume(1, attackTarget);
 
-        if (attackBehaviour.Attack(stats.CombatPoint, attackTarget))
+        bool isCritical = Random.Range(0, 100) < stats.CriticalChance.Current;
+        var criticalWeight = isCritical ? stats.CriticalWeight.Current : 1f;
+        var damage = Mathf.FloorToInt(stats.CombatPoint * criticalWeight);
+
+        if (attackBehaviour.Attack(attackTarget, damage, stats.BasicAttackType))
         {
             stats.Stress.Current--;
             return 1;
@@ -229,7 +172,7 @@ public class UnitOnDungeon
         return 0;
     }
 
-    public void StackStaminaToConsume(int stamina, UnitOnDungeon target)
+    public void StackStaminaToConsume(int stamina, Monster target)
     {
         if (attackedTargets.ContainsKey(target))
             attackedTargets[target] += stamina;
@@ -237,7 +180,7 @@ public class UnitOnDungeon
             attackedTargets.Add(target, stamina);
     }
 
-    private void ConsumeStamina(UnitOnDungeon target)
+    private void ConsumeStamina(Monster target)
     {
         if (!attackedTargets.ContainsKey(target))
             return;
@@ -246,25 +189,9 @@ public class UnitOnDungeon
         attackedTargets.Remove(target);
     }
 
-    public void ReceiveNotification(UnitOnDungeon subject)
+    public void ReceiveNotification(Monster subject)
     {
         if (subject.IsDead)
             ConsumeStamina(subject);
-    }
-
-    public void Subscribe(IObserver<UnitOnDungeon> observer)
-    {
-        if (attackers.Contains(observer))
-            return;
-
-        attackers.Add(observer);
-    }
-
-    public void UnSubscrive(IObserver<UnitOnDungeon> observer)
-    {
-        if (!attackers.Contains(observer))
-            return;
-
-        attackers.Remove(observer);
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 [System.Serializable]
 public class Ellipse
 {
-    private static UtilitySetting setting = UtilitySetting.Instance;
+    private static GameSetting setting = GameSetting.Instance;
 
     public Ellipse(float majorAxis, float minorAxis, Vector3 pos)
     {
