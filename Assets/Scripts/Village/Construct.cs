@@ -4,21 +4,21 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using UnityEngine;
 
-public class ConstructBuilding : MonoBehaviour
+public class Construct : MonoBehaviour
 {
     public bool isSelected = false;
     public bool isRemoveTime = false;
+    public bool isRoadBuild = false;
 
     public GameObject PlaceBuilding(GameObject obj, Tile tile, GridMap gridMap)
     {
-        if (!CanBuild(obj, tile, gridMap))
+        if (!CanBuildBuilding(obj, tile, gridMap))
         {
             Debug.Log("건물을 설치할 수 없습니다.");
             isSelected = false;
             return null;
         }
             
-        
         var objInfo = obj.GetComponent<Building>();
         var width = objInfo.Width;
         var height = objInfo.Length;
@@ -53,6 +53,21 @@ public class ConstructBuilding : MonoBehaviour
         return instancedObj;
     }
 
+    public GameObject PlaceRoad(GameObject road, Tile tile, GridMap gridMap)
+    {
+        if (!CanBuildRoad(tile, gridMap))
+            return null;
+
+        var indexX = tile.tileInfo.id.x;
+        var indexY = tile.tileInfo.id.y;
+
+        gridMap.GetTile(indexX, indexY).UpdateTileInfo(TileType.ROAD, road);
+        var roadObj = Instantiate(road, gridMap.IndexToPos(new Vector2Int(indexX, indexY)), Quaternion.identity, tile.transform);
+
+
+        return roadObj;
+    }
+
     public GameObject RemoveBuilding(Tile tile, GridMap gridMap)
     {
         var obj = tile.tileInfo.ObjectLayer.LayerObject;
@@ -79,7 +94,6 @@ public class ConstructBuilding : MonoBehaviour
         }
 
         objInfo.placedTiles.Clear();
-        //construectedBuildings.Remove(obj);
         Destroy(obj);
         tile.ResetTileInfo();
         isRemoveTime = false;
@@ -109,7 +123,7 @@ public class ConstructBuilding : MonoBehaviour
         return standardBuilding;
     }
 
-    public bool CanBuild(GameObject obj, Tile tile, GridMap gridMap)
+    public bool CanBuildBuilding(GameObject obj, Tile tile, GridMap gridMap)
     {
         var building = obj.GetComponent<Building>();
         var width = building.Width;
@@ -161,6 +175,15 @@ public class ConstructBuilding : MonoBehaviour
                     return false;
             }
         }
+
+        return true;
+    }
+
+    private bool CanBuildRoad(Tile tile, GridMap gridMap)
+    {
+        if (tile.tileInfo.TileType == TileType.OBJECT
+            || tile.tileInfo.TileType == TileType.ROAD)
+            return false;
 
         return true;
     }

@@ -175,7 +175,7 @@ public class GridMap : MonoBehaviour
             foreach (var adjacentTile in currentTile.adjacentTiles)
             {
                 if (adjacentTile == null 
-                    || adjacentTile.tileInfo.TileType == TileType.OBJECT
+                    || adjacentTile.tileInfo.TileType != TileType.ROAD
                     || !usingTileList.Contains(adjacentTile)
                     /*|| adjacentTile.tileInfo.Weight == int.MaxValue*/   //가중치 추가되면 수정하기
                     )

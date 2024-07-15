@@ -205,6 +205,7 @@ MonoBehaviour:
   - {fileID: 4125673889435522284, guid: 0a52a2dfc707d5447ba9d2fafb7c2323, type: 3}
   - {fileID: 7845117778571857193, guid: 867cc1057633b004dbc24db4a330134f, type: 3}
   standardPrefab: {fileID: 5064512460059276777, guid: e640f1c07230acb46a0456f0e1c92943, type: 3}
+  roadPrefab: {fileID: 101424399208625417, guid: cba03f8874769744bb9e7ee7ac90b656, type: 3}
 --- !u!4 &927712893
 Transform:
   m_ObjectHideFlags: 0

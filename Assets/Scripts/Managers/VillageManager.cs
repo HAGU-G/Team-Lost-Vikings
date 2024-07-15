@@ -8,12 +8,13 @@ using UnityEngine;
 
 public class VillageManager : MonoBehaviour
 {
-    private ConstructBuilding construct = new();
+    private Construct construct = new();
     public List<GameObject> construectedBuildings = new();
     public GridMap gridMap;
     public Dictionary<int, GameObject> objectList = new();
     public List<GameObject> installableBuilding = new();
     public GameObject standardPrefab;
+    public GameObject roadPrefab;
 
     private int playerLevel = 1;
 
@@ -66,6 +67,15 @@ public class VillageManager : MonoBehaviour
         {
             construct.isRemoveTime = true;
         }
+
+        if (GUI.Button(new Rect(0f, 430f, 70f, 70f), "Road"))
+        {
+            if(!construct.isRoadBuild)
+                construct.isRoadBuild = true;
+            else if(construct.isRoadBuild)
+                construct.isRoadBuild = false;
+        }
+
     }
 
     //private void OnEntranceTileChanged(Tile tile)
@@ -137,6 +147,25 @@ public class VillageManager : MonoBehaviour
                 return;
             }
         }
+
+
+        //if (construct.isRoadBuild && Input.GetMouseButtonUp(0))
+        //{
+        //    construct.isRoadBuild = false;
+        //    return;
+        //}
+        if (Input.GetMouseButton(0) && construct.isRoadBuild)
+        {
+           
+            var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            if (GetTile(worldPos) != null)
+            {
+                var tile = GetTile(worldPos);
+                construct.PlaceRoad(roadPrefab, tile, gridMap); 
+            }
+
+        }
+
 
         //if(Input.GetKeyDown(KeyCode.U))
         //{
