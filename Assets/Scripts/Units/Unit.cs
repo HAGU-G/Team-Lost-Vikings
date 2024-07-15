@@ -4,7 +4,7 @@ using UnityEngine;
 [Serializable]
 public abstract class Unit : MonoBehaviour
 {
-    public UnitStats stats;
+    public UnitStats stats = new();
     public UnitSkills skills;
 
     //TESTCODE
@@ -19,7 +19,7 @@ public abstract class Unit : MonoBehaviour
     {
         //TESTCODE
         //TODO 스탯 할당, 스킬 할당
-        stats = new(testData);
+        stats.Init(testData);
     }
 
     /// <summary>
@@ -28,7 +28,7 @@ public abstract class Unit : MonoBehaviour
     protected virtual void ResetUnit()
     {
         ResetEvents();
-        stats.ResetUnitStats();
+        stats.ResetStats();
         skills.ResetSkills();
     }
 

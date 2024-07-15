@@ -56,15 +56,15 @@ public class UnitOnDungeon
     {
         get
         {
-            return stats.HPRatio < 0.1f
-                || stats.StaminaRatio < 0.5f
-                || stats.StressRatio < 0.5f;
+            return stats.HP.Ratio <= 0.1f
+                || stats.Stamina.Ratio <= 0.5f
+                || stats.Stress.Ratio <= 0.5f;
         }
     }
 
     private void Update()
     {
-        if (AttackTimer < stats.CurrentStats.AttackSpeed)
+        if (AttackTimer < stats.AttackSpeed.Current)
         {
             AttackTimer += Time.deltaTime;
         }
@@ -140,10 +140,9 @@ public class UnitOnDungeon
             new ReturnOnDungeon(),
             new UseSkillOnDungeon());
 
-        var currentStats = stats.CurrentStats;
-        SizeEllipse = new(currentStats.UnitSize, transform.position);
-        BasicAttackEllipse = new(currentStats.AttackRange, transform.position);
-        RecognizeEllipse = new(currentStats.RecognizeRange, transform.position);
+        SizeEllipse = new(stats.UnitSize.Current, transform.position);
+        BasicAttackEllipse = new(stats.AttackRange.Current, transform.position);
+        RecognizeEllipse = new(stats.RecognizeRange.Current, transform.position);
 
 
         //TESTCODE
@@ -166,10 +165,9 @@ public class UnitOnDungeon
         else
             Enemies = dungeon.players;
 
-        var currentStats = stats.CurrentStats;
-        SizeEllipse.SetAxies(currentStats.UnitSize, transform.position);
-        BasicAttackEllipse.SetAxies(currentStats.AttackRange, transform.position);
-        RecognizeEllipse.SetAxies(currentStats.RecognizeRange, transform.position);
+        SizeEllipse.SetAxies(stats.UnitSize.Current, transform.position);
+        BasicAttackEllipse.SetAxies(stats.AttackRange.Current, transform.position);
+        RecognizeEllipse.SetAxies(stats.RecognizeRange.Current, transform.position);
 
 
         dungeonFSM.ResetFSM();
@@ -185,10 +183,10 @@ public class UnitOnDungeon
 
     public bool TakeDamage(int damage)
     {
-        stats.HP -= damage;
+        stats.HP.Current -= damage;
         OnDamaged?.Invoke();
 
-        if (!IsDead && stats.HP <= 0)
+        if (!IsDead && stats.HP.Current <= 0)
         {
             Dead();
             return true;
@@ -223,9 +221,9 @@ public class UnitOnDungeon
         attackTarget.Subscribe(this);
         StackStaminaToConsume(1, attackTarget);
 
-        if (attackBehaviour.Attack(stats.CurrentStats.CombatPoint, attackTarget))
+        if (attackBehaviour.Attack(stats.CombatPoint, attackTarget))
         {
-            stats.Stress--;
+            stats.Stress.Current--;
             return 1;
         }
         return 0;
@@ -244,7 +242,7 @@ public class UnitOnDungeon
         if (!attackedTargets.ContainsKey(target))
             return;
 
-        stats.Stamina -= attackedTargets[target];
+        stats.Stamina.Current -= attackedTargets[target];
         attackedTargets.Remove(target);
     }
 

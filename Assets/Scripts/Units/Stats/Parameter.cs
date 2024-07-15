@@ -1,17 +1,17 @@
 ﻿using System;
 
 [Serializable]
-public class Parameter : IComparable<Parameter>, IEquatable<Parameter>, IFormattable
+public class Parameter : IFormattable
 {
-    public Parameter(int defaultValue = 0)
+    public Parameter(int defaultValue = default)
     {
         this.defaultValue = defaultValue;
     }
 
-    public int defaultValue {get; private set;}
-    public bool hasMax = false;
+    public int defaultValue;
     public int min = 0;
-    public StatInt max = new();
+    public int max = int.MaxValue;
+
 
     private int _current;
     public int Current
@@ -26,9 +26,9 @@ public class Parameter : IComparable<Parameter>, IEquatable<Parameter>, IFormatt
                 _current = min;
                 return;
             }
-            if (hasMax && max != null && _current > (int)max)
+            if (_current > max)
             {
-                _current = (int)max;
+                _current = max;
                 return;
             }
         }
@@ -38,59 +38,17 @@ public class Parameter : IComparable<Parameter>, IEquatable<Parameter>, IFormatt
     {
         get
         {
-            if (!hasMax)
-                return 1f;
-            else if (max == null)
+            if (max == 0)
                 return 1f;
 
-            return Current - min / (int)max;
+            return (Current - min) / (float)max;
         }
     }
-
-    //operator
-    public static explicit operator int(Parameter self) => self.Current;
-    public static explicit operator float(Parameter self) => self.Current;
-
-    #region COMPARE
-    public static bool operator >(Parameter left, int right) => left.Current > right;
-    public static bool operator <(Parameter left, int right) => left.Current < right;
-    public static bool operator >=(Parameter left, int right) => left.Current >= right;
-    public static bool operator <=(Parameter left, int right) => left.Current <= right;
-    public static bool operator ==(Parameter left, int right) => left.Current == right;
-    public static bool operator !=(Parameter left, int right) => left.Current != right;
-    public static bool operator >(int left, Parameter right) => left > right.Current;
-    public static bool operator <(int left, Parameter right) => left < right.Current;
-    public static bool operator >=(int left, Parameter right) => left >= right.Current;
-    public static bool operator <=(int left, Parameter right) => left <= right.Current;
-    public static bool operator ==(int left, Parameter right) => left == right.Current;
-    public static bool operator !=(int left, Parameter right) => left != right.Current;
-    public static bool operator >(Parameter left, StatInt right) => left.Current > right.Current;
-    public static bool operator <(Parameter left, StatInt right) => left.Current < right.Current;
-    public static bool operator >=(Parameter left, StatInt right) => left.Current >= right.Current;
-    public static bool operator <=(Parameter left, StatInt right) => left.Current <= right.Current;
-    public static bool operator ==(Parameter left, StatInt right) => left.Current == right.Current;
-    public static bool operator !=(Parameter left, StatInt right) => left.Current != right.Current;
-    public static bool operator >(StatInt left, Parameter right) => left.Current > right.Current;
-    public static bool operator <(StatInt left, Parameter right) => left.Current < right.Current;
-    public static bool operator >=(StatInt left, Parameter right) => left.Current >= right.Current;
-    public static bool operator <=(StatInt left, Parameter right) => left.Current <= right.Current;
-    public static bool operator ==(StatInt left, Parameter right) => left.Current == right.Current;
-    public static bool operator !=(StatInt left, Parameter right) => left.Current != right.Current;
-    #endregion
-
     //Methods
-    public int CompareTo(Parameter other)
-    {
-        return Current.CompareTo(other.Current);
-    }
-    public bool Equals(Parameter other)
-    {
-        return Current.Equals(other.Current);
-    }
-    public string ToString(string format, IFormatProvider formatProvider)
-    {
-        return Current.ToString(format, formatProvider);
-    }
+    public override string ToString() => Current.ToString();
+    public string ToString(IFormatProvider provider) => Current.ToString(provider);
+    public string ToString(string format) => Current.ToString(format);
+    public string ToString(string format, IFormatProvider provider) => Current.ToString(format, provider);
     public void Reset()
     {
         Current = defaultValue;
@@ -99,9 +57,19 @@ public class Parameter : IComparable<Parameter>, IEquatable<Parameter>, IFormatt
     {
         this.min = min;
     }
-    public void SetMax(StatInt max)
+    public void SetMax(int max)
     {
         this.max = max;
-        hasMax = true;
+    }
+
+    public Parameter Clone()
+    {
+        var clone = new Parameter();
+        clone.defaultValue = defaultValue;
+        clone.min = min;
+        clone.max = max;
+        clone.Current = Current;
+
+        return clone;
     }
 }

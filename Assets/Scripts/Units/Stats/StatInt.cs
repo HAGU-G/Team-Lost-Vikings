@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 
 [Serializable]
-public class StatInt : IComparable<StatInt>, IEquatable<StatInt>, IFormattable
+public class StatInt : IFormattable
 {
     public StatInt(int defaultValue = default)
     {
@@ -11,24 +10,21 @@ public class StatInt : IComparable<StatInt>, IEquatable<StatInt>, IFormattable
 
     public int defaultValue;
     public StatInt upgradeValue = null;
-    public int Current => defaultValue
-        + ((upgradeValue != null) ? (int)upgradeValue : 0);
-
-    //operator
-    public static explicit operator int(StatInt self) => self.Current;
-    public static explicit operator float(StatInt self) => self.Current;
+    public int Current =>
+       defaultValue + ((upgradeValue != null) ? upgradeValue.Current : 0);
 
     //Methods
-    public int CompareTo(StatInt other)
+    public override string ToString() => Current.ToString();
+    public string ToString(IFormatProvider provider) => Current.ToString(provider);
+    public string ToString(string format) => Current.ToString(format);
+    public string ToString(string format, IFormatProvider provider) => Current.ToString(format, provider);
+
+    public StatInt Clone()
     {
-        return Current.CompareTo(other.Current);
-    }
-    public bool Equals(StatInt other)
-    {
-        return Current.Equals(other.Current);
-    }
-    public string ToString(string format, IFormatProvider formatProvider)
-    {
-        return Current.ToString(format, formatProvider);
+        var clone = new StatInt();
+        clone.defaultValue = defaultValue;
+        clone.upgradeValue = upgradeValue;
+
+        return clone;
     }
 }

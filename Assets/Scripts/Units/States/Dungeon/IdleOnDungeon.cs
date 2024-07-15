@@ -42,7 +42,7 @@ public class IdleOnDungeon : State<UnitOnDungeon>
         //배회
         if (!isMoving)
         {
-            dest = owner.transform.position + (Vector3)Random.insideUnitCircle.normalized * owner.stats.CurrentStats.MoveSpeed;
+            dest = owner.transform.position + (Vector3)Random.insideUnitCircle.normalized * owner.stats.MoveSpeed.Current;
 
             // TODO 던전 밖으로 이동 못하게 하는 조건으로 대체 ex) 이동 가능 타일 검사
             if (Vector3.Distance(dest, owner.dungeon.transform.position) <= 10f)
@@ -52,7 +52,7 @@ public class IdleOnDungeon : State<UnitOnDungeon>
         {
 
             owner.transform.position += (dest - owner.transform.position).normalized
-                * owner.stats.CurrentStats.MoveSpeed * Time.deltaTime;
+                * owner.stats.MoveSpeed.Current * Time.deltaTime;
 
             if (Vector3.Distance(dest, owner.transform.position) <= 0.2f)
                 isMoving = false;

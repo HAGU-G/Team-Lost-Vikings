@@ -1,7 +1,7 @@
 ﻿using System;
 
 [Serializable]
-public class StatFloat : IComparable<StatFloat>, IEquatable<StatFloat>, IFormattable
+public class StatFloat : IFormattable
 {
     public StatFloat(float defaultValue = default)
     {
@@ -10,24 +10,21 @@ public class StatFloat : IComparable<StatFloat>, IEquatable<StatFloat>, IFormatt
 
     public float defaultValue;
     public StatFloat upgradeValue = null;
-    public float Value => defaultValue
-        + ((upgradeValue != null) ? (float)upgradeValue : 0f);
-
-    //operator
-    public static explicit operator int(StatFloat self) => (int)self.Value;
-    public static explicit operator float(StatFloat self) => self.Value;
+    public float Current =>
+        defaultValue + ((upgradeValue != null) ? (float)upgradeValue.Current : 0f);
 
     //Methods
-    public int CompareTo(StatFloat other)
+    public override string ToString() => Current.ToString();
+    public string ToString(IFormatProvider provider) => Current.ToString(provider);
+    public string ToString(string format) => Current.ToString(format);
+    public string ToString(string format, IFormatProvider provider) => Current.ToString(format, provider);
+
+    public StatFloat Clone()
     {
-        return Value.CompareTo(other.Value);
-    }
-    public bool Equals(StatFloat other)
-    {
-        return Value.Equals(other.Value);
-    }
-    public string ToString(string format, IFormatProvider formatProvider)
-    {
-        return Value.ToString(format, formatProvider);
+        var clone = new StatFloat();
+        clone.defaultValue = defaultValue;
+        clone.upgradeValue = upgradeValue;
+
+        return clone;
     }
 }

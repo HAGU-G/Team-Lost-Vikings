@@ -29,14 +29,14 @@ public class ReturnOnDungeon : State<UnitOnDungeon>
 
 
         ownerTransform.position += (owner.destinationPos - ownerTransform.position).normalized
-            * owner.stats.CurrentStats.MoveSpeed * Time.deltaTime;
+            * owner.stats.MoveSpeed.Current * Time.deltaTime;
     }
 
     protected override bool Transition()
     {
         if (Ellipse.IsPointInEllipse(owner.SizeEllipse, owner.destinationPos))
         {
-            owner.stats.ResetUnitStats();
+            owner.stats.ResetStats();
             controller.ChangeState((int)UnitOnDungeon.STATE.IDLE);
             return true;
         }

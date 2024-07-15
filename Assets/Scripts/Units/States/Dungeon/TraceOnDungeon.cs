@@ -22,7 +22,7 @@ public class TraceOnDungeon : State<UnitOnDungeon>
             return;
 
         var moveDirection = owner.transform.position - (owner.attackTarget).transform.position;
-        owner.transform.position -= moveDirection.normalized * Time.deltaTime * owner.stats.CurrentStats.MoveSpeed;
+        owner.transform.position -= moveDirection.normalized * Time.deltaTime * owner.stats.MoveSpeed.Current;
 
     }
 
@@ -49,7 +49,7 @@ public class TraceOnDungeon : State<UnitOnDungeon>
                 }
             }
 
-            if (owner.AttackTimer >= owner.stats.CurrentStats.AttackSpeed
+            if (owner.AttackTimer >= owner.stats.AttackSpeed.Current
                 && owner.attackTarget.SizeEllipse.IsCollidedWith(owner.BasicAttackEllipse))
             {
                 controller.ChangeState((int)UnitOnDungeon.STATE.ATTACK);

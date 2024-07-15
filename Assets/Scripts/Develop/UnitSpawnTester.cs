@@ -20,7 +20,7 @@ public class UnitSpawnTester : MonoBehaviour
     public UnitOnDungeon unit;
     public UnitOnDungeon monster;
 
-    private UnitStatsVariable gachaResult;
+    private UnitStats gachaResult = new();
 
     public GameObject selectImage;
     private UnitOnDungeon selected;
@@ -47,18 +47,18 @@ public class UnitSpawnTester : MonoBehaviour
         GameStarter.Instance.SetActiveOnComplete(gameObject);
 
         //UnitStats.UpgradeStats.BaseHP = 1000;
-        gachaResult = UnitStats.GachaStats(dataTable);
+        gachaResult = UnitStats.GachaNewStats(dataTable);
 
         buttonReroll.onClick.AddListener(() =>
         {
-            gachaResult = UnitStats.GachaStats(dataTable);
+            gachaResult = UnitStats.GachaNewStats(dataTable);
             gachaResult.UpdateCombatPoint();
 
             var sb = new StringBuilder();
-            foreach (var item in gachaResult.GetType().GetProperties())
-            {
-                sb.AppendLine($"{item.Name}: {item.GetValue(gachaResult).ToString()}");
-            }
+            //foreach (var item in gachaResult.GetType().GetProperties())
+            //{
+            //    sb.AppendLine($"{item.Name}: {item.GetValue(gachaResult).ToString()}");
+            //}
             text2.text = sb.ToString();
         });
 
@@ -69,7 +69,7 @@ public class UnitSpawnTester : MonoBehaviour
                 var u = Instantiate(unit, dungeon.portal.transform.position, Quaternion.identity);
                 u.gameObject.AddComponent<UnitSelectorTest>().spawner = this;
                 u.dungeon = dungeon;
-                u.stats = new UnitStats(dataTable, gachaResult.Clone());
+                u.stats = gachaResult.Clone();
                 u.destinationPos = dungeon.portal.transform.position;
                 u.Ready();
                 u.gameObject.AddComponent<EllipseDrawer>();
@@ -87,7 +87,7 @@ public class UnitSpawnTester : MonoBehaviour
             var m = Instantiate(monster, dungeon.portal2.transform.position, Quaternion.identity);
             m.gameObject.AddComponent<UnitSelectorTest>().spawner = this;
             m.dungeon = dungeon;
-            m.stats = new UnitStats(dataTable);
+            m.stats = gachaResult.Clone();
             m.destinationPos = dungeon.portal2.transform.position;
             m.Ready();
             m.gameObject.AddComponent<EllipseDrawer>();
@@ -117,9 +117,9 @@ public class UnitSpawnTester : MonoBehaviour
         {
             selectImage.transform.position = selected.transform.position;
 
-            maxHP.text = selected.stats.CurrentMaxHP.ToString();
-            maxStamina.text = selected.stats.CurrentMaxStamina.ToString();
-            maxStress.text = selected.stats.CurrentMaxStress.ToString();
+            maxHP.text = selected.stats.HP.max.ToString();
+            maxStamina.text = selected.stats.Stamina.max.ToString();
+            maxStress.text = selected.stats.Stress.max.ToString();
 
             if (!hp.isFocused)
                 hp.text = selected.stats.HP.ToString();
@@ -146,7 +146,7 @@ public class UnitSpawnTester : MonoBehaviour
 
         if (int.TryParse(text, out var hp))
         {
-            selected.stats.HP = hp;
+            selected.stats.HP.Current = hp;
         }
     }
 
@@ -157,7 +157,7 @@ public class UnitSpawnTester : MonoBehaviour
 
         if (int.TryParse(text, out var stamina))
         {
-            selected.stats.Stamina = stamina;
+            selected.stats.Stamina.Current = stamina;
         }
     }
 
@@ -168,7 +168,7 @@ public class UnitSpawnTester : MonoBehaviour
 
         if (int.TryParse(text, out var stress))
         {
-            selected.stats.Stress = stress;
+            selected.stats.Stress.Current = stress;
         }
     }
 }
