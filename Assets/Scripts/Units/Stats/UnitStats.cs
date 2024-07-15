@@ -54,7 +54,7 @@ public class UnitStats : Stats
 
     public void Init(UnitStatsData data = null)
     {
-        if (data != null)
+        if (data == null)
             return;
 
         GachaDefaultStats(data);
@@ -80,7 +80,7 @@ public class UnitStats : Stats
         Stamina.max = data.Stamina;
         Stamina.defaultValue = data.Stamina;
         Stress.max = data.Stress;
-        Stress.defaultValue = data.Stamina;
+        Stress.defaultValue = data.Stress;
 
         BaseHP.defaultValue = data.HP;
         Vit.defaultValue = Random.Range(data.VitMin, data.VitMax + 1);

@@ -10,6 +10,10 @@ public class GotoOnVillage : State<UnitOnVillage>
         owner.currentState = UnitOnVillage.STATE.GOTO;
 
         var lackedParameter = owner.CheckParameter();
+        Debug.Log(lackedParameter);
+        Debug.Log("stress " + owner.stats.Stress.Current);
+        Debug.Log("hp " + owner.stats.HP.Current);
+        Debug.Log("stamina " + owner.stats.Stamina.Current);
         switch(lackedParameter)
         {
             case UnitOnVillage.LACKING_PARAMETER.HP:
