@@ -34,4 +34,5 @@ public class UnitStatsData
     [field: SerializeField] public float VitWeight { get; set; }
     [field: SerializeField] public int SkillId1 { get; set; }
     [field: SerializeField] public int SkillId2 { get; set; }
+    [field: SerializeField] public string UnitAssetFileName { get; set; }
 }

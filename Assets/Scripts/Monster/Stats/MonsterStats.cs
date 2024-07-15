@@ -1,32 +1,7 @@
-﻿
-using System.Linq.Expressions;
-using UnityEngine;
-
-public enum UNIT_JOB
-{
-    NONE,
-    WARRIOR,
-    MAGICIAN,
-    ARCHER
-}
-
-public enum ATTACK_TYPE
-{
-    PHYSICAL,
-    MAGIC,
-    SPECIAL
-}
-
-public enum UNIT_GRADE
-{
-    NORMAL,
-    RARE,
-    ULTRA_RARE,
-    SUPER_RARE
-}
+﻿using UnityEngine;
 
 [System.Serializable]
-public class UnitStats : Stats
+public class MonsterStats : Stats
 {
     public UNIT_GRADE UnitGrade { get; private set; }
     public UNIT_JOB Job { get; private set; }
@@ -80,7 +55,7 @@ public class UnitStats : Stats
         Stamina.max = data.Stamina;
         Stamina.defaultValue = data.Stamina;
         Stress.max = data.Stress;
-        Stress.defaultValue = data.Stress;
+        Stress.defaultValue = data.Stamina;
 
         BaseHP.defaultValue = data.HP;
         Vit.defaultValue = Random.Range(data.VitMin, data.VitMax + 1);
@@ -109,9 +84,9 @@ public class UnitStats : Stats
         UpdateCombatPoint();
     }
 
-    public static UnitStats GachaNewStats(UnitStatsData data)
+    public static MonsterStats GachaNewStats(UnitStatsData data)
     {
-        var gacha = new UnitStats();
+        var gacha = new MonsterStats();
         gacha.GachaDefaultStats(data);
 
         return gacha;
@@ -137,9 +112,9 @@ public class UnitStats : Stats
         //TODO 유닛 등급 계산 필요
     }
 
-    public UnitStats Clone()
+    public MonsterStats Clone()
     {
-        var clone = new UnitStats();
+        var clone = new MonsterStats();
         clone.Id = Id;
         clone.Name = Name;
         clone.Job = Job;
