@@ -14,7 +14,7 @@ public class Village : MonoBehaviour
 
     private void Start()
     {
-        var unit = Instantiate(unitPrefab, villageManager.gridMap.IndexToPos(new Vector2Int(0, 0)), Quaternion.identity, villageManager.gridMap.transform);
+        var unit = Instantiate(unitPrefab, villageManager.gridMap.IndexToPos(new Vector2Int(31, 31)), Quaternion.identity, villageManager.gridMap.transform);
         
     }
 

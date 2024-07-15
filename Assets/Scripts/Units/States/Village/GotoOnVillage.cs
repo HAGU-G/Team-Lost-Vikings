@@ -10,6 +10,10 @@ public class GotoOnVillage : State<UnitOnVillage>
         owner.currentState = UnitOnVillage.STATE.GOTO;
 
         var lackedParameter = owner.CheckParameter();
+        Debug.Log(lackedParameter);
+        Debug.Log("stress " + owner.stats.Stress.Current);
+        Debug.Log("hp " + owner.stats.HP.Current);
+        Debug.Log("stamina " + owner.stats.Stamina.Current);
         switch(lackedParameter)
         {
             case UnitOnVillage.LACKING_PARAMETER.HP:
@@ -33,7 +37,7 @@ public class GotoOnVillage : State<UnitOnVillage>
             var startTile = owner.villageManager.gridMap
                 .tiles[new Vector2Int(tileId.x, tileId.y)];
             var path = owner.FindPath(startTile, owner.destinationTile);
-            if (path != null)
+            if (path != null || startTile == owner.destinationTile)
             {
                 owner.unitMove.OnEntranceTile += OnEntranceTile;
                 owner.unitMove.MoveTo(startTile, owner.destinationTile);
@@ -70,11 +74,27 @@ public class GotoOnVillage : State<UnitOnVillage>
     private void SetDestination(PARAMETER_TYPES parameterType)
     {
         if (owner.villageManager.FindBuilding(STRUCTURE_TYPE.PARAMETER_RECOVERY,
-                   (x) => { return x.GetComponent<ParameterRecoveryBuilding>().parameterType == parameterType; }))
+                   (x) => 
+                   {
+                       if (x.GetComponent<ParameterRecoveryBuilding>() != null)
+                       {
+                           return x.GetComponent<ParameterRecoveryBuilding>().parameterType == parameterType;
+                       }
+                       return false;
+                   }))
         {
             owner.destination
             = owner.villageManager.FindBuildingEntrance(STRUCTURE_TYPE.PARAMETER_RECOVERY,
-            (x) => { return x.GetComponent<ParameterRecoveryBuilding>().parameterType == parameterType; });
+            (x) =>
+            {
+                {
+                    if (x.GetComponent<ParameterRecoveryBuilding>() != null)
+                    {
+                        return x.GetComponent<ParameterRecoveryBuilding>().parameterType == parameterType;
+                    }
+                    return false;
+                }
+            });
             owner.destinationTile = owner.destination.GetComponent<Building>().entranceTile;
         }
         

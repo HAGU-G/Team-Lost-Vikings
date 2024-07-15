@@ -54,7 +54,7 @@ public class UnitStats : Stats
 
     public void Init(UnitStatsData data = null)
     {
-        if (data != null)
+        if (data == null)
             return;
 
         GachaDefaultStats(data);

@@ -3,6 +3,7 @@
     public override void EnterState()
     {
         owner.currentState = UnitOnVillage.STATE.IDLE;
+
     }
 
     public override void ExitState()

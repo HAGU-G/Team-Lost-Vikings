@@ -61,9 +61,21 @@ public class Tile : MonoBehaviour
         tileInfo.ObjectLayer.LayerObject = null;
         tileInfo.ObjectLayer.IsEmpty = true;
         tileInfo.TileType = TileType.NONE;
+        RestoreTileColor();
 
         UpdateAutoTileId();
     }
+
+    public void TileColorChange()
+    {
+        GetComponent<SpriteRenderer>().material.color = Color.magenta;
+    }
+
+    public void RestoreTileColor()
+    {
+        GetComponent<SpriteRenderer>().material.color = Color.gray;
+    }
+
 
     public void UpdateTileInfo(TileType type, GameObject obj)
     {

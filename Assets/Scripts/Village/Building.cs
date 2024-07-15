@@ -33,6 +33,7 @@ public class Building : MonoBehaviour
     public List<Tile> placedTiles = new List<Tile>();
     public Tile entranceTile;
     private bool isFlip = false;
+    private static bool isRotating = false;
     private GridMap gridMap;
 
     public IInteractableWithPlayer interactWithPlayer { get; private set; }
@@ -61,8 +62,6 @@ public class Building : MonoBehaviour
                 interactWithPlayer = gameObject.GetComponent<ItemSellBuilding>();
                 break;
         }
-
-
     }
 
     public void Interact()
@@ -82,17 +81,23 @@ public class Building : MonoBehaviour
             if (hit.collider != null)
             {
                 var building = hit.transform.gameObject.GetComponent<Building>();
-                if (building != null)
+                if (building != null && isRotating)
                 {
                     RotateBuilding(building);
+                    isRotating = false;
                 }
+                else
+                    isRotating = false;
             }
         }
     }
 
     private void OnGUI()
     {
-        
+        if(GUI.Button(new Rect(0f, 360f, 70f,70f), "Rotate"))
+        {
+            isRotating = true;
+        }
     }
 
     public void RotateBuilding(Building building)
@@ -101,20 +106,29 @@ public class Building : MonoBehaviour
         var transedId = building.entranceTile.tileInfo.id;
         if (!building.isFlip)
         {
-            localScale.x *= -1;
-            building.isFlip = true;
             transedId.x += 1;
             transedId.y -= 1;
+            if (!gridMap.usingTileList.Contains(gridMap.tiles[transedId])
+                || gridMap.tiles[transedId].tileInfo.TileType == TileType.OBJECT)
+                return;
+
+            localScale.x *= -1;
+            building.isFlip = true;
         }
         else
         {
-            localScale.x *= -1;
-            building.isFlip = false;
             transedId.x -= 1;
             transedId.y += 1;
+            if (!gridMap.usingTileList.Contains(gridMap.tiles[transedId])
+                || gridMap.tiles[transedId].tileInfo.TileType == TileType.OBJECT)
+                return;
+
+            localScale.x *= -1;
+            building.isFlip = false;
         }
         building.transform.localScale = localScale;
         building.entranceTile.ResetTileInfo();
         building.entranceTile = gridMap.tiles[transedId];
+        building.entranceTile.TileColorChange();
     }
 }

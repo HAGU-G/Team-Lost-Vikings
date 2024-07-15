@@ -153,6 +153,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridInfo: {fileID: 11400000, guid: 9857686cf1910144e9950cc3ee0b9ab3, type: 2}
   cellPrefab: {fileID: 8088564192278140151, guid: e1eab14e1909461439e34a31a243accd, type: 3}
+  usingTileList: []
 --- !u!4 &286098944
 Transform:
   m_ObjectHideFlags: 0
@@ -203,7 +204,8 @@ MonoBehaviour:
   - {fileID: 5574859836534748875, guid: 57003cf95450f1b4d8896cfe98442766, type: 3}
   - {fileID: 4125673889435522284, guid: 0a52a2dfc707d5447ba9d2fafb7c2323, type: 3}
   - {fileID: 7845117778571857193, guid: 867cc1057633b004dbc24db4a330134f, type: 3}
-  hospital: {fileID: 4125673889435522284, guid: 0a52a2dfc707d5447ba9d2fafb7c2323, type: 3}
+  standardPrefab: {fileID: 5064512460059276777, guid: e640f1c07230acb46a0456f0e1c92943, type: 3}
+  roadPrefab: {fileID: 101424399208625417, guid: cba03f8874769744bb9e7ee7ac90b656, type: 3}
 --- !u!4 &927712893
 Transform:
   m_ObjectHideFlags: 0
@@ -235,7 +237,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1399002947
 SpriteRenderer:
   m_ObjectHideFlags: 0

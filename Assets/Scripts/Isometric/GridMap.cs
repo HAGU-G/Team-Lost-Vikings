@@ -4,13 +4,12 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEditor;
 using UnityEditor.Build.Content;
+using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 
 public class GridMap : MonoBehaviour
 {
     public GridInfo gridInfo;
-    private int CurrentCol;
-    private int CurrentRow;
     public Dictionary<Vector2Int, Tile> tiles = new Dictionary<Vector2Int, Tile>();
     public GameObject cellPrefab;
     private List<Tile> path;
@@ -20,6 +19,15 @@ public class GridMap : MonoBehaviour
 
     int num = 0;
 
+    public Tile GetTile(int x, int y)
+    {
+        Vector2Int key = new Vector2Int(x, y);
+        if (tiles.ContainsKey(key))
+            return tiles[key];
+
+        return null;
+    }
+
     private void Awake()
     {
         GameStarter.Instance.SetActiveOnComplete(gameObject);
@@ -28,7 +36,9 @@ public class GridMap : MonoBehaviour
     private void Start()
     {
         DrawGrid(gridInfo.col, gridInfo.row);
+
         InitializeUsableTileList();
+        usableTileList.Reverse();
     }
 
     private void DrawGrid(int col, int row)
@@ -78,7 +88,15 @@ public class GridMap : MonoBehaviour
         }
     }
 
-    
+    public void SetUsingTileList(int level)
+    {
+        usingTileList.Clear();
+
+        foreach (var tile in usableTileList[level - 1])
+        {
+            usingTileList.Add(tile);
+        }
+    }
 
     public Vector2Int PosToIndex(Vector3 position)
     {
@@ -91,7 +109,7 @@ public class GridMap : MonoBehaviour
         if (indexX < 0 || indexY < 0 || indexX > gridInfo.row || indexY > gridInfo.col)
         {
             Debug.Log("Out Of Index");
-            return new Vector2Int(-1,-1);
+            return new Vector2Int(-1, -1);
         }
 
         return new Vector2Int(indexX, indexY);
@@ -156,7 +174,11 @@ public class GridMap : MonoBehaviour
 
             foreach (var adjacentTile in currentTile.adjacentTiles)
             {
-                if (adjacentTile == null || adjacentTile.tileInfo.TileType == TileType.OBJECT/*|| adjacentTile.tileInfo.Weight == int.MaxValue*/) //가중치 추가되면 수정하기
+                if (adjacentTile == null 
+                    || adjacentTile.tileInfo.TileType != TileType.ROAD
+                    || !usingTileList.Contains(adjacentTile)
+                    /*|| adjacentTile.tileInfo.Weight == int.MaxValue*/   //가중치 추가되면 수정하기
+                    )
                     continue;
 
                 var currentTileId = (currentTile.tileInfo.id.x * gridInfo.row) + currentTile.tileInfo.id.y;
@@ -192,7 +214,7 @@ public class GridMap : MonoBehaviour
                 break;
             ExcludeTiles(x, maxRow, y, maxCol);
             y++;
-            if (minCol >= maxCol - y + 1 && minRow >= maxRow - x) 
+            if (minCol >= maxCol - y + 1 && minRow >= maxRow - x)
                 break;
             ExcludeTiles(x, maxRow, y, maxCol);
             maxRow--;
@@ -227,24 +249,31 @@ public class GridMap : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (num >= usableTileList.Count)
-                return;
+            //    if (num >= usableTileList.Count)
+            //        return;
 
-            if (num > 0)
-            {
-                foreach (var i in usableTileList[num - 1])
+            //    if (num > 0)
+            //    {
+            //        foreach (var i in usableTileList[num - 1])
+            //        {
+            //            if (usableTileList[num] == null)
+            //                return;
+            //            i.GetComponent<SpriteRenderer>().material.color = Color.white;
+            //        }
+            //    }
+
+            //    foreach (var t in usableTileList[num])
+            //    {
+            //        t.GetComponent<SpriteRenderer>().material.color = Color.blue;
+            //    }
+            //    ++num;
+            //}
+
+            if (usingTileList != null)
+                foreach (var i in usingTileList)
                 {
-                    if (usableTileList[num] == null)
-                        return;
-                    i.GetComponent<SpriteRenderer>().material.color = Color.white;
+                    i.GetComponent<SpriteRenderer>().material.color = Color.gray;
                 }
-            }
-
-            foreach (var t in usableTileList[num])
-            {
-                t.GetComponent<SpriteRenderer>().material.color = Color.blue;
-            }
-            ++num;
         }
     }
 }

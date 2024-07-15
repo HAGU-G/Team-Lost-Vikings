@@ -8,13 +8,15 @@ using UnityEngine;
 
 public class VillageManager : MonoBehaviour
 {
-    public List<GameObject> construectedBuildings = new List<GameObject>();
+    private Construct construct = new();
+    public List<GameObject> construectedBuildings = new();
     public GridMap gridMap;
-    private bool isSelected = false;
-    private bool isRemoveTime = false;
-    public Dictionary<int, GameObject> objectList = new Dictionary<int, GameObject>();
+    public Dictionary<int, GameObject> objectList = new();
     public List<GameObject> installableBuilding = new();
-    public GameObject hospital;
+    public GameObject standardPrefab;
+    public GameObject roadPrefab;
+
+    private int playerLevel = 1;
 
     private GameObject selectedObj;
 
@@ -25,12 +27,20 @@ public class VillageManager : MonoBehaviour
 
     private void Start()
     {
+        Init();
+    }
+
+    private void Init()
+    {
         foreach (var obj in installableBuilding)
         {
             var building = obj.GetComponent<Building>();
             objectList.Add(building.StructureId, obj);
         }
-
+        //gridMap.SetUsingTileList(1);
+        gridMap.SetUsingTileList(gridMap.usableTileList.Count -1);
+        var standard = construct.ConstructStandardBuilding(standardPrefab, gridMap);
+        construectedBuildings.Add(standard);
     }
 
     private void OnGUI()
@@ -38,110 +48,51 @@ public class VillageManager : MonoBehaviour
         if (GUI.Button(new Rect(0f, 150f, 70f, 70f), "hp"))
         {
             selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.HP_RECOVERY);
-            isSelected = true;
+            construct.isSelected = true;
         }
 
         if (GUI.Button(new Rect(0f, 220, 70f, 70f), "stamina"))
         {
             selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STAMINA_RECOVERY);
-            isSelected = true;
+            construct.isSelected = true;
         }
 
         if (GUI.Button(new Rect(0f, 290, 70f, 70f), "stress"))
         {
             selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STRESS_RECOVERY);
-            isSelected = true;
+            construct.isSelected = true;
         }
 
         if (GUI.Button(new Rect(0f, 80f, 70f, 70f), "Remove"))
         {
-            isRemoveTime = true;
+            construct.isRemoveTime = true;
         }
+
+        if (GUI.Button(new Rect(0f, 430f, 70f, 70f), "Road"))
+        {
+            if(!construct.isRoadBuild)
+                construct.isRoadBuild = true;
+            else if(construct.isRoadBuild)
+                construct.isRoadBuild = false;
+        }
+
     }
 
-    private void OnEntranceTileChanged(Tile tile)
+    //private void OnEntranceTileChanged(Tile tile)
+    //{
+    //    if (gridMap.tiles.TryGetValue(tile.tileInfo.id, out Tile gridTile))
+    //    {
+    //        var building = gridTile.tileInfo.ObjectLayer.LayerObject.GetComponent<Building>();
+    //        building.entranceTile = tile;
+    //    }
+    //}
+
+
+    public void LevelUp()
     {
-        if (gridMap.tiles.TryGetValue(tile.tileInfo.id, out Tile gridTile))
-        {
-            var building = gridTile.tileInfo.ObjectLayer.LayerObject.GetComponent<Building>();
-            building.entranceTile = tile;
-        }
-    }
+        ++playerLevel;
+        gridMap.SetUsingTileList(playerLevel);
 
-    public void PlaceBuilding(GameObject obj, Tile tile)
-    {
-        var objInfo = obj.GetComponent<Building>();
-        var width = objInfo.Width;
-        var height = objInfo.Length;
-
-        objInfo.placedTiles.Clear();
-        var tileId = tile.tileInfo.id;
-        var indexX = tileId.x + width - 1;
-        var indexY = tileId.y + height - 1;
-
-        var entranceX = tile.tileInfo.id.x - 1;
-        var entranceY = tile.tileInfo.id.y;
-
-        if (indexX < 0 || indexY < 0
-            || indexX > gridMap.gridInfo.row - 1 || indexY > gridMap.gridInfo.col - 1
-            || entranceX < 0 || entranceY < 0
-            || entranceX > gridMap.gridInfo.row - 1 || entranceY > gridMap.gridInfo.col - 1)
-        {
-            Debug.Log("건물을 설치할 수 없습니다.");
-            isSelected = false;
-            return;
-        }
-
-        objInfo.entranceTile = gridMap.tiles[new Vector2Int(tile.tileInfo.id.x - 1, tile.tileInfo.id.y)];
-        var instancedObj = Instantiate(obj, gridMap.IndexToPos(tileId), Quaternion.identity, tile.transform);
-        var pos = instancedObj.transform.position;
-        pos.y = instancedObj.transform.position.y - gridMap.gridInfo.cellSize / 4f;
-        instancedObj.transform.position = pos;
-        construectedBuildings.Add(instancedObj);
-        var buildingComponent = instancedObj.GetComponent<Building>();
-        buildingComponent.placedTiles.Add(tile);
-
-        for (int i = tileId.x; i <= indexX; ++i)
-        {
-            for (int j = tileId.y; j <= indexY; ++j)
-            {
-                var t = gridMap.tiles.GetValueOrDefault(new Vector2Int(i, j));
-                t.UpdateTileInfo(TileType.OBJECT, instancedObj);
-
-                objInfo.placedTiles.Add(t);
-            }
-        }
-        isSelected = false;
-    }
-
-    public void RemoveBuilding(Tile tile)
-    {
-        var obj = tile.tileInfo.ObjectLayer.LayerObject;
-        var objInfo = obj.GetComponent<Building>();
-        var width = objInfo.Width;
-        var height = objInfo.Length;
-
-        if (objInfo.placedTiles == null || !objInfo.placedTiles.Any())
-            return;
-
-        var standardTile = objInfo.placedTiles.First();
-        var indexX = standardTile.tileInfo.id.x + width - 1;
-        var indexY = standardTile.tileInfo.id.y + height - 1;
-        for (int i = standardTile.tileInfo.id.x; i <= indexX; ++i)
-        {
-            for (int j = standardTile.tileInfo.id.y; j <= indexY; ++j)
-            {
-                var t = gridMap.tiles.GetValueOrDefault(new Vector2Int(i, j));
-                t?.ResetTileInfo();
-
-            }
-        }
-
-        objInfo.placedTiles.Clear();
-        construectedBuildings.Remove(obj);
-        Destroy(obj);
-        tile.ResetTileInfo();
-        isRemoveTime = false;
     }
 
     private void InteractWithBuilding()
@@ -158,6 +109,7 @@ public class VillageManager : MonoBehaviour
             }
         }
     }
+
     public void PlaceRoad(Tile tile)
     {
         //tile.tileInfo.ObjectLayer = 
@@ -176,27 +128,49 @@ public class VillageManager : MonoBehaviour
         return gridMap.tiles[tileId];
     }
 
-    public Tile GetTile(Vector2Int vector)
-    {
-        return gridMap.tiles[vector];
-    }
-
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && isSelected)
+        if (Input.GetMouseButtonDown(0) && construct.isSelected)
         {
             var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             if (GetTile(worldPos) != null)
             {
                 var tile = GetTile(worldPos);
-                PlaceBuilding(selectedObj, tile);
+                var building = construct.PlaceBuilding(selectedObj, tile, gridMap);
+                if (building == null)
+                    return;
+                construectedBuildings.Add(building);
             }
             else
             {
-                isSelected = false;
+                construct.isSelected = false;
                 return;
             }
         }
+
+
+        //if (construct.isRoadBuild && Input.GetMouseButtonUp(0))
+        //{
+        //    construct.isRoadBuild = false;
+        //    return;
+        //}
+        if (Input.GetMouseButton(0) && construct.isRoadBuild)
+        {
+           
+            var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            if (GetTile(worldPos) != null)
+            {
+                var tile = GetTile(worldPos);
+                construct.PlaceRoad(roadPrefab, tile, gridMap); 
+            }
+
+        }
+
+
+        //if(Input.GetKeyDown(KeyCode.U))
+        //{
+        //    LevelUp();
+        //}
 
         //if (Input.GetMouseButtonDown(0) && !isSelected)
         //{
@@ -215,18 +189,19 @@ public class VillageManager : MonoBehaviour
         //    }
         //}
 
-        if (Input.GetMouseButtonDown(0) && isRemoveTime)
+        if (Input.GetMouseButtonDown(0) && construct.isRemoveTime)
         {
             var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             if (GetTile(worldPos) != null)
             {
                 var tile = GetTile(worldPos);
-                RemoveBuilding(tile);
+                var building = construct.RemoveBuilding(tile, gridMap);
+                construectedBuildings.Remove(building);
             }
             else
             {
                 Debug.Log("잘못된 인덱스 선택");
-                isRemoveTime = false;
+                construct.isRemoveTime = false;
             }
 
         }

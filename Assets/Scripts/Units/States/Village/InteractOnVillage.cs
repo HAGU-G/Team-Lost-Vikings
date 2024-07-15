@@ -62,15 +62,15 @@ public class InteractOnVillage : State<UnitOnVillage>
         switch(type)
         {
             case PARAMETER_TYPES.HP:
-                if(owner.stats.HP  == owner.stats.CurrentMaxHP)
+                if(owner.stats.HP.Current  == owner.stats.HP.max)
                     controller.ChangeState((int)UnitOnVillage.STATE.IDLE);
                 break;
             case PARAMETER_TYPES.STAMINA:
-                if (owner.stats.Stamina == owner.stats.CurrentStats.MaxStamina)
+                if (owner.stats.Stamina.Current == owner.stats.Stamina.max)
                     controller.ChangeState((int)UnitOnVillage.STATE.IDLE);
                 break;
             case PARAMETER_TYPES.STRESS:
-                if (owner.stats.Stress == owner.stats.CurrentStats.MaxStress)
+                if (owner.stats.Stress.Current == owner.stats.Stress.max)
                     controller.ChangeState((int)UnitOnVillage.STATE.IDLE);
                 break;
         }
