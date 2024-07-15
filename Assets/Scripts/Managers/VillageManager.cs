@@ -36,7 +36,8 @@ public class VillageManager : MonoBehaviour
             var building = obj.GetComponent<Building>();
             objectList.Add(building.StructureId, obj);
         }
-        gridMap.SetUsingTileList(1);
+        //gridMap.SetUsingTileList(1);
+        gridMap.SetUsingTileList(gridMap.usableTileList.Count -1);
         var standard = construct.ConstructStandardBuilding(standardPrefab, gridMap);
         construectedBuildings.Add(standard);
     }
@@ -117,11 +118,6 @@ public class VillageManager : MonoBehaviour
         return gridMap.tiles[tileId];
     }
 
-    public Tile GetTile(Vector2Int vector)
-    {
-        return gridMap.tiles[vector];
-    }
-
     private void Update()
     {
         if (Input.GetMouseButtonDown(0) && construct.isSelected)
@@ -142,10 +138,10 @@ public class VillageManager : MonoBehaviour
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.U))
-        {
-            LevelUp();
-        }
+        //if(Input.GetKeyDown(KeyCode.U))
+        //{
+        //    LevelUp();
+        //}
 
         //if (Input.GetMouseButtonDown(0) && !isSelected)
         //{

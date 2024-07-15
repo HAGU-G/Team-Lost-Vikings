@@ -33,6 +33,7 @@ public class Building : MonoBehaviour
     public List<Tile> placedTiles = new List<Tile>();
     public Tile entranceTile;
     private bool isFlip = false;
+    private static bool isRotating = false;
     private GridMap gridMap;
 
     public IInteractableWithPlayer interactWithPlayer { get; private set; }
@@ -61,8 +62,6 @@ public class Building : MonoBehaviour
                 interactWithPlayer = gameObject.GetComponent<ItemSellBuilding>();
                 break;
         }
-
-
     }
 
     public void Interact()
@@ -82,17 +81,23 @@ public class Building : MonoBehaviour
             if (hit.collider != null)
             {
                 var building = hit.transform.gameObject.GetComponent<Building>();
-                if (building != null)
+                if (building != null && isRotating)
                 {
                     RotateBuilding(building);
+                    isRotating = false;
                 }
+                else
+                    isRotating = false;
             }
         }
     }
 
     private void OnGUI()
     {
-        
+        if(GUI.Button(new Rect(0f, 360f, 70f,70f), "Rotate"))
+        {
+            isRotating = true;
+        }
     }
 
     public void RotateBuilding(Building building)
