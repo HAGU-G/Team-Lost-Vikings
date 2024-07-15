@@ -5,7 +5,7 @@ public class TraceOnDungeon : State<UnitOnDungeon>
     public override void EnterState()
     {
         owner.currentState = UnitOnDungeon.STATE.TRACE;
-        owner.spriteRenderer.color = Color.yellow;
+        //owner.spriteRenderer.color = Color.yellow;
     }
 
     public override void ExitState()
@@ -22,7 +22,7 @@ public class TraceOnDungeon : State<UnitOnDungeon>
             return;
 
         var moveDirection = owner.transform.position - (owner.attackTarget).transform.position;
-        owner.transform.position -= moveDirection.normalized * Time.deltaTime * owner.stats.CurrentStats.MoveSpeed;
+        owner.transform.position -= moveDirection.normalized * Time.deltaTime * owner.stats.MoveSpeed.Current;
 
     }
 
@@ -42,18 +42,15 @@ public class TraceOnDungeon : State<UnitOnDungeon>
             foreach (var skill in owner.skills.SkillList)
             {
                 if (skill.IsReady
-                    && Vector3.Distance(owner.transform.position,
-                        owner.attackTarget.transform.position) <= skill.Data.CastRange
-                    )
+                    && owner.attackTarget.SizeEllipse.IsCollidedWith(skill.CastEllipse))
                 {
                     controller.ChangeState((int)UnitOnDungeon.STATE.SKILL);
                     return true;
                 }
             }
 
-            if (owner.AttackTimer >= owner.stats.CurrentStats.AttackSpeed
-                && Vector3.Distance(owner.transform.position,
-                    owner.attackTarget.transform.position) <= owner.stats.CurrentStats.AttackRange)
+            if (owner.AttackTimer >= owner.stats.AttackSpeed.Current
+                && owner.attackTarget.SizeEllipse.IsCollidedWith(owner.BasicAttackEllipse))
             {
                 controller.ChangeState((int)UnitOnDungeon.STATE.ATTACK);
                 return true;

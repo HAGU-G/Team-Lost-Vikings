@@ -10,8 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8095774809cff948927245d5c4f770e, type: 3}
-  m_Name: SyncedDateTimeSetting
+  m_Name: UtilitySetting
   m_EditorClassIdentifier: 
   serverURI: google.com
   syncIntervalType: 0
   syncInterval: 30
+  syncLimitSeconds: 4
+  ellipseRatio: 0.75

@@ -8,7 +8,7 @@ public class UseSkillOnDungeon : State<UnitOnDungeon>
     public override void EnterState()
     {
         owner.currentState = UnitOnDungeon.STATE.ATTACK;
-        owner.spriteRenderer.color = Color.magenta;
+        //owner.spriteRenderer.color = Color.magenta;
     }
 
     public override void ExitState()
@@ -27,8 +27,7 @@ public class UseSkillOnDungeon : State<UnitOnDungeon>
         foreach (var skill in owner.skills.SkillList)
         {
             if (skill.IsReady
-                && Vector3.Distance(owner.transform.position,
-                    owner.attackTarget.transform.position) <= skill.Data.CastRange)
+                && owner.attackTarget.SizeEllipse.IsCollidedWith(skill.CastEllipse))
             {
                 skill.Use();
                 break;

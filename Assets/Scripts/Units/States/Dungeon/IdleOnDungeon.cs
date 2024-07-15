@@ -9,7 +9,7 @@ public class IdleOnDungeon : State<UnitOnDungeon>
     public override void EnterState()
     {
         owner.currentState = UnitOnDungeon.STATE.IDLE;
-        owner.spriteRenderer.color = Color.white;
+        //owner.spriteRenderer.color = Color.white;
     }
 
     public override void ExitState()
@@ -22,36 +22,41 @@ public class IdleOnDungeon : State<UnitOnDungeon>
 
     public override void Update()
     {
-                float min = float.MaxValue;
+        //색적
+        float maxDepth = float.MinValue;
         foreach (var target in owner.Enemies)
         {
-            var d = Vector3.Distance(target.transform.position, owner.transform.position) - target.stats.CurrentStats.UnitSize;
-            if (d <= owner.stats.CurrentStats.RecognizeRange && d < min)
+            var depth = Ellipse.CollisionDepth(owner.RecognizeEllipse, target.SizeEllipse);
+
+            if (depth >= 0f && depth >= maxDepth)
             {
-                min = d;
+                maxDepth = depth;
                 owner.attackTarget = target;
             }
         }
 
+        //상태 전환
         if (Transition())
             return;
 
+        //배회
         if (!isMoving)
         {
-            do
-            {
-                dest = owner.transform.position + (Vector3)Random.insideUnitCircle.normalized * owner.stats.CurrentStats.MoveSpeed;
-            }
-            while (Vector3.Distance(dest, owner.dungeon.transform.position) > 10f);
+            dest = owner.transform.position + (Vector3)Random.insideUnitCircle.normalized * owner.stats.MoveSpeed.Current;
 
-            isMoving = true;
+            // TODO 던전 밖으로 이동 못하게 하는 조건으로 대체 ex) 이동 가능 타일 검사
+            if (Vector3.Distance(dest, owner.dungeon.transform.position) <= 10f)
+                isMoving = true;
         }
+        else
+        {
 
-        owner.transform.position += (dest - owner.transform.position).normalized
-            * owner.stats.CurrentStats.MoveSpeed * Time.deltaTime;
+            owner.transform.position += (dest - owner.transform.position).normalized
+                * owner.stats.MoveSpeed.Current * Time.deltaTime;
 
-        if (Vector3.Distance(dest, owner.transform.position) <= 0.2f)
-            isMoving = false;
+            if (Vector3.Distance(dest, owner.transform.position) <= 0.2f)
+                isMoving = false;
+        }
     }
 
     protected override bool Transition()

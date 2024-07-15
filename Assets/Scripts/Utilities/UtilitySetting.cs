@@ -4,7 +4,7 @@ using System.Text;
 using UnityEditor;
 #endif
 
-public class SyncedTimeSetting : ScriptableObject
+public class UtilitySetting : ScriptableObject
 {
 #if UNITY_EDITOR
     private static string[] fileDirectory = {
@@ -13,24 +13,24 @@ public class SyncedTimeSetting : ScriptableObject
         "Resources"
     };
 
-    [MenuItem("Window/게임 설정/시간 동기화 설정", false, 1230)]
+    [MenuItem("Window/게임 설정", false, 1230)]
     private static void SelectSettingAsset()
     {
         Selection.activeObject = Instance;
     }
 #endif
 
-    private static string fileName = "SyncedDateTimeSetting";
+    private static string fileName = "UtilitySetting";
 
-    private static SyncedTimeSetting _instance;
-    public static SyncedTimeSetting Instance
+    private static UtilitySetting _instance;
+    public static UtilitySetting Instance
     {
 
         get
         {
             if (_instance == null)
             {
-                _instance = Resources.Load<SyncedTimeSetting>(fileName);
+                _instance = Resources.Load<UtilitySetting>(fileName);
 #if UNITY_EDITOR
                 if (_instance == null)
                 {
@@ -45,7 +45,7 @@ public class SyncedTimeSetting : ScriptableObject
                     }
                     filePath.Append(string.Concat("/", fileName));
 
-                    _instance = CreateInstance<SyncedTimeSetting>();
+                    _instance = CreateInstance<UtilitySetting>();
                     AssetDatabase.CreateAsset(_instance, string.Concat(filePath.ToString(), ".asset"));
                 }
 #endif
@@ -63,4 +63,6 @@ public class SyncedTimeSetting : ScriptableObject
     public SYNC_INTERVAL_TYPE syncIntervalType = SYNC_INTERVAL_TYPE.MINUTE;
     public int syncInterval = 30;
     public int syncLimitSeconds = 4;
+
+    public float ellipseRatio = 0.75f;
 }
