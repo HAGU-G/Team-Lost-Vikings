@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class ReturnOnDungeon : State<UnitOnHunt>
+public class ReturnOnHunt : State<UnitOnHunt>
 {
     private float recoveryTimer;
     Transform ownerTransform;

@@ -1,4 +1,4 @@
-﻿public class AttackOnDungeon : State<UnitOnHunt>
+﻿public class AttackOnHunt : State<UnitOnHunt>
 {
 
 
@@ -18,7 +18,8 @@
 
     public override void Update()
     {
-        owner.TryAttack();
+        if (owner.HasTarget())
+            owner.TryAttack();
 
         if (Transition())
             return;
@@ -27,7 +28,7 @@
 
     protected override bool Transition()
     {
-        if (owner.attackTarget == null)
+        if (!owner.HasTarget())
         {
             if (owner.IsNeedReturn)
                 controller.ChangeState((int)UnitOnHunt.STATE.RETURN);

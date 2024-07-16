@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class IdleOnDungeon : State<UnitOnHunt>
+public class IdleOnHunt : State<UnitOnHunt>
 {
     private bool isMoving;
     private Vector3 dest;
@@ -62,7 +62,7 @@ public class IdleOnDungeon : State<UnitOnHunt>
 
     protected override bool Transition()
     {
-        if (owner.attackTarget != null)
+        if (owner.HasTarget())
         {
             controller.ChangeState((int)UnitOnHunt.STATE.TRACE);
             return true;

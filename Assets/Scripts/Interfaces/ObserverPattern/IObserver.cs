@@ -1,7 +1,8 @@
 ﻿public enum NOTIFY_TYPE
 {
     NONE,
-    DEAD
+    DEAD,
+    REMOVE
 }
 
 

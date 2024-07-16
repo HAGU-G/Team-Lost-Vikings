@@ -122,6 +122,52 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &202036500
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 202036501}
+  - component: {fileID: 202036502}
+  m_Layer: 0
+  m_Name: HuntZoneManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &202036501
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 202036500}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.4456487, y: -8.241501, z: -0.17830944}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &202036502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 202036500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1305eec6878634148af51659f26d40fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitPrefab: {fileID: 5123246219790320037, guid: ee8173d09160d4344b7748f6a6ed13a8, type: 3}
+  monsterPrefab: {fileID: 7625488896232799804, guid: 79c7d36189653e341b61bd54638a95cb, type: 3}
 --- !u!1001 &891432858
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -140,7 +186,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5287108785356115775, guid: 67b0704d651a84b41b93cd3bc9465961, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: MainCamera
       objectReference: {fileID: 0}
     - target: {fileID: 8129194248293744155, guid: 67b0704d651a84b41b93cd3bc9465961, type: 3}
       propertyPath: m_LocalPosition.x
@@ -385,12 +431,120 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <Datas>k__BackingField.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <BossDatas>k__BackingField.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <MonsterDatas>k__BackingField.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <HuntZoneDatas>k__BackingField.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
       propertyPath: <data>k__BackingField.<MonRegen>k__BackingField
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <Data>k__BackingField.<MaxMonNum>k__BackingField
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
       propertyPath: <data>k__BackingField.<MaxMonNum>k__BackingField
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <Datas>k__BackingField.Array.data[0].<HuntZoneName>k__BackingField
+      value: 1-1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <MonsterDatas>k__BackingField.Array.data[0].<MaxHP>k__BackingField
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <MonsterDatas>k__BackingField.Array.data[1].<MaxHP>k__BackingField
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <BossDatas>k__BackingField.Array.data[0].<MoveSpeed>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <BossDatas>k__BackingField.Array.data[0].<SizeRange>k__BackingField
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <BossDatas>k__BackingField.Array.data[1].<MoveSpeed>k__BackingField
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <BossDatas>k__BackingField.Array.data[1].<SizeRange>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <Datas>k__BackingField.Array.data[0].<HuntZoneStage>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <HuntZoneDatas>k__BackingField.Array.data[0].<MonRegen>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <HuntZoneDatas>k__BackingField.Array.data[1].<MonRegen>k__BackingField
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <MonsterDatas>k__BackingField.Array.data[0].<MoveSpeed>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <MonsterDatas>k__BackingField.Array.data[0].<SizeRange>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <MonsterDatas>k__BackingField.Array.data[1].<MoveSpeed>k__BackingField
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <MonsterDatas>k__BackingField.Array.data[1].<SizeRange>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <HuntZoneDatas>k__BackingField.Array.data[0].<MaxMonNum>k__BackingField
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <HuntZoneDatas>k__BackingField.Array.data[1].<MaxMonNum>k__BackingField
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <MonsterDatas>k__BackingField.Array.data[0].<AttackSpeed>k__BackingField
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <MonsterDatas>k__BackingField.Array.data[0].<CombatPoint>k__BackingField
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <MonsterDatas>k__BackingField.Array.data[1].<AttackSpeed>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <MonsterDatas>k__BackingField.Array.data[1].<CombatPoint>k__BackingField
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <HuntZoneDatas>k__BackingField.Array.data[0].<BossKillTimer>k__BackingField
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <HuntZoneDatas>k__BackingField.Array.data[0].<BossRetryTimer>k__BackingField
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 3743196961969806013, guid: f867158148268024182e917058a08578, type: 3}
       propertyPath: m_LocalPosition.x
@@ -441,6 +595,7 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 202036501}
   - {fileID: 891432858}
   - {fileID: 3739443617937637040}
   - {fileID: 1305045054}

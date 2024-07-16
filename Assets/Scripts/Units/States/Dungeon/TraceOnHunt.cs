@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class TraceOnDungeon : State<UnitOnHunt>
+public class TraceOnHunt : State<UnitOnHunt>
 {
     private bool isCollidedWithTarget;
 
@@ -31,7 +31,7 @@ public class TraceOnDungeon : State<UnitOnHunt>
 
     protected override bool Transition()
     {
-        if (owner.attackTarget == null)
+        if (!owner.HasTarget())
         {
             if (owner.IsNeedReturn)
                 controller.ChangeState((int)UnitOnHunt.STATE.RETURN);

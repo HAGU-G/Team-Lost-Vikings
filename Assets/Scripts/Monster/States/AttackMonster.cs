@@ -15,7 +15,9 @@
 
     public override void Update()
     {
-        owner.TryAttack();
+
+        if (owner.HasTarget())
+            owner.TryAttack();
 
         if (Transition())
             return;
@@ -23,7 +25,7 @@
 
     protected override bool Transition()
     {
-        if (owner.attackTarget == null)
+        if (!owner.HasTarget())
             controller.ChangeState((int)UnitOnHunt.STATE.IDLE);
 
         controller.ChangeState((int)UnitOnHunt.STATE.TRACE);

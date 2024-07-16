@@ -28,7 +28,7 @@ public class TraceMonster : State<Monster>
 
     protected override bool Transition()
     {
-        if (owner.attackTarget == null)
+        if (!owner.HasTarget())
         {
             controller.ChangeState((int)UnitOnHunt.STATE.IDLE);
             return true;

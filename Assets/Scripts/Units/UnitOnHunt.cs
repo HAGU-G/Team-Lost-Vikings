@@ -99,12 +99,12 @@ public class UnitOnHunt : Unit, IDamagedable, IObserver<Monster>, IAttackable
 
         fsm = new();
         fsm.Init(this, 0,
-            new IdleOnDungeon(),
-            new TraceOnDungeon(),
-            new AttackOnDungeon(),
-            new ReturnOnDungeon(),
+            new IdleOnHunt(),
+            new TraceOnHunt(),
+            new AttackOnHunt(),
+            new ReturnOnHunt(),
             new UseSkillOnDungeon(),
-            new DeadOnDungeon());
+            new DeadOnHunt());
 
 
         //TESTCODE
@@ -191,5 +191,20 @@ public class UnitOnHunt : Unit, IDamagedable, IObserver<Monster>, IAttackable
     {
         if (type == NOTIFY_TYPE.DEAD)
             ConsumeStamina(subject);
+    }
+
+    public bool HasTarget()
+    {
+        if (attackTarget == null)
+        {
+            return false;
+        }
+        else if (!attackTarget.gameObject.activeSelf)
+        {
+            attackTarget = null;
+            return false;
+        }
+
+        return true;
     }
 }

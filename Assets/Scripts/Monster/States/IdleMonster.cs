@@ -69,7 +69,7 @@ public class IdleMonster : State<Monster>
 
     protected override bool Transition()
     {
-        if (owner.attackTarget != null)
+        if (owner.HasTarget())
         {
             controller.ChangeState((int)UnitOnHunt.STATE.TRACE);
             return true;

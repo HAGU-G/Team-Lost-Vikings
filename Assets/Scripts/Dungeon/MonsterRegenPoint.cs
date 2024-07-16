@@ -42,7 +42,7 @@ public class MonsterRegenPoint : MonoBehaviour, IObserver<Monster>
 
     public void ReceiveNotification(Monster subject, NOTIFY_TYPE type = NOTIFY_TYPE.NONE)
     {
-        if (type == NOTIFY_TYPE.DEAD)
+        if (type == NOTIFY_TYPE.DEAD || type == NOTIFY_TYPE.REMOVE)
             IsReady = true;
     }
 }

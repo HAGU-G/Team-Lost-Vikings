@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Pool;
-using static UnityEngine.UI.CanvasScaler;
 
 public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackable, IStatUsable
 {
@@ -28,23 +26,18 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
     public UnitOnHunt attackTarget;
     public List<UnitOnHunt> Enemies { get; private set; }
 
-    public List<IObserver<Monster>> attackers = new();
+    public List<IObserver<Monster>> observer = new();
 
     //AdditionalStats
     public bool IsDead { get; private set; }
 
-    public void Ready(HuntZone huntZone = null)
+    public void Ready(HuntZone huntZone)
     {
-        Init(huntZone);
-        ResetMonster();
+        Init();
+        ResetMonster(huntZone);
     }
-    public void Init(HuntZone huntZone = null)
+    public void Init()
     {
-        CurrentHuntZone = huntZone;
-
-        stats.InitStats(testData);
-        stats.InitEllipse(transform);
-
         fsm = new();
         fsm.Init(this, 0,
             new IdleMonster(),
@@ -53,15 +46,22 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
             new DeadMonster());
     }
 
-    public void ResetMonster()
+    public void ResetMonster(HuntZone huntZone)
     {
+        CurrentHuntZone = huntZone;
+
+        //TODO 사냥터의 몬스터ID에 맞게 데이터 할당
+
+        stats.InitStats(huntZone.CurrentMonsterData);
+        stats.InitEllipse(transform);
+
         ResetEvents();
         stats.ResetStats();
         stats.ResetEllipse();
 
         IsDead = false;
 
-        Enemies = CurrentHuntZone?.Units;
+        Enemies = CurrentHuntZone.Units;
 
         fsm.ResetFSM();
     }
@@ -78,16 +78,13 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
     }
     private void CollisionUpdate()
     {
-        if (CurrentHuntZone == null)
-            return;
-
         var units = CurrentHuntZone.Units;
         var monsters = CurrentHuntZone.Monsters;
         var maxCount = Mathf.Max(units.Count, monsters.Count);
 
         for (int i = 0; i < maxCount; i++)
         {
-            if(i < units.Count && units[i] != this)
+            if (i < units.Count && units[i] != this)
             {
                 stats.Collision(units[i].stats);
             }
@@ -101,10 +98,10 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
 
     public void Subscribe(IObserver<Monster> observer)
     {
-        if (attackers.Contains(observer))
+        if (this.observer.Contains(observer))
             return;
 
-        attackers.Add(observer);
+        this.observer.Add(observer);
     }
 
     public bool TakeDamage(int damage, ATTACK_TYPE type)
@@ -132,22 +129,52 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
 
     public void UnSubscrive(IObserver<Monster> observer)
     {
-        if (!attackers.Contains(observer))
-            return;
-
-        attackers.Remove(observer);
+        this.observer.Remove(observer);
     }
 
     public int TryAttack()
     {
-        if (attackTarget == null)
-            return -1;
-
         stats.AttackTimer = 0f;
 
         if (attackBehaviour.Attack(attackTarget, stats.CombatPoint))
             return 1;
 
         return 0;
+    }
+
+    public bool HasTarget()
+    {
+        if (attackTarget == null)
+        {
+            return false;
+        }
+        else if (!attackTarget.gameObject.activeSelf)
+        {
+            attackTarget = null;
+            return false;
+        }
+
+        return true;
+    }
+
+    public void SendNotification(NOTIFY_TYPE type, bool removeObservers = false)
+    {
+        for (int i = observer.Count - 1; i >= 0; i--)
+        {
+            observer[i].ReceiveNotification(this, type);
+            if (removeObservers)
+                observer.RemoveAt(i);
+        }
+    }
+
+    public void RemoveMonster()
+    {
+        SendNotification(NOTIFY_TYPE.REMOVE, true);
+        GameManager.huntZoneManager.ReleaseMonster(this);
+    }
+
+    public void DropItem()
+    {
+        Debug.Log($"아이템 드롭 ID: {stats.DropId}");
     }
 }
