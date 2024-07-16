@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class ReturnOnDungeon : State<UnitOnDungeon>
+public class ReturnOnDungeon : State<UnitOnHunt>
 {
     private float recoveryTimer;
     Transform ownerTransform;
@@ -9,7 +9,7 @@ public class ReturnOnDungeon : State<UnitOnDungeon>
     {
         ownerTransform = owner.transform;
         owner.attackTarget = null;
-        owner.currentState = UnitOnDungeon.STATE.RETURN;
+        owner.currentState = UnitOnHunt.STATE.RETURN;
         //owner.spriteRenderer.color = Color.black;
     }
 
@@ -37,7 +37,7 @@ public class ReturnOnDungeon : State<UnitOnDungeon>
         if (Ellipse.IsPointInEllipse(owner.stats.SizeEllipse, owner.destinationPos))
         {
             owner.stats.ResetStats();
-            controller.ChangeState((int)UnitOnDungeon.STATE.IDLE);
+            controller.ChangeState((int)UnitOnHunt.STATE.IDLE);
             return true;
         }
         return false;

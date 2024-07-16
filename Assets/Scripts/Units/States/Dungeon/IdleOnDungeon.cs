@@ -1,14 +1,13 @@
-﻿using System.Globalization;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class IdleOnDungeon : State<UnitOnDungeon>
+public class IdleOnDungeon : State<UnitOnHunt>
 {
     private bool isMoving;
     private Vector3 dest;
 
     public override void EnterState()
     {
-        owner.currentState = UnitOnDungeon.STATE.IDLE;
+        owner.currentState = UnitOnHunt.STATE.IDLE;
         //owner.spriteRenderer.color = Color.white;
     }
 
@@ -65,12 +64,12 @@ public class IdleOnDungeon : State<UnitOnDungeon>
     {
         if (owner.attackTarget != null)
         {
-            controller.ChangeState((int)UnitOnDungeon.STATE.TRACE);
+            controller.ChangeState((int)UnitOnHunt.STATE.TRACE);
             return true;
         }
         else if (owner.IsNeedReturn)
         {
-            controller.ChangeState((int)UnitOnDungeon.STATE.RETURN);
+            controller.ChangeState((int)UnitOnHunt.STATE.RETURN);
             return true;
         }
         return false;

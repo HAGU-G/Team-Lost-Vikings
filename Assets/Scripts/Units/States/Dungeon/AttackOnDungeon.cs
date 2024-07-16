@@ -1,10 +1,10 @@
-﻿public class AttackOnDungeon : State<UnitOnDungeon>
+﻿public class AttackOnDungeon : State<UnitOnHunt>
 {
 
 
     public override void EnterState()
     {
-        owner.currentState = UnitOnDungeon.STATE.ATTACK;
+        owner.currentState = UnitOnHunt.STATE.ATTACK;
         //owner.spriteRenderer.color = Color.red;
     }
 
@@ -30,12 +30,12 @@
         if (owner.attackTarget == null)
         {
             if (owner.IsNeedReturn)
-                controller.ChangeState((int)UnitOnDungeon.STATE.RETURN);
+                controller.ChangeState((int)UnitOnHunt.STATE.RETURN);
             else
-                controller.ChangeState((int)UnitOnDungeon.STATE.IDLE);
+                controller.ChangeState((int)UnitOnHunt.STATE.IDLE);
         }
 
-        controller.ChangeState((int)UnitOnDungeon.STATE.TRACE);
+        controller.ChangeState((int)UnitOnHunt.STATE.TRACE);
 
         return true;
     }

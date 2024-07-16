@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-
-public enum STRUCTURE_TYPE
+﻿public enum STRUCTURE_TYPE
 {
     STANDARD = -1,
     STAT_UPGRADE,

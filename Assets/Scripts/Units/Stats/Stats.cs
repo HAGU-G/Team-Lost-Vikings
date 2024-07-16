@@ -36,7 +36,7 @@ public abstract class Stats
 
 
     //Methods
-    public void InitEllipses(Transform transform)
+    public void InitEllipse(Transform transform)
     {
         this.transform = transform;
         var pos = transform.position;
@@ -46,10 +46,10 @@ public abstract class Stats
         BasicAttackEllipse = new(AttackRange.Current, pos);
     }
 
-    public void ResetEllipses()
+    public void ResetEllipse()
     {
         if (transform == null)
-            return; 
+            return;
 
         var pos = transform.position;
         SizeEllipse.SetAxies(UnitSize.Current, pos);
@@ -58,7 +58,7 @@ public abstract class Stats
         BasicAttackEllipse.SetAxies(AttackRange.Current, pos);
     }
 
-    public void UpdateEllipses()
+    public void UpdateEllipsePosition()
     {
         if (transform == null)
             return;
@@ -84,6 +84,7 @@ public abstract class Stats
         if (collisionDepth >= 0f)
         {
             transform.position -= (other.transform.position - transform.position).normalized * collisionDepth;
+            UpdateEllipsePosition();
         }
     }
 

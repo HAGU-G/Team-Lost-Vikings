@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
+using static UnityEngine.UI.CanvasScaler;
 
 public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackable, IStatUsable
 {
@@ -8,7 +10,7 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
     public Stats GetStats => stats;
     public STAT_GROUP StatGroup => STAT_GROUP.MONSTER;
 
-    public Dungeon dungeon;
+    public HuntZone CurrentHuntZone { get; private set; } = null;
 
     public enum STATE
     {
@@ -23,19 +25,25 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
 
     //Attack
     private IAttackStrategy attackBehaviour = new AttackDefault();
-    public UnitOnDungeon attackTarget;
-    public List<UnitOnDungeon> Enemies { get; private set; }
+    public UnitOnHunt attackTarget;
+    public List<UnitOnHunt> Enemies { get; private set; }
 
     public List<IObserver<Monster>> attackers = new();
 
     //AdditionalStats
     public bool IsDead { get; private set; }
 
-
-    public void Init()
+    public void Ready(HuntZone huntZone = null)
     {
+        Init(huntZone);
+        ResetMonster();
+    }
+    public void Init(HuntZone huntZone = null)
+    {
+        CurrentHuntZone = huntZone;
+
         stats.InitStats(testData);
-        stats.InitEllipses(transform);
+        stats.InitEllipse(transform);
 
         fsm = new();
         fsm.Init(this, 0,
@@ -49,11 +57,11 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
     {
         ResetEvents();
         stats.ResetStats();
-        stats.ResetEllipses();
+        stats.ResetEllipse();
 
         IsDead = false;
 
-        Enemies = dungeon.players;
+        Enemies = CurrentHuntZone?.Units;
 
         fsm.ResetFSM();
     }
@@ -64,26 +72,31 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
     private void Update()
     {
         stats.UpdateAttackTimer();
-        stats.UpdateEllipses();
+        stats.UpdateEllipsePosition();
         fsm.Update();
         CollisionUpdate();
     }
     private void CollisionUpdate()
     {
-        foreach (var unit in dungeon.players)
-        {
-            if (unit == this)
-                continue;
-            stats.Collision(unit.stats);
-        }
+        if (CurrentHuntZone == null)
+            return;
 
-        foreach (var unit in dungeon.monsters)
+        var units = CurrentHuntZone.Units;
+        var monsters = CurrentHuntZone.Monsters;
+        var maxCount = Mathf.Max(units.Count, monsters.Count);
+
+        for (int i = 0; i < maxCount; i++)
         {
-            if (unit == this)
-                continue;
-            stats.Collision(unit.stats);
+            if(i < units.Count && units[i] != this)
+            {
+                stats.Collision(units[i].stats);
+            }
+
+            if (i < monsters.Count && monsters[i] != this)
+            {
+                stats.Collision(monsters[i].stats);
+            }
         }
-        stats.UpdateEllipses();
     }
 
     public void Subscribe(IObserver<Monster> observer)

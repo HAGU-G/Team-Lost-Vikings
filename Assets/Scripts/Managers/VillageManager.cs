@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEditor.Build.Pipeline.Utilities;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class VillageManager : MonoBehaviour

@@ -17,8 +17,8 @@ public class UnitSpawnTester : MonoBehaviour
     public UnitStatsData unitData;
     public MonsterStatsData monsterData;
 
-    public List<Dungeon> dungeons;
-    public UnitOnDungeon unit;
+    public List<HuntZone> dungeons;
+    public UnitOnHunt unit;
     public Monster monster;
 
     private UnitStats gachaResult = new();
@@ -45,8 +45,6 @@ public class UnitSpawnTester : MonoBehaviour
 
     private void Awake()
     {
-        GameStarter.Instance.SetActiveOnComplete(gameObject);
-
         //UnitStats.UpgradeStats.BaseHP = 1000;
         gachaResult = UnitStats.GachaNewStats(unitData);
 
@@ -74,7 +72,7 @@ public class UnitSpawnTester : MonoBehaviour
                 u.destinationPos = dungeon.portal.transform.position;
                 u.Ready();
                 u.gameObject.AddComponent<EllipseDrawer>();
-                dungeon.players.Add(u);
+                dungeon.Units.Add(u);
             }
         });
 
@@ -85,15 +83,13 @@ public class UnitSpawnTester : MonoBehaviour
     {
         foreach (var dungeon in dungeons)
         {
-            var m = Instantiate(monster, dungeon.portal2.transform.position, Quaternion.identity);
+            var m = Instantiate(monster);
             m.gameObject.AddComponent<UnitSelectorTest>().spawner = this;
-            m.dungeon = dungeon;
             m.stats = new();
             m.testData = monsterData;
-            m.Init();
-            m.ResetMonster();
+            m.Ready(dungeon);
             m.gameObject.AddComponent<EllipseDrawer>();
-            dungeon.monsters.Add(m);
+            dungeon.Monsters.Add(m);
         }
     }
 
@@ -119,7 +115,7 @@ public class UnitSpawnTester : MonoBehaviour
         {
             if(selected.StatGroup == STAT_GROUP.UNIT_ON_DUNGEON)
             {
-                var unitOnDungeon = selected as UnitOnDungeon;
+                var unitOnDungeon = selected as UnitOnHunt;
                 if (unitOnDungeon == null)
                     return;
 
@@ -170,34 +166,34 @@ public class UnitSpawnTester : MonoBehaviour
 
     public void SetHp(string text)
     {
-        if (selected is not UnitOnDungeon)
+        if (selected is not UnitOnHunt)
             return;
 
         if (int.TryParse(text, out var hp))
         {
-            (selected as UnitOnDungeon).stats.HP.Current = hp;
+            (selected as UnitOnHunt).stats.HP.Current = hp;
         }
     }
 
     public void SetStamina(string text)
     {
-        if (selected is not UnitOnDungeon)
+        if (selected is not UnitOnHunt)
             return;
 
         if (int.TryParse(text, out var stamina))
         {
-            (selected as UnitOnDungeon).stats.Stamina.Current = stamina;
+            (selected as UnitOnHunt).stats.Stamina.Current = stamina;
         }
     }
 
     public void SetStress(string text)
     {
-        if (selected is not UnitOnDungeon)
+        if (selected is not UnitOnHunt)
             return;
 
         if (int.TryParse(text, out var stress))
         {
-            (selected as UnitOnDungeon).stats.Stress.Current = stress;
+            (selected as UnitOnHunt).stats.Stress.Current = stress;
         }
     }
 }

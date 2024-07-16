@@ -1,0 +1,600 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &593837593685945524
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3743196961969806013}
+  - component: {fileID: 2283691549314386899}
+  m_Layer: 0
+  m_Name: HuntZone Example
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3743196961969806013
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 593837593685945524}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6701587910038742610}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2283691549314386899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 593837593685945524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53eac18fe4f078f43b718572675d54e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HuntZoneNumber: 0
+  unitPrefab: {fileID: 5123246219790320037, guid: ee8173d09160d4344b7748f6a6ed13a8, type: 3}
+  monsterPrefab: {fileID: 7625488896232799804, guid: 79c7d36189653e341b61bd54638a95cb, type: 3}
+  regenPointsRoot: {fileID: 8262157367233131843}
+  portal: {fileID: 0}
+  spawnCount: 1
+  <data>k__BackingField:
+    <HuntZoneName>k__BackingField: 
+    <HuntZoneId>k__BackingField: 0
+    <HuntZoneNum>k__BackingField: 0
+    <HuntZoneStage>k__BackingField: 0
+    <UnitCapacity>k__BackingField: 0
+    <NormalMonsterId>k__BackingField: 0
+    <MaxMonNum>k__BackingField: 0
+    <MonRegen>k__BackingField: 0
+    <BossMonsterId>k__BackingField: 0
+    <BossKillTimer>k__BackingField: 0
+    <BossRetryTimer>k__BackingField: 0
+--- !u!1 &8262157367233131843
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6701587910038742610}
+  m_Layer: 0
+  m_Name: Regen Points Root
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6701587910038742610
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8262157367233131843}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4980112733981367176}
+  - {fileID: 6172571288085477688}
+  - {fileID: 2132455484492134616}
+  - {fileID: 2641309293172576020}
+  - {fileID: 3662768447879685898}
+  - {fileID: 7075322841736006033}
+  - {fileID: 7379637569289300474}
+  - {fileID: 7558567129015200386}
+  m_Father: {fileID: 3743196961969806013}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &2002996913488449026
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6701587910038742610}
+    m_Modifications:
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6963114088863883218, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_Name
+      value: Regen Point (2)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+--- !u!4 &2132455484492134616 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+  m_PrefabInstance: {fileID: 2002996913488449026}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2518571216008067534
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6701587910038742610}
+    m_Modifications:
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.82
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.82
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6963114088863883218, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_Name
+      value: Regen Point (3)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+--- !u!4 &2641309293172576020 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+  m_PrefabInstance: {fileID: 2518571216008067534}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &3783260755641684432
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6701587910038742610}
+    m_Modifications:
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -4
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6963114088863883218, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_Name
+      value: Regen Point (4)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+--- !u!4 &3662768447879685898 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+  m_PrefabInstance: {fileID: 3783260755641684432}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &4848399631094754642
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6701587910038742610}
+    m_Modifications:
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6963114088863883218, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_Name
+      value: Regen Point
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+--- !u!4 &4980112733981367176 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+  m_PrefabInstance: {fileID: 4848399631094754642}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6052119925069074402
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6701587910038742610}
+    m_Modifications:
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.82
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.822
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6963114088863883218, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_Name
+      value: Regen Point (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+--- !u!4 &6172571288085477688 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+  m_PrefabInstance: {fileID: 6052119925069074402}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6934891032132706080
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6701587910038742610}
+    m_Modifications:
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6963114088863883218, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_Name
+      value: Regen Point (6)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+--- !u!4 &7379637569289300474 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+  m_PrefabInstance: {fileID: 6934891032132706080}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7234060011984633675
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6701587910038742610}
+    m_Modifications:
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.82
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.82
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6963114088863883218, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_Name
+      value: Regen Point (5)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+--- !u!4 &7075322841736006033 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+  m_PrefabInstance: {fileID: 7234060011984633675}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7976296199612750936
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6701587910038742610}
+    m_Modifications:
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.82
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.82
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6963114088863883218, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+      propertyPath: m_Name
+      value: Regen Point (7)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+--- !u!4 &7558567129015200386 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 456011330614359770, guid: e6b644117f3f3a6439cf5f41a8645385, type: 3}
+  m_PrefabInstance: {fileID: 7976296199612750936}
+  m_PrefabAsset: {fileID: 0}

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class DeadOnDungeon : State<UnitOnDungeon>
+public class DeadOnDungeon : State<UnitOnHunt>
 {
     public override void EnterState()
     {

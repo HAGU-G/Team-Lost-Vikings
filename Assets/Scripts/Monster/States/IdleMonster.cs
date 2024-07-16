@@ -45,7 +45,7 @@ public class IdleMonster : State<Monster>
             var dest = owner.transform.position + (Vector3)Random.insideUnitCircle.normalized * owner.stats.MoveSpeed.Current;
 
             // TODO 던전 밖으로 이동 못하게 하는 조건으로 대체 ex) 이동 가능 타일 검사
-            if (Vector3.Distance(dest, owner.dungeon.transform.position) <= 10f)
+            if (Vector3.Distance(dest, owner.CurrentHuntZone.transform.position) <= 10f)
                 direc = (dest - owner.transform.position).normalized;
             else
                 direc = (Vector3.zero - owner.transform.position).normalized;
@@ -71,7 +71,7 @@ public class IdleMonster : State<Monster>
     {
         if (owner.attackTarget != null)
         {
-            controller.ChangeState((int)UnitOnDungeon.STATE.TRACE);
+            controller.ChangeState((int)UnitOnHunt.STATE.TRACE);
             return true;
         }
         return false;

@@ -30,7 +30,7 @@ public class TraceMonster : State<Monster>
     {
         if (owner.attackTarget == null)
         {
-            controller.ChangeState((int)UnitOnDungeon.STATE.IDLE);
+            controller.ChangeState((int)UnitOnHunt.STATE.IDLE);
             return true;
         }
         else
@@ -39,7 +39,7 @@ public class TraceMonster : State<Monster>
 
             if (owner.stats.AttackTimer >= owner.stats.AttackSpeed.Current && isCollidedWithTarget)
             {
-                controller.ChangeState((int)UnitOnDungeon.STATE.ATTACK);
+                controller.ChangeState((int)UnitOnHunt.STATE.ATTACK);
                 return true;
             }
         }

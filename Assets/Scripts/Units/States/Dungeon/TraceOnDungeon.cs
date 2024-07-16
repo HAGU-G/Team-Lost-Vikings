@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 
-public class TraceOnDungeon : State<UnitOnDungeon>
+public class TraceOnDungeon : State<UnitOnHunt>
 {
     private bool isCollidedWithTarget;
 
     public override void EnterState()
     {
-        owner.currentState = UnitOnDungeon.STATE.TRACE;
+        owner.currentState = UnitOnHunt.STATE.TRACE;
         //owner.spriteRenderer.color = Color.yellow;
     }
 
@@ -34,9 +34,9 @@ public class TraceOnDungeon : State<UnitOnDungeon>
         if (owner.attackTarget == null)
         {
             if (owner.IsNeedReturn)
-                controller.ChangeState((int)UnitOnDungeon.STATE.RETURN);
+                controller.ChangeState((int)UnitOnHunt.STATE.RETURN);
             else
-                controller.ChangeState((int)UnitOnDungeon.STATE.IDLE);
+                controller.ChangeState((int)UnitOnHunt.STATE.IDLE);
             return true;
         }
         else
@@ -46,7 +46,7 @@ public class TraceOnDungeon : State<UnitOnDungeon>
                 if (skill.IsReady
                     && owner.attackTarget.stats.SizeEllipse.IsCollidedWith(skill.CastEllipse))
                 {
-                    controller.ChangeState((int)UnitOnDungeon.STATE.SKILL);
+                    controller.ChangeState((int)UnitOnHunt.STATE.SKILL);
                     return true;
                 }
             }
@@ -55,7 +55,7 @@ public class TraceOnDungeon : State<UnitOnDungeon>
 
             if (owner.stats.AttackTimer >= owner.stats.AttackSpeed.Current && isCollidedWithTarget)
             {
-                controller.ChangeState((int)UnitOnDungeon.STATE.ATTACK);
+                controller.ChangeState((int)UnitOnHunt.STATE.ATTACK);
                 return true;
             }
         }

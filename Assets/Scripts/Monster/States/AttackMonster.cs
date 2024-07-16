@@ -1,7 +1,4 @@
-﻿
-using UnityEngine;
-
-public class AttackMonster : State<Monster>
+﻿public class AttackMonster : State<Monster>
 {
     public override void EnterState()
     {
@@ -27,9 +24,9 @@ public class AttackMonster : State<Monster>
     protected override bool Transition()
     {
         if (owner.attackTarget == null)
-            controller.ChangeState((int)UnitOnDungeon.STATE.IDLE);
+            controller.ChangeState((int)UnitOnHunt.STATE.IDLE);
 
-        controller.ChangeState((int)UnitOnDungeon.STATE.TRACE);
+        controller.ChangeState((int)UnitOnHunt.STATE.TRACE);
 
         return true;
     }

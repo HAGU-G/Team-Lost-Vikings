@@ -1,4 +1,11 @@
-﻿public interface IObserver<T>
+﻿public enum NOTIFY_TYPE
 {
-    public void ReceiveNotification(T subject);
+    NONE,
+    DEAD
+}
+
+
+public interface IObserver<T>
+{
+    public void ReceiveNotification(T subject, NOTIFY_TYPE type = NOTIFY_TYPE.NONE);
 }

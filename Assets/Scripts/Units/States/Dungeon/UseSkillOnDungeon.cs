@@ -1,13 +1,10 @@
-﻿using UnityEditor.Experimental.GraphView;
-using UnityEngine;
-
-public class UseSkillOnDungeon : State<UnitOnDungeon>
+﻿public class UseSkillOnDungeon : State<UnitOnHunt>
 {
     private float attackTimer;
 
     public override void EnterState()
     {
-        owner.currentState = UnitOnDungeon.STATE.ATTACK;
+        owner.currentState = UnitOnHunt.STATE.ATTACK;
         //owner.spriteRenderer.color = Color.magenta;
     }
 
@@ -42,9 +39,9 @@ public class UseSkillOnDungeon : State<UnitOnDungeon>
     protected override bool Transition()
     {
         if (owner.attackTarget == null)
-            controller.ChangeState((int)UnitOnDungeon.STATE.IDLE);
+            controller.ChangeState((int)UnitOnHunt.STATE.IDLE);
         else
-            controller.ChangeState((int)UnitOnDungeon.STATE.TRACE);
+            controller.ChangeState((int)UnitOnHunt.STATE.TRACE);
 
         return true;
     }

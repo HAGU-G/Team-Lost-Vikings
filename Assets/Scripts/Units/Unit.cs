@@ -22,7 +22,7 @@ public abstract class Unit : MonoBehaviour, IStatUsable
         //TESTCODE
         //TODO 스탯 할당, 스킬 할당
         stats.InitStats(testData);
-        stats.InitEllipses(transform);
+        stats.InitEllipse(transform);
     }
 
     /// <summary>
@@ -32,7 +32,7 @@ public abstract class Unit : MonoBehaviour, IStatUsable
     {
         ResetEvents();
         stats.ResetStats();
-        stats.ResetEllipses();
+        stats.ResetEllipse();
         skills.ResetSkills();
     }
 

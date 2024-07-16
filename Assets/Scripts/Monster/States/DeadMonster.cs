@@ -4,7 +4,12 @@ public class DeadMonster : State<Monster>
 {
     public override void EnterState()
     {
-        GameObject.Destroy(owner.gameObject);
+        foreach (var observer in owner.attackers)
+        {
+            observer.ReceiveNotification(owner, NOTIFY_TYPE.DEAD);
+        }
+
+        owner.CurrentHuntZone.Pool.Release(owner);
     }
 
     public override void ExitState()

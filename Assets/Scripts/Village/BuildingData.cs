@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Build.Pipeline.Utilities;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BuildingData : MonoBehaviour
 {

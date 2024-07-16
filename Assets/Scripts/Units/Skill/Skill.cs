@@ -1,7 +1,4 @@
-﻿using System.Buffers;
-using System.Threading;
-using UnityEditor.Experimental.GraphView;
-using UnityEngine;
+﻿using UnityEngine;
 
 [System.Serializable]
 public class Skill
@@ -9,7 +6,7 @@ public class Skill
     private Unit owner;
     private ISkillStrategy skillBehaviour = new SkillTest001();
 
-    public Skill(SkillData data, UnitOnDungeon owner)
+    public Skill(SkillData data, UnitOnHunt owner)
     {
         Init(data, owner);
         ResetSkill();
@@ -39,7 +36,7 @@ public class Skill
     }
 
 
-    public void Init(SkillData data, UnitOnDungeon owner)
+    public void Init(SkillData data, UnitOnHunt owner)
     {
         SetData(data);
         SetOwner(owner);
@@ -58,7 +55,7 @@ public class Skill
 
     private void SetConditionUpdate()
     {
-        var unit = owner as UnitOnDungeon;
+        var unit = owner as UnitOnHunt;
         if (unit == null)
             return;
 

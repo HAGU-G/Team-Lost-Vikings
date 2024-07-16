@@ -1,15 +1,13 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 public class PlayerManager : MonoBehaviour
 {
-    public Transform ItenPoint;//アイテムの表示開始点
-    public Transform ShotPoint;//射出武器の開始点
-    public GameObject ItemPrefab;//アイテムのPrefabスロット
+    public Transform ItenPoint;//アイテ?の?示開始?
+    public Transform ShotPoint;//射出武器の開始?
+    public GameObject ItemPrefab;//アイテ?のPrefabスロット
     public GameObject ThrowPrefab;//投適用のPrefabスロット
-    public GameObject BowPrefab;//弓（矢）のPrefabスロット
+    public GameObject BowPrefab;//?（矢）のPrefabスロット
     Rigidbody2D rb;
     Animator animator;
     public float moveSpeed = 1f;
@@ -25,7 +23,7 @@ public class PlayerManager : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
     }
-    void Update()//方向キーで向きを決めて押し続けたらWalkに表示
+    void Update()//方向キ?で向きを決めて押し続けたらWalkに?示
     {
         float x = Input.GetAxisRaw("Horizontal");
         float y = (x == 0) ? Input.GetAxisRaw("Vertical") : 0.0f;
@@ -44,7 +42,7 @@ public class PlayerManager : MonoBehaviour
         StartCoroutine(Action());
         StartCoroutine(Shot());
     }
-    IEnumerator Action()//各行動をキーで再生
+    IEnumerator Action()//各行動をキ?で再生
     {
         if (Input.GetKeyDown(KeyCode.Z))
         {
@@ -78,14 +76,14 @@ public class PlayerManager : MonoBehaviour
             this.transform.position = Vector2.zero;
         }
     }
-    IEnumerator Shot()//射出武器の選択と表示
+    IEnumerator Shot()//射出武器の選択と?示
     {
         if (Input.GetKeyDown(KeyCode.X))
         {
             animator.SetTrigger("Throw");
             for (var i = 0; i < 30; i++)
             {
-                // コルーチン
+                // コル??ン
                 yield return null;
             }
             Instantiate(ThrowPrefab, Vector2.zero, Quaternion.identity, shotPointTransform);
