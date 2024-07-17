@@ -22,6 +22,7 @@ public class Construct : MonoBehaviour
         }
             
         var objInfo = obj.GetComponent<Building>();
+        objInfo.gridMap = gridMap;
         var width = objInfo.Width;
         var height = objInfo.Length;
 

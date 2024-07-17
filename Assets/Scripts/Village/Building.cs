@@ -34,14 +34,14 @@ public class Building : MonoBehaviour
     public Tile entranceTile;
     private bool isFlip = false;
     private static bool isRotating = false;
-    private GridMap gridMap;
+    public GridMap gridMap;
 
     public IInteractableWithPlayer interactWithPlayer { get; private set; }
     public IInteractableWithUnit interactWithUnit { get; private set; }
 
     private void Awake()
     {
-        gridMap = GameObject.FindWithTag("GridMap").GetComponent<GridMap>();
+        //gridMap = GameObject.FindWithTag("GridMap").GetComponent<GridMap>();
     }
 
     private void Start()
