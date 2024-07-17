@@ -30,7 +30,7 @@ public class GridMap : MonoBehaviour
 
     private void Awake()
     {
-        GameStarter.Instance.SetActiveOnComplete(gameObject);
+        
     }
 
     private void Start()

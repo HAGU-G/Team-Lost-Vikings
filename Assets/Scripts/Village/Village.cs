@@ -9,7 +9,7 @@ public class Village : MonoBehaviour
 
     private void Awake()
     {
-        GameStarter.Instance.SetActiveOnComplete(gameObject);
+       
     }
 
     private void Start()

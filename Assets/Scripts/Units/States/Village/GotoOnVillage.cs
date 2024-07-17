@@ -39,7 +39,7 @@ public class GotoOnVillage : State<UnitOnVillage>
             var path = owner.FindPath(startTile, owner.destinationTile);
             if (path != null || startTile == owner.destinationTile)
             {
-                owner.unitMove.OnEntranceTile += OnEntranceTile;
+                owner.unitMove.OnTargetTile += OnEntranceTile;
                 owner.unitMove.MoveTo(startTile, owner.destinationTile);
             }
             else
@@ -97,6 +97,11 @@ public class GotoOnVillage : State<UnitOnVillage>
             });
             owner.destinationTile = owner.destination.GetComponent<Building>().entranceTile;
         }
+        else
+        {
+            //해당 건물 없을 때 Idle 상태
+            controller.ChangeState((int)UnitOnVillage.STATE.IDLE);
+        }
         
     }
 
@@ -105,7 +110,7 @@ public class GotoOnVillage : State<UnitOnVillage>
         
         if (tile == owner.destinationTile)
         {
-            owner.unitMove.OnEntranceTile -= OnEntranceTile;
+            owner.unitMove.OnTargetTile -= OnEntranceTile;
             Debug.Log("ChangeState");
             controller.ChangeState((int)UnitOnVillage.STATE.INTERACT);
         }

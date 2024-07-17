@@ -22,7 +22,7 @@ public class VillageManager : MonoBehaviour
 
     private void Awake()
     {
-        GameStarter.Instance.SetActiveOnComplete(gameObject);
+        
     }
 
     private void Start()
@@ -209,9 +209,14 @@ public class VillageManager : MonoBehaviour
 
     public bool FindBuilding(STRUCTURE_TYPE structureType, Predicate<GameObject> predicate)
     {
-        if (construectedBuildings.Count <= 0)
+        if(construectedBuildings.Count <= 0
+            || construectedBuildings.FindIndex(predicate) < 0 ||
+            construectedBuildings.FindIndex(predicate) >= construectedBuildings.Count)
+        {
+            Debug.Log("해당 건물이 없습니다.");
             return false;
-        Debug.Log(construectedBuildings.FindIndex(predicate));
+        }
+
         var building = construectedBuildings[construectedBuildings.FindIndex(predicate)];
         var tile = building.GetComponent<Building>().entranceTile;
         if (tile == null)

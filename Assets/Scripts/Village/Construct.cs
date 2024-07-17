@@ -115,10 +115,9 @@ public class Construct : MonoBehaviour
         tile.UpdateTileInfo(TileType.OBJECT, standard);
 
         var standardBuilding = Instantiate(standard, gridMap.IndexToPos(index), Quaternion.identity, tile.transform);
-        var pos = standard.transform.position;
-        pos.y = standard.transform.position.y - gridMap.gridInfo.cellSize / 4f;
-        standard.transform.position = pos;
-        //TO-DO : 기준건물 설치 위치 수정하기
+        var pos = standardBuilding.transform.position;
+        pos.y = standardBuilding.transform.position.y - gridMap.gridInfo.cellSize / 4f;
+        standardBuilding.transform.position = pos;
 
         return standardBuilding;
     }

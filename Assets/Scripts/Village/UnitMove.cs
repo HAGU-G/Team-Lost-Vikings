@@ -21,7 +21,7 @@ public class UnitMove : MonoBehaviour
     public event Action OnMoveStart;
     public event Action OnMoveEnd;
     public event Action<Tile> OnTile;
-    public event Action<Tile> OnEntranceTile;
+    public event Action<Tile> OnTargetTile;
 
     private void Awake()
     {
@@ -34,11 +34,12 @@ public class UnitMove : MonoBehaviour
             return;
 
         timer += Time.deltaTime;
-        if(timer >= moveTime)
+
+        if (timer >= moveTime)
         {
             timer = 0f;
             currentTile = path[0];
-            OnEntranceTile?.Invoke(currentTile);
+            
             OnTile?.Invoke(currentTile);
 
             path.RemoveAt(0);
@@ -49,6 +50,7 @@ public class UnitMove : MonoBehaviour
                 isMoving = false;
                 goalTile = null;
                 OnMoveEnd?.Invoke();
+                OnTargetTile?.Invoke(currentTile);
             }
         }
         else
@@ -59,13 +61,13 @@ public class UnitMove : MonoBehaviour
             transform.position = Vector3.Lerp(start, end, timer / moveTime);
         }
     }
-    
+
     public bool MoveTo(Tile startTile, Tile target)
     {
-        if(startTile == target)
+        if (startTile == target)
         {
             currentTile = target;
-            OnEntranceTile?.Invoke(currentTile);
+            OnTargetTile?.Invoke(currentTile);
             return true;
         }
 
@@ -73,11 +75,11 @@ public class UnitMove : MonoBehaviour
         if (!target.CanMove)
             return false;
 
-        if(gridMap.PathFinding(startTile, target) == null)
+        if (gridMap.PathFinding(startTile, target).Count == 0)
         {
             Debug.Log("경로를 찾지 못했습니다.");
             return false;
-        }    
+        }
 
         path = gridMap.PathFinding(isMoving ? path[0] : startTile, target);
         if (path.Count == 0)

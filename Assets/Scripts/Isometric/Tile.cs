@@ -45,7 +45,7 @@ public class Tile : MonoBehaviour
     {
         get
         {
-            return (/*tileInfo.TileType != TileType.NONE && */tileInfo.TileType != TileType.OBJECT);
+            return (tileInfo.TileType == TileType.ROAD);
         }
     }
 
