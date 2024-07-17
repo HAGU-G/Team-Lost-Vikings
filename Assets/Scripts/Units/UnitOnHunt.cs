@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitOnHunt : Unit, IDamagedable, IObserver<Monster>, IAttackable
+public class UnitOnHunt : Unit, IDamagedable, IAttackable
 {
-    //TESTCODE 던전 임시 연결
-    public HuntZone dungeon;
-    public Vector3 destinationPos;
+    //TESTCODE 포탈 위치
+    public Vector3 portalPos;
 
     //State
     public enum STATE
@@ -17,6 +16,7 @@ public class UnitOnHunt : Unit, IDamagedable, IObserver<Monster>, IAttackable
         SKILL,
         DEAD
     }
+    public HuntZone CurrentHuntZone { get; private set; } = null;
 
     private FSM<UnitOnHunt> fsm;
     public STATE currentState;
@@ -25,8 +25,6 @@ public class UnitOnHunt : Unit, IDamagedable, IObserver<Monster>, IAttackable
     private IAttackStrategy attackBehaviour = new AttackDefault();
     public Monster attackTarget;
     public List<Monster> Enemies { get; private set; }
-
-    private Dictionary<Monster, int> attackedTargets = new();
 
     //Event
     public event System.Action OnDamaged;
@@ -40,9 +38,9 @@ public class UnitOnHunt : Unit, IDamagedable, IObserver<Monster>, IAttackable
     {
         get
         {
-            return stats.HP.Ratio <= 0.1f
-                || stats.Stamina.Ratio <= 0.5f
-                || stats.Stress.Ratio <= 0.5f;
+            return stats.HP.Ratio <= GameSetting.Instance.returnHPRaito
+                || stats.Stamina.Ratio <= GameSetting.Instance.returnStaminaRaito
+                || stats.Stress.Ratio <= GameSetting.Instance.returnStressRaito;
         }
     }
 
@@ -60,14 +58,14 @@ public class UnitOnHunt : Unit, IDamagedable, IObserver<Monster>, IAttackable
 
     private void CollisionUpdate()
     {
-        foreach (var unit in dungeon.Units)
+        foreach (var unit in CurrentHuntZone.Units)
         {
             if (unit == this)
                 continue;
             stats.Collision(unit.stats);
         }
 
-        foreach (var unit in dungeon.Monsters)
+        foreach (var unit in CurrentHuntZone.Monsters)
         {
             if (unit == this)
                 continue;
@@ -77,25 +75,9 @@ public class UnitOnHunt : Unit, IDamagedable, IObserver<Monster>, IAttackable
     }
 
 
-    private void OnDestroy()
+    public override void Init()
     {
-        foreach (var target in attackedTargets)
-        {
-            target.Key.UnSubscrive(this);
-        }
-    }
-
-    public void Ready()
-    {
-        Init();
-        ResetUnit();
-    }
-
-    protected override void Init()
-    {
-        //base.Init();
-
-        stats.InitEllipse(transform);
+        base.Init();
 
         fsm = new();
         fsm.Init(this, 0,
@@ -103,25 +85,40 @@ public class UnitOnHunt : Unit, IDamagedable, IObserver<Monster>, IAttackable
             new TraceOnHunt(),
             new AttackOnHunt(),
             new ReturnOnHunt(),
-            new UseSkillOnDungeon(),
+            new UseSkillOnHunt(),
             new DeadOnHunt());
-
-
-        //TESTCODE
-        skills.SetSkills(0);
-        skills.SetSkill(0, new Skill(testSkillData, this));
     }
 
-    protected override void ResetUnit()
+    public void ResetUnit(UnitStats unitStats, HuntZone huntZone)
     {
-        base.ResetUnit();
+        CurrentHuntZone = huntZone;
+        portalPos = CurrentHuntZone.transform.position;
+        ResetUnit(unitStats);
+    }
+
+    public override void ResetUnit(UnitStats unitStats)
+    {
+        unitStats.SetLocation(LOCATION.HUNTZONE, CurrentHuntZone.HuntZoneNum);
+        base.ResetUnit(unitStats);
 
         IsDead = false;
 
-        attackedTargets.Clear();
-        Enemies = dungeon.Monsters;
+        attackTarget = null;
+        Enemies = CurrentHuntZone.Monsters;
 
         fsm.ResetFSM();
+    }
+
+    public override void OnRelease()
+    {
+        base.OnRelease();
+        CurrentHuntZone = null;
+    }
+
+    public override void RemoveUnit()
+    {
+        base.RemoveUnit();
+        GameManager.huntZoneManager.ReleaseUnit(this);
     }
 
     protected override void ResetEvents()
@@ -146,7 +143,7 @@ public class UnitOnHunt : Unit, IDamagedable, IObserver<Monster>, IAttackable
 
         return false;
     }
-    
+
     public int TryAttack()
     {
         if (attackTarget == null)
@@ -155,8 +152,7 @@ public class UnitOnHunt : Unit, IDamagedable, IObserver<Monster>, IAttackable
         OnAttacked?.Invoke();
         stats.AttackTimer = 0f;
 
-        attackTarget.Subscribe(this);
-        StackStaminaToConsume(1, attackTarget);
+        stats.Stamina.Current -= GameSetting.Instance.staminaReduceAmount;
 
         bool isCritical = Random.Range(0, 100) < stats.CriticalChance.Current;
         var criticalWeight = isCritical ? stats.CriticalWeight.Current : 1f;
@@ -164,33 +160,10 @@ public class UnitOnHunt : Unit, IDamagedable, IObserver<Monster>, IAttackable
 
         if (attackBehaviour.Attack(attackTarget, damage, stats.BasicAttackType))
         {
-            stats.Stress.Current--;
+            stats.Stress.Current -= GameSetting.Instance.stressReduceAmount;
             return 1;
         }
         return 0;
-    }
-
-    private void StackStaminaToConsume(int stamina, Monster target)
-    {
-        if (attackedTargets.ContainsKey(target))
-            attackedTargets[target] += stamina;
-        else
-            attackedTargets.Add(target, stamina);
-    }
-
-    private void ConsumeStamina(Monster target)
-    {
-        if (!attackedTargets.ContainsKey(target))
-            return;
-
-        stats.Stamina.Current -= attackedTargets[target];
-        attackedTargets.Remove(target);
-    }
-
-    public void ReceiveNotification(Monster subject, NOTIFY_TYPE type = NOTIFY_TYPE.NONE)
-    {
-        if (type == NOTIFY_TYPE.DEAD)
-            ConsumeStamina(subject);
     }
 
     public bool HasTarget()
@@ -206,5 +179,16 @@ public class UnitOnHunt : Unit, IDamagedable, IObserver<Monster>, IAttackable
         }
 
         return true;
+    }
+
+    public void ForceChangeTarget(Monster monster)
+    {
+        if (monster == null
+            || !monster.gameObject.activeSelf
+            || !CurrentHuntZone.Monsters.Contains(monster))
+            return;
+
+        attackTarget = monster;
+        fsm.ChangeState((int)STATE.TRACE);
     }
 }

@@ -1,18 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
-using UnityEngine.SceneManagement;
 
 public class HuntZoneManager : MonoBehaviour
 {
     #region INSPECTOR
     public UnitOnHunt unitPrefab;
     public Monster monsterPrefab;
+    public UnitStatsData unitStatsData = new();
     #endregion
 
     public Dictionary<int, HuntZone> HuntZones { get; private set; } = new();
 
     private IObjectPool<Monster> MonsterPool { get; set; }
+    private IObjectPool<UnitOnHunt> UnitPool { get; set; }
+
+    //TESTCODE 데이텉테이블 대체
+    public List<UnitStats> units = new();
 
     private void Awake()
     {
@@ -23,10 +28,23 @@ public class HuntZoneManager : MonoBehaviour
         }
 
         GameManager.huntZoneManager = this;
-        SetObjectPool();
+        SetMonsterPool();
+
+        for (int i = 0; i < 10; i++)
+        {
+            var uu = new UnitStats();
+            uu.InitStats(unitStatsData);
+            uu.ResetStats();
+
+            units.Add(uu);
+        }
+
+        SetUnitPool();
     }
 
-    private void SetObjectPool()
+
+    #region MONSTER_POOL
+    private void SetMonsterPool()
     {
         if (MonsterPool != null)
             return;
@@ -55,7 +73,9 @@ public class HuntZoneManager : MonoBehaviour
         var monster = MonsterPool.Get();
         monster.ResetMonster(huntZone);
 
+        monster.gameObject.transform.SetParent(huntZone.monstersRoot.transform);
         monster.gameObject.SetActive(true);
+
         if (!huntZone.Monsters.Contains(monster))
             huntZone.Monsters.Add(monster);
 
@@ -65,6 +85,7 @@ public class HuntZoneManager : MonoBehaviour
     public void ReleaseMonster(Monster monster)
     {
         monster.CurrentHuntZone.Monsters.Remove(monster);
+        monster.OnRelease();
         MonsterPool.Release(monster);
     }
 
@@ -74,7 +95,9 @@ public class HuntZoneManager : MonoBehaviour
         var monster = Instantiate(monsterPrefab, transform);
         monster.gameObject.SetActive(false);
         monster.Init();
-
+#if UNITY_EDITOR
+        monster.gameObject.AddComponent<EllipseDrawer>();
+#endif
         return monster;
     }
 
@@ -83,7 +106,98 @@ public class HuntZoneManager : MonoBehaviour
     private void OnReleaseMonster(Monster monster)
     {
         monster.gameObject.SetActive(false);
+        monster.gameObject.transform.SetParent(transform);
     }
 
     private void OnDestroyMonster(Monster monster) { }
+    #endregion
+
+    #region UNIT_POOL
+    private void SetUnitPool()
+    {
+        if (UnitPool != null)
+            return;
+
+        UnitPool = new LinkedPool<UnitOnHunt>(
+            OnCreateUnit,
+            OnGetUnit,
+            OnReleaseUnit,
+            OnDestroyUnit,
+            true, 100
+            );
+
+        var preGets = new List<UnitOnHunt>();
+        for (int i = 0; i < 10; i++)
+        {
+            preGets.Add(UnitPool.Get());
+        }
+        foreach (var unit in preGets)
+        {
+            UnitPool.Release(unit);
+        }
+    }
+
+    public UnitOnHunt GetUnit(HuntZone huntZone, UnitStats unitStats)
+    {
+        var unit = UnitPool.Get();
+        unit.ResetUnit(unitStats, huntZone);
+
+        unit.stats.ResetStats(); //TESTCODE 회복 기능이 없는 상태에서 테스트 했기 때문에 넣었음.
+        unit.gameObject.transform.SetParent(huntZone.unitsRoot.transform);
+        unit.gameObject.SetActive(true);
+
+        if (!huntZone.Units.Contains(unit))
+            huntZone.Units.Add(unit);
+
+        return unit;
+    }
+
+    public void ReleaseUnit(UnitOnHunt unit)
+    {
+        unit.CurrentHuntZone.Units.Remove(unit);
+        unit.OnRelease();
+        UnitPool.Release(unit);
+    }
+
+    private UnitOnHunt OnCreateUnit()
+    {
+        var unit = Instantiate(unitPrefab, transform);
+        unit.gameObject.SetActive(false);
+        unit.Init();
+#if UNITY_EDITOR
+        unit.gameObject.AddComponent<EllipseDrawer>();
+#endif
+        return unit;
+    }
+
+    private void OnGetUnit(UnitOnHunt unit) { }
+
+    private void OnReleaseUnit(UnitOnHunt unit)
+    {
+        unit.gameObject.SetActive(false);
+        unit.gameObject.transform.SetParent(transform);
+    }
+
+    private void OnDestroyUnit(UnitOnHunt unit) { }
+    #endregion
+
+    public void AddHuntZone(HuntZone huntZone)
+    {
+        if (HuntZones.ContainsKey(huntZone.HuntZoneNum))
+        {
+            Debug.LogError($"사냥터 {huntZone.HuntZoneNum} 이(가) 이미 존재합니다.");
+            return;
+        }
+        HuntZones.Add(huntZone.HuntZoneNum, huntZone);
+        //StartCoroutine(CoHuntZonePositining());
+    }
+
+    //private IEnumerator CoHuntZonePositining()
+    //{
+    //    yield return new WaitForEndOfFrame();
+    //    foreach (var huntZone in HuntZones)
+    //    {
+    //        huntZone.Value.gameObject.transform.position = Vector2.right * huntZone.Key * 100f;
+    //    }
+    //}
 }

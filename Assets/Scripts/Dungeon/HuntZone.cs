@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEditorInternal;
 using UnityEngine;
@@ -7,38 +8,45 @@ using UnityEngine.Pool;
 public class HuntZone : MonoBehaviour
 {
     #region INSPECTOR
-    public int HuntZoneNumber;
+    //public GridMap gridMap;
+    //public Construct construct;
+    //public GameObject standardBuildingPrefab;
+
     public GameObject regenPointsRoot;
-    public GameObject portal;
+    public GameObject unitsRoot;
+    public GameObject monstersRoot;
     public int spawnCount = 1;
     #endregion
 
     [field: SerializeField] public List<HuntZoneData> HuntZoneDatas { get; private set; }
     [field: SerializeField] public List<MonsterStatsData> MonsterDatas { get; private set; }
     [field: SerializeField] public List<MonsterStatsData> BossDatas { get; private set; }
-
-    private List<MonsterRegenPoint> regenPoints = new();
-
-    public List<UnitOnHunt> Units { get; private set; } = new();
-    public List<Monster> Monsters { get; private set; } = new();
-    public bool IsReady { get; private set; }
-
-    public int stage = 1;
-    public int testStageNum = 1;
     public HuntZoneData CurrentHuntZoneData { get; private set; }
     public MonsterStatsData CurrentMonsterData { get; private set; }
     public MonsterStatsData CurrentBossData { get; private set; }
+
+    [field: SerializeField] public int HuntZoneNum { get; private set; }
+    public bool IsReady { get; private set; }
+    public int stage = 1;
+    public int testStageNum = 1;
+
+    public List<Monster> Monsters { get; private set; } = new();
+    private List<MonsterRegenPoint> regenPoints = new();
     private float regenTimer;
 
-    private bool isBossBattle;
     private Monster boss = null;
     private Observer<Monster> bossObserver = new();
+    private bool isBossBattle;
     private float bossTimer;
     private float retryTimer;
 
+    public List<UnitOnHunt> Units { get; private set; } = new();
+
     private void Start()
     {
-        Ready();
+        //gridMap.gameObject.SetActive(true);
+        Init();
+        ResetHuntZone();
     }
 
     private void Update()
@@ -72,32 +80,43 @@ public class HuntZone : MonoBehaviour
         }
     }
 
-    public void Ready()
-    {
-        Init();
-        ResetHuntZone();
-    }
-
-
     public void Init()
     {
         IsReady = false;
         //데이터 테이블 불러오기
+
         UpdateRegenPoints();
 
         bossObserver.OnNotified += ReceiveBossNotify;
+        GameManager.huntZoneManager.AddHuntZone(this);
+
+        //TESTCODE 기준 타일 설치 - TODO 수정 필요
+        //StartCoroutine(CoPlaceStandardBuilding());
     }
 
-    public void ResetHuntZone()
+    //TESTCODE 기준 타일 설치 - TODO 수정 필요
+    //private IEnumerator CoPlaceStandardBuilding()
+    //{
+    //    yield return new WaitForEndOfFrame();
+    //    var maxtile = new Vector2Int(gridMap.gridInfo.row - 1, gridMap.gridInfo.col - 1);
+    //    construct.PlaceBuilding(standardBuildingPrefab, gridMap.tiles[maxtile], gridMap);
+    //}
+
+    public void ResetHuntZone(bool isRemoveUnit = true)
     {
         IsReady = false;
 
         SetStage(stage);
 
         regenTimer = 0f;
-        for (int i = Monsters.Count - 1; i >= 0; i--)
+        var maxIndex = Mathf.Max(Monsters.Count - 1, Units.Count - 1);
+        for (int i = maxIndex; i >= 0; i--)
         {
-            Monsters[i].RemoveMonster();
+            if (i < Monsters.Count)
+                Monsters[i].RemoveMonster();
+
+            if (isRemoveUnit && i < Units.Count)
+                Units[i].RemoveUnit();
         }
 
         IsReady = true;
@@ -176,8 +195,6 @@ public class HuntZone : MonoBehaviour
     public void StartBossBattle()
     {
         isBossBattle = true;
-        Camera.main.backgroundColor = Color.black;
-
         bossTimer = CurrentHuntZoneData.BossKillTimer;
 
         var randomPoints = GetActiveRegenPoints();
@@ -185,14 +202,17 @@ public class HuntZone : MonoBehaviour
         boss = GameManager.huntZoneManager.GetMonster(this);
         boss.transform.position = randomPoints[Random.Range(0, randomPoints.Count)].transform.position;
         boss.Subscribe(bossObserver);
+
+        foreach(var unit in Units)
+        {
+            unit.ForceChangeTarget(boss);
+        }
     }
 
     public void EndBossBattle(bool isWin)
     {
         isBossBattle = false;
-
         bossTimer = 0f;
-        Camera.main.backgroundColor = new Color(49 / 255f, 77 / 255f, 121 / 255f);
 
         if (isWin)
         {
@@ -253,14 +273,36 @@ public class HuntZone : MonoBehaviour
         if (GUILayout.Button("스테이지 변경") && !isBossBattle)
         {
             SetStage(testStageNum);
-            ResetHuntZone();
+            ResetHuntZone(false);
         }
 
         GUILayout.Label($"{bossTimer:00} | {retryTimer:00}");
         if (GUILayout.Button("보스 소환") && !isBossBattle && retryTimer <= 0f)
         {
-            ResetHuntZone();
+            ResetHuntZone(false);
             StartBossBattle();
+        }
+
+        if (GUI.Button(new Rect((1 + HuntZoneNum) * 100, 0, 100, 100),
+            $"{HuntZoneNum}용병 소환"))
+        {
+            SpawnUnit();
+        }
+    }
+
+    public void SpawnUnit()
+    {
+        if (Units.Count >= CurrentHuntZoneData.UnitCapacity)
+            return;
+
+        for (int i = 0; i < GameManager.huntZoneManager.units.Count; i++)
+        {
+            if (GameManager.huntZoneManager.units[i].Location != LOCATION.NONE)
+                continue;
+
+            var unit = GameManager.huntZoneManager.GetUnit(this, GameManager.huntZoneManager.units[i]);
+            unit.transform.position = transform.position;
+            break;
         }
     }
 }

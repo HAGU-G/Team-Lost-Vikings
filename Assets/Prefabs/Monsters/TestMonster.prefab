@@ -163,13 +163,13 @@ MonoBehaviour:
     <DropId>k__BackingField: 0
     <MonsterAssetFileName>k__BackingField: 
   stats:
-    group: 2
     <Id>k__BackingField: 0
     <Name>k__BackingField: 
     <HP>k__BackingField:
       defaultValue: 0
       min: 0
       max: 2147483647
+      _current: 71
     <MoveSpeed>k__BackingField:
       defaultValue: 0
     <UnitSize>k__BackingField:
@@ -192,6 +192,5 @@ MonoBehaviour:
       defaultValue: 0
     <DropId>k__BackingField: 0
     <MonsterAssetFileName>k__BackingField: 
-  dungeon: {fileID: 0}
   currentState: 0
   attackTarget: {fileID: 0}

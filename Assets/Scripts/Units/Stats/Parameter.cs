@@ -13,7 +13,8 @@ public class Parameter : IFormattable
     public int max = int.MaxValue;
 
 
-    private int _current;
+    [field: UnityEngine.SerializeField] private int _current;
+
     public int Current
     {
         get => _current;

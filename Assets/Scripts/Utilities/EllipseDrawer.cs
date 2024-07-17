@@ -15,10 +15,10 @@ public class EllipseDrawer : MonoBehaviour
         lineRenderer.loop = true;
         lineRenderer.startWidth = 0.1f;
         lineRenderer.endWidth = 0.1f;
+        lineRenderer.useWorldSpace = false;
 
         ellipse = owner.GetStats.SizeEllipse;
         Draw(ellipse.a, ellipse.b, Vector2.zero, lineRenderer);
-        lineRenderer.useWorldSpace = false;
     }
 
     public void Draw(float a, float b, Vector2 pos, LineRenderer lineRenderer)
@@ -32,7 +32,7 @@ public class EllipseDrawer : MonoBehaviour
 
     public void Update()
     {
-        ellipse.position = transform.position;
+        Draw(ellipse.a, ellipse.b, Vector2.zero, lineRenderer);
     }
 
 }
