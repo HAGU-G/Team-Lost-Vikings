@@ -21,6 +21,8 @@ public class Tile : MonoBehaviour
 
     private void Awake()
     {
+        
+
         tileInfo = new TileInfo();
         tileInfo.Weight = 1;
         tileInfo.BaseLayer = new Layer
@@ -73,7 +75,7 @@ public class Tile : MonoBehaviour
 
     public void RestoreTileColor()
     {
-        GetComponent<SpriteRenderer>().material.color = Color.gray;
+        GetComponent<SpriteRenderer>().material.color = Color.white;
     }
 
 

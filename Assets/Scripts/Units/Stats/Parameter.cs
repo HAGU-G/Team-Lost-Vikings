@@ -12,8 +12,7 @@ public class Parameter : IFormattable
     public int min = 0;
     public int max = int.MaxValue;
 
-
-    private int _current;
+    [field: UnityEngine.SerializeField] private int _current;
     public int Current
     {
         get => _current;

@@ -75,7 +75,8 @@ public class UnitMove : MonoBehaviour
         if (!target.CanMove)
             return false;
 
-        if (gridMap.PathFinding(startTile, target).Count == 0)
+        path = gridMap.PathFinding(startTile, target);
+        if (path == null || path.Count == 0)
         {
             Debug.Log("경로를 찾지 못했습니다.");
             return false;

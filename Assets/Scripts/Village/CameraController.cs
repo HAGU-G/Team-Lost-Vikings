@@ -8,7 +8,6 @@ public class CameraController : MonoBehaviour
     private float zoomSpeed = 4f; 
     private float minFov = 15f;
     private float maxFov = 90f;
-    private float verticalSpeed = 10f;
 
     private void Update()
     {

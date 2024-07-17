@@ -212,12 +212,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 652882ed5c6f3ba4887c3262255ddc93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  village: {fileID: 1883879126}
+  construct: {fileID: 0}
   construectedBuildings: []
   gridMap: {fileID: 286098943}
   installableBuilding:
   - {fileID: 5574859836534748875, guid: 57003cf95450f1b4d8896cfe98442766, type: 3}
   - {fileID: 4125673889435522284, guid: 0a52a2dfc707d5447ba9d2fafb7c2323, type: 3}
   - {fileID: 7845117778571857193, guid: 867cc1057633b004dbc24db4a330134f, type: 3}
+  - {fileID: 5064512460059276777, guid: e640f1c07230acb46a0456f0e1c92943, type: 3}
+  - {fileID: 1049091585455928075, guid: 23a63bd1579712740ac78839ad7c0519, type: 3}
+  - {fileID: 6364675283053009349, guid: 403ef95a238bdda4fb60bac464e99aaf, type: 3}
+  - {fileID: 9161129584794096944, guid: a12adccad51eda94aa72deeffc633aa3, type: 3}
   standardPrefab: {fileID: 5064512460059276777, guid: e640f1c07230acb46a0456f0e1c92943, type: 3}
   roadPrefab: {fileID: 101424399208625417, guid: cba03f8874769744bb9e7ee7ac90b656, type: 3}
 --- !u!4 &927712893
@@ -363,6 +369,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   villageManager: {fileID: 927712892}
   unitPrefab: {fileID: 8973577619717209016, guid: c521c0b593d9c1846bf53c434a7bd6ff, type: 3}
+  units: []
 --- !u!4 &1883879127
 Transform:
   m_ObjectHideFlags: 0

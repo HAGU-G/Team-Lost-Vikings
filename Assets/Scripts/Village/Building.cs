@@ -94,7 +94,7 @@ public class Building : MonoBehaviour
 
     private void OnGUI()
     {
-        if(GUI.Button(new Rect(0f, 360f, 70f,70f), "Rotate"))
+        if(GUI.Button(new Rect(0f, 280f, 100f, 70f), "Rotate"))
         {
             isRotating = true;
         }

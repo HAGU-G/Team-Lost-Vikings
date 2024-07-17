@@ -17,7 +17,6 @@ public class GridMap : MonoBehaviour
     public List<Tile> usingTileList = new(); //gridMap 내에서 사용 가능한 타일 리스트
     public List<List<Tile>> usableTileList = new(); //usingTileList에 단계별로 할당하기 위한 List
 
-    int num = 0;
 
     public Tile GetTile(int x, int y)
     {

@@ -17,7 +17,7 @@ public class IdleOnVillage : State<UnitOnVillage>
 
     public override void ExitState()
     {
-        
+        isIdle = false;
     }
 
     public override void ResetState()
@@ -29,22 +29,6 @@ public class IdleOnVillage : State<UnitOnVillage>
     {
         if (Transition())
             return;
-
-        timer += Time.deltaTime;
-        if(timer >= 2f)
-        {
-            timer = 0f;
-            Debug.Log(isIdle);
-        }
-
-        //movableTileCount = 0;
-        //foreach(var tile in owner.villageManager.gridMap.tiles)
-        //{
-        //    if(tile.Value.CanMove)
-        //        ++movableTileCount;
-        //}
-        //if (movableTileCount == 0)
-        //    return;
 
         if (!isIdle)
         {
@@ -58,7 +42,12 @@ public class IdleOnVillage : State<UnitOnVillage>
     protected override bool Transition()
     {
         if(owner.CheckParameter() != UnitOnVillage.LACKING_PARAMETER.NONE)
+        {
             controller.ChangeState((int)UnitOnVillage.STATE.GOTO);
+            return true;
+
+        }
+            
 
         return false;
     }
@@ -85,7 +74,12 @@ public class IdleOnVillage : State<UnitOnVillage>
             {
                 if(owner.villageManager.gridMap.PathFinding(startTile, targetTile) != null)
                 {
-                    owner.unitMove.MoveTo(startTile, targetTile);
+                    var move = owner.unitMove.MoveTo(startTile, targetTile);
+                    if(!move)
+                    {
+                        isIdle = false;
+                        return;
+                    }
                     owner.unitMove.OnTargetTile += OnTargetTile;
                 }
                 else
@@ -105,7 +99,7 @@ public class IdleOnVillage : State<UnitOnVillage>
         else
         {
             isIdle = false;
-            Debug.Log("이동할 수 있는 타일이 없습니다."); 
+            //Debug.Log("이동할 수 있는 타일이 없습니다."); 
             return;
         }
 

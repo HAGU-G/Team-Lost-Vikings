@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 892051476418935124}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.34000015, y: 10.13, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4284541364480820459}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2677030892279783437
 SpriteRenderer:
@@ -93,6 +93,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4284541364480820459}
+  - component: {fileID: 2601822528504215386}
+  - component: {fileID: 2621419213123754785}
   m_Layer: 0
   m_Name: Buildings-v4 (22)
   m_TagString: Untagged
@@ -107,6 +109,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3151858380563520648}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -114,5 +117,45 @@ Transform:
   m_Children:
   - {fileID: 5491628514839050677}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2601822528504215386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3151858380563520648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16e120b65961f8543b286e5d368be52d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <StructureName>k__BackingField: 
+  <StructureId>k__BackingField: 4
+  <Width>k__BackingField: 1
+  <Length>k__BackingField: 1
+  <StructureType>k__BackingField: 0
+  <UnlockTownLevel>k__BackingField: 0
+  <CanMultiBuild>k__BackingField: 0
+  <CanReverse>k__BackingField: 0
+  <CanReplace>k__BackingField: 0
+  <CanDestroy>k__BackingField: 0
+  <UpgradeId>k__BackingField: 0
+  <StructureAssetFileName>k__BackingField: 
+  placedTiles: []
+  entranceTile: {fileID: 0}
+--- !u!114 &2621419213123754785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3151858380563520648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f738f6506d4de646aec364255b5290a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  building: {fileID: 0}
+  upgradeStat: 0
+  upgradeValue: 10

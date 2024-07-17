@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -9,6 +10,7 @@ public class Construct : MonoBehaviour
     public bool isSelected = false;
     public bool isRemoveTime = false;
     public bool isRoadBuild = false;
+    public bool isRoadRemove = false;
 
     public GameObject PlaceBuilding(GameObject obj, Tile tile, GridMap gridMap)
     {
@@ -61,11 +63,19 @@ public class Construct : MonoBehaviour
         var indexX = tile.tileInfo.id.x;
         var indexY = tile.tileInfo.id.y;
 
-        gridMap.GetTile(indexX, indexY).UpdateTileInfo(TileType.ROAD, road);
         var roadObj = Instantiate(road, gridMap.IndexToPos(new Vector2Int(indexX, indexY)), Quaternion.identity, tile.transform);
+        gridMap.GetTile(indexX, indexY).UpdateTileInfo(TileType.ROAD, roadObj);
 
 
         return roadObj;
+    }
+
+    public void RemoveRoad(Tile tile, GridMap gridMap)
+    {
+        var obj = tile.tileInfo.RoadLayer.LayerObject;
+        tile.RestoreTileColor();
+        tile.ResetTileInfo();
+        Destroy(obj);
     }
 
     public GameObject RemoveBuilding(Tile tile, GridMap gridMap)

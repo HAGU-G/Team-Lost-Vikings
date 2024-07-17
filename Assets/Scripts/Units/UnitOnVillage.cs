@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEditor.Build;
+using UnityEditor.Build.Pipeline.Utilities;
 using UnityEngine;
 
 public class UnitOnVillage : Unit
@@ -73,6 +74,11 @@ public class UnitOnVillage : Unit
             return LACKING_PARAMETER.NONE;
     }
 
+    
+
+
+
+
     //-------Test용 메소드-----------------------------------------------
     
 
@@ -97,15 +103,17 @@ public class UnitOnVillage : Unit
             ReduceHp();
         }
 
-        if (GUI.Button(new Rect(800f, 100f, 100f, 70f), "ReduceStamina"))
+        if (GUI.Button(new Rect(800f, 70f, 100f, 70f), "ReduceStamina"))
         {
             ReduceStamina();
         }
 
-        if (GUI.Button(new Rect(800f, 200f, 100f, 70f), "ReduceStress"))
+        if (GUI.Button(new Rect(800f, 140f, 100f, 70f), "ReduceStress"))
         {
             ReduceStress();
         }
+
+       
     }
     //------------------------------------------------------------------
 }

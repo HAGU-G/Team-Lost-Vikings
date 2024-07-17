@@ -8,7 +8,8 @@ using UnityEngine;
 
 public class VillageManager : MonoBehaviour
 {
-    private Construct construct = new();
+    public Village village;
+    public Construct construct;
     public List<GameObject> construectedBuildings = new();
     public GridMap gridMap;
     public Dictionary<int, GameObject> objectList = new();
@@ -22,6 +23,7 @@ public class VillageManager : MonoBehaviour
 
     private void Awake()
     {
+        construct = gameObject.AddComponent<Construct>();
         
     }
 
@@ -45,35 +47,61 @@ public class VillageManager : MonoBehaviour
 
     private void OnGUI()
     {
-        if (GUI.Button(new Rect(0f, 150f, 70f, 70f), "hp"))
+        if (GUI.Button(new Rect(0f, 0f, 100f, 70f), "Remove Building"))
+        {
+            construct.isRemoveTime = true;
+        }
+
+        if (GUI.Button(new Rect(0f, 70f, 100f, 70f), "hp"))
         {
             selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.HP_RECOVERY);
             construct.isSelected = true;
         }
 
-        if (GUI.Button(new Rect(0f, 220, 70f, 70f), "stamina"))
+        if (GUI.Button(new Rect(0f, 140f, 100f, 70f), "stamina"))
         {
             selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STAMINA_RECOVERY);
             construct.isSelected = true;
         }
 
-        if (GUI.Button(new Rect(0f, 290, 70f, 70f), "stress"))
+        if (GUI.Button(new Rect(0f, 210f, 100f, 70f), "stress"))
         {
             selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STRESS_RECOVERY);
             construct.isSelected = true;
         }
 
-        if (GUI.Button(new Rect(0f, 80f, 70f, 70f), "Remove"))
-        {
-            construct.isRemoveTime = true;
-        }
-
-        if (GUI.Button(new Rect(0f, 430f, 70f, 70f), "Road"))
+        if (GUI.Button(new Rect(0f, 350f, 100f, 70f), "Road"))
         {
             if(!construct.isRoadBuild)
                 construct.isRoadBuild = true;
             else if(construct.isRoadBuild)
                 construct.isRoadBuild = false;
+        }
+
+        if (GUI.Button(new Rect(0f, 420f, 100f, 70f), "Remove Road"))
+        {
+            if(!construct.isRoadRemove)
+                construct.isRoadRemove = true;
+            else if (construct.isRoadRemove)
+                construct.isRoadRemove = false;
+        }
+
+        if (GUI.Button(new Rect(800f, 210f, 100f, 70f), "STR Upgrade"))
+        {
+            selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STR_UPGRADE);
+            construct.isSelected = true;
+        }
+
+        if (GUI.Button(new Rect(800f, 280f, 100f, 70f), "MAG Upgrade"))
+        {
+            selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.MAG_UPGRADE);
+            construct.isSelected = true;
+        }
+
+        if (GUI.Button(new Rect(800f, 350f, 100f, 70f), "AGI Upgrade"))
+        {
+            selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.AGI_UPGRADE);
+            construct.isSelected = true;
         }
 
     }
@@ -140,6 +168,13 @@ public class VillageManager : MonoBehaviour
                 if (building == null)
                     return;
                 construectedBuildings.Add(building);
+
+                var statUpgrade = building.GetComponent<StatUpgradeBuilding>();
+                if (statUpgrade != null)
+                {
+                    statUpgrade.SetUnits(village.units);
+                    statUpgrade.RiseStat();
+                }
             }
             else
             {
@@ -148,12 +183,6 @@ public class VillageManager : MonoBehaviour
             }
         }
 
-
-        //if (construct.isRoadBuild && Input.GetMouseButtonUp(0))
-        //{
-        //    construct.isRoadBuild = false;
-        //    return;
-        //}
         if (Input.GetMouseButton(0) && construct.isRoadBuild)
         {
            
@@ -165,29 +194,6 @@ public class VillageManager : MonoBehaviour
             }
 
         }
-
-
-        //if(Input.GetKeyDown(KeyCode.U))
-        //{
-        //    LevelUp();
-        //}
-
-        //if (Input.GetMouseButtonDown(0) && !isSelected)
-        //{
-        //    var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //    if (GetTile(worldPos) != null)
-        //        InteractWithBuilding();
-        //}
-
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //    if(GetTile(worldPos) != null)
-        //    {
-        //        var tile = GetTile(worldPos);
-        //        Debug.Log(tile.tileInfo.TileType.ToString());
-        //    }
-        //}
 
         if (Input.GetMouseButtonDown(0) && construct.isRemoveTime)
         {
@@ -203,7 +209,21 @@ public class VillageManager : MonoBehaviour
                 Debug.Log("잘못된 인덱스 선택");
                 construct.isRemoveTime = false;
             }
+        }
 
+        if (Input.GetMouseButtonDown(0) && construct.isRoadRemove)
+        {
+            var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            if (GetTile(worldPos) != null)
+            {
+                var tile = GetTile(worldPos);
+                construct.RemoveRoad(tile, gridMap);
+            }
+            else
+            {
+                Debug.Log("잘못된 인덱스 선택");
+                construct.isRemoveTime = false;
+            }
         }
     }
 

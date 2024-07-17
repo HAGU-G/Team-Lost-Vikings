@@ -49,12 +49,13 @@ public class GotoOnVillage : State<UnitOnVillage>
 
     public override void ExitState()
     {
-        
+        owner.unitMove.OnTargetTile -= OnEntranceTile;
     }
 
     public override void ResetState()
     {
-        
+        owner.destination = null;
+        owner.destinationTile = null;
     }
 
     public override void Update()
