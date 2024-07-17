@@ -1,43 +1,47 @@
 ﻿using System;
+using UnityEditor;
 using UnityEngine;
 
 [Serializable]
 public abstract class Unit : MonoBehaviour, IStatUsable
 {
-    public UnitStats stats = new();
+    public UnitStats stats;
     public virtual STAT_GROUP StatGroup => STAT_GROUP.UNIT_ON_VILLAGE;
     public Stats GetStats => stats;
     public UnitSkills skills;
-
-    //TESTCODE
-    public UnitStatsData testData;
-    public SkillData testSkillData;
     public GameObject skillEffect;
 
     /// <summary>
-    /// base.Init()가 최상단에 있어야함.
+    /// 오브젝트 풀 OnCreate에서 호출
     /// </summary>
-    protected virtual void Init()
+    public virtual void Init()
     {
-        //TESTCODE
-        //TODO 스탯 할당, 스킬 할당
-        stats.InitStats(testData);
-        stats.InitEllipse(transform);
     }
 
     /// <summary>
-    /// base.ResetUnit()이 최상단에 있어야함.
+    /// 오브젝트 풀 OnGet에서 호출
     /// </summary>
-    protected virtual void ResetUnit()
+    public virtual void ResetUnit(UnitStats unitStats)
     {
+        if (unitStats == null)
+            Debug.LogWarning("유닛의 스탯이 재설정되지 않았습니다.", gameObject);
+        else
+            stats = unitStats;
+
+        stats.ResetEllipse(transform);
         ResetEvents();
-        stats.ResetStats();
-        stats.ResetEllipse();
-        skills.ResetSkills();
     }
 
     /// <summary>
-    /// base.ResetEvents()가 최상단에 있어야함.
+    /// 오브젝트 풀 OnRelease에서 호출
     /// </summary>
+    public virtual void OnRelease()
+    {
+        stats.SetLocation(LOCATION.NONE);
+        stats = null;
+    }
+
+    public virtual void RemoveUnit()    {    }
+
     protected virtual void ResetEvents() { }
 }

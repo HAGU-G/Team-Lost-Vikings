@@ -6,6 +6,8 @@ public class MonsterRegenPoint : MonoBehaviour, IObserver<Monster>
     public SpriteRenderer spriteRenderer;
     #endregion
 
+    public int maxSpawnCount = 1;
+    private int spawnCount;
     private bool _isReady = true;
     public bool IsReady
     {
@@ -26,7 +28,7 @@ public class MonsterRegenPoint : MonoBehaviour, IObserver<Monster>
 
     public void Spawned(Monster monster)
     {
-        IsReady = false;
+        IsReady = ++spawnCount < maxSpawnCount;
         monster.Subscribe(this);
     }
 
@@ -43,6 +45,6 @@ public class MonsterRegenPoint : MonoBehaviour, IObserver<Monster>
     public void ReceiveNotification(Monster subject, NOTIFY_TYPE type = NOTIFY_TYPE.NONE)
     {
         if (type == NOTIFY_TYPE.DEAD || type == NOTIFY_TYPE.REMOVE)
-            IsReady = true;
+            IsReady = --spawnCount < maxSpawnCount;
     }
 }

@@ -156,9 +156,9 @@ public class Construct : MonoBehaviour
         if (gridMap.GetTile(entranceX, entranceY).tileInfo.TileType == TileType.OBJECT)
             return false;
 
-        if (!gridMap.usingTileList.Contains(tile)
-            || !gridMap.usingTileList.Contains(gridMap.tiles[new Vector2Int(entranceX, entranceY)]))
-            return false;
+        //if (!gridMap.usingTileList.Contains(tile)
+        //    || !gridMap.usingTileList.Contains(gridMap.tiles[new Vector2Int(entranceX, entranceY)]))
+        //    return false;
 
         if(!building.CanMultiBuild)
         {

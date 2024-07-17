@@ -36,22 +36,20 @@ public abstract class Stats
 
 
     //Methods
-    public void InitEllipse(Transform transform)
+    public void ResetEllipse(Transform transform)
     {
         this.transform = transform;
-        var pos = transform.position;
-        SizeEllipse = new(UnitSize.Current, pos);
-        RecognizeEllipse = new(RecognizeRange.Current, pos);
-        PresenseEllipse = new(PresenseRange.Current, pos);
-        BasicAttackEllipse = new(AttackRange.Current, pos);
-    }
-
-    public void ResetEllipse()
-    {
-        if (transform == null)
-            return;
 
         var pos = transform.position;
+
+        if(SizeEllipse == null)
+        {
+            SizeEllipse = new();
+            RecognizeEllipse = new();
+            PresenseEllipse = new();
+            BasicAttackEllipse = new();
+        }
+
         SizeEllipse.SetAxies(UnitSize.Current, pos);
         RecognizeEllipse.SetAxies(RecognizeRange.Current, pos);
         PresenseEllipse.SetAxies(PresenseRange.Current, pos);

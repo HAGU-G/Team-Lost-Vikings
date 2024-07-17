@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public enum UNIT_JOB
 {
@@ -24,6 +25,13 @@ public enum UNIT_GRADE
     SUPER_RARE
 }
 
+public enum LOCATION
+{
+    NONE,
+    VILLAGE,
+    HUNTZONE
+}
+
 [System.Serializable]
 public class UnitStats : Stats
 {
@@ -34,6 +42,8 @@ public class UnitStats : Stats
     public int SkillId2 { get; private set; }
 
     //Parameters
+    public LOCATION Location { get; private set; }
+    public int HuntZoenID { get; private set; }
     [field: SerializeField] public Parameter Stamina { get; private set; } = new();
     [field: SerializeField] public Parameter Stress { get; private set; } = new();
 
@@ -51,11 +61,9 @@ public class UnitStats : Stats
     [field: SerializeField] public StatFloat CriticalChance { get; set; } = new();
     [field: SerializeField] public StatFloat CriticalWeight { get; set; } = new();
 
-    public void InitStats(UnitStatsData data = null)
-    {
-        if (data == null)
-            return;
 
+    public void InitStats(UnitStatsData data)
+    {
         GachaDefaultStats(data);
         SetConstantStats(data);
     }
@@ -69,6 +77,12 @@ public class UnitStats : Stats
         Stamina.Reset();
 
         UpdateCombatPoint();
+    }
+
+    public void SetLocation(LOCATION location, int huntZoneID = 0)
+    {
+        Location = location;
+        HuntZoenID = huntZoneID;
     }
 
     public void UpdateCombatPoint()
@@ -112,10 +126,11 @@ public class UnitStats : Stats
         UpdateCombatPoint();
     }
 
-    public static UnitStats GachaNewStats(UnitStatsData data)
+    private static UnitStats GachaNewStats(UnitStatsData data)
     {
         var gacha = new UnitStats();
         gacha.GachaDefaultStats(data);
+
 
         return gacha;
     }
@@ -131,6 +146,7 @@ public class UnitStats : Stats
     private void SetMaxHP()
     {
         HP.max = BaseHP.Current + GetWeightedStat(Vit.Current, VitWeight.Current);
+        HP.defaultValue = HP.max;
 
         if (HP.Current > HP.max)
             HP.Current = HP.max;
@@ -141,6 +157,7 @@ public class UnitStats : Stats
         //TODO 유닛 등급 계산 필요
     }
 
+
     public UnitStats Clone()
     {
         var clone = new UnitStats();
@@ -148,12 +165,12 @@ public class UnitStats : Stats
         clone.Name = Name;
         clone.Job = Job;
         clone.HP = HP.Clone();
-        clone.MoveSpeed = MoveSpeed.Clone();
-        clone.UnitSize = UnitSize.Clone();
-        clone.RecognizeRange = RecognizeRange.Clone();
-        clone.PresenseRange = PresenseRange.Clone();
-        clone.AttackRange = AttackRange.Clone();
-        clone.AttackSpeed = AttackSpeed.Clone();
+        clone.MoveSpeed = MoveSpeed.Clone() as StatFloat;
+        clone.UnitSize = UnitSize.Clone() as StatFloat;
+        clone.RecognizeRange = RecognizeRange.Clone() as StatFloat;
+        clone.PresenseRange = PresenseRange.Clone() as StatFloat;
+        clone.AttackRange = AttackRange.Clone() as StatFloat;
+        clone.AttackSpeed = AttackSpeed.Clone() as StatFloat;
 
         clone.UnitGrade = UnitGrade;
         clone.Job = Job;
@@ -164,18 +181,18 @@ public class UnitStats : Stats
         clone.Stamina = Stamina.Clone();
         clone.Stress = Stress.Clone();
 
-        clone.BaseHP = BaseHP.Clone();
-        clone.Vit = Vit.Clone();
-        clone.VitWeight = VitWeight.Clone();
-        clone.Str = Str.Clone();
-        clone.StrWeight = StrWeight.Clone();
-        clone.Mag = Mag.Clone();
-        clone.MagWeight = MagWeight.Clone();
-        clone.Agi = Agi.Clone();
-        clone.AgiWeight = AgiWeight.Clone();
+        clone.BaseHP = BaseHP.Clone() as StatInt;
+        clone.Vit = Vit.Clone() as StatInt;
+        clone.VitWeight = VitWeight.Clone() as StatFloat;
+        clone.Str = Str.Clone() as StatInt;
+        clone.StrWeight = StrWeight.Clone() as StatFloat;
+        clone.Mag = Mag.Clone() as StatInt;
+        clone.MagWeight = MagWeight.Clone() as StatFloat;
+        clone.Agi = Agi.Clone() as StatInt;
+        clone.AgiWeight = AgiWeight.Clone() as StatFloat;
 
-        clone.CriticalChance = CriticalChance.Clone();
-        clone.CriticalWeight = CriticalWeight.Clone();
+        clone.CriticalChance = CriticalChance.Clone() as StatFloat;
+        clone.CriticalWeight = CriticalWeight.Clone() as StatFloat;
 
         return clone;
     }

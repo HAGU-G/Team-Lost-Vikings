@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3743196961969806013}
   - component: {fileID: 2283691549314386899}
+  - component: {fileID: 911930580076905351}
   m_Layer: 0
   m_Name: HuntZone Example
   m_TagString: Untagged
@@ -31,6 +32,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6701587910038742610}
+  - {fileID: 2759477658121162523}
+  - {fileID: 6228482165279582240}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2283691549314386899
@@ -45,24 +48,172 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53eac18fe4f078f43b718572675d54e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HuntZoneNumber: 0
-  unitPrefab: {fileID: 5123246219790320037, guid: ee8173d09160d4344b7748f6a6ed13a8, type: 3}
-  monsterPrefab: {fileID: 7625488896232799804, guid: 79c7d36189653e341b61bd54638a95cb, type: 3}
   regenPointsRoot: {fileID: 8262157367233131843}
-  portal: {fileID: 0}
+  unitsRoot: {fileID: 1123764357212440196}
+  monstersRoot: {fileID: 6731711844696873057}
   spawnCount: 1
-  <data>k__BackingField:
-    <HuntZoneName>k__BackingField: 
-    <HuntZoneId>k__BackingField: 0
-    <HuntZoneNum>k__BackingField: 0
-    <HuntZoneStage>k__BackingField: 0
-    <UnitCapacity>k__BackingField: 0
+  <HuntZoneDatas>k__BackingField:
+  - <HuntZoneName>k__BackingField: TEST
+    <HuntZoneId>k__BackingField: 1
+    <HuntZoneNum>k__BackingField: 2
+    <HuntZoneStage>k__BackingField: 1
+    <UnitCapacity>k__BackingField: 3
     <NormalMonsterId>k__BackingField: 0
-    <MaxMonNum>k__BackingField: 0
-    <MonRegen>k__BackingField: 0
+    <MaxMonNum>k__BackingField: 3
+    <MonRegen>k__BackingField: 1
     <BossMonsterId>k__BackingField: 0
-    <BossKillTimer>k__BackingField: 0
-    <BossRetryTimer>k__BackingField: 0
+    <BossKillTimer>k__BackingField: 5
+    <BossRetryTimer>k__BackingField: 15
+  - <HuntZoneName>k__BackingField: TEST
+    <HuntZoneId>k__BackingField: 2
+    <HuntZoneNum>k__BackingField: 2
+    <HuntZoneStage>k__BackingField: 2
+    <UnitCapacity>k__BackingField: 4
+    <NormalMonsterId>k__BackingField: 0
+    <MaxMonNum>k__BackingField: 6
+    <MonRegen>k__BackingField: 0.5
+    <BossMonsterId>k__BackingField: 0
+    <BossKillTimer>k__BackingField: 10
+    <BossRetryTimer>k__BackingField: 25
+  <MonsterDatas>k__BackingField:
+  - <MonsterName>k__BackingField: TEST1
+    <MonsterId>k__BackingField: 1
+    <MoveSpeed>k__BackingField: 1
+    <SizeRange>k__BackingField: 0.5
+    <RecognizeRange>k__BackingField: 4
+    <PresenseRange>k__BackingField: 2
+    <BasicAttackRange>k__BackingField: 2
+    <CombatPoint>k__BackingField: 20
+    <AttackSpeed>k__BackingField: 0.5
+    <MaxHP>k__BackingField: 100
+    <PhysicalDef>k__BackingField: 2
+    <MagicalDef>k__BackingField: 2
+    <SpecialDef>k__BackingField: 2
+    <DropId>k__BackingField: 111
+    <MonsterAssetFileName>k__BackingField: 
+  - <MonsterName>k__BackingField: TEST2
+    <MonsterId>k__BackingField: 2
+    <MoveSpeed>k__BackingField: 7
+    <SizeRange>k__BackingField: 0.9
+    <RecognizeRange>k__BackingField: 5
+    <PresenseRange>k__BackingField: 10
+    <BasicAttackRange>k__BackingField: 2
+    <CombatPoint>k__BackingField: 40
+    <AttackSpeed>k__BackingField: 1
+    <MaxHP>k__BackingField: 300
+    <PhysicalDef>k__BackingField: 3
+    <MagicalDef>k__BackingField: 3
+    <SpecialDef>k__BackingField: 3
+    <DropId>k__BackingField: 222
+    <MonsterAssetFileName>k__BackingField: 
+  <BossDatas>k__BackingField:
+  - <MonsterName>k__BackingField: BOSS1
+    <MonsterId>k__BackingField: 3
+    <MoveSpeed>k__BackingField: 1
+    <SizeRange>k__BackingField: 3
+    <RecognizeRange>k__BackingField: 10
+    <PresenseRange>k__BackingField: 5
+    <BasicAttackRange>k__BackingField: 4
+    <CombatPoint>k__BackingField: 20
+    <AttackSpeed>k__BackingField: 2
+    <MaxHP>k__BackingField: 1000
+    <PhysicalDef>k__BackingField: 0
+    <MagicalDef>k__BackingField: 0
+    <SpecialDef>k__BackingField: 0
+    <DropId>k__BackingField: 0
+    <MonsterAssetFileName>k__BackingField: 
+  - <MonsterName>k__BackingField: BOSS2
+    <MonsterId>k__BackingField: 4
+    <MoveSpeed>k__BackingField: 100
+    <SizeRange>k__BackingField: 1
+    <RecognizeRange>k__BackingField: 8
+    <PresenseRange>k__BackingField: 20
+    <BasicAttackRange>k__BackingField: 2
+    <CombatPoint>k__BackingField: 15
+    <AttackSpeed>k__BackingField: 0.5
+    <MaxHP>k__BackingField: 2000
+    <PhysicalDef>k__BackingField: 0
+    <MagicalDef>k__BackingField: 0
+    <SpecialDef>k__BackingField: 0
+    <DropId>k__BackingField: 0
+    <MonsterAssetFileName>k__BackingField: 
+  <HuntZoneNum>k__BackingField: 2
+  stage: 1
+  testStageNum: 1
+--- !u!114 &911930580076905351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 593837593685945524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 950607ebb3937ec41ad65239d674b7d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1123764357212440196
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2759477658121162523}
+  m_Layer: 0
+  m_Name: Units Root
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2759477658121162523
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1123764357212440196}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3743196961969806013}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6731711844696873057
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6228482165279582240}
+  m_Layer: 0
+  m_Name: Monsters Root
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6228482165279582240
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6731711844696873057}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3743196961969806013}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8262157367233131843
 GameObject:
   m_ObjectHideFlags: 0

@@ -28,13 +28,13 @@ public class ReturnOnHunt : State<UnitOnHunt>
             return;
 
 
-        ownerTransform.position += (owner.destinationPos - ownerTransform.position).normalized
+        ownerTransform.position += (owner.portalPos - ownerTransform.position).normalized
             * owner.stats.MoveSpeed.Current * Time.deltaTime;
     }
 
     protected override bool Transition()
     {
-        if (Ellipse.IsPointInEllipse(owner.stats.SizeEllipse, owner.destinationPos))
+        if (Ellipse.IsPointInEllipse(owner.stats.SizeEllipse, owner.portalPos))
         {
             owner.stats.ResetStats();
             controller.ChangeState((int)UnitOnHunt.STATE.IDLE);

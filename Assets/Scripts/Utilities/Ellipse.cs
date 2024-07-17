@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-[System.Serializable]
 public class Ellipse
 {
     private static GameSetting setting = GameSetting.Instance;
@@ -13,6 +12,7 @@ public class Ellipse
     public Ellipse(float majorAxis, float minorAxis) : this(majorAxis, minorAxis, Vector2.zero) { }
     public Ellipse(float majorAxis, Vector2 pos) : this(majorAxis, majorAxis * setting.ellipseRatio, pos) { }
     public Ellipse(float majorAxis) : this(majorAxis, Vector2.zero) { }
+    public Ellipse() : this(0f) { }
 
     public float a; //major
     public float b; //minor

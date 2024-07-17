@@ -4,7 +4,8 @@ public class DeadOnHunt : State<UnitOnHunt>
 {
     public override void EnterState()
     {
-        GameObject.Destroy(owner.gameObject);
+        owner.currentState = UnitOnHunt.STATE.DEAD;
+        GameManager.huntZoneManager.ReleaseUnit(owner);
     }
 
     public override void ExitState()

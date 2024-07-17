@@ -93,6 +93,17 @@ public class GameSetting : ScriptableObject
     [Range(0f, 60f)]
     public float monsterRoamTime = 2f;
 
+    [Range(0f, 1f)]
+    public float returnHPRaito = 0.2f;
+    [Range(0f, 1f)]
+    public float returnStaminaRaito = 0.2f;
+    [Range(0f, 1f)]
+    public float returnStressRaito = 0.2f;
+
+    [Range(0, 100)]
+    public int staminaReduceAmount = 1;
+    [Range(0, 100)]
+    public int stressReduceAmount = 1;
 
 
 

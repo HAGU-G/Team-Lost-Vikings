@@ -1,4 +1,4 @@
-﻿public class UseSkillOnDungeon : State<UnitOnHunt>
+﻿public class UseSkillOnHunt : State<UnitOnHunt>
 {
     private float attackTimer;
 

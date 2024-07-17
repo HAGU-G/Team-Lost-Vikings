@@ -48,7 +48,7 @@ public class IdleMonster : State<Monster>
             if (Vector3.Distance(dest, owner.CurrentHuntZone.transform.position) <= 10f)
                 direc = (dest - owner.transform.position).normalized;
             else
-                direc = (Vector3.zero - owner.transform.position).normalized;
+                direc = (owner.CurrentHuntZone.transform.position - owner.transform.position).normalized;
 
             isMoving = true;
             roamTimer = 0f;
