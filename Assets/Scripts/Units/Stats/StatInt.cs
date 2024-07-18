@@ -1,25 +1,14 @@
 ﻿using System;
 
 [Serializable]
-public class StatInt : IFormattable
+public class StatInt : StatClass<int>
 {
-    public StatInt(int defaultValue = default)
+    protected override int Add(int left, int right)
     {
-        this.defaultValue = defaultValue;
+        return left + right;
     }
 
-    public int defaultValue;
-    public StatInt upgradeValue = null;
-    public int Current =>
-       defaultValue + ((upgradeValue != null) ? upgradeValue.Current : 0);
-
-    //Methods
-    public override string ToString() => Current.ToString();
-    public string ToString(IFormatProvider provider) => Current.ToString(provider);
-    public string ToString(string format) => Current.ToString(format);
-    public string ToString(string format, IFormatProvider provider) => Current.ToString(format, provider);
-
-    public StatInt Clone()
+    public override StatClass<int> Clone()
     {
         var clone = new StatInt();
         clone.defaultValue = defaultValue;

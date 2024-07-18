@@ -53,16 +53,16 @@ public class MonsterStats : Stats
 
         clone.HP = HP.Clone();
 
-        clone.MoveSpeed = MoveSpeed.Clone();
-        clone.UnitSize = UnitSize.Clone();
-        clone.RecognizeRange = RecognizeRange.Clone();
-        clone.PresenseRange = PresenseRange.Clone();
-        clone.AttackRange = AttackRange.Clone();
-        clone.AttackSpeed = AttackSpeed.Clone();
+        clone.MoveSpeed = MoveSpeed.Clone() as StatFloat;
+        clone.UnitSize = UnitSize.Clone() as StatFloat;
+        clone.RecognizeRange = RecognizeRange.Clone() as StatFloat;
+        clone.PresenseRange = PresenseRange.Clone() as StatFloat;
+        clone.AttackRange = AttackRange.Clone() as StatFloat;
+        clone.AttackSpeed = AttackSpeed.Clone() as StatFloat;
 
-        clone.PhysicalDef = PhysicalDef.Clone();
-        clone.MagicalDef = MagicalDef.Clone();
-        clone.SpecialDef = SpecialDef.Clone();
+        clone.PhysicalDef = PhysicalDef.Clone() as StatInt;
+        clone.MagicalDef = MagicalDef.Clone() as StatInt;
+        clone.SpecialDef = SpecialDef.Clone() as StatInt;
         clone.DropId = DropId;
         clone.MonsterAssetFileName = MonsterAssetFileName;
 

@@ -100,6 +100,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats:
+    <Id>k__BackingField: 0
+    <Name>k__BackingField: 
+    <HP>k__BackingField:
+      defaultValue: 0
+      min: 0
+      max: 0
+      _current: 0
     <MoveSpeed>k__BackingField:
       defaultValue: 0
     <UnitSize>k__BackingField:
@@ -113,8 +120,19 @@ MonoBehaviour:
     <AttackSpeed>k__BackingField:
       defaultValue: 0
     <CombatPoint>k__BackingField: 0
+    transform: {fileID: 0}
+    <Stamina>k__BackingField:
+      defaultValue: 200
+      min: 0
+      max: 200
+      _current: 0
+    <Stress>k__BackingField:
+      defaultValue: 200
+      min: 0
+      max: 200
+      _current: 0
     <BaseHP>k__BackingField:
-      defaultValue: 0
+      defaultValue: 200
     <Vit>k__BackingField:
       defaultValue: 0
     <VitWeight>k__BackingField:
@@ -137,52 +155,6 @@ MonoBehaviour:
       defaultValue: 0
   skills:
     <SkillList>k__BackingField: []
-  testData:
-    <Name>k__BackingField: 
-    <Id>k__BackingField: 0
-    <GachaChance>k__BackingField: 0
-    <GachaLevel>k__BackingField: 0
-    <Job>k__BackingField: 0
-    <BasicAttackType>k__BackingField: 0
-    <HP>k__BackingField: 100
-    <Stamina>k__BackingField: 100
-    <Stress>k__BackingField: 100
-    <RecognizeRange>k__BackingField: 0
-    <BasicAttackRange>k__BackingField: 0
-    <SizeRange>k__BackingField: 0
-    <MoveSpeed>k__BackingField: 0
-    <StrMin>k__BackingField: 0
-    <StrMax>k__BackingField: 0
-    <StrWeight>k__BackingField: 0
-    <MagMin>k__BackingField: 0
-    <MagMax>k__BackingField: 0
-    <MagWeight>k__BackingField: 0
-    <AgiMin>k__BackingField: 0
-    <AgiMax>k__BackingField: 0
-    <AgiWeight>k__BackingField: 0
-    <AttackSpeed>k__BackingField: 0
-    <CriticalChance>k__BackingField: 0
-    <CriticalHitWeight>k__BackingField: 0
-    <VitMin>k__BackingField: 0
-    <VitMax>k__BackingField: 0
-    <VitWeight>k__BackingField: 0
-    <SkillId1>k__BackingField: 0
-    <SkillId2>k__BackingField: 0
-  testSkillData:
-    <Name>k__BackingField: 
-    <Id>k__BackingField: 0
-    <SkillRankPoint>k__BackingField: 0
-    <SkillDivision>k__BackingField: 0
-    <ActiveType>k__BackingField: 0
-    <ActiveValue>k__BackingField: 0
-    <CastRange>k__BackingField: 0
-    <SkillAttackType>k__BackingField: 0
-    <SkillDmgRatio>k__BackingField: 0
-    <SkillAttackNum>k__BackingField: 0
-    <StatType>k__BackingField: 0
-    <ParameterType>k__BackingField: 0
-    <PassiveReturnType>k__BackingField: 0
-    <PassiveValue>k__BackingField: 0
   skillEffect: {fileID: 0}
   currentState: 0
   lackParameter: 0

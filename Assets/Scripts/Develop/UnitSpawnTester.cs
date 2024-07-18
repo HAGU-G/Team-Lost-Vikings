@@ -46,12 +46,16 @@ public class UnitSpawnTester : MonoBehaviour
     private void Awake()
     {
         //UnitStats.UpgradeStats.BaseHP = 1000;
-        gachaResult = UnitStats.GachaNewStats(unitData);
+        gachaResult = new UnitStats();
+        gachaResult.InitStats(unitData);
+        gachaResult.ResetStats();
+
 
         buttonReroll.onClick.AddListener(() =>
         {
-            gachaResult = UnitStats.GachaNewStats(unitData);
-            gachaResult.UpdateCombatPoint();
+            gachaResult = new UnitStats();
+            gachaResult.InitStats(unitData);
+            gachaResult.ResetStats();
 
             var sb = new StringBuilder();
             //foreach (var item in gachaResult.GetType().GetProperties())
@@ -65,12 +69,12 @@ public class UnitSpawnTester : MonoBehaviour
         {
             foreach (var dungeon in dungeons)
             {
-                var u = Instantiate(unit, dungeon.portal.transform.position, Quaternion.identity);
+                var u = Instantiate(unit, dungeon.transform.position, Quaternion.identity);
                 u.gameObject.AddComponent<UnitSelectorTest>().spawner = this;
-                u.dungeon = dungeon;
                 u.stats = gachaResult.Clone();
-                u.destinationPos = dungeon.portal.transform.position;
-                u.Ready();
+                u.portalPos = dungeon.transform.position;
+                u.Init();
+                u.ResetUnit(gachaResult.Clone(), dungeon);
                 u.gameObject.AddComponent<EllipseDrawer>();
                 dungeon.Units.Add(u);
             }
@@ -113,7 +117,7 @@ public class UnitSpawnTester : MonoBehaviour
         text1.text = SyncedTime.IsSynced ? $"{SyncedTime.Now:yyyy-MM-dd HH:mm:ss.fff} FPS : {1f / Time.deltaTime:0.00}" : "Loading...";
         if (selected != null)
         {
-            if(selected.StatGroup == STAT_GROUP.UNIT_ON_DUNGEON)
+            if (selected.StatGroup == STAT_GROUP.UNIT_ON_DUNGEON)
             {
                 var unitOnDungeon = selected as UnitOnHunt;
                 if (unitOnDungeon == null)
@@ -151,7 +155,7 @@ public class UnitSpawnTester : MonoBehaviour
                 if (!stress.isFocused)
                     stress.text = string.Empty;
             }
-            
+
         }
         else
         {

@@ -52,18 +52,21 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
 
         //TODO 사냥터의 몬스터ID에 맞게 데이터 할당
 
-        stats.InitStats(huntZone.CurrentMonsterData);
-        stats.InitEllipse(transform);
-
         ResetEvents();
+        stats.InitStats(huntZone.CurrentMonsterData);
         stats.ResetStats();
-        stats.ResetEllipse();
+        stats.ResetEllipse(transform);
 
         IsDead = false;
 
         Enemies = CurrentHuntZone.Units;
 
         fsm.ResetFSM();
+    }
+
+    public void OnRelease()
+    {
+        CurrentHuntZone = null;
     }
 
     public void ResetEvents() { }
