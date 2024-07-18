@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5123246219790320037}
   - component: {fileID: 8420360275505926942}
   m_Layer: 0
-  m_Name: TestUnit
+  m_Name: UnitOnHunt
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
