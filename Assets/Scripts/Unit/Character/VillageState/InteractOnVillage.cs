@@ -56,6 +56,7 @@ public class InteractOnVillage : State<UnitOnVillage>
 
     public void RecoveryDone(PARAMETER_TYPES type)
     {
+        owner.RecoveryDone(type);
         switch(type)
         {
             case PARAMETER_TYPES.HP:

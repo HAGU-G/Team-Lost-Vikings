@@ -32,7 +32,7 @@ public class Construct
         objInfo.entranceTile.TileColorChange();
         var instancedObj = GameObject.Instantiate(obj, gridMap.IndexToPos(tileId), Quaternion.identity, tile.transform);
         var pos = instancedObj.transform.position;
-        pos.y = instancedObj.transform.position.y - gridMap.gridInfo.cellSize / 4f;
+        pos.y = instancedObj.transform.position.y + gridMap.gridInfo.cellSize / 4f;
         instancedObj.transform.position = pos;
 
         var buildingComponent = instancedObj.GetComponent<Building>();
@@ -65,7 +65,7 @@ public class Construct
         var roadObj = GameObject.Instantiate(road, gridMap.IndexToPos(new Vector2Int(indexX, indexY)), Quaternion.identity, tile.transform);
         gridMap.GetTile(indexX, indexY).UpdateTileInfo(TileType.ROAD, roadObj);
 
-
+        
         return roadObj;
     }
 
@@ -125,7 +125,7 @@ public class Construct
 
         var standardBuilding = GameObject.Instantiate(standard, gridMap.IndexToPos(index), Quaternion.identity, tile.transform);
         var pos = standardBuilding.transform.position;
-        pos.y = standardBuilding.transform.position.y - gridMap.gridInfo.cellSize / 4f;
+        pos.y = standardBuilding.transform.position.y + gridMap.gridInfo.cellSize / 4f;
         standardBuilding.transform.position = pos;
 
         return standardBuilding;

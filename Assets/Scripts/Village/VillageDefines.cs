@@ -46,4 +46,5 @@ public enum STRUCTURE_ID
     STR_UPGRADE,
     MAG_UPGRADE,
     AGI_UPGRADE,
+    PORTAL,
 }

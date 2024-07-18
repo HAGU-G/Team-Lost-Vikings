@@ -22,10 +22,8 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
     public void InteractWithUnit(UnitOnVillage unit)
     {
         SetUnit(unit);
-        if (!isRecovering)
-        {
-            recoveryCoroutine = StartCoroutine(CoRecovery());
-        }
+
+        recoveryCoroutine = StartCoroutine(CoRecovery(unit));
 
     }
 
@@ -33,9 +31,9 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
     {
     }
 
-    private IEnumerator CoRecovery()
+    private IEnumerator CoRecovery(UnitOnVillage unit)
     {
-        isRecovering = true;
+        //isRecovering = true;
         Debug.Log(recoveryTime);
         Debug.Log($"hp : {unit.stats.HP} stamina : {unit.stats.Stamina} stress : {unit.stats.Stress}");
         yield return new WaitForSeconds(recoveryTime);
@@ -48,7 +46,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
                 case PARAMETER_TYPES.HP:
                     unit.stats.HP.Current += recoveryAmount;
                     Debug.Log($"hp : {unit.stats.HP.Current}");
-                    if(unit.stats.HP.Current < unit.stats.HP.max)
+                    if (unit.stats.HP.Current < unit.stats.HP.max)
                         yield return new WaitForSeconds(recoveryTime);
                     else if (unit.stats.HP.Current >= unit.stats.HP.max)
                     {
@@ -82,8 +80,8 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
             if (isComplete)
             {
                 isRecovering = false;
+                unit.RecoveryDone(parameterType);
                 OnRecoveryDone?.Invoke(parameterType);
-                OnRecoveryDone = null;
                 yield break;
             }
         }
@@ -102,5 +100,13 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
     public void SetParameter(PARAMETER_TYPES parameterType)
     {
         this.parameterType = parameterType;
+    }
+
+    private void RecoveryDone(PARAMETER_TYPES type)
+    {
+        if(type == parameterType)
+        {
+            OnRecoveryDone?.Invoke(type);
+        }
     }
 }
