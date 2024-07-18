@@ -22,7 +22,7 @@ public class Construct : MonoBehaviour
         }
             
         var objInfo = obj.GetComponent<Building>();
-        objInfo.gridMap = gridMap;
+        //objInfo.gridMap = gridMap;
         var width = objInfo.Width;
         var height = objInfo.Length;
 
@@ -39,6 +39,7 @@ public class Construct : MonoBehaviour
         instancedObj.transform.position = pos;
 
         var buildingComponent = instancedObj.GetComponent<Building>();
+        buildingComponent.gridMap = gridMap;
         buildingComponent.placedTiles.Add(tile);
 
         for (int i = tileId.x; i <= indexX; ++i)

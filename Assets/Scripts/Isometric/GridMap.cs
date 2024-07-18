@@ -99,8 +99,8 @@ public class GridMap : MonoBehaviour
 
     public Vector2Int PosToIndex(Vector3 position)
     {
-        float x = position.x;
-        float y = position.y;
+        float x = position.x - gameObject.transform.position.x;
+        float y = position.y - gameObject.transform.position.y;
 
         int indexX = Mathf.RoundToInt((2f * y + x) / gridInfo.cellSize);
         int indexY = Mathf.RoundToInt((2f * y - x) / gridInfo.cellSize);
@@ -116,12 +116,12 @@ public class GridMap : MonoBehaviour
 
     public Vector3 IndexToPos(Vector2Int index)
     {
-        int indexX = index.x;
+        int indexX = index.x ;
         int indexY = index.y;
         float x = (indexX - indexY) * gridInfo.cellSize / 2f;
         float y = (indexX + indexY) * gridInfo.cellSize / 4f;
 
-        return new Vector3(x, y, 0);
+        return new Vector3(x, y, 0) + gameObject.transform.position;
     }
     private int Heuristic(Tile a, Tile b)
     {
