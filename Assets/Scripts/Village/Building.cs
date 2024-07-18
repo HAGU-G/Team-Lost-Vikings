@@ -81,13 +81,12 @@ public class Building : MonoBehaviour
             if (hit.collider != null)
             {
                 var building = hit.transform.gameObject.GetComponent<Building>();
+                //Debug.Log(building.gridMap);
                 if (building != null && isRotating)
                 {
                     RotateBuilding(building);
                     isRotating = false;
                 }
-                else
-                    isRotating = false;
             }
         }
     }
@@ -104,10 +103,13 @@ public class Building : MonoBehaviour
     {
         var localScale = building.transform.localScale;
         var transedId = building.entranceTile.tileInfo.id;
+        Debug.Log(building.gridMap);
+        gridMap = building.gridMap;
         if (!building.isFlip)
         {
             transedId.x += 1;
             transedId.y -= 1;
+            Debug.Log(gridMap);
             if (!gridMap.usingTileList.Contains(gridMap.tiles[transedId])
                 || gridMap.tiles[transedId].tileInfo.TileType == TileType.OBJECT)
                 return;
@@ -119,6 +121,7 @@ public class Building : MonoBehaviour
         {
             transedId.x -= 1;
             transedId.y += 1;
+            Debug.Log(gridMap);
             if (!gridMap.usingTileList.Contains(gridMap.tiles[transedId])
                 || gridMap.tiles[transedId].tileInfo.TileType == TileType.OBJECT)
                 return;
