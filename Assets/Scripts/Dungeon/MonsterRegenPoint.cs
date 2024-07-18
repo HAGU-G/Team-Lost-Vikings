@@ -34,12 +34,10 @@ public class MonsterRegenPoint : MonoBehaviour, IObserver<Monster>
 
     public void UpdateIndicator()
     {
-#if UNITY_EDITOR
         if (_isReady)
             spriteRenderer.color = Color.green;
         else
             spriteRenderer.color = Color.red;
-#endif
     }
 
     public void ReceiveNotification(Monster subject, NOTIFY_TYPE type = NOTIFY_TYPE.NONE)
