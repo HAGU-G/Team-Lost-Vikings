@@ -17,7 +17,7 @@ public static class GameManager
     public static VillageManager villageManager;
     public static HuntZoneManager huntZoneManager;
     public static UIManager uiManager;
-    public static UnitManager unitManager;
+    public static UnitManager unitManager = new();
     public static InputManager inputManager;
     public static PlayerManager playerManager;
     public static QuestManager questManager;

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackable, IStatUsable
 {
@@ -51,11 +52,11 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
         CurrentHuntZone = huntZone;
 
         //TODO 사냥터의 몬스터ID에 맞게 데이터 할당
-
         ResetEvents();
         stats.InitStats(huntZone.CurrentMonsterData);
         stats.ResetStats();
         stats.ResetEllipse(transform);
+        Addressables.InstantiateAsync(stats.MonsterAssetFileName, transform);
 
         IsDead = false;
 
