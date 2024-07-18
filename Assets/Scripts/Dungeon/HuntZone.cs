@@ -7,6 +7,8 @@ using UnityEngine.Pool;
 
 public class HuntZone : MonoBehaviour
 {
+    public bool isShowing = false;
+
     #region INSPECTOR
     //public GridMap gridMap;
     //public Construct construct;
@@ -252,6 +254,9 @@ public class HuntZone : MonoBehaviour
 
     private void OnGUI()
     {
+        if (!isShowing)
+            return;
+
         if (GUILayout.Button("소환"))
         {
             SpawnMonster(1);

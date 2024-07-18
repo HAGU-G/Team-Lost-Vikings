@@ -5,11 +5,14 @@ using UnityEngine.Pool;
 
 public class HuntZoneManager : MonoBehaviour
 {
-    #region INSPECTOR
+    //TESTCODE
     public UnitStatsData unitStatsData;
+
+    //어드레서블로 교체
     public UnitOnHunt unitPrefab;
     public Monster monsterPrefab;
-    #endregion
+
+    public Vector3 offset = Vector3.right * 1000f;
 
     public Dictionary<int, HuntZone> HuntZones { get; private set; } = new();
 
@@ -25,11 +28,11 @@ public class HuntZoneManager : MonoBehaviour
         }
 
         GameManager.huntZoneManager = this;
+
         SetMonsterPool();
 
         GameManager.unitManager.unitStatsData = unitStatsData;
         GameManager.unitManager.LoadUnits();
-
         SetUnitPool();
     }
 
@@ -179,7 +182,9 @@ public class HuntZoneManager : MonoBehaviour
             Debug.LogError($"사냥터 {huntZone.HuntZoneNum} 이(가) 이미 존재합니다.");
             return;
         }
+
         HuntZones.Add(huntZone.HuntZoneNum, huntZone);
+        huntZone.gameObject.transform.position = offset + Vector3.right * 200f * huntZone.HuntZoneNum;
         //StartCoroutine(CoHuntZonePositining());
     }
 
@@ -188,7 +193,7 @@ public class HuntZoneManager : MonoBehaviour
     //    yield return new WaitForEndOfFrame();
     //    foreach (var huntZone in HuntZones)
     //    {
-    //        huntZone.Value.gameObject.transform.position = Vector2.right * huntZone.Key * 100f;
+    //       
     //    }
     //}
 }
