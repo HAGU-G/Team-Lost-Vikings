@@ -36,6 +36,8 @@ public class Village : MonoBehaviour
             unitOnVillage.transform.position = transform.position;
             Debug.Log(unit.InstanceID + "소환됨", unitOnVillage.gameObject);
             break;
+
+
         }
     }
 

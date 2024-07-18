@@ -16,4 +16,4 @@ MonoBehaviour:
   col: 64
   minRow: 7
   minCol: 7
-  cellSize: 10
+  cellSize: 5

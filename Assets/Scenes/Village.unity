@@ -213,17 +213,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   village: {fileID: 1883879126}
-  construectedBuildings: []
+  constructedBuildings: []
   gridMap: {fileID: 286098943}
   installableBuilding:
-  - {fileID: 1551201098340668841, guid: 6ba8ad66971c2d54a8351ed6cba44bfe, type: 3}
-  - {fileID: 4125673889435522284, guid: 0a52a2dfc707d5447ba9d2fafb7c2323, type: 3}
-  - {fileID: 7845117778571857193, guid: 867cc1057633b004dbc24db4a330134f, type: 3}
-  - {fileID: 5064512460059276777, guid: e640f1c07230acb46a0456f0e1c92943, type: 3}
-  - {fileID: 1049091585455928075, guid: 23a63bd1579712740ac78839ad7c0519, type: 3}
-  - {fileID: 6364675283053009349, guid: 403ef95a238bdda4fb60bac464e99aaf, type: 3}
-  - {fileID: 9161129584794096944, guid: a12adccad51eda94aa72deeffc633aa3, type: 3}
-  standardPrefab: {fileID: 5064512460059276777, guid: e640f1c07230acb46a0456f0e1c92943, type: 3}
+  - {fileID: 7314032893888529255, guid: 873e6564699ad7d4c84a0315cd7471c9, type: 3}
+  - {fileID: 1277819131572397426, guid: 0a52a2dfc707d5447ba9d2fafb7c2323, type: 3}
+  - {fileID: 3651263115777280017, guid: 867cc1057633b004dbc24db4a330134f, type: 3}
+  - {fileID: 3313551129836266134, guid: 568c83c00f47df44fb15e420920b1664, type: 3}
+  - {fileID: 7855014985965479081, guid: 23a63bd1579712740ac78839ad7c0519, type: 3}
+  - {fileID: 1060280030558040817, guid: 0080d937dddccec408024f577d01845c, type: 3}
+  - {fileID: 1063445032596825523, guid: a12adccad51eda94aa72deeffc633aa3, type: 3}
+  - {fileID: 3437462031091102053, guid: b29c408c91eb17b44a759b0c264d55db, type: 3}
+  standardPrefab: {fileID: 3313551129836266134, guid: 568c83c00f47df44fb15e420920b1664, type: 3}
   roadPrefab: {fileID: 101424399208625417, guid: cba03f8874769744bb9e7ee7ac90b656, type: 3}
 --- !u!4 &927712893
 Transform:
@@ -369,6 +370,7 @@ MonoBehaviour:
   villageManager: {fileID: 927712892}
   unitPrefab: {fileID: 8973577619717209016, guid: c521c0b593d9c1846bf53c434a7bd6ff, type: 3}
   units: []
+  unitStats: []
 --- !u!4 &1883879127
 Transform:
   m_ObjectHideFlags: 0
@@ -396,56 +398,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 950607ebb3937ec41ad65239d674b7d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &2130238577
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2130238579}
-  - component: {fileID: 2130238578}
-  m_Layer: 0
-  m_Name: Grid
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!156049354 &2130238578
-Grid:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2130238577}
-  m_Enabled: 1
-  m_CellSize: {x: 10, y: 5, z: 1}
-  m_CellGap: {x: 0, y: 0, z: 0}
-  m_CellLayout: 3
-  m_CellSwizzle: 0
---- !u!4 &2130238579
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2130238577}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 927712893}
-  - {fileID: 2130238579}
   - {fileID: 286098944}
   - {fileID: 1883879127}
   - {fileID: 1399002948}
