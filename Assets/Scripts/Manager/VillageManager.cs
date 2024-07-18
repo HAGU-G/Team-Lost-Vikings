@@ -8,6 +8,8 @@ using UnityEngine;
 
 public class VillageManager : MonoBehaviour
 {
+    public bool isShowing = true;
+
     public Village village;
     public Construct construct = new();
     public List<GameObject> constructedBuildings = new();
@@ -70,7 +72,7 @@ public class VillageManager : MonoBehaviour
         //var standard = construct.ConstructStandardBuilding(standardPrefab, gridMap);
         //constructedBuildings.Add(standard);
 
-        village = gameObject.AddComponent<Village>();
+       // village = gameObject.AddComponent<Village>();
     }
 
     private void OnGUI()

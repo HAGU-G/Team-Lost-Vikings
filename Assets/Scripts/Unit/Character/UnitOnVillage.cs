@@ -46,6 +46,7 @@ public class UnitOnVillage : Unit
     public override void ResetUnit(UnitStats unitStats)
     {
         base.ResetUnit(unitStats);
+        unitStats.SetLocation(LOCATION.VILLAGE);
         villageFSM.ResetFSM();
     }
 
@@ -61,11 +62,11 @@ public class UnitOnVillage : Unit
 
     public LACKING_PARAMETER CheckParameter()
     {
-        if(stats.HP.Current < stats.HP.max * 0.5)
+        if(stats.HP.Current < GameSetting.Instance.returnHPRaito)
             return LACKING_PARAMETER.HP;
-        else if(stats.Stamina.Current < stats.Stamina.max * 0.5)
+        else if(stats.Stamina.Current < GameSetting.Instance.returnStaminaRaito)
             return LACKING_PARAMETER.STAMINA;
-        else if (stats.Stress.Current < stats.Stress.max * 0.5)
+        else if (stats.Stress.Current < GameSetting.Instance.returnStressRaito)
             return LACKING_PARAMETER.STRESS;
         else
             return LACKING_PARAMETER.NONE;

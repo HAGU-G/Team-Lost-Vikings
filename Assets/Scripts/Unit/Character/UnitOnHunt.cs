@@ -100,8 +100,8 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
 
     public override void ResetUnit(UnitStats unitStats)
     {
-        unitStats.SetLocation(LOCATION.HUNTZONE, CurrentHuntZone.HuntZoneNum);
         base.ResetUnit(unitStats);
+        unitStats.SetLocation(LOCATION.HUNTZONE, CurrentHuntZone.HuntZoneNum);
 
         //몬스터 외형 테스트 코드
         try

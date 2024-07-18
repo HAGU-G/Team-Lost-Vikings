@@ -355,7 +355,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1883879126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -372,6 +372,38 @@ MonoBehaviour:
   unitPrefab: {fileID: 8973577619717209016, guid: c521c0b593d9c1846bf53c434a7bd6ff, type: 3}
   units: []
   unitStats: []
+  unitStatsData:
+    <Name>k__BackingField: 
+    <Id>k__BackingField: 0
+    <GachaChance>k__BackingField: 0
+    <GachaLevel>k__BackingField: 0
+    <Job>k__BackingField: 0
+    <BasicAttackType>k__BackingField: 0
+    <HP>k__BackingField: 0
+    <Stamina>k__BackingField: 0
+    <Stress>k__BackingField: 0
+    <RecognizeRange>k__BackingField: 0
+    <BasicAttackRange>k__BackingField: 0
+    <SizeRange>k__BackingField: 0
+    <MoveSpeed>k__BackingField: 0
+    <StrMin>k__BackingField: 0
+    <StrMax>k__BackingField: 0
+    <StrWeight>k__BackingField: 0
+    <MagMin>k__BackingField: 0
+    <MagMax>k__BackingField: 0
+    <MagWeight>k__BackingField: 0
+    <AgiMin>k__BackingField: 0
+    <AgiMax>k__BackingField: 0
+    <AgiWeight>k__BackingField: 0
+    <AttackSpeed>k__BackingField: 0
+    <CriticalChance>k__BackingField: 0
+    <CriticalHitWeight>k__BackingField: 0
+    <VitMin>k__BackingField: 0
+    <VitMax>k__BackingField: 0
+    <VitWeight>k__BackingField: 0
+    <SkillId1>k__BackingField: 0
+    <SkillId2>k__BackingField: 0
+    <UnitAssetFileName>k__BackingField: 
 --- !u!4 &1883879127
 Transform:
   m_ObjectHideFlags: 0

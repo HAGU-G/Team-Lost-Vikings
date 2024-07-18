@@ -48,7 +48,22 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6b0284fbd9e716049b668b85be3fa98e
-    m_Address: Assets/Scenes/Develop/Develop UI.unity
+    m_Address: Develop UI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5f13679729b44af4aaf4034634998ac4
+    m_Address: 2_Magician
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 75c8858ac752bed4fa62f322b72e1b43
+    m_Address: 6_Hunter
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bfcc130f0a3c2bf44899e50b428a7a9d
+    m_Address: 10_RoyalKnight
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

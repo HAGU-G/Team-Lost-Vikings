@@ -15,7 +15,7 @@ public class Village : MonoBehaviour
 
     private void Awake()
     {
-       units = new List<UnitOnVillage>();
+        units = new List<UnitOnVillage>();
     }
 
     private void Start()
@@ -24,17 +24,11 @@ public class Village : MonoBehaviour
         //    , Quaternion.identity, villageManager.gridMap.transform);
         //units.Add(unit);
 
-        
+
     }
 
     private void UnitSpawn()
     {
-        unitStatsData.HP = 100;
-        unitStatsData.Stamina = 100;
-        unitStatsData.Stress = 100;
-        GameManager.unitManager.unitStatsData = unitStatsData;
-        GameManager.unitManager.LoadUnits();
-
         foreach (var unitSelected in GameManager.unitManager.Units)
         {
             var unit = unitSelected.Value;
@@ -43,7 +37,7 @@ public class Village : MonoBehaviour
 
             var unitObj = GameObject.Instantiate(unitPrefab, villageManager.gridMap.IndexToPos(new Vector2Int(35, 31))
                 , Quaternion.identity, villageManager.gridMap.transform);
-            
+
             unitObj.Init();
             unitObj.ResetUnit(unitSelected.Value);
             units.Add(unitObj);
@@ -52,46 +46,65 @@ public class Village : MonoBehaviour
 
     private void OnGUI()
     {
-        if (GUI.Button(new Rect(800f, 0f, 100f, 70f), "ReduceHp"))
+        if (GUI.Button(new Rect(0f, 0f, 100f, 70f), "ReduceHp"))
         {
             ReduceHp();
         }
 
-        if (GUI.Button(new Rect(800f, 70f, 100f, 70f), "ReduceStamina"))
+        if (GUI.Button(new Rect(0f, 70f, 100f, 70f), "ReduceStamina"))
         {
             ReduceStamina();
         }
 
-        if (GUI.Button(new Rect(800f, 140f, 100f, 70f), "ReduceStress"))
+        if (GUI.Button(new Rect(0f, 140f, 100f, 70f), "ReduceStress"))
         {
             ReduceStress();
         }
 
-        if (GUI.Button(new Rect(800f, 420f, 100f, 70f), "Unit Spawn"))
-         {
+        if (GUI.Button(new Rect(0f, 210f, 100f, 70f), "GoHunZone"))
+        {
+            var destroy = new List<UnitOnVillage>();
+            foreach (var unit in units)
+            {
+                if (unit.currentState != UnitOnVillage.STATE.IDLE)
+                    continue;
+
+                destroy.Add(unit);
+                unit.stats.SetLocation(LOCATION.NONE);
+            }
+
+            foreach (var unit in destroy)
+            {
+                units.Remove(unit);
+                Destroy(unit.gameObject);
+            }
+        }
+
+        if (GUI.Button(new Rect(0f, 420f, 100f, 70f), "Unit Spawn"))
+        {
             UnitSpawn();
-         }
+        }
     }
     //-------Test용 메소드-----------------------------------------------
 
 
     private void ReduceHp()
     {
-        foreach(var unit in units)
-            unit.stats.HP.Current = 30;
+        foreach (var unit in units)
+            unit.stats.HP.Current -= 30;
     }
     public void ReduceStamina()
     {
         foreach (var unit in units)
-            unit.stats.Stamina.Current = 30;
+            unit.stats.Stamina.Current -= 30;
     }
 
     private void ReduceStress()
     {
         foreach (var unit in units)
-            unit.stats.Stress.Current = 30;
+            unit.stats.Stress.Current -= 30;
     }
-    
+
     private void Update()
     {
         //timer += Time.deltaTime;
