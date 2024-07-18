@@ -90,13 +90,13 @@ public class Building : MonoBehaviour
         }
     }
 
-    private void OnGUI()
-    {
-        if(GUI.Button(new Rect(0f, 280f, 100f, 70f), "Rotate"))
-        {
-            isRotating = true;
-        }
-    }
+    //private void OnGUI()
+    //{
+    //    if(GUI.Button(new Rect(0f, 280f, 100f, 70f), "Rotate"))
+    //    {
+    //        isRotating = true;
+    //    }
+    //}
 
     public void RotateBuilding(Building building)
     {
@@ -107,7 +107,6 @@ public class Building : MonoBehaviour
         {
             transedId.x += 1;
             transedId.y -= 1;
-            Debug.Log(gridMap);
             if (!gridMap.usingTileList.Contains(gridMap.tiles[transedId])
                 || gridMap.tiles[transedId].tileInfo.TileType == TileType.OBJECT)
                 return;

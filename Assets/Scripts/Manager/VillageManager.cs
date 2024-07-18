@@ -21,20 +21,22 @@ public class VillageManager : MonoBehaviour
 
     private GameObject selectedObj;
 
-    public UnitOnVillage GetUnit(UnitStats unitStats)
-    {
-        var unit = village.units.First();
-        unit.ResetUnit(unitStats);
 
-        unit.stats.ResetStats();
-        unit.gameObject.transform.SetParent(gridMap.transform);
-        unit.gameObject.SetActive(true);
 
-        if (!village.units.Contains(unit))
-            village.units.Add(unit);
+    //public UnitOnVillage GetUnit(UnitStats unitStats)
+    //{
+    //    var unit = village.units.First();
+    //    unit.ResetUnit(unitStats);
 
-        return unit;
-    }
+    //    unit.stats.ResetStats();
+    //    unit.gameObject.transform.SetParent(gridMap.transform);
+    //    unit.gameObject.SetActive(true);
+
+    //    if (!village.units.Contains(unit))
+    //        village.units.Add(unit);
+
+    //    return unit;
+    //}
 
     private void Awake()
     {

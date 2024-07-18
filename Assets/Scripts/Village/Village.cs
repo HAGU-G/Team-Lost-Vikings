@@ -9,6 +9,7 @@ public class Village : MonoBehaviour
     public UnitOnVillage unitPrefab;
     public List<UnitOnVillage> units;
     public List<UnitStats> unitStats;
+    public UnitStatsData unitStatsData;
 
     private float timer = 0f;
 
@@ -22,43 +23,85 @@ public class Village : MonoBehaviour
         //var unit = Instantiate(unitPrefab, villageManager.gridMap.IndexToPos(new Vector2Int(31, 31))
         //    , Quaternion.identity, villageManager.gridMap.transform);
         //units.Add(unit);
+
+        
     }
 
     private void UnitSpawn()
     {
+        unitStatsData.HP = 100;
+        unitStatsData.Stamina = 100;
+        unitStatsData.Stress = 100;
+        GameManager.unitManager.unitStatsData = unitStatsData;
+        GameManager.unitManager.LoadUnits();
+
         foreach (var unitSelected in GameManager.unitManager.Units)
         {
             var unit = unitSelected.Value;
             if (unit.Location != LOCATION.NONE)
                 continue;
 
-            var unitOnVillage = GameManager.villageManager.GetUnit(unit);
-            unitOnVillage.transform.position = transform.position;
-            Debug.Log(unit.InstanceID + "소환됨", unitOnVillage.gameObject);
-            break;
-
-
+            var unitObj = GameObject.Instantiate(unitPrefab, villageManager.gridMap.IndexToPos(new Vector2Int(35, 31))
+                , Quaternion.identity, villageManager.gridMap.transform);
+            
+            unitObj.Init();
+            unitObj.ResetUnit(unitSelected.Value);
+            units.Add(unitObj);
         }
     }
 
     private void OnGUI()
     {
-        if(GUI.Button(new Rect(800f, 420f, 100f, 70f), "Unit Spawn"))
+        if (GUI.Button(new Rect(800f, 0f, 100f, 70f), "ReduceHp"))
+        {
+            ReduceHp();
+        }
+
+        if (GUI.Button(new Rect(800f, 70f, 100f, 70f), "ReduceStamina"))
+        {
+            ReduceStamina();
+        }
+
+        if (GUI.Button(new Rect(800f, 140f, 100f, 70f), "ReduceStress"))
+        {
+            ReduceStress();
+        }
+
+        if (GUI.Button(new Rect(800f, 420f, 100f, 70f), "Unit Spawn"))
          {
             UnitSpawn();
          }
     }
+    //-------Test용 메소드-----------------------------------------------
 
+
+    private void ReduceHp()
+    {
+        foreach(var unit in units)
+            unit.stats.HP.Current = 30;
+    }
+    public void ReduceStamina()
+    {
+        foreach (var unit in units)
+            unit.stats.Stamina.Current = 30;
+    }
+
+    private void ReduceStress()
+    {
+        foreach (var unit in units)
+            unit.stats.Stress.Current = 30;
+    }
+    
     private void Update()
     {
-        timer += Time.deltaTime;
-        if (timer >= 10f)
-        {
-            foreach (var unit in units)
-            {
-                timer = 0f;
-                Debug.Log($"str : {unit.stats.Str.Current} / mag : {unit.stats.Mag.Current} / agi : {unit.stats.Agi.Current}");
-            }
-        }
+        //timer += Time.deltaTime;
+        //if (timer >= 10f)
+        //{
+        //    foreach (var unit in units)
+        //    {
+        //        timer = 0f;
+        //        Debug.Log($"str : {unit.stats.Str.Current} / mag : {unit.stats.Mag.Current} / agi : {unit.stats.Agi.Current}");
+        //    }
+        //}
     }
 }
