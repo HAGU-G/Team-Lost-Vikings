@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
-public class Village
+public class Village : MonoBehaviour
 {
     public VillageManager villageManager;
     public UnitOnVillage unitPrefab;
@@ -18,14 +19,32 @@ public class Village
 
     private void Start()
     {
-        var unit = GameObject.Instantiate(unitPrefab, villageManager.gridMap.IndexToPos(new Vector2Int(31, 31))
-            , Quaternion.identity, villageManager.gridMap.transform);
-        units.Add(unit);
+        //var unit = Instantiate(unitPrefab, villageManager.gridMap.IndexToPos(new Vector2Int(31, 31))
+        //    , Quaternion.identity, villageManager.gridMap.transform);
+        //units.Add(unit);
     }
 
     private void UnitSpawn()
     {
-        
+        foreach (var unitSelected in GameManager.unitManager.Units)
+        {
+            var unit = unitSelected.Value;
+            if (unit.Location != LOCATION.NONE)
+                continue;
+
+            var unitOnVillage = GameManager.villageManager.GetUnit(unit);
+            unitOnVillage.transform.position = transform.position;
+            Debug.Log(unit.InstanceID + "소환됨", unitOnVillage.gameObject);
+            break;
+        }
+    }
+
+    private void OnGUI()
+    {
+        if(GUI.Button(new Rect(800f, 420f, 100f, 70f), "Unit Spawn"))
+         {
+            UnitSpawn();
+         }
     }
 
     private void Update()

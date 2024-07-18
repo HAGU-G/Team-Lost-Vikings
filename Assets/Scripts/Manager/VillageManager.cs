@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class VillageManager : MonoBehaviour
 {
-    public Village village = new();
+    public Village village;
     public Construct construct = new();
     public List<GameObject> construectedBuildings = new();
     public GridMap gridMap;
@@ -21,9 +21,19 @@ public class VillageManager : MonoBehaviour
 
     private GameObject selectedObj;
 
-    private void Awake()
+    public UnitOnVillage GetUnit(UnitStats unitStats)
     {
-        
+        var unit = village.units.First();
+        unit.ResetUnit(unitStats);
+
+        unit.stats.ResetStats();
+        unit.gameObject.transform.SetParent(gridMap.transform);
+        unit.gameObject.SetActive(true);
+
+        if (!village.units.Contains(unit))
+            village.units.Add(unit);
+
+        return unit;
     }
 
     private void Start()
@@ -42,6 +52,8 @@ public class VillageManager : MonoBehaviour
         gridMap.SetUsingTileList(gridMap.usableTileList.Count -1);
         var standard = construct.ConstructStandardBuilding(standardPrefab, gridMap);
         construectedBuildings.Add(standard);
+
+        village = gameObject.AddComponent<Village>();
     }
 
     private void OnGUI()
