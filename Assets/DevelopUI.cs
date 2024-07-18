@@ -20,10 +20,12 @@ public class DevelopUI : MonoBehaviour
         {
             GameManager.huntZoneManager.HuntZones[i + 1].isShowing = false;
         }
+        GameManager.villageManager.isShowing = true;
     }
 
     public void OnButtonHuntZone()
     {
+        GameManager.villageManager.isShowing = false;
         if (isShowVillage)
         {
             isShowVillage = false;

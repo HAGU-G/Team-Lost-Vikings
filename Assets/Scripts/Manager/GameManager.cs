@@ -1,7 +1,5 @@
 ﻿//임시로 사용 중
 
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;

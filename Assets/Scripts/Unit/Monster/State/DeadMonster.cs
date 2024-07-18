@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class DeadMonster : State<Monster>
+﻿public class DeadMonster : State<Monster>
 {
     public override void EnterState()
     {

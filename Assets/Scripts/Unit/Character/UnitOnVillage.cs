@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEditor.Build;
-using UnityEditor.Build.Pipeline.Utilities;
 using UnityEngine;
 
 public class UnitOnVillage : Unit
@@ -107,17 +105,17 @@ public class UnitOnVillage : Unit
 
     private void OnGUI()
     {
-        if (GUI.Button(new Rect(800f, 0f, 100f, 70f), "ReduceHp"))
+        if (GUI.Button(new Rect(440f, 0f, 100f, 70f), "ReduceHp"))
         {
             ReduceHp();
         }
 
-        if (GUI.Button(new Rect(800f, 70f, 100f, 70f), "ReduceStamina"))
+        if (GUI.Button(new Rect(440f, 70f, 100f, 70f), "ReduceStamina"))
         {
             ReduceStamina();
         }
 
-        if (GUI.Button(new Rect(800f, 140f, 100f, 70f), "ReduceStress"))
+        if (GUI.Button(new Rect(440f, 140f, 100f, 70f), "ReduceStress"))
         {
             ReduceStress();
         }

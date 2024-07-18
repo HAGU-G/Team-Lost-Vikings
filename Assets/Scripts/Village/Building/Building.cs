@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -92,7 +91,10 @@ public class Building : MonoBehaviour
 
     private void OnGUI()
     {
-        if(GUI.Button(new Rect(0f, 280f, 100f, 70f), "Rotate"))
+        if (!GameManager.villageManager.isShowing)
+            return;
+
+        if (GUI.Button(new Rect(0f, 280f, 100f, 70f), "Rotate"))
         {
             isRotating = true;
         }

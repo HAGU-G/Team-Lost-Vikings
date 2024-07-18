@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Build.Pipeline.Utilities;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class VillageManager : MonoBehaviour
 {
+    public bool isShowing = true;
+
     public Village village;
     public Construct construct = new();
     public List<GameObject> construectedBuildings = new();
@@ -36,6 +35,11 @@ public class VillageManager : MonoBehaviour
         return unit;
     }
 
+    private void Awake()
+    {
+        GameManager.villageManager = this;
+    }
+
     private void Start()
     {
         Init();
@@ -58,6 +62,9 @@ public class VillageManager : MonoBehaviour
 
     private void OnGUI()
     {
+        if (!isShowing)
+            return;
+
         if (GUI.Button(new Rect(0f, 0f, 100f, 70f), "Remove Building"))
         {
             construct.isRemoveTime = true;
@@ -97,19 +104,19 @@ public class VillageManager : MonoBehaviour
                 construct.isRoadRemove = false;
         }
 
-        if (GUI.Button(new Rect(800f, 210f, 100f, 70f), "STR Upgrade"))
+        if (GUI.Button(new Rect(440f, 210f, 100f, 70f), "STR Upgrade"))
         {
             selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STR_UPGRADE);
             construct.isSelected = true;
         }
 
-        if (GUI.Button(new Rect(800f, 280f, 100f, 70f), "MAG Upgrade"))
+        if (GUI.Button(new Rect(440f, 280f, 100f, 70f), "MAG Upgrade"))
         {
             selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.MAG_UPGRADE);
             construct.isSelected = true;
         }
 
-        if (GUI.Button(new Rect(800f, 350f, 100f, 70f), "AGI Upgrade"))
+        if (GUI.Button(new Rect(440f, 350f, 100f, 70f), "AGI Upgrade"))
         {
             selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.AGI_UPGRADE);
             construct.isSelected = true;

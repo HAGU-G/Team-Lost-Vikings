@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class Village : MonoBehaviour
 {
@@ -41,7 +39,7 @@ public class Village : MonoBehaviour
 
     private void OnGUI()
     {
-        if(GUI.Button(new Rect(800f, 420f, 100f, 70f), "Unit Spawn"))
+        if(GUI.Button(new Rect(440f, 420f, 100f, 70f), "Unit Spawn"))
          {
             UnitSpawn();
          }

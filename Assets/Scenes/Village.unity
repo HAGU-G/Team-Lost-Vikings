@@ -212,6 +212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 652882ed5c6f3ba4887c3262255ddc93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isShowing: 1
   village: {fileID: 1883879126}
   construectedBuildings: []
   gridMap: {fileID: 286098943}
@@ -353,7 +354,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1883879126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -369,6 +370,7 @@ MonoBehaviour:
   villageManager: {fileID: 927712892}
   unitPrefab: {fileID: 8973577619717209016, guid: c521c0b593d9c1846bf53c434a7bd6ff, type: 3}
   units: []
+  unitStats: []
 --- !u!4 &1883879127
 Transform:
   m_ObjectHideFlags: 0

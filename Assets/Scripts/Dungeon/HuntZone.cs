@@ -1,9 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Rendering;
-using UnityEditorInternal;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Pool;
 
 public class HuntZone : MonoBehaviour
 {
