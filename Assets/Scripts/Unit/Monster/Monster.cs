@@ -4,7 +4,9 @@ using UnityEngine.AddressableAssets;
 
 public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackable, IStatUsable
 {
-    public MonsterStatsData testData;
+    //TESTCODE
+    public GameObject dress;
+
     public MonsterStats stats = new();
     public Stats GetStats => stats;
     public STAT_GROUP StatGroup => STAT_GROUP.MONSTER;
@@ -56,7 +58,25 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
         stats.InitStats(huntZone.CurrentMonsterData);
         stats.ResetStats();
         stats.ResetEllipse(transform);
-        Addressables.InstantiateAsync(stats.MonsterAssetFileName, transform);
+
+        //몬스터 외형 테스트 코드
+        try
+        {
+            Addressables.InstantiateAsync(stats.AssetFileName, transform)
+            .Completed += (handle) =>
+            {
+                if (dress != null)
+                    Destroy(dress);
+
+                dress = handle.Result;
+            };
+        }
+        catch
+        {
+            Debug.LogWarning($"{stats.AssetFileName} 파일이 없습니다.");
+            if (dress != null)
+                Destroy(dress);
+        }
 
         IsDead = false;
 

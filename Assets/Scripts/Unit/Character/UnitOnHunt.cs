@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 public class UnitOnHunt : Unit, IDamagedable, IAttackable
 {
-    //TESTCODE 포탈 위치
+    //TESTCODE
     public Vector3 portalPos;
+    public GameObject dress;
 
     //State
     public enum STATE
@@ -100,6 +102,26 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
     {
         unitStats.SetLocation(LOCATION.HUNTZONE, CurrentHuntZone.HuntZoneNum);
         base.ResetUnit(unitStats);
+
+        //몬스터 외형 테스트 코드
+        try
+        {
+            Addressables.InstantiateAsync(stats.AssetFileName, transform)
+            .Completed += (handle) =>
+            {
+                if (dress != null)
+                    Destroy(dress);
+
+                dress = handle.Result;
+            };
+        }
+        catch
+        {
+            Debug.LogWarning($"{stats.AssetFileName} 파일이 없습니다.");
+            if (dress != null)
+                Destroy(dress);
+        }
+
 
         IsDead = false;
 

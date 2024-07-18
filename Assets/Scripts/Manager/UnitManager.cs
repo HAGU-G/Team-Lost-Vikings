@@ -1,17 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 public class UnitManager
 {
     public Dictionary<int, UnitStats> Units { get; private set; } = new();
 
-    //TESTCODE 데이터테이블에서 가져오도록 변경
-    public UnitStatsData unitStatsData;
     public void LoadUnits()
     {
         for (int i = 0; i < 10; i++)
         {
             var uu = new UnitStats();
-            uu.InitStats(unitStatsData);
+            uu.InitStats(GachaCharacter(1));
             uu.ResetStats();
             Units.Add(uu.InstanceID, uu);
         }
@@ -23,5 +23,23 @@ public class UnitManager
             return null;
 
         return Units[instanceID];
+    }
+
+    public UnitStatsData GachaCharacter(int level)
+    {
+        var gachaList = new List<UnitStatsData>();
+
+        foreach (var data in DataTableManager.characterTable)
+        {
+            if (level < data.Value.GachaLevel)
+                continue;
+
+            for (int i = 0; i < data.Value.GachaChance; i++)
+            {
+                gachaList.Add(data.Value);
+            }
+        }
+
+        return gachaList[UnityEngine.Random.Range(0, gachaList.Count)];
     }
 }

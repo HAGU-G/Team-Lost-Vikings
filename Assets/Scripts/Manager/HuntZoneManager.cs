@@ -30,8 +30,6 @@ public class HuntZoneManager : MonoBehaviour
 
         SetMonsterPool();
 
-        GameManager.unitManager.unitStatsData = unitStatsData;
-        GameManager.unitManager.LoadUnits();
         SetUnitPool();
     }
 

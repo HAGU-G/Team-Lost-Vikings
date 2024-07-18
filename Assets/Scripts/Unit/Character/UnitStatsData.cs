@@ -6,7 +6,7 @@ public class UnitStatsData
 {
     [field: SerializeField] public string Name { get; set; }
     [field: SerializeField] public int Id { get; set; }
-    [field: SerializeField] public float GachaChance { get; set; }
+    [field: SerializeField] public int GachaChance { get; set; }
     [field: SerializeField] public int GachaLevel { get; set; }
     [field: SerializeField] public UNIT_JOB Job { get; set; }
     [field: SerializeField] public ATTACK_TYPE BasicAttackType { get; set; }

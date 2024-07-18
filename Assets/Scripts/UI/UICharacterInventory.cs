@@ -25,14 +25,5 @@ public class UICharacterInventory : IWindowable
                 () => GameManager.uiManager.OnShowCharacter(character.Value.InstanceID)
                 );
         }
-
-
-
-        var test = new UnitOnVillage();
-
-        test.Init();
-        test.ResetUnit(new UnitStats());
-        test.transform.position = Vector3.zero;
-
     }
 }

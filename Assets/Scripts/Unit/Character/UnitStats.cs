@@ -157,6 +157,7 @@ public class UnitStats : Stats
         Name = data.Name;
         Job = data.Job;
         BasicAttackType = data.BasicAttackType;
+        AssetFileName = data.UnitAssetFileName;
     }
 
     private void SetMaxHP()

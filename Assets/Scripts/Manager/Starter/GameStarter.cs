@@ -46,6 +46,7 @@ public class GameStarter : MonoBehaviour
             if (completeCount == scenes.Count)
             {
                 UpdateProgress();
+                GameManager.GameStarted();
                 OnCompleted?.Invoke();
                 OnCompleted = null;
                 gameObject.SetActive(false);

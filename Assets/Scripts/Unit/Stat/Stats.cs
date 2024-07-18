@@ -13,6 +13,7 @@ public abstract class Stats
 {
     [field: SerializeField] public int Id { get; protected set; }
     [field: SerializeField] public string Name { get; protected set; }
+    [field: SerializeField] public string AssetFileName { get; set; }
 
     //Parameters
     [field: SerializeField] public Parameter HP { get; set; } = new();

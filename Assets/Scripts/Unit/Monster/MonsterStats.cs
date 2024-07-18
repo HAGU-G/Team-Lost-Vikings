@@ -8,7 +8,6 @@ public class MonsterStats : Stats
     [field: SerializeField] public StatInt MagicalDef { get; set; } = new();
     [field: SerializeField] public StatInt SpecialDef { get; set; } = new();
     [field: SerializeField] public int DropId { get; set; }
-    [field: SerializeField] public string MonsterAssetFileName { get; set; }
 
 
     public void InitStats(MonsterStatsData data)
@@ -35,13 +34,13 @@ public class MonsterStats : Stats
         CombatPoint = data.CombatPoint;
 
         DropId = data.DropId;
-        MonsterAssetFileName = data.MonsterAssetFileName;
     }
 
     private void SetConstantStats(MonsterStatsData data)
     {
         Id = data.MonsterId;
         Name = data.MonsterName;
+        AssetFileName = data.MonsterAssetFileName;
     }
 
     public MonsterStats Clone()
@@ -64,7 +63,7 @@ public class MonsterStats : Stats
         clone.MagicalDef = MagicalDef.Clone() as StatInt;
         clone.SpecialDef = SpecialDef.Clone() as StatInt;
         clone.DropId = DropId;
-        clone.MonsterAssetFileName = MonsterAssetFileName;
+        clone.AssetFileName = AssetFileName;
 
         return clone;
     }

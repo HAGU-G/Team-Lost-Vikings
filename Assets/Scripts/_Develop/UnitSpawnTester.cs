@@ -90,7 +90,7 @@ public class UnitSpawnTester : MonoBehaviour
             var m = Instantiate(monster);
             m.gameObject.AddComponent<UnitSelectorTest>().spawner = this;
             m.stats = new();
-            m.testData = monsterData;
+            //m.testData = monsterData;
             m.Ready(dungeon);
             m.gameObject.AddComponent<EllipseDrawer>();
             dungeon.Monsters.Add(m);
