@@ -8,20 +8,20 @@ public class UnitMove : MonoBehaviour
 {
     private GridMap gridMap;
 
-    private Tile currentTile;
-    private Tile goalTile;
+    private Cell currentTile;
+    private Cell goalTile;
 
     private float moveTime = 0.5f;
     private float timer;
 
     private bool isMoving = false;
 
-    List<Tile> path;
+    List<Cell> path;
 
     public event Action OnMoveStart;
     public event Action OnMoveEnd;
-    public event Action<Tile> OnTile;
-    public event Action<Tile> OnTargetTile;
+    public event Action<Cell> OnTile;
+    public event Action<Cell> OnTargetTile;
 
     private void Awake()
     {
@@ -62,7 +62,7 @@ public class UnitMove : MonoBehaviour
         }
     }
 
-    public bool MoveTo(Tile startTile, Tile target)
+    public bool MoveTo(Cell startTile, Cell target)
     {
         if (startTile == target)
         {

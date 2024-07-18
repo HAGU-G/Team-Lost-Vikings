@@ -10,15 +10,15 @@ using UnityEngine;
 public class GridMap : MonoBehaviour
 {
     public GridInfo gridInfo;
-    public Dictionary<Vector2Int, Tile> tiles = new Dictionary<Vector2Int, Tile>();
+    public Dictionary<Vector2Int, Cell> tiles = new Dictionary<Vector2Int, Cell>();
     public GameObject cellPrefab;
-    private List<Tile> path;
+    private List<Cell> path;
 
-    public List<Tile> usingTileList = new(); //gridMap 내에서 사용 가능한 타일 리스트
-    public List<List<Tile>> usableTileList = new(); //usingTileList에 단계별로 할당하기 위한 List
+    public List<Cell> usingTileList = new(); //gridMap 내에서 사용 가능한 타일 리스트
+    public List<List<Cell>> usableTileList = new(); //usingTileList에 단계별로 할당하기 위한 List
 
 
-    public Tile GetTile(int x, int y)
+    public Cell GetTile(int x, int y)
     {
         Vector2Int key = new Vector2Int(x, y);
         if (tiles.ContainsKey(key))
@@ -42,7 +42,7 @@ public class GridMap : MonoBehaviour
 
     private void DrawGrid(int col, int row)
     {
-        Tile[,] tileArray = new Tile[col, row];
+        Cell[,] tileArray = new Cell[col, row];
 
         for (int x = 0; x < col; x++)
         {
@@ -58,7 +58,7 @@ public class GridMap : MonoBehaviour
                 cell.transform.localScale = new Vector3(gridInfo.cellSize, gridInfo.cellSize, gridInfo.cellSize);
                 var text = cell.GetComponentInChildren<TextMeshPro>();
 
-                var tile = cell.GetComponent<Tile>();
+                var tile = cell.GetComponent<Cell>();
                 tile.tileInfo.id = new Vector2Int(x, y);
 
                 cell.name = $"{tile.tileInfo.id}";
@@ -72,7 +72,7 @@ public class GridMap : MonoBehaviour
         {
             for (int y = 0; y < row; y++)
             {
-                Tile currentTile = tileArray[x, y];
+                Cell currentTile = tileArray[x, y];
 
                 if (y > 0) currentTile.adjacentTiles[(int)Sides.Bottom] = (tileArray[x, y - 1]); // Bottom
                 if (x < col - 1) currentTile.adjacentTiles[(int)Sides.Right] = (tileArray[x + 1, y]); // Right
@@ -123,7 +123,7 @@ public class GridMap : MonoBehaviour
 
         return new Vector3(x, y, 0) + gameObject.transform.position;
     }
-    private int Heuristic(Tile a, Tile b)
+    private int Heuristic(Cell a, Cell b)
     {
         int ax = a.tileInfo.id.x;
         int ay = a.tileInfo.id.y;
@@ -133,9 +133,9 @@ public class GridMap : MonoBehaviour
         return Mathf.Abs(ax - bx) + Mathf.Abs(ay - by);
     }
 
-    public List<Tile> PathFinding(Tile start, Tile goal)
+    public List<Cell> PathFinding(Cell start, Cell goal)
     {
-        path = new List<Tile>();
+        path = new List<Cell>();
 
         var distances = new int[tiles.Count];
         var scores = new int[tiles.Count];
@@ -150,7 +150,7 @@ public class GridMap : MonoBehaviour
         distances[startId] = 0;
         scores[startId] = Heuristic(start, goal);
 
-        var pq = new PriorityQueue<(int, Tile)>((lhs, rhs) => lhs.Item1.CompareTo(rhs.Item1));
+        var pq = new PriorityQueue<(int, Cell)>((lhs, rhs) => lhs.Item1.CompareTo(rhs.Item1));
         distances[startId] = 0;
         pq.Enqueue((scores[startId], start));
 
@@ -160,7 +160,7 @@ public class GridMap : MonoBehaviour
             var currentTile = current.Item2;
             if (currentTile == goal) //찾은 경우
             {
-                Tile step = goal;
+                Cell step = goal;
                 while (step != null) //step.previous != null
                 {
                     path.Add(step);
@@ -199,8 +199,8 @@ public class GridMap : MonoBehaviour
 
     private void InitializeUsableTileList()
     {
-        List<Tile> initialTiles = new List<Tile>(tiles.Values);
-        usableTileList.Add(new List<Tile>(initialTiles));
+        List<Cell> initialTiles = new List<Cell>(tiles.Values);
+        usableTileList.Add(new List<Cell>(initialTiles));
 
         int minRow = gridInfo.minRow - 1, maxRow = gridInfo.row - 1;
         int minCol = gridInfo.minCol - 1, maxCol = gridInfo.col - 1;
@@ -230,8 +230,8 @@ public class GridMap : MonoBehaviour
 
     private void ExcludeTiles(int minRow, int maxRow, int minCol, int maxCol)
     {
-        List<Tile> previousList = usableTileList[usableTileList.Count - 1];
-        List<Tile> newTiles = new List<Tile>();
+        List<Cell> previousList = usableTileList[usableTileList.Count - 1];
+        List<Cell> newTiles = new List<Cell>();
 
         foreach (var tile in previousList)
         {
@@ -241,7 +241,7 @@ public class GridMap : MonoBehaviour
                 newTiles.Add(tile);
             }
         }
-        usableTileList.Add(new List<Tile>(newTiles));
+        usableTileList.Add(new List<Cell>(newTiles));
     }
 
     private void Update()
