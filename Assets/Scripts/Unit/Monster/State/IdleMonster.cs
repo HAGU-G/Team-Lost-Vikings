@@ -17,6 +17,8 @@ public class IdleMonster : State<Monster>
 
     public override void ResetState()
     {
+        isMoving = false;
+        roamTimer = 0f;
     }
 
     public override void Update()

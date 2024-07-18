@@ -2,7 +2,6 @@
 
 public class ReturnOnHunt : State<UnitOnHunt>
 {
-    private float recoveryTimer;
     Transform ownerTransform;
 
     public override void EnterState()

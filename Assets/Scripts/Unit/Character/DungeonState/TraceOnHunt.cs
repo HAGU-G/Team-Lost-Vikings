@@ -16,6 +16,7 @@ public class TraceOnHunt : State<UnitOnHunt>
 
     public override void ResetState()
     {
+        isCollidedWithTarget = false;
     }
 
     public override void Update()

@@ -15,6 +15,7 @@ public class TraceMonster : State<Monster>
 
     public override void ResetState()
     {
+        isCollidedWithTarget = false;
     }
 
     public override void Update()

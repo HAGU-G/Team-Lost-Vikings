@@ -17,6 +17,7 @@ public class IdleOnHunt : State<UnitOnHunt>
 
     public override void ResetState()
     {
+        isMoving = false;
     }
 
     public override void Update()
@@ -45,13 +46,13 @@ public class IdleOnHunt : State<UnitOnHunt>
 
             // TODO 던전 밖으로 이동 못하게 하는 조건으로 대체 ex) 이동 가능 타일 검사
             if (Vector3.Distance(dest, owner.CurrentHuntZone.transform.position) > 10f)
-                dest = (owner.CurrentHuntZone.transform.position - owner.transform.position).normalized;
+                dest = owner.CurrentHuntZone.transform.position;
 
             isMoving = true;
         }
         else
         {
-
+            Debug.Log(dest);
             owner.transform.position += (dest - owner.transform.position).normalized
                 * owner.stats.MoveSpeed.Current * Time.deltaTime;
 

@@ -1,7 +1,5 @@
 ﻿public class UseSkillOnHunt : State<UnitOnHunt>
 {
-    private float attackTimer;
-
     public override void EnterState()
     {
         owner.currentState = UnitOnHunt.STATE.ATTACK;
