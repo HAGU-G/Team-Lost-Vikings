@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Village : MonoBehaviour
+public class Village
 {
     public VillageManager villageManager;
     public UnitOnVillage unitPrefab;
     public List<UnitOnVillage> units;
+    public List<UnitStats> unitStats;
 
     private float timer = 0f;
 
@@ -17,8 +18,14 @@ public class Village : MonoBehaviour
 
     private void Start()
     {
-        var unit = Instantiate(unitPrefab, villageManager.gridMap.IndexToPos(new Vector2Int(31, 31)), Quaternion.identity, villageManager.gridMap.transform);
+        var unit = GameObject.Instantiate(unitPrefab, villageManager.gridMap.IndexToPos(new Vector2Int(31, 31))
+            , Quaternion.identity, villageManager.gridMap.transform);
         units.Add(unit);
+    }
+
+    private void UnitSpawn()
+    {
+        
     }
 
     private void Update()

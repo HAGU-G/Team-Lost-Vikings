@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class VillageManager : MonoBehaviour
 {
-    public Village village;
+    public Village village = new();
     public Construct construct = new();
     public List<GameObject> construectedBuildings = new();
     public GridMap gridMap;
