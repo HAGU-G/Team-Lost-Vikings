@@ -6,18 +6,15 @@ using UnityEngine.Pool;
 public class HuntZoneManager : MonoBehaviour
 {
     #region INSPECTOR
+    public UnitStatsData unitStatsData;
     public UnitOnHunt unitPrefab;
     public Monster monsterPrefab;
-    public UnitStatsData unitStatsData = new();
     #endregion
 
     public Dictionary<int, HuntZone> HuntZones { get; private set; } = new();
 
     private IObjectPool<Monster> MonsterPool { get; set; }
     private IObjectPool<UnitOnHunt> UnitPool { get; set; }
-
-    //TESTCODE 데이텉테이블 대체
-    public List<UnitStats> units = new();
 
     private void Awake()
     {
@@ -30,14 +27,8 @@ public class HuntZoneManager : MonoBehaviour
         GameManager.huntZoneManager = this;
         SetMonsterPool();
 
-        for (int i = 0; i < 10; i++)
-        {
-            var uu = new UnitStats();
-            uu.InitStats(unitStatsData);
-            uu.ResetStats();
-
-            units.Add(uu);
-        }
+        GameManager.unitManager.unitStatsData = unitStatsData;
+        GameManager.unitManager.LoadUnits();
 
         SetUnitPool();
     }

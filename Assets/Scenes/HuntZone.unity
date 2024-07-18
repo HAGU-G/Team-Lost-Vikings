@@ -555,10 +555,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1305eec6878634148af51659f26d40fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitPrefab: {fileID: 5123246219790320037, guid: ee8173d09160d4344b7748f6a6ed13a8, type: 3}
-  monsterPrefab: {fileID: 7625488896232799804, guid: 79c7d36189653e341b61bd54638a95cb, type: 3}
   unitStatsData:
-    <Name>k__BackingField: 
+    <Name>k__BackingField: "\uD14C\uC2A4\uD2B8 \uC720\uB2DB"
     <Id>k__BackingField: 0
     <GachaChance>k__BackingField: 0
     <GachaLevel>k__BackingField: 0
@@ -589,7 +587,8 @@ MonoBehaviour:
     <SkillId1>k__BackingField: 0
     <SkillId2>k__BackingField: 0
     <UnitAssetFileName>k__BackingField: 
-  units: []
+  unitPrefab: {fileID: 5123246219790320037, guid: ee8173d09160d4344b7748f6a6ed13a8, type: 3}
+  monsterPrefab: {fileID: 7625488896232799804, guid: 79c7d36189653e341b61bd54638a95cb, type: 3}
 --- !u!1001 &483156219
 PrefabInstance:
   m_ObjectHideFlags: 0

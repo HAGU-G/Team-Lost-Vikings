@@ -203,7 +203,7 @@ public class HuntZone : MonoBehaviour
         boss.transform.position = randomPoints[Random.Range(0, randomPoints.Count)].transform.position;
         boss.Subscribe(bossObserver);
 
-        foreach(var unit in Units)
+        foreach (var unit in Units)
         {
             unit.ForceChangeTarget(boss);
         }
@@ -295,13 +295,15 @@ public class HuntZone : MonoBehaviour
         if (Units.Count >= CurrentHuntZoneData.UnitCapacity)
             return;
 
-        for (int i = 0; i < GameManager.huntZoneManager.units.Count; i++)
+        foreach (var unitSelected in GameManager.unitManager.Units)
         {
-            if (GameManager.huntZoneManager.units[i].Location != LOCATION.NONE)
+            var unit = unitSelected.Value;
+            if (unit.Location != LOCATION.NONE)
                 continue;
 
-            var unit = GameManager.huntZoneManager.GetUnit(this, GameManager.huntZoneManager.units[i]);
-            unit.transform.position = transform.position;
+            var unitOnHunt = GameManager.huntZoneManager.GetUnit(this, unit);
+            unitOnHunt.transform.position = transform.position;
+            Debug.Log(unit.InstanceID + "소환됨", unitOnHunt.gameObject);
             break;
         }
     }

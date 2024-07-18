@@ -26,7 +26,7 @@ public abstract class Stats
     [field: SerializeField] public StatFloat AttackSpeed { get; protected set; } = new();
     [field: SerializeField] public int CombatPoint { get; protected set; }
 
-    public Transform transform = null;
+    public Transform objectTransform = null;
     public Ellipse SizeEllipse { get; set; } = null;
     public Ellipse RecognizeEllipse { get; set; } = null;
     public Ellipse PresenseEllipse { get; set; } = null;
@@ -38,7 +38,7 @@ public abstract class Stats
     //Methods
     public void ResetEllipse(Transform transform)
     {
-        this.transform = transform;
+        objectTransform = transform;
 
         var pos = transform.position;
 
@@ -58,10 +58,10 @@ public abstract class Stats
 
     public void UpdateEllipsePosition()
     {
-        if (transform == null)
+        if (objectTransform == null)
             return;
 
-        var pos = transform.position;
+        var pos = objectTransform.position;
         SizeEllipse.position = pos;
         RecognizeEllipse.position = pos;
         PresenseEllipse.position = pos;
@@ -81,7 +81,7 @@ public abstract class Stats
         var collisionDepth = SizeEllipse.CollisionDepthWith(other.SizeEllipse);
         if (collisionDepth >= 0f)
         {
-            transform.position -= (other.transform.position - transform.position).normalized * collisionDepth;
+            objectTransform.position -= (other.objectTransform.position - objectTransform.position).normalized * collisionDepth;
             UpdateEllipsePosition();
         }
     }

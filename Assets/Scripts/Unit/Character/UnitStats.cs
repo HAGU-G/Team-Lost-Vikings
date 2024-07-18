@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
 
 public enum UNIT_JOB
@@ -35,6 +36,22 @@ public enum LOCATION
 [System.Serializable]
 public class UnitStats : Stats
 {
+    public static List<int> existIDs = new();
+    [field: SerializeField] public int InstanceID { get; private set; }
+
+    public UnitStats()
+    {
+        var newID = System.DateTime.Now.GetHashCode();
+
+        while (existIDs.Contains(newID))
+        {
+            newID++;
+        }
+
+        InstanceID = newID;
+        existIDs.Add(newID);
+    }
+
     public UNIT_GRADE UnitGrade { get; private set; }
     public UNIT_JOB Job { get; private set; }
     public ATTACK_TYPE BasicAttackType { get; private set; }
