@@ -5,7 +5,7 @@ public class ItemProduceBuilding : MonoBehaviour, IInteractableWithPlayer
     public Building building;
     public RECIPE recipeId;
     public int itemStack;
-    //제작 아이템 보관이라는 필드는 뭐지??
+    
 
     private void Awake()
     {

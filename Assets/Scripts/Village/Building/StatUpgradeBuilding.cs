@@ -15,6 +15,11 @@ public class StatUpgradeBuilding : MonoBehaviour, IInteractableWithPlayer
         building = GetComponent<Building>();
     }
 
+    private void Start()
+    {
+        
+    }
+
     public void InteractWithPlayer()
     {
         //UI 띄우기
@@ -25,25 +30,28 @@ public class StatUpgradeBuilding : MonoBehaviour, IInteractableWithPlayer
         switch (upgradeStat)
         {
             case STAT_TYPES.STR:
-                foreach(var unit in units)
-                {
-                    statInt.defaultValue = upgradeValue;
-                    unit.stats.Str.upgradeValue = statInt;
-                }
+                //foreach(var unit in units)
+                //{
+                //    statInt.defaultValue = upgradeValue;
+                //    unit.stats.Str.upgradeValue = statInt;
+                //}
+                GameManager.playerManager.upgradeSTR += upgradeValue;
                 break;
             case STAT_TYPES.MAG:
-                foreach (var unit in units)
-                {
-                    statInt.defaultValue = upgradeValue;
-                    unit.stats.Mag.upgradeValue = statInt;
-                }
+                //foreach (var unit in units)
+                //{
+                //    statInt.defaultValue = upgradeValue;
+                //    unit.stats.Mag.upgradeValue = statInt;
+                //}
+                GameManager.playerManager.upgradeMAG += upgradeValue;
                 break;
             case STAT_TYPES.AGI:
-                foreach (var unit in units)
-                {
-                    statInt.defaultValue = upgradeValue;
-                    unit.stats.Agi.upgradeValue = statInt;
-                }
+                //foreach (var unit in units)
+                //{
+                //    statInt.defaultValue = upgradeValue;
+                //    unit.stats.Agi.upgradeValue = statInt;
+                //}
+                GameManager.playerManager.upgradeAGI += upgradeValue;
                 break;
         }
     }

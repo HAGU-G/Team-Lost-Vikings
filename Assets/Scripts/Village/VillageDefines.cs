@@ -18,7 +18,7 @@ public enum RECIPE
 
 public enum PARAMETER_TYPES
 {
-    NONE = 0,
+    NONE = -1,
     HP,
     STAMINA,
     STRESS,

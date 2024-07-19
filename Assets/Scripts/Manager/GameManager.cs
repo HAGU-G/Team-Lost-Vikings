@@ -17,8 +17,9 @@ public static class GameManager
     public static UIManager uiManager = new();
     public static UnitManager unitManager = new();
     public static InputManager inputManager;
-    public static PlayerManager playerManager;
+    public static PlayerManager playerManager = new();
     public static QuestManager questManager;
+    public static ItemManager itemManager;
 
     private static IDictionary<EventBusType, UnityEvent> events = new Dictionary<EventBusType, UnityEvent>();
 
