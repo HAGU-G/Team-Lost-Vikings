@@ -9,7 +9,8 @@ public class Village : MonoBehaviour
     public UnitOnVillage unitPrefab;
     public List<UnitOnVillage> units;
     public List<UnitStats> unitStats;
-    public UnitStatsData unitStatsData;
+    public UnitStatsData unitStatsData; 
+    public BuildingUpgrade upgrade;
 
     private float timer = 0f;
 
@@ -107,14 +108,47 @@ public class Village : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, 100f);
+
+            if (hit.collider != null)
+            {
+                var building = hit.transform.gameObject.GetComponent<Building>();
+
+                if (building != null
+                    /*&& this == building*/)
+                {
+                    Debug.Log(building.StructureName);
+                    upgrade = building.gameObject.GetComponent<BuildingUpgrade>();
+                }
+                else
+                {
+                    upgrade = null;
+                }
+            }
+        }
+
         //timer += Time.deltaTime;
-        //if (timer >= 10f)
+        //if (timer >= 5f)
         //{
-        //    foreach (var unit in units)
+        //    timer = 0f;
+        //    foreach(var unit in units)
         //    {
-        //        timer = 0f;
-        //        Debug.Log($"str : {unit.stats.Str.Current} / mag : {unit.stats.Mag.Current} / agi : {unit.stats.Agi.Current}");
+        //        Debug.Log(unit.stats.Agi.upgradeValue);
         //    }
         //}
+    }
+
+    public void Upgrade()
+    {
+        Debug.Log("업그레이드");
+        upgrade?.Upgrade();
+    }
+
+    public void Cancel()
+    {
+        this.gameObject.SetActive(false);
     }
 }

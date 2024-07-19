@@ -35,6 +35,7 @@ public class Building : MonoBehaviour
     private bool isFlip = false;
     private static bool isRotating = false;
     public GridMap gridMap;
+    
 
     public IInteractableWithPlayer interactWithPlayer { get; private set; }
     public IInteractableWithUnit interactWithUnit { get; private set; }
@@ -42,6 +43,7 @@ public class Building : MonoBehaviour
     private void Awake()
     {
         //gridMap = GameObject.FindWithTag("GridMap").GetComponent<GridMap>();
+        
     }
 
     private void Start()
@@ -71,24 +73,8 @@ public class Building : MonoBehaviour
         //TO-DO : 수정하기
     }
 
-    private void Update()
-    {
-        if(Input.GetMouseButtonDown(0))
-        {
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, 100f);
+    
 
-            if (hit.collider != null)
-            {
-                var building = hit.transform.gameObject.GetComponent<Building>();
-                if (building != null && isRotating)
-                {
-                    RotateBuilding(building);
-                    isRotating = false;
-                }
-            }
-        }
-    }
 
     //private void OnGUI()
     //{
