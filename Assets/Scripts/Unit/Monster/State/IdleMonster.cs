@@ -57,7 +57,7 @@ public class IdleMonster : State<Monster>
         }
         else
         {
-            if (roamTimer >= GameSetting.Instance.monsterRoamTime)
+            if (roamTimer >= GameSetting.Instance.monsterRoamSeconds)
             {
                 isMoving = false;
                 return;

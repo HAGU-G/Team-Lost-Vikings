@@ -43,13 +43,10 @@ public abstract class Stats
 
         var pos = transform.position;
 
-        if(SizeEllipse == null)
-        {
-            SizeEllipse = new();
-            RecognizeEllipse = new();
-            PresenseEllipse = new();
-            BasicAttackEllipse = new();
-        }
+        SizeEllipse ??= new();
+        RecognizeEllipse ??= new();
+        PresenseEllipse ??= new();
+        BasicAttackEllipse ??= new();
 
         SizeEllipse.SetAxies(UnitSize.Current, pos);
         RecognizeEllipse.SetAxies(RecognizeRange.Current, pos);

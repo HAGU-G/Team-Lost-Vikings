@@ -3183,7 +3183,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2356242026397959759}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: 10_RoyalKnight
   m_TagString: Untagged
   m_Icon: {fileID: 0}

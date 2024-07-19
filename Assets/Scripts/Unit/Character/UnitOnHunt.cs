@@ -164,8 +164,8 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
 
         stats.Stamina.Current -= GameSetting.Instance.staminaReduceAmount;
 
-        bool isCritical = Random.Range(0, 100) < stats.CriticalChance.Current;
-        var criticalWeight = isCritical ? stats.CriticalWeight.Current : 1f;
+        bool isCritical = Random.Range(0, 100) < stats.CritChance.Current;
+        var criticalWeight = isCritical ? stats.CritWeight.Current : 1f;
         var damage = Mathf.FloorToInt(stats.CombatPoint * criticalWeight);
 
         if (attackBehaviour.Attack(attackTarget, damage, stats.BasicAttackType))

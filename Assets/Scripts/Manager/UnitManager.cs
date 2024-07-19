@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class UnitManager
@@ -9,19 +10,20 @@ public class UnitManager
     /// 꼭 필요한 경우가 아니라면 GetUnit() 메서드를 사용해주세요.
     /// </summary>
     public Dictionary<int, UnitStats> Units { get; private set; } = new();
-    private List<UnitStats> stanbyUnits = new();
+    public Dictionary<int, UnitStats> Waitings { get; private set; } = new();
+
 
     public void LoadUnits()
     {
         //TODO 세이브데이터에서 불러오도록 변경
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 20; i++)
         {
-            var uu = new UnitStats();
-            uu.InitStats(GachaCharacter(1));
-            uu.ResetStats();
-            Units.Add(uu.InstanceID, uu);
+            GachaCharacter(GameManager.playerManager.level);
         }
+
     }
+
+
 
     public UnitStats GetUnit(int instanceID)
     {
@@ -34,7 +36,7 @@ public class UnitManager
         return Units[instanceID];
     }
 
-    public UnitStatsData GachaCharacter(int level)
+    public UnitStatsData GachaUnitData(int level)
     {
         var gachaList = new List<UnitStatsData>();
 
@@ -49,7 +51,7 @@ public class UnitManager
             }
         }
 
-        return gachaList[UnityEngine.Random.Range(0, gachaList.Count)];
+        return gachaList[Random.Range(0, gachaList.Count)];
     }
 
     public void SpawnOnLocation(UnitStats stats)
@@ -65,5 +67,25 @@ public class UnitManager
                 GameManager.huntZoneManager.HuntZones[stats.HuntZoneID].SpawnUnit(stats.InstanceID);
                 break;
         }
+    }
+
+    public void GachaCharacter(int level)
+    {
+        var waitCharacter = new UnitStats();
+        waitCharacter.InitStats(GachaUnitData(level));
+        waitCharacter.ResetStats();
+        Waitings.Add(waitCharacter.InstanceID, waitCharacter);
+    }
+
+    public UnitStats PickUpCharacter(int instanceID)
+    {
+        var pick = Waitings[instanceID];
+        Waitings.Remove(instanceID);
+        pick.SetUpgradeStats();
+
+        if (!Units.ContainsKey(pick.InstanceID))
+            Units.Add(pick.InstanceID, pick);
+
+        return pick;
     }
 }

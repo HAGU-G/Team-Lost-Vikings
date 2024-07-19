@@ -11,15 +11,15 @@ public enum SKILL_ACTIVE_TYPE
     NONE,
     ALWAYS,
     COOLTIME,
-    PROBABILITY,
-    ATTACK_COUNT
+    BASIC_ATTACK_PROBABILITY,
+    BASIC_ATTACK_COUNT
 }
 
 public enum STAT_TYPE
 {
     NONE,
     STR,
-    MAG,
+    WIZ,
     AGI,
     VIT
 }
@@ -49,6 +49,7 @@ public class SkillData
     [field: SerializeField] public SKILL_ACTIVE_TYPE ActiveType { get; private set; }
     [field: SerializeField] public float ActiveValue { get; private set; }
     [field: SerializeField] public float CastRange { get; private set; }
+    [field: SerializeField] public float CastTime { get; private set; }
     [field: SerializeField] public ATTACK_TYPE SkillAttackType { get; private set; }
     [field: SerializeField] public float SkillDmgRatio { get; private set; }
     [field: SerializeField] public int SkillAttackNum { get; private set; }
@@ -56,4 +57,7 @@ public class SkillData
     [field: SerializeField] public PARAMETER_TYPE ParameterType { get; private set; }
     [field: SerializeField] public RETURN_TYPE PassiveReturnType { get; private set; }
     [field: SerializeField] public float PassiveValue { get; private set; }
+    [field: SerializeField] public string SkillIconAssetFileName { get; private set; }
+    [field: SerializeField] public string SkillEffectAssetFileName { get; private set; }
+    
 }

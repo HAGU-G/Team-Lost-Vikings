@@ -3573,7 +3573,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 500416149112550905}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Normal_Monster_001
   m_TagString: Untagged
   m_Icon: {fileID: 0}

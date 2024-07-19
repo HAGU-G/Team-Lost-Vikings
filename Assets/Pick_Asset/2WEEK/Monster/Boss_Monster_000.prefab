@@ -4820,7 +4820,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8729226818821950807}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Boss_Monster_000
   m_TagString: Untagged
   m_Icon: {fileID: 0}

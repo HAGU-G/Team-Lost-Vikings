@@ -11,18 +11,19 @@ public enum UNIT_JOB
 
 public enum ATTACK_TYPE
 {
+    NONE,
     PHYSICAL,
     MAGIC,
     SPECIAL,
-    NONE
 }
 
 public enum UNIT_GRADE
 {
+    COMMON,
     NORMAL,
     RARE,
-    ULTRA_RARE,
-    SUPER_RARE
+    SUPER_RARE,
+    ULTRA_RARE
 }
 
 public enum LOCATION
@@ -68,15 +69,15 @@ public class UnitStats : Stats
     [field: SerializeField] public StatInt BaseHP { get; private set; } = new();
     [field: SerializeField] public StatInt Vit { get; private set; } = new();
     [field: SerializeField] public StatFloat VitWeight { get; private set; } = new();
-    [field: SerializeField] public StatInt Str { get; private set; } = new();
+    [field: SerializeField] public StatInt BaseStr { get; private set; } = new();
     [field: SerializeField] public StatFloat StrWeight { get; private set; } = new();
-    [field: SerializeField] public StatInt Mag { get; private set; } = new();
-    [field: SerializeField] public StatFloat MagWeight { get; private set; } = new();
-    [field: SerializeField] public StatInt Agi { get; private set; } = new();
+    [field: SerializeField] public StatInt BaseWiz { get; private set; } = new();
+    [field: SerializeField] public StatFloat WizWeight { get; private set; } = new();
+    [field: SerializeField] public StatInt BaseAgi { get; private set; } = new();
     [field: SerializeField] public StatFloat AgiWeight { get; private set; } = new();
 
-    [field: SerializeField] public StatFloat CriticalChance { get; set; } = new();
-    [field: SerializeField] public StatFloat CriticalWeight { get; set; } = new();
+    [field: SerializeField] public StatFloat CritChance { get; set; } = new();
+    [field: SerializeField] public StatFloat CritWeight { get; set; } = new();
 
 
     public void InitStats(UnitStatsData data)
@@ -96,6 +97,13 @@ public class UnitStats : Stats
         UpdateCombatPoint();
     }
 
+    public void SetUpgradeStats()
+    {
+        BaseStr.upgradeValue = GameManager.playerManager.testStr;
+        BaseWiz.upgradeValue = GameManager.playerManager.testWiz;
+        BaseAgi.upgradeValue = GameManager.playerManager.testAgi;
+    }
+
     public void SetLocation(LOCATION location, LOCATION nextLocation = LOCATION.NONE)
     {
         Location = location;
@@ -113,39 +121,40 @@ public class UnitStats : Stats
     public void UpdateCombatPoint()
     {
         CombatPoint =
-            GetWeightedStat(Str.Current, StrWeight.Current)
-            + GetWeightedStat(Mag.Current, MagWeight.Current)
-            + GetWeightedStat(Agi.Current, AgiWeight.Current);
+            GetWeightedStat(BaseStr.Current, StrWeight.Current)
+            + GetWeightedStat(BaseWiz.Current, WizWeight.Current)
+            + GetWeightedStat(BaseAgi.Current, AgiWeight.Current);
     }
     public void GachaDefaultStats(UnitStatsData data)
     {
-        Stamina.max = data.Stamina;
-        Stamina.defaultValue = data.Stamina;
-        Stress.max = data.Stress;
-        Stress.defaultValue = data.Stress;
+        Stamina.max = data.MaxStamina;
+        Stamina.defaultValue = data.MaxStamina;
+        Stress.max = data.MaxMental;
+        Stress.defaultValue = data.MaxMental;
 
-        BaseHP.defaultValue = data.HP;
+        BaseHP.defaultValue = data.MaxHP;
         Vit.defaultValue = Random.Range(data.VitMin, data.VitMax + 1);
         VitWeight.defaultValue = data.VitWeight;
         SetMaxHP();
         HP.defaultValue = HP.max;
 
-        Str.defaultValue = Random.Range(data.StrMin, data.StrMax + 1);
+        BaseStr.defaultValue = Random.Range(data.StrMin, data.StrMax + 1);
         StrWeight.defaultValue = data.StrWeight;
-        Mag.defaultValue = Random.Range(data.MagMin, data.MagMax + 1);
-        MagWeight.defaultValue = data.MagWeight;
-        Agi.defaultValue = Random.Range(data.AgiMin, data.AgiMax + 1);
+        BaseWiz.defaultValue = Random.Range(data.WizMin, data.WizMax + 1);
+        WizWeight.defaultValue = data.WizWeight;
+        BaseAgi.defaultValue = Random.Range(data.AgiMin, data.AgiMax + 1);
         AgiWeight.defaultValue = data.AgiWeight;
 
         UnitSize.defaultValue = data.SizeRange;
         MoveSpeed.defaultValue = data.MoveSpeed;
         RecognizeRange.defaultValue = data.RecognizeRange;
+        PresenseRange.defaultValue = data.PresenseRange;
 
         AttackRange.defaultValue = data.BasicAttackRange;
         AttackSpeed.defaultValue = data.AttackSpeed;
 
-        CriticalChance.defaultValue = data.CriticalChance;
-        CriticalWeight.defaultValue = data.CriticalHitWeight;
+        CritChance.defaultValue = data.CritChance;
+        CritWeight.defaultValue = data.CritWeight;
 
         CalulateGrade();
         UpdateCombatPoint();
@@ -181,6 +190,19 @@ public class UnitStats : Stats
     private void CalulateGrade()
     {
         //TODO 유닛 등급 계산 필요
+        var overroll = BaseStr.defaultValue
+            + BaseWiz.defaultValue
+            + BaseAgi.defaultValue
+            + Vit.defaultValue;
+
+        UnitGrade = overroll switch
+        {
+            _ when (overroll >= 231) => UNIT_GRADE.ULTRA_RARE,
+            _ when (overroll >= 121) => UNIT_GRADE.SUPER_RARE,
+            _ when (overroll >= 91) => UNIT_GRADE.RARE,
+            _ when (overroll >= 51) => UNIT_GRADE.NORMAL,
+            _ => UNIT_GRADE.COMMON,
+        };
     }
 
 
@@ -210,15 +232,15 @@ public class UnitStats : Stats
         clone.BaseHP = BaseHP.Clone() as StatInt;
         clone.Vit = Vit.Clone() as StatInt;
         clone.VitWeight = VitWeight.Clone() as StatFloat;
-        clone.Str = Str.Clone() as StatInt;
+        clone.BaseStr = BaseStr.Clone() as StatInt;
         clone.StrWeight = StrWeight.Clone() as StatFloat;
-        clone.Mag = Mag.Clone() as StatInt;
-        clone.MagWeight = MagWeight.Clone() as StatFloat;
-        clone.Agi = Agi.Clone() as StatInt;
+        clone.BaseWiz = BaseWiz.Clone() as StatInt;
+        clone.WizWeight = WizWeight.Clone() as StatFloat;
+        clone.BaseAgi = BaseAgi.Clone() as StatInt;
         clone.AgiWeight = AgiWeight.Clone() as StatFloat;
 
-        clone.CriticalChance = CriticalChance.Clone() as StatFloat;
-        clone.CriticalWeight = CriticalWeight.Clone() as StatFloat;
+        clone.CritChance = CritChance.Clone() as StatFloat;
+        clone.CritWeight = CritWeight.Clone() as StatFloat;
 
         return clone;
     }

@@ -3183,7 +3183,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5435831908887006223}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: 6_Hunter
   m_TagString: Untagged
   m_Icon: {fileID: 0}

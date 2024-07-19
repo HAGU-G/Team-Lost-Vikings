@@ -17,6 +17,8 @@ public class UIManager
 
     public Dictionary<WINDOW_NAME, UIWindow> windows = new();
     public UICharacterInventory chracterInventory;
+    public UICharacterWaiting chracterWaiting;
+    public UIRenderTexture unitRenderTexture;
 
     /////////////////////////////////////////////////////////////////
     // UI -> Function ///////////////////////////////////////////////
@@ -32,6 +34,11 @@ public class UIManager
             + selectedCharacter.Location);
         if (selectedCharacter.Location != LOCATION.NONE)
             Camera.main.transform.position = selectedCharacter.objectTransform.position + Vector3.forward * -10f;
+    }
+    public void OnPickUpCharacter(int instanceID)
+    {
+        GameManager.unitManager.PickUpCharacter(instanceID);
+        chracterInventory.LoadCharacterButtons(GameManager.unitManager.Units);
     }
 
     public void OnSetUnitHuntZone(int instanceID, int huntZoneID)

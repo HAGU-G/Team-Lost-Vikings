@@ -18,7 +18,7 @@ public class Skill
     public float CurrentActiveValue { get; private set; }
 
     //Don't Save
-    public Ellipse CastEllipse {get; private set; }
+    public Ellipse CastEllipse { get; private set; }
     public bool IsReady
     {
         get
@@ -28,8 +28,8 @@ public class Skill
                 SKILL_ACTIVE_TYPE.NONE => false,
                 SKILL_ACTIVE_TYPE.ALWAYS => true,
                 SKILL_ACTIVE_TYPE.COOLTIME => (CurrentActiveValue <= 0),
-                SKILL_ACTIVE_TYPE.PROBABILITY => (Random.value <= Data.ActiveValue),
-                SKILL_ACTIVE_TYPE.ATTACK_COUNT => (CurrentActiveValue >= Data.ActiveValue),
+                SKILL_ACTIVE_TYPE.BASIC_ATTACK_PROBABILITY => (Random.value <= Data.ActiveValue),
+                SKILL_ACTIVE_TYPE.BASIC_ATTACK_COUNT => (CurrentActiveValue >= Data.ActiveValue),
                 _ => false
             };
         }
@@ -40,7 +40,9 @@ public class Skill
     {
         SetData(data);
         SetOwner(owner);
-        CastEllipse = new(data.CastRange, owner.transform.position);
+
+        CastEllipse ??= new();
+        CastEllipse.SetAxies(data.CastRange, owner.transform.position);
     }
 
     public void SetData(SkillData data)
@@ -59,7 +61,7 @@ public class Skill
         if (unit == null)
             return;
 
-        unit.OnUpdated += () => 
+        unit.OnUpdated += () =>
         {
             CastEllipse.position = unit.transform.position;
         };
@@ -76,11 +78,11 @@ public class Skill
                 unit.OnUpdated += ConditionUpdate;
 
                 break;
-            case SKILL_ACTIVE_TYPE.PROBABILITY:
+            case SKILL_ACTIVE_TYPE.BASIC_ATTACK_PROBABILITY:
                 unit.OnAttacked += ConditionUpdate;
                 break;
 
-            case SKILL_ACTIVE_TYPE.ATTACK_COUNT:
+            case SKILL_ACTIVE_TYPE.BASIC_ATTACK_COUNT:
                 unit.OnAttacked += ConditionUpdate;
                 break;
 
@@ -109,10 +111,10 @@ public class Skill
                 UpdateCoolTime();
                 break;
 
-            case SKILL_ACTIVE_TYPE.PROBABILITY:
+            case SKILL_ACTIVE_TYPE.BASIC_ATTACK_PROBABILITY:
                 break;
 
-            case SKILL_ACTIVE_TYPE.ATTACK_COUNT:
+            case SKILL_ACTIVE_TYPE.BASIC_ATTACK_COUNT:
                 CurrentActiveValue += 1f;
                 break;
 
@@ -146,9 +148,9 @@ public class Skill
             case SKILL_ACTIVE_TYPE.COOLTIME:
                 CurrentActiveValue = Data.ActiveValue;
                 break;
-            case SKILL_ACTIVE_TYPE.PROBABILITY:
+            case SKILL_ACTIVE_TYPE.BASIC_ATTACK_PROBABILITY:
                 break;
-            case SKILL_ACTIVE_TYPE.ATTACK_COUNT:
+            case SKILL_ACTIVE_TYPE.BASIC_ATTACK_COUNT:
                 CurrentActiveValue = 0;
                 break;
             default:

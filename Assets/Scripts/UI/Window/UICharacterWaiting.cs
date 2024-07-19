@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 
-public class UICharacterInventory : UIWindow
+public class UICharacterWaiting : UIWindow
 {
     public GameObject characterbuttonPrefab;
     public ScrollRect scrollRect;
@@ -13,11 +13,11 @@ public class UICharacterInventory : UIWindow
 
     private void Awake()
     {
-        GameManager.uiManager.chracterInventory = this;
-        LoadCharacterButtons(GameManager.unitManager.Units);
+        GameManager.uiManager.chracterWaiting = this;
+        LoadCharacterButtons(GameManager.unitManager.Waitings);
     }
 
-    public void LoadCharacterButtons(Dictionary<int,UnitStats> units)
+    public void LoadCharacterButtons(Dictionary<int, UnitStats> units)
     {
         for (int i = scrollRect.content.childCount - 1; i >= 0; i--)
         {
@@ -32,10 +32,12 @@ public class UICharacterInventory : UIWindow
             button.GetComponentInChildren<RawImage>().uvRect
                 = GameManager.uiManager.unitRenderTexture.LoadRenderTexture(character.Value.AssetFileName);
 
-
             button.onClick.AddListener(
-                () => GameManager.uiManager.OnShowCharacter(character.Value.InstanceID)
-                );
+                () =>
+                {
+                    GameManager.uiManager.OnPickUpCharacter(character.Value.InstanceID);
+                    Destroy(button.gameObject);
+                });
         }
     }
 }
