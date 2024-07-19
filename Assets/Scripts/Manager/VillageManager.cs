@@ -23,23 +23,6 @@ public class VillageManager : MonoBehaviour
 
     private GameObject selectedObj;
 
-
-
-    //public UnitOnVillage GetUnit(UnitStats unitStats)
-    //{
-    //    var unit = village.units.First();
-    //    unit.ResetUnit(unitStats);
-
-    //    unit.stats.ResetStats();
-    //    unit.gameObject.transform.SetParent(gridMap.transform);
-    //    unit.gameObject.SetActive(true);
-
-    //    if (!village.units.Contains(unit))
-    //        village.units.Add(unit);
-
-    //    return unit;
-    //}
-
     private void Awake()
     {
         if (GameManager.villageManager != null)
@@ -276,20 +259,23 @@ public class VillageManager : MonoBehaviour
         var stress = construct.PlaceBuilding(selectedObj, gridMap.GetTile(29, 32), gridMap);
         constructedBuildings.Add(stress);
 
-        selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STR_UPGRADE);
-        var str = construct.PlaceBuilding(selectedObj, gridMap.GetTile(29, 30), gridMap);
-        constructedBuildings.Add(str);
-
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STANDARD);
         var standard = construct.PlaceBuilding(selectedObj, gridMap.GetTile(32, 31), gridMap);
         constructedBuildings.Add(standard);
 
+        selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STR_UPGRADE);
+        var str = construct.PlaceBuilding(selectedObj, gridMap.GetTile(29, 30), gridMap);
+        str.GetComponent<StatUpgradeBuilding>().RiseStat();
+        constructedBuildings.Add(str);
+
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.MAG_UPGRADE);
         var mag = construct.PlaceBuilding(selectedObj, gridMap.GetTile(29, 29), gridMap);
+        mag.GetComponent<StatUpgradeBuilding>().RiseStat();
         constructedBuildings.Add(mag);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.AGI_UPGRADE);
         var agi = construct.PlaceBuilding(selectedObj, gridMap.GetTile(29, 28), gridMap);
+        agi.GetComponent<StatUpgradeBuilding>().RiseStat();
         constructedBuildings.Add(agi);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.PORTAL);

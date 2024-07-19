@@ -23,7 +23,8 @@ public class GotoOnVillage : State<UnitOnVillage>
                 SetDestination(PARAMETER_TYPES.STRESS);
                 break;
             case UnitOnVillage.LACKING_PARAMETER.NONE:
-                controller.ChangeState((int)UnitOnVillage.STATE.IDLE);
+                owner.destination = GameManager.villageManager.gridMap.GetTile(35, 32).tileInfo.ObjectLayer.LayerObject;
+                //controller.ChangeState((int)UnitOnVillage.STATE.IDLE);
                 //부족한 파라미터가 없으면 일단 돌아다니게
                 break;
         }
@@ -84,7 +85,7 @@ public class GotoOnVillage : State<UnitOnVillage>
             owner.destination
             = owner.villageManager.FindBuildingEntrance(STRUCTURE_TYPE.PARAMETER_RECOVERY,
             (x) =>
-            {
+            { 
                 {
                     if (x.GetComponent<ParameterRecoveryBuilding>() != null)
                     {

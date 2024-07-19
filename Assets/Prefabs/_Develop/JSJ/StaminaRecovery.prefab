@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3135684286415803288}
   - component: {fileID: 4002369554470818257}
   - component: {fileID: 5349192802863874325}
+  - component: {fileID: -2005422208938079039}
   m_Layer: 0
   m_Name: StaminaRecovery
   m_TagString: Untagged
@@ -591,6 +592,36 @@ PolygonCollider2D:
       - {x: -0.89, y: -7.73}
       - {x: -0.74, y: -7.7}
   m_UseDelaunayMesh: 0
+--- !u!114 &-2005422208938079039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1277819131572397426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fdfb9230d4b5a34aabbdf91b4e0d2d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <UpgradeName>k__BackingField: 
+  <UpgradeId>k__BackingField: 0
+  <UpgradeGrade>k__BackingField: 0
+  <StructureLevel>k__BackingField: 0
+  <StructureType>k__BackingField: 1
+  <StatType>k__BackingField: 0
+  <StatReturn>k__BackingField: 0
+  <ParameterType>k__BackingField: 1
+  <ParameterRecovery>k__BackingField: 10
+  <RecvoeryTime>k__BackingField: 4
+  <RecipeId>k__BackingField: 0
+  <ItemStack>k__BackingField: 0
+  <RequireTime>k__BackingField: 0
+  <RequireGold>k__BackingField: 0
+  <RequireRune>k__BackingField: 0
+  <ItemNum>k__BackingField: 0
+  <ItemId>k__BackingField: 0
+  currentGrade: 0
 --- !u!1 &7086700837805051294
 GameObject:
   m_ObjectHideFlags: 0

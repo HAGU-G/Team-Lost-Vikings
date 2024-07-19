@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class Building : MonoBehaviour
 {
-    [field:SerializeField] //데이터 테이블에서 받아오기 전 임시로 입력
+    //데이터 테이블에서 받아오기 전 임시로 입력
+    [field:SerializeField] 
     public string StructureName { get; set; }
     [field: SerializeField]
     public int StructureId { get; set; }

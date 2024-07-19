@@ -186,6 +186,7 @@ GameObject:
   - component: {fileID: 97458118375808319}
   - component: {fileID: 238362670601093335}
   - component: {fileID: 3897657119990004475}
+  - component: {fileID: 28079888032751472}
   m_Layer: 0
   m_Name: STR Upgrade
   m_TagString: Untagged
@@ -235,12 +236,8 @@ MonoBehaviour:
   <StructureAssetFileName>k__BackingField: 
   placedTiles:
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   entranceTile: {fileID: 0}
   gridMap: {fileID: 0}
-  upgrade: {fileID: 0}
 --- !u!114 &97458118375808319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1161,3 +1158,33 @@ PolygonCollider2D:
       - {x: -1.81, y: -0.91999996}
       - {x: -1.8199999, y: -0.90999997}
   m_UseDelaunayMesh: 0
+--- !u!114 &28079888032751472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7855014985965479081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fdfb9230d4b5a34aabbdf91b4e0d2d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <UpgradeName>k__BackingField: 
+  <UpgradeId>k__BackingField: 0
+  <UpgradeGrade>k__BackingField: 0
+  <StructureLevel>k__BackingField: 0
+  <StructureType>k__BackingField: 0
+  <StatType>k__BackingField: 0
+  <StatReturn>k__BackingField: 10
+  <ParameterType>k__BackingField: 0
+  <ParameterRecovery>k__BackingField: 0
+  <RecvoeryTime>k__BackingField: 0
+  <RecipeId>k__BackingField: 0
+  <ItemStack>k__BackingField: 0
+  <RequireTime>k__BackingField: 0
+  <RequireGold>k__BackingField: 0
+  <RequireRune>k__BackingField: 0
+  <ItemNum>k__BackingField: 0
+  <ItemId>k__BackingField: 0
+  currentGrade: 0

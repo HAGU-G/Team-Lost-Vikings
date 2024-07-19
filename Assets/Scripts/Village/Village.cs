@@ -130,15 +130,12 @@ public class Village : MonoBehaviour
             }
         }
 
-        //timer += Time.deltaTime;
-        //if (timer >= 5f)
-        //{
-        //    timer = 0f;
-        //    foreach(var unit in units)
-        //    {
-        //        Debug.Log(unit.stats.Agi.upgradeValue);
-        //    }
-        //}
+        timer += Time.deltaTime;
+        if (timer >= 5f)
+        {
+            timer = 0f;
+            Debug.Log($"str : {GameManager.playerManager.upgradeSTR}, mag : {GameManager.playerManager.upgradeMAG}, agi : {GameManager.playerManager.upgradeAGI}");
+        }
     }
 
     public void Upgrade()

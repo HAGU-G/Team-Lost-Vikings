@@ -34,16 +34,19 @@ public class BuildingUpgrade : MonoBehaviour
             case (int)STRUCTURE_TYPE.STAT_UPGRADE:
                 var stat = GetComponent<StatUpgradeBuilding>();
                 if (StatType == (int)stat.upgradeStat)
-                    {
-                        stat.upgradeValue += StatReturn;
-                    }
-                    break;
+                {
+                    stat.upgradeValue = StatReturn;
+                    ++currentGrade;
+                    stat.RiseStat();
+                }
+                break;
             case (int)STRUCTURE_TYPE.PARAMETER_RECOVERY:
                 var parameter = GetComponent<ParameterRecoveryBuilding>();
                 if((PARAMETER_TYPES)ParameterType == parameter.parameterType)
                 {
                     parameter.recoveryAmount += ParameterRecovery;
                     parameter.recoveryTime = RecvoeryTime;
+                    ++currentGrade;
                 }
                 break;
             case (int)STRUCTURE_TYPE.ITEM_PRODUCE:
