@@ -64,10 +64,6 @@ public class UIDevelop : MonoBehaviour
     {
         GameManager.villageManager.village.UnitSpawn();
     }
-    public void OnButtonGoHunt()
-    {
-        GameManager.villageManager.village.GoHunt();
-    }
 
     public void OnButtonSpawnMonster()
     {

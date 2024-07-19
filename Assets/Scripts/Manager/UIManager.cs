@@ -24,7 +24,7 @@ public class UIManager
 
     public void OnShowCharacter(int instanceID)
     {
-        var selectedCharacter = GameManager.unitManager.Units[instanceID];
+        var selectedCharacter = GameManager.unitManager.GetUnit(instanceID);
         Debug.Log(instanceID
             + "\n"
             + selectedCharacter.HP

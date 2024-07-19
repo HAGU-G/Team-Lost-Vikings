@@ -14,7 +14,7 @@ public class HuntZoneManager : MonoBehaviour
     public Vector3 offset = Vector3.right * 1000f;
 
     /// <summary>
-    /// Key: 사냥터 번호,
+    /// Key: 사냥터 ID,
     /// Value: HuntZone
     /// </summary>
     public Dictionary<int, HuntZone> HuntZones { get; private set; } = new();
@@ -132,7 +132,7 @@ public class HuntZoneManager : MonoBehaviour
         }
     }
 
-    public UnitOnHunt GetUnit(HuntZone huntZone, UnitStats unitStats)
+    public UnitOnHunt GetUnitOnHunt(HuntZone huntZone, UnitStats unitStats)
     {
         var unit = UnitPool.Get();
         unit.ResetUnit(unitStats, huntZone);
@@ -178,13 +178,13 @@ public class HuntZoneManager : MonoBehaviour
 
     public void AddHuntZone(HuntZone huntZone)
     {
-        if (HuntZones.ContainsKey(huntZone.HuntZoneNum))
+        if (HuntZones.ContainsKey(huntZone.HuntZoneID))
         {
-            Debug.LogError($"사냥터 {huntZone.HuntZoneNum} 이(가) 이미 존재합니다.");
+            Debug.LogError($"사냥터 {huntZone.HuntZoneID} 이(가) 이미 존재합니다.");
             return;
         }
 
-        HuntZones.Add(huntZone.HuntZoneNum, huntZone);
-        huntZone.gameObject.transform.position = offset + Vector3.right * 200f * huntZone.HuntZoneNum;
+        HuntZones.Add(huntZone.HuntZoneID, huntZone);
+        huntZone.gameObject.transform.position = offset + Vector3.right * 200f * huntZone.HuntZoneID;
     }
 }

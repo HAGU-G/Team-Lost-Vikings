@@ -36,11 +36,12 @@ public abstract class Unit : MonoBehaviour, IStatUsable
     /// </summary>
     public virtual void OnRelease()
     {
-        stats.SetLocation(LOCATION.NONE);
         stats = null;
     }
 
-    public virtual void RemoveUnit()    {    }
+    public virtual void RemoveUnit()
+    {
+    }
 
     protected virtual void ResetEvents() { }
 }

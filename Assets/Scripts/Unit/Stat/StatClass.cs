@@ -21,7 +21,7 @@
         var result = string.Format(
             debugFormat,
             defaultValue,
-            (upgradeValue == null) ? 0 : upgradeValue,
+            (upgradeValue == null) ? 0 : upgradeValue.defaultValue,
             Current);
         return result;
     }

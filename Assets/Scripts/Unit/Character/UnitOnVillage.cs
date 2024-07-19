@@ -62,11 +62,11 @@ public class UnitOnVillage : Unit
 
     public LACKING_PARAMETER CheckParameter()
     {
-        if(stats.HP.Current < GameSetting.Instance.returnHPRaito)
+        if(stats.HP.Ratio < GameSetting.Instance.returnHPRaito)
             return LACKING_PARAMETER.HP;
-        else if(stats.Stamina.Current < GameSetting.Instance.returnStaminaRaito)
+        else if(stats.Stamina.Ratio < GameSetting.Instance.returnStaminaRaito)
             return LACKING_PARAMETER.STAMINA;
-        else if (stats.Stress.Current < GameSetting.Instance.returnStressRaito)
+        else if (stats.Stress.Ratio < GameSetting.Instance.returnStressRaito)
             return LACKING_PARAMETER.STRESS;
         else
             return LACKING_PARAMETER.NONE;

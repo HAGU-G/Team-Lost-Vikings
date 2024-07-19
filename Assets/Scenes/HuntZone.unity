@@ -159,6 +159,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 797960234371305077, guid: b9cac921a94fbb64e9fae997936ac2de, type: 3}
     - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <HuntZoneID>k__BackingField
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
       propertyPath: <HuntZoneNum>k__BackingField
       value: 3
       objectReference: {fileID: 0}
@@ -640,6 +644,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 797960234371305077, guid: b9cac921a94fbb64e9fae997936ac2de, type: 3}
     - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <HuntZoneID>k__BackingField
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
       propertyPath: <HuntZoneNum>k__BackingField
       value: 4
       objectReference: {fileID: 0}
@@ -1072,6 +1080,10 @@ PrefabInstance:
       value: HuntZone (2)
       objectReference: {fileID: 0}
     - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <HuntZoneID>k__BackingField
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
       propertyPath: <MonsterDatas>k__BackingField.Array.data[0].<MonsterAssetFileName>k__BackingField
       value: Boss_Monster_000
       objectReference: {fileID: 0}
@@ -1134,6 +1146,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
       propertyPath: spawnCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <HuntZoneID>k__BackingField
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}

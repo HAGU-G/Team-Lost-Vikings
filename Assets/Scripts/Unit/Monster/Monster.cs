@@ -60,7 +60,8 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
         stats.ResetEllipse(transform);
 
         if (dress != null)
-            Destroy(dress);
+            Addressables.ReleaseInstance(dress);
+
         Addressables.InstantiateAsync(stats.AssetFileName, transform)
         .Completed += (handle) =>
         {

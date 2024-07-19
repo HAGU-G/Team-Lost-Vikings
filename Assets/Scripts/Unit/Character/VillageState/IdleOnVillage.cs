@@ -41,7 +41,8 @@ public class IdleOnVillage : State<UnitOnVillage>
 
     protected override bool Transition()
     {
-        if(owner.CheckParameter() != UnitOnVillage.LACKING_PARAMETER.NONE)
+        if(owner.CheckParameter() != UnitOnVillage.LACKING_PARAMETER.NONE
+            ||GameManager.huntZoneManager.HuntZones.ContainsKey(owner.stats.HuntZoneID))
         {
             controller.ChangeState((int)UnitOnVillage.STATE.GOTO);
             return true;

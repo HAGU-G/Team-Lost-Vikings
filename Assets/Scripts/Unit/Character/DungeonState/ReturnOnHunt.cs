@@ -35,8 +35,7 @@ public class ReturnOnHunt : State<UnitOnHunt>
     {
         if (Ellipse.IsPointInEllipse(owner.stats.SizeEllipse, owner.portalPos))
         {
-            owner.stats.ResetStats();
-            controller.ChangeState((int)UnitOnHunt.STATE.IDLE);
+            owner.ReturnToVillage();
             return true;
         }
         return false;

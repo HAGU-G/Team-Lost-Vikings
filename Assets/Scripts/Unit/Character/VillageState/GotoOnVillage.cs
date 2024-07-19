@@ -11,7 +11,8 @@ public class GotoOnVillage : State<UnitOnVillage>
         Debug.Log("stress " + owner.stats.Stress.Current);
         Debug.Log("hp " + owner.stats.HP.Current);
         Debug.Log("stamina " + owner.stats.Stamina.Current);
-        switch(lackedParameter)
+
+        switch (lackedParameter)
         {
             case UnitOnVillage.LACKING_PARAMETER.HP:
                 SetDestination(PARAMETER_TYPES.HP);
@@ -23,12 +24,17 @@ public class GotoOnVillage : State<UnitOnVillage>
                 SetDestination(PARAMETER_TYPES.STRESS);
                 break;
             case UnitOnVillage.LACKING_PARAMETER.NONE:
-                controller.ChangeState((int)UnitOnVillage.STATE.IDLE);
-                //부족한 파라미터가 없으면 일단 돌아다니게
+                if (GameManager.huntZoneManager.HuntZones.ContainsKey(owner.stats.HuntZoneID))
+                {
+                    owner.destination = GameManager.villageManager.gridMap.GetTile(35, 32).tileInfo.ObjectLayer.LayerObject;
+                    owner.destinationTile = owner.destination.GetComponent<Building>().entranceTile;
+                }
+                    //controller.ChangeState((int)UnitOnVillage.STATE.IDLE);
+                //부족한 파라미터가 없으면 일단 돌아다니게 -> 사냥터로
                 break;
         }
-        
-        if(owner.destination != null)
+
+        if (owner.destination != null)
         {
             var tileId = owner.villageManager.gridMap.PosToIndex(owner.gameObject.transform.position);
             var startTile = owner.villageManager.gridMap
@@ -65,19 +71,20 @@ public class GotoOnVillage : State<UnitOnVillage>
 
     protected override bool Transition()
     {
-        
+
         return false;
     }
 
     private void SetDestination(PARAMETER_TYPES parameterType)
     {
         if (owner.villageManager.FindBuilding(STRUCTURE_TYPE.PARAMETER_RECOVERY,
-                   (x) => 
+                   (x) =>
                    {
                        if (x.GetComponent<ParameterRecoveryBuilding>() != null)
                        {
                            return x.GetComponent<ParameterRecoveryBuilding>().parameterType == parameterType;
                        }
+
                        return false;
                    }))
         {
@@ -100,12 +107,12 @@ public class GotoOnVillage : State<UnitOnVillage>
             //해당 건물 없을 때 Idle 상태
             controller.ChangeState((int)UnitOnVillage.STATE.IDLE);
         }
-        
+
     }
 
     private void OnEntranceTile(Cell tile)
     {
-        
+
         if (tile == owner.destinationTile)
         {
             owner.unitMove.OnTargetTile -= OnEntranceTile;

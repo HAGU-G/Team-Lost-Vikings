@@ -40,9 +40,9 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
     {
         get
         {
-            return stats.HP.Ratio <= GameSetting.Instance.returnHPRaito
-                || stats.Stamina.Ratio <= GameSetting.Instance.returnStaminaRaito
-                || stats.Stress.Ratio <= GameSetting.Instance.returnStressRaito;
+            return stats.HP.Ratio < GameSetting.Instance.returnHPRaito
+                || stats.Stamina.Ratio < GameSetting.Instance.returnStaminaRaito
+                || stats.Stress.Ratio < GameSetting.Instance.returnStressRaito;
         }
     }
 
@@ -55,11 +55,15 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
 
         stats.UpdateEllipsePosition();
         fsm.Update();
-        CollisionUpdate();
+
+        //오브젝트가 더이상 사용하지 않는 상태인지 검사. TODO 개선 필요
+        if (stats != null)
+            CollisionUpdate();
     }
 
     private void CollisionUpdate()
     {
+        stats.UpdateEllipsePosition();
         foreach (var unit in CurrentHuntZone.Units)
         {
             if (unit == this)
@@ -73,7 +77,6 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
                 continue;
             stats.Collision(unit.stats);
         }
-        stats.UpdateEllipsePosition();
     }
 
 
@@ -101,26 +104,20 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
     public override void ResetUnit(UnitStats unitStats)
     {
         base.ResetUnit(unitStats);
-        unitStats.SetLocation(LOCATION.HUNTZONE, CurrentHuntZone.HuntZoneNum);
+        unitStats.SetLocation(LOCATION.HUNTZONE);
+        unitStats.SetHuntZone(CurrentHuntZone.HuntZoneID);
 
-        //몬스터 외형 테스트 코드
-        try
-        {
-            Addressables.InstantiateAsync(stats.AssetFileName, transform)
-            .Completed += (handle) =>
-            {
-                if (dress != null)
-                    Destroy(dress);
+        if (dress != null)
+            Addressables.ReleaseInstance(dress);
 
-                dress = handle.Result;
-            };
-        }
-        catch
+        Addressables.InstantiateAsync(stats.AssetFileName, transform)
+        .Completed += (handle) =>
         {
-            Debug.LogWarning($"{stats.AssetFileName} 파일이 없습니다.");
             if (dress != null)
                 Destroy(dress);
-        }
+
+            dress = handle.Result;
+        };
 
 
         IsDead = false;
@@ -141,6 +138,12 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
     {
         base.RemoveUnit();
         GameManager.huntZoneManager.ReleaseUnit(this);
+    }
+
+    public void ReturnToVillage()
+    {
+        stats.SetLocation(LOCATION.NONE, LOCATION.VILLAGE);
+        RemoveUnit();
     }
 
     protected override void ResetEvents()

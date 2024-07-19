@@ -24,7 +24,7 @@ public class InteractOnVillage : State<UnitOnVillage>
 
     public override void ResetState()
     {
-        
+
     }
 
     public override void Update()
@@ -43,24 +43,26 @@ public class InteractOnVillage : State<UnitOnVillage>
     private void Interact(GameObject building)
     {
         var buildingComponent = building.GetComponent<Building>();
-        if(buildingComponent.interactWithUnit != null)
+        if (buildingComponent.interactWithUnit != null)
         {
             buildingComponent.interactWithUnit?.InteractWithUnit(owner);
+
             var parameterComponent = building.GetComponent<ParameterRecoveryBuilding>();
-            parameterComponent.OnRecoveryDone += RecoveryDone;
+            if (parameterComponent != null)
+                parameterComponent.OnRecoveryDone += RecoveryDone;
         }
-        
+
         buildingComponent.interactWithPlayer?.InteractWithPlayer();
-        return ;
+        return;
     }
 
     public void RecoveryDone(PARAMETER_TYPES type)
     {
         owner.RecoveryDone(type);
-        switch(type)
+        switch (type)
         {
             case PARAMETER_TYPES.HP:
-                if(owner.stats.HP.Current  == owner.stats.HP.max)
+                if (owner.stats.HP.Current == owner.stats.HP.max)
                     controller.ChangeState((int)UnitOnVillage.STATE.IDLE);
                 break;
             case PARAMETER_TYPES.STAMINA:

@@ -59,7 +59,8 @@ public class UnitStats : Stats
 
     //Parameters
     public LOCATION Location { get; private set; }
-    public int HuntZoenID { get; private set; }
+    public LOCATION NextLocation { get; private set; }
+    public int HuntZoneID { get; private set; } = -1;
     [field: SerializeField] public Parameter Stamina { get; private set; } = new();
     [field: SerializeField] public Parameter Stress { get; private set; } = new();
 
@@ -95,10 +96,18 @@ public class UnitStats : Stats
         UpdateCombatPoint();
     }
 
-    public void SetLocation(LOCATION location, int huntZoneID = 0)
+    public void SetLocation(LOCATION location, LOCATION nextLocation = LOCATION.NONE)
     {
         Location = location;
-        HuntZoenID = huntZoneID;
+        NextLocation = nextLocation;
+
+        if (NextLocation! != LOCATION.NONE)
+            GameManager.unitManager.SpawnOnLocation(this);
+    }
+
+    public void SetHuntZone(int huntZoneID)
+    {
+        HuntZoneID = huntZoneID;
     }
 
     public void UpdateCombatPoint()

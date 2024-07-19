@@ -6,6 +6,7 @@
     ITEM_PRODUCE,
     ITEM_SELL,
     REVIVE,
+    PORTAL,
 }
 
 public enum RECIPE

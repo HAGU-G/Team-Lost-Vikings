@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UI.CanvasScaler;
 
 public class HuntZone : MonoBehaviour
 {
@@ -20,7 +21,7 @@ public class HuntZone : MonoBehaviour
     public MonsterStatsData CurrentMonsterData { get; private set; }
     public MonsterStatsData CurrentBossData { get; private set; }
 
-    [field: SerializeField] public int HuntZoneNum { get; private set; }
+    [field: SerializeField] public int HuntZoneID { get; private set; }
     public bool IsReady { get; private set; }
     public int stage = 1;
     public int testStageNum = 1;
@@ -265,10 +266,18 @@ public class HuntZone : MonoBehaviour
             if (unit.Location != LOCATION.NONE)
                 continue;
 
-            var unitOnHunt = GameManager.huntZoneManager.GetUnit(this, unit);
+            var unitOnHunt = GameManager.huntZoneManager.GetUnitOnHunt(this, unit);
             unitOnHunt.transform.position = transform.position;
             Debug.Log(unit.InstanceID + "소환됨", unitOnHunt.gameObject);
             break;
         }
+    }
+
+    public void SpawnUnit(int instanceID)
+    {
+        var unitStat = GameManager.unitManager.GetUnit(instanceID);
+        var unitOnHunt = GameManager.huntZoneManager.GetUnitOnHunt(this, unitStat);
+        unitOnHunt.transform.position = transform.position;
+        Debug.Log(unitStat.InstanceID + "소환됨", unitOnHunt.gameObject);
     }
 }

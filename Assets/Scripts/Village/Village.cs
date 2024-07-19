@@ -44,6 +44,15 @@ public class Village : MonoBehaviour
         }
     }
 
+    public void UnitSpawn(int instanceID)
+    {
+        var unitObj = GameObject.Instantiate(unitPrefab, villageManager.gridMap.IndexToPos(new Vector2Int(35, 31))
+                , Quaternion.identity, villageManager.gridMap.transform);
+        unitObj.Init();
+        unitObj.ResetUnit(GameManager.unitManager.GetUnit(instanceID));
+        units.Add(unitObj);
+    }
+
 
     //private void OnGUI()
     //{
@@ -74,23 +83,16 @@ public class Village : MonoBehaviour
     //}
     //-------Test용 메소드-----------------------------------------------
 
-    public void GoHunt()
+    public void GoHunt(UnitOnVillage unit)
     {
-        var destroy = new List<UnitOnVillage>();
-        foreach (var unit in units)
-        {
-            if (unit.currentState != UnitOnVillage.STATE.IDLE)
-                continue;
+        if (!units.Contains(unit)
+            || !GameManager.huntZoneManager.HuntZones.ContainsKey(unit.stats.HuntZoneID))
+            return;
 
-            destroy.Add(unit);
-            unit.stats.SetLocation(LOCATION.NONE);
-        }
-
-        foreach (var unit in destroy)
-        {
-            units.Remove(unit);
-            Destroy(unit.gameObject);
-        }
+        units.Remove(unit);
+        unit.stats.SetLocation(LOCATION.NONE, LOCATION.HUNTZONE);
+        GameManager.unitManager.SpawnOnLocation(unit.stats);
+        Destroy(unit.gameObject);
     }
 
     public void ReduceHp()
