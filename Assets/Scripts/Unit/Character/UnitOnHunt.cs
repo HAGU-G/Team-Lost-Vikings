@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 public class UnitOnHunt : Unit, IDamagedable, IAttackable
 {
     //TESTCODE
     public Vector3 portalPos;
-    public GameObject dress;
 
     //State
     public enum STATE
@@ -106,19 +104,6 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
         base.ResetUnit(unitStats);
         unitStats.SetLocation(LOCATION.HUNTZONE);
         unitStats.SetHuntZone(CurrentHuntZone.HuntZoneID);
-
-        if (dress != null)
-            Addressables.ReleaseInstance(dress);
-
-        Addressables.InstantiateAsync(stats.AssetFileName, transform)
-        .Completed += (handle) =>
-        {
-            if (dress != null)
-                Destroy(dress);
-
-            dress = handle.Result;
-        };
-
 
         IsDead = false;
 

@@ -1,10 +1,13 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 [Serializable]
 public abstract class Unit : MonoBehaviour, IStatUsable
 {
     public UnitStats stats;
+    public GameObject dress;
+
     public virtual STAT_GROUP StatGroup => STAT_GROUP.UNIT_ON_VILLAGE;
     public Stats GetStats => stats;
     public UnitSkills skills;
@@ -26,6 +29,18 @@ public abstract class Unit : MonoBehaviour, IStatUsable
             Debug.LogWarning("유닛의 스탯이 재설정되지 않았습니다.", gameObject);
         else
             stats = unitStats;
+
+        if (dress != null)
+            Addressables.ReleaseInstance(dress);
+
+        Addressables.InstantiateAsync(stats.AssetFileName, transform)
+        .Completed += (handle) =>
+        {
+            if (dress != null)
+                Destroy(dress);
+
+            dress = handle.Result;
+        };
 
         stats.ResetEllipse(transform);
         ResetEvents();

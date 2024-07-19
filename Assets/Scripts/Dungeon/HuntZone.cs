@@ -280,4 +280,14 @@ public class HuntZone : MonoBehaviour
         unitOnHunt.transform.position = transform.position;
         Debug.Log(unitStat.InstanceID + "소환됨", unitOnHunt.gameObject);
     }
+
+    public void RemoveUnit(int instanceID)
+    {
+        Units[Units.FindIndex(
+            x =>
+            {
+                return x.stats.InstanceID == instanceID;
+            }
+            )].RemoveUnit();
+    }
 }

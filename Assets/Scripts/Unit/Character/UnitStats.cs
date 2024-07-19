@@ -101,7 +101,7 @@ public class UnitStats : Stats
         Location = location;
         NextLocation = nextLocation;
 
-        if (NextLocation! != LOCATION.NONE)
+        if (NextLocation != LOCATION.NONE)
             GameManager.unitManager.SpawnOnLocation(this);
     }
 

@@ -8,8 +8,6 @@ using UnityEngine;
 
 public class VillageManager : MonoBehaviour
 {
-    public bool isShowing = true;
-
     public Village village;
     public Construct construct = new();
     public List<GameObject> constructedBuildings = new();

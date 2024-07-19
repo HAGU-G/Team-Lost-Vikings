@@ -6,7 +6,7 @@ using UnityEngine;
 public enum WINDOW_NAME
 {
     CHARACTER_INVENTORY,
-
+    CHARACTER_MANAGEMENT
 }
 
 
@@ -15,7 +15,7 @@ public class UIManager
     public GameObject groupBottom;
     public GameObject groupTop;
 
-    public Dictionary<WINDOW_NAME, IWindowable> windows = new();
+    public Dictionary<WINDOW_NAME, UIWindow> windows = new();
     public UICharacterInventory chracterInventory;
 
     /////////////////////////////////////////////////////////////////
@@ -34,7 +34,12 @@ public class UIManager
             Camera.main.transform.position = selectedCharacter.objectTransform.position + Vector3.forward * -10f;
     }
 
-
+    public void OnSetUnitHuntZone(int instanceID, int huntZoneID)
+    {
+        var unit = GameManager.unitManager.GetUnit(instanceID);
+        unit.SetHuntZone(huntZoneID);
+        unit.SetLocation(LOCATION.NONE,LOCATION.HUNTZONE);
+    }
 
     /////////////////////////////////////////////////////////////////
     // Function -> UI ///////////////////////////////////////////////
@@ -51,7 +56,7 @@ public class UIManager
     // Windows //////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////
 
-    public void AddWindow(WINDOW_NAME windowName, IWindowable window)
+    public void AddWindow(WINDOW_NAME windowName, UIWindow window)
     {
         if (windows.ContainsKey(windowName))
         {
@@ -68,7 +73,7 @@ public class UIManager
         windows.Add(windowName, window);
     }
 
-    public void CloseWindows(params IWindowable[] exceptWindow)
+    public void CloseWindows(params UIWindow[] exceptWindow)
     {
         var excepts = exceptWindow.ToList();
         foreach (var window in windows)

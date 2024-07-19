@@ -83,6 +83,16 @@ public class Village : MonoBehaviour
     //}
     //-------Test용 메소드-----------------------------------------------
 
+    public void GoHunt(int instanceID)
+    {
+        GoHunt(units[
+            units.FindIndex(
+            (x) =>
+            {
+                return x.stats.InstanceID == instanceID;
+            })]);
+    }
+
     public void GoHunt(UnitOnVillage unit)
     {
         if (!units.Contains(unit)

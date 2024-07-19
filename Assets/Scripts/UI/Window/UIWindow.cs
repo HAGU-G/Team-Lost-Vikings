@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public abstract class IWindowable : MonoBehaviour
+public abstract class UIWindow : MonoBehaviour
 {
     public bool isShowOnly;
     public abstract WINDOW_NAME WindowName { get; }

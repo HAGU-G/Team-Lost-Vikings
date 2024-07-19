@@ -18,9 +18,9 @@ MonoBehaviour:
   syncLimitSeconds: 4
   ellipseRatio: 0.75
   monsterRoamTime: 2
-  returnHPRaito: 0.2
-  returnStaminaRaito: 0.2
-  returnStressRaito: 0.2
+  returnHPRaito: 1
+  returnStaminaRaito: 1
+  returnStressRaito: 1
   staminaReduceAmount: 1
   stressReduceAmount: 1
   monsterSpawnInterval: 6

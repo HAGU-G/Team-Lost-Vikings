@@ -20,7 +20,8 @@ public class UIDevelop : MonoBehaviour
     {
         onVillage.SetActive(true);
         onHuntZone.SetActive(false);
-        GameManager.villageManager.isShowing = true;
+
+        isShowVillage = true;
 
         Camera.main.transform.position = Vector3.zero + Vector3.forward * -10f;
     }
@@ -29,7 +30,6 @@ public class UIDevelop : MonoBehaviour
     {
         onVillage.SetActive(false);
         onHuntZone.SetActive(true);
-        GameManager.villageManager.isShowing = false;
 
         if (isShowVillage)
         {
