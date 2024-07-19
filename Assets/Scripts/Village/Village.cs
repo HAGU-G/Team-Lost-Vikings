@@ -146,6 +146,6 @@ public class Village : MonoBehaviour
 
     public void Cancel()
     {
-        this.gameObject.SetActive(false);
+        upgrade = null;
     }
 }
