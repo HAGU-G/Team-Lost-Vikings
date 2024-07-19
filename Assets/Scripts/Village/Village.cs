@@ -27,7 +27,7 @@ public class Village : MonoBehaviour
 
     }
 
-    private void UnitSpawn()
+    public void UnitSpawn()
     {
         foreach (var unitSelected in GameManager.unitManager.Units)
         {
@@ -44,51 +44,56 @@ public class Village : MonoBehaviour
         }
     }
 
-    private void OnGUI()
-    {
-        if (GUI.Button(new Rect(0f, 0f, 100f, 70f), "ReduceHp"))
-        {
-            ReduceHp();
-        }
 
-        if (GUI.Button(new Rect(0f, 70f, 100f, 70f), "ReduceStamina"))
-        {
-            ReduceStamina();
-        }
+    //private void OnGUI()
+    //{
+    //    if (GUI.Button(new Rect(0f, 0f, 100f, 70f), "ReduceHp"))
+    //    {
+    //        ReduceHp();
+    //    }
 
-        if (GUI.Button(new Rect(0f, 140f, 100f, 70f), "ReduceStress"))
-        {
-            ReduceStress();
-        }
+    //    if (GUI.Button(new Rect(0f, 70f, 100f, 70f), "ReduceStamina"))
+    //    {
+    //        ReduceStamina();
+    //    }
 
-        if (GUI.Button(new Rect(0f, 210f, 100f, 70f), "GoHunZone"))
-        {
-            var destroy = new List<UnitOnVillage>();
-            foreach (var unit in units)
-            {
-                if (unit.currentState != UnitOnVillage.STATE.IDLE)
-                    continue;
+    //    if (GUI.Button(new Rect(0f, 140f, 100f, 70f), "ReduceStress"))
+    //    {
+    //        ReduceStress();
+    //    }
 
-                destroy.Add(unit);
-                unit.stats.SetLocation(LOCATION.NONE);
-            }
+    //    if (GUI.Button(new Rect(0f, 210f, 100f, 70f), "GoHunZone"))
+    //    {
 
-            foreach (var unit in destroy)
-            {
-                units.Remove(unit);
-                Destroy(unit.gameObject);
-            }
-        }
+    //    }
 
-        if (GUI.Button(new Rect(0f, 420f, 100f, 70f), "Unit Spawn"))
-        {
-            UnitSpawn();
-        }
-    }
+    //    if (GUI.Button(new Rect(0f, 420f, 100f, 70f), "Unit Spawn"))
+    //    {
+    //        UnitSpawn();
+    //    }
+    //}
     //-------Test용 메소드-----------------------------------------------
 
+    public void GoHunt()
+    {
+        var destroy = new List<UnitOnVillage>();
+        foreach (var unit in units)
+        {
+            if (unit.currentState != UnitOnVillage.STATE.IDLE)
+                continue;
 
-    private void ReduceHp()
+            destroy.Add(unit);
+            unit.stats.SetLocation(LOCATION.NONE);
+        }
+
+        foreach (var unit in destroy)
+        {
+            units.Remove(unit);
+            Destroy(unit.gameObject);
+        }
+    }
+
+    public void ReduceHp()
     {
         foreach (var unit in units)
             unit.stats.HP.Current -= 30;
@@ -99,7 +104,7 @@ public class Village : MonoBehaviour
             unit.stats.Stamina.Current -= 30;
     }
 
-    private void ReduceStress()
+    public void ReduceStress()
     {
         foreach (var unit in units)
             unit.stats.Stress.Current -= 30;

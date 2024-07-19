@@ -8,6 +8,8 @@ public class UICharacterInventory : IWindowable
     public GameObject characterbuttonPrefab;
     public ScrollRect scrollRect;
 
+    public override WINDOW_NAME WindowName => WINDOW_NAME.CHARACTER_INVENTORY;
+
     private void Awake()
     {
         GameManager.uiManager.chracterInventory = this;

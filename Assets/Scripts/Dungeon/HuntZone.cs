@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class HuntZone : MonoBehaviour
 {
-    public bool isShowing = false;
-
     #region INSPECTOR
     //public GridMap gridMap;
     //public Construct construct;
@@ -13,7 +11,6 @@ public class HuntZone : MonoBehaviour
     public GameObject regenPointsRoot;
     public GameObject unitsRoot;
     public GameObject monstersRoot;
-    public int spawnCount = 1;
     #endregion
 
     [field: SerializeField] public List<HuntZoneData> HuntZoneDatas { get; private set; }
@@ -34,9 +31,10 @@ public class HuntZone : MonoBehaviour
 
     private Monster boss = null;
     private Observer<Monster> bossObserver = new();
-    private bool isBossBattle;
-    private float bossTimer;
-    private float retryTimer;
+    public bool IsBossBattle { get; private set; }
+    public bool CanSpawnBoss { get; private set; } = true;
+    public float BossTimer { get; private set; }
+    public float RetryTimer { get; private set; }
 
     public List<UnitOnHunt> Units { get; private set; } = new();
 
@@ -50,21 +48,21 @@ public class HuntZone : MonoBehaviour
     private void Update()
     {
         //보스 몬스터
-        if (isBossBattle)
+        if (IsBossBattle)
         {
-            bossTimer -= Time.deltaTime;
-            if (bossTimer <= 0f)
-            {
+            BossTimer -= Time.deltaTime;
+
+            if (BossTimer <= 0f)
                 EndBossBattle(false);
-            }
+
             return;
         }
 
         //재도전 타이머
-        if (retryTimer > 0f)
-        {
-            retryTimer -= Time.deltaTime;
-        }
+        if (RetryTimer <= 0f)
+            CanSpawnBoss = true;
+        else
+            RetryTimer -= Time.deltaTime;
 
         //일반 몬스터 스폰
         if (Monsters.Count >= CurrentHuntZoneData.MaxMonNum)
@@ -74,7 +72,7 @@ public class HuntZone : MonoBehaviour
         if (regenTimer >= CurrentHuntZoneData.MonRegen)
         {
             regenTimer = 0f;
-            SpawnMonster(spawnCount);
+            SpawnMonster(1);
         }
     }
 
@@ -130,7 +128,7 @@ public class HuntZone : MonoBehaviour
         CurrentBossData = BossDatas[dataIndex];
     }
 
-    private void UpdateRegenPoints()
+    public void UpdateRegenPoints()
     {
         regenPoints.Clear();
         var points = regenPointsRoot.GetComponentsInChildren<MonsterRegenPoint>();
@@ -192,8 +190,9 @@ public class HuntZone : MonoBehaviour
 
     public void StartBossBattle()
     {
-        isBossBattle = true;
-        bossTimer = CurrentHuntZoneData.BossKillTimer;
+        IsBossBattle = true;
+        CanSpawnBoss = false;
+        BossTimer = CurrentHuntZoneData.BossKillTimer;
 
         var randomPoints = GetActiveRegenPoints();
 
@@ -209,12 +208,13 @@ public class HuntZone : MonoBehaviour
 
     public void EndBossBattle(bool isWin)
     {
-        isBossBattle = false;
-        bossTimer = 0f;
+        IsBossBattle = false;
+        BossTimer = 0f;
 
         if (isWin)
         {
             boss = null;
+            CanSpawnBoss = true;
         }
         else
         {
@@ -232,7 +232,7 @@ public class HuntZone : MonoBehaviour
 
     public void StartRetryTimer()
     {
-        retryTimer = CurrentHuntZoneData.BossRetryTimer;
+        RetryTimer = CurrentHuntZoneData.BossRetryTimer;
     }
 
     // 몬스터와 용병리스트 널 접근 오류 발생 시 이 메서드를 주기적으로 실행
@@ -248,47 +248,10 @@ public class HuntZone : MonoBehaviour
     //    }
     //}
 
-    private void OnGUI()
+    public void KillLastSpawnedMonster()
     {
-        if (!isShowing)
-            return;
-
-        if (GUILayout.Button("소환"))
-        {
-            SpawnMonster(1);
-        }
-
-        if (GUILayout.Button("죽어"))
-        {
-            if (Monsters.Count > 0)
-                Monsters[0].TakeDamage(Monsters[0].stats.HP.max, ATTACK_TYPE.NONE);
-        }
-
-        if (GUILayout.Button("리젠 포인트 갱신"))
-        {
-            UpdateRegenPoints();
-        }
-
-        testStageNum = int.Parse(GUILayout.TextField(testStageNum.ToString()));
-
-        if (GUILayout.Button("스테이지 변경") && !isBossBattle)
-        {
-            SetStage(testStageNum);
-            ResetHuntZone(false);
-        }
-
-        GUILayout.Label($"{bossTimer:00} | {retryTimer:00}");
-        if (GUILayout.Button("보스 소환") && !isBossBattle && retryTimer <= 0f)
-        {
-            ResetHuntZone(false);
-            StartBossBattle();
-        }
-
-        if (GUI.Button(new Rect((1 + HuntZoneNum) * 100, 0, 100, 100),
-            $"{HuntZoneNum}용병 소환"))
-        {
-            SpawnUnit();
-        }
+        if (Monsters.Count > 0)
+            Monsters[0].TakeDamage(Monsters[0].stats.HP.max, ATTACK_TYPE.NONE);
     }
 
     public void SpawnUnit()

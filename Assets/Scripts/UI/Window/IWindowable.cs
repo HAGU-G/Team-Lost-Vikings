@@ -3,15 +3,16 @@
 public abstract class IWindowable : MonoBehaviour
 {
     public bool isShowOnly;
+    public abstract WINDOW_NAME WindowName { get; }
 
     private void Awake()
     {
-        GameManager.uiManager.AddWindow(this);
+        GameManager.uiManager.AddWindow(WindowName, this);
     }
 
     public virtual void Open()
     {
-        if(isShowOnly)
+        if (isShowOnly)
             GameManager.uiManager.CloseWindows(this);
     }
 

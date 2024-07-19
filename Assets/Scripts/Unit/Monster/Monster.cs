@@ -59,24 +59,16 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
         stats.ResetStats();
         stats.ResetEllipse(transform);
 
-        //몬스터 외형 테스트 코드
-        try
+        if (dress != null)
+            Destroy(dress);
+        Addressables.InstantiateAsync(stats.AssetFileName, transform)
+        .Completed += (handle) =>
         {
-            Addressables.InstantiateAsync(stats.AssetFileName, transform)
-            .Completed += (handle) =>
-            {
-                if (dress != null)
-                    Destroy(dress);
-
-                dress = handle.Result;
-            };
-        }
-        catch
-        {
-            Debug.LogWarning($"{stats.AssetFileName} 파일이 없습니다.");
             if (dress != null)
                 Destroy(dress);
-        }
+
+            dress = handle.Result;
+        };
 
         IsDead = false;
 
@@ -199,6 +191,6 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
 
     public void DropItem()
     {
-        Debug.Log($"아이템 드롭 ID: {stats.DropId}");
+        //Debug.Log($"아이템 드롭 ID: {stats.DropId}");
     }
 }

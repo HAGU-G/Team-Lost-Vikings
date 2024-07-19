@@ -52,7 +52,6 @@ public class IdleOnHunt : State<UnitOnHunt>
         }
         else
         {
-            Debug.Log(dest);
             owner.transform.position += (dest - owner.transform.position).normalized
                 * owner.stats.MoveSpeed.Current * Time.deltaTime;
 

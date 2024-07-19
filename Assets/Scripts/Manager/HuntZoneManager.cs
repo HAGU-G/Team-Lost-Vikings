@@ -13,6 +13,10 @@ public class HuntZoneManager : MonoBehaviour
 
     public Vector3 offset = Vector3.right * 1000f;
 
+    /// <summary>
+    /// Key: 사냥터 번호,
+    /// Value: HuntZone
+    /// </summary>
     public Dictionary<int, HuntZone> HuntZones { get; private set; } = new();
 
     private IObjectPool<Monster> MonsterPool { get; set; }
@@ -182,15 +186,5 @@ public class HuntZoneManager : MonoBehaviour
 
         HuntZones.Add(huntZone.HuntZoneNum, huntZone);
         huntZone.gameObject.transform.position = offset + Vector3.right * 200f * huntZone.HuntZoneNum;
-        //StartCoroutine(CoHuntZonePositining());
     }
-
-    //private IEnumerator CoHuntZonePositining()
-    //{
-    //    yield return new WaitForEndOfFrame();
-    //    foreach (var huntZone in HuntZones)
-    //    {
-    //       
-    //    }
-    //}
 }
