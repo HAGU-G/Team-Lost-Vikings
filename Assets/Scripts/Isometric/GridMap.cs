@@ -24,20 +24,21 @@ public class GridMap : MonoBehaviour
 
     private void Awake()
     {
-        
-    }
-
-    private void Start()
-    {
         DrawGrid(gridInfo.col, gridInfo.row);
 
         InitializeUsableTileList();
         usableTileList.Reverse();
     }
 
+    private void Start()
+    {
+
+    }
+
     private void DrawGrid(int col, int row)
     {
         Cell[,] tileArray = new Cell[col, row];
+        Vector3 parentPosition = transform.position;
 
         for (int x = 0; x < col; x++)
         {
@@ -49,12 +50,14 @@ public class GridMap : MonoBehaviour
                     0
                 );
 
+                isoPos += parentPosition;
                 GameObject cell = Instantiate(cellPrefab, isoPos, Quaternion.identity, transform);
                 cell.transform.localScale = new Vector3(gridInfo.cellSize, gridInfo.cellSize, gridInfo.cellSize);
                 var text = cell.GetComponentInChildren<TextMeshPro>();
 
                 var tile = cell.GetComponent<Cell>();
                 tile.tileInfo.id = new Vector2Int(x, y);
+                tile.gridMap = this;
 
                 cell.name = $"{tile.tileInfo.id}";
                 text.text = $"{tile.tileInfo.id}";
@@ -94,8 +97,14 @@ public class GridMap : MonoBehaviour
 
     public Vector2Int PosToIndex(Vector3 position)
     {
-        float x = position.x - gameObject.transform.position.x;
-        float y = position.y - gameObject.transform.position.y;
+        var localPosition = position - gameObject.transform.position;
+
+        float x = localPosition.x;
+        float y = localPosition.y;
+
+        //float x = position.x - gameObject.transform.position.x;
+        //float y = position.y - gameObject.transform.position.y;
+
 
         int indexX = Mathf.RoundToInt((2f * y + x) / gridInfo.cellSize);
         int indexY = Mathf.RoundToInt((2f * y - x) / gridInfo.cellSize);

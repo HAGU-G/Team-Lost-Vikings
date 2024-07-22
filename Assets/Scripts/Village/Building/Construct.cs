@@ -19,7 +19,6 @@ public class Construct
         }
             
         var objInfo = obj.GetComponent<Building>();
-        //objInfo.gridMap = gridMap;
         var width = objInfo.Width;
         var height = objInfo.Length;
 
@@ -189,6 +188,8 @@ public class Construct
 
     private bool CanBuildRoad(Cell tile, GridMap gridMap)
     {
+        Debug.Log(tile);
+        Debug.Log(gridMap);
         if (tile.tileInfo.TileType == TileType.OBJECT
             || tile.tileInfo.TileType == TileType.ROAD)
             return false;
