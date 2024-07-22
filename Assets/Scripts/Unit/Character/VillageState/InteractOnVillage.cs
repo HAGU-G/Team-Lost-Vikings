@@ -47,7 +47,8 @@ public class InteractOnVillage : State<UnitOnVillage>
         {
             buildingComponent.interactWithUnit?.InteractWithUnit(owner);
             var parameterComponent = building.GetComponent<ParameterRecoveryBuilding>();
-            parameterComponent.OnRecoveryDone += owner.RecoveryDone;
+            if(parameterComponent != null)
+                parameterComponent.OnRecoveryDone += owner.RecoveryDone;
         }
         
         buildingComponent.interactWithPlayer?.InteractWithPlayer();

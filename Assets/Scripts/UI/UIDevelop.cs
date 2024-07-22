@@ -65,6 +65,16 @@ public class UIDevelop : MonoBehaviour
         GameManager.villageManager.village.UnitSpawn();
     }
 
+    public void OnButtonUpgrade()
+    {
+        GameManager.villageManager.village.Upgrade();
+    }
+
+    public void OnButtonCancel()
+    {
+        GameManager.villageManager.village.Cancel();
+    }
+
     public void OnButtonSpawnMonster()
     {
         GameManager.huntZoneManager.HuntZones[currentHuntZone].SpawnMonster(1);

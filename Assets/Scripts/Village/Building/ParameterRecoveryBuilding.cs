@@ -34,7 +34,6 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
     private IEnumerator CoRecovery(UnitOnVillage unit)
     {
         //isRecovering = true;
-        Debug.Log(recoveryTime);
         Debug.Log($"hp : {unit.stats.HP} stamina : {unit.stats.Stamina} stress : {unit.stats.Stress}");
         yield return new WaitForSeconds(recoveryTime);
         bool isComplete = false;

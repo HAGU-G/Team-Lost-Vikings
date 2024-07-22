@@ -10,11 +10,11 @@ public class UnitOnVillage : Unit
     public STATE currentState;
     public LACKING_PARAMETER lackParameter;
     public GameObject destination;
-    public Cell destinationTile = new();
+    public Cell destinationTile;
     public VillageManager villageManager;
     public UnitMove unitMove;
 
-    public event Action<PARAMETER_TYPES> OnUnitRecoveryDone;
+    //public event Action<PARAMETER_TYPES> OnUnitRecoveryDone;
 
     public enum STATE
     {
@@ -34,6 +34,7 @@ public class UnitOnVillage : Unit
     public override void Init()
     {
         base.Init();
+        destinationTile = gameObject.AddComponent<Cell>();
         villageManager = FindObjectOfType<VillageManager>();
         unitMove = GetComponent<UnitMove>();
         villageFSM = new();
