@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [Serializable]
-public class UnitStatsData
+public class UnitStatsData : ITableAvaialable<int>
 {
     [field: SerializeField] public string Name { get; set; }
     [field: SerializeField] public int Id { get; set; }
@@ -36,4 +36,6 @@ public class UnitStatsData
     [field: SerializeField] public int SkillPoolId1 { get; set; }
     [field: SerializeField] public int SkillPoolId2 { get; set; }
     [field: SerializeField] public string UnitAssetFileName { get; set; }
+
+    public int TableID => Id;
 }

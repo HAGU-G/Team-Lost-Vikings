@@ -40,7 +40,7 @@ public enum RETURN_TYPE
 }
 
 [Serializable]
-public class SkillData
+public class SkillData : ITableAvaialable<int>
 {
     [field: SerializeField] public string Name { get; private set; }
     [field: SerializeField] public int Id { get; private set; }
@@ -59,5 +59,6 @@ public class SkillData
     [field: SerializeField] public float PassiveValue { get; private set; }
     [field: SerializeField] public string SkillIconAssetFileName { get; private set; }
     [field: SerializeField] public string SkillEffectAssetFileName { get; private set; }
-    
+
+    public int TableID => Id;
 }

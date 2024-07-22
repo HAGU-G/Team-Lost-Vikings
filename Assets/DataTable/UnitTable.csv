@@ -1,0 +1,6 @@
+유닛이름,유닛ID,유닛등장가중치,유닛등장해금레벨,직업,기본공격속성,최대생명력,최대활동력,최대정신력,인식범위,크기범위,존재범위,기본공격범위,이동속도,힘최소치,힘최대치,힘가중치,지능최소치,지능최대치,지능가중치,민첩최소치,민첩최대치,민첩가중치,공격속도,치명타확률,치명타배수,체력최소치,체력최대치,체력가중치,스킬풀ID_1,스킬풀ID_2,유닛에셋파일명
+string,int,int,int,int,int,int,int,int,float,float,float,float,float,int,int,float,int,int,float,int,int,float,float,float,float,int,int,float,int,int,string
+Name,Id,GachaChance,GachaLevel,Job,BasicAttackType,MaxHP,MaxStamina,MaxMental,RecognizeRange,SizeRange,PresenseRange,BasicAttackRange,MoveSpeed,StrMin,StrMax,StrWeight,WizMin,WizMax,WizWeight,AgiMin,AgiMax,AgiWeight,AttackSpeed,CritChance,CritWeight,VitMin,VitMax,VitWeight,SkillPoolId1,SkillPoolId2,UnitAssetFileName
+전사,1,1,0,1,0,50,10,10,8,0.4,8,0.5,4,5,10,1.1,1,10,0.6,20,30,0.25,0.2,0.3,1.7,40,200,1.1,0,0,10_RoyalKnight
+마법사,2,2,0,2,1,50,10,10,8,0.4,8,2,2,5,10,1.1,1,10,0.6,20,30,0.25,0.2,0.3,1.7,40,200,1.1,0,0,2_Magician
+궁수,3,3,0,3,2,50,10,10,8,0.4,8,1.5,3,5,10,1.1,1,10,0.6,20,30,0.25,0.2,0.3,1.7,40,200,1.1,0,0,6_Hunter

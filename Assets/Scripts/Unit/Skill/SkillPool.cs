@@ -1,13 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using CsvHelper.Configuration.Attributes;
+using System.Collections.Generic;
 
-public class SkillPool
+public class SkillPool : ITableAvaialable<int>
 {
     public string Name { get; set; }
     public int Id { get; set; }
-    public int SkillPoolDivision { get; set; } //더미데이터
+    public int SkillPoolDivision { get; set; }
+    public int SkillId { get; set; }
+    public int SkillGachaChance { get; set; }
 
     /// <summary>
     /// 스킬ID, 가중치
     /// </summary>
-    public Dictionary<int, int> Pool { get; set; }
+    [Ignore] public Dictionary<int, int> Pool { get; set; }
+
+    public int TableID => Id;
 }

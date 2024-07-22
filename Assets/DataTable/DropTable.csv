@@ -1,0 +1,3 @@
+드랍이름,드랍Id,최소드랍골드,최대드랍골드,드랍타입,드랍확률1,드랍아이템Id1,드랍확률2,드랍아이템Id2,드랍확률3,드랍아이템Id3,드랍확률4,드랍아이템Id4,드랍확률5,드랍아이템Id5
+string,int,int,int,int,int,int,int,int,int,int,int,int,int,int
+DropName,DropId,MinGold,MaxGold,DropType,DropChance1,DropItemId1,DropChance2,DropItemId2,DropChance3,DropItemId3,DropChance4,DropItemId4,DropChance5,DropItemId5

@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using System.Text;
+using UnityEditorInternal;
 
 public class GameStarter : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class GameStarter : MonoBehaviour
 
     private int completeCount = 0;
     private float completedProgress;
+    public bool IsSceneLoaded { get; private set; } = false;
 
     public event System.Action OnCompleted;
 
@@ -26,6 +28,7 @@ public class GameStarter : MonoBehaviour
         else
             Destroy(gameObject);
 
+        DataTableManager.Load();
         LoadScenes();
     }
 
@@ -44,17 +47,10 @@ public class GameStarter : MonoBehaviour
             completeCount++;
 
             if (completeCount == scenes.Count)
-            {
-                UpdateProgress();
-                GameManager.GameStarted();
-                OnCompleted?.Invoke();
-                OnCompleted = null;
-                gameObject.SetActive(false);
-            }
+                IsSceneLoaded = true;
             else
-            {
                 LoadScenes();
-            }
+
         }
         else
         {
@@ -96,13 +92,25 @@ public class GameStarter : MonoBehaviour
 
     private void UpdateProgress()
     {
-        Debug.Log($"{(completedProgress + operation.PercentComplete / scenes.Count) * 100f}%");
+        DataTableManager.Update();
+        float current = DataTableManager.progress + completedProgress + operation.PercentComplete / scenes.Count;
+        Debug.Log($"{current / 2f * 100f}%");
     }
 
 #if UNITY_EDITOR
     private void Update()
     {
         UpdateProgress();
+
+        if (IsSceneLoaded
+            && DataTableManager.IsReady)
+        {
+            UpdateProgress();
+            GameManager.OnGameStart();
+            OnCompleted?.Invoke();
+            OnCompleted = null;
+            gameObject.SetActive(false);
+        }
     }
 #endif
 
@@ -114,9 +122,9 @@ public class GameStarter : MonoBehaviour
     public void SetActiveOnComplete(GameObject gameObject)
     {
         gameObject.SetActive(false);
-        OnCompleted += () => 
-        { 
-            gameObject.SetActive(true); 
+        OnCompleted += () =>
+        {
+            gameObject.SetActive(true);
         };
 
     }

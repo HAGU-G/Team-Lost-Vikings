@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [Serializable]
-public class MonsterStatsData
+public class MonsterStatsData : ITableAvaialable<int>
 {
     [field: SerializeField] public string MonsterName { get; set; }
     [field: SerializeField] public int MonsterId { get; set; }
@@ -19,4 +19,6 @@ public class MonsterStatsData
     [field: SerializeField] public int SpecialDef { get; set; }
     [field: SerializeField] public int DropId { get; set; }
     [field: SerializeField] public string MonsterAssetFileName { get; set; }
+
+    public int TableID => MonsterId;
 }

@@ -1,0 +1,3 @@
+사냥터이름,사냥터Id,샤냥터구분,사냥터스테이지,배치가능유닛수,일반몬스터Id,일반몬스터최대숫자,일반몬스터리젠시간,보스몬스터Id,보스몬스터타이머,보스재도전타이머
+string,int,int,int,int,int,int,float,int,float,float
+HuntZoneName,HuntZoneId,HuntZoneNum,HuntZoneStage,UnitCapacity,NormalMonsterId,MaxMonNum,MonRegen,BossMonsterId,BossTimer,BossRetryTimer

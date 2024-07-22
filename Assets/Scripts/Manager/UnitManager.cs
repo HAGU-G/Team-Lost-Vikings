@@ -41,14 +41,14 @@ public class UnitManager
     {
         var gachaList = new List<UnitStatsData>();
 
-        foreach (var data in DataTableManager.characterTable)
+        foreach (var data in DataTableManager.characterTable.GetDatas())
         {
-            if (level < data.Value.GachaLevel)
+            if (level < data.GachaLevel)
                 continue;
 
-            for (int i = 0; i < data.Value.GachaChance; i++)
+            for (int i = 0; i < data.GachaChance; i++)
             {
-                gachaList.Add(data.Value);
+                gachaList.Add(data);
             }
         }
 
