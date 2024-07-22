@@ -37,10 +37,10 @@ public class GameStarter : MonoBehaviour
         completedProgress = (float)completeCount / scenes.Count;
 
         operation = Addressables.LoadSceneAsync(scenes[completeCount], LoadSceneMode.Additive);
-        operation.Completed += OnLoadCompleted;
+        operation.Completed += OnSceneLoadCompleted;
     }
 
-    private void OnLoadCompleted(AsyncOperationHandle operationHandle)
+    private void OnSceneLoadCompleted(AsyncOperationHandle operationHandle)
     {
         if (operationHandle.Status == AsyncOperationStatus.Succeeded)
         {
@@ -54,12 +54,12 @@ public class GameStarter : MonoBehaviour
         }
         else
         {
-            OnLoadFailed();
+            OnSceneLoadFailed();
         }
 
     }
 
-    private void OnLoadFailed()
+    private void OnSceneLoadFailed()
     {
         var sb = new StringBuilder();
         sb.AppendLine("씬 로드 실패");

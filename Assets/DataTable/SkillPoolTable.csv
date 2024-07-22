@@ -1,3 +1,4 @@
 스킬풀명,스킬풀ID,스킬풀구분,스킬ID,스킬풀가중치
 string,int,int,int,int
 Name,Id,SkillPoolDivision,SkillId,SkillGachaChance
+1,1,1,1,1

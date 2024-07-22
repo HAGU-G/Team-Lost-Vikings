@@ -4,5 +4,5 @@
 /// <typeparam name="T">Key</typeparam>
 public interface ITableAvaialable<T>
 {
-   public T TableID { get; }
+    public T TableID { get; }
 }

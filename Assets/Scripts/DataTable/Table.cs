@@ -2,7 +2,9 @@
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using CsvHelper;
+using CsvHelper.Configuration;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -47,13 +49,15 @@ public class Table<T, U> where U : ITableAvaialable<T>
             csvReader.Read();
             csvReader.Read();
 
-            var records = csvReader.GetRecords<U>();
-            foreach (var record in records)
+            while (csvReader.Read())
             {
+                var record = csvReader.GetRecord<U>();
+                (record as ITableExtraLoadable)?.ExtraLoad(csvReader);
+
                 if (datas.ContainsKey(record.TableID))
                 {
                     ErrorMessage(ERROR_TYPE.ID_DUPLICATED, record.TableID.ToString());
-                    return;
+                    continue;
                 }
 
                 datas.Add(record.TableID, record);
