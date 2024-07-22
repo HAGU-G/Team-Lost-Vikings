@@ -20,6 +20,8 @@ public class Cell : MonoBehaviour
 
     private void Awake()
     {
+        
+
         tileInfo = new CellInfo();
         tileInfo.Weight = 1;
         tileInfo.BaseLayer = new Layer

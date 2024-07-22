@@ -1,9 +1,5 @@
 ﻿public class PlayerManager
 {
-    public int upgradeSTR;
-    public int upgradeMAG;
-    public int upgradeAGI;
-
     public int gold;
     public int level;
 

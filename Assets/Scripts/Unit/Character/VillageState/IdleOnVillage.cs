@@ -4,7 +4,6 @@ using UnityEngine;
 public class IdleOnVillage : State<UnitOnVillage>
 {
     private bool isIdle = false;
-    private float timer = 0f;
     private int movableTileCount;
 
 

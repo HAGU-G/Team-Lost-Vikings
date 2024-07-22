@@ -7,10 +7,6 @@ public class GotoOnVillage : State<UnitOnVillage>
         owner.currentState = UnitOnVillage.STATE.GOTO;
 
         var lackedParameter = owner.CheckParameter();
-        Debug.Log(lackedParameter);
-        Debug.Log("stress " + owner.stats.Stress.Current);
-        Debug.Log("hp " + owner.stats.HP.Current);
-        Debug.Log("stamina " + owner.stats.Stamina.Current);
 
         switch (lackedParameter)
         {
@@ -116,7 +112,6 @@ public class GotoOnVillage : State<UnitOnVillage>
         if (tile == owner.destinationTile)
         {
             owner.unitMove.OnTargetTile -= OnEntranceTile;
-            Debug.Log("ChangeState");
             controller.ChangeState((int)UnitOnVillage.STATE.INTERACT);
         }
     }

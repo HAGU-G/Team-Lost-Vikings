@@ -339,7 +339,6 @@ public class VillageManager : MonoBehaviour
 
         var building = constructedBuildings[constructedBuildings.FindIndex(predicate)];
         var tile = building.GetComponent<Building>().entranceTile;
-        Debug.Log($"입구 타일의 인덱스 : {tile.tileInfo.id.x}, {tile.tileInfo.id.y}");
         return building;
     }
 }

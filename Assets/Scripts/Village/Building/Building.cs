@@ -34,7 +34,7 @@ public class Building : MonoBehaviour
     public List<Cell> placedTiles = new List<Cell>();
     public Cell entranceTile;
     private bool isFlip = false;
-    private static bool isRotating = false;
+    //private static bool isRotating = false;
     public GridMap gridMap;
     
 

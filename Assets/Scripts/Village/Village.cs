@@ -12,11 +12,14 @@ public class Village : MonoBehaviour
     public UnitStatsData unitStatsData; 
     public BuildingUpgrade upgrade;
 
+    public PlayerManager pm;
+
     private float timer = 0f;
 
     private void Awake()
     {
         units = new List<UnitOnVillage>();
+        pm = GameManager.playerManager;
     }
 
     private void Start()
@@ -151,7 +154,7 @@ public class Village : MonoBehaviour
         if (timer >= 5f)
         {
             timer = 0f;
-            Debug.Log($"str : {GameManager.playerManager.upgradeSTR}, mag : {GameManager.playerManager.upgradeMAG}, agi : {GameManager.playerManager.upgradeAGI}");
+            Debug.Log($"str : {pm.unitStr.defaultValue}, mag : {pm.unitMag.defaultValue}, agi : {pm.unitAgi.defaultValue}");
         }
     }
 
