@@ -67,8 +67,8 @@ public class IdleOnVillage : State<UnitOnVillage>
         if (movableTiles.Count > 0)
         {
             Cell targetTile = movableTiles[Random.Range(0, movableTiles.Count)];
-            var currentPos = owner.villageManager.gridMap.PosToIndex(owner.transform.position);
-            var startTile = owner.villageManager.gridMap.tiles[currentPos];
+            var currentIndex = owner.villageManager.gridMap.PosToIndex(owner.transform.position);
+            var startTile = owner.villageManager.gridMap.tiles[currentIndex];
 
             if (startTile != targetTile)
             {

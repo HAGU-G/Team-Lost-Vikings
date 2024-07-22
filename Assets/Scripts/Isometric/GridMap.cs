@@ -114,7 +114,8 @@ public class GridMap : MonoBehaviour
 
     public Vector2Int PosToIndex(Vector3 position)
     {
-        var localPosition = position - gameObject.transform.position;
+        var parentPos = gameObject.GetComponentInParent<Transform>().position;
+        var localPosition = position - parentPos;
 
         float x = localPosition.x;
         float y = localPosition.y;
@@ -123,8 +124,8 @@ public class GridMap : MonoBehaviour
         //float y = position.y - gameObject.transform.position.y;
 
 
-        int indexX = Mathf.RoundToInt((2f * y + x) / gridInfo.cellSize);
-        int indexY = Mathf.RoundToInt((2f * y - x) / gridInfo.cellSize);
+        int indexX = Mathf.RoundToInt((GameSetting.Instance.tileXY * y + x) / gridInfo.cellSize);
+        int indexY = Mathf.RoundToInt((GameSetting.Instance.tileXY * y - x) / gridInfo.cellSize);
 
         if (indexX < 0 || indexY < 0 || indexX > gridInfo.row || indexY > gridInfo.col)
         {

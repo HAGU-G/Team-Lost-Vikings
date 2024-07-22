@@ -134,7 +134,7 @@ public class Village : MonoBehaviour
         if (timer >= 5f)
         {
             timer = 0f;
-            Debug.Log($"str : {GameManager.playerManager.upgradeSTR}, mag : {GameManager.playerManager.upgradeMAG}, agi : {GameManager.playerManager.upgradeAGI}");
+            //Debug.Log($"str : {GameManager.playerManager.upgradeSTR}, mag : {GameManager.playerManager.upgradeMAG}, agi : {GameManager.playerManager.upgradeAGI}");
         }
     }
 

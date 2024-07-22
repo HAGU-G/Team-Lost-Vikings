@@ -156,20 +156,17 @@ public class VillageManager : MonoBehaviour
         }
     }
 
-    public Cell GetTile(Vector3 position)
+    public Cell GetTile(Vector3 position, GridMap map)
     {
-        foreach(var gridMap in gridMaps)
-        {
             Vector2Int tileId = gridMap.PosToIndex(position);
             if (tileId.x >= 0 && tileId.y >= 0)
             {
-                if (gridMap.tiles.ContainsKey(tileId))
+                if (map.tiles.ContainsKey(tileId))
                 {
-                    return gridMap.tiles[tileId];
+                    return map.tiles[tileId];
                 }
             }
-        }
-        if (gridMap.PosToIndex(position) == new Vector2Int(-1, -1))
+        if (map.PosToIndex(position) == new Vector2Int(-1, -1))
             return null;
 
         return null;
@@ -255,6 +252,15 @@ public class VillageManager : MonoBehaviour
         //        construct.isRemoveTime = false;
         //    }
         //}
+
+        if(Input.GetMouseButtonDown(0))
+        {
+            var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            if (GetTile(worldPos, gridMap) != null)
+            {
+                Debug.Log(GetTile(worldPos, gridMap).name);
+            }
+        }
     }
 
     private void VillageSet(GridMap gridMap)
