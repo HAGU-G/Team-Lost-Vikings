@@ -58,7 +58,7 @@ public abstract class StatClass<T>
 
         upgradeValue = target;
         target.OnDefaultValueChanged += UpdateUpOnInspector;
-
+        UpdateUpOnInspector();
     }
 
     public void UpdateUpOnInspector()

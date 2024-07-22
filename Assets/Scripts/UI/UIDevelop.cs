@@ -86,7 +86,6 @@ public class UIDevelop : MonoBehaviour
     public void OnButtonChangeStage()
     {
         GameManager.huntZoneManager.HuntZones[currentHuntZone].SetStage(int.Parse(inputStageNum.text));
-        GameManager.huntZoneManager.HuntZones[currentHuntZone].ResetHuntZone(false);
     }
     public void OnButtonSpawnBoss()
     {
