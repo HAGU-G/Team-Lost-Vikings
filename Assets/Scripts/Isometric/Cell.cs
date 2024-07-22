@@ -16,6 +16,7 @@ public class Cell : MonoBehaviour
 
     public Cell[] adjacentTiles { get; } = new Cell[4];
     public Cell previous = null;
+    public GridMap gridMap; //자신이 속한 gridMap
 
     private void Awake()
     {
