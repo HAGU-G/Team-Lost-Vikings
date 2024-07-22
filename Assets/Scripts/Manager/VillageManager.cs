@@ -12,7 +12,6 @@ public class VillageManager : MonoBehaviour
     public Construct construct = new();
     public List<GameObject> constructedBuildings = new();
     public GridMap gridMap;
-    public GridMap gridMap2;
     public Dictionary<int, GameObject> objectList = new();
     public List<GameObject> installableBuilding = new();
     public GameObject standardPrefab;
@@ -63,7 +62,6 @@ public class VillageManager : MonoBehaviour
         //}
 
         gridMap.SetUsingTileList(gridMap.usableTileList.Count -1);
-        gridMap2.SetUsingTileList(gridMap2.usableTileList.Count - 1);
         //var standard = construct.ConstructStandardBuilding(standardPrefab, gridMap);
         //constructedBuildings.Add(standard);
 
@@ -135,7 +133,6 @@ public class VillageManager : MonoBehaviour
     {
         ++playerLevel;
         gridMap.SetUsingTileList(playerLevel);
-        gridMap2.SetUsingTileList(playerLevel);
 
     }
 
