@@ -23,6 +23,8 @@ public class VillageManager : MonoBehaviour
 
     private GameObject selectedObj;
 
+    public int PlayerLevel {  get { return playerLevel; } }
+
     private void Awake()
     {
         if (GameManager.villageManager != null)

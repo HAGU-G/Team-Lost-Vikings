@@ -5,17 +5,27 @@ using UnityEngine;
 
 public enum WINDOW_NAME
 {
+    TUTORIAL_POPUP,
+    BUILDING_POPUP,
+    PARAMETER_POPUP,
+    WAIT_FOR_CBT,
+    GACHA_UI,
+    GACHA_RESULT,
+    CHARACTER_STASH,
+    UNITS_INFORMATION,
+    NOTIFICATION,
+    UNIT_DETAIL_INFORMATION,
     CHARACTER_INVENTORY,
-    CHARACTER_MANAGEMENT
+    CHARACTER_MANAGEMENT,
 }
 
 
-public class UIManager
+public class UIManager : MonoBehaviour
 {
     public GameObject groupBottom;
     public GameObject groupTop;
 
-    public Dictionary<WINDOW_NAME, UIWindow> windows = new();
+    public List<UIWindow> windows;
     public UICharacterInventory chracterInventory;
     public UICharacterWaiting chracterWaiting;
     public UIRenderTexture unitRenderTexture;
@@ -23,6 +33,17 @@ public class UIManager
     /////////////////////////////////////////////////////////////////
     // UI -> Function ///////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////
+
+    private void Awake()
+    {
+        if (GameManager.uiManager != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        GameManager.uiManager = this;
+    }
 
     public void OnShowCharacter(int instanceID)
     {
@@ -65,19 +86,13 @@ public class UIManager
 
     public void AddWindow(WINDOW_NAME windowName, UIWindow window)
     {
-        if (windows.ContainsKey(windowName))
+        if (windows.Contains(window))
         {
             Debug.Log($"윈도우 이름({windowName})이 이미 등록되어있습니다.");
             return;
         }
-
-        if (windows.ContainsValue(window))
-        {
-            Debug.LogWarning($"다른 이름으로 등록된 윈도우입니다.", window.gameObject);
-            return;
-        }
-
-        windows.Add(windowName, window);
+                
+        windows.Add(window);
     }
 
     public void CloseWindows(params UIWindow[] exceptWindow)
@@ -85,22 +100,22 @@ public class UIManager
         var excepts = exceptWindow.ToList();
         foreach (var window in windows)
         {
-            if (excepts.Contains(window.Value))
+            if (excepts.Contains(window))
                 continue;
 
-            window.Value.Close();
+            window.Close();
         }
     }
-    public void CloseWindows(params WINDOW_NAME[] exceptWindow)
-    {
-        var excepts = exceptWindow.ToList();
-        foreach (var window in windows)
-        {
-            if (excepts.Contains(window.Key))
-                continue;
+    //public void CloseWindows(params WINDOW_NAME[] exceptWindow)
+    //{
+    //    var excepts = exceptWindow.ToList();
+    //    foreach (var window in windows)
+    //    {
+    //        if (excepts.Contains(window))
+    //            continue;
 
-            window.Value.Close();
-        }
-    }
+    //        window.Close();
+    //    }
+    //}
 
 }

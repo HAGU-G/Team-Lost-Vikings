@@ -2,7 +2,7 @@
 
 public abstract class UIWindow : MonoBehaviour
 {
-    public bool isShowOnly;
+    public bool isShowOnly = true;
     public abstract WINDOW_NAME WindowName { get; }
 
     private void Awake()
@@ -12,12 +12,13 @@ public abstract class UIWindow : MonoBehaviour
 
     public virtual void Open()
     {
+        gameObject.SetActive(true);
         if (isShowOnly)
             GameManager.uiManager.CloseWindows(this);
     }
 
     public virtual void Close()
     {
-
+        gameObject.SetActive(false);
     }
 }

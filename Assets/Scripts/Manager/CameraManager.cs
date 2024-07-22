@@ -20,5 +20,7 @@ public class CameraManager : MonoBehaviour
         fov = Mathf.Clamp(fov, minFov, maxFov);
         Camera.main.fieldOfView = fov;
 
+
+
     }
 }
