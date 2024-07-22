@@ -47,7 +47,7 @@ public class InteractOnVillage : State<UnitOnVillage>
         {
             buildingComponent.interactWithUnit?.InteractWithUnit(owner);
             var parameterComponent = building.GetComponent<ParameterRecoveryBuilding>();
-            parameterComponent.OnRecoveryDone += RecoveryDone;
+            parameterComponent.OnRecoveryDone += owner.RecoveryDone;
         }
         
         buildingComponent.interactWithPlayer?.InteractWithPlayer();
@@ -56,7 +56,7 @@ public class InteractOnVillage : State<UnitOnVillage>
 
     public void RecoveryDone(PARAMETER_TYPES type)
     {
-        owner.RecoveryDone(type);
+        //owner.RecoveryDone(type);
         switch(type)
         {
             case PARAMETER_TYPES.HP:

@@ -14,7 +14,7 @@ public class UnitOnVillage : Unit
     public VillageManager villageManager;
     public UnitMove unitMove;
 
-    public event Action<PARAMETER_TYPES> OnRecoveryDone;
+    public event Action<PARAMETER_TYPES> OnUnitRecoveryDone;
 
     public enum STATE
     {
@@ -72,9 +72,10 @@ public class UnitOnVillage : Unit
             return LACKING_PARAMETER.NONE;
     }
 
-    public void  RecoveryDone(PARAMETER_TYPES type)
+    public void RecoveryDone(PARAMETER_TYPES type)
     {
-        OnRecoveryDone?.Invoke(type);
+        //OnUnitRecoveryDone?.Invoke(type);
+        villageFSM.ChangeState((int)UnitOnHunt.STATE.IDLE);
     }
 
 
