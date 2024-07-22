@@ -104,12 +104,12 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
         {
             if (i < units.Count && units[i] != this)
             {
-                stats.Collision(units[i].stats);
+                stats.Collision(units[i].stats, CurrentHuntZone.gridMap);
             }
 
             if (i < monsters.Count && monsters[i] != this)
             {
-                stats.Collision(monsters[i].stats);
+                stats.Collision(monsters[i].stats, CurrentHuntZone.gridMap);
             }
         }
     }

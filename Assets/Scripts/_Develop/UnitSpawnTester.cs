@@ -72,7 +72,7 @@ public class UnitSpawnTester : MonoBehaviour
                 var u = Instantiate(unit, dungeon.transform.position, Quaternion.identity);
                 u.gameObject.AddComponent<UnitSelectorTest>().spawner = this;
                 u.stats = gachaResult.Clone();
-                u.portalPos = dungeon.transform.position;
+                //u.PortalPos = dungeon.transform.position;
                 u.Init();
                 u.ResetUnit(gachaResult.Clone(), dungeon);
                 u.gameObject.AddComponent<EllipseDrawer>();

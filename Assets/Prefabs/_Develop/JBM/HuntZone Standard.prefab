@@ -59,6 +59,7 @@ MonoBehaviour:
   <StructureAssetFileName>k__BackingField: 
   placedTiles: []
   entranceTile: {fileID: 0}
+  gridMap: {fileID: 0}
 --- !u!1001 &3852647298255804780
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -85,15 +86,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6493793429940180099, guid: ed5dcf04c1d6bc64d8e51c1a45e9150f, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.04
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 6493793429940180099, guid: ed5dcf04c1d6bc64d8e51c1a45e9150f, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.04
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 6493793429940180099, guid: ed5dcf04c1d6bc64d8e51c1a45e9150f, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.04
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 6493793429940180099, guid: ed5dcf04c1d6bc64d8e51c1a45e9150f, type: 3}
       propertyPath: m_LocalPosition.x

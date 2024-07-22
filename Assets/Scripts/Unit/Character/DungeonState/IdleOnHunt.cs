@@ -44,8 +44,15 @@ public class IdleOnHunt : State<UnitOnHunt>
         {
             dest = owner.transform.position + (Vector3)Random.insideUnitCircle.normalized * owner.stats.MoveSpeed.Current;
 
-            // TODO 던전 밖으로 이동 못하게 하는 조건으로 대체 ex) 이동 가능 타일 검사
-            if (Vector3.Distance(dest, owner.CurrentHuntZone.transform.position) > 10f)
+            int count = 0;
+            while (owner.CurrentHuntZone.gridMap.PosToIndex(dest) == Vector2Int.one * -1
+                && count < 10)
+            {
+                dest = owner.transform.position + (Vector3)Random.insideUnitCircle.normalized * owner.stats.MoveSpeed.Current;
+                count++;
+            }
+
+            if (owner.CurrentHuntZone.gridMap.PosToIndex(dest) == Vector2Int.one * -1)
                 dest = owner.CurrentHuntZone.transform.position;
 
             isMoving = true;

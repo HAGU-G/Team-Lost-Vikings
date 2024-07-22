@@ -74,12 +74,20 @@ public abstract class Stats
         }
     }
 
-    public void Collision(Stats other)
+    public void Collision(Stats other, GridMap grid = null)
     {
         var collisionDepth = SizeEllipse.CollisionDepthWith(other.SizeEllipse);
         if (collisionDepth >= 0f)
         {
+            var prePos = objectTransform.position;
             objectTransform.position -= (other.objectTransform.position - objectTransform.position).normalized * collisionDepth;
+
+            if (grid != null
+                && grid.PosToIndex(objectTransform.position) == Vector2Int.one * -1)
+            {
+                objectTransform.position = prePos;
+            }
+
             UpdateEllipsePosition();
         }
     }

@@ -9,9 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4104750300176006690}
-  - component: {fileID: 8553073083624957745}
   - component: {fileID: 5123246219790320037}
-  - component: {fileID: 8420360275505926942}
   m_Layer: 0
   m_Name: UnitOnHunt
   m_TagString: Player
@@ -34,58 +32,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &8553073083624957745
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7619623962398697375}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.0627451}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
 --- !u!114 &5123246219790320037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,154 +47,79 @@ MonoBehaviour:
   stats:
     <Id>k__BackingField: 0
     <Name>k__BackingField: 
+    <AssetFileName>k__BackingField: 
     <HP>k__BackingField:
       defaultValue: 0
       min: 0
       max: 2147483647
+      _current: 0
     <MoveSpeed>k__BackingField:
-      defaultValue: 0
+      _defaultValue: 0
+      upOnInspector: 0
     <UnitSize>k__BackingField:
-      defaultValue: 0
+      _defaultValue: 0
+      upOnInspector: 0
     <RecognizeRange>k__BackingField:
-      defaultValue: 0
+      _defaultValue: 0
+      upOnInspector: 0
     <PresenseRange>k__BackingField:
-      defaultValue: 0
+      _defaultValue: 0
+      upOnInspector: 0
     <AttackRange>k__BackingField:
-      defaultValue: 0
+      _defaultValue: 0
+      upOnInspector: 0
     <AttackSpeed>k__BackingField:
-      defaultValue: 0
+      _defaultValue: 0
+      upOnInspector: 0
     <CombatPoint>k__BackingField: 0
-    transform: {fileID: 0}
+    objectTransform: {fileID: 0}
+    <InstanceID>k__BackingField: 2019996241
     <Stamina>k__BackingField:
       defaultValue: 0
       min: 0
       max: 2147483647
+      _current: 0
     <Stress>k__BackingField:
       defaultValue: 0
       min: 0
       max: 2147483647
+      _current: 0
     <BaseHP>k__BackingField:
-      defaultValue: 0
+      _defaultValue: 0
+      upOnInspector: 0
     <Vit>k__BackingField:
-      defaultValue: 0
+      _defaultValue: 0
+      upOnInspector: 0
     <VitWeight>k__BackingField:
-      defaultValue: 0
-    <Str>k__BackingField:
-      defaultValue: 0
+      _defaultValue: 0
+      upOnInspector: 0
+    <BaseStr>k__BackingField:
+      _defaultValue: 0
+      upOnInspector: 0
     <StrWeight>k__BackingField:
-      defaultValue: 0
-    <Mag>k__BackingField:
-      defaultValue: 0
-    <MagWeight>k__BackingField:
-      defaultValue: 0
-    <Agi>k__BackingField:
-      defaultValue: 0
+      _defaultValue: 0
+      upOnInspector: 0
+    <BaseWiz>k__BackingField:
+      _defaultValue: 0
+      upOnInspector: 0
+    <WizWeight>k__BackingField:
+      _defaultValue: 0
+      upOnInspector: 0
+    <BaseAgi>k__BackingField:
+      _defaultValue: 0
+      upOnInspector: 0
     <AgiWeight>k__BackingField:
-      defaultValue: 0
-    <CriticalChance>k__BackingField:
-      defaultValue: 0
-    <CriticalWeight>k__BackingField:
-      defaultValue: 0
+      _defaultValue: 0
+      upOnInspector: 0
+    <CritChance>k__BackingField:
+      _defaultValue: 0
+      upOnInspector: 0
+    <CritWeight>k__BackingField:
+      _defaultValue: 0
+      upOnInspector: 0
+  dress: {fileID: 0}
   skills:
     <SkillList>k__BackingField: []
-  testData:
-    <Name>k__BackingField: 
-    <Id>k__BackingField: 0
-    <GachaChance>k__BackingField: 0
-    <GachaLevel>k__BackingField: 0
-    <Job>k__BackingField: 0
-    <BasicAttackType>k__BackingField: 0
-    <HP>k__BackingField: 0
-    <Stamina>k__BackingField: 0
-    <Stress>k__BackingField: 0
-    <RecognizeRange>k__BackingField: 0
-    <BasicAttackRange>k__BackingField: 0
-    <SizeRange>k__BackingField: 0
-    <MoveSpeed>k__BackingField: 0
-    <StrMin>k__BackingField: 0
-    <StrMax>k__BackingField: 0
-    <StrWeight>k__BackingField: 0
-    <MagMin>k__BackingField: 0
-    <MagMax>k__BackingField: 0
-    <MagWeight>k__BackingField: 0
-    <AgiMin>k__BackingField: 0
-    <AgiMax>k__BackingField: 0
-    <AgiWeight>k__BackingField: 0
-    <AttackSpeed>k__BackingField: 0
-    <CriticalChance>k__BackingField: 0
-    <CriticalHitWeight>k__BackingField: 0
-    <VitMin>k__BackingField: 0
-    <VitMax>k__BackingField: 0
-    <VitWeight>k__BackingField: 0
-    <SkillId1>k__BackingField: 0
-    <SkillId2>k__BackingField: 0
-    <UnitAssetFileName>k__BackingField: 
-  testSkillData:
-    <Name>k__BackingField: 
-    <Id>k__BackingField: 0
-    <SkillRankPoint>k__BackingField: 0
-    <SkillDivision>k__BackingField: 0
-    <ActiveType>k__BackingField: 0
-    <ActiveValue>k__BackingField: 0
-    <CastRange>k__BackingField: 0
-    <SkillAttackType>k__BackingField: 0
-    <SkillDmgRatio>k__BackingField: 0
-    <SkillAttackNum>k__BackingField: 0
-    <StatType>k__BackingField: 0
-    <ParameterType>k__BackingField: 0
-    <PassiveReturnType>k__BackingField: 0
-    <PassiveValue>k__BackingField: 0
   skillEffect: {fileID: 0}
-  dungeon: {fileID: 0}
-  destinationPos: {x: 0, y: 0, z: 0}
   currentState: 0
   attackTarget: {fileID: 0}
---- !u!60 &8420360275505926942
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7619623962398697375}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -0.5, y: 0.5}
-      - {x: -0.5, y: -0.5}
-      - {x: 0.5, y: -0.5}
-      - {x: 0.5, y: 0.5}
-  m_UseDelaunayMesh: 0
