@@ -10,6 +10,7 @@ public class UnitManager
     /// 꼭 필요한 경우가 아니라면 GetUnit() 메서드를 사용해주세요.
     /// </summary>
     public Dictionary<int, UnitStats> Units { get; private set; } = new();
+    public Dictionary<int, UnitStats> DeadUnits { get; private set; } = new();
     public Dictionary<int, UnitStats> Waitings { get; private set; } = new();
 
 

@@ -3,7 +3,7 @@
     public override void EnterState()
     {
         owner.currentState = UnitOnHunt.STATE.DEAD;
-        GameManager.huntZoneManager.ReleaseUnit(owner);
+        owner.ReturnToVillage();
     }
 
     public override void ExitState()
