@@ -281,9 +281,6 @@ public class HuntZone : MonoBehaviour
 
     public void SpawnUnit()
     {
-        if (Units.Count >= HuntZoneDatas[stage].UnitCapacity)
-            return;
-
         foreach (var unitSelected in GameManager.unitManager.Units)
         {
             var unit = unitSelected.Value;

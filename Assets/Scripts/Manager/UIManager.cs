@@ -45,7 +45,6 @@ public class UIManager
     {
         var unit = GameManager.unitManager.GetUnit(instanceID);
         unit.SetHuntZone(huntZoneID);
-        unit.SetLocation(LOCATION.NONE,LOCATION.HUNTZONE);
     }
 
     /////////////////////////////////////////////////////////////////

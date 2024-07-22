@@ -103,7 +103,6 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
     {
         base.ResetUnit(unitStats);
         unitStats.SetLocation(LOCATION.HUNTZONE);
-        unitStats.SetHuntZone(CurrentHuntZone.HuntZoneNum);
 
         IsDead = false;
 

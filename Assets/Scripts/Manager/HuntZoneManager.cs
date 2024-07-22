@@ -14,10 +14,14 @@ public class HuntZoneManager : MonoBehaviour
     public Vector3 offset = Vector3.right * 1000f;
 
     /// <summary>
-    /// Key: 사냥터 ID,
-    /// Value: HuntZone
+    /// Key: 사냥터 Num, Value: HuntZone
     /// </summary>
     public Dictionary<int, HuntZone> HuntZones { get; private set; } = new();
+
+    /// <summary>
+    /// Key: 사냥터 Num, Value: 사냥터에 배치된 유닛 instanceID List
+    /// </summary>
+    public Dictionary<int, List<int>> UnitDeployment { get; private set; } = new();
 
     private IObjectPool<Monster> MonsterPool { get; set; }
     private IObjectPool<UnitOnHunt> UnitPool { get; set; }
@@ -185,6 +189,13 @@ public class HuntZoneManager : MonoBehaviour
         }
 
         HuntZones.Add(huntZone.HuntZoneNum, huntZone);
+        UnitDeployment.Add(huntZone.HuntZoneNum, new());
+
         huntZone.gameObject.transform.position = offset + Vector3.right * 200f * huntZone.HuntZoneNum;
+    }
+
+    public bool IsDeployed(int instanceID, int huntZoneNum)
+    {
+        return UnitDeployment[huntZoneNum].Contains(instanceID);
     }
 }

@@ -20,7 +20,7 @@ public class GotoOnVillage : State<UnitOnVillage>
                 SetDestination(PARAMETER_TYPES.STRESS);
                 break;
             case UnitOnVillage.LACKING_PARAMETER.NONE:
-                if (GameManager.huntZoneManager.HuntZones.ContainsKey(owner.stats.HuntZoneID))
+                if (GameManager.huntZoneManager.HuntZones.ContainsKey(owner.stats.HuntZoneNum))
                 {
                     owner.destination = GameManager.villageManager.gridMap.GetTile(35, 32).tileInfo.ObjectLayer.LayerObject;
                     owner.destinationTile = owner.destination.GetComponent<Building>().entranceTile;

@@ -1,8 +1,12 @@
 ﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 
 public class UICharacterInventory : UIWindow
 {
@@ -17,7 +21,7 @@ public class UICharacterInventory : UIWindow
         LoadCharacterButtons(GameManager.unitManager.Units);
     }
 
-    public void LoadCharacterButtons(Dictionary<int,UnitStats> units)
+    public void LoadCharacterButtons(Dictionary<int, UnitStats> units)
     {
         for (int i = scrollRect.content.childCount - 1; i >= 0; i--)
         {
@@ -34,8 +38,17 @@ public class UICharacterInventory : UIWindow
 
 
             button.onClick.AddListener(
-                () => GameManager.uiManager.OnShowCharacter(character.Value.InstanceID)
-                );
+                () =>
+                {
+                    if (character.Value.objectTransform == null)
+                    {
+                        character.Value.SetHuntZone(1);
+                    }
+                    else
+                    {
+                        GameManager.uiManager.OnShowCharacter(character.Value.InstanceID);
+                    }
+                });
         }
     }
 }
