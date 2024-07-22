@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -55,7 +56,7 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
 
         //TODO 사냥터의 몬스터ID에 맞게 데이터 할당
         ResetEvents();
-        stats.InitStats(huntZone.CurrentMonsterData);
+        stats.InitStats(huntZone.GetCurrentMonster());
         stats.ResetStats();
         stats.ResetEllipse(transform);
 

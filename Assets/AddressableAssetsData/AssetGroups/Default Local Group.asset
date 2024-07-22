@@ -68,7 +68,42 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 14aa998e0142e9c42bf955679810242a
-    m_Address: UnitTable
+    m_Address: Assets/DataTable/UnitTable.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dd6e08aaee57ff647b4e75b7d07b4464
+    m_Address: Assets/DataTable/SkillTable.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c4abce40afb035545ad70bc9813a991d
+    m_Address: Assets/DataTable/BuildingTable.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c6471f7cebf2b3147bc67f170220649f
+    m_Address: Assets/DataTable/DropTable.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a4ad022b9d6d5a442ac43f1e6129f757
+    m_Address: Assets/DataTable/HuntZoneTable.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c8dbcdbb3e24b7f4d8f9dec6adc12865
+    m_Address: Assets/DataTable/SkillPoolTable.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7ce01705b3a8669419fe17c57396e754
+    m_Address: Assets/DataTable/MonsterTable.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 446fb0c6fe8686c4a8f409a5565baef3
+    m_Address: Assets/DataTable/UpgradeTable.csv
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

@@ -13,9 +13,11 @@ public enum TABLE_NAME
 public static class DataTableManager
 {
     public static Table<int, UnitStatsData> characterTable = new("Assets/DataTable/UnitTable.csv");
-    public static Table<int, MonsterStatsData> monsterTable = new("Assets/DataTable/MonsterTable.csv");
     public static Table<int, SkillData> skillTable = new("Assets/DataTable/SkillTable.csv");
     public static Table<int, SkillPool> skillPoolTable = new("Assets/DataTable/SkillPoolTable.csv");
+
+    public static Table<int, MonsterStatsData> monsterTable = new("Assets/DataTable/MonsterTable.csv");
+    public static Table<int, HuntZoneData> huntZoneTable = new("Assets/DataTable/HuntZoneTable.csv");
 
     public static List<AsyncOperationHandle> handles = new();
     public static float progress = 0f;
@@ -24,6 +26,8 @@ public static class DataTableManager
     public static void Load()
     {
         handles.Add(characterTable.Load());
+        handles.Add(monsterTable.Load());
+        handles.Add(huntZoneTable.Load());
     }
 
     public static void Update()

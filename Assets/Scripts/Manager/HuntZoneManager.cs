@@ -178,13 +178,13 @@ public class HuntZoneManager : MonoBehaviour
 
     public void AddHuntZone(HuntZone huntZone)
     {
-        if (HuntZones.ContainsKey(huntZone.HuntZoneID))
+        if (HuntZones.ContainsKey(huntZone.HuntZoneNum))
         {
-            Debug.LogError($"사냥터 {huntZone.HuntZoneID} 이(가) 이미 존재합니다.");
+            Debug.LogError($"사냥터 {huntZone.HuntZoneNum} 이(가) 이미 존재합니다.");
             return;
         }
 
-        HuntZones.Add(huntZone.HuntZoneID, huntZone);
-        huntZone.gameObject.transform.position = offset + Vector3.right * 200f * huntZone.HuntZoneID;
+        HuntZones.Add(huntZone.HuntZoneNum, huntZone);
+        huntZone.gameObject.transform.position = offset + Vector3.right * 200f * huntZone.HuntZoneNum;
     }
 }

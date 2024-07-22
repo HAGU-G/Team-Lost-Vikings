@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.LowLevel;
 using static UnityEngine.UI.CanvasScaler;
 
 public class HuntZone : MonoBehaviour
@@ -14,17 +15,12 @@ public class HuntZone : MonoBehaviour
     public GameObject monstersRoot;
     #endregion
 
-    [field: SerializeField] public List<HuntZoneData> HuntZoneDatas { get; private set; }
-    [field: SerializeField] public List<MonsterStatsData> MonsterDatas { get; private set; }
-    [field: SerializeField] public List<MonsterStatsData> BossDatas { get; private set; }
-    public HuntZoneData CurrentHuntZoneData { get; private set; }
-    public MonsterStatsData CurrentMonsterData { get; private set; }
-    public MonsterStatsData CurrentBossData { get; private set; }
-
-    [field: SerializeField] public int HuntZoneID { get; private set; }
+    [field: SerializeField] public int HuntZoneNum { get; private set; }
+    public Dictionary<int, HuntZoneData> HuntZoneDatas { get; private set; } = new();
+    public int stage { get; private set; } = 1;
     public bool IsReady { get; private set; }
-    public int stage = 1;
-    public int testStageNum = 1;
+
+    public List<UnitOnHunt> Units { get; private set; } = new();
 
     public List<Monster> Monsters { get; private set; } = new();
     private List<MonsterRegenPoint> regenPoints = new();
@@ -37,13 +33,12 @@ public class HuntZone : MonoBehaviour
     public float BossTimer { get; private set; }
     public float RetryTimer { get; private set; }
 
-    public List<UnitOnHunt> Units { get; private set; } = new();
 
     private void Start()
     {
         //gridMap.gameObject.SetActive(true);
         Init();
-        ResetHuntZone();
+        ResetHuntZone(true);
     }
 
     private void Update()
@@ -66,11 +61,11 @@ public class HuntZone : MonoBehaviour
             RetryTimer -= Time.deltaTime;
 
         //일반 몬스터 스폰
-        if (Monsters.Count >= CurrentHuntZoneData.MaxMonNum)
+        if (Monsters.Count >= HuntZoneDatas[stage].MaxMonNum)
             return;
 
         regenTimer += Time.deltaTime;
-        if (regenTimer >= CurrentHuntZoneData.MonRegen)
+        if (regenTimer >= HuntZoneDatas[stage].MonRegen)
         {
             regenTimer = 0f;
             SpawnMonster(1);
@@ -80,8 +75,18 @@ public class HuntZone : MonoBehaviour
     public void Init()
     {
         IsReady = false;
-        //데이터 테이블 불러오기
 
+        //데이터테이블 로드
+        foreach (var data in DataTableManager.huntZoneTable.GetDatas())
+        {
+            if (data.HuntZoneNum != HuntZoneNum
+                || HuntZoneDatas.ContainsKey(data.HuntZoneStage))
+                continue;
+
+            HuntZoneDatas.Add(data.HuntZoneStage, data);
+        }
+
+        //사냥터 로드
         UpdateRegenPoints();
 
         bossObserver.OnNotified += ReceiveBossNotify;
@@ -99,7 +104,7 @@ public class HuntZone : MonoBehaviour
     //    construct.PlaceBuilding(standardBuildingPrefab, gridMap.tiles[maxtile], gridMap);
     //}
 
-    public void ResetHuntZone(bool isRemoveUnit = true)
+    public void ResetHuntZone(bool isRemoveUnit)
     {
         IsReady = false;
 
@@ -119,14 +124,27 @@ public class HuntZone : MonoBehaviour
         IsReady = true;
     }
 
+    public HuntZoneData GetCurrentData()
+    {
+        return HuntZoneDatas[stage];
+    }
+
+    public MonsterStatsData GetCurrentMonster()
+    {
+        return DataTableManager.monsterTable.GetData(HuntZoneDatas[stage].NormalMonsterId);
+    }
+
+    public MonsterStatsData GetCurrentBoss()
+    {
+        return DataTableManager.monsterTable.GetData(HuntZoneDatas[stage].BossMonsterId);
+    }
+
     public void SetStage(int stageNum)
     {
-        stage = stageNum;
-        var dataIndex = stage - 1;
+        if (stage != stageNum)
+            ResetHuntZone(false);
 
-        CurrentHuntZoneData = HuntZoneDatas[dataIndex];
-        CurrentMonsterData = MonsterDatas[dataIndex];
-        CurrentBossData = BossDatas[dataIndex];
+        stage = stageNum;
     }
 
     public void UpdateRegenPoints()
@@ -193,7 +211,7 @@ public class HuntZone : MonoBehaviour
     {
         IsBossBattle = true;
         CanSpawnBoss = false;
-        BossTimer = CurrentHuntZoneData.BossKillTimer;
+        BossTimer = HuntZoneDatas[stage].BossTimer;
 
         var randomPoints = GetActiveRegenPoints();
 
@@ -216,6 +234,10 @@ public class HuntZone : MonoBehaviour
         {
             boss = null;
             CanSpawnBoss = true;
+            var nextStage = stage + 1;
+
+            if (HuntZoneDatas.ContainsKey(nextStage))
+                SetStage(nextStage);
         }
         else
         {
@@ -233,7 +255,7 @@ public class HuntZone : MonoBehaviour
 
     public void StartRetryTimer()
     {
-        RetryTimer = CurrentHuntZoneData.BossRetryTimer;
+        RetryTimer = HuntZoneDatas[stage].BossRetryTimer;
     }
 
     // 몬스터와 용병리스트 널 접근 오류 발생 시 이 메서드를 주기적으로 실행
@@ -257,7 +279,7 @@ public class HuntZone : MonoBehaviour
 
     public void SpawnUnit()
     {
-        if (Units.Count >= CurrentHuntZoneData.UnitCapacity)
+        if (Units.Count >= HuntZoneDatas[stage].UnitCapacity)
             return;
 
         foreach (var unitSelected in GameManager.unitManager.Units)
