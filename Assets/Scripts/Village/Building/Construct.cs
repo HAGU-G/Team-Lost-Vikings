@@ -36,7 +36,7 @@ public class Construct
         }
         var instancedObj = GameObject.Instantiate(obj, gridMap.IndexToPos(tileId), Quaternion.identity, tile.transform);
         var pos = instancedObj.transform.position;
-        pos.y = instancedObj.transform.position.y - gridMap.gridInfo.cellSize / (GameSetting.Instance.tileXY * 4f);
+        pos.y = instancedObj.transform.position.y + gridMap.gridInfo.cellSize / (GameSetting.Instance.tileXY * 4f);
         instancedObj.transform.position = pos;
 
         var buildingComponent = instancedObj.GetComponent<Building>();
@@ -65,6 +65,8 @@ public class Construct
 
         var indexX = tile.tileInfo.id.x;
         var indexY = tile.tileInfo.id.y;
+
+        
 
         var roadObj = GameObject.Instantiate(road, gridMap.IndexToPos(new Vector2Int(indexX, indexY)), Quaternion.identity, tile.transform);
         gridMap.GetTile(indexX, indexY).UpdateTileInfo(TileType.ROAD, roadObj);

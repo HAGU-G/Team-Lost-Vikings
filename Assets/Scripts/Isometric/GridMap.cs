@@ -138,12 +138,14 @@ public class GridMap : MonoBehaviour
 
     public Vector3 IndexToPos(Vector2Int index)
     {
-        int indexX = index.x ;
+        var parentPos = gameObject.GetComponentInParent<Transform>().position;
+
+        int indexX = index.x;
         int indexY = index.y;
         float x = (indexX - indexY) * gridInfo.cellSize / 2f;
         float y = (indexX + indexY) * gridInfo.cellSize / (GameSetting.Instance.tileXY * 2f);
 
-        return new Vector3(x, y, 0) + gameObject.transform.position;
+        return new Vector3(x, y, 0) + parentPos;
     }
     private int Heuristic(Cell a, Cell b)
     {

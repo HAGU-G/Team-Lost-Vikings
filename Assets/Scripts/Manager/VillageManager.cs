@@ -45,7 +45,7 @@ public class VillageManager : MonoBehaviour
         Init();
 
         VillageSet(gridMap);
-        VillageSet(gridMap2);
+        //VillageSet(gridMap2);
     }
 
     private void Init()
@@ -250,15 +250,6 @@ public class VillageManager : MonoBehaviour
         //        construct.isRemoveTime = false;
         //    }
         //}
-
-        if(Input.GetMouseButtonDown(0))
-        {
-            var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            if (GetTile(worldPos, gridMap) != null)
-            {
-                Debug.Log(GetTile(worldPos, gridMap).name);
-            }
-        }
     }
 
     private void VillageSet(GridMap gridMap)
