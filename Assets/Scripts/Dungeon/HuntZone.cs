@@ -114,8 +114,10 @@ public class HuntZone : MonoBehaviour
         var maxIndex = Mathf.Max(Monsters.Count - 1, Units.Count - 1);
         for (int i = maxIndex; i >= 0; i--)
         {
-            if (i < Monsters.Count)
+            if (i < Monsters.Count && (!IsBossBattle || !Monsters[i].stats.isBoss))
+            {
                 Monsters[i].RemoveMonster();
+            }
 
             if (isRemoveUnit && i < Units.Count)
                 Units[i].RemoveUnit();
@@ -215,7 +217,7 @@ public class HuntZone : MonoBehaviour
 
         var randomPoints = GetActiveRegenPoints();
 
-        boss = GameManager.huntZoneManager.GetMonster(this);
+        boss = GameManager.huntZoneManager.GetMonster(this, true);
         boss.transform.position = randomPoints[Random.Range(0, randomPoints.Count)].transform.position;
         boss.Subscribe(bossObserver);
 
@@ -227,9 +229,6 @@ public class HuntZone : MonoBehaviour
 
     public void EndBossBattle(bool isWin)
     {
-        IsBossBattle = false;
-        BossTimer = 0f;
-
         if (isWin)
         {
             boss = null;
@@ -245,6 +244,9 @@ public class HuntZone : MonoBehaviour
             boss = null;
             StartRetryTimer();
         }
+
+        BossTimer = 0f;
+        IsBossBattle = false;
     }
 
     public void ReceiveBossNotify()

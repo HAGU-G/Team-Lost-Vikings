@@ -63,10 +63,10 @@ public class HuntZoneManager : MonoBehaviour
         }
     }
 
-    public Monster GetMonster(HuntZone huntZone)
+    public Monster GetMonster(HuntZone huntZone, bool isBoss = false)
     {
         var monster = MonsterPool.Get();
-        monster.ResetMonster(huntZone);
+        monster.ResetMonster(huntZone, isBoss);
 
         monster.gameObject.transform.SetParent(huntZone.monstersRoot.transform);
         monster.gameObject.SetActive(true);
