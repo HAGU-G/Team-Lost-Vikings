@@ -99,9 +99,9 @@ public class UnitStats : Stats
 
     public void SetUpgradeStats()
     {
-        BaseStr.upgradeValue = GameManager.playerManager.unitStr;
-        BaseWiz.upgradeValue = GameManager.playerManager.unitMag;
-        BaseAgi.upgradeValue = GameManager.playerManager.unitAgi;
+        BaseStr.SetUpgrade(GameManager.playerManager.testStr);
+        BaseWiz.SetUpgrade(GameManager.playerManager.testWiz);
+        BaseAgi.SetUpgrade(GameManager.playerManager.testAgi);
     }
 
     public void SetLocation(LOCATION location, LOCATION nextLocation = LOCATION.NONE)
