@@ -12,10 +12,13 @@ public class VillageManager : MonoBehaviour
     public Construct construct = new();
     public List<GameObject> constructedBuildings = new();
     public GridMap gridMap;
+    public GridMap gridMap2;
     public Dictionary<int, GameObject> objectList = new();
     public List<GameObject> installableBuilding = new();
     public GameObject standardPrefab;
     public GameObject roadPrefab;
+
+    public List<GridMap> gridMaps;
 
     private int playerLevel = 1;
 
@@ -35,9 +38,14 @@ public class VillageManager : MonoBehaviour
 
     private void Start()
     {
+        gridMaps = new List<GridMap>();
+        //gridMap = new GridMap();
+        //gridMap2 = new GridMap();
+
         Init();
 
-        VillageSet();
+        VillageSet(gridMap);
+        VillageSet(gridMap2);
     }
 
     private void Init()
@@ -48,8 +56,14 @@ public class VillageManager : MonoBehaviour
             objectList.Add(building.StructureId, obj);
         }
         //gridMap.SetUsingTileList(1);
-        gridMap.SetUsingTileList(gridMap.usableTileList.Count -1);
 
+        //foreach(var map in gridMaps)
+        //{
+        //    map.SetUsingTileList(map.usableTileList.Count - 1);
+        //}
+
+        gridMap.SetUsingTileList(gridMap.usableTileList.Count -1);
+        gridMap2.SetUsingTileList(gridMap2.usableTileList.Count - 1);
         //var standard = construct.ConstructStandardBuilding(standardPrefab, gridMap);
         //constructedBuildings.Add(standard);
 
@@ -121,6 +135,7 @@ public class VillageManager : MonoBehaviour
     {
         ++playerLevel;
         gridMap.SetUsingTileList(playerLevel);
+        gridMap2.SetUsingTileList(playerLevel);
 
     }
 
@@ -139,16 +154,31 @@ public class VillageManager : MonoBehaviour
         }
     }
 
-    public Cell GetTile(Vector3 position)
+    public Cell GetTile(Vector3 position, GridMap map)
     {
-        if (gridMap.PosToIndex(position) == new Vector2Int(-1, -1))
+            Vector2Int tileId = gridMap.PosToIndex(position);
+            if (tileId.x >= 0 && tileId.y >= 0)
+            {
+                if (map.tiles.ContainsKey(tileId))
+                {
+                    return map.tiles[tileId];
+                }
+            }
+        if (map.PosToIndex(position) == new Vector2Int(-1, -1))
             return null;
 
-        var tileId = gridMap.PosToIndex(position);
-        if (tileId.x < 0 || tileId.y < 0)
-            return null;
+        return null;
+    }
 
-        return gridMap.tiles[tileId];
+    public Cell GetTile(int x, int y, GridMap includedGridMap)
+    {
+        Cell tile = includedGridMap.GetTile(x, y);
+        if (tile != null)
+        {
+            return tile;
+        }
+        Debug.Log("타일을 찾을 수 없습니다.");
+        return null;
     }
 
     private void Update()
@@ -220,69 +250,79 @@ public class VillageManager : MonoBehaviour
         //        construct.isRemoveTime = false;
         //    }
         //}
+
+        if(Input.GetMouseButtonDown(0))
+        {
+            var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            if (GetTile(worldPos, gridMap) != null)
+            {
+                Debug.Log(GetTile(worldPos, gridMap).name);
+            }
+        }
     }
 
-    private void VillageSet()
+    private void VillageSet(GridMap gridMap)
     {
         for (int i = 27; i < 36; ++i)
         {
-            construct.PlaceRoad(roadPrefab, gridMap.GetTile(36, i), gridMap);
-            construct.PlaceRoad(roadPrefab, gridMap.GetTile(32, i), gridMap);
-            construct.PlaceRoad(roadPrefab, gridMap.GetTile(28, i), gridMap);
+            construct.PlaceRoad(roadPrefab, GetTile(36, i, gridMap), gridMap);
+            construct.PlaceRoad(roadPrefab, GetTile(32, i, gridMap), gridMap);
+            construct.PlaceRoad(roadPrefab, GetTile(28, i, gridMap), gridMap);
         }
 
         for(int i = 29; i < 36; ++i)
         {
-            construct.PlaceRoad(roadPrefab, gridMap.GetTile(i, 35), gridMap);
-            construct.PlaceRoad(roadPrefab, gridMap.GetTile(i, 31), gridMap);
-            construct.PlaceRoad(roadPrefab, gridMap.GetTile(i, 27), gridMap);
+            construct.PlaceRoad(roadPrefab, GetTile(i, 35, gridMap), gridMap);
+            construct.PlaceRoad(roadPrefab, GetTile(i, 31, gridMap), gridMap);
+            construct.PlaceRoad(roadPrefab, GetTile(i, 27, gridMap), gridMap);
         }
 
-        construct.PlaceRoad(roadPrefab, gridMap.GetTile(31, 32), gridMap);
-        construct.PlaceRoad(roadPrefab, gridMap.GetTile(31, 30), gridMap);
-        construct.PlaceRoad(roadPrefab, gridMap.GetTile(33, 30), gridMap);
-        construct.PlaceRoad(roadPrefab, gridMap.GetTile(33, 32), gridMap);
+        construct.PlaceRoad(roadPrefab, GetTile(31, 32, gridMap), gridMap);
+        construct.PlaceRoad(roadPrefab, GetTile(31, 30, gridMap), gridMap);
+        construct.PlaceRoad(roadPrefab, GetTile(33, 30, gridMap), gridMap);
+        construct.PlaceRoad(roadPrefab, GetTile(33, 32, gridMap), gridMap);
 
 
         /////////
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.HP_RECOVERY);
-        var hp = construct.PlaceBuilding(selectedObj, gridMap.GetTile(29, 34), gridMap);
+        var hp = construct.PlaceBuilding(selectedObj, GetTile(29, 34, gridMap), gridMap);
         constructedBuildings.Add(hp);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STAMINA_RECOVERY);
-        var stamina = construct.PlaceBuilding(selectedObj, gridMap.GetTile(29, 33), gridMap);
+        var stamina = construct.PlaceBuilding(selectedObj, GetTile(29, 33, gridMap), gridMap);
         constructedBuildings.Add(stamina);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STRESS_RECOVERY);
-        var stress = construct.PlaceBuilding(selectedObj, gridMap.GetTile(29, 32), gridMap);
+        var stress = construct.PlaceBuilding(selectedObj, GetTile(29, 32, gridMap), gridMap);
         constructedBuildings.Add(stress);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STANDARD);
-        var standard = construct.PlaceBuilding(selectedObj, gridMap.GetTile(32, 31), gridMap);
+        var standard = construct.PlaceBuilding(selectedObj, GetTile(32, 31, gridMap), gridMap);
         constructedBuildings.Add(standard);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STR_UPGRADE);
-        var str = construct.PlaceBuilding(selectedObj, gridMap.GetTile(29, 30), gridMap);
+        var str = construct.PlaceBuilding(selectedObj, GetTile(29, 30, gridMap), gridMap);
         str.GetComponent<StatUpgradeBuilding>().RiseStat();
         constructedBuildings.Add(str);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.MAG_UPGRADE);
-        var mag = construct.PlaceBuilding(selectedObj, gridMap.GetTile(29, 29), gridMap);
+        var mag = construct.PlaceBuilding(selectedObj, GetTile(29, 29, gridMap), gridMap);
         mag.GetComponent<StatUpgradeBuilding>().RiseStat();
         constructedBuildings.Add(mag);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.AGI_UPGRADE);
-        var agi = construct.PlaceBuilding(selectedObj, gridMap.GetTile(29, 28), gridMap);
+        var agi = construct.PlaceBuilding(selectedObj, GetTile(29, 28, gridMap), gridMap);
         agi.GetComponent<StatUpgradeBuilding>().RiseStat();
         constructedBuildings.Add(agi);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.PORTAL);
-        var portal = construct.PlaceBuilding(selectedObj, gridMap.GetTile(35, 32), gridMap);
+        var portal = construct.PlaceBuilding(selectedObj, GetTile(35, 32, gridMap), gridMap);
         constructedBuildings.Add(portal);
 
         var portalBuilding = portal.GetComponent<Building>();
         portalBuilding.RotateBuilding(portalBuilding);
 
+        gridMaps.Add(gridMap);
     }
 
     public bool FindBuilding(STRUCTURE_TYPE structureType, Predicate<GameObject> predicate)

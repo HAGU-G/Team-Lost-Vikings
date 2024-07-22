@@ -75,6 +75,10 @@ public class Building : MonoBehaviour
     {
         var localScale = building.transform.localScale;
         var transedId = building.entranceTile.tileInfo.id;
+        if (building.entranceTile.tileInfo.RoadLayer.LayerObject != null)
+        {
+            building.entranceTile.tileInfo.RoadLayer.LayerObject.GetComponent<SpriteRenderer>().material.color = default;
+        }
         gridMap = building.gridMap;
         if (!building.isFlip)
         {
@@ -102,6 +106,10 @@ public class Building : MonoBehaviour
         building.transform.localScale = localScale;
         building.entranceTile.ResetTileInfo();
         building.entranceTile = gridMap.tiles[transedId];
-        building.entranceTile.TileColorChange();
+        building.entranceTile.TileColorChange(); 
+        if (building.entranceTile.tileInfo.RoadLayer.LayerObject != null)
+        {
+            building.entranceTile.tileInfo.RoadLayer.LayerObject.GetComponent<SpriteRenderer>().material.color = Color.magenta;
+        }
     }
 }

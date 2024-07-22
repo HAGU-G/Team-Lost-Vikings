@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7951357230279266954}
   - component: {fileID: 6435756627462012080}
   m_Layer: 0
-  m_Name: STANDARD
+  m_Name: Standard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1911002493813102624}
@@ -60,12 +60,8 @@ MonoBehaviour:
   <StructureAssetFileName>k__BackingField: 
   placedTiles:
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   entranceTile: {fileID: 0}
   gridMap: {fileID: 0}
-  upgrade: {fileID: 0}
 --- !u!212 &6435756627462012080
 SpriteRenderer:
   m_ObjectHideFlags: 0
