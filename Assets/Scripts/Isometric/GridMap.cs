@@ -8,6 +8,7 @@ public class GridMap : MonoBehaviour
     public Dictionary<Vector2Int, Cell> tiles = new Dictionary<Vector2Int, Cell>();
     public GameObject cellPrefab;
     private List<Cell> path;
+    
 
     public List<Cell> usingTileList = new(); //gridMap 내에서 사용 가능한 타일 리스트
     public List<List<Cell>> usableTileList = new(); //usingTileList에 단계별로 할당하기 위한 List
@@ -44,16 +45,31 @@ public class GridMap : MonoBehaviour
         {
             for (int y = 0; y < row; y++)
             {
+                var cellPrefabSize = cellPrefab.GetComponent<SpriteRenderer>().sprite.bounds.size;
+
+                var scaleFactorX = gridInfo.cellSize / cellPrefabSize.x;
+                var scaleFactorY = gridInfo.cellSize / cellPrefabSize.y;
+
+                //Vector3 isoPos = new Vector3(
+                //    (x - y) * gridInfo.cellSize / 2f,
+                //    (x + y) * gridInfo.cellSize / 4f,
+                //    0
+                //);
+
                 Vector3 isoPos = new Vector3(
-                    (x - y) * gridInfo.cellSize / 2f,
-                    (x + y) * gridInfo.cellSize / 4f,
+                    (x - y) * (cellPrefabSize.x * scaleFactorX) / 2f,
+                    (x + y) * (cellPrefabSize.y * scaleFactorY) / (GameSetting.Instance.tileXY * 2f),
                     0
                 );
 
                 isoPos += parentPosition;
                 GameObject cell = Instantiate(cellPrefab, isoPos, Quaternion.identity, transform);
-                cell.transform.localScale = new Vector3(gridInfo.cellSize, gridInfo.cellSize, gridInfo.cellSize);
                 var text = cell.GetComponentInChildren<TextMeshPro>();
+
+                SpriteRenderer renderer = cell.GetComponent<SpriteRenderer>();
+                Vector2 spriteSize = renderer.sprite.bounds.size;
+                //cell.transform.localScale = new Vector3(gridInfo.cellSize / spriteSize.x, gridInfo.cellSize / spriteSize.y, 1);
+                cell.transform.localScale = new Vector3(scaleFactorX, scaleFactorY, 1);
 
                 var tile = cell.GetComponent<Cell>();
                 tile.tileInfo.id = new Vector2Int(x, y);
@@ -63,6 +79,7 @@ public class GridMap : MonoBehaviour
                 text.text = $"{tile.tileInfo.id}";
                 tiles.Add(tile.tileInfo.id, tile);
                 tileArray[x, y] = tile;
+
             }
         }
 
@@ -123,7 +140,7 @@ public class GridMap : MonoBehaviour
         int indexX = index.x ;
         int indexY = index.y;
         float x = (indexX - indexY) * gridInfo.cellSize / 2f;
-        float y = (indexX + indexY) * gridInfo.cellSize / 4f;
+        float y = (indexX + indexY) * gridInfo.cellSize / (GameSetting.Instance.tileXY * 2f);
 
         return new Vector3(x, y, 0) + gameObject.transform.position;
     }

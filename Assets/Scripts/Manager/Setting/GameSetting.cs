@@ -82,7 +82,7 @@ public class GameSetting : ScriptableObject
 
     [Range(0f, 2f)]
     public float ellipseRatio = 0.75f;
-
+    public float tileXY = 1.8f;
 
 
 

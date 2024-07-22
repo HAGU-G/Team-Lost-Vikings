@@ -29,9 +29,14 @@ public class Construct
                   
         objInfo.entranceTile = gridMap.tiles[new Vector2Int(tile.tileInfo.id.x - 1, tile.tileInfo.id.y)];
         objInfo.entranceTile.TileColorChange();
+        if(objInfo.entranceTile.tileInfo.RoadLayer.LayerObject != null)
+        {
+            objInfo.entranceTile.tileInfo.RoadLayer.LayerObject.GetComponent<SpriteRenderer>().material.color = Color.magenta;
+            //프로토타입 임시 코드
+        }
         var instancedObj = GameObject.Instantiate(obj, gridMap.IndexToPos(tileId), Quaternion.identity, tile.transform);
         var pos = instancedObj.transform.position;
-        pos.y = instancedObj.transform.position.y + gridMap.gridInfo.cellSize / 4f;
+        pos.y = instancedObj.transform.position.y - gridMap.gridInfo.cellSize / (GameSetting.Instance.tileXY * 4f);
         instancedObj.transform.position = pos;
 
         var buildingComponent = instancedObj.GetComponent<Building>();
@@ -64,7 +69,15 @@ public class Construct
         var roadObj = GameObject.Instantiate(road, gridMap.IndexToPos(new Vector2Int(indexX, indexY)), Quaternion.identity, tile.transform);
         gridMap.GetTile(indexX, indexY).UpdateTileInfo(TileType.ROAD, roadObj);
 
-        
+        //SpriteRenderer renderer = tile.GetComponent<SpriteRenderer>();
+        //var spriteSize = renderer.sprite.bounds.size;
+        roadObj.transform.localScale = tile.transform.localScale;
+
+        var pos = roadObj.transform.position;
+        pos.y = roadObj.transform.position.y /*- (gridMap.gridInfo.cellSize / (GameSetting.Instance.tileXY * 2f))*/;
+        pos.z += 1;
+        roadObj.transform.position = pos;
+
         return roadObj;
     }
 
@@ -188,8 +201,6 @@ public class Construct
 
     private bool CanBuildRoad(Cell tile, GridMap gridMap)
     {
-        Debug.Log(tile);
-        Debug.Log(gridMap);
         if (tile.tileInfo.TileType == TileType.OBJECT
             || tile.tileInfo.TileType == TileType.ROAD)
             return false;

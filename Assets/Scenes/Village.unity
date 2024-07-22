@@ -706,6 +706,7 @@ MonoBehaviour:
   - {fileID: 3437462031091102053, guid: b29c408c91eb17b44a759b0c264d55db, type: 3}
   standardPrefab: {fileID: 3313551129836266134, guid: 568c83c00f47df44fb15e420920b1664, type: 3}
   roadPrefab: {fileID: 101424399208625417, guid: cba03f8874769744bb9e7ee7ac90b656, type: 3}
+  gridMaps: []
 --- !u!4 &927712893
 Transform:
   m_ObjectHideFlags: 0
