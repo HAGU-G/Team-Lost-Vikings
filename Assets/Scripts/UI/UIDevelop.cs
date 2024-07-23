@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,10 @@ public class UIDevelop : MonoBehaviour
 
     private int currentHuntZone = 1;
     private bool isShowVillage = true;
+
+    public TextMeshProUGUI villageLevel;
+    public TextMeshProUGUI gold;
+
 
     public void OnButtonVillage()
     {
@@ -106,8 +111,35 @@ public class UIDevelop : MonoBehaviour
         GameManager.huntZoneManager.HuntZones[currentHuntZone].StartBossBattle();
     }
 
+    public void OnButtonTutorialPopUp()
+    {
+        GameManager.uiManager.windows[(int)WINDOW_NAME.TUTORIAL_POPUP].Open();
+    }
+
+    public void OnButtonGachaUI()
+    {
+        GameManager.uiManager.windows[(int)WINDOW_NAME.GACHA_UI].Open();
+    }
+
+    public void OnButtonUnitStash()
+    {
+        GameManager.uiManager.windows[(int)WINDOW_NAME.CHARACTER_STASH].Open();
+    }
+
+    public void OnButtonPrepare()
+    {
+        GameManager.uiManager.windows[(int)WINDOW_NAME.WAIT_FOR_CBT].Open();
+    }
+
+    public void SetVillageLevel()
+    {
+        villageLevel.text = $"마을 회관 \nLv : {GameManager.villageManager.PlayerLevel.ToString()}";
+        gold.text = $"{GameManager.itemManager.Gold}";
+    }
+
     private void Start()
     {
+        SetVillageLevel();
         textHuntZone.text = $"HuntZone {currentHuntZone}";
         inputStageNum.text = 1.ToString();
         onHuntZone.SetActive(false);

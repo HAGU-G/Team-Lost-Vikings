@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEditor.Build.Pipeline.Utilities;
 using UnityEditor.PackageManager;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class VillageManager : MonoBehaviour
 {
@@ -12,7 +13,6 @@ public class VillageManager : MonoBehaviour
     public Construct construct = new();
     public List<GameObject> constructedBuildings = new();
     public GridMap gridMap;
-    public GridMap gridMap2;
     public Dictionary<int, GameObject> objectList = new();
     public List<GameObject> installableBuilding = new();
     public GameObject standardPrefab;
@@ -23,6 +23,8 @@ public class VillageManager : MonoBehaviour
     private int playerLevel = 1;
 
     private GameObject selectedObj;
+
+    public int PlayerLevel {  get { return playerLevel; } }
 
     private void Awake()
     {
@@ -65,7 +67,6 @@ public class VillageManager : MonoBehaviour
         //}
 
         gridMap.SetUsingTileList(gridMap.usableTileList.Count -1);
-        gridMap2.SetUsingTileList(gridMap2.usableTileList.Count - 1);
         //var standard = construct.ConstructStandardBuilding(standardPrefab, gridMap);
         //constructedBuildings.Add(standard);
 
@@ -133,11 +134,11 @@ public class VillageManager : MonoBehaviour
 
     }
 
+
     public void LevelUp()
     {
         ++playerLevel;
         gridMap.SetUsingTileList(playerLevel);
-        gridMap2.SetUsingTileList(playerLevel);
 
     }
 
@@ -185,6 +186,30 @@ public class VillageManager : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, 100f);
+
+            if (GameManager.uiManager.isWindowOn)
+                return;
+
+            if (hit.collider != null)
+            {
+                Debug.Log(hit);
+                var building = hit.transform.gameObject.GetComponent<Building>();
+                var parameter = hit.transform.gameObject.GetComponent<ParameterRecoveryBuilding>();
+                if(parameter != null)
+                {
+                    parameter.TouchParameterBuilding();
+                }
+                else if(building != null)
+                {
+                    building.TouchBuilding();
+                }
+            }
+        }
+
         //if (Input.GetMouseButtonDown(0) && construct.isSelected)
         //{
         //    var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -212,7 +237,7 @@ public class VillageManager : MonoBehaviour
 
         //if (Input.GetMouseButton(0) && construct.isRoadBuild)
         //{
-           
+
         //    var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         //    if (GetTile(worldPos) != null)
         //    {

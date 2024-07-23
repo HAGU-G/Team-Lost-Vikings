@@ -30,6 +30,8 @@ public class Building : MonoBehaviour
     public int UpgradeId { get; set; }
     [field: SerializeField]
     public string StructureAssetFileName { get; set; }
+    [field: SerializeField]
+    public string StructureDesc { get; set; }
 
     public List<Cell> placedTiles = new List<Cell>();
     public Cell entranceTile;
@@ -59,7 +61,16 @@ public class Building : MonoBehaviour
         //TO-DO : 수정하기
     }
 
-    
+    public void TouchBuilding()
+    {
+        GameManager.uiManager.currentNormalBuidling = this;
+        GameManager.uiManager.windows[(int)WINDOW_NAME.BUILDING_POPUP].Open();
+    }
+
+    private void Update()
+    {
+        
+    }
 
 
     //private void OnGUI()

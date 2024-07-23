@@ -17,9 +17,10 @@ MonoBehaviour:
   syncInterval: 30
   syncLimitSeconds: 4
   ellipseRatio: 0.75
+  tileXY: 1.8
   returnHPRaito: 0.2
   returnStaminaRaito: 0.2
-  returnStressRaito: 0.2
+  returnStressRaito: 0
   staminaReduceAmount: 1
   stressReduceAmount: 1
   overrollUltraRare: 231

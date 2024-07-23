@@ -27,7 +27,7 @@ RectTransform:
   m_GameObject: {fileID: 430067604325085336}
   m_LocalRotation: {x: -0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: -0.0723572, y: 0.07235719, z: 0.07235718}
+  m_LocalScale: {x: 0.0723572, y: 0.07235719, z: 0.07235718}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7270618911182866233}
@@ -182,7 +182,6 @@ GameObject:
   - component: {fileID: 7270618911182866233}
   - component: {fileID: 6340995333719652075}
   - component: {fileID: 2530469378690998315}
-  - component: {fileID: 385491535526446956}
   - component: {fileID: 2167204297273888135}
   m_Layer: 0
   m_Name: Portal
@@ -231,6 +230,7 @@ MonoBehaviour:
   <CanDestroy>k__BackingField: 0
   <UpgradeId>k__BackingField: 0
   <StructureAssetFileName>k__BackingField: 
+  <StructureDesc>k__BackingField: 
   placedTiles:
   - {fileID: 0}
   entranceTile: {fileID: 0}
@@ -287,41 +287,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &385491535526446956
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3437462031091102053}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.1
 --- !u!114 &2167204297273888135
 MonoBehaviour:
   m_ObjectHideFlags: 0

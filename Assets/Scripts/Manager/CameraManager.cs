@@ -7,6 +7,11 @@ public class CameraManager : MonoBehaviour
     private float minFov = 15f;
     private float maxFov = 90f;
 
+    private Vector2? lastPanPosition;
+    private int fingerId;
+    private bool wasZoomingLastFrame;
+    private Vector2[] lastZoomPositions;
+
     private void Update()
     {
         float horizontal = Input.GetAxis("Horizontal");

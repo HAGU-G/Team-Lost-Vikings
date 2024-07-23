@@ -26,11 +26,7 @@ public class Village : MonoBehaviour
 
     private void OnGameInit()
     {
-        //var unit = Instantiate(unitPrefab, villageManager.gridMap.IndexToPos(new Vector2Int(31, 31))
-        //    , Quaternion.identity, villageManager.gridMap.transform);
-        //units.Add(unit);
-
-
+        
     }
 
     public void UnitSpawn()
@@ -139,10 +135,8 @@ public class Village : MonoBehaviour
             {
                 var building = hit.transform.gameObject.GetComponent<Building>();
 
-                if (building != null
-                    /*&& this == building*/)
+                if (building != null)
                 {
-                    Debug.Log(building.StructureName);
                     upgrade = building.gameObject.GetComponent<BuildingUpgrade>();
                 }
                 else

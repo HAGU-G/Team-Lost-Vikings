@@ -16,16 +16,47 @@ public class BuildingUpgrade : MonoBehaviour
     [field: SerializeField] public int StatReturn { get; private set; }
     [field: SerializeField] public int ParameterType { get; private set; }
     [field: SerializeField] public int ParameterRecovery { get; private set; }
-    [field: SerializeField] public float RecvoeryTime { get; private set; }
+    [field: SerializeField] public float RecoveryTime { get; private set; }
+    [field: SerializeField] public int ProgressVarType { get; private set; }
+    [field: SerializeField] public float ProgressVarReturn { get; private set; }
     [field: SerializeField] public int RecipeId { get; private set; }
     [field: SerializeField] public int ItemStack {  get; private set; }
     [field: SerializeField] public float RequireTime { get; private set; }
     [field: SerializeField] public int RequireGold { get; private set; }
     [field: SerializeField] public int RequireRune {  get; private set; }
-    [field: SerializeField] public int ItemNum { get; private set; }
-    [field: SerializeField] public int ItemId { get; private set; }
+    [field: SerializeField] public List<int> ItemIds { get; private set; }
+    [field: SerializeField] public List<int> ItemNums { get; private set; }
+    [field: SerializeField] public string UpgradeDesc { get; private set; }
 
-    public int currentGrade = 0;
+    private int currentGrade = 1;
+
+    private void SetBuildingUpgrade()
+    {
+        UpgradeGrade = currentGrade;
+        var upgrade = DataTableManager.upgradeTable.GetData(UpgradeId)[UpgradeGrade];
+
+        UpgradeName = upgrade.UpgradeName;
+        StatType = upgrade.StatType;
+        StatReturn = upgrade.StatReturn;
+        ParameterRecovery = upgrade.ParameterRecovery;
+        RecoveryTime = upgrade.RecoveryTime;
+        ProgressVarType = upgrade.ProgressVarType;
+        ProgressVarReturn = upgrade.ProgressVarReturn;
+        RecipeId = upgrade.RecipeId;
+        ItemStack = upgrade.ItemStack;
+        RequireTime = upgrade.RequireTime;
+        RequireGold = upgrade.RequireGold;
+        RequireRune = upgrade.RequireRune;
+
+        for(int i = 1; i <= 5; ++i )
+        {
+            ItemIds[i] = upgrade.ItemIds[i];
+            ItemNums[i] = upgrade.ItemNums[i];
+        }
+
+        UpgradeDesc = upgrade.UpgradeDesc;
+
+    }
 
     public void Upgrade()
     {
@@ -45,7 +76,7 @@ public class BuildingUpgrade : MonoBehaviour
                 if((PARAMETER_TYPES)ParameterType == parameter.parameterType)
                 {
                     parameter.recoveryAmount += ParameterRecovery;
-                    parameter.recoveryTime = RecvoeryTime;
+                    parameter.recoveryTime = RecoveryTime;
                     ++currentGrade;
                 }
                 break;
@@ -54,6 +85,7 @@ public class BuildingUpgrade : MonoBehaviour
             case (int)STRUCTURE_TYPE.ITEM_SELL:
                 break;
         }
+        SetBuildingUpgrade();
     }
 
 }

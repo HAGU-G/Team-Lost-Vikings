@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
 {
     public Building building;
     public PARAMETER_TYPES parameterType;
-    private UnitOnVillage unit;
+   // private UnitOnVillage unit;
+    public List<UnitOnVillage> interactingUnits;
     public int recoveryAmount;
     public float recoveryTime;
     private bool isRecovering;
@@ -35,6 +37,8 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
     {
         //isRecovering = true;
         Debug.Log($"hp : {unit.stats.HP} stamina : {unit.stats.Stamina} stress : {unit.stats.Stress}");
+        interactingUnits.Add(unit);
+        GameManager.uiManager.windows[(int)WINDOW_NAME.PARAMETER_POPUP].GetComponent<UIBuildingParameterPopUp>().SetCharacterInformation();
         yield return new WaitForSeconds(recoveryTime);
         bool isComplete = false;
 
@@ -79,8 +83,10 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
             if (isComplete)
             {
                 isRecovering = false;
+                interactingUnits.Remove(unit);
                 unit.RecoveryDone(parameterType);
                 //OnRecoveryDone?.Invoke(parameterType);
+
                 yield break;
             }
         }
@@ -93,7 +99,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
 
     public void SetUnit(UnitOnVillage unit)
     {
-        this.unit = unit;
+       // this.unit = unit;
     }
 
     public void SetParameter(PARAMETER_TYPES parameterType)
@@ -107,5 +113,12 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
         {
             OnRecoveryDone?.Invoke(type);
         }
+    }
+
+    public void TouchParameterBuilding()
+    {
+        GameManager.uiManager.currentNormalBuidling = this.gameObject.GetComponent<Building>();
+        GameManager.uiManager.currentParameterBuilding = this;
+        GameManager.uiManager.windows[(int)WINDOW_NAME.PARAMETER_POPUP].Open();
     }
 }

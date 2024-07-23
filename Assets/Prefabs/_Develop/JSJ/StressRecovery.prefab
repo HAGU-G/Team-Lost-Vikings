@@ -49,8 +49,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16e120b65961f8543b286e5d368be52d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <StructureName>k__BackingField: stressRecovery
-  <StructureId>k__BackingField: 2
+  <StructureName>k__BackingField: "\uC8FC\uC810"
+  <StructureId>k__BackingField: 110000003
   <Width>k__BackingField: 1
   <Length>k__BackingField: 1
   <StructureType>k__BackingField: 1
@@ -59,8 +59,10 @@ MonoBehaviour:
   <CanReverse>k__BackingField: 0
   <CanReplace>k__BackingField: 0
   <CanDestroy>k__BackingField: 0
-  <UpgradeId>k__BackingField: 0
-  <StructureAssetFileName>k__BackingField: 
+  <UpgradeId>k__BackingField: 200300001
+  <StructureAssetFileName>k__BackingField: Building-v4 (18)
+  <StructureDesc>k__BackingField: "\uC720\uB2DB\uC758 \uC815\uC2E0\uB825\uC744 \uD68C\uBCF5\uC2DC\uCF1C\uC8FC\uB294
+    \uAC74\uBB3C"
   placedTiles:
   - {fileID: 0}
   entranceTile: {fileID: 0}
@@ -78,7 +80,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   building: {fileID: 0}
-  parameterType: 2
+  parameterType: 3
+  interactingUnits: []
   recoveryAmount: 50
   recoveryTime: 3
 --- !u!212 &4889437894300722720
@@ -675,24 +678,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fdfb9230d4b5a34aabbdf91b4e0d2d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <UpgradeName>k__BackingField: 
-  <UpgradeId>k__BackingField: 0
-  <UpgradeGrade>k__BackingField: 0
+  <UpgradeName>k__BackingField: "\uC8FC\uC8101\uB2E8\uACC4"
+  <UpgradeId>k__BackingField: 200300001
+  <UpgradeGrade>k__BackingField: 1
   <StructureLevel>k__BackingField: 0
   <StructureType>k__BackingField: 1
   <StatType>k__BackingField: 0
   <StatReturn>k__BackingField: 0
-  <ParameterType>k__BackingField: 2
-  <ParameterRecovery>k__BackingField: 10
-  <RecvoeryTime>k__BackingField: 4
+  <ParameterType>k__BackingField: 3
+  <ParameterRecovery>k__BackingField: 11
+  <RecoveryTime>k__BackingField: 5
+  <ProgressVarType>k__BackingField: 1
+  <ProgressVarReturn>k__BackingField: 1
   <RecipeId>k__BackingField: 0
   <ItemStack>k__BackingField: 0
   <RequireTime>k__BackingField: 0
-  <RequireGold>k__BackingField: 0
+  <RequireGold>k__BackingField: 500
   <RequireRune>k__BackingField: 0
-  <ItemNum>k__BackingField: 0
-  <ItemId>k__BackingField: 0
-  currentGrade: 0
+  <ItemIds>k__BackingField: 
+  <ItemNums>k__BackingField: 
+  <UpgradeDesc>k__BackingField: "stress \uD68C\uBCF5 \uAC74\uBB3C\uC785\uB2C8\uB2E4."
 --- !u!1 &3866149846544589759
 GameObject:
   m_ObjectHideFlags: 0

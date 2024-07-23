@@ -18,7 +18,7 @@ public enum RECIPE
 
 public enum PARAMETER_TYPES
 {
-    NONE = -1,
+    NONE = 0,
     HP,
     STAMINA,
     STRESS,
@@ -40,12 +40,12 @@ public static class BuildingName
 
 public enum STRUCTURE_ID
 {
-    HP_RECOVERY,
-    STAMINA_RECOVERY,
-    STRESS_RECOVERY,
-    STANDARD,
-    STR_UPGRADE,
-    MAG_UPGRADE,
-    AGI_UPGRADE,
-    PORTAL,
+    HP_RECOVERY = 110000001,
+    STAMINA_RECOVERY = 110000002,
+    STRESS_RECOVERY = 110000003,
+    STANDARD = 3,
+    STR_UPGRADE = 100000001,
+    MAG_UPGRADE = 100000002,
+    AGI_UPGRADE = 100000003,
+    PORTAL = 7,
 }

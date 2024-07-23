@@ -222,8 +222,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16e120b65961f8543b286e5d368be52d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <StructureName>k__BackingField: strUpgrade
-  <StructureId>k__BackingField: 4
+  <StructureName>k__BackingField: "\uCD08\uAE09\uAC80\uC220\uC218\uB828\uC7A5"
+  <StructureId>k__BackingField: 100000001
   <Width>k__BackingField: 1
   <Length>k__BackingField: 1
   <StructureType>k__BackingField: 0
@@ -232,8 +232,10 @@ MonoBehaviour:
   <CanReverse>k__BackingField: 0
   <CanReplace>k__BackingField: 0
   <CanDestroy>k__BackingField: 0
-  <UpgradeId>k__BackingField: 0
-  <StructureAssetFileName>k__BackingField: 
+  <UpgradeId>k__BackingField: 201000001
+  <StructureAssetFileName>k__BackingField: Building-v4 (22)
+  <StructureDesc>k__BackingField: "\uC720\uB2DB\uC758 \uD798\uC744 \uC99D\uAC00\uC2DC\uD0A4\uB294
+    \uAC74\uBB3C"
   placedTiles:
   - {fileID: 0}
   entranceTile: {fileID: 0}
@@ -641,8 +643,8 @@ PolygonCollider2D:
       - {x: -3.08, y: 1.8299999}
       - {x: -3.01, y: 1.53}
       - {x: -2.98, y: 1.4699999}
-      - {x: -2.8899999, y: 1.48}
-      - {x: -2.8799999, y: 1.3399999}
+      - {x: -3.0477793, y: 1.4457002}
+      - {x: -3.0240593, y: 1.4600495}
       - {x: -2.99, y: 1.4399999}
       - {x: -3.02, y: 1.4499999}
       - {x: -3.07, y: 1.42}
@@ -694,16 +696,16 @@ PolygonCollider2D:
       - {x: -0.81, y: 5.56}
       - {x: -0.83, y: 5.6299996}
       - {x: -0.45, y: 5.96}
-      - {x: -0.19, y: 6.12}
-      - {x: 0.049999997, y: 6.3199997}
+      - {x: -7.3705263, y: -0.8194103}
+      - {x: -0.42270082, y: -2.2181587}
       - {x: 0.099999994, y: 6.43}
       - {x: 0.17999999, y: 6.3599997}
       - {x: 0.32, y: 6.35}
       - {x: 0.41, y: 6.3999996}
       - {x: 0.5, y: 6.48}
       - {x: 0.58, y: 6.5699997}
-      - {x: 0.64, y: 6.58}
-      - {x: 0.75, y: 6.5099998}
+      - {x: -0.89510345, y: -2.5575294}
+      - {x: 0.6403496, y: -3.0661302}
       - {x: 0.87, y: 6.47}
       - {x: 0.93, y: 6.48}
       - {x: 1.03, y: 6.5099998}
@@ -928,7 +930,8 @@ PolygonCollider2D:
       - {x: -7.33, y: 1.28}
       - {x: -7.48, y: 1.25}
       - {x: -7.56, y: 1.1899999}
-      - {x: -7.5699997, y: 0.83}
+      - {x: -4.0577264, y: -0.3449931}
+      - {x: -4.7426667, y: 4.9853096}
       - {x: -7.5499997, y: 0.64}
       - {x: -7.5499997, y: 0.39999998}
       - {x: -7.5899997, y: 0.24}
@@ -1170,21 +1173,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fdfb9230d4b5a34aabbdf91b4e0d2d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <UpgradeName>k__BackingField: 
-  <UpgradeId>k__BackingField: 0
-  <UpgradeGrade>k__BackingField: 0
+  <UpgradeName>k__BackingField: "\uCD08\uAE09 \uAC80\uC220\uC218\uB828\uC7A5 1\uB2E8\uACC4"
+  <UpgradeId>k__BackingField: 201000001
+  <UpgradeGrade>k__BackingField: 1
   <StructureLevel>k__BackingField: 0
   <StructureType>k__BackingField: 0
-  <StatType>k__BackingField: 0
+  <StatType>k__BackingField: 1
   <StatReturn>k__BackingField: 10
   <ParameterType>k__BackingField: 0
   <ParameterRecovery>k__BackingField: 0
-  <RecvoeryTime>k__BackingField: 0
+  <RecoveryTime>k__BackingField: 0
+  <ProgressVarType>k__BackingField: 1
+  <ProgressVarReturn>k__BackingField: 1
   <RecipeId>k__BackingField: 0
   <ItemStack>k__BackingField: 0
   <RequireTime>k__BackingField: 0
-  <RequireGold>k__BackingField: 0
+  <RequireGold>k__BackingField: 500
   <RequireRune>k__BackingField: 0
-  <ItemNum>k__BackingField: 0
-  <ItemId>k__BackingField: 0
-  currentGrade: 0
+  <ItemIds>k__BackingField: 
+  <ItemNums>k__BackingField: 
+  <UpgradeDesc>k__BackingField: "\uBAA8\uB4E0 \uC720\uB2DB\uC758 \uD798 \uC2A4\uD15F\uC774
+    10 \uC99D\uAC00\uD569\uB2C8\uB2E4"

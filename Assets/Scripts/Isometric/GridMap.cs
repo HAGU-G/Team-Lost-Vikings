@@ -127,7 +127,7 @@ public class GridMap : MonoBehaviour
         int indexX = Mathf.RoundToInt((GameSetting.Instance.tileXY * y + x) / gridInfo.cellSize);
         int indexY = Mathf.RoundToInt((GameSetting.Instance.tileXY * y - x) / gridInfo.cellSize);
 
-        if (indexX < 0 || indexY < 0 || indexX > gridInfo.row || indexY > gridInfo.col)
+        if (indexX < 0 || indexY < 0 || indexX >= gridInfo.row || indexY >= gridInfo.col)
         {
             Debug.Log("Out Of Index");
             return new Vector2Int(-1, -1);
