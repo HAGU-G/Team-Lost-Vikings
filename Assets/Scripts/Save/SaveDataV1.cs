@@ -8,8 +8,7 @@ public class SaveDataV1 : SaveData
 
     public List<HuntZoneInfo> huntZones = new();
     public Dictionary<int, List<int>> UnitDeployment;
-
-
+    public List<int> buildingUpgrade = new();
 
     public override SaveData VersionDown()
     {

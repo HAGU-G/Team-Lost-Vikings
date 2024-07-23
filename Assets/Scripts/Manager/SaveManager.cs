@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using CurrentSave = SaveDataV1;
 
 public static class SaveManager
@@ -27,12 +28,28 @@ public static class SaveManager
 
         //Version 1
         save.unitManager = GameManager.unitManager;
+
         save.huntZones.Clear();
         foreach (var huntZoneInfo in GameManager.huntZoneManager.HuntZones)
         {
             save.huntZones.Add(huntZoneInfo.Value.Info);
         }
         save.UnitDeployment = GameManager.huntZoneManager.UnitDeployment;
+
+        foreach (var building in GameManager.villageManager.constructedBuildings)
+        {
+            var up = building.GetComponent<BuildingUpgrade>();
+            if (up == null)
+                continue;
+
+            save.buildingUpgrade.Add(up.currentGrade);
+        }
+
+
+
+
+
+
 
         SaveFile();
     }
@@ -70,6 +87,22 @@ public static class SaveManager
             GameManager.huntZoneManager.HuntZones[huntZoneInfo.HuntZoneNum].Info = huntZoneInfo;
         }
         save.UnitDeployment = GameManager.huntZoneManager.UnitDeployment;
+
+        for (int i = 0; i < save.buildingUpgrade.Count; i++)
+        {
+            var up = GameManager.villageManager.constructedBuildings[i].GetComponent<BuildingUpgrade>();
+
+            if (up == null)
+            {
+                i--;
+                continue; 
+            }
+
+            up.currentGrade = save.buildingUpgrade[i];
+            //up.SetBuildingUpgrade(); TODO : 업그레이드 ID가 없음.
+            //up.GetComponent<StatUpgradeBuilding>()?.RiseStat();
+        }
+
     }
 
     private static void SaveFile()

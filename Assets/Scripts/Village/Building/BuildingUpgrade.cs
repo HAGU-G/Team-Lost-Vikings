@@ -28,9 +28,9 @@ public class BuildingUpgrade : MonoBehaviour
     [field: SerializeField] public List<int> ItemNums { get; private set; }
     [field: SerializeField] public string UpgradeDesc { get; private set; }
 
-    private int currentGrade = 1;
+    public int currentGrade = 1;
 
-    private void SetBuildingUpgrade()
+    public void SetBuildingUpgrade()
     {
         UpgradeGrade = currentGrade;
         var upgrade = DataTableManager.upgradeTable.GetData(UpgradeId)[UpgradeGrade];
@@ -48,10 +48,10 @@ public class BuildingUpgrade : MonoBehaviour
         RequireGold = upgrade.RequireGold;
         RequireRune = upgrade.RequireRune;
 
-        for(int i = 1; i <= 5; ++i )
+        for(int i = 0; i < 5; ++i )
         {
-            ItemIds[i] = upgrade.ItemIds[i];
-            ItemNums[i] = upgrade.ItemNums[i];
+            ItemIds.Add(upgrade.ItemIds[i]);
+            ItemIds.Add(upgrade.ItemNums[i]);
         }
 
         UpgradeDesc = upgrade.UpgradeDesc;
