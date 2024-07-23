@@ -37,7 +37,6 @@ public class UICharacterInventory : UIWindow
                 () =>
                 {
                     GameManager.uiManager.OnShowCharacter(character.Value.InstanceID);
-                    SaveManager.SaveGame();
                 });
         }
     }

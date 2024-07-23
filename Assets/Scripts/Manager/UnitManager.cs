@@ -138,6 +138,8 @@ public class UnitManager
         waitCharacter.InitStats(GachaUnitData(level));
         waitCharacter.ResetStats();
         Waitings.Add(waitCharacter.InstanceID, waitCharacter);
+
+        SaveManager.SaveGame();
     }
 
     public UnitStats PickUpCharacter(int instanceID)
@@ -150,6 +152,8 @@ public class UnitManager
 
         Units.Add(pick.InstanceID, pick);
         pick.SetUpgradeStats();
+
+        SaveManager.SaveGame();
 
         return pick;
     }

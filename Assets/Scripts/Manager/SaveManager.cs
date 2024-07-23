@@ -16,6 +16,10 @@ public static class SaveManager
 
     public static void SaveGame()
     {
+#if UNITY_EDITOR
+        if (!GameSetting.Instance.useSaveDataWhenEditor)
+            return;
+#endif
         if (saveData == null)
             saveData = new CurrentSave();
 
@@ -35,6 +39,10 @@ public static class SaveManager
 
     public static void LoadGame()
     {
+#if UNITY_EDITOR
+        if (!GameSetting.Instance.useSaveDataWhenEditor)
+            return;
+#endif
         if (saveData == null)
             saveData = new CurrentSave();
 
@@ -101,7 +109,7 @@ public static class SaveManager
                 return null;
 
             encryptedSaveData = File.ReadAllBytes(path);
-            
+
         }
         else
         {

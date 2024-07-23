@@ -72,7 +72,6 @@ public static class GameManager
         Publish(EVENT_TYPE.LOADED);
         Publish(EVENT_TYPE.INIT);
         SaveManager.LoadGame();
-
         Publish(EVENT_TYPE.START);
 
         //TESTCODE
