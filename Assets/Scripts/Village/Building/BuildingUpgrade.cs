@@ -24,6 +24,7 @@ public class BuildingUpgrade : MonoBehaviour
     [field: SerializeField] public int RequireRune {  get; private set; }
     [field: SerializeField] public int ItemNum { get; private set; }
     [field: SerializeField] public int ItemId { get; private set; }
+    [field: SerializeField] public string UpgradeDesc { get; private set; }
 
     public int currentGrade = 0;
 

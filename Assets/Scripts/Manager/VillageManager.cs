@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEditor.Build.Pipeline.Utilities;
 using UnityEditor.PackageManager;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class VillageManager : MonoBehaviour
 {
@@ -131,6 +132,7 @@ public class VillageManager : MonoBehaviour
 
     }
 
+
     public void LevelUp()
     {
         ++playerLevel;
@@ -182,6 +184,26 @@ public class VillageManager : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, 100f);
+
+            if (hit.collider != null)
+            {
+                var building = hit.transform.gameObject.GetComponent<Building>();
+                var parameter = hit.transform.gameObject.GetComponent<ParameterRecoveryBuilding>();
+                if(parameter != null)
+                {
+                    parameter.TouchParameterBuilding();
+                }
+                else
+                {
+                    building.TouchBuilding();
+                }
+            }
+        }
+
         //if (Input.GetMouseButtonDown(0) && construct.isSelected)
         //{
         //    var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -209,7 +231,7 @@ public class VillageManager : MonoBehaviour
 
         //if (Input.GetMouseButton(0) && construct.isRoadBuild)
         //{
-           
+
         //    var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         //    if (GetTile(worldPos) != null)
         //    {

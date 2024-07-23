@@ -30,6 +30,9 @@ public class UIManager : MonoBehaviour
     public UICharacterWaiting chracterWaiting;
     public UIRenderTexture unitRenderTexture;
 
+    public Building currentNormalBuidling;
+    public ParameterRecoveryBuilding currentParameterBuilding;
+
     /////////////////////////////////////////////////////////////////
     // UI -> Function ///////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////

@@ -9,7 +9,7 @@ public abstract class UIWindow : MonoBehaviour
     {
         GameManager.uiManager.AddWindow(WindowName, this);
     }
-
+    
     public virtual void Open()
     {
         gameObject.SetActive(true);

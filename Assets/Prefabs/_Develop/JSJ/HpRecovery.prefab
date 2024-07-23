@@ -234,6 +234,7 @@ MonoBehaviour:
   <CanDestroy>k__BackingField: 0
   <UpgradeId>k__BackingField: 0
   <StructureAssetFileName>k__BackingField: 
+  <StructureDesc>k__BackingField: 
   placedTiles:
   - {fileID: 0}
   entranceTile: {fileID: 0}
@@ -877,4 +878,5 @@ MonoBehaviour:
   <RequireRune>k__BackingField: 0
   <ItemNum>k__BackingField: 0
   <ItemId>k__BackingField: 0
+  <UpgradeDesc>k__BackingField: "hp \uD68C\uBCF5 \uAC74\uBB3C\uC785\uB2C8\uB2E4."
   currentGrade: 0

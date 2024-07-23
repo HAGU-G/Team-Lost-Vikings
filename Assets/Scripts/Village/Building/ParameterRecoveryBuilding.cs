@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
@@ -7,6 +8,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
     public Building building;
     public PARAMETER_TYPES parameterType;
     private UnitOnVillage unit;
+    public List<UnitOnVillage> interactingUnits;
     public int recoveryAmount;
     public float recoveryTime;
     private bool isRecovering;
@@ -37,6 +39,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
         Debug.Log($"hp : {unit.stats.HP} stamina : {unit.stats.Stamina} stress : {unit.stats.Stress}");
         yield return new WaitForSeconds(recoveryTime);
         bool isComplete = false;
+        interactingUnits.Add(unit);
 
         while (true)
         {
@@ -79,8 +82,10 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
             if (isComplete)
             {
                 isRecovering = false;
+                interactingUnits.Remove(unit);
                 unit.RecoveryDone(parameterType);
                 //OnRecoveryDone?.Invoke(parameterType);
+
                 yield break;
             }
         }
@@ -107,5 +112,11 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
         {
             OnRecoveryDone?.Invoke(type);
         }
+    }
+
+    public void TouchParameterBuilding()
+    {
+        GameManager.uiManager.currentParameterBuilding = this;
+        GameManager.uiManager.windows[(int)WINDOW_NAME.PARAMETER_POPUP].Open();
     }
 }
