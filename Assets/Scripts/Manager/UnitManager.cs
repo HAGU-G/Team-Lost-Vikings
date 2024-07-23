@@ -152,6 +152,7 @@ public class UnitManager
 
         Units.Add(pick.InstanceID, pick);
         pick.SetUpgradeStats();
+        pick.SetLocation(LOCATION.NONE, LOCATION.VILLAGE);
 
         SaveManager.SaveGame();
 

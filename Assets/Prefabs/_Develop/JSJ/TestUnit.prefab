@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.16946459, g: 0, b: 1, a: 1}
+  m_Color: {r: 0.16946459, g: 0, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -102,25 +102,33 @@ MonoBehaviour:
   stats:
     <Id>k__BackingField: 0
     <Name>k__BackingField: 
+    <AssetFileName>k__BackingField: 
     <HP>k__BackingField:
       defaultValue: 0
       min: 0
       max: 0
       _current: 0
     <MoveSpeed>k__BackingField:
-      defaultValue: 0
+      _defaultValue: 0
+      upOnInspector: 0
     <UnitSize>k__BackingField:
-      defaultValue: 0
+      _defaultValue: 0
+      upOnInspector: 0
     <RecognizeRange>k__BackingField:
-      defaultValue: 0
+      _defaultValue: 0
+      upOnInspector: 0
     <PresenseRange>k__BackingField:
-      defaultValue: 0
+      _defaultValue: 0
+      upOnInspector: 0
     <AttackRange>k__BackingField:
-      defaultValue: 0
+      _defaultValue: 0
+      upOnInspector: 0
     <AttackSpeed>k__BackingField:
-      defaultValue: 0
+      _defaultValue: 0
+      upOnInspector: 0
     <CombatPoint>k__BackingField: 0
-    transform: {fileID: 0}
+    objectTransform: {fileID: 0}
+    <InstanceID>k__BackingField: -553030806
     <Stamina>k__BackingField:
       defaultValue: 200
       min: 0
@@ -132,27 +140,39 @@ MonoBehaviour:
       max: 200
       _current: 0
     <BaseHP>k__BackingField:
-      defaultValue: 200
+      _defaultValue: 0
+      upOnInspector: 0
     <Vit>k__BackingField:
-      defaultValue: 0
+      _defaultValue: 0
+      upOnInspector: 0
     <VitWeight>k__BackingField:
-      defaultValue: 0
-    <Str>k__BackingField:
-      defaultValue: 0
+      _defaultValue: 0
+      upOnInspector: 0
+    <BaseStr>k__BackingField:
+      _defaultValue: 0
+      upOnInspector: 0
     <StrWeight>k__BackingField:
-      defaultValue: 0
-    <Mag>k__BackingField:
-      defaultValue: 0
-    <MagWeight>k__BackingField:
-      defaultValue: 0
-    <Agi>k__BackingField:
-      defaultValue: 0
+      _defaultValue: 0
+      upOnInspector: 0
+    <BaseWiz>k__BackingField:
+      _defaultValue: 0
+      upOnInspector: 0
+    <WizWeight>k__BackingField:
+      _defaultValue: 0
+      upOnInspector: 0
+    <BaseAgi>k__BackingField:
+      _defaultValue: 0
+      upOnInspector: 0
     <AgiWeight>k__BackingField:
-      defaultValue: 0
-    <CriticalChance>k__BackingField:
-      defaultValue: 0
-    <CriticalWeight>k__BackingField:
-      defaultValue: 0
+      _defaultValue: 0
+      upOnInspector: 0
+    <CritChance>k__BackingField:
+      _defaultValue: 0
+      upOnInspector: 0
+    <CritWeight>k__BackingField:
+      _defaultValue: 0
+      upOnInspector: 0
+  dress: {fileID: 0}
   skills:
     <SkillList>k__BackingField: []
   skillEffect: {fileID: 0}

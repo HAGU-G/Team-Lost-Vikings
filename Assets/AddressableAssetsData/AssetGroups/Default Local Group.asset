@@ -67,11 +67,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 14aa998e0142e9c42bf955679810242a
-    m_Address: Assets/DataTable/UnitTable.csv
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: dd6e08aaee57ff647b4e75b7d07b4464
     m_Address: Assets/DataTable/SkillTable.csv
     m_ReadOnly: 0
@@ -104,6 +99,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 446fb0c6fe8686c4a8f409a5565baef3
     m_Address: Assets/DataTable/UpgradeTable.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 14aa998e0142e9c42bf955679810242a
+    m_Address: Assets/DataTable/UnitTable.csv
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

@@ -79,8 +79,6 @@ public static class GameManager
         {
             unitManager.GachaCharacter(playerManager.level);
         }
-        uiManager.chracterInventory.LoadCharacterButtons(unitManager.Units);
-        uiManager.chracterWaiting.LoadCharacterButtons(unitManager.Waitings);
     }
 
     public static void GameQuit()
