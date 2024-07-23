@@ -1,14 +1,46 @@
 ﻿using UnityEngine;
 
-public class BuildingData : MonoBehaviour
+public class BuildingData : ITableAvaialable<int>
 {
-    VillageManager villageManager;
-    GameObject buildingPrefab;
+    [field: SerializeField]
+    public string StructureName { get; set; }
+    [field: SerializeField]
+    public int StructureId { get; set; }
+    [field: SerializeField]
+    public int Width { get; set; }
+    [field: SerializeField]
+    public int Length { get; set; }
+    [field: SerializeField]
+    public STRUCTURE_TYPE StructureType { get; set; }
+    [field: SerializeField]
+    public int UnlockTownLevel { get; set; }
+    [field: SerializeField]
+    public bool CanMultiBuild { get; set; }
+    [field: SerializeField]
+    public bool CanReverse { get; set; }
+    [field: SerializeField]
+    public bool CanReplace { get; set; }
+    [field: SerializeField]
+    public bool CanDestroy { get; set; }
+    [field: SerializeField]
+    public int UpgradeId { get; set; }
+    [field: SerializeField]
+    public string StructureAssetFileName { get; set; }
 
-    private void Awake()
-    {
-        GameStarter.Instance.SetActiveOnComplete(gameObject);
-    }
+    public int TableID => StructureId;
+
+    // 순환참조 되는 클래스를 멤버로 둬야하면 [Ignore]을 붙이거나
+    // 다른 방법으로 csvhelper가 무시할 수 있도록 해주세요.
+    // MonoBehaviour 상속x
+
+
+    //VillageManager villageManager;
+    //GameObject buildingPrefab;
+
+    //private void Awake()
+    //{
+    //    GameStarter.Instance.SetActiveOnComplete(gameObject);
+    //}
 
     //private void Start()
     //{

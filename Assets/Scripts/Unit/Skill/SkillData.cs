@@ -42,23 +42,23 @@ public enum RETURN_TYPE
 [Serializable]
 public class SkillData : ITableAvaialable<int>
 {
-    [field: SerializeField] public string Name { get; private set; }
-    [field: SerializeField] public int Id { get; private set; }
-    [field: SerializeField] public float SkillRankPoint { get; private set; }
-    [field: SerializeField] public SKILL_DIVISION SkillDivision { get; private set; }
-    [field: SerializeField] public SKILL_ACTIVE_TYPE ActiveType { get; private set; }
-    [field: SerializeField] public float ActiveValue { get; private set; }
-    [field: SerializeField] public float CastRange { get; private set; }
-    [field: SerializeField] public float CastTime { get; private set; }
-    [field: SerializeField] public ATTACK_TYPE SkillAttackType { get; private set; }
-    [field: SerializeField] public float SkillDmgRatio { get; private set; }
-    [field: SerializeField] public int SkillAttackNum { get; private set; }
-    [field: SerializeField] public STAT_TYPE StatType { get; private set; }
-    [field: SerializeField] public PARAMETER_TYPE ParameterType { get; private set; }
-    [field: SerializeField] public RETURN_TYPE PassiveReturnType { get; private set; }
-    [field: SerializeField] public float PassiveValue { get; private set; }
-    [field: SerializeField] public string SkillIconAssetFileName { get; private set; }
-    [field: SerializeField] public string SkillEffectAssetFileName { get; private set; }
+    [field: SerializeField] public string Name { get; set; }
+    [field: SerializeField] public int Id { get; set; }
+    [field: SerializeField] public float SkillRankPoint { get; set; }
+    [field: SerializeField] public SKILL_DIVISION SkillDivision { get; set; }
+    [field: SerializeField] public SKILL_ACTIVE_TYPE ActiveType { get; set; }
+    [field: SerializeField] public float ActiveValue { get; set; }
+    [field: SerializeField] public float CastRange { get; set; }
+    [field: SerializeField] public float CastTime { get; set; }
+    [field: SerializeField] public ATTACK_TYPE SkillAttackType { get; set; }
+    [field: SerializeField] public float SkillDmgRatio { get; set; }
+    [field: SerializeField] public int SkillAttackNum { get; set; }
+    [field: SerializeField] public STAT_TYPE StatType { get; set; }
+    [field: SerializeField] public PARAMETER_TYPE ParameterType { get; set; }
+    [field: SerializeField] public RETURN_TYPE PassiveReturnType { get; set; }
+    [field: SerializeField] public float PassiveValue { get; set; }
+    [field: SerializeField] public string SkillIconAssetFileName { get; set; }
+    [field: SerializeField] public string SkillEffectAssetFileName { get; set; }
 
     public int TableID => Id;
 }

@@ -8,7 +8,7 @@ public class MonsterStats : Stats
     [field: SerializeField] public StatInt MagicalDef { get; set; } = new();
     [field: SerializeField] public StatInt SpecialDef { get; set; } = new();
     [field: SerializeField] public int DropId { get; set; }
-
+    public bool isBoss;
 
     public void InitStats(MonsterStatsData data)
     {

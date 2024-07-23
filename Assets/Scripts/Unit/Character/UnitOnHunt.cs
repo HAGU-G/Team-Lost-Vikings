@@ -3,9 +3,6 @@ using UnityEngine;
 
 public class UnitOnHunt : Unit, IDamagedable, IAttackable
 {
-    //TESTCODE
-    public Vector3 portalPos;
-
     //State
     public enum STATE
     {
@@ -16,7 +13,9 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
         SKILL,
         DEAD
     }
+
     public HuntZone CurrentHuntZone { get; private set; } = null;
+    public Vector3 PortalPos { get; private set; }
 
     private FSM<UnitOnHunt> fsm;
     public STATE currentState;
@@ -66,14 +65,14 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
         {
             if (unit == this)
                 continue;
-            stats.Collision(unit.stats);
+            stats.Collision(unit.stats, CurrentHuntZone.gridMap);
         }
 
         foreach (var unit in CurrentHuntZone.Monsters)
         {
             if (unit == this)
                 continue;
-            stats.Collision(unit.stats);
+            stats.Collision(unit.stats, CurrentHuntZone.gridMap);
         }
     }
 
@@ -95,7 +94,7 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
     public void ResetUnit(UnitStats unitStats, HuntZone huntZone)
     {
         CurrentHuntZone = huntZone;
-        portalPos = CurrentHuntZone.transform.position;
+        PortalPos = CurrentHuntZone.PortalPos;
         ResetUnit(unitStats);
     }
 
@@ -103,7 +102,6 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
     {
         base.ResetUnit(unitStats);
         unitStats.SetLocation(LOCATION.HUNTZONE);
-        unitStats.SetHuntZone(CurrentHuntZone.HuntZoneNum);
 
         IsDead = false;
 

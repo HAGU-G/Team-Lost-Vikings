@@ -61,7 +61,7 @@ public class UnitStats : Stats
     //Parameters
     public LOCATION Location { get; private set; }
     public LOCATION NextLocation { get; private set; }
-    public int HuntZoneID { get; private set; } = -1;
+    public int HuntZoneNum { get; private set; } = -1;
     [field: SerializeField] public Parameter Stamina { get; private set; } = new();
     [field: SerializeField] public Parameter Stress { get; private set; } = new();
 
@@ -109,13 +109,27 @@ public class UnitStats : Stats
         Location = location;
         NextLocation = nextLocation;
 
-        if (NextLocation != LOCATION.NONE)
-            GameManager.unitManager.SpawnOnLocation(this);
+        if (Location == LOCATION.NONE && NextLocation != LOCATION.NONE)
+            GameManager.unitManager.SpawnOnNextLocation(this);
     }
 
-    public void SetHuntZone(int huntZoneID)
+    public bool SetHuntZone(int huntZoneNum)
     {
-        HuntZoneID = huntZoneID;
+        var hm = GameManager.huntZoneManager;
+        var ud = hm.UnitDeployment;
+
+
+        if (hm.IsDeployed(InstanceID, huntZoneNum)
+            || ud[huntZoneNum].Count >= hm.HuntZones[huntZoneNum].GetCurrentData().UnitCapacity)
+            return false;
+
+        if (HuntZoneNum != huntZoneNum && HuntZoneNum != -1)
+            ud[HuntZoneNum].Remove(InstanceID);
+
+        ud[huntZoneNum].Add(InstanceID);
+        HuntZoneNum = huntZoneNum;
+
+        return true;
     }
 
     public void UpdateCombatPoint()

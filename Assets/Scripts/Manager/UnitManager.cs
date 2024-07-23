@@ -55,7 +55,7 @@ public class UnitManager
         return gachaList[Random.Range(0, gachaList.Count)];
     }
 
-    public void SpawnOnLocation(UnitStats stats)
+    public void SpawnOnNextLocation(UnitStats stats)
     {
         switch (stats.NextLocation)
         {
@@ -65,7 +65,7 @@ public class UnitManager
                 GameManager.villageManager.village.UnitSpawn(stats.InstanceID);
                 break;
             case LOCATION.HUNTZONE:
-                GameManager.huntZoneManager.HuntZones[stats.HuntZoneID].SpawnUnit(stats.InstanceID);
+                GameManager.huntZoneManager.HuntZones[stats.HuntZoneNum].SpawnUnit(stats.InstanceID);
                 break;
         }
     }

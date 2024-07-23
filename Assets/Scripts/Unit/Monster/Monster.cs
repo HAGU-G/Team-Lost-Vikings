@@ -5,7 +5,6 @@ using UnityEngine.AddressableAssets;
 
 public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackable, IStatUsable
 {
-    //TESTCODE
     public GameObject dress;
 
     public MonsterStats stats = new();
@@ -50,14 +49,15 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
             new DeadMonster());
     }
 
-    public void ResetMonster(HuntZone huntZone)
+    public void ResetMonster(HuntZone huntZone, bool isBoss = false)
     {
         CurrentHuntZone = huntZone;
 
         //TODO 사냥터의 몬스터ID에 맞게 데이터 할당
         ResetEvents();
-        stats.InitStats(huntZone.GetCurrentMonster());
+        stats.InitStats(isBoss ? huntZone.GetCurrentBoss() : huntZone.GetCurrentMonster());
         stats.ResetStats();
+        stats.isBoss = isBoss;
         stats.ResetEllipse(transform);
 
         if (dress != null)
@@ -104,12 +104,12 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
         {
             if (i < units.Count && units[i] != this)
             {
-                stats.Collision(units[i].stats);
+                stats.Collision(units[i].stats, CurrentHuntZone.gridMap);
             }
 
             if (i < monsters.Count && monsters[i] != this)
             {
-                stats.Collision(monsters[i].stats);
+                stats.Collision(monsters[i].stats, CurrentHuntZone.gridMap);
             }
         }
     }
@@ -177,11 +177,15 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
 
     public void SendNotification(NOTIFY_TYPE type, bool removeObservers = false)
     {
+        if (observer.Count == 0)
+            return;
+
         for (int i = observer.Count - 1; i >= 0; i--)
         {
             observer[i].ReceiveNotification(this, type);
             if (removeObservers)
                 observer.RemoveAt(i);
+
         }
     }
 

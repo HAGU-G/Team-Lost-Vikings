@@ -1,19 +1,19 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.LowLevel;
-using static UnityEngine.UI.CanvasScaler;
 
 public class HuntZone : MonoBehaviour
 {
     #region INSPECTOR
-    //public GridMap gridMap;
-    //public Construct construct;
-    //public GameObject standardBuildingPrefab;
+    public GridMap gridMap;
+    public GameObject standardBuildingPrefab;
 
     public GameObject regenPointsRoot;
     public GameObject unitsRoot;
     public GameObject monstersRoot;
     #endregion
+
+    public Vector3 PortalPos { get; private set; }
+    public Construct construct = new();
 
     [field: SerializeField] public int HuntZoneNum { get; private set; }
     public Dictionary<int, HuntZoneData> HuntZoneDatas { get; private set; } = new();
@@ -36,7 +36,6 @@ public class HuntZone : MonoBehaviour
 
     private void Start()
     {
-        //gridMap.gameObject.SetActive(true);
         Init();
         ResetHuntZone(true);
     }
@@ -92,17 +91,11 @@ public class HuntZone : MonoBehaviour
         bossObserver.OnNotified += ReceiveBossNotify;
         GameManager.huntZoneManager.AddHuntZone(this);
 
-        //TESTCODE 기준 타일 설치 - TODO 수정 필요
-        //StartCoroutine(CoPlaceStandardBuilding());
+        //타일 설치
+        var maxtile = new Vector2Int(gridMap.gridInfo.row - 1, gridMap.gridInfo.col - 1);
+        PortalPos = construct.PlaceBuilding(standardBuildingPrefab, gridMap.tiles[maxtile], gridMap)
+            .GetComponent<Building>().entranceTile.transform.position;
     }
-
-    //TESTCODE 기준 타일 설치 - TODO 수정 필요
-    //private IEnumerator CoPlaceStandardBuilding()
-    //{
-    //    yield return new WaitForEndOfFrame();
-    //    var maxtile = new Vector2Int(gridMap.gridInfo.row - 1, gridMap.gridInfo.col - 1);
-    //    construct.PlaceBuilding(standardBuildingPrefab, gridMap.tiles[maxtile], gridMap);
-    //}
 
     public void ResetHuntZone(bool isRemoveUnit)
     {
@@ -114,8 +107,10 @@ public class HuntZone : MonoBehaviour
         var maxIndex = Mathf.Max(Monsters.Count - 1, Units.Count - 1);
         for (int i = maxIndex; i >= 0; i--)
         {
-            if (i < Monsters.Count)
+            if (i < Monsters.Count && (!IsBossBattle || !Monsters[i].stats.isBoss))
+            {
                 Monsters[i].RemoveMonster();
+            }
 
             if (isRemoveUnit && i < Units.Count)
                 Units[i].RemoveUnit();
@@ -215,7 +210,7 @@ public class HuntZone : MonoBehaviour
 
         var randomPoints = GetActiveRegenPoints();
 
-        boss = GameManager.huntZoneManager.GetMonster(this);
+        boss = GameManager.huntZoneManager.GetMonster(this, true);
         boss.transform.position = randomPoints[Random.Range(0, randomPoints.Count)].transform.position;
         boss.Subscribe(bossObserver);
 
@@ -227,9 +222,6 @@ public class HuntZone : MonoBehaviour
 
     public void EndBossBattle(bool isWin)
     {
-        IsBossBattle = false;
-        BossTimer = 0f;
-
         if (isWin)
         {
             boss = null;
@@ -245,6 +237,9 @@ public class HuntZone : MonoBehaviour
             boss = null;
             StartRetryTimer();
         }
+
+        BossTimer = 0f;
+        IsBossBattle = false;
     }
 
     public void ReceiveBossNotify()
@@ -279,9 +274,6 @@ public class HuntZone : MonoBehaviour
 
     public void SpawnUnit()
     {
-        if (Units.Count >= HuntZoneDatas[stage].UnitCapacity)
-            return;
-
         foreach (var unitSelected in GameManager.unitManager.Units)
         {
             var unit = unitSelected.Value;

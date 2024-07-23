@@ -96,12 +96,12 @@ public class Village : MonoBehaviour
     public void GoHunt(UnitOnVillage unit)
     {
         if (!units.Contains(unit)
-            || !GameManager.huntZoneManager.HuntZones.ContainsKey(unit.stats.HuntZoneID))
+            || !GameManager.huntZoneManager.HuntZones.ContainsKey(unit.stats.HuntZoneNum))
             return;
 
         units.Remove(unit);
         unit.stats.SetLocation(LOCATION.NONE, LOCATION.HUNTZONE);
-        GameManager.unitManager.SpawnOnLocation(unit.stats);
+        GameManager.unitManager.SpawnOnNextLocation(unit.stats);
         Destroy(unit.gameObject);
     }
 
