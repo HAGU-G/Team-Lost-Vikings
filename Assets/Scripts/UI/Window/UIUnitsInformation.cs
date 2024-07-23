@@ -19,6 +19,11 @@ public class UIUnitsInformation : UIWindow
     public List<GameObject> infos;
 
 
+    private void OnEnable()
+    {
+        SetInfo();
+    }
+
     public void SetInfo()
     {
         for(int i = 0; i < infos.Count; ++i)
@@ -31,7 +36,7 @@ public class UIUnitsInformation : UIWindow
 
         for (int i = 0; i < units.Count; ++i)
         {
-            var button = Instantiate(unitInfo, content);
+            var button = GameObject.Instantiate(unitInfo, content);
             var unit = button.GetComponent<CharacterInfo>();
             unit.characterName.text = $"{units[i].Name}";
             unit.characterGrade.text = $"{units[i].UnitGrade}";

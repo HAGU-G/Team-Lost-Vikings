@@ -105,7 +105,7 @@ public class UIUnitDetailInformation : UIWindow
 
     public void OnButtonPlacement()
     {
-
+        GameManager.uiManager.windows[(int)WINDOW_NAME.CHARACTER_LOCATE].Open();
     }
 
     public void OnButtonExit()
