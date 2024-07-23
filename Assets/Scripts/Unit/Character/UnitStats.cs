@@ -39,17 +39,16 @@ public class UnitStats : Stats
     public static List<int> existIDs = new();
     [field: SerializeField] public int InstanceID { get; private set; }
 
-    public UnitStats()
+    public UnitStats() : this(SyncedTime.Now.GetHashCode()) { }
+    public UnitStats(int instanceId)
     {
-        var newID = System.DateTime.Now.GetHashCode();
-
-        while (existIDs.Contains(newID))
+        while (existIDs.Contains(instanceId))
         {
-            newID++;
+            instanceId++;
         }
 
-        InstanceID = newID;
-        existIDs.Add(newID);
+        InstanceID = instanceId;
+        existIDs.Add(instanceId);
     }
 
     public UNIT_GRADE UnitGrade { get; private set; }
