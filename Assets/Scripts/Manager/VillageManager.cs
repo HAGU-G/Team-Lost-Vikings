@@ -191,9 +191,10 @@ public class VillageManager : MonoBehaviour
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, 100f);
 
+            Debug.Log(GameManager.uiManager.isWindowOn);
             if (GameManager.uiManager.isWindowOn)
                 return;
-
+            Debug.Log("확인용");
             if (hit.collider != null)
             {
                 Debug.Log(hit);

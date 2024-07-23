@@ -13,6 +13,6 @@ public class UIUnitsInformation : UIWindow
 
     public void OnButtonExit()
     {
-        gameObject.SetActive(false);
+        Close();
     }
 }

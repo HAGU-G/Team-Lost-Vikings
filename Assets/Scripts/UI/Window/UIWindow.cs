@@ -24,7 +24,7 @@ public abstract class UIWindow : MonoBehaviour
 
         foreach(var window in GameManager.uiManager.windows)
         {
-            if (window.enabled)
+            if (window.gameObject.activeSelf)
                 return;
         }
         GameManager.uiManager.isWindowOn = false;

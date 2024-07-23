@@ -19,6 +19,6 @@ public class UIUnitDetailInformation : UIWindow
 
     public void OnButtonExit()
     {
-        gameObject.SetActive(false);
+        Close();
     }
 }

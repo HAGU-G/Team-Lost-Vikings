@@ -10,5 +10,8 @@ public class UICharacterManagement : UIWindow
     public Button buttonCancel;
     public InputField inputStageID;
 
-
+    public void OnButtonExit()
+    {
+        Close();
+    }
 }
