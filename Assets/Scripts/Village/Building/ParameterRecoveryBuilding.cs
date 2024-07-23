@@ -7,7 +7,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
 {
     public Building building;
     public PARAMETER_TYPES parameterType;
-    private UnitOnVillage unit;
+   // private UnitOnVillage unit;
     public List<UnitOnVillage> interactingUnits;
     public int recoveryAmount;
     public float recoveryTime;
@@ -37,9 +37,10 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
     {
         //isRecovering = true;
         Debug.Log($"hp : {unit.stats.HP} stamina : {unit.stats.Stamina} stress : {unit.stats.Stress}");
+        interactingUnits.Add(unit);
+        GameManager.uiManager.windows[(int)WINDOW_NAME.PARAMETER_POPUP].GetComponent<UIBuildingParameterPopUp>().SetCharacterInformation();
         yield return new WaitForSeconds(recoveryTime);
         bool isComplete = false;
-        interactingUnits.Add(unit);
 
         while (true)
         {
@@ -98,7 +99,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
 
     public void SetUnit(UnitOnVillage unit)
     {
-        this.unit = unit;
+       // this.unit = unit;
     }
 
     public void SetParameter(PARAMETER_TYPES parameterType)

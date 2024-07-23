@@ -45,7 +45,6 @@ public class IdleOnVillage : State<UnitOnVillage>
         {
             controller.ChangeState((int)UnitOnVillage.STATE.GOTO);
             return true;
-
         }
             
 

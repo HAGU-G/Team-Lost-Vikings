@@ -77,6 +77,7 @@ public class UnitOnVillage : Unit
     {
         //OnUnitRecoveryDone?.Invoke(type);
         villageFSM.ChangeState((int)UnitOnHunt.STATE.IDLE);
+        GameManager.uiManager.windows[(int)WINDOW_NAME.PARAMETER_POPUP].GetComponent<UIBuildingParameterPopUp>()?.SetCharacterInformation();
     }
 
 

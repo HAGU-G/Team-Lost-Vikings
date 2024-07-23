@@ -222,8 +222,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16e120b65961f8543b286e5d368be52d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <StructureName>k__BackingField: hpRecovery
-  <StructureId>k__BackingField: 0
+  <StructureName>k__BackingField: "\uD3EC\uC158\uAC00\uAC8C"
+  <StructureId>k__BackingField: 110000001
   <Width>k__BackingField: 1
   <Length>k__BackingField: 1
   <StructureType>k__BackingField: 1
@@ -232,9 +232,10 @@ MonoBehaviour:
   <CanReverse>k__BackingField: 0
   <CanReplace>k__BackingField: 0
   <CanDestroy>k__BackingField: 0
-  <UpgradeId>k__BackingField: 0
+  <UpgradeId>k__BackingField: 200100001
   <StructureAssetFileName>k__BackingField: 
-  <StructureDesc>k__BackingField: 
+  <StructureDesc>k__BackingField: "\uC720\uB2DB\uC758 \uC0DD\uBA85\uB825\uC744 \uD68C\uBCF5\uC2DC\uCF1C\uC8FC\uB294
+    \uAC74\uBB3C"
   placedTiles:
   - {fileID: 0}
   entranceTile: {fileID: 0}
@@ -252,7 +253,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   building: {fileID: 0}
-  parameterType: 0
+  parameterType: 1
+  interactingUnits: []
   recoveryAmount: 50
   recoveryTime: 5
 --- !u!212 &2412001903260141252
@@ -861,22 +863,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fdfb9230d4b5a34aabbdf91b4e0d2d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <UpgradeName>k__BackingField: 
-  <UpgradeId>k__BackingField: 0
-  <UpgradeGrade>k__BackingField: 0
+  <UpgradeName>k__BackingField: "\uD3EC\uC158\uAC00\uAC8C 1\uB2E8\uACC4"
+  <UpgradeId>k__BackingField: 200100001
+  <UpgradeGrade>k__BackingField: 1
   <StructureLevel>k__BackingField: 0
   <StructureType>k__BackingField: 1
   <StatType>k__BackingField: 0
   <StatReturn>k__BackingField: 0
-  <ParameterType>k__BackingField: 0
-  <ParameterRecovery>k__BackingField: 10
-  <RecvoeryTime>k__BackingField: 4
+  <ParameterType>k__BackingField: 1
+  <ParameterRecovery>k__BackingField: 20
+  <RecoveryTime>k__BackingField: 5
+  <ProgressVarType>k__BackingField: 1
+  <ProgressVarReturn>k__BackingField: 1
   <RecipeId>k__BackingField: 0
   <ItemStack>k__BackingField: 0
   <RequireTime>k__BackingField: 0
-  <RequireGold>k__BackingField: 0
+  <RequireGold>k__BackingField: 500
   <RequireRune>k__BackingField: 0
-  <ItemNum>k__BackingField: 0
-  <ItemId>k__BackingField: 0
-  <UpgradeDesc>k__BackingField: "hp \uD68C\uBCF5 \uAC74\uBB3C\uC785\uB2C8\uB2E4."
-  currentGrade: 0
+  <ItemIds>k__BackingField: 
+  <ItemNums>k__BackingField: 
+  <UpgradeDesc>k__BackingField: "5\uCD08\uB9C8\uB2E4 \uC0DD\uBA85\uB825 20 \uB9CC\uD07C
+    \uD68C\uBCF5"

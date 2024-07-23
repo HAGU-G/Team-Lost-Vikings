@@ -124,7 +124,7 @@ PolygonCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3313551129836266134}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -608,16 +608,17 @@ MonoBehaviour:
   <StatReturn>k__BackingField: 0
   <ParameterType>k__BackingField: 0
   <ParameterRecovery>k__BackingField: 0
-  <RecvoeryTime>k__BackingField: 0
+  <RecoveryTime>k__BackingField: 0
+  <ProgressVarType>k__BackingField: 0
+  <ProgressVarReturn>k__BackingField: 0
   <RecipeId>k__BackingField: 0
   <ItemStack>k__BackingField: 0
   <RequireTime>k__BackingField: 0
   <RequireGold>k__BackingField: 0
   <RequireRune>k__BackingField: 0
-  <ItemNum>k__BackingField: 0
-  <ItemId>k__BackingField: 0
+  <ItemIds>k__BackingField: 
+  <ItemNums>k__BackingField: 
   <UpgradeDesc>k__BackingField: "\uAE30\uC900\uAC74\uBB3C\uC785\uB2C8\uB2E4."
-  currentGrade: 0
 --- !u!1 &7939489123887694467
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,6 +12,7 @@ public abstract class UIWindow : MonoBehaviour
     
     public virtual void Open()
     {
+        GameManager.uiManager.isWindowOn = true;
         gameObject.SetActive(true);
         if (isShowOnly)
             GameManager.uiManager.CloseWindows(this);
@@ -20,5 +21,12 @@ public abstract class UIWindow : MonoBehaviour
     public virtual void Close()
     {
         gameObject.SetActive(false);
+
+        foreach(var window in GameManager.uiManager.windows)
+        {
+            if (window.enabled)
+                return;
+        }
+        GameManager.uiManager.isWindowOn = false;
     }
 }

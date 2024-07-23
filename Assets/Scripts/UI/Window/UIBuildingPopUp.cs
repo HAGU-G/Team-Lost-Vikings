@@ -10,6 +10,7 @@ public class UIBuildingPopUp : UIWindow
 
     public VillageManager vm;
     public UIManager um;
+    public ItemManager im;
 
     public Button upgrade;
     public Button exit;
@@ -24,13 +25,30 @@ public class UIBuildingPopUp : UIWindow
     public Transform resourceLayout;
     public List<GameObject> resourceList;
 
+    public BuildingUpgrade upgradeComponent;
+    public List<UpgradeData> grade;
+    public List<int> requireItemIds;
+    public List<int> requireItemNums;
+
+
     private void Awake()
     {
         vm = GameManager.villageManager;
         um = GameManager.uiManager;
+        im = GameManager.itemManager;
     }
 
     private void OnEnable()
+    {
+        upgradeComponent = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
+        grade = DataTableManager.upgradeTable.GetData(um.currentNormalBuidling.UpgradeId);
+        requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
+        requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
+        vm.village.upgrade = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
+        SetPopUp(); 
+    }
+
+    private void SetPopUp()
     {
         SetText();
         SetRequireItem();
@@ -39,8 +57,6 @@ public class UIBuildingPopUp : UIWindow
             upgrade.interactable = false;
         else
             upgrade.interactable = true;
-
-        vm.village.upgrade = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
     }
 
     public void OnButtonUpgrade()
@@ -59,7 +75,10 @@ public class UIBuildingPopUp : UIWindow
         buildingName.text = um.currentNormalBuidling.StructureName;
         defaultDescription.text = um.currentNormalBuidling.StructureDesc;
         currentEffectDescription.text = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>().UpgradeDesc;
-        //nextEffectDescription.text = ;
+        if (upgradeComponent.UpgradeGrade < grade.Count)
+            nextEffectDescription.text = grade[upgradeComponent.UpgradeGrade + 1].UpgradeDesc;
+        else
+            nextEffectDescription.text = $"현재 마지막 업그레이드 단계입니다.";
     }
 
     public void SetRequireItem()
@@ -70,10 +89,12 @@ public class UIBuildingPopUp : UIWindow
         }
         resourceList.Clear();
 
-        for(int i = 0; i < kindOfResource; ++i)
+        
+
+        for (int i = 0; i < kindOfResource; ++i)
         {
             var resource = Instantiate(upgradeResource, resourceLayout);
-            //resource.GetComponent<TextMeshProUGUI>().text = ;
+            resource.GetComponentInChildren<TextMeshProUGUI>().text = $"{im.ownItemList.GetValueOrDefault(i)} / {requireItemIds[i]}";
             //resource.GetComponent<Image>().sprite = ;
 
             resourceList.Add(resource);
@@ -84,7 +105,7 @@ public class UIBuildingPopUp : UIWindow
     {
         for(int i = 0; i < kindOfResource; ++i)
         {
-            if(true)
+            if(im.ownItemList.GetValueOrDefault(i) >= requireItemNums[i])
             {
                 ColorBlock colorBlock = upgrade.colors;
                 colorBlock.normalColor = Color.green;

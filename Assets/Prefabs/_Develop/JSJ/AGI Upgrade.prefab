@@ -49,8 +49,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16e120b65961f8543b286e5d368be52d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <StructureName>k__BackingField: agiUpgrade
-  <StructureId>k__BackingField: 6
+  <StructureName>k__BackingField: "\uCD08\uAE09\uBC14\uB78C\uC131\uC18C"
+  <StructureId>k__BackingField: 100000003
   <Width>k__BackingField: 1
   <Length>k__BackingField: 1
   <StructureType>k__BackingField: 0
@@ -59,9 +59,10 @@ MonoBehaviour:
   <CanReverse>k__BackingField: 0
   <CanReplace>k__BackingField: 0
   <CanDestroy>k__BackingField: 0
-  <UpgradeId>k__BackingField: 0
+  <UpgradeId>k__BackingField: 203000001
   <StructureAssetFileName>k__BackingField: 
-  <StructureDesc>k__BackingField: 
+  <StructureDesc>k__BackingField: "\uC720\uB2DB\uC758 \uBBFC\uCCA9\uC744 \uC99D\uAC00\uC2DC\uD0A4\uB294
+    \uAC74\uBB3C"
   placedTiles:
   - {fileID: 0}
   entranceTile: {fileID: 0}
@@ -609,25 +610,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fdfb9230d4b5a34aabbdf91b4e0d2d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <UpgradeName>k__BackingField: 
-  <UpgradeId>k__BackingField: 0
-  <UpgradeGrade>k__BackingField: 0
+  <UpgradeName>k__BackingField: "\uCD08\uAE09 \uBC14\uB78C\uC131\uC18C 1\uB2E8\uACC4"
+  <UpgradeId>k__BackingField: 203000001
+  <UpgradeGrade>k__BackingField: 1
   <StructureLevel>k__BackingField: 0
   <StructureType>k__BackingField: 0
-  <StatType>k__BackingField: 2
+  <StatType>k__BackingField: 3
   <StatReturn>k__BackingField: 10
   <ParameterType>k__BackingField: 0
   <ParameterRecovery>k__BackingField: 0
-  <RecvoeryTime>k__BackingField: 0
+  <RecoveryTime>k__BackingField: 0
+  <ProgressVarType>k__BackingField: 0
+  <ProgressVarReturn>k__BackingField: 0
   <RecipeId>k__BackingField: 0
   <ItemStack>k__BackingField: 0
   <RequireTime>k__BackingField: 0
   <RequireGold>k__BackingField: 0
   <RequireRune>k__BackingField: 0
-  <ItemNum>k__BackingField: 0
-  <ItemId>k__BackingField: 0
-  <UpgradeDesc>k__BackingField: "AGI \uC5C5\uADF8\uB808\uC774\uB4DC \uAC74\uBB3C\uC785\uB2C8\uB2E4."
-  currentGrade: 0
+  <ItemIds>k__BackingField: 
+  <ItemNums>k__BackingField: 
+  <UpgradeDesc>k__BackingField: "\uBAA8\uB4E0 \uC720\uB2DB\uC758 \uBBFC\uCCA9 \uC2A4\uD15F\uC774
+    10 \uC99D\uAC00\uD569\uB2C8\uB2E4"
 --- !u!1 &6921643101017813746
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,6 +18,7 @@ public class UIDevelop : MonoBehaviour
     private bool isShowVillage = true;
 
     public TextMeshProUGUI villageLevel;
+    public TextMeshProUGUI gold;
 
 
     public void OnButtonVillage()
@@ -115,6 +116,16 @@ public class UIDevelop : MonoBehaviour
         GameManager.uiManager.windows[(int)WINDOW_NAME.TUTORIAL_POPUP].Open();
     }
 
+    public void OnButtonGachaUI()
+    {
+        GameManager.uiManager.windows[(int)WINDOW_NAME.GACHA_UI].Open();
+    }
+
+    public void OnButtonUnitStash()
+    {
+        GameManager.uiManager.windows[(int)WINDOW_NAME.CHARACTER_STASH].Open();
+    }
+
     public void OnButtonPrepare()
     {
         GameManager.uiManager.windows[(int)WINDOW_NAME.WAIT_FOR_CBT].Open();
@@ -123,6 +134,7 @@ public class UIDevelop : MonoBehaviour
     public void SetVillageLevel()
     {
         villageLevel.text = $"마을 회관 \nLv : {GameManager.villageManager.PlayerLevel.ToString()}";
+        gold.text = $"{GameManager.itemManager.Gold}";
     }
 
     private void Start()

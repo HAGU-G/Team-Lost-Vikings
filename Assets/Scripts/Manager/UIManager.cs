@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.WSA;
 
 public enum WINDOW_NAME
 {
@@ -32,6 +33,8 @@ public class UIManager : MonoBehaviour
 
     public Building currentNormalBuidling;
     public ParameterRecoveryBuilding currentParameterBuilding;
+
+    public bool isWindowOn = false;
 
     /////////////////////////////////////////////////////////////////
     // UI -> Function ///////////////////////////////////////////////
@@ -75,7 +78,7 @@ public class UIManager : MonoBehaviour
     // Function -> UI ///////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////
 
-
+    
 
 
 
