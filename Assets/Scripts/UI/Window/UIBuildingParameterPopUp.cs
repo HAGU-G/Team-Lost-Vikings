@@ -61,7 +61,13 @@ public class UIBuildingParameterPopUp : UIWindow
     {
         buildingName.text = um.currentNormalBuidling.StructureName;
         defaultDescription.text = um.currentNormalBuidling.StructureDesc;
-        //nextEffectDescription.text = ;
+
+        var grade = DataTableManager.upgradeTable.GetData(um.currentNormalBuidling.StructureId);
+        var upgradeComponent = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
+        //if (upgradeComponent.UpgradeGrade < grade.Count)
+        //    nextEffectDescription.text = grade[upgradeComponent.UpgradeGrade + 1].UpgradeDesc;
+        //else
+        //    nextEffectDescription.text = null;
     }
 
     public void SetCharacterInformation()

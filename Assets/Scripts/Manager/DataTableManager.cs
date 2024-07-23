@@ -21,7 +21,7 @@ public static class DataTableManager
     public static Table<int, DropData> dropTable = new("Assets/DataTable/DropTable.csv");
 
     public static Table<int, BuildingData> buildingTable = new("Assets/DataTable/BuildingTable.csv");
-    public static Table<int, UpgradeData> upgradeTable = new("Assets/DataTable/UpgradeTable.csv");
+    public static TableDuplicatedID<int, UpgradeData> upgradeTable = new("Assets/DataTable/UpgradeTable.csv");
 
     public static List<AsyncOperationHandle> handles;
     public static float progress = 0f;

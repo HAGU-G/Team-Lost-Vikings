@@ -116,6 +116,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
 
     public void TouchParameterBuilding()
     {
+        GameManager.uiManager.currentNormalBuidling = this.gameObject.GetComponent<Building>();
         GameManager.uiManager.currentParameterBuilding = this;
         GameManager.uiManager.windows[(int)WINDOW_NAME.PARAMETER_POPUP].Open();
     }
