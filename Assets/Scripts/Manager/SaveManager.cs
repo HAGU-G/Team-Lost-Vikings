@@ -22,11 +22,10 @@ public static class SaveManager
         var save = saveData as CurrentSave;
 
         //Version 1
-        save.units.Clear();
-        foreach (var unit in GameManager.unitManager.Units)
-        {
-            save.units.Add(unit.Value);
-        }
+        save.unitManager = GameManager.unitManager;
+        //save.huntZoneManager = GameManager.huntZoneManager;
+
+        SaveFile();
     }
 
     public static void LoadGame()
@@ -35,6 +34,9 @@ public static class SaveManager
             saveData = new CurrentSave();
 
         var load = LoadFile();
+        if (load == null)
+            return;
+
         while (load.version != saveData.version)
         {
             if (load.version < saveData.version)
@@ -47,7 +49,8 @@ public static class SaveManager
         var save = saveData as CurrentSave;
 
         //Version 1
-        GameManager.unitManager.AddUnits(save.units.ToArray());
+        GameManager.unitManager = save.unitManager;
+        save.unitManager.LoadUnits();
     }
 
     private static void SaveFile()
@@ -87,6 +90,7 @@ public static class SaveManager
                 return null;
 
             encryptedSaveData = File.ReadAllBytes(path);
+            
         }
         else
         {
@@ -95,15 +99,22 @@ public static class SaveManager
 
         SaveData load = new CurrentSave();
 
-        ICryptoTransform cryptoTransform2 = NewRijndaeManaged().CreateDecryptor();
-        byte[] result = cryptoTransform2.TransformFinalBlock(encryptedSaveData, 0, encryptedSaveData.Length);
-        using (var reader = new JsonTextReader(new StringReader(System.Text.Encoding.UTF8.GetString(result))))
+        using (var reader = new JsonTextReader(new StringReader(File.ReadAllText(Path.Combine(fileDirectory, fileName)))))
         {
             var serializer = new JsonSerializer();
             serializer.Formatting = Formatting.Indented;
             serializer.TypeNameHandling = TypeNameHandling.All;
             load = serializer.Deserialize<SaveData>(reader);
         }
+        //ICryptoTransform cryptoTransform2 = NewRijndaeManaged().CreateDecryptor();
+        //byte[] result = cryptoTransform2.TransformFinalBlock(encryptedSaveData, 0, encryptedSaveData.Length);
+        //using (var reader = new JsonTextReader(new StringReader(System.Text.Encoding.UTF8.GetString(result))))
+        //{
+        //    var serializer = new JsonSerializer();
+        //    serializer.Formatting = Formatting.Indented;
+        //    serializer.TypeNameHandling = TypeNameHandling.All;
+        //    load = serializer.Deserialize<SaveData>(reader);
+        //}
 
         return load;
     }

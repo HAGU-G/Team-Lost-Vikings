@@ -4,31 +4,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public enum EventBusType
+public enum EVENT_TYPE
 {
+    LOADED,
+    INIT,
+    START,
     PAUSE,
-    SCENE_CHANGE,
+    RESUME,
+    QUIT
 }
 
 public static class GameManager
-{ 
+{
     public static VillageManager villageManager;
     public static HuntZoneManager huntZoneManager;
     public static UIManager uiManager = new();
-    public static UnitManager unitManager = new();
+    public static UnitManager unitManager;
     public static InputManager inputManager;
     public static PlayerManager playerManager = new();
     public static QuestManager questManager;
     public static ItemManager itemManager;
 
-    private static IDictionary<EventBusType, UnityEvent> events = new Dictionary<EventBusType, UnityEvent>();
+    private static IDictionary<EVENT_TYPE, UnityEvent> events = new Dictionary<EVENT_TYPE, UnityEvent>();
 
 
-    public static void Subscribe(EventBusType eventType, UnityAction listener)
+    public static void Subscribe(EVENT_TYPE eventType, in UnityAction listener)
     {
-        UnityEvent action;
+        UnityEvent action = null;
 
-        if(events.TryGetValue(eventType, out action))
+        if (events.TryGetValue(eventType, out action))
         {
             action.RemoveListener(listener);
             action.AddListener(listener);
@@ -41,23 +45,18 @@ public static class GameManager
         }
     }
 
-    public static void UnSubscribe(EventBusType eventType, in UnityAction listener)
+    public static void UnSubscribe(EVENT_TYPE eventType, in UnityAction listener)
     {
-        UnityEvent action;
-
-        if(events.TryGetValue(eventType, out action))
+        if (events.TryGetValue(eventType, out var action))
         {
             Debug.LogWarning("해제됨");
             action.RemoveListener(listener);
         }
     }
 
-    public static void Publish(EventBusType eventType)
+    public static void Publish(EVENT_TYPE eventType)
     {
-        UnityEvent action;
-
-        
-        if(events.TryGetValue(eventType, out action))
+        if (events.TryGetValue(eventType, out var action))
         {
             action.Invoke();
         }
@@ -65,8 +64,31 @@ public static class GameManager
 
 
     //TESTCODE
-    public static void OnGameStart()
+    public static void GameLoaded()
     {
-        unitManager.LoadUnits();
+        UnitStats.existIDs.Clear();
+        SaveManager.LoadGame();
+        unitManager ??= new();
+
+        Publish(EVENT_TYPE.LOADED);
+        Publish(EVENT_TYPE.INIT);
+        Publish(EVENT_TYPE.START);
+
+        //TESTCODE
+        for (int i = 0; i < 20; i++)
+        {
+            unitManager.GachaCharacter(playerManager.level);
+        }
+        uiManager.chracterInventory.LoadCharacterButtons(unitManager.Units);
+        uiManager.chracterWaiting.LoadCharacterButtons(unitManager.Waitings);
+    }
+
+    public static void GameQuit()
+    {
+        foreach (var huntZone in huntZoneManager.HuntZones)
+        {
+            huntZone.Value.EndBossBattle(false);
+            huntZone.Value.gameObject.SetActive(false);
+        }
     }
 }

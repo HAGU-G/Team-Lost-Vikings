@@ -167,39 +167,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1305eec6878634148af51659f26d40fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitStatsData:
-    <Name>k__BackingField: "\uD14C\uC2A4\uD2B8 \uC720\uB2DB"
-    <Id>k__BackingField: 0
-    <GachaChance>k__BackingField: 0
-    <GachaLevel>k__BackingField: 0
-    <Job>k__BackingField: 0
-    <BasicAttackType>k__BackingField: 0
-    <MaxHP>k__BackingField: 0
-    <MaxStamina>k__BackingField: 0
-    <MaxMental>k__BackingField: 0
-    <RecognizeRange>k__BackingField: 5
-    <SizeRange>k__BackingField: 0.2
-    <PresenseRange>k__BackingField: 0
-    <BasicAttackRange>k__BackingField: 1
-    <MoveSpeed>k__BackingField: 3
-    <StrMin>k__BackingField: 10
-    <StrMax>k__BackingField: 20
-    <StrWeight>k__BackingField: 1
-    <WizMin>k__BackingField: 0
-    <WizMax>k__BackingField: 0
-    <WizWeight>k__BackingField: 0
-    <AgiMin>k__BackingField: 10
-    <AgiMax>k__BackingField: 20
-    <AgiWeight>k__BackingField: 0.7
-    <AttackSpeed>k__BackingField: 0.3
-    <CritChance>k__BackingField: 0
-    <CritWeight>k__BackingField: 0
-    <VitMin>k__BackingField: 10
-    <VitMax>k__BackingField: 20
-    <VitWeight>k__BackingField: 2
-    <SkillPoolId1>k__BackingField: 0
-    <SkillPoolId2>k__BackingField: 0
-    <UnitAssetFileName>k__BackingField: 
   unitPrefab: {fileID: 5123246219790320037, guid: ee8173d09160d4344b7748f6a6ed13a8, type: 3}
   monsterPrefab: {fileID: 7625488896232799804, guid: 79c7d36189653e341b61bd54638a95cb, type: 3}
   offset: {x: 1000, y: 0, z: 0}
@@ -346,6 +313,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7699926321438720417, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: m_Name
+      value: Grid
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -438,6 +409,10 @@ PrefabInstance:
     - target: {fileID: 3743196961969806013, guid: f867158148268024182e917058a08578, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7699926321438720417, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: m_Name
+      value: Grid
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

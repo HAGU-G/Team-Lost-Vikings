@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using UnityEngine;
 
+[JsonObject(MemberSerialization.OptIn)]
 public class HuntZone : MonoBehaviour
 {
     #region INSPECTOR
@@ -15,9 +17,12 @@ public class HuntZone : MonoBehaviour
     public Vector3 PortalPos { get; private set; }
     public Construct construct = new();
 
-    [field: SerializeField] public int HuntZoneNum { get; private set; }
+    [JsonProperty]
+    [field: SerializeField]
+    public int HuntZoneNum { get; private set; }
+
     public Dictionary<int, HuntZoneData> HuntZoneDatas { get; private set; } = new();
-    public int stage { get; private set; } = 1;
+    [JsonProperty] public int stage { get; private set; } = 1;
     public bool IsReady { get; private set; }
 
     public List<UnitOnHunt> Units { get; private set; } = new();
@@ -31,10 +36,13 @@ public class HuntZone : MonoBehaviour
     public bool IsBossBattle { get; private set; }
     public bool CanSpawnBoss { get; private set; } = true;
     public float BossTimer { get; private set; }
-    public float RetryTimer { get; private set; }
+    [JsonProperty] public float RetryTimer { get; private set; }
 
-
-    private void Start()
+    private void Awake()
+    {
+        GameManager.Subscribe(EVENT_TYPE.INIT, OnGameLoaded);
+    }
+    private void OnGameLoaded()
     {
         Init();
         ResetHuntZone(true);
@@ -281,7 +289,7 @@ public class HuntZone : MonoBehaviour
                 continue;
 
             var unitOnHunt = GameManager.huntZoneManager.GetUnitOnHunt(this, unit);
-            unitOnHunt.transform.position = transform.position;
+            unitOnHunt.transform.position = PortalPos;
             Debug.Log(unit.InstanceID + "소환됨", unitOnHunt.gameObject);
             break;
         }

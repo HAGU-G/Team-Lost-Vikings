@@ -22,7 +22,7 @@ public class MonsterRegenPoint : MonoBehaviour, IObserver<Monster>
 #if !UNITY_EDITOR
     private void Awake()
     {
-        spriteRenderer.gameObject.SetActive(true);
+        spriteRenderer.gameObject.SetActive(false);
     }
 #endif
 

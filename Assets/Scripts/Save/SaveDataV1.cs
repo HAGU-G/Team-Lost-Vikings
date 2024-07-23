@@ -4,7 +4,8 @@ public class SaveDataV1 : SaveData
 {
     public SaveDataV1() : base(1) { }
 
-    public List<UnitStats> units = new();
+    public UnitManager unitManager;
+    //public HuntZoneManager huntZoneManager;
 
 
 

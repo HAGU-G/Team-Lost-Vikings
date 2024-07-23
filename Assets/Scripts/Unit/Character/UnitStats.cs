@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum UNIT_JOB
@@ -33,63 +34,93 @@ public enum LOCATION
     HUNTZONE
 }
 
-[System.Serializable]
+[System.Serializable, JsonObject(MemberSerialization.OptIn)]
 public class UnitStats : Stats
 {
     public static List<int> existIDs = new();
-    [field: SerializeField] public int InstanceID { get; private set; }
 
-    public UnitStats() : this(System.DateTime.Now.GetHashCode()) { }
+    [JsonProperty]
+    [field: SerializeField]
+    public int InstanceID { get; private set; }
+
+    public UnitStats()
+    {
+        InstanceID = System.DateTime.Now.GetHashCode();
+        while (existIDs.Contains(InstanceID))
+        {
+            InstanceID++;
+        }
+        existIDs.Add(InstanceID);
+    }
+
+    [JsonConstructor]
     public UnitStats(int instanceId)
     {
-        while (existIDs.Contains(instanceId))
-        {
-            instanceId++;
-        }
-
         InstanceID = instanceId;
         existIDs.Add(instanceId);
     }
 
-    public UNIT_GRADE UnitGrade { get; private set; }
+    [JsonProperty] public UNIT_GRADE UnitGrade { get; private set; }
     public UNIT_JOB Job { get; private set; }
     public ATTACK_TYPE BasicAttackType { get; private set; }
-    public int SkillId1 { get; private set; }
-    public int SkillId2 { get; private set; }
+    [JsonProperty] public int SkillId1 { get; private set; }
+    [JsonProperty] public int SkillId2 { get; private set; }
 
-    //Parameters
-    public LOCATION Location { get; private set; }
-    public LOCATION NextLocation { get; private set; }
-    public int HuntZoneNum { get; private set; } = -1;
-    [field: SerializeField] public Parameter Stamina { get; private set; } = new();
-    [field: SerializeField] public Parameter Stress { get; private set; } = new();
+    //Location
+    [JsonProperty] public LOCATION Location { get; private set; }
+    [JsonProperty] public LOCATION NextLocation { get; private set; }
+    [JsonProperty] public int HuntZoneNum { get; private set; } = -1;
 
-    //Stats
-    [field: SerializeField] public StatInt BaseHP { get; private set; } = new();
-    [field: SerializeField] public StatInt Vit { get; private set; } = new();
+    [JsonProperty]
+    [field: SerializeField]
+    public Parameter Stamina { get; private set; } = new();
+
+    [JsonProperty]
+    [field: SerializeField]
+    public Parameter Stress { get; private set; } = new();
+
+    [JsonProperty]
+    [field: SerializeField]
+    public StatInt BaseHP { get; private set; } = new();
+
+    [JsonProperty]
+    [field: SerializeField]
+    public StatInt Vit { get; private set; } = new();
     [field: SerializeField] public StatFloat VitWeight { get; private set; } = new();
-    [field: SerializeField] public StatInt BaseStr { get; private set; } = new();
+
+    [JsonProperty]
+    [field: SerializeField]
+    public StatInt BaseStr { get; private set; } = new();
     [field: SerializeField] public StatFloat StrWeight { get; private set; } = new();
-    [field: SerializeField] public StatInt BaseWiz { get; private set; } = new();
+
+    [JsonProperty]
+    [field: SerializeField]
+    public StatInt BaseWiz { get; private set; } = new();
     [field: SerializeField] public StatFloat WizWeight { get; private set; } = new();
-    [field: SerializeField] public StatInt BaseAgi { get; private set; } = new();
+
+    [JsonProperty]
+    [field: SerializeField]
+    public StatInt BaseAgi { get; private set; } = new();
     [field: SerializeField] public StatFloat AgiWeight { get; private set; } = new();
 
     [field: SerializeField] public StatFloat CritChance { get; set; } = new();
     [field: SerializeField] public StatFloat CritWeight { get; set; } = new();
 
 
-    public void InitStats(UnitStatsData data)
+    public void InitStats(UnitStatsData data, bool doGacha = true)
     {
-        GachaDefaultStats(data);
+        if (doGacha)
+            GachaDefaultStats(data);
+
         SetConstantStats(data);
+        CalulateGrade();
     }
 
     public override void ResetStats()
     {
-        SetMaxHP();
-        base.ResetStats();
+        UpdateMaxHP();
 
+        base.ResetStats();
         Stress.Reset();
         Stamina.Reset();
 
@@ -140,22 +171,32 @@ public class UnitStats : Stats
     }
     public void GachaDefaultStats(UnitStatsData data)
     {
+        Vit.defaultValue = Random.Range(data.VitMin, data.VitMax + 1);
+        BaseStr.defaultValue = Random.Range(data.StrMin, data.StrMax + 1);
+        BaseWiz.defaultValue = Random.Range(data.WizMin, data.WizMax + 1);
+        BaseAgi.defaultValue = Random.Range(data.AgiMin, data.AgiMax + 1);
+    }
+
+    private void SetConstantStats(UnitStatsData data)
+    {
+        Id = data.Id;
+        Name = data.Name;
+        Job = data.Job;
+        BasicAttackType = data.BasicAttackType;
+        AssetFileName = data.UnitAssetFileName;
+
+        //Stats
         Stamina.max = data.MaxStamina;
         Stamina.defaultValue = data.MaxStamina;
+
         Stress.max = data.MaxMental;
         Stress.defaultValue = data.MaxMental;
 
         BaseHP.defaultValue = data.MaxHP;
-        Vit.defaultValue = Random.Range(data.VitMin, data.VitMax + 1);
-        VitWeight.defaultValue = data.VitWeight;
-        SetMaxHP();
-        HP.defaultValue = HP.max;
 
-        BaseStr.defaultValue = Random.Range(data.StrMin, data.StrMax + 1);
+        VitWeight.defaultValue = data.VitWeight;
         StrWeight.defaultValue = data.StrWeight;
-        BaseWiz.defaultValue = Random.Range(data.WizMin, data.WizMax + 1);
         WizWeight.defaultValue = data.WizWeight;
-        BaseAgi.defaultValue = Random.Range(data.AgiMin, data.AgiMax + 1);
         AgiWeight.defaultValue = data.AgiWeight;
 
         UnitSize.defaultValue = data.SizeRange;
@@ -168,30 +209,9 @@ public class UnitStats : Stats
 
         CritChance.defaultValue = data.CritChance;
         CritWeight.defaultValue = data.CritWeight;
-
-        CalulateGrade();
-        UpdateCombatPoint();
     }
 
-    private static UnitStats GachaNewStats(UnitStatsData data)
-    {
-        var gacha = new UnitStats();
-        gacha.GachaDefaultStats(data);
-
-
-        return gacha;
-    }
-
-    private void SetConstantStats(UnitStatsData data)
-    {
-        Id = data.Id;
-        Name = data.Name;
-        Job = data.Job;
-        BasicAttackType = data.BasicAttackType;
-        AssetFileName = data.UnitAssetFileName;
-    }
-
-    private void SetMaxHP()
+    public void UpdateMaxHP()
     {
         HP.max = BaseHP.Current + GetWeightedStat(Vit.Current, VitWeight.Current);
         HP.defaultValue = HP.max;

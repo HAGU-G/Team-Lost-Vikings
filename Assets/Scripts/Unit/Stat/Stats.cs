@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Newtonsoft.Json;
+using UnityEngine;
 
 public enum STAT_GROUP
 {
@@ -8,15 +9,20 @@ public enum STAT_GROUP
 }
 
 
-[System.Serializable]
+[System.Serializable,JsonObject(MemberSerialization.OptIn)]
 public abstract class Stats
 {
-    [field: SerializeField] public int Id { get; protected set; }
+    [JsonProperty]
+    [field: SerializeField]
+    public int Id { get; protected set; }
+
     [field: SerializeField] public string Name { get; protected set; }
     [field: SerializeField] public string AssetFileName { get; set; }
 
     //Parameters
-    [field: SerializeField] public Parameter HP { get; set; } = new();
+    [JsonProperty]
+    [field: SerializeField] 
+    public Parameter HP { get; set; } = new();
 
     //Stats
     [field: SerializeField] public StatFloat MoveSpeed { get; protected set; } = new();

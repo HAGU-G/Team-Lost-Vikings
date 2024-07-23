@@ -33,10 +33,12 @@ public class VillageManager : MonoBehaviour
         }
 
         GameManager.villageManager = this;
+
+        GameManager.Subscribe(EVENT_TYPE.INIT,OnGameLoaded);
     }
 
 
-    private void Start()
+    private void OnGameLoaded()
     {
         gridMaps = new List<GridMap>();
         //gridMap = new GridMap();
