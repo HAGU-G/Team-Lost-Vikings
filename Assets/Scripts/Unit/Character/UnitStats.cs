@@ -39,7 +39,7 @@ public class UnitStats : Stats
     public static List<int> existIDs = new();
     [field: SerializeField] public int InstanceID { get; private set; }
 
-    public UnitStats() : this(SyncedTime.Now.GetHashCode()) { }
+    public UnitStats() : this(System.DateTime.Now.GetHashCode()) { }
     public UnitStats(int instanceId)
     {
         while (existIDs.Contains(instanceId))

@@ -21,13 +21,15 @@ public class UnitManager
             if (!Units.ContainsKey(unit.InstanceID))
                 Units.Add(unit.InstanceID, unit);
         }
-
-        //for (int i = 0; i < 20; i++)
-        //{
-        //    GachaCharacter(GameManager.playerManager.level);
-        //}
     }
 
+    public void LoadUnits()
+    {
+        for (int i = 0; i < 20; i++)
+        {
+            GachaCharacter(GameManager.playerManager.level);
+        }
+    }
 
 
     public UnitStats GetUnit(int instanceID)

@@ -26,15 +26,20 @@ public class TableDuplicatedID<T, U> : Table<T, U>
             return;
         }
 
+        datas = new();
+
         var textAsset = handle.Result;
-        using (var reader = new StreamReader(textAsset.text))
+        using (var reader = new StringReader(textAsset.text))
         using (var csvReader = new CsvReader(reader, CultureInfo.InvariantCulture))
         {
-            datas = new();
+            csvReader.Read();
+            csvReader.Read();
 
-            var records = csvReader.GetRecords<U>();
-            foreach (var record in records)
+            while (csvReader.Read())
             {
+                var record = csvReader.GetRecord<U>();
+                (record as ITableExtraLoadable)?.ExtraLoad(csvReader);
+
                 if (datas.ContainsKey(record.TableID))
                     datas[record.TableID].Add(record);
                 else
