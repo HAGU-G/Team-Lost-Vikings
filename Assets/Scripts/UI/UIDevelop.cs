@@ -121,6 +121,11 @@ public class UIDevelop : MonoBehaviour
         GameManager.uiManager.windows[(int)WINDOW_NAME.GACHA_UI].Open();
     }
 
+    public void OnButtonUnit()
+    {
+        GameManager.uiManager.windows[(int)WINDOW_NAME.UNITS_INFORMATION].Open();
+    }
+
     public void OnButtonUnitStash()
     {
         GameManager.uiManager.windows[(int)WINDOW_NAME.CHARACTER_STASH].Open();

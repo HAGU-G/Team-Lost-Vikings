@@ -101,6 +101,9 @@ public class UIBuildingParameterPopUp : UIWindow
         var parameter = vm.village.upgrade.gameObject.GetComponent<ParameterRecoveryBuilding>();
         
         var units = parameter.interactingUnits;
+
+
+        Debug.Log(units.Count);
         for(int i = 0; i < units.Count; ++i)
         {
             var character = Instantiate(characterInformation, characterContent);

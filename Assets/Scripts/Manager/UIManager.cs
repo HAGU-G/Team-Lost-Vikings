@@ -33,6 +33,7 @@ public class UIManager : MonoBehaviour
 
     public Building currentNormalBuidling;
     public ParameterRecoveryBuilding currentParameterBuilding;
+    public UnitStats currentUnitStats;
 
     public bool isWindowOn = false;
 

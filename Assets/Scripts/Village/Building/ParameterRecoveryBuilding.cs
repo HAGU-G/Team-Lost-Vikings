@@ -44,6 +44,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
 
         while (true)
         {
+            Debug.Log(parameterType);
             switch (parameterType)
             {
                 case PARAMETER_TYPES.HP:

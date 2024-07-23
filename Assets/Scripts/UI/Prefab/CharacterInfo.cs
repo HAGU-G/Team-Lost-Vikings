@@ -9,4 +9,5 @@ public class CharacterInfo : MonoBehaviour
     public TextMeshProUGUI characterGrade;
     public TextMeshProUGUI characterName;
     public Slider parameterBar;
+    public Button information;
 }

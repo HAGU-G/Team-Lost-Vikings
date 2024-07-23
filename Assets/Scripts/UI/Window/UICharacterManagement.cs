@@ -1,4 +1,5 @@
-﻿using UnityEngine.UI;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 //TESTCODE
 
@@ -9,6 +10,7 @@ public class UICharacterManagement : UIWindow
     public Button buttonOK;
     public Button buttonCancel;
     public InputField inputStageID;
+
 
     public void OnButtonExit()
     {
