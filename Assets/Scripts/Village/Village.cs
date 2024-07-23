@@ -21,10 +21,10 @@ public class Village : MonoBehaviour
         units = new List<UnitOnVillage>();
         pm = GameManager.playerManager;
 
-        GameManager.Subscribe(EVENT_TYPE.INIT, OnGameLoaded);
+        GameManager.Subscribe(EVENT_TYPE.INIT, OnGameInit);
     }
 
-    private void OnGameLoaded()
+    private void OnGameInit()
     {
         //var unit = Instantiate(unitPrefab, villageManager.gridMap.IndexToPos(new Vector2Int(31, 31))
         //    , Quaternion.identity, villageManager.gridMap.transform);

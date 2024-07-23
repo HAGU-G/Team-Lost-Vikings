@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-[JsonObject(MemberSerialization.OptIn)]
 public class HuntZoneManager : MonoBehaviour
 {
     //어드레서블로 교체
@@ -15,12 +14,12 @@ public class HuntZoneManager : MonoBehaviour
     /// <summary>
     /// Key: 사냥터 Num, Value: HuntZone
     /// </summary>
-    [JsonProperty] public Dictionary<int, HuntZone> HuntZones { get; private set; } = new();
+    public Dictionary<int, HuntZone> HuntZones { get; private set; } = new();
 
     /// <summary>
     /// Key: 사냥터 Num, Value: 사냥터에 배치된 유닛 instanceID List
     /// </summary>
-    [JsonProperty] public Dictionary<int, List<int>> UnitDeployment { get; private set; } = new();
+    public Dictionary<int, List<int>> UnitDeployment { get; private set; } = new();
 
     private IObjectPool<Monster> MonsterPool { get; set; }
     private IObjectPool<UnitOnHunt> UnitPool { get; set; }
@@ -34,10 +33,10 @@ public class HuntZoneManager : MonoBehaviour
         }
         GameManager.huntZoneManager = this;
 
-        GameManager.Subscribe(EVENT_TYPE.INIT, OnGameLoaded);
+        GameManager.Subscribe(EVENT_TYPE.INIT, OnGameInit);
     }
 
-    private void OnGameLoaded()
+    private void OnGameInit()
     {
         SetMonsterPool();
         SetUnitPool();

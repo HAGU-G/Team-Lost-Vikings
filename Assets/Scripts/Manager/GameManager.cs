@@ -67,11 +67,12 @@ public static class GameManager
     public static void GameLoaded()
     {
         UnitStats.existIDs.Clear();
-        SaveManager.LoadGame();
         unitManager ??= new();
 
         Publish(EVENT_TYPE.LOADED);
         Publish(EVENT_TYPE.INIT);
+        SaveManager.LoadGame();
+
         Publish(EVENT_TYPE.START);
 
         //TESTCODE

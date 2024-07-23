@@ -23,7 +23,12 @@ public static class SaveManager
 
         //Version 1
         save.unitManager = GameManager.unitManager;
-        //save.huntZoneManager = GameManager.huntZoneManager;
+        save.huntZones.Clear();
+        foreach (var huntZoneInfo in GameManager.huntZoneManager.HuntZones)
+        {
+            save.huntZones.Add(huntZoneInfo.Value.Info);
+        }
+        save.UnitDeployment = GameManager.huntZoneManager.UnitDeployment;
 
         SaveFile();
     }
@@ -51,6 +56,12 @@ public static class SaveManager
         //Version 1
         GameManager.unitManager = save.unitManager;
         save.unitManager.LoadUnits();
+
+        foreach (var huntZoneInfo in save.huntZones)
+        {
+            GameManager.huntZoneManager.HuntZones[huntZoneInfo.HuntZoneNum].Info = huntZoneInfo;
+        }
+        save.UnitDeployment = GameManager.huntZoneManager.UnitDeployment;
     }
 
     private static void SaveFile()
