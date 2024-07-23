@@ -1,4 +1,4 @@
-﻿건물이름,아이디,가로사이즈,세로사이즈,건물타입,요구회관레벨,중복설치가능,건물반전가능,배치변경가능,철거가능,업그레이드Id,건물에셋파일명
-string,int,int,int,int,int,int,Int,Int,int,int,string
-StructureName,StructureId,Width,Length,StructureType,UnlockTownLevel,CanMultiBuild,CanReverse,CanReplace,CanDestroy,UpgradeId,StructureAssetFileName
-3,3,3,3,3,3,1,1,1,1,3,3
+﻿건물이름,아이디,가로사이즈,세로사이즈,건물타입,요구회관레벨,중복설치가능,건물반전가능,배치변경가능,철거가능,업그레이드Id,건물에셋파일명.아
+string,int,int,int,int,int,int,Int,Int,int,int,string,string
+StructureName,StructureId,Width,Length,StructureType,UnlckTownLevel,CanMultiBuild,CanReverse,CanReplace,CanDestroy,UpgradeId,StructureAssetFileName,StructureDesc
+3,3,3,3,3,3,1,1,1,1,3,3,설명설명

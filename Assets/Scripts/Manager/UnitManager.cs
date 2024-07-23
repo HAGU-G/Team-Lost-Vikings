@@ -14,14 +14,18 @@ public class UnitManager
     public Dictionary<int, UnitStats> Waitings { get; private set; } = new();
 
 
-    public void LoadUnits()
+    public void AddUnits(params UnitStats[] data)
     {
-        //TODO 세이브데이터에서 불러오도록 변경
-        for (int i = 0; i < 20; i++)
+        foreach (var unit in data)
         {
-            GachaCharacter(GameManager.playerManager.level);
+            if (!Units.ContainsKey(unit.InstanceID))
+                Units.Add(unit.InstanceID, unit);
         }
 
+        //for (int i = 0; i < 20; i++)
+        //{
+        //    GachaCharacter(GameManager.playerManager.level);
+        //}
     }
 
 
@@ -84,8 +88,7 @@ public class UnitManager
         Waitings.Remove(instanceID);
         pick.SetUpgradeStats();
 
-        if (!Units.ContainsKey(pick.InstanceID))
-            Units.Add(pick.InstanceID, pick);
+        AddUnits(pick);
 
         return pick;
     }

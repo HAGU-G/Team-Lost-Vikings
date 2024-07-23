@@ -1,16 +1,124 @@
-﻿using UnityEngine;
+﻿using Newtonsoft.Json;
+using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
+using UnityEngine;
 using CurrentSave = SaveDataV1;
 
 public static class SaveManager
 {
-    private static CurrentSave save;
+    private static readonly string fileDirectory = $"{Application.persistentDataPath}/save";
+    private static readonly string fileName = "LV_Save";
+    private static readonly string key = "89f0d73j038fjje0";
 
-    public static void Save()
+    private static SaveData saveData = null;
+    private static byte[] encryptedSaveData = null;
+
+    public static void SaveGame()
     {
-        
+        if (saveData == null)
+            saveData = new CurrentSave();
+
+        var save = saveData as CurrentSave;
+
+        //Version 1
+        save.units.Clear();
+        foreach (var unit in GameManager.unitManager.Units)
+        {
+            save.units.Add(unit.Value);
+        }
     }
 
-    public static void Load()
+    public static void LoadGame()
     {
+        if (saveData == null)
+            saveData = new CurrentSave();
+
+        var load = LoadFile();
+        while (load.version != saveData.version)
+        {
+            if (load.version < saveData.version)
+                load = load.VersionUp();
+            else if (load.version > saveData.version)
+                load = load.VersionDown();
+        }
+
+        saveData = load;
+        var save = saveData as CurrentSave;
+
+        //Version 1
+        GameManager.unitManager.AddUnits(save.units.ToArray());
+    }
+
+    private static void SaveFile()
+    {
+        if (!Directory.Exists(fileDirectory))
+            Directory.CreateDirectory(fileDirectory);
+
+        var path = Path.Combine(fileDirectory, fileName);
+        using (var stringWriter = new StringWriter())
+        {
+            using (var jsonWriter = new JsonTextWriter(stringWriter))
+            {
+                var serializer = new JsonSerializer();
+                serializer.Formatting = Formatting.Indented;
+                serializer.TypeNameHandling = TypeNameHandling.All;
+                serializer.Serialize(jsonWriter, saveData);
+            }
+
+            File.WriteAllText(path, stringWriter.ToString());
+
+            //byte[] bytes = System.Text.Encoding.UTF8.GetBytes(stringWriter.ToString());
+            //ICryptoTransform cryptoTransform = NewRijndaeManaged().CreateEncryptor();
+            //encryptedSaveData = cryptoTransform.TransformFinalBlock(bytes, 0, bytes.Length);
+            //File.WriteAllBytes(path, encryptedSaveData);
+        }
+    }
+
+    private static SaveData LoadFile(byte[] data = null)
+    {
+        if (data == null)
+        {
+            if (!Directory.Exists(fileDirectory))
+                return null;
+
+            var path = Path.Combine(fileDirectory, fileName);
+            if (!File.Exists(path))
+                return null;
+
+            encryptedSaveData = File.ReadAllBytes(path);
+        }
+        else
+        {
+            encryptedSaveData = data;
+        }
+
+        SaveData load = new CurrentSave();
+
+        ICryptoTransform cryptoTransform2 = NewRijndaeManaged().CreateDecryptor();
+        byte[] result = cryptoTransform2.TransformFinalBlock(encryptedSaveData, 0, encryptedSaveData.Length);
+        using (var reader = new JsonTextReader(new StringReader(System.Text.Encoding.UTF8.GetString(result))))
+        {
+            var serializer = new JsonSerializer();
+            serializer.Formatting = Formatting.Indented;
+            serializer.TypeNameHandling = TypeNameHandling.All;
+            load = serializer.Deserialize<SaveData>(reader);
+        }
+
+        return load;
+    }
+
+    private static RijndaelManaged NewRijndaeManaged()
+    {
+        byte[] keys = System.Text.Encoding.UTF8.GetBytes(key);
+        byte[] newKeys = new byte[keys.Length];
+        System.Array.Copy(keys, 0, newKeys, 0, keys.Length);
+
+        RijndaelManaged rijndaelManaged = new RijndaelManaged();
+        rijndaelManaged.Key = newKeys;
+        rijndaelManaged.Mode = CipherMode.ECB;
+        rijndaelManaged.Padding = PaddingMode.PKCS7;
+
+        return rijndaelManaged;
     }
 }

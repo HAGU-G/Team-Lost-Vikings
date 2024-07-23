@@ -67,6 +67,6 @@ public static class GameManager
     //TESTCODE
     public static void OnGameStart()
     {
-        unitManager.LoadUnits();
+        unitManager.AddUnits();
     }
 }
