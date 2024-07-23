@@ -5,7 +5,7 @@ using UnityEngine.AddressableAssets;
 [Serializable]
 public abstract class Unit : MonoBehaviour, IStatUsable
 {
-    public UnitStats stats;
+    public UnitStats stats = null;
     public GameObject dress;
 
     public virtual STAT_GROUP StatGroup => STAT_GROUP.UNIT_ON_VILLAGE;
@@ -42,7 +42,7 @@ public abstract class Unit : MonoBehaviour, IStatUsable
             dress = handle.Result;
         };
 
-        stats.ResetEllipse(transform);
+        stats?.ResetEllipse(transform);
         ResetEvents();
     }
 

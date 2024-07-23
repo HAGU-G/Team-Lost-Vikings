@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -197,6 +196,23 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
 
     public void DropItem()
     {
-        //Debug.Log($"아이템 드롭 ID: {stats.DropId}");
+        if (stats.DropId == 0)
+            return;
+
+        var dropData = DataTableManager.dropTable.GetData(stats.DropId);
+        var itemList = GameManager.itemManager.ownItemList;
+
+        GameManager.itemManager.Gold += dropData.DropGold();
+        foreach(var itemID in dropData.DropItem())
+        {
+            if (itemList.ContainsKey(itemID))
+            {
+                itemList[itemID]++;
+            }
+            else
+            {
+                itemList.Add(itemID, 1);
+            }
+        }
     }
 }

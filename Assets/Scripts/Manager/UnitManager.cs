@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
@@ -16,21 +17,21 @@ public class UnitManager
     [JsonProperty] public Dictionary<int, UnitStats> DeadUnits { get; private set; } = new();
     [JsonProperty] public Dictionary<int, UnitStats> Waitings { get; private set; } = new();
 
+    public bool IsMaxWait => Waitings.Count >= GameSetting.Instance.autoGachaMaxCount;
+
+    [JsonProperty] public System.DateTime lastAutoGachaTime = System.DateTime.Now;
+    private float autoGachaTimeCorrection = 0f;
+    public float TimeToAutoGacha =>
+        Mathf.Max(0f, GameSetting.Instance.autoGachaSeconds - (System.DateTime.Now - lastAutoGachaTime).Seconds);
+
     public void LoadUnits()
     {
-        Debug.Log(UnitStats.existIDs.Count);
-        Debug.Log(Units.Count);
-        Debug.Log(DeadUnits.Count);
-        Debug.Log(Waitings.Count);
-
         foreach (var unit in Units)
         {
             unit.Value.InitStats(DataTableManager.characterTable.GetData(unit.Value.Id), false);
             unit.Value.UpdateMaxHP();
             unit.Value.UpdateCombatPoint();
             unit.Value.SetUpgradeStats();
-            if (!UnitStats.existIDs.Contains(unit.Value.InstanceID))
-                Debug.Log("초비상");
         }
         foreach (var unit in DeadUnits)
         {
@@ -44,8 +45,6 @@ public class UnitManager
             unit.Value.InitStats(DataTableManager.characterTable.GetData(unit.Value.Id), false);
             unit.Value.UpdateMaxHP();
             unit.Value.UpdateCombatPoint();
-            if (!UnitStats.existIDs.Contains(unit.Value.InstanceID))
-                Debug.Log("초비상");
             //unit.Value.SetUpgradeStats(); 하면 안됨.
         }
 
@@ -58,6 +57,22 @@ public class UnitManager
         {
             SpawnOnLocation(unit.Value);
         }
+        //누적된 가챠 진행
+        var sleepSeconds = (System.DateTime.Now - lastAutoGachaTime).Seconds;
+        var gachaCount = Mathf.FloorToInt(sleepSeconds / GameSetting.Instance.autoGachaSeconds);
+
+        Debug.Log($"{sleepSeconds} {gachaCount}");
+
+        while (gachaCount > 0 && !IsMaxWait)
+        {
+            gachaCount--;
+            GachaCharacter(GameManager.playerManager.level);
+        }
+        autoGachaTimeCorrection = sleepSeconds - gachaCount;
+
+
+
+        CoroutineObject.CreateCorutine(CoAutoGacha());
     }
 
 
@@ -132,7 +147,7 @@ public class UnitManager
         }
     }
 
-    public void GachaCharacter(int level)
+    public UnitStats GachaCharacter(int level)
     {
         var waitCharacter = new UnitStats();
         waitCharacter.InitStats(GachaUnitData(level));
@@ -140,6 +155,8 @@ public class UnitManager
         Waitings.Add(waitCharacter.InstanceID, waitCharacter);
 
         SaveManager.SaveGame();
+
+        return waitCharacter;
     }
 
     public UnitStats PickUpCharacter(int instanceID)
@@ -157,5 +174,27 @@ public class UnitManager
         SaveManager.SaveGame();
 
         return pick;
+    }
+
+    private IEnumerator CoAutoGacha()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(GameSetting.Instance.autoGachaSeconds - autoGachaTimeCorrection);
+
+            if (IsMaxWait)
+            {
+                autoGachaTimeCorrection = GameSetting.Instance.autoGachaSeconds - 1f;
+            }
+            else
+            {
+                autoGachaTimeCorrection = 0f;
+                GachaCharacter(GameManager.playerManager.level);
+                lastAutoGachaTime = System.DateTime.Now;
+
+                //TESTCODE
+                (GameManager.uiManager.windows[(int)WINDOW_NAME.CHARACTER_STASH] as UICharacterStash).LoadCharacterButtons(Waitings);
+            }
+        }
     }
 }

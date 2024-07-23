@@ -4,3 +4,4 @@ MonsterName,MonsterId,MoveSpeed,SizeRange,RecognizeRange,PresenseRange,BasicAtta
 보스,1,2,0.8,10,20,1.1,100,0.5,300,2,2,2,0,Boss_Monster_000
 일반1,2,2,0.3,6,5,0.5,30,0.3,300,2,2,2,0,Normal_Monster_000
 일반2,3,2,0.3,10,3,0.5,30,0.3,300,2,2,2,0,Normal_Monster_001
+고블린,6000001,6,3,2,2,1,10,7,200,10,0,0,700001,Normal_Monster_001

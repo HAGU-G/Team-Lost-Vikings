@@ -77,11 +77,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c6471f7cebf2b3147bc67f170220649f
-    m_Address: Assets/DataTable/DropTable.csv
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a4ad022b9d6d5a442ac43f1e6129f757
     m_Address: Assets/DataTable/HuntZoneTable.csv
     m_ReadOnly: 0
@@ -104,6 +99,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 14aa998e0142e9c42bf955679810242a
     m_Address: Assets/DataTable/UnitTable.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 39d24a64d5625a8449d93156de7b55ba
+    m_Address: Assets/DataTable/DropTable.csv
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

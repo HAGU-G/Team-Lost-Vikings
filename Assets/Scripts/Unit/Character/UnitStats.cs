@@ -69,7 +69,7 @@ public class UnitStats : Stats
     //Location
     [JsonProperty] public LOCATION Location { get; private set; }
     [JsonProperty] public LOCATION NextLocation { get; private set; }
-    [JsonProperty] public int HuntZoneNum { get; private set; } = -1;
+    [JsonProperty][field: SerializeField] public int HuntZoneNum { get; private set; } = -1;
 
     [JsonProperty]
     [field: SerializeField]
@@ -175,6 +175,8 @@ public class UnitStats : Stats
         BaseStr.defaultValue = Random.Range(data.StrMin, data.StrMax + 1);
         BaseWiz.defaultValue = Random.Range(data.WizMin, data.WizMax + 1);
         BaseAgi.defaultValue = Random.Range(data.AgiMin, data.AgiMax + 1);
+        SkillId1 = data.SkillPoolId1;
+        SkillId2 = data.SkillPoolId2;
     }
 
     private void SetConstantStats(UnitStatsData data)

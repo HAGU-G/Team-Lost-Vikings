@@ -9,7 +9,7 @@ using CurrentSave = SaveDataV1;
 public static class SaveManager
 {
     private static readonly string fileDirectory = $"{Application.persistentDataPath}/save";
-    private static readonly string fileName = "LV_Save";
+    private static readonly string fileName = "TLVProtoSave";
     private static readonly string key = "89f0d73j038fjje0";
 
     private static SaveData saveData = null;
@@ -36,19 +36,12 @@ public static class SaveManager
         }
         save.UnitDeployment = GameManager.huntZoneManager.UnitDeployment;
 
+        save.buildingUpgrade.Clear();
         foreach (var building in GameManager.villageManager.constructedBuildings)
         {
             var up = building.GetComponent<BuildingUpgrade>();
-            if (up == null)
-                continue;
-
-            save.buildingUpgrade.Add(up.currentGrade);
+            save.buildingUpgrade.Add(up == null ? 0 : up.currentGrade);
         }
-
-
-
-
-
 
 
         SaveFile();
@@ -80,7 +73,6 @@ public static class SaveManager
 
         //Version 1
         GameManager.unitManager = save.unitManager;
-        save.unitManager.LoadUnits();
 
         foreach (var huntZoneInfo in save.huntZones)
         {
@@ -93,10 +85,7 @@ public static class SaveManager
             var up = GameManager.villageManager.constructedBuildings[i].GetComponent<BuildingUpgrade>();
 
             if (up == null)
-            {
-                i--;
-                continue; 
-            }
+                continue;
 
             up.currentGrade = save.buildingUpgrade[i];
             //up.SetBuildingUpgrade(); TODO : 업그레이드 ID가 없음.
