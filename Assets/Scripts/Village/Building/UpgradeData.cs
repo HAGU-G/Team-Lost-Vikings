@@ -20,9 +20,9 @@ public class UpgradeData : ITableAvaialable<int>, ITableExtraLoadable
     [field: SerializeField] public float RequireTime { get; set; }
     [field: SerializeField] public int RequireGold { get; set; }
     [field: SerializeField] public int RequireRune { get; set; }
-
     [field: SerializeField] public List<int> ItemIds { get; private set; } = new();
     [field: SerializeField] public List<int> ItemNums { get; private set; } = new();
+    [field: SerializeField] public string UpgradeDesc { get; set; }
 
     public int TableID => UpgradeId;
     private static readonly string formatItemID = "ItemId{0}";

@@ -1,4 +1,4 @@
-업그레이드이름,업그레이드Id,업그레이드단계,능력치구분,능력상승치,파라미터구분,파라미터회복치,파라미터회복시간,진행요소구분,진행요소상승치,레시피Id,제작아이템보관,요구시간,요구골드,요구마정석,요구재료1,재료수량1,요구재료2,재료수량2,요구재료3,재료수량3,요구재료4,재료수량4,요구재료5,재료수량5
-string,int,int,int,int,int,int,float,int,float,int,int,float,int,int,int,int,int,int,int,int,int,int,int,int
-UpgradeName,UpgradeId,UpgradeGrade,StatType,StatReturn,ParameterType,ParameterRecovery,RecoveryTime,ProgressVarType,ProgressVarReturn,RecipeId,ItemStack,RequireTime,RequireGold,RequireRune,ItemId1,ItemNum1,ItemId2,ItemNum2,ItemId3,ItemNum3,ItemId4,ItemNum4,ItemId5,ItemNum5
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+업그레이드이름,업그레이드Id,업그레이드단계,능력치구분,능력상승치,파라미터구분,파라미터회복치,파라미터회복시간,진행요소구분,진행요소상승치,레시피Id,제작아이템보관,요구시간,요구골드,요구마정석,요구재료1,재료수량1,요구재료2,재료수량2,요구재료3,재료수량3,요구재료4,재료수량4,요구재료5,재료수량5,설명설명
+string,int,int,int,int,int,int,float,int,float,int,int,float,int,int,int,int,int,int,int,int,int,int,int,int,string
+UpgradeName,UpgradeId,UpgradeGrade,StatType,StatReturn,ParameterType,ParameterRecovery,RecoveryTime,ProgressVarType,ProgressVarReturn,RecipeId,ItemStack,RequireTime,RequireGold,RequireRune,ItemId1,ItemNum1,ItemId2,ItemNum2,ItemId3,ItemNum3,ItemId4,ItemNum4,ItemId5,ItemNum5,UpgradeDesc
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,설명설명

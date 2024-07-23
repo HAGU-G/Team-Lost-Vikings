@@ -26,6 +26,7 @@ public class BuildingData : ITableAvaialable<int>
     public int UpgradeId { get; set; }
     [field: SerializeField]
     public string StructureAssetFileName { get; set; }
+    public string StructureDesc { get; set; }
 
     public int TableID => StructureId;
 
