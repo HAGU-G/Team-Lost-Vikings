@@ -19,7 +19,8 @@ public class UICharacterStash : UIWindow
 
     public void OnButtonExit()
     {
-       gameObject.SetActive(false);
+        Close();
+
     }
 
     private void OnEnable()

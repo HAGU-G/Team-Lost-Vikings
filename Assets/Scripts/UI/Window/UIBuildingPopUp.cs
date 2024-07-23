@@ -67,7 +67,7 @@ public class UIBuildingPopUp : UIWindow
     public void OnButtonExit()
     {
         vm.village.Cancel();
-        gameObject.SetActive(false);
+        Close();
     }
 
     public void SetText()

@@ -13,6 +13,6 @@ public class WaitForCBT : UIWindow
 
     public void OnButtonExit()
     {
-        gameObject.SetActive(false);
+        Close();
     }
 }

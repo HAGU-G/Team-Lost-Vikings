@@ -74,7 +74,7 @@ public class UIBuildingParameterPopUp : UIWindow
 
     public void OnButtonExit()
     {
-        gameObject.SetActive(false);
+        Close();
     }
 
     public void SetText()

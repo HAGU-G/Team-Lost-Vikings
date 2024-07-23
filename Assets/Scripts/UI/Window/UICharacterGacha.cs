@@ -64,6 +64,7 @@ public class UICharacterGacha : UIWindow
 
     public void OnButtonExit()
     {
-        gameObject.SetActive(false);
+        Close();
+
     }
 }

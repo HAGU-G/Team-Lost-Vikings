@@ -15,7 +15,7 @@ public class UITutorialPopUp : UIWindow
 
     public void OnButtonExit()
     {
-        gameObject.SetActive(false);
+        Close();
     }
 
     public void OnButtonPrevious()
