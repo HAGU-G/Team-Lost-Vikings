@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+[RequireComponent(typeof(Building))]
 public class BuildingUpgrade : MonoBehaviour
 {
     [field: SerializeField] public string UpgradeName {  get; private set; }
@@ -32,6 +33,8 @@ public class BuildingUpgrade : MonoBehaviour
 
     public void SetBuildingUpgrade()
     {
+        UpgradeId = GetComponent<Building>().UpgradeId;
+
         UpgradeGrade = currentGrade;
         var upgrade = DataTableManager.upgradeTable.GetData(UpgradeId)[UpgradeGrade];
 

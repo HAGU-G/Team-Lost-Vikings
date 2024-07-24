@@ -39,6 +39,11 @@ public class UIBuildingParameterPopUp : UIWindow
     protected override void Awake()
     {
         base.Awake();
+    }
+
+    protected override void OnGameStart()
+    {
+        base.OnGameStart();
         vm = GameManager.villageManager;
         um = GameManager.uiManager;
         im = GameManager.itemManager;

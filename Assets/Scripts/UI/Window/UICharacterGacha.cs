@@ -22,8 +22,14 @@ public class UICharacterGacha : UIWindow
     protected override void Awake()
     {
         base.Awake();
+    }
+
+    protected override void OnGameStart()
+    {
+        base.OnGameStart();
         im = GameManager.itemManager;
     }
+
 
     private void OnEnable()
     {
