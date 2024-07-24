@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class UnitOnVillage : Unit
 {
-    private FSM<UnitOnVillage> villageFSM;
+    public FSM<UnitOnVillage> VillageFSM {get; private set;}
     public STATE currentState;
     public LACKING_PARAMETER lackParameter;
     public GameObject destination;
@@ -37,8 +37,8 @@ public class UnitOnVillage : Unit
         destinationTile = gameObject.AddComponent<Cell>();
         villageManager = FindObjectOfType<VillageManager>();
         unitMove = GetComponent<UnitMove>();
-        villageFSM = new();
-        villageFSM.Init(this, 0,
+        VillageFSM = new();
+        VillageFSM.Init(this, 0,
             new IdleOnVillage(),
             new GotoOnVillage(),
             new InteractOnVillage());
@@ -48,12 +48,12 @@ public class UnitOnVillage : Unit
     {
         base.ResetUnit(unitStats);
         unitStats.SetLocation(LOCATION.VILLAGE);
-        villageFSM.ResetFSM();
+        VillageFSM.ResetFSM();
     }
 
     private void Update()
     {
-        villageFSM.Update();
+        VillageFSM.Update();
     }
 
     public List<Cell> FindPath(Cell start, Cell end)
@@ -76,7 +76,7 @@ public class UnitOnVillage : Unit
     public void RecoveryDone(PARAMETER_TYPE type)
     {
         //OnUnitRecoveryDone?.Invoke(type);
-        villageFSM.ChangeState((int)UnitOnHunt.STATE.IDLE);
+        VillageFSM.ChangeState((int)UnitOnHunt.STATE.IDLE);
         GameManager.uiManager.windows[WINDOW_NAME.PARAMETER_POPUP].GetComponent<UIBuildingParameterPopUp>().SetCharacterInformation();
     }
 

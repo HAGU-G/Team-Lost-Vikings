@@ -51,6 +51,7 @@ public abstract class Unit : MonoBehaviour, IStatUsable
     /// </summary>
     public virtual void OnRelease()
     {
+        stats.objectTransform = null;
         stats = null;
     }
 

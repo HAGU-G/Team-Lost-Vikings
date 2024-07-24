@@ -17,8 +17,9 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
     public HuntZone CurrentHuntZone { get; private set; } = null;
     public Vector3 PortalPos { get; private set; }
 
-    private FSM<UnitOnHunt> fsm;
+    public FSM<UnitOnHunt> FSM {get; private set;}
     public STATE currentState;
+    public bool forceReturn = false;
 
     //Attack
     private IAttackStrategy attackBehaviour = new AttackDefault();
@@ -51,7 +52,7 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
         OnUpdated?.Invoke();
 
         stats.UpdateEllipsePosition();
-        fsm.Update();
+        FSM.Update();
 
         //오브젝트가 더이상 사용하지 않는 상태인지 검사. TODO 개선 필요
         if (stats != null)
@@ -81,8 +82,8 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
     {
         base.Init();
 
-        fsm = new();
-        fsm.Init(this, 0,
+        FSM = new();
+        FSM.Init(this, 0,
             new IdleOnHunt(),
             new TraceOnHunt(),
             new AttackOnHunt(),
@@ -93,6 +94,7 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
 
     public void ResetUnit(UnitStats unitStats, HuntZone huntZone)
     {
+        forceReturn = false;
         CurrentHuntZone = huntZone;
         PortalPos = CurrentHuntZone.PortalPos;
         ResetUnit(unitStats);
@@ -108,7 +110,7 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
         attackTarget = null;
         Enemies = CurrentHuntZone.Monsters;
 
-        fsm.ResetFSM();
+        FSM.ResetFSM();
     }
 
     public override void OnRelease()
@@ -145,7 +147,7 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
         if (!IsDead && stats.HP.Current <= 0)
         {
             IsDead = true;
-            fsm.ChangeState((int)STATE.DEAD);
+            FSM.ChangeState((int)STATE.DEAD);
             return true;
         }
 
@@ -197,6 +199,6 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
             return;
 
         attackTarget = monster;
-        fsm.ChangeState((int)STATE.TRACE);
+        FSM.ChangeState((int)STATE.TRACE);
     }
 }

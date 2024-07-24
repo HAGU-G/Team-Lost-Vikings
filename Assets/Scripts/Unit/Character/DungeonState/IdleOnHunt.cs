@@ -69,6 +69,12 @@ public class IdleOnHunt : State<UnitOnHunt>
 
     protected override bool Transition()
     {
+        if (owner.forceReturn)
+        {
+            controller.ChangeState((int)UnitOnHunt.STATE.RETURN);
+            return true;
+        }
+
         if (owner.HasTarget())
         {
             controller.ChangeState((int)UnitOnHunt.STATE.TRACE);

@@ -32,6 +32,12 @@ public class TraceOnHunt : State<UnitOnHunt>
 
     protected override bool Transition()
     {
+        if (owner.forceReturn)
+        {
+            controller.ChangeState((int)UnitOnHunt.STATE.RETURN);
+            return true;
+        }
+
         if (!owner.HasTarget())
         {
             if (owner.IsNeedReturn)
