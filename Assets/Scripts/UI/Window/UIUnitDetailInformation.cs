@@ -57,6 +57,7 @@ public class UIUnitDetailInformation : UIWindow
     private void OnEnable()
     {
         unit = GameManager.uiManager.currentUnitStats;
+        SetInfo();
     }
 
     public void SetInfo()

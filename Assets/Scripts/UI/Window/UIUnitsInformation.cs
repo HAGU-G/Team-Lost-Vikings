@@ -34,21 +34,37 @@ public class UIUnitsInformation : UIWindow
 
         var units = GameManager.unitManager.Waitings;
 
-        for (int i = 0; i < units.Count; ++i)
+        foreach(var unit in units)
         {
             var button = GameObject.Instantiate(unitInfo, content);
-            var unit = button.GetComponent<CharacterInfo>();
-            unit.characterName.text = $"{units[i].Name}";
-            unit.characterGrade.text = $"{units[i].UnitGrade}";
-            
-            unit.information.onClick.AddListener(
+            var info = button.GetComponent<CharacterInfo>();
+            info.characterName.text = $"{unit.Value.Name}";
+            info.characterGrade.text = $"{unit.Value.UnitGrade}";
+
+            info.information.onClick.AddListener(
             () =>
             {
-                GameManager.uiManager.currentUnitStats = units[i];
+                GameManager.uiManager.currentUnitStats = unit.Value;
                 GameManager.uiManager.windows[(int)WINDOW_NAME.UNIT_DETAIL_INFORMATION].Open();
             }
                 );
         }
+
+        //for (int i = 0; i < units.Count; ++i)
+        //{
+        //    var button = GameObject.Instantiate(unitInfo, content);
+        //    var unit = button.GetComponent<CharacterInfo>();
+        //    unit.characterName.text = $"{units.GetValueOrDefault(i).Name}";
+        //    unit.characterGrade.text = $"{units.GetValueOrDefault(i).UnitGrade}";
+            
+        //    unit.information.onClick.AddListener(
+        //    () =>
+        //    {
+        //        GameManager.uiManager.currentUnitStats = units[i];
+        //        GameManager.uiManager.windows[(int)WINDOW_NAME.UNIT_DETAIL_INFORMATION].Open();
+        //    }
+        //        );
+        //}
     }
 
 
