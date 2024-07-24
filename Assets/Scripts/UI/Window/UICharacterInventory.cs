@@ -17,7 +17,7 @@ public class UICharacterInventory : UIWindow
         LoadCharacterButtons(GameManager.unitManager.Units);
     }
 
-    public void LoadCharacterButtons(Dictionary<int,UnitStats> units)
+    public void LoadCharacterButtons(Dictionary<int, UnitStats> units)
     {
         for (int i = scrollRect.content.childCount - 1; i >= 0; i--)
         {
@@ -34,8 +34,10 @@ public class UICharacterInventory : UIWindow
 
 
             button.onClick.AddListener(
-                () => GameManager.uiManager.OnShowCharacter(character.Value.InstanceID)
-                );
+                () =>
+                {
+                    GameManager.uiManager.OnShowCharacter(character.Value.InstanceID);
+                });
         }
     }
 }

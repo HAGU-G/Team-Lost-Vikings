@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using System.Text;
-using UnityEditorInternal;
+using UnityEngine.Events;
 
 public class GameStarter : MonoBehaviour
 {
@@ -19,8 +19,6 @@ public class GameStarter : MonoBehaviour
     private float completedProgress;
     public bool IsSceneLoaded { get; private set; } = false;
 
-    public event System.Action OnCompleted;
-
     private void Awake()
     {
         if (Instance == null)
@@ -28,6 +26,7 @@ public class GameStarter : MonoBehaviour
         else
             Destroy(gameObject);
 
+        SyncedTime.Sync();
         DataTableManager.Load();
         LoadScenes();
     }
@@ -97,7 +96,6 @@ public class GameStarter : MonoBehaviour
         Debug.Log($"{current / 2f * 100f}%");
     }
 
-#if UNITY_EDITOR
     private void Update()
     {
         UpdateProgress();
@@ -106,27 +104,8 @@ public class GameStarter : MonoBehaviour
             && DataTableManager.IsReady)
         {
             UpdateProgress();
-            GameManager.OnGameStart();
-            OnCompleted?.Invoke();
-            OnCompleted = null;
+            GameManager.GameLoaded();
             gameObject.SetActive(false);
         }
     }
-#endif
-
-    /// <summary>
-    /// 게임오브젝트 비활성화 후
-    /// 씬이 모두 로드 됐을 때 활성화
-    /// </summary>
-    /// <param name="gameobject">대상</param>
-    public void SetActiveOnComplete(GameObject gameObject)
-    {
-        gameObject.SetActive(false);
-        OnCompleted += () =>
-        {
-            gameObject.SetActive(true);
-        };
-
-    }
-
 }

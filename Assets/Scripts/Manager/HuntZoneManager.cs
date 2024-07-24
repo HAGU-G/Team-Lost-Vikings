@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
 public class HuntZoneManager : MonoBehaviour
 {
-    //TESTCODE
-    public UnitStatsData unitStatsData;
-
     //어드레서블로 교체
     public UnitOnHunt unitPrefab;
     public Monster monsterPrefab;
@@ -33,14 +31,16 @@ public class HuntZoneManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
         GameManager.huntZoneManager = this;
 
-        SetMonsterPool();
-
-        SetUnitPool();
+        GameManager.Subscribe(EVENT_TYPE.INIT, OnGameInit);
     }
 
+    private void OnGameInit()
+    {
+        SetMonsterPool();
+        SetUnitPool();
+    }
 
     #region MONSTER_POOL
     private void SetMonsterPool()

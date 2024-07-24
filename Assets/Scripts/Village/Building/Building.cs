@@ -46,7 +46,6 @@ public class Building : MonoBehaviour
     private void Awake()
     {
         //gridMap = GameObject.FindWithTag("GridMap").GetComponent<GridMap>();
-        
     }
 
     private void Start()

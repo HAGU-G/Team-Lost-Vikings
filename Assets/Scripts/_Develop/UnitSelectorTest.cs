@@ -7,6 +7,6 @@ public class UnitSelectorTest : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        spawner.Select(GetComponent<IStatUsable>());
+        //spawner.Select(GetComponent<IStatUsable>());
     }
 }

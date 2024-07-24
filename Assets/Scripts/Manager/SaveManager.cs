@@ -16,25 +16,40 @@ public static class SaveManager
 
     public static void SaveGame()
     {
+#if UNITY_EDITOR
+        if (!GameSetting.Instance.useSaveDataWhenEditor)
+            return;
+#endif
         if (saveData == null)
             saveData = new CurrentSave();
 
         var save = saveData as CurrentSave;
 
         //Version 1
-        save.units.Clear();
-        foreach (var unit in GameManager.unitManager.Units)
+        save.unitManager = GameManager.unitManager;
+        save.huntZones.Clear();
+        foreach (var huntZoneInfo in GameManager.huntZoneManager.HuntZones)
         {
-            save.units.Add(unit.Value);
+            save.huntZones.Add(huntZoneInfo.Value.Info);
         }
+        save.UnitDeployment = GameManager.huntZoneManager.UnitDeployment;
+
+        SaveFile();
     }
 
     public static void LoadGame()
     {
+#if UNITY_EDITOR
+        if (!GameSetting.Instance.useSaveDataWhenEditor)
+            return;
+#endif
         if (saveData == null)
             saveData = new CurrentSave();
 
         var load = LoadFile();
+        if (load == null)
+            return;
+
         while (load.version != saveData.version)
         {
             if (load.version < saveData.version)
@@ -47,7 +62,14 @@ public static class SaveManager
         var save = saveData as CurrentSave;
 
         //Version 1
-        GameManager.unitManager.AddUnits(save.units.ToArray());
+        GameManager.unitManager = save.unitManager;
+        save.unitManager.LoadUnits();
+
+        foreach (var huntZoneInfo in save.huntZones)
+        {
+            GameManager.huntZoneManager.HuntZones[huntZoneInfo.HuntZoneNum].Info = huntZoneInfo;
+        }
+        save.UnitDeployment = GameManager.huntZoneManager.UnitDeployment;
     }
 
     private static void SaveFile()
@@ -87,6 +109,7 @@ public static class SaveManager
                 return null;
 
             encryptedSaveData = File.ReadAllBytes(path);
+
         }
         else
         {
@@ -95,15 +118,22 @@ public static class SaveManager
 
         SaveData load = new CurrentSave();
 
-        ICryptoTransform cryptoTransform2 = NewRijndaeManaged().CreateDecryptor();
-        byte[] result = cryptoTransform2.TransformFinalBlock(encryptedSaveData, 0, encryptedSaveData.Length);
-        using (var reader = new JsonTextReader(new StringReader(System.Text.Encoding.UTF8.GetString(result))))
+        using (var reader = new JsonTextReader(new StringReader(File.ReadAllText(Path.Combine(fileDirectory, fileName)))))
         {
             var serializer = new JsonSerializer();
             serializer.Formatting = Formatting.Indented;
             serializer.TypeNameHandling = TypeNameHandling.All;
             load = serializer.Deserialize<SaveData>(reader);
         }
+        //ICryptoTransform cryptoTransform2 = NewRijndaeManaged().CreateDecryptor();
+        //byte[] result = cryptoTransform2.TransformFinalBlock(encryptedSaveData, 0, encryptedSaveData.Length);
+        //using (var reader = new JsonTextReader(new StringReader(System.Text.Encoding.UTF8.GetString(result))))
+        //{
+        //    var serializer = new JsonSerializer();
+        //    serializer.Formatting = Formatting.Indented;
+        //    serializer.TypeNameHandling = TypeNameHandling.All;
+        //    load = serializer.Deserialize<SaveData>(reader);
+        //}
 
         return load;
     }

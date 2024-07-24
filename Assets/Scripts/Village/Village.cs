@@ -20,9 +20,11 @@ public class Village : MonoBehaviour
     {
         units = new List<UnitOnVillage>();
         pm = GameManager.playerManager;
+
+        GameManager.Subscribe(EVENT_TYPE.INIT, OnGameInit);
     }
 
-    private void Start()
+    private void OnGameInit()
     {
         
     }

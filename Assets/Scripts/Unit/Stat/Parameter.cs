@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
-[Serializable]
+[Serializable, JsonObject(MemberSerialization.OptIn)]
 public class Parameter : IFormattable
 {
     public Parameter(int defaultValue = default)
@@ -8,12 +9,14 @@ public class Parameter : IFormattable
         this.defaultValue = defaultValue;
     }
 
-    public int defaultValue;
+    [JsonProperty] public int defaultValue;
     public int min = 0;
     public int max = int.MaxValue;
 
 
-    [field: UnityEngine.SerializeField] private int _current;
+    [JsonProperty]
+    [field: UnityEngine.SerializeField]
+    private int _current;
 
     public int Current
     {

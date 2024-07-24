@@ -1,20 +1,20 @@
-﻿using System;
-using UnityEngine;
+﻿using Newtonsoft.Json;
+using System;
 
+[JsonObject(MemberSerialization.OptIn)]
 public abstract class StatClass<T>
 {
     public static readonly string debugFormat = "defaultValue : {0}\nupgradeValue : {1}\nCurrent : {2}";
-    protected static T Zero { get; set; }
 
     public StatClass(T defaultValue)
     {
         this.defaultValue = defaultValue;
     }
-    public StatClass() : this(Zero) { }
+    public StatClass() : this(default) { }
 
     public event Action OnDefaultValueChanged;
 
-    public T _defaultValue;
+    [JsonProperty] public T _defaultValue;
     public T defaultValue
     {
         get
@@ -29,7 +29,7 @@ public abstract class StatClass<T>
     }
     public StatClass<T> upgradeValue = null;
 
-    public T Current => Add(defaultValue, ((upgradeValue != null) ? upgradeValue.Current : Zero));
+    public T Current => Add(defaultValue, ((upgradeValue != null) ? upgradeValue.Current : default));
 
     protected abstract T Add(T left, T right);
 

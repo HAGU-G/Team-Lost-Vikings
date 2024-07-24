@@ -1,14 +1,17 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 public class ObjectStarter : MonoBehaviour
 {
     private void Awake()
     {
-        if (GameStarter.Instance != null)
-            GameStarter.Instance.SetActiveOnComplete(gameObject);
-        else
-            Debug.LogWarning("Starter가 아닌 씬에서 시작됨. 오작동할 수 있음.", gameObject);
-        Destroy(this);
+        GameManager.Subscribe(EVENT_TYPE.LOADED, SetActiveOnComplete);
+        gameObject.SetActive(false);
     }
 
+    private void SetActiveOnComplete()
+    {
+        gameObject.SetActive(true);
+        enabled = false;
+    }
 }
