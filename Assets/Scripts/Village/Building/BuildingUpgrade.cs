@@ -8,12 +8,12 @@ using UnityEngine;
 [RequireComponent(typeof(Building))]
 public class BuildingUpgrade : MonoBehaviour
 {
-    [field: SerializeField] public string UpgradeName {  get; private set; }
+    [field: SerializeField] public string UpgradeName { get; private set; }
     [field: SerializeField] public int UpgradeId { get; private set; }
-    [field: SerializeField] public int UpgradeGrade {  get; private set; }
+    [field: SerializeField] public int UpgradeGrade { get; private set; }
     [field: SerializeField] public int StructureLevel { get; private set; }
     [field: SerializeField] public int StructureType { get; private set; }
-    [field: SerializeField] public int StatType { get; private set; }
+    [field: SerializeField] public STAT_TYPES StatType { get; private set; }
     [field: SerializeField] public int StatReturn { get; private set; }
     [field: SerializeField] public int ParameterType { get; private set; }
     [field: SerializeField] public int ParameterRecovery { get; private set; }
@@ -21,23 +21,29 @@ public class BuildingUpgrade : MonoBehaviour
     [field: SerializeField] public int ProgressVarType { get; private set; }
     [field: SerializeField] public float ProgressVarReturn { get; private set; }
     [field: SerializeField] public int RecipeId { get; private set; }
-    [field: SerializeField] public int ItemStack {  get; private set; }
+    [field: SerializeField] public int ItemStack { get; private set; }
     [field: SerializeField] public float RequireTime { get; private set; }
     [field: SerializeField] public int RequireGold { get; private set; }
-    [field: SerializeField] public int RequireRune {  get; private set; }
+    [field: SerializeField] public int RequireRune { get; private set; }
     [field: SerializeField] public List<int> ItemIds { get; private set; }
     [field: SerializeField] public List<int> ItemNums { get; private set; }
     [field: SerializeField] public string UpgradeDesc { get; private set; }
 
     public int currentGrade = 1;
 
+    private void Awake()
+    {
+        GameManager.Subscribe(EVENT_TYPE.START,SetBuildingUpgrade);
+    }
+
     public void SetBuildingUpgrade()
     {
+        Debug.Log("ㅇㅇㄹㄴㅇㄹ");
         UpgradeId = GetComponent<Building>().UpgradeId;
 
-        UpgradeGrade = currentGrade;
-        var upgrade = DataTableManager.upgradeTable.GetData(UpgradeId)[UpgradeGrade];
+        var upgrade = DataTableManager.upgradeTable.GetData(UpgradeId)[2];
 
+        UpgradeGrade = upgrade.UpgradeGrade;
         UpgradeName = upgrade.UpgradeName;
         StatType = upgrade.StatType;
         StatReturn = upgrade.StatReturn;
@@ -51,10 +57,12 @@ public class BuildingUpgrade : MonoBehaviour
         RequireGold = upgrade.RequireGold;
         RequireRune = upgrade.RequireRune;
 
-        for(int i = 0; i < 5; ++i )
+        ItemIds.Clear();
+        ItemNums.Clear();
+        for (int i = 0; i < 5; ++i)
         {
             ItemIds.Add(upgrade.ItemIds[i]);
-            ItemIds.Add(upgrade.ItemNums[i]);
+            ItemNums.Add(upgrade.ItemNums[i]);
         }
 
         UpgradeDesc = upgrade.UpgradeDesc;
@@ -63,11 +71,11 @@ public class BuildingUpgrade : MonoBehaviour
 
     public void Upgrade()
     {
-        switch(StructureType)
+        switch (StructureType)
         {
             case (int)STRUCTURE_TYPE.STAT_UPGRADE:
                 var stat = GetComponent<StatUpgradeBuilding>();
-                if (StatType == (int)stat.upgradeStat)
+                if (StatType == stat.upgradeStat)
                 {
                     stat.upgradeValue = StatReturn;
                     ++currentGrade;
@@ -76,7 +84,7 @@ public class BuildingUpgrade : MonoBehaviour
                 break;
             case (int)STRUCTURE_TYPE.PARAMETER_RECOVERY:
                 var parameter = GetComponent<ParameterRecoveryBuilding>();
-                if((PARAMETER_TYPES)ParameterType == parameter.parameterType)
+                if ((PARAMETER_TYPES)ParameterType == parameter.parameterType)
                 {
                     parameter.recoveryAmount += ParameterRecovery;
                     parameter.recoveryTime = RecoveryTime;
