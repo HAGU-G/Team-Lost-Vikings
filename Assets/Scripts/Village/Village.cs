@@ -132,6 +132,9 @@ public class Village : MonoBehaviour
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, 100f);
 
+            if (GameManager.uiManager.isWindowOn)
+                return;
+
             if (hit.collider != null)
             {
                 var building = hit.transform.gameObject.GetComponent<Building>();
