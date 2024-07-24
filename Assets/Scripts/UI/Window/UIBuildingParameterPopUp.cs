@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.UI.CanvasScaler;
 
 public class UIBuildingParameterPopUp : UIWindow
 {
@@ -120,6 +121,8 @@ public class UIBuildingParameterPopUp : UIWindow
             info.characterId = units[i].stats.InstanceID;
             info.characterGrade.text = units[i].stats.UnitGrade.ToString();
             info.characterName.text = units[i].stats.Name;
+            info.characterIcon.uvRect
+                = GameManager.uiManager.unitRenderTexture.LoadRenderTexture(units[i].stats.AssetFileName);
 
             characters.Add(character);
         }

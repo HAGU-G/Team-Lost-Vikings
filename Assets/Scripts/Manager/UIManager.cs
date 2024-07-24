@@ -54,6 +54,8 @@ public class UIManager : MonoBehaviour
         GameManager.uiManager = this;
     }
 
+    
+
     public void OnShowCharacter(int instanceID)
     {
         var selectedCharacter = GameManager.unitManager.GetUnit(instanceID);

@@ -21,10 +21,15 @@ public class UIRenderTexture : MonoBehaviour
         scale = size * 0.65f;
         nextPos = zeroPos = new(-size * (rowsAndColumns / 2f - 0.5f), size * (rowsAndColumns / 2f - 0.85f), 1f);
 
+        GameManager.Subscribe(EVENT_TYPE.INIT,OnGameStart);
+    }
+    protected void OnGameStart()
+    {
+
         GameManager.uiManager.unitRenderTexture = this;
     }
 
-    public Rect LoadRenderTexture(string prefabName)
+        public Rect LoadRenderTexture(string prefabName)
     {
         if (PrefabRect.ContainsKey(prefabName))
             return PrefabRect[prefabName];
