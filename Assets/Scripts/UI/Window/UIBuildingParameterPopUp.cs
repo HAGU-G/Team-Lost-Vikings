@@ -140,13 +140,13 @@ public class UIBuildingParameterPopUp : UIWindow
             var unit = GameManager.unitManager.GetUnit(info.characterId);
             switch(parameter.parameterType)
             {
-                case PARAMETER_TYPES.HP:
+                case PARAMETER_TYPE.HP:
                     info.parameterBar.value = (float)unit.HP.Current / (float)unit.HP.max;
                     break;
-                case PARAMETER_TYPES.STAMINA:
+                case PARAMETER_TYPE.STAMINA:
                     info.parameterBar.value = (float)unit.Stamina.Current / (float)unit.Stamina.max;
                     break;
-                case PARAMETER_TYPES.STRESS:
+                case PARAMETER_TYPE.MENTAL:
                     info.parameterBar.value = (float)unit.Stress.Current / (float)unit.Stress.max;
                     break;
             }
