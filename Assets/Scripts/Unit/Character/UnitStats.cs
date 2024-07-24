@@ -2,6 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum STAT_TYPE
+{
+    NONE,
+    STR,
+    WIZ,
+    AGI,
+    VIT,
+    CRIT_CHANCE,
+    CRIT_WEIGHT,
+    HP,
+    STAMINA,
+    MENTAL
+}
+
+public enum PARAMETER_TYPE
+{
+    NONE,
+    HP,
+    STAMINA,
+    MENTAL,
+}
+
 public enum UNIT_JOB
 {
     NONE,

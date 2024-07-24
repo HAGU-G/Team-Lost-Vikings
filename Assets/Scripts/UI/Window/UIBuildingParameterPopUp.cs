@@ -91,7 +91,7 @@ public class UIBuildingParameterPopUp : UIWindow
         buildingName.text = um.currentNormalBuidling.StructureName;
         defaultDescription.text = um.currentNormalBuidling.StructureDesc;
         if (upgradeComponent.UpgradeGrade < grade.Count)
-            nextEffectDescription.text = grade[upgradeComponent.UpgradeGrade + 1].UpgradeDesc;
+            nextEffectDescription.text = UpgradeData.GetUpgradeData(upgradeComponent.UpgradeId, upgradeComponent.UpgradeGrade).UpgradeDesc;
         else
             nextEffectDescription.text = null;
     }

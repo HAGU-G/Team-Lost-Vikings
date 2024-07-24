@@ -3,17 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Building))]
 public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
 {
     public Building building;
-    public PARAMETER_TYPES parameterType;
+    public PARAMETER_TYPE parameterType;
    // private UnitOnVillage unit;
     public List<UnitOnVillage> interactingUnits;
     public int recoveryAmount;
     public float recoveryTime;
     private bool isRecovering;
 
-    public event Action<PARAMETER_TYPES> OnRecoveryDone;
+    public event Action<PARAMETER_TYPE> OnRecoveryDone;
     private Coroutine recoveryCoroutine;
 
     private void Awake()
@@ -46,7 +47,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
         {
             switch (parameterType)
             {
-                case PARAMETER_TYPES.HP:
+                case PARAMETER_TYPE.HP:
                     unit.stats.HP.Current += recoveryAmount;
                     Debug.Log($"hp : {unit.stats.HP.Current}");
                     if (unit.stats.HP.Current < unit.stats.HP.max)
@@ -59,7 +60,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
                         isComplete = true;
                     }
                     break;
-                case PARAMETER_TYPES.STAMINA:
+                case PARAMETER_TYPE.STAMINA:
                     unit.stats.Stamina.Current += recoveryAmount;
                     Debug.Log($"stamina : {unit.stats.Stamina}");
                     if (unit.stats.Stamina.Current < unit.stats.Stamina.max)
@@ -72,7 +73,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
                         isComplete = true;
                     }
                     break;
-                case PARAMETER_TYPES.STRESS:
+                case PARAMETER_TYPE.MENTAL:
                     unit.stats.Stress.Current += recoveryAmount;
                     Debug.Log($"stress : {unit.stats.Stress}");
                     if (unit.stats.Stress.Current < unit.stats.Stress.max)
@@ -108,12 +109,12 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
        // this.unit = unit;
     }
 
-    public void SetParameter(PARAMETER_TYPES parameterType)
+    public void SetParameter(PARAMETER_TYPE parameterType)
     {
         this.parameterType = parameterType;
     }
 
-    private void RecoveryDone(PARAMETER_TYPES type)
+    private void RecoveryDone(PARAMETER_TYPE type)
     {
         if(type == parameterType)
         {

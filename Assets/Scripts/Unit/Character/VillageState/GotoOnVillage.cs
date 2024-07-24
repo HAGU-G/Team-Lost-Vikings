@@ -11,13 +11,13 @@ public class GotoOnVillage : State<UnitOnVillage>
         switch (lackedParameter)
         {
             case UnitOnVillage.LACKING_PARAMETER.HP:
-                SetDestination(PARAMETER_TYPES.HP);
+                SetDestination(PARAMETER_TYPE.HP);
                 break;
             case UnitOnVillage.LACKING_PARAMETER.STAMINA:
-                SetDestination(PARAMETER_TYPES.STAMINA);
+                SetDestination(PARAMETER_TYPE.STAMINA);
                 break;
             case UnitOnVillage.LACKING_PARAMETER.STRESS:
-                SetDestination(PARAMETER_TYPES.STRESS);
+                SetDestination(PARAMETER_TYPE.MENTAL);
                 break;
             case UnitOnVillage.LACKING_PARAMETER.NONE:
                 if (GameManager.huntZoneManager.HuntZones.ContainsKey(owner.stats.HuntZoneNum))
@@ -71,7 +71,7 @@ public class GotoOnVillage : State<UnitOnVillage>
         return false;
     }
 
-    private void SetDestination(PARAMETER_TYPES parameterType)
+    private void SetDestination(PARAMETER_TYPE parameterType)
     {
         if (owner.villageManager.FindBuilding(STRUCTURE_TYPE.PARAMETER_RECOVERY,
                    (x) =>

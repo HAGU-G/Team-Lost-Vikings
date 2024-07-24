@@ -80,7 +80,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   building: {fileID: 0}
-  upgradeStat: 2
+  upgradeStat: 3
   upgradeValue: 10
 --- !u!212 &6681168620348820717
 SpriteRenderer:
@@ -631,6 +631,7 @@ MonoBehaviour:
   <ItemNums>k__BackingField: 
   <UpgradeDesc>k__BackingField: "\uBAA8\uB4E0 \uC720\uB2DB\uC758 \uBBFC\uCCA9 \uC2A4\uD15F\uC774
     10 \uC99D\uAC00\uD569\uB2C8\uB2E4"
+  currentGrade: 1
 --- !u!1 &6921643101017813746
 GameObject:
   m_ObjectHideFlags: 0

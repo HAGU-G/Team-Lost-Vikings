@@ -16,20 +16,14 @@ public enum RECIPE
     RECIPE3,
 }
 
-public enum PARAMETER_TYPES
-{
-    NONE = 0,
-    HP,
-    STAMINA,
-    STRESS,
-}
-
-public enum STAT_TYPES
-{
-    STR,
-    MAG,
-    AGI,
-}
+// NONE이 없어서 유닛 스탯에서 사용하던 STAT_TYPE을 사용하도록 변경
+// 이에 맞춰 PARAMETER_TYPES도 유닛 스탯에서 쓰는 PARAMETER_TYPE을 사용하도록 변경
+//public enum STAT_TYPES
+//{
+//    STR,
+//    MAG,
+//    AGI,
+//}
 
 public static class BuildingName
 {

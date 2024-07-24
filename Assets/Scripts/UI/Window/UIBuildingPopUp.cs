@@ -72,7 +72,7 @@ public class UIBuildingPopUp : UIWindow
     public void OnButtonUpgrade()
     {
         vm.village.Upgrade();
-
+        SetPopUp();
     }
 
     public void OnButtonExit()
@@ -87,7 +87,7 @@ public class UIBuildingPopUp : UIWindow
         defaultDescription.text = um.currentNormalBuidling.StructureDesc;
         currentEffectDescription.text = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>().UpgradeDesc;
         if (upgradeComponent.UpgradeGrade < grade.Count)
-            nextEffectDescription.text = grade[upgradeComponent.UpgradeGrade + 1].UpgradeDesc;
+            nextEffectDescription.text = UpgradeData.GetUpgradeData(upgradeComponent.UpgradeId, upgradeComponent.UpgradeGrade + 1).UpgradeDesc;
         else
             nextEffectDescription.text = $"현재 마지막 업그레이드 단계입니다.";
     }

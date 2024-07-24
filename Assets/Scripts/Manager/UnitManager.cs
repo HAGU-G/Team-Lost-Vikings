@@ -21,8 +21,15 @@ public class UnitManager
 
     [JsonProperty] public System.DateTime lastAutoGachaTime = System.DateTime.Now;
     private float autoGachaTimeCorrection = 0f;
-    public float TimeToAutoGacha =>
-        Mathf.Max(0f, GameSetting.Instance.autoGachaSeconds - (System.DateTime.Now - lastAutoGachaTime).Seconds);
+    public float TimeToAutoGacha
+    {
+        get
+        {
+            float sec = (System.DateTime.Now - lastAutoGachaTime).Seconds;
+            float milliSec = (System.DateTime.Now - lastAutoGachaTime).Milliseconds * 0.001f;
+            return Mathf.Max(0f, GameSetting.Instance.autoGachaSeconds - sec - milliSec);
+        }
+    }
 
     public void LoadUnits()
     {
