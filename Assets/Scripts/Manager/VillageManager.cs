@@ -277,60 +277,60 @@ public class VillageManager : MonoBehaviour
 
     private void VillageSet(GridMap gridMap)
     {
-        for (int i = 27; i < 36; ++i)
+        for (int i = 0; i < 9; ++i)
         {
-            construct.PlaceRoad(roadPrefab, GetTile(36, i, gridMap), gridMap);
-            construct.PlaceRoad(roadPrefab, GetTile(32, i, gridMap), gridMap);
-            construct.PlaceRoad(roadPrefab, GetTile(28, i, gridMap), gridMap);
+            construct.PlaceRoad(roadPrefab, GetTile(0, i, gridMap), gridMap);
+            construct.PlaceRoad(roadPrefab, GetTile(4, i, gridMap), gridMap);
+            construct.PlaceRoad(roadPrefab, GetTile(8, i, gridMap), gridMap);
         }
 
-        for(int i = 29; i < 36; ++i)
+        for(int i = 0; i < 9; ++i)
         {
-            construct.PlaceRoad(roadPrefab, GetTile(i, 35, gridMap), gridMap);
-            construct.PlaceRoad(roadPrefab, GetTile(i, 31, gridMap), gridMap);
-            construct.PlaceRoad(roadPrefab, GetTile(i, 27, gridMap), gridMap);
+            construct.PlaceRoad(roadPrefab, GetTile(i, 0, gridMap), gridMap);
+            construct.PlaceRoad(roadPrefab, GetTile(i, 4, gridMap), gridMap);
+            construct.PlaceRoad(roadPrefab, GetTile(i, 8, gridMap), gridMap);
         }
 
-        construct.PlaceRoad(roadPrefab, GetTile(31, 32, gridMap), gridMap);
-        construct.PlaceRoad(roadPrefab, GetTile(31, 30, gridMap), gridMap);
-        construct.PlaceRoad(roadPrefab, GetTile(33, 30, gridMap), gridMap);
-        construct.PlaceRoad(roadPrefab, GetTile(33, 32, gridMap), gridMap);
+        construct.PlaceRoad(roadPrefab, GetTile(3, 3, gridMap), gridMap);
+        construct.PlaceRoad(roadPrefab, GetTile(5, 3, gridMap), gridMap);
+        construct.PlaceRoad(roadPrefab, GetTile(3, 5, gridMap), gridMap);
+        construct.PlaceRoad(roadPrefab, GetTile(5, 5, gridMap), gridMap);
 
 
         /////////
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.HP_RECOVERY);
-        var hp = construct.PlaceBuilding(selectedObj, GetTile(29, 34, gridMap), gridMap);
+        var hp = construct.PlaceBuilding(selectedObj, GetTile(1, 7, gridMap), gridMap);
         constructedBuildings.Add(hp);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STAMINA_RECOVERY);
-        var stamina = construct.PlaceBuilding(selectedObj, GetTile(29, 33, gridMap), gridMap);
+        var stamina = construct.PlaceBuilding(selectedObj, GetTile(1, 6, gridMap), gridMap);
         constructedBuildings.Add(stamina);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STRESS_RECOVERY);
-        var stress = construct.PlaceBuilding(selectedObj, GetTile(29, 32, gridMap), gridMap);
+        var stress = construct.PlaceBuilding(selectedObj, GetTile(1, 5, gridMap), gridMap);
         constructedBuildings.Add(stress);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STANDARD);
-        var standard = construct.PlaceBuilding(selectedObj, GetTile(32, 31, gridMap), gridMap);
+        var standard = construct.PlaceBuilding(selectedObj, GetTile(4, 4, gridMap), gridMap);
         constructedBuildings.Add(standard);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STR_UPGRADE);
-        var str = construct.PlaceBuilding(selectedObj, GetTile(29, 30, gridMap), gridMap);
+        var str = construct.PlaceBuilding(selectedObj, GetTile(1, 3, gridMap), gridMap);
         //str.GetComponent<StatUpgradeBuilding>().RiseStat(); // StatUpgradeBuilding이 처리하도록 변경
         constructedBuildings.Add(str);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.MAG_UPGRADE);
-        var mag = construct.PlaceBuilding(selectedObj, GetTile(29, 29, gridMap), gridMap);
+        var mag = construct.PlaceBuilding(selectedObj, GetTile(1, 2, gridMap), gridMap);
         //mag.GetComponent<StatUpgradeBuilding>().RiseStat();
         constructedBuildings.Add(mag);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.AGI_UPGRADE);
-        var agi = construct.PlaceBuilding(selectedObj, GetTile(29, 28, gridMap), gridMap);
+        var agi = construct.PlaceBuilding(selectedObj, GetTile(1, 1, gridMap), gridMap);
         //agi.GetComponent<StatUpgradeBuilding>().RiseStat();
         constructedBuildings.Add(agi);
-
+        
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.PORTAL);
-        var portal = construct.PlaceBuilding(selectedObj, GetTile(35, 32, gridMap), gridMap);
+        var portal = construct.PlaceBuilding(selectedObj, GetTile(7, 5, gridMap), gridMap);
         constructedBuildings.Add(portal);
 
         var portalBuilding = portal.GetComponent<Building>();
