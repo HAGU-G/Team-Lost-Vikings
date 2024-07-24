@@ -96,7 +96,7 @@ public class BuildingUpgrade : MonoBehaviour
                 {
                     ++currentGrade;
                     SetBuildingUpgrade();
-                    parameter.recoveryAmount += ParameterRecovery;
+                    parameter.recoveryAmount = ParameterRecovery;
                     parameter.recoveryTime = RecoveryTime;
 
                 }

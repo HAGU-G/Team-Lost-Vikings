@@ -129,6 +129,8 @@ public class UnitStats : Stats
     [field: SerializeField] public StatFloat CritChance { get; set; } = new();
     [field: SerializeField] public StatFloat CritWeight { get; set; } = new();
 
+    public event System.Action ArriveVillage;
+    public PARAMETER_TYPE parameterType;
 
     public void InitStats(UnitStatsData data, bool doGacha = true)
     {
@@ -343,5 +345,10 @@ public class UnitStats : Stats
         clone.CritWeight = CritWeight.Clone() as StatFloat;
 
         return clone;
+    }
+
+    public void OnArrived()
+    {
+        ArriveVillage?.Invoke();
     }
 }

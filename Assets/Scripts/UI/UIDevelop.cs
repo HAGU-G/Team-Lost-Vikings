@@ -67,7 +67,7 @@ public class UIDevelop : MonoBehaviour
     }
     public void OnButtonSpawnUnitOnVillage()
     {
-        GameManager.villageManager.village.UnitSpawn();
+        //GameManager.villageManager.village.UnitSpawn();
     }
 
     public void OnButtonUpgrade()

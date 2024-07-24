@@ -79,7 +79,7 @@ public class Construct
         pos.y = roadObj.transform.position.y /*- (gridMap.gridInfo.cellSize / (GameSetting.Instance.tileXY * 2f))*/;
         pos.z += 1;
         roadObj.transform.position = pos;
-
+        roadObj.transform.localScale = Vector3.one;
         return roadObj;
     }
 

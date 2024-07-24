@@ -29,22 +29,22 @@ public class Village : MonoBehaviour
         
     }
 
-    public void UnitSpawn()
-    {
-        foreach (var unitSelected in GameManager.unitManager.Units)
-        {
-            var unit = unitSelected.Value;
-            if (unit.Location != LOCATION.NONE)
-                continue;
+    //public void UnitSpawn()
+    //{
+    //    foreach (var unitSelected in GameManager.unitManager.Units)
+    //    {
+    //        var unit = unitSelected.Value;
+    //        if (unit.Location != LOCATION.NONE)
+    //            continue;
 
-            var unitObj = GameObject.Instantiate(unitPrefab, villageManager.gridMap.IndexToPos(new Vector2Int(35, 31))
-                , Quaternion.identity, villageManager.gridMap.transform);
+    //        var unitObj = GameObject.Instantiate(unitPrefab, villageManager.gridMap.IndexToPos(new Vector2Int(35, 31))
+    //            , Quaternion.identity, villageManager.gridMap.transform);
 
-            unitObj.Init();
-            unitObj.ResetUnit(unitSelected.Value);
-            units.Add(unitObj);
-        }
-    }
+    //        unitObj.Init();
+    //        unitObj.ResetUnit(unitSelected.Value);
+    //        units.Add(unitObj);
+    //    }
+    //}
 
     public void UnitSpawn(int instanceID)
     {
@@ -53,6 +53,7 @@ public class Village : MonoBehaviour
         unitObj.Init();
         unitObj.ResetUnit(GameManager.unitManager.GetUnit(instanceID));
         units.Add(unitObj);
+        unitObj.stats.OnArrived();
     }
 
 

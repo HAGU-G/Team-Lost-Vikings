@@ -6,6 +6,25 @@ public class GotoOnVillage : State<UnitOnVillage>
     {
         owner.currentState = UnitOnVillage.STATE.GOTO;
 
+        if(owner.forceDestination != null)
+        {
+            var tileId = owner.villageManager.gridMap.PosToIndex(owner.gameObject.transform.position);
+            var startTile = owner.villageManager.gridMap
+                .tiles[new Vector2Int(tileId.x, tileId.y)];
+            var forceTile = owner.forceDestination.GetComponent<Building>().entranceTile;
+            var path = owner.FindPath(startTile, forceTile);
+            if (path != null || startTile == forceTile)
+            {
+                owner.unitMove.OnTargetTile += OnEntranceTile;
+                owner.unitMove.MoveTo(startTile, forceTile);
+                return;
+            }
+            else
+            {
+                Debug.Log("가야할 건물의 타입이 없습니다.");
+            }
+        }
+
         var lackedParameter = owner.CheckParameter();
 
         switch (lackedParameter)
@@ -108,6 +127,13 @@ public class GotoOnVillage : State<UnitOnVillage>
 
     private void OnEntranceTile(Cell tile)
     {
+        if(owner.forceDestination != null)
+        {
+            owner.unitMove.OnTargetTile -= OnEntranceTile;
+            controller.ChangeState((int)UnitOnVillage.STATE.IDLE);
+            owner.forceDestination = null;
+            return;
+        }
 
         if (tile == owner.destinationTile)
         {

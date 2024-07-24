@@ -10,6 +10,7 @@ public class UnitOnVillage : Unit
     public STATE currentState;
     public LACKING_PARAMETER lackParameter;
     public GameObject destination;
+    public GameObject forceDestination;
     public Cell destinationTile;
     public VillageManager villageManager;
     public UnitMove unitMove;

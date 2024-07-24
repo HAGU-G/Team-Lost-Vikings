@@ -1,11 +1,13 @@
 ﻿using CsvHelper.Configuration.Attributes;
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.VersionControl.Asset;
 
 public class UICharacterLocate : UIWindow
 {
@@ -38,19 +40,31 @@ public class UICharacterLocate : UIWindow
         hpRecovery.onClick.AddListener(() => 
         {
             unit.ForceReturn();
-            //회복 회복 건물로 이동 설정 시
+            unit.parameterType = PARAMETER_TYPE.HP;
+            if (unit.Location == LOCATION.HUNTZONE)
+                unit.ArriveVillage += VillageAraive;
+            else
+                VillageAraive();
         });
 
         staminaRecovery.onClick.AddListener(() =>
         {
             unit.ForceReturn();
-            //스태미너 회복 건물로 이동 설정 시
+            unit.parameterType = PARAMETER_TYPE.STAMINA;
+            if (unit.Location == LOCATION.HUNTZONE)
+                unit.ArriveVillage += VillageAraive;
+            else
+                VillageAraive();
         });
 
         stressRecovery.onClick.AddListener(() =>
         {
             unit.ForceReturn();
-            //스트레스 회복 건물로 이동 설정 시
+            unit.parameterType = PARAMETER_TYPE.MENTAL;
+            if (unit.Location == LOCATION.HUNTZONE)
+                unit.ArriveVillage += VillageAraive;
+            else
+                VillageAraive();
         });
 
         var huntzones = GameManager.huntZoneManager.HuntZones;
@@ -106,5 +120,25 @@ public class UICharacterLocate : UIWindow
     public void SetUnitHuntZone(int huntzone)
     {
         unit.SetHuntZone(huntzone);
+    }
+
+    public void VillageAraive()
+    {
+        unit.ArriveVillage -= VillageAraive;
+        Debug.Log("이벤트 함수 실행");
+
+        var unitOnVillage = unit.objectTransform.GetComponent<UnitOnVillage>();
+
+            foreach (var building in GameManager.villageManager.constructedBuildings)
+        {
+            if (building.GetComponent<ParameterRecoveryBuilding>() == null)
+                continue;
+            if (building.GetComponent<ParameterRecoveryBuilding>().parameterType == unit.parameterType)
+            {
+                unitOnVillage.forceDestination = building;
+                break;
+            }
+        }
+        unitOnVillage.VillageFSM.ChangeState((int)UnitOnVillage.STATE.GOTO);
     }
 }

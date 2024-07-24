@@ -119,6 +119,8 @@ public class UIBuildingParameterPopUp : UIWindow
         characters.Clear();
 
         var parameter = vm.village.upgrade.gameObject.GetComponent<ParameterRecoveryBuilding>();
+        if (parameter == null)
+            return;
         
         var units = parameter.interactingUnits;
 
@@ -146,6 +148,8 @@ public class UIBuildingParameterPopUp : UIWindow
     public void SetParameterBar()
     {
         var parameter = vm.village.upgrade.gameObject.GetComponent<ParameterRecoveryBuilding>();
+        if (parameter == null)
+            return;
 
         foreach (var character in characters)
         {
