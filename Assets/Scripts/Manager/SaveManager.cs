@@ -28,6 +28,8 @@ public static class SaveManager
 
         //Version 1
         save.unitManager = GameManager.unitManager;
+        save.playerManager = GameManager.playerManager;
+        save.itemManager = GameManager.itemManager;
 
         save.huntZones.Clear();
         foreach (var huntZoneInfo in GameManager.huntZoneManager.HuntZones)
@@ -73,6 +75,8 @@ public static class SaveManager
 
         //Version 1
         GameManager.unitManager = save.unitManager;
+        GameManager.playerManager = save.playerManager;
+        GameManager.itemManager = save.itemManager;
 
         foreach (var huntZoneInfo in save.huntZones)
         {
@@ -91,7 +95,6 @@ public static class SaveManager
             up.SetBuildingUpgrade();
             up.GetComponent<StatUpgradeBuilding>()?.RiseStat();
         }
-
     }
 
     private static void SaveFile()

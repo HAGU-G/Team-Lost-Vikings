@@ -13,11 +13,12 @@ public class StatUpgradeBuilding : MonoBehaviour, IInteractableWithPlayer
     private void Awake()
     {
         building = GetComponent<Building>();
+        GameManager.Subscribe(EVENT_TYPE.START, OnGameStart);
     }
 
-    private void Start()
+    private void OnGameStart()
     {
-        
+        RiseStat();
     }
 
     public void InteractWithPlayer()

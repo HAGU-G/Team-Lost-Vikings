@@ -1,8 +1,11 @@
-﻿public class PlayerManager
-{
-    public int level;
+﻿using Newtonsoft.Json;
 
-    public StatInt unitStr = new();
-    public StatInt unitMag = new();
-    public StatInt unitAgi = new();
+[JsonObject(MemberSerialization.OptIn)]
+public class PlayerManager
+{
+    [JsonProperty] public int level;
+
+    [JsonProperty] public StatInt unitStr = new();
+    [JsonProperty] public StatInt unitMag = new();
+    [JsonProperty] public StatInt unitAgi = new();
 }
