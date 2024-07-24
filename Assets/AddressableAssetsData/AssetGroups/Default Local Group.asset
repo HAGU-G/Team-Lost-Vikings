@@ -67,7 +67,7 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: dd6e08aaee57ff647b4e75b7d07b4464
+  - m_GUID: 54d6dec0559b7a549b08d6a1ab7c5e0d
     m_Address: Assets/DataTable/SkillTable.csv
     m_ReadOnly: 0
     m_SerializedLabels: []
