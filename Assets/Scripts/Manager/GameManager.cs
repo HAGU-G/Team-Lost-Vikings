@@ -21,9 +21,9 @@ public static class GameManager
     public static UIManager uiManager;
     public static UnitManager unitManager;
     public static InputManager inputManager;
-    public static PlayerManager playerManager = new();
+    public static PlayerManager playerManager;
     public static QuestManager questManager;
-    public static ItemManager itemManager = new();
+    public static ItemManager itemManager;
 
     private static IDictionary<EVENT_TYPE, UnityEvent> events = new Dictionary<EVENT_TYPE, UnityEvent>();
 
@@ -73,6 +73,8 @@ public static class GameManager
 
         SaveManager.LoadGame();
         unitManager ??= new();
+        playerManager ??= new();
+        itemManager ??= new();
         unitManager.LoadUnits();
 
         Publish(EVENT_TYPE.START);

@@ -321,17 +321,17 @@ public class VillageManager : MonoBehaviour
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STR_UPGRADE);
         var str = construct.PlaceBuilding(selectedObj, GetTile(29, 30, gridMap), gridMap);
-        str.GetComponent<StatUpgradeBuilding>().RiseStat();
+        //str.GetComponent<StatUpgradeBuilding>().RiseStat(); // StatUpgradeBuilding이 처리하도록 변경
         constructedBuildings.Add(str);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.MAG_UPGRADE);
         var mag = construct.PlaceBuilding(selectedObj, GetTile(29, 29, gridMap), gridMap);
-        mag.GetComponent<StatUpgradeBuilding>().RiseStat();
+        //mag.GetComponent<StatUpgradeBuilding>().RiseStat();
         constructedBuildings.Add(mag);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.AGI_UPGRADE);
         var agi = construct.PlaceBuilding(selectedObj, GetTile(29, 28, gridMap), gridMap);
-        agi.GetComponent<StatUpgradeBuilding>().RiseStat();
+        //agi.GetComponent<StatUpgradeBuilding>().RiseStat();
         constructedBuildings.Add(agi);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.PORTAL);
