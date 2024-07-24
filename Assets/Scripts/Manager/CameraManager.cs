@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditorInternal;
+using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
@@ -12,18 +13,40 @@ public class CameraManager : MonoBehaviour
     private bool wasZoomingLastFrame;
     private Vector2[] lastZoomPositions;
 
+    private bool IsReady;
+
+    private void Awake()
+    {
+        GameManager.Subscribe(EVENT_TYPE.LOADED, OnGameLoaded);
+    }
+
+    private void OnGameLoaded()
+    {
+        IsReady = true;
+    }
+
     private void Update()
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        if (!IsReady)
+            return;
 
-        Vector3 movement = new Vector3(horizontal, vertical, 0);
-        transform.Translate(movement * moveSpeed * Time.deltaTime, Space.World);
+        var im = GameManager.inputManager;
 
-        float fov = Camera.main.fieldOfView;
-        fov -= Input.GetAxis("Mouse ScrollWheel") * zoomSpeed;
-        fov = Mathf.Clamp(fov, minFov, maxFov);
-        Camera.main.fieldOfView = fov;
+        if(im.Moved && im.receiver.Received && !GameManager.uiManager.isWindowOn)
+        {
+            transform.position -= im.WorldDeltaPos;
+        }
+
+        //float horizontal = Input.GetAxis("Horizontal");
+        //float vertical = Input.GetAxis("Vertical");
+
+        //Vector3 movement = new Vector3(horizontal, vertical, 0);
+        //transform.Translate(movement * moveSpeed * Time.deltaTime, Space.World);
+
+        //float fov = Camera.main.orthographicSize;
+        //fov -= Input.GetAxis("Mouse ScrollWheel") * zoomSpeed;
+        //fov = Mathf.Clamp(fov, minFov, maxFov);
+        //Camera.main.orthographicSize = fov;
 
     }
 }
