@@ -4,7 +4,7 @@ public abstract class UIWindow : MonoBehaviour
 {
     public bool isShowOnly = true;
     public abstract WINDOW_NAME WindowName { get; }
-    protected bool IsReady;
+    protected bool IsReady = false;
 
     protected virtual void Awake()
     {

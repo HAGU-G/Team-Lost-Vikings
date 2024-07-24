@@ -14,9 +14,15 @@ public class UICharacterInventory : UIWindow
     protected override void Awake()
     {
         base.Awake();
+    }
+
+    protected override void OnGameStart()
+    {
+        base.OnGameStart();
         GameManager.uiManager.chracterInventory = this;
         LoadCharacterButtons(GameManager.unitManager.Units);
     }
+
 
     public void LoadCharacterButtons(Dictionary<int, UnitStats> units)
     {
