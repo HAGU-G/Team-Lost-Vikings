@@ -16,6 +16,7 @@ public class InputManager : MonoBehaviour
     public Vector3 WorldDeltaPos { get; private set; }
     public Vector2 PrevPos { get; private set; }
     public float MoveDistance { get; private set; }
+    public bool Press {  get; private set; }
 
     private float tapAllowInch = 0.2f;
     private Finger firstID;
@@ -41,6 +42,7 @@ public class InputManager : MonoBehaviour
     {
         Tap = false;
         Touch = false;
+        Press = false;
 
         if (Touchscreen.current != null)
         {
@@ -62,6 +64,7 @@ public class InputManager : MonoBehaviour
                                 firstID = touch.finger;
                                 Pos = touch.screenPosition;
                                 PrevPos = touch.screenPosition;
+                                Press = true;
                             }
                             break;
                         case TouchPhase.Moved:

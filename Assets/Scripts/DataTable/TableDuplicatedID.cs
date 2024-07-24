@@ -3,7 +3,6 @@ using System.Globalization;
 using System.IO;
 using CsvHelper;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
 /// <typeparam name="T">ID</typeparam>

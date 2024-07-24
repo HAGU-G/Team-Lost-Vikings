@@ -1,9 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
-using static UnityEngine.UI.CanvasScaler;
 
 [JsonObject(MemberSerialization.OptIn)]
 public class UnitManager

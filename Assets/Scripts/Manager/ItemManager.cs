@@ -1,15 +1,10 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
 
 [JsonObject(MemberSerialization.OptIn)]
 public class ItemManager
 {
-    [JsonProperty] private int _gold;
+    [JsonProperty] private int _gold = 1000;
     public int Gold
     {
         get

@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEditor.Build.Pipeline.Utilities;
-using UnityEditor.PackageManager;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 public class VillageManager : MonoBehaviour
 {
@@ -144,7 +139,7 @@ public class VillageManager : MonoBehaviour
 
     private void InteractWithBuilding()
     {
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 mousePos = GameManager.inputManager.WorldPos;
         RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, 100f);
 
         if (hit.collider != null)
@@ -186,9 +181,9 @@ public class VillageManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (GameManager.inputManager.Press)
         {
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 mousePos = GameManager.inputManager.WorldPos;
             RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, 100f);
 
             Debug.Log(GameManager.uiManager.isWindowOn);

@@ -1,9 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 using CurrentSave = SaveDataV1;
 
 public static class SaveManager

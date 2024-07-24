@@ -270,33 +270,33 @@ public class GridMap : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            //    if (num >= usableTileList.Count)
-            //        return;
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    //    if (num >= usableTileList.Count)
+        //    //        return;
 
-            //    if (num > 0)
-            //    {
-            //        foreach (var i in usableTileList[num - 1])
-            //        {
-            //            if (usableTileList[num] == null)
-            //                return;
-            //            i.GetComponent<SpriteRenderer>().material.color = Color.white;
-            //        }
-            //    }
+        //    //    if (num > 0)
+        //    //    {
+        //    //        foreach (var i in usableTileList[num - 1])
+        //    //        {
+        //    //            if (usableTileList[num] == null)
+        //    //                return;
+        //    //            i.GetComponent<SpriteRenderer>().material.color = Color.white;
+        //    //        }
+        //    //    }
 
-            //    foreach (var t in usableTileList[num])
-            //    {
-            //        t.GetComponent<SpriteRenderer>().material.color = Color.blue;
-            //    }
-            //    ++num;
-            //}
+        //    //    foreach (var t in usableTileList[num])
+        //    //    {
+        //    //        t.GetComponent<SpriteRenderer>().material.color = Color.blue;
+        //    //    }
+        //    //    ++num;
+        //    //}
 
-            if (usingTileList != null)
-                foreach (var i in usingTileList)
-                {
-                    i.GetComponent<SpriteRenderer>().material.color = Color.gray;
-                }
-        }
+        //    if (usingTileList != null)
+        //        foreach (var i in usingTileList)
+        //        {
+        //            i.GetComponent<SpriteRenderer>().material.color = Color.gray;
+        //        }
+        //}
     }
 }

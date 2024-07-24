@@ -4,7 +4,6 @@ using UnityEngine.SceneManagement;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using System.Text;
-using UnityEngine.Events;
 
 public class GameStarter : MonoBehaviour
 {

@@ -21,13 +21,13 @@ MonoBehaviour:
   tileXY: 1.8
   returnHPRaito: 0.2
   returnStaminaRaito: 0.2
-  returnStressRaito: 0
+  returnStressRaito: 0.2
   staminaReduceAmount: 1
   stressReduceAmount: 1
   overrollUltraRare: 231
   overrollSuperRare: 121
   overrollRare: 91
   overrollNormal: 51
-  autoGachaSeconds: 3
+  autoGachaSeconds: 90
   autoGachaMaxCount: 99
   monsterRoamSeconds: 2

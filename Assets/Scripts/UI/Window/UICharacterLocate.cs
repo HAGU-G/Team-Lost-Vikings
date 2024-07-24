@@ -1,13 +1,5 @@
-﻿using CsvHelper.Configuration.Attributes;
-using System;
-using System.Buffers;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.VersionControl.Asset;
 
 public class UICharacterLocate : UIWindow
 {

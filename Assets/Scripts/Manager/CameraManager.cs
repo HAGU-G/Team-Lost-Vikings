@@ -1,14 +1,11 @@
-﻿using System.Net.Http.Headers;
-using UnityEditor.AddressableAssets.BuildReportVisualizer;
-using UnityEditorInternal;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
-    private float moveSpeed = 100f;
-    private float zoomSpeed = 4f;
-    private float minFov = 15f;
-    private float maxFov = 90f;
+    //private float moveSpeed = 100f;
+    //private float zoomSpeed = 4f;
+    //private float minFov = 15f;
+    //private float maxFov = 90f;
 
     private Vector2? lastPanPosition;
     private int fingerId;

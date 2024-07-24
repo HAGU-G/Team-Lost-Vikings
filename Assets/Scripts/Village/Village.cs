@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class Village : MonoBehaviour
 {
@@ -127,9 +125,9 @@ public class Village : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (GameManager.inputManager.Press)
         {
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 mousePos = GameManager.inputManager.WorldPos;
             RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, 100f);
 
             if (GameManager.uiManager.isWindowOn)

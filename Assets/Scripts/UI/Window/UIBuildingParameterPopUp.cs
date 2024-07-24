@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
-using static UnityEngine.UI.CanvasScaler;
 
 public class UIBuildingParameterPopUp : UIWindow
 {
@@ -172,6 +166,9 @@ public class UIBuildingParameterPopUp : UIWindow
 
     public void SetParameterBar()
     {
+        if (vm.village.upgrade == null)
+            return;
+
         var parameter = vm.village.upgrade.gameObject.GetComponent<ParameterRecoveryBuilding>();
         if (parameter == null)
             return;
