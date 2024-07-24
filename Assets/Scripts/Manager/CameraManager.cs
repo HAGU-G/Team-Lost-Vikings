@@ -67,6 +67,7 @@ public class CameraManager : MonoBehaviour
                 gridMap = null;
                 break;
             case LOCATION.VILLAGE:
+                gridMap = GameManager.villageManager.gridMap;
                 foreach (var constructed in GameManager.villageManager.constructedBuildings)
                 {
                     var building = constructed.GetComponent<Building>();
@@ -76,14 +77,13 @@ public class CameraManager : MonoBehaviour
                         break;
                     }
                 }
-                gridMap = GameManager.villageManager.gridMap;
                 break;
             case LOCATION.HUNTZONE:
                 var huntZones = GameManager.huntZoneManager.HuntZones;
                 if (huntZones.ContainsKey(huntzoneNum))
                 {
-                    SetPosition(huntZones[huntzoneNum].transform.position);
                     gridMap = huntZones[huntzoneNum].gridMap;
+                    SetPosition(huntZones[huntzoneNum].transform.position);
                 }
                 break;
         }
@@ -93,8 +93,12 @@ public class CameraManager : MonoBehaviour
     {
         if (gridMap == null || !IsReady)
             return;
-
+        
         if (gridMap.PosToIndex(pos) != Vector2Int.one * -1)
-            transform.position = pos;
+        {
+            var position = pos;
+            position.z = -10;
+            transform.position = position;
+        }
     }
 }
