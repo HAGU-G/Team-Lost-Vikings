@@ -31,7 +31,8 @@ public class UICharacterLocate : UIWindow
 
         village.onClick.AddListener(() =>
         {
-            //마을로 이동 설정 시
+            unit.ResetHuntZone();
+            unit.ForceReturn();
         });
 
         hpRecovery.onClick.AddListener(() => 

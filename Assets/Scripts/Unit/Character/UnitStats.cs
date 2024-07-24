@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 
 public enum STAT_TYPE
@@ -170,7 +171,6 @@ public class UnitStats : Stats
         var hm = GameManager.huntZoneManager;
         var ud = hm.UnitDeployment;
 
-
         if (hm.IsDeployed(InstanceID, huntZoneNum)
             || ud[huntZoneNum].Count >= hm.HuntZones[huntZoneNum].GetCurrentData().UnitCapacity)
             return false;
@@ -181,7 +181,44 @@ public class UnitStats : Stats
         ud[huntZoneNum].Add(InstanceID);
         HuntZoneNum = huntZoneNum;
 
+        if (Location == LOCATION.HUNTZONE)
+        {
+            var unitOnHunt = objectTransform.GetComponent<UnitOnHunt>();
+            if (unitOnHunt.CurrentHuntZone.HuntZoneNum == huntZoneNum)
+            {
+                unitOnHunt.forceReturn = false;
+                unitOnHunt.FSM.ChangeState((int)UnitOnHunt.STATE.IDLE);
+            }
+
+        }
+
         return true;
+    }
+
+    public void ResetHuntZone()
+    {
+        if (HuntZoneNum == -1)
+            return;
+
+        GameManager.huntZoneManager.UnitDeployment[HuntZoneNum].Remove(InstanceID);
+        HuntZoneNum = -1;
+
+        if (Location == LOCATION.VILLAGE)
+        {
+            var unitOnVillage = objectTransform.GetComponent<UnitOnVillage>();
+            if (unitOnVillage.currentState == UnitOnVillage.STATE.GOTO)
+            {
+                unitOnVillage.VillageFSM.ChangeState((int)UnitOnVillage.STATE.IDLE);
+            }
+        }
+    }
+
+    public void ForceReturn()
+    {
+        if (Location != LOCATION.HUNTZONE)
+            return;
+
+        objectTransform.GetComponent<UnitOnHunt>().forceReturn = true;
     }
 
     public void UpdateCombatPoint()
@@ -261,6 +298,8 @@ public class UnitStats : Stats
             _ => UNIT_GRADE.COMMON,
         };
     }
+
+
 
 
     public UnitStats Clone()
