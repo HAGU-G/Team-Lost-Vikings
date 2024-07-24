@@ -3,4 +3,4 @@ string,int,int,int,int,int,int,float,int,float,float
 HuntZoneName,HuntZoneId,HuntZoneNum,HuntZoneStage,UnitCapacity,NormalMonsterId,MaxMonNum,MonRegen,BossMonsterId,BossTimer,BossRetryTimer
 하나,1,1,1,3,2,3,5,1,30,40
 둘,2,1,2,4,3,5,2,1,30,40
-셋,3,2,1,5,3,6,4,1,30,40
+셋,3,2,1,5,3,6,4,6000001,30,40

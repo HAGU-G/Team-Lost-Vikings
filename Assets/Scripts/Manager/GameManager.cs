@@ -67,28 +67,26 @@ public static class GameManager
     public static void GameLoaded()
     {
         UnitStats.existIDs.Clear();
-        unitManager ??= new();
 
         Publish(EVENT_TYPE.LOADED);
         Publish(EVENT_TYPE.INIT);
-        SaveManager.LoadGame();
-        Publish(EVENT_TYPE.START);
 
-        //TESTCODE
-        for (int i = 0; i < 20; i++)
-        {
-            unitManager.GachaCharacter(playerManager.level);
-        }
-        uiManager.chracterInventory.LoadCharacterButtons(unitManager.Units);
-        uiManager.chracterWaiting.LoadCharacterButtons(unitManager.Waitings);
+        SaveManager.LoadGame();
+        unitManager ??= new();
+        unitManager.LoadUnits();
+
+        Publish(EVENT_TYPE.START);
     }
 
     public static void GameQuit()
     {
-        foreach (var huntZone in huntZoneManager.HuntZones)
-        {
-            huntZone.Value.EndBossBattle(false);
-            huntZone.Value.gameObject.SetActive(false);
-        }
+        Publish(EVENT_TYPE.QUIT);
+        //foreach (var huntZone in huntZoneManager.HuntZones)
+        //{
+        //    huntZone.Value.EndBossBattle(false);
+        //    huntZone.Value.gameObject.SetActive(false);
+        //}
+        SaveManager.SaveGame();
+        Application.Quit();
     }
 }

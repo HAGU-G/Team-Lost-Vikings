@@ -67,18 +67,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 14aa998e0142e9c42bf955679810242a
-    m_Address: Assets/DataTable/UnitTable.csv
+  - m_GUID: dd6e08aaee57ff647b4e75b7d07b4464
+    m_Address: Assets/DataTable/SkillTable.csv
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c4abce40afb035545ad70bc9813a991d
     m_Address: Assets/DataTable/BuildingTable.csv
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c6471f7cebf2b3147bc67f170220649f
-    m_Address: Assets/DataTable/DropTable.csv
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -102,8 +97,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 54d6dec0559b7a549b08d6a1ab7c5e0d
-    m_Address: Assets/DataTable/SkillTable.csv
+  - m_GUID: 14aa998e0142e9c42bf955679810242a
+    m_Address: Assets/DataTable/UnitTable.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 39d24a64d5625a8449d93156de7b55ba
+    m_Address: Assets/DataTable/DropTable.csv
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

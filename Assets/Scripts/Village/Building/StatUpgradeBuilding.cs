@@ -35,7 +35,7 @@ public class StatUpgradeBuilding : MonoBehaviour, IInteractableWithPlayer
                 //    statInt.defaultValue = upgradeValue;
                 //    unit.stats.Str.upgradeValue = statInt;
                 //}
-                GameManager.playerManager.unitStr.defaultValue += upgradeValue;
+                GameManager.playerManager.unitStr.defaultValue = upgradeValue;
                 break;
             case STAT_TYPES.MAG:
                 //foreach (var unit in units)
@@ -43,7 +43,7 @@ public class StatUpgradeBuilding : MonoBehaviour, IInteractableWithPlayer
                 //    statInt.defaultValue = upgradeValue;
                 //    unit.stats.Mag.upgradeValue = statInt;
                 //}
-                GameManager.playerManager.unitMag.defaultValue += upgradeValue;
+                GameManager.playerManager.unitMag.defaultValue = upgradeValue;
                 break;
             case STAT_TYPES.AGI:
                 //foreach (var unit in units)
@@ -51,7 +51,7 @@ public class StatUpgradeBuilding : MonoBehaviour, IInteractableWithPlayer
                 //    statInt.defaultValue = upgradeValue;
                 //    unit.stats.Agi.upgradeValue = statInt;
                 //}
-                GameManager.playerManager.unitAgi.defaultValue += upgradeValue;
+                GameManager.playerManager.unitAgi.defaultValue = upgradeValue;
                 break;
         }
     }

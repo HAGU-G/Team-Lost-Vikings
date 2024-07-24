@@ -1,6 +1,5 @@
 ﻿public class PlayerManager
 {
-    public int gold;
     public int level;
 
     public StatInt unitStr = new();

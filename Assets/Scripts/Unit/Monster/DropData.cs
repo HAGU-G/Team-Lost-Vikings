@@ -1,5 +1,5 @@
 ﻿using CsvHelper;
-using CsvHelper.Configuration.Attributes;
+using UnityEngine;
 using System.Collections.Generic;
 
 public enum DROP_TYPE
@@ -42,5 +42,47 @@ public class DropData : ITableAvaialable<int>, ITableExtraLoadable
 
             count++;
         }
+    }
+
+    public List<int> DropItem()
+    {
+        List<int> result = new();
+
+        switch (DropType)
+        {
+            case DROP_TYPE.ALL:
+                for (int i = 0; i < DropChances.Count; i++)
+                {
+                    if (DropItemIds[i] == 0)
+                        continue;
+                        
+                    if(Random.Range(0, 100) < DropChances[i])
+                        result.Add(DropItemIds[i]);
+                }
+                break;
+            case DROP_TYPE.ONE:
+                List<int> itemPool = new();
+                for (int i = 0; i < DropChances.Count; i++)
+                {
+                    if (DropItemIds[i] == 0)
+                        continue;
+
+                    for (int j = 0; j < DropChances[i]; j++)
+                    {
+                        itemPool.Add(DropItemIds[i]);
+                    }
+                }
+                result.Add(itemPool[Random.Range(0, itemPool.Count)]);
+                break;
+            default:
+                break;
+        }
+
+        return result;
+    }
+
+    public int DropGold()
+    {
+        return Random.Range(MinGold, MaxGold + 1);
     }
 }
