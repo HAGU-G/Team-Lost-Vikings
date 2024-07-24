@@ -6,7 +6,7 @@ public class GotoOnVillage : State<UnitOnVillage>
     {
         owner.currentState = UnitOnVillage.STATE.GOTO;
 
-        if(owner.forceDestination != null)
+        if (owner.forceDestination != null)
         {
             var tileId = owner.villageManager.gridMap.PosToIndex(owner.gameObject.transform.position);
             var startTile = owner.villageManager.gridMap
@@ -41,10 +41,18 @@ public class GotoOnVillage : State<UnitOnVillage>
             case UnitOnVillage.LACKING_PARAMETER.NONE:
                 if (GameManager.huntZoneManager.HuntZones.ContainsKey(owner.stats.HuntZoneNum))
                 {
-                    owner.destination = GameManager.villageManager.gridMap.GetTile(35, 32).tileInfo.ObjectLayer.LayerObject;
+                    foreach (var constructed in GameManager.villageManager.constructedBuildings)
+                    {
+                        var building = constructed.GetComponent<Building>();
+                        if (building.StructureType == STRUCTURE_TYPE.PORTAL)
+                        {
+                            owner.destination = building.gameObject;
+                            break;
+                        }
+                    }
                     owner.destinationTile = owner.destination.GetComponent<Building>().entranceTile;
                 }
-                    //controller.ChangeState((int)UnitOnVillage.STATE.IDLE);
+                //controller.ChangeState((int)UnitOnVillage.STATE.IDLE);
                 //부족한 파라미터가 없으면 일단 돌아다니게 -> 사냥터로
                 break;
         }
@@ -127,7 +135,7 @@ public class GotoOnVillage : State<UnitOnVillage>
 
     private void OnEntranceTile(Cell tile)
     {
-        if(owner.forceDestination != null)
+        if (owner.forceDestination != null)
         {
             owner.unitMove.OnTargetTile -= OnEntranceTile;
             controller.ChangeState((int)UnitOnVillage.STATE.IDLE);

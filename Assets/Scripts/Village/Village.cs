@@ -44,10 +44,38 @@ public class Village : MonoBehaviour
     //    }
     //}
 
-    public void UnitSpawn(int instanceID)
+    public void UnitSpawn(int instanceID, STRUCTURE_TYPE spawnBuilding)
     {
-        var unitObj = GameObject.Instantiate(unitPrefab, villageManager.gridMap.IndexToPos(new Vector2Int(35, 31))
-                , Quaternion.identity, villageManager.gridMap.transform);
+        Vector3 spawnPos = new();
+
+        bool isFind = false ;
+        foreach (var constructed in GameManager.villageManager.constructedBuildings)
+        {
+            var building = constructed.GetComponent<Building>();
+            if (building.StructureType == spawnBuilding)
+            {
+                spawnPos = building.entranceTile.gameObject.transform.position;
+                isFind = true;
+                break;
+            }
+        }
+
+        if(!isFind)
+        {
+            foreach (var constructed in GameManager.villageManager.constructedBuildings)
+            {
+                var building = constructed.GetComponent<Building>();
+                if (building.StructureType == STRUCTURE_TYPE.STANDARD)
+                {
+                    spawnPos = building.entranceTile.gameObject.transform.position;
+                    break;
+                }
+            }
+        }
+
+
+
+        var unitObj = Instantiate(unitPrefab, spawnPos, Quaternion.identity, villageManager.gridMap.transform);
         unitObj.Init();
         unitObj.ResetUnit(GameManager.unitManager.GetUnit(instanceID));
         units.Add(unitObj);

@@ -124,7 +124,8 @@ public class UnitManager
             case LOCATION.NONE:
                 break;
             case LOCATION.VILLAGE:
-                GameManager.villageManager.village.UnitSpawn(stats.InstanceID);
+                GameManager.villageManager.village.UnitSpawn(stats.InstanceID,
+                    (stats.HP.Current == 0) ? STRUCTURE_TYPE.STANDARD : STRUCTURE_TYPE.PORTAL);
                 break;
             case LOCATION.HUNTZONE:
                 GameManager.huntZoneManager.HuntZones[stats.HuntZoneNum].SpawnUnit(stats.InstanceID);
@@ -144,7 +145,7 @@ public class UnitManager
             case LOCATION.NONE:
                 break;
             case LOCATION.VILLAGE:
-                GameManager.villageManager.village.UnitSpawn(stats.InstanceID);
+                GameManager.villageManager.village.UnitSpawn(stats.InstanceID, STRUCTURE_TYPE.STANDARD);
                 break;
             case LOCATION.HUNTZONE:
                 GameManager.huntZoneManager.HuntZones[stats.HuntZoneNum].SpawnUnit(stats.InstanceID);
@@ -174,7 +175,8 @@ public class UnitManager
 
         Units.Add(pick.InstanceID, pick);
         pick.SetUpgradeStats();
-        pick.SetLocation(LOCATION.NONE, LOCATION.VILLAGE);
+        pick.SetLocation(LOCATION.VILLAGE);
+        SpawnOnLocation(pick);
 
         SaveManager.SaveGame();
 
