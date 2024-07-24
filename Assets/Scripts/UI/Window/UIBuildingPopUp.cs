@@ -72,6 +72,10 @@ public class UIBuildingPopUp : UIWindow
     public void OnButtonUpgrade()
     {
         vm.village.Upgrade();
+        for(int i = 0; i < kindOfResource; ++i)
+        {
+            //im.ownItemList[i] -= requireItemNums[i];
+        }
         SetPopUp();
     }
 
@@ -89,7 +93,10 @@ public class UIBuildingPopUp : UIWindow
         if (upgradeComponent.UpgradeGrade < grade.Count)
             nextEffectDescription.text = UpgradeData.GetUpgradeData(upgradeComponent.UpgradeId, upgradeComponent.UpgradeGrade + 1).UpgradeDesc;
         else
+        {
             nextEffectDescription.text = $"현재 마지막 업그레이드 단계입니다.";
+            upgrade.enabled = false;
+        }
     }
 
     public void SetRequireItem()
