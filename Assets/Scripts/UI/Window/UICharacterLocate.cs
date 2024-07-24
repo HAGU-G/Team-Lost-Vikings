@@ -17,8 +17,9 @@ public class UICharacterLocate : UIWindow
 
     public Button[] huntzones;
 
-    private void Start()
+    protected override void OnGameStart()
     {
+        base.OnGameStart();
         for(int i = 0; i < huntzones.Length; ++i)
         {
             huntzones[i].onClick.AddListener(() =>
@@ -30,6 +31,9 @@ public class UICharacterLocate : UIWindow
 
     private void OnEnable()
     {
+        if (!IsReady)
+            return;
+
         unit = GameManager.uiManager.currentUnitStats;
         
     }

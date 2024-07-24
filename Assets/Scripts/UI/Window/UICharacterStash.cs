@@ -13,6 +13,7 @@ public class UICharacterStash : UIWindow
     public override WINDOW_NAME WindowName => WINDOW_NAME.CHARACTER_STASH;
 
     public Button exit;
+    public TextMeshProUGUI gachaCycleText;
 
     public ScrollRect scrollRect;
     public GameObject characterbuttonPrefab;
@@ -23,8 +24,21 @@ public class UICharacterStash : UIWindow
 
     }
 
+    private void Update()
+    {
+        SetGachaText(GameManager.unitManager.TimeToAutoGacha);
+    }
+
+    public void SetGachaText(float time)
+    {
+        gachaCycleText.text = $"주기적 가챠 시간 : {time:0.0}초 남음";
+    }
+
     private void OnEnable()
     {
+        if (!IsReady)
+            return;
+
         LoadCharacterButtons(GameManager.unitManager.Waitings);
     }
 

@@ -118,28 +118,33 @@ public class UIDevelop : MonoBehaviour
 
     public void OnButtonGachaUI()
     {
-        GameManager.uiManager.windows[(int)WINDOW_NAME.GACHA_UI].Open();
+        GameManager.uiManager.windows[WINDOW_NAME.GACHA_UI].Open();
     }
 
     public void OnButtonUnit()
     {
-        GameManager.uiManager.windows[(int)WINDOW_NAME.UNITS_INFORMATION].Open();
+        GameManager.uiManager.windows[WINDOW_NAME.UNITS_INFORMATION].Open();
     }
 
     public void OnButtonUnitStash()
     {
-        GameManager.uiManager.windows[(int)WINDOW_NAME.CHARACTER_STASH].Open();
+        GameManager.uiManager.windows[WINDOW_NAME.CHARACTER_STASH].Open();
     }
 
     public void OnButtonPrepare()
     {
-        GameManager.uiManager.windows[(int)WINDOW_NAME.WAIT_FOR_CBT].Open();
+        GameManager.uiManager.windows[WINDOW_NAME.WAIT_FOR_CBT].Open();
     }
 
     public void SetVillageLevel()
     {
         villageLevel.text = $"마을 회관 \nLv : {GameManager.villageManager.PlayerLevel.ToString()}";
         gold.text = $"{GameManager.itemManager.Gold}";
+    }
+
+    public void SetGold(int gold)
+    {
+        this.gold.text = gold.ToString() ;
     }
 
     private void Start()

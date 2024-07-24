@@ -7,7 +7,19 @@ using UnityEngine;
 
 public class ItemManager
 {
-    public int Gold { get; set; }
+    private int _gold;
+    public int Gold 
+    {
+        get 
+        {
+            return _gold;
+        }
+        set 
+        {
+            _gold = value;
+            GameManager.uiManager.uiDevelop.SetGold(value);
+        } 
+    }
     public int Rune { get; set; }
 
     public Dictionary<int, int> ownItemList = new();

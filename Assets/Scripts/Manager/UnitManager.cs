@@ -193,7 +193,7 @@ public class UnitManager
                 lastAutoGachaTime = System.DateTime.Now;
 
                 //TESTCODE
-                (GameManager.uiManager.windows[(int)WINDOW_NAME.CHARACTER_STASH] as UICharacterStash).LoadCharacterButtons(Waitings);
+                (GameManager.uiManager.windows[WINDOW_NAME.CHARACTER_STASH] as UICharacterStash).LoadCharacterButtons(Waitings);
             }
         }
     }

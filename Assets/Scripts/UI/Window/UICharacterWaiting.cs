@@ -11,8 +11,9 @@ public class UICharacterWaiting : UIWindow
 
     public override WINDOW_NAME WindowName => WINDOW_NAME.CHARACTER_INVENTORY;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         GameManager.uiManager.chracterWaiting = this;
         LoadCharacterButtons(GameManager.unitManager.Waitings);
     }

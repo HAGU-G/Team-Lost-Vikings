@@ -31,8 +31,9 @@ public class UIBuildingPopUp : UIWindow
     public List<int> requireItemNums;
 
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         vm = GameManager.villageManager;
         um = GameManager.uiManager;
         im = GameManager.itemManager;
@@ -40,6 +41,9 @@ public class UIBuildingPopUp : UIWindow
 
     private void OnEnable()
     {
+        if (!IsReady)
+            return;
+
         upgradeComponent = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
         grade = DataTableManager.upgradeTable.GetData(um.currentNormalBuidling.UpgradeId);
         requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;

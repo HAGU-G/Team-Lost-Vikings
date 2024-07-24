@@ -21,6 +21,9 @@ public class UIUnitsInformation : UIWindow
 
     private void OnEnable()
     {
+        if (!IsReady)
+            return;
+
         SetInfo();
     }
 
@@ -32,7 +35,7 @@ public class UIUnitsInformation : UIWindow
         }
         infos.Clear();
 
-        var units = GameManager.unitManager.Waitings;
+        var units = GameManager.unitManager.Units;
 
         foreach(var unit in units)
         {
@@ -45,7 +48,7 @@ public class UIUnitsInformation : UIWindow
             () =>
             {
                 GameManager.uiManager.currentUnitStats = unit.Value;
-                GameManager.uiManager.windows[(int)WINDOW_NAME.UNIT_DETAIL_INFORMATION].Open();
+                GameManager.uiManager.windows[WINDOW_NAME.UNIT_DETAIL_INFORMATION].Open();
             }
                 );
         }

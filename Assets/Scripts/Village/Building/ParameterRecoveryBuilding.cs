@@ -38,7 +38,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
         //isRecovering = true;
         Debug.Log($"hp : {unit.stats.HP} stamina : {unit.stats.Stamina} stress : {unit.stats.Stress}");
         interactingUnits.Add(unit);
-        GameManager.uiManager.windows[(int)WINDOW_NAME.PARAMETER_POPUP].GetComponent<UIBuildingParameterPopUp>().SetCharacterInformation();
+        GameManager.uiManager.windows[WINDOW_NAME.PARAMETER_POPUP].GetComponent<UIBuildingParameterPopUp>().SetCharacterInformation();
         yield return new WaitForSeconds(recoveryTime);
         bool isComplete = false;
 
@@ -120,6 +120,6 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
     {
         GameManager.uiManager.currentNormalBuidling = this.gameObject.GetComponent<Building>();
         GameManager.uiManager.currentParameterBuilding = this;
-        GameManager.uiManager.windows[(int)WINDOW_NAME.PARAMETER_POPUP].Open();
+        GameManager.uiManager.windows[WINDOW_NAME.PARAMETER_POPUP].Open();
     }
 }

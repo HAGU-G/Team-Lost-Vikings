@@ -24,10 +24,11 @@ public enum WINDOW_NAME
 
 public class UIManager : MonoBehaviour
 {
+    public UIDevelop uiDevelop;
     public GameObject groupBottom;
     public GameObject groupTop;
 
-    public List<UIWindow> windows;
+    public Dictionary<WINDOW_NAME, UIWindow> windows = new();
     public UICharacterInventory chracterInventory;
     public UICharacterWaiting chracterWaiting;
     public UIRenderTexture unitRenderTexture;
@@ -93,13 +94,13 @@ public class UIManager : MonoBehaviour
 
     public void AddWindow(WINDOW_NAME windowName, UIWindow window)
     {
-        if (windows.Contains(window))
+        if (windows.ContainsKey(windowName))
         {
             Debug.Log($"윈도우 이름({windowName})이 이미 등록되어있습니다.");
             return;
         }
                 
-        windows.Add(window);
+        windows.Add(windowName, window);
     }
 
     public void CloseWindows(params UIWindow[] exceptWindow)
@@ -107,10 +108,10 @@ public class UIManager : MonoBehaviour
         var excepts = exceptWindow.ToList();
         foreach (var window in windows)
         {
-            if (excepts.Contains(window))
+            if (excepts.Contains(window.Value))
                 continue;
 
-            window.Close();
+            window.Value.Close();
         }
     }
     //public void CloseWindows(params WINDOW_NAME[] exceptWindow)

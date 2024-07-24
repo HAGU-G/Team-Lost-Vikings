@@ -56,6 +56,9 @@ public class UIUnitDetailInformation : UIWindow
 
     private void OnEnable()
     {
+        if (!IsReady)
+            return;
+
         unit = GameManager.uiManager.currentUnitStats;
         SetInfo();
     }
@@ -106,7 +109,7 @@ public class UIUnitDetailInformation : UIWindow
 
     public void OnButtonPlacement()
     {
-        GameManager.uiManager.windows[(int)WINDOW_NAME.CHARACTER_LOCATE].Open();
+        GameManager.uiManager.windows[WINDOW_NAME.CHARACTER_LOCATE].Open();
     }
 
     public void OnButtonExit()

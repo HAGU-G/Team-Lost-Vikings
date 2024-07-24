@@ -64,7 +64,7 @@ public class Building : MonoBehaviour
     public void TouchBuilding()
     {
         GameManager.uiManager.currentNormalBuidling = this;
-        GameManager.uiManager.windows[(int)WINDOW_NAME.BUILDING_POPUP].Open();
+        GameManager.uiManager.windows[WINDOW_NAME.BUILDING_POPUP].Open();
     }
 
     private void Update()

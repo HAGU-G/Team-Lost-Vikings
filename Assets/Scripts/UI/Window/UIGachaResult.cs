@@ -22,6 +22,9 @@ public class UIGachaResult : UIWindow
 
     private void OnEnable()
     {
+        if (!IsReady)
+            return;
+
         gachaResultUnit = GameManager.unitManager.Waitings.Last().Value;
         SetResult();
     }

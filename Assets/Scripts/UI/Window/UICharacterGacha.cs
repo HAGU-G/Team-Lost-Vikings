@@ -19,13 +19,17 @@ public class UICharacterGacha : UIWindow
 
     private int requireGold = 1000;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         im = GameManager.itemManager;
     }
 
     private void OnEnable()
     {
+        if (!IsReady)
+            return;
+
         SetGachaUI();
     }
 
@@ -59,7 +63,7 @@ public class UICharacterGacha : UIWindow
         var gachaResultUnit = GameManager.unitManager.Waitings.Last();
 
         
-        GameManager.uiManager.windows[(int)WINDOW_NAME.GACHA_RESULT].Open();
+        GameManager.uiManager.windows[WINDOW_NAME.GACHA_RESULT].Open();
     }
 
     public void OnButtonExit()

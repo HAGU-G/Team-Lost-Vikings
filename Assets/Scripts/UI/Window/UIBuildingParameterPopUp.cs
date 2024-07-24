@@ -36,8 +36,9 @@ public class UIBuildingParameterPopUp : UIWindow
     public List<int> requireItemIds;
     public List<int> requireItemNums;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         vm = GameManager.villageManager;
         um = GameManager.uiManager;
         im = GameManager.itemManager;
@@ -45,6 +46,9 @@ public class UIBuildingParameterPopUp : UIWindow
 
     private void OnEnable()
     {
+        if (!IsReady)
+            return;
+
         vm.village.upgrade = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>(); 
         upgradeComponent = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
         grade = DataTableManager.upgradeTable.GetData(um.currentNormalBuidling.UpgradeId);
