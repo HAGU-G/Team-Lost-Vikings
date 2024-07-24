@@ -29,6 +29,26 @@ public class UICharacterLocate : UIWindow
     {
         base.OnGameStart();
 
+        village.onClick.AddListener(() =>
+        {
+            //마을로 이동 설정 시
+        });
+
+        hpRecovery.onClick.AddListener(() => 
+        {
+            //회복 회복 건물로 이동 설정 시
+        });
+
+        staminaRecovery.onClick.AddListener(() =>
+        {
+            //스태미너 회복 건물로 이동 설정 시
+        });
+
+        stressRecovery.onClick.AddListener(() =>
+        {
+            //스트레스 회복 건물로 이동 설정 시
+        });
+
         var huntzones = GameManager.huntZoneManager.HuntZones;
         for(int i = 0; i < huntzones.Count; ++i)
         {
@@ -38,6 +58,9 @@ public class UICharacterLocate : UIWindow
             locationComponent.locationName.text = $"{huntzoneNum + 1}번 사냥터";
             locationComponent.button.onClick.AddListener(() =>
             {
+                //사냥터 이동 시 동일한 사냥터면 return
+                if (GameManager.huntZoneManager.IsDeployed(unit.InstanceID, huntzoneNum + 1))
+                    return;
                 SetUnitHuntZone(GameManager.huntZoneManager.HuntZones[huntzoneNum + 1].Info.HuntZoneNum);
             });
         }
