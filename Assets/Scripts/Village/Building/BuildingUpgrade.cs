@@ -78,7 +78,7 @@ public class BuildingUpgrade : MonoBehaviour
                 var parameter = GetComponent<ParameterRecoveryBuilding>();
                 if((PARAMETER_TYPES)ParameterType == parameter.parameterType)
                 {
-                    parameter.recoveryAmount += ParameterRecovery;
+                    parameter.recoveryAmount = ParameterRecovery;
                     parameter.recoveryTime = RecoveryTime;
                     ++currentGrade;
                 }

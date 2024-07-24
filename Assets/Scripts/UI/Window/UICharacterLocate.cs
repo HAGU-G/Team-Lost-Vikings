@@ -1,8 +1,10 @@
-﻿using System;
+﻿using CsvHelper.Configuration.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class UICharacterLocate : UIWindow
@@ -15,18 +17,39 @@ public class UICharacterLocate : UIWindow
     public Button staminaRecovery;
     public Button stressRecovery;
 
+    public Button exit;
+
     public Button[] huntzones;
+
+    public GameObject locationPrefab;
+    public Transform content;
+
 
     protected override void OnGameStart()
     {
         base.OnGameStart();
-        for(int i = 0; i < huntzones.Length; ++i)
+
+        var huntzones = GameManager.huntZoneManager.HuntZones;
+        for(int i = 0; i < huntzones.Count; ++i)
         {
-            huntzones[i].onClick.AddListener(() =>
+            int huntzoneNum = i;
+            var location = Instantiate(locationPrefab, content);
+            var locationComponent = location.GetComponent<Location>();
+            locationComponent.locationName.text = $"{huntzoneNum + 1}번 사냥터";
+            locationComponent.button.onClick.AddListener(() =>
             {
-                SetUnitHuntZone(i + 1);
+                SetUnitHuntZone(GameManager.huntZoneManager.HuntZones[huntzoneNum + 1].Info.HuntZoneNum);
             });
         }
+
+        //for (int i = 0; i < huntzones.Length; ++i)
+        //{
+        //    int huntzoneNum = i;
+        //    huntzones[i].onClick.AddListener(() =>
+        //    {
+        //        SetUnitHuntZone(GameManager.huntZoneManager.HuntZones[huntzoneNum + 1].Info.HuntZoneNum);
+        //    });
+        //}
     }
 
     private void OnEnable()
@@ -36,6 +59,11 @@ public class UICharacterLocate : UIWindow
 
         unit = GameManager.uiManager.currentUnitStats;
         
+    }
+
+    public void OnButtonExit()
+    {
+        Close();
     }
 
     public void OnButtonHp()

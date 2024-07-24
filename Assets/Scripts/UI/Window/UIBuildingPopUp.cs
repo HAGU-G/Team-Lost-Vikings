@@ -72,6 +72,7 @@ public class UIBuildingPopUp : UIWindow
     public void OnButtonUpgrade()
     {
         vm.village.Upgrade();
+
     }
 
     public void OnButtonExit()

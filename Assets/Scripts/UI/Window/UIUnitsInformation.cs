@@ -51,6 +51,8 @@ public class UIUnitsInformation : UIWindow
                 GameManager.uiManager.windows[WINDOW_NAME.UNIT_DETAIL_INFORMATION].Open();
             }
                 );
+
+            infos.Add(button);
         }
 
         //for (int i = 0; i < units.Count; ++i)

@@ -44,7 +44,6 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
 
         while (true)
         {
-            Debug.Log(parameterType);
             switch (parameterType)
             {
                 case PARAMETER_TYPES.HP:
@@ -55,6 +54,8 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
                     else if (unit.stats.HP.Current >= unit.stats.HP.max)
                     {
                         unit.stats.HP.Current = unit.stats.HP.max;
+                        GameManager.uiManager.windows[WINDOW_NAME.PARAMETER_POPUP].GetComponent<UIBuildingParameterPopUp>().SetParameterBar();
+                        yield return new WaitForSeconds(0.1f);
                         isComplete = true;
                     }
                     break;
@@ -66,6 +67,8 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
                     else if (unit.stats.Stamina.Current >= unit.stats.Stamina.max)
                     {
                         unit.stats.Stamina.Current = unit.stats.Stamina.max;
+                        GameManager.uiManager.windows[WINDOW_NAME.PARAMETER_POPUP].GetComponent<UIBuildingParameterPopUp>().SetParameterBar();
+                        yield return new WaitForSeconds(0.1f);
                         isComplete = true;
                     }
                     break;
@@ -77,6 +80,8 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
                     else if (unit.stats.Stress.Current >= unit.stats.Stress.max)
                     {
                         unit.stats.Stress.Current = unit.stats.Stress.max;
+                        GameManager.uiManager.windows[WINDOW_NAME.PARAMETER_POPUP].GetComponent<UIBuildingParameterPopUp>().SetParameterBar();
+                        yield return new WaitForSeconds(0.1f);
                         isComplete = true;
                     }
                     break;

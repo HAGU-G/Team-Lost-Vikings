@@ -112,15 +112,44 @@ public class UIBuildingParameterPopUp : UIWindow
         var units = parameter.interactingUnits;
 
 
-        Debug.Log(units.Count);
+        //Debug.Log(units.Count);
         for(int i = 0; i < units.Count; ++i)
         {
             var character = Instantiate(characterInformation, characterContent);
             var info = character.GetComponent<CharacterInfo>();
+            info.characterId = units[i].stats.InstanceID;
             info.characterGrade.text = units[i].stats.UnitGrade.ToString();
             info.characterName.text = units[i].stats.Name;
 
             characters.Add(character);
+        }
+    }
+
+    private void Update()
+    {
+        SetParameterBar();
+    }
+
+    public void SetParameterBar()
+    {
+        var parameter = vm.village.upgrade.gameObject.GetComponent<ParameterRecoveryBuilding>();
+
+        foreach (var character in characters)
+        {
+            var info = character.GetComponent<CharacterInfo>();
+            var unit = GameManager.unitManager.GetUnit(info.characterId);
+            switch(parameter.parameterType)
+            {
+                case PARAMETER_TYPES.HP:
+                    info.parameterBar.value = (float)unit.HP.Current / (float)unit.HP.max;
+                    break;
+                case PARAMETER_TYPES.STAMINA:
+                    info.parameterBar.value = (float)unit.Stamina.Current / (float)unit.Stamina.max;
+                    break;
+                case PARAMETER_TYPES.STRESS:
+                    info.parameterBar.value = (float)unit.Stress.Current / (float)unit.Stress.max;
+                    break;
+            }
         }
     }
 

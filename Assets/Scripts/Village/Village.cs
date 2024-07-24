@@ -150,7 +150,7 @@ public class Village : MonoBehaviour
         if (timer >= 5f)
         {
             timer = 0f;
-            Debug.Log($"str : {pm.unitStr.defaultValue}, mag : {pm.unitMag.defaultValue}, agi : {pm.unitAgi.defaultValue}");
+            //Debug.Log($"str : {pm.unitStr.defaultValue}, mag : {pm.unitMag.defaultValue}, agi : {pm.unitAgi.defaultValue}");
         }
     }
 
