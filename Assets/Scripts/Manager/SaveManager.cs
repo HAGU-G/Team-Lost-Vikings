@@ -88,8 +88,8 @@ public static class SaveManager
                 continue;
 
             up.currentGrade = save.buildingUpgrade[i];
-            //up.SetBuildingUpgrade(); TODO : 업그레이드 ID가 없음.
-            //up.GetComponent<StatUpgradeBuilding>()?.RiseStat();
+            up.SetBuildingUpgrade();
+            up.GetComponent<StatUpgradeBuilding>()?.RiseStat();
         }
 
     }
