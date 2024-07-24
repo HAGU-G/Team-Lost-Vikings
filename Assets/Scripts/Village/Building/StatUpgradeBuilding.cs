@@ -5,7 +5,7 @@ using UnityEngine;
 public class StatUpgradeBuilding : MonoBehaviour, IInteractableWithPlayer
 {
     public Building building;
-    public STAT_TYPES upgradeStat; //나중에 데이터형 수정하기
+    public STAT_TYPE upgradeStat;
     public int upgradeValue;
     private List<UnitOnVillage> units;
     private StatInt statInt = new();
@@ -29,7 +29,7 @@ public class StatUpgradeBuilding : MonoBehaviour, IInteractableWithPlayer
     {
         switch (upgradeStat)
         {
-            case STAT_TYPES.STR:
+            case STAT_TYPE.STR:
                 //foreach(var unit in units)
                 //{
                 //    statInt.defaultValue = upgradeValue;
@@ -37,7 +37,7 @@ public class StatUpgradeBuilding : MonoBehaviour, IInteractableWithPlayer
                 //}
                 GameManager.playerManager.unitStr.defaultValue = upgradeValue;
                 break;
-            case STAT_TYPES.MAG:
+            case STAT_TYPE.WIZ:
                 //foreach (var unit in units)
                 //{
                 //    statInt.defaultValue = upgradeValue;
@@ -45,7 +45,7 @@ public class StatUpgradeBuilding : MonoBehaviour, IInteractableWithPlayer
                 //}
                 GameManager.playerManager.unitMag.defaultValue = upgradeValue;
                 break;
-            case STAT_TYPES.AGI:
+            case STAT_TYPE.AGI:
                 //foreach (var unit in units)
                 //{
                 //    statInt.defaultValue = upgradeValue;

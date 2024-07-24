@@ -15,23 +15,6 @@ public enum SKILL_ACTIVE_TYPE
     BASIC_ATTACK_COUNT
 }
 
-public enum STAT_TYPE
-{
-    NONE,
-    STR,
-    WIZ,
-    AGI,
-    VIT
-}
-
-public enum PARAMETER_TYPE
-{
-    NONE,
-    BASE_HP,
-    STAMINA,
-    STRESS,
-}
-
 public enum RETURN_TYPE
 {
     NONE,

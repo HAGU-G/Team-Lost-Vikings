@@ -8,7 +8,7 @@ public class UpgradeData : ITableAvaialable<int>, ITableExtraLoadable
     [field: SerializeField] public string UpgradeName { get; set; }
     [field: SerializeField] public int UpgradeId { get; set; }
     [field: SerializeField] public int UpgradeGrade { get; set; }
-    [field: SerializeField] public STAT_TYPES StatType { get; set; }
+    [field: SerializeField] public STAT_TYPE StatType { get; set; }
     [field: SerializeField] public int StatReturn { get; set; }
     [field: SerializeField] public int ParameterType { get; set; }
     [field: SerializeField] public int ParameterRecovery { get; set; }
@@ -46,5 +46,18 @@ public class UpgradeData : ITableAvaialable<int>, ITableExtraLoadable
 
             count++;
         }
+    }
+
+
+    public static UpgradeData GetUpgradeData(int upgradeID, int upgradeGrade)
+    {
+        foreach (var data in DataTableManager.upgradeTable.GetData(upgradeID))
+        {
+            if (data.UpgradeGrade == upgradeGrade)
+            {
+                return data;
+            }
+        }
+        return null;
     }
 }

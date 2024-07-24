@@ -55,20 +55,20 @@ public class InteractOnVillage : State<UnitOnVillage>
         return ;
     }
 
-    public void RecoveryDone(PARAMETER_TYPES type)
+    public void RecoveryDone(PARAMETER_TYPE type)
     {
         //owner.RecoveryDone(type);
         switch(type)
         {
-            case PARAMETER_TYPES.HP:
+            case PARAMETER_TYPE.HP:
                 if(owner.stats.HP.Current  == owner.stats.HP.max)
                     controller.ChangeState((int)UnitOnVillage.STATE.IDLE);
                 break;
-            case PARAMETER_TYPES.STAMINA:
+            case PARAMETER_TYPE.STAMINA:
                 if (owner.stats.Stamina.Current == owner.stats.Stamina.max)
                     controller.ChangeState((int)UnitOnVillage.STATE.IDLE);
                 break;
-            case PARAMETER_TYPES.STRESS:
+            case PARAMETER_TYPE.MENTAL:
                 if (owner.stats.Stress.Current == owner.stats.Stress.max)
                     controller.ChangeState((int)UnitOnVillage.STATE.IDLE);
                 break;

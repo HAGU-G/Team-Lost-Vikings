@@ -13,7 +13,7 @@ public class BuildingUpgrade : MonoBehaviour
     [field: SerializeField] public int UpgradeGrade { get; private set; }
     [field: SerializeField] public int StructureLevel { get; private set; }
     [field: SerializeField] public int StructureType { get; private set; }
-    [field: SerializeField] public STAT_TYPES StatType { get; private set; }
+    [field: SerializeField] public STAT_TYPE StatType { get; private set; }
     [field: SerializeField] public int StatReturn { get; private set; }
     [field: SerializeField] public int ParameterType { get; private set; }
     [field: SerializeField] public int ParameterRecovery { get; private set; }
@@ -33,15 +33,21 @@ public class BuildingUpgrade : MonoBehaviour
 
     private void Awake()
     {
-        GameManager.Subscribe(EVENT_TYPE.START,SetBuildingUpgrade);
+        GameManager.Subscribe(EVENT_TYPE.START, SetBuildingUpgrade);
     }
 
     public void SetBuildingUpgrade()
     {
-        Debug.Log("ㅇㅇㄹㄴㅇㄹ");
         UpgradeId = GetComponent<Building>().UpgradeId;
+        if (UpgradeId == 0)
+            return;
 
-        var upgrade = DataTableManager.upgradeTable.GetData(UpgradeId)[2];
+        UpgradeData upgrade = UpgradeData.GetUpgradeData(UpgradeId, currentGrade);
+        if (upgrade == null)
+        {
+            Debug.Log($"업그레이드 {currentGrade}단계가 없습니다.", gameObject);
+            return;
+        }
 
         UpgradeGrade = upgrade.UpgradeGrade;
         UpgradeName = upgrade.UpgradeName;
@@ -77,18 +83,22 @@ public class BuildingUpgrade : MonoBehaviour
                 var stat = GetComponent<StatUpgradeBuilding>();
                 if (StatType == stat.upgradeStat)
                 {
-                    stat.upgradeValue = StatReturn;
                     ++currentGrade;
+                    SetBuildingUpgrade();
+                    stat.upgradeValue = StatReturn;
+
                     stat.RiseStat();
                 }
                 break;
             case (int)STRUCTURE_TYPE.PARAMETER_RECOVERY:
                 var parameter = GetComponent<ParameterRecoveryBuilding>();
-                if ((PARAMETER_TYPES)ParameterType == parameter.parameterType)
+                if ((PARAMETER_TYPE)ParameterType == parameter.parameterType)
                 {
+                    ++currentGrade;
+                    SetBuildingUpgrade();
                     parameter.recoveryAmount += ParameterRecovery;
                     parameter.recoveryTime = RecoveryTime;
-                    ++currentGrade;
+
                 }
                 break;
             case (int)STRUCTURE_TYPE.ITEM_PRODUCE:
@@ -96,7 +106,6 @@ public class BuildingUpgrade : MonoBehaviour
             case (int)STRUCTURE_TYPE.ITEM_SELL:
                 break;
         }
-        SetBuildingUpgrade();
     }
 
 }
