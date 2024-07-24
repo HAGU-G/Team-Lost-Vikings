@@ -31,7 +31,7 @@ public class Construct
         objInfo.entranceTile.TileColorChange();
         if(objInfo.entranceTile.tileInfo.RoadLayer.LayerObject != null)
         {
-            objInfo.entranceTile.tileInfo.RoadLayer.LayerObject.GetComponent<SpriteRenderer>().material.color = Color.magenta;
+            //objInfo.entranceTile.tileInfo.RoadLayer.LayerObject.GetComponent<SpriteRenderer>().material.color = Color.magenta;
             //프로토타입 임시 코드
         }
         var instancedObj = GameObject.Instantiate(obj, gridMap.IndexToPos(tileId), Quaternion.identity, tile.transform);

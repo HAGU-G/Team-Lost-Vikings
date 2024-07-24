@@ -15,6 +15,7 @@ public class UIDevelop : MonoBehaviour
 
     private int currentHuntZone = 1;
     private bool isShowVillage = true;
+    private bool isDevelopTextOn = true;
 
     public TextMeshProUGUI villageLevel;
     public TextMeshProUGUI gold;
@@ -52,6 +53,12 @@ public class UIDevelop : MonoBehaviour
         textHuntZone.text = $"HuntZone {currentHuntZone}";
         //Camera.main.transform.position = GameManager.huntZoneManager.HuntZones[currentHuntZone].transform.position + Vector3.forward * -10f;
         GameManager.cameraManager.SetLocation(LOCATION.HUNTZONE, currentHuntZone);
+    }
+
+    public void OnButtonDevelopText()
+    {
+        GameManager.villageManager.SetDevelopText(isDevelopTextOn);
+        isDevelopTextOn = !isDevelopTextOn;
     }
 
     public void OnButtonReduceHP()

@@ -69,12 +69,12 @@ public class Cell : MonoBehaviour
 
     public void TileColorChange()
     {
-        GetComponent<SpriteRenderer>().material.color = Color.magenta;
+        //GetComponent<SpriteRenderer>().material.color = Color.magenta;
     }
 
     public void RestoreTileColor()
     {
-        GetComponent<SpriteRenderer>().material.color = Color.white;
+        //GetComponent<SpriteRenderer>().material.color = Color.white;
     }
 
 

@@ -619,6 +619,7 @@ MonoBehaviour:
   <ItemIds>k__BackingField: 
   <ItemNums>k__BackingField: 
   <UpgradeDesc>k__BackingField: "\uAE30\uC900\uAC74\uBB3C\uC785\uB2C8\uB2E4."
+  currentGrade: 1
 --- !u!1 &7939489123887694467
 GameObject:
   m_ObjectHideFlags: 0

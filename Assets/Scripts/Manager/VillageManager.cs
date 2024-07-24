@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class VillageManager : MonoBehaviour
@@ -336,7 +337,26 @@ public class VillageManager : MonoBehaviour
         var portalBuilding = portal.GetComponent<Building>();
         portalBuilding.RotateBuilding(portalBuilding);
 
+        SetDevelopText(false);
+
         gridMaps.Add(gridMap);
+    }
+
+    public void SetDevelopText(bool isOn)
+    {
+        foreach (var building in constructedBuildings)
+        {
+            var component = building.GetComponentInChildren<TextMeshPro>();
+            if (component != null)
+                component.enabled = isOn;
+        }
+
+        foreach (var tile in gridMap.tiles)
+        {
+            var component = tile.Value.GetComponentInChildren<TextMeshPro>();
+            if (component != null)
+                component.enabled = isOn;
+        }
     }
 
     public bool FindBuilding(STRUCTURE_TYPE structureType, Predicate<GameObject> predicate)

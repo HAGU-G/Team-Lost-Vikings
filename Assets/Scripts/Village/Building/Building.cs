@@ -119,7 +119,7 @@ public class Building : MonoBehaviour
         building.entranceTile.TileColorChange(); 
         if (building.entranceTile.tileInfo.RoadLayer.LayerObject != null)
         {
-            building.entranceTile.tileInfo.RoadLayer.LayerObject.GetComponent<SpriteRenderer>().material.color = Color.magenta;
+            //building.entranceTile.tileInfo.RoadLayer.LayerObject.GetComponent<SpriteRenderer>().material.color = Color.magenta;
         }
     }
 }
