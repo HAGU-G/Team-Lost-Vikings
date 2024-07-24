@@ -86,7 +86,8 @@ public class Building : MonoBehaviour
         var transedId = building.entranceTile.tileInfo.id;
         if (building.entranceTile.tileInfo.RoadLayer.LayerObject != null)
         {
-            building.entranceTile.tileInfo.RoadLayer.LayerObject.GetComponent<SpriteRenderer>().material.color = default;
+            building.entranceTile.tileInfo.RoadLayer.LayerObject.GetComponent<
+                Renderer>().material.color = default;
         }
         gridMap = building.gridMap;
         if (!building.isFlip)

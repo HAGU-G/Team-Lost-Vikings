@@ -22,18 +22,19 @@ public class UIDevelop : MonoBehaviour
 
     public void OnButtonVillage()
     {
-        onVillage.SetActive(true);
-        onHuntZone.SetActive(false);
+        //onVillage.SetActive(true);
+        //onHuntZone.SetActive(false);
 
         isShowVillage = true;
 
-        Camera.main.transform.position = Vector3.zero + Vector3.forward * -10f;
+        //Camera.main.transform.position = Vector3.zero + Vector3.forward * -10f;
+        GameManager.cameraManager.SetLocation(LOCATION.VILLAGE);
     }
 
     public void OnButtonHuntZone()
     {
-        onVillage.SetActive(false);
-        onHuntZone.SetActive(true);
+        //onVillage.SetActive(false);
+        //onHuntZone.SetActive(true);
 
         if (isShowVillage)
         {
@@ -49,7 +50,8 @@ public class UIDevelop : MonoBehaviour
         }
 
         textHuntZone.text = $"HuntZone {currentHuntZone}";
-        Camera.main.transform.position = GameManager.huntZoneManager.HuntZones[currentHuntZone].transform.position + Vector3.forward * -10f;
+        //Camera.main.transform.position = GameManager.huntZoneManager.HuntZones[currentHuntZone].transform.position + Vector3.forward * -10f;
+        GameManager.cameraManager.SetLocation(LOCATION.HUNTZONE, currentHuntZone);
     }
 
     public void OnButtonReduceHP()

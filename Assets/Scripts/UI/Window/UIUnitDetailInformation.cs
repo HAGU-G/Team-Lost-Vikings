@@ -64,7 +64,7 @@ public class UIUnitDetailInformation : UIWindow
         characterName.text = unit.Name;
         characterIcon.uvRect
                 = GameManager.uiManager.unitRenderTexture.LoadRenderTexture(unit.AssetFileName);
-        //gradeIcon.sprite = 
+        gradeIcon.sprite = GameManager.uiManager.gradeIcons[(int)unit.UnitGrade];
         characterJob.text = unit.Job.ToString();
 
         //skill1_Icon.sprite = 

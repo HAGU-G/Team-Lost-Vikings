@@ -5,7 +5,8 @@
     public override void EnterState()
     {
         owner.currentState = UnitOnHunt.STATE.ATTACK;
-        //owner.spriteRenderer.color = Color.red;
+        //owner.
+        //Renderer.color = Color.red;
     }
 
     public override void ExitState()

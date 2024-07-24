@@ -149,7 +149,8 @@ public class UIBuildingParameterPopUp : UIWindow
             var info = character.GetComponent<CharacterInfo>();
             info.parameterBar.interactable = false;
             info.characterId = units[i].stats.InstanceID;
-            info.characterGrade.text = units[i].stats.UnitGrade.ToString();
+            //info.gradeIcon.sprite = ;
+            //info.characterGrade.text = units[i].stats.UnitGrade.ToString(); //없어질 예정
             info.characterName.text = units[i].stats.Name;
             info.characterIcon.uvRect
                 = GameManager.uiManager.unitRenderTexture.LoadRenderTexture(units[i].stats.AssetFileName);
