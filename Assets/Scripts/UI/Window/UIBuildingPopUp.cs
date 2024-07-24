@@ -79,10 +79,11 @@ public class UIBuildingPopUp : UIWindow
     public void OnButtonUpgrade()
     {
         vm.village.Upgrade();
-        for(int i = 0; i < kindOfResource; ++i)
-        {
-            //im.ownItemList[i] -= requireItemNums[i];
-        }
+        im.Gold -= grade[upgradeComponent.UpgradeGrade].RequireGold;
+        //for (int i = 0; i < kindOfResource; ++i)
+        //{
+        //    im.ownItemList[i] -= requireItemNums[i];
+        //}
         SetPopUp();
     }
 
@@ -116,14 +117,19 @@ public class UIBuildingPopUp : UIWindow
         if (upgradeComponent.UpgradeGrade >= grade.Count)
             return;
 
-        for (int i = 0; i < kindOfResource; ++i)
-        {
-            var resource = Instantiate(upgradeResource, resourceLayout);
-            resource.GetComponentInChildren<TextMeshProUGUI>().text = $"{im.ownItemList.GetValueOrDefault(i)} / {requireItemIds[i]}";
-            //resource.GetComponent<Image>().sprite = ;
+        var requireGold = grade[upgradeComponent.UpgradeGrade].RequireGold;
+        var resource = Instantiate(upgradeResource, resourceLayout);
+        resource.GetComponentInChildren<TextMeshProUGUI>().text = $"{im.Gold} / {requireGold.ToString()}";
+        resourceList.Add(resource);
 
-            resourceList.Add(resource);
-        }
+        //for (int i = 0; i < kindOfResource; ++i)
+        //{
+        //    var resource = Instantiate(upgradeResource, resourceLayout);
+        //    resource.GetComponentInChildren<TextMeshProUGUI>().text = $"{im.ownItemList.GetValueOrDefault(i)} / {requireItemIds[i]}";
+        //    //resource.GetComponent<Image>().sprite = ;
+
+        //    resourceList.Add(resource);
+        //}
     }
 
     public bool checkRequireItem()
@@ -131,23 +137,39 @@ public class UIBuildingPopUp : UIWindow
         if (upgradeComponent.UpgradeGrade >= grade.Count)
             return false;
 
-        for (int i = 0; i < kindOfResource; ++i)
+        var requireGold = grade[upgradeComponent.UpgradeGrade].RequireGold;
+        if (requireGold <= im.Gold)
         {
-            if(im.ownItemList.GetValueOrDefault(i) >= requireItemNums[i])
-            {
-                ColorBlock colorBlock = upgrade.colors;
-                colorBlock.normalColor = Color.green;
-                upgrade.colors = colorBlock;
-                resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.gray;
-            }
-            else
-            {
-                ColorBlock colorBlock = upgrade.colors;
-                colorBlock.normalColor = Color.gray;
-                upgrade.colors = colorBlock;
-                resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
-            }
+            ColorBlock colorBlock = upgrade.colors;
+            colorBlock.normalColor = Color.green;
+            upgrade.colors = colorBlock;
+            resourceList[0].GetComponentInChildren<TextMeshProUGUI>().color = Color.gray;
         }
+        else
+        {
+            ColorBlock colorBlock = upgrade.colors;
+            colorBlock.normalColor = Color.gray;
+            upgrade.colors = colorBlock;
+            resourceList[0].GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
+        }
+
+        //for (int i = 0; i < kindOfResource; ++i)
+        //{
+        //    if(im.ownItemList.GetValueOrDefault(i) >= requireItemNums[i])
+        //    {
+        //        ColorBlock colorBlock = upgrade.colors;
+        //        colorBlock.normalColor = Color.green;
+        //        upgrade.colors = colorBlock;
+        //        resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.gray;
+        //    }
+        //    else
+        //    {
+        //        ColorBlock colorBlock = upgrade.colors;
+        //        colorBlock.normalColor = Color.gray;
+        //        upgrade.colors = colorBlock;
+        //        resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
+        //    }
+        //}
 
         foreach(var resource in resourceList)
         {

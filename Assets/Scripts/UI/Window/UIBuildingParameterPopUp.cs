@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 using static UnityEngine.UI.CanvasScaler;
 
@@ -72,6 +73,29 @@ public class UIBuildingParameterPopUp : UIWindow
     }
 
 
+    private void CheckCurrentBuilding()
+    {
+        Debug.Log($"upgrade : {vm.village.upgrade} / current : {um.currentParameterBuilding}");
+        if (vm.village.upgrade != um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>())
+        {
+            vm.village.upgrade = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
+            upgradeComponent = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
+            grade = DataTableManager.upgradeTable.GetData(um.currentNormalBuidling.UpgradeId);
+
+            if (upgradeComponent.UpgradeGrade >= grade.Count)
+            {
+                SetLastUpgrade();
+                return;
+            }
+
+
+            requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
+            requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
+            SetPopUp();
+        }
+    }
+
+
     private void SetPopUp()
     {
         SetText();
@@ -87,6 +111,7 @@ public class UIBuildingParameterPopUp : UIWindow
     public void OnButtonUpgrade()
     {
         vm.village.Upgrade();
+        im.Gold -= grade[upgradeComponent.UpgradeGrade].RequireGold;
         SetPopUp();
     }
 
@@ -124,12 +149,11 @@ public class UIBuildingParameterPopUp : UIWindow
         
         var units = parameter.interactingUnits;
 
-
-        //Debug.Log(units.Count);
         for(int i = 0; i < units.Count; ++i)
         {
             var character = Instantiate(characterInformation, characterContent);
             var info = character.GetComponent<CharacterInfo>();
+            info.parameterBar.interactable = false;
             info.characterId = units[i].stats.InstanceID;
             info.characterGrade.text = units[i].stats.UnitGrade.ToString();
             info.characterName.text = units[i].stats.Name;
@@ -142,6 +166,7 @@ public class UIBuildingParameterPopUp : UIWindow
 
     private void Update()
     {
+        //CheckCurrentBuilding();
         SetParameterBar();
     }
 
@@ -181,19 +206,24 @@ public class UIBuildingParameterPopUp : UIWindow
         if (upgradeComponent.UpgradeGrade >= grade.Count)
             return;
 
-        var requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
-        var requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
+        var requireGold = grade[upgradeComponent.UpgradeGrade].RequireGold;
+        var resource = Instantiate(upgradeResource, resourceLayout);
+        resource.GetComponentInChildren<TextMeshProUGUI>().text = $"{im.Gold} / {requireGold.ToString()}";
+        resourceList.Add(resource);
 
-        for (int i = 0; i < kindOfResource; ++i)
-        {
-            var resource = Instantiate(upgradeResource, resourceLayout);
+        //var requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
+        //var requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
 
-            //TO-DO : 소유 중인 아이템 / 테이블에서 요구하는 아이템 스트링 테이블 연결값
-            resource.GetComponentInChildren<TextMeshProUGUI>().text = $"{im.ownItemList.GetValueOrDefault(requireItemIds[i])} / {requireItemNums[i]}";
-            //resource.GetComponent<Image>().sprite = ;
+        //for (int i = 0; i < kindOfResource; ++i)
+        //{
+        //    var resource = Instantiate(upgradeResource, resourceLayout);
 
-            resourceList.Add(resource);
-        }
+        //    //TO-DO : 소유 중인 아이템 / 테이블에서 요구하는 아이템 스트링 테이블 연결값
+        //    resource.GetComponentInChildren<TextMeshProUGUI>().text = $"{im.ownItemList.GetValueOrDefault(requireItemIds[i])} / {requireItemNums[i]}";
+        //    //resource.GetComponent<Image>().sprite = ;
+
+        //    resourceList.Add(resource);
+        //}
     }
 
     public bool checkRequireItem()
@@ -205,26 +235,44 @@ public class UIBuildingParameterPopUp : UIWindow
                 && im.Rune < grade[upgradeComponent.UpgradeGrade].RequireRune)
             return false;
 
-        var requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
-        var requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
 
-        for (int i = 0; i < kindOfResource; ++i)
+        var requireGold = grade[upgradeComponent.UpgradeGrade].RequireGold;
+        if(requireGold <= im.Gold)
         {
-            if (requireItemNums[i] <= im.ownItemList.GetValueOrDefault(i))
-            {
-                ColorBlock colorBlock = upgrade.colors;
-                colorBlock.normalColor = Color.green;
-                upgrade.colors = colorBlock;
-                resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.gray;
-            }
-            else
-            {
-                ColorBlock colorBlock = upgrade.colors;
-                colorBlock.normalColor = Color.gray;
-                upgrade.colors = colorBlock;
-                resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
-            }
+            ColorBlock colorBlock = upgrade.colors;
+            colorBlock.normalColor = Color.green;
+            upgrade.colors = colorBlock;
+            resourceList[0].GetComponentInChildren<TextMeshProUGUI>().color = Color.gray;
         }
+        else
+        {
+            ColorBlock colorBlock = upgrade.colors;
+            colorBlock.normalColor = Color.gray;
+            upgrade.colors = colorBlock;
+            resourceList[0].GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
+        }
+
+        //var requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
+        //var requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
+
+        //for (int i = 0; i < kindOfResource; ++i)
+        //{
+        //    //requireItemNums[i] <= im.ownItemList.GetValueOrDefault(i)
+        //    if (requireItemNums[i] <= im.ownItemList.GetValueOrDefault(i))
+        //    {
+        //        ColorBlock colorBlock = upgrade.colors;
+        //        colorBlock.normalColor = Color.green;
+        //        upgrade.colors = colorBlock;
+        //        resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.gray;
+        //    }
+        //    else
+        //    {
+        //        ColorBlock colorBlock = upgrade.colors;
+        //        colorBlock.normalColor = Color.gray;
+        //        upgrade.colors = colorBlock;
+        //        resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
+        //    }
+        //}
 
         foreach (var resource in resourceList)
         {

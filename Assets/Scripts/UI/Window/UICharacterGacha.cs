@@ -67,7 +67,7 @@ public class UICharacterGacha : UIWindow
     {
         GameManager.unitManager.GachaCharacter(GameManager.playerManager.level);
         var gachaResultUnit = GameManager.unitManager.Waitings.Last();
-
+        im.Gold -= requireGold;
         
         GameManager.uiManager.windows[WINDOW_NAME.GACHA_RESULT].Open();
     }

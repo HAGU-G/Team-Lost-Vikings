@@ -86,10 +86,13 @@ public class UIUnitDetailInformation : UIWindow
         attributeText.text = unit.BasicAttackType.ToString();
 
         //hpIcon.sprite = ;
+        hpBar.interactable = false;
         hpBar.value = (float)unit.HP.Current / (float)unit.HP.max;
         //staminaIcon.sprite = ;
+        staminaBar.interactable = false;
         staminaBar.value = (float)unit.Stamina.Current / (float)unit.Stamina.max;
         //stressIcon.sprite = ;
+        stressBar.interactable = false;
         stressBar.value = (float)unit.Stress.Current / (float)unit.Stress.max;
 
         totalCombatValue.text = unit.CombatPoint.ToString();
