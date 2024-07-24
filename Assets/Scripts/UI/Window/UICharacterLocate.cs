@@ -37,16 +37,19 @@ public class UICharacterLocate : UIWindow
 
         hpRecovery.onClick.AddListener(() => 
         {
+            unit.ForceReturn();
             //회복 회복 건물로 이동 설정 시
         });
 
         staminaRecovery.onClick.AddListener(() =>
         {
+            unit.ForceReturn();
             //스태미너 회복 건물로 이동 설정 시
         });
 
         stressRecovery.onClick.AddListener(() =>
         {
+            unit.ForceReturn();
             //스트레스 회복 건물로 이동 설정 시
         });
 

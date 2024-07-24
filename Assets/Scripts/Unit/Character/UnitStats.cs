@@ -189,6 +189,10 @@ public class UnitStats : Stats
                 unitOnHunt.forceReturn = false;
                 unitOnHunt.FSM.ChangeState((int)UnitOnHunt.STATE.IDLE);
             }
+            else
+            {
+                ForceReturn();
+            }    
 
         }
 
