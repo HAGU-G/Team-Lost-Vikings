@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TMPro;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
+using UnityEngine;
 
 public class UIUnitDetailInformation : UIWindow
 {
@@ -14,7 +17,7 @@ public class UIUnitDetailInformation : UIWindow
     public Button exit;
 
     public TextMeshProUGUI characterName;
-    public Image characterIcon;
+    public RawImage characterIcon;
     public Image gradeIcon;
     public TextMeshProUGUI characterJob;
 
@@ -60,13 +63,15 @@ public class UIUnitDetailInformation : UIWindow
             return;
 
         unit = GameManager.uiManager.currentUnitStats;
+        UnityEngine.Debug.Log(GameManager.uiManager.unitRenderTexture);
         SetInfo();
     }
 
     public void SetInfo()
     {
         characterName.text = unit.Name;
-        //characterIcon.sprite = 
+        characterIcon.uvRect
+                = GameManager.uiManager.unitRenderTexture.LoadRenderTexture(unit.AssetFileName);
         //gradeIcon.sprite = 
         characterJob.text = unit.Job.ToString();
 
@@ -91,11 +96,11 @@ public class UIUnitDetailInformation : UIWindow
         combatDetail.onClick.AddListener(
             () => { });
         //strIcon.sprite = ;
-        strValue.text = unit.StrWeight.Current.ToString();
+        strValue.text = unit.BaseStr.Current.ToString();
         //magIcon.sprite = ;
-        magValue.text = unit.WizWeight.Current.ToString();
+        magValue.text = unit.BaseWiz.Current.ToString();
         //agiIcon.sprite = ;
-        agiValue.text = unit.AgiWeight.Current.ToString();
+        agiValue.text = unit.BaseAgi.Current.ToString();
 
         //attackSpeedIcon.sprite = ;
         attackSpeedValue.text = unit.AttackSpeed.Current.ToString();

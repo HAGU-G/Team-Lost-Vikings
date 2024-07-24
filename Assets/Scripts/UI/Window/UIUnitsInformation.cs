@@ -43,7 +43,8 @@ public class UIUnitsInformation : UIWindow
             var info = button.GetComponent<CharacterInfo>();
             info.characterName.text = $"{unit.Value.Name}";
             info.characterGrade.text = $"{unit.Value.UnitGrade}";
-
+            info.characterIcon.uvRect
+                = GameManager.uiManager.unitRenderTexture.LoadRenderTexture(unit.Value.AssetFileName);
             info.information.onClick.AddListener(
             () =>
             {

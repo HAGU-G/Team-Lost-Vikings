@@ -52,6 +52,13 @@ public class UIBuildingPopUp : UIWindow
 
         upgradeComponent = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
         grade = DataTableManager.upgradeTable.GetData(um.currentNormalBuidling.UpgradeId);
+
+        if (upgradeComponent.UpgradeGrade >= grade.Count)
+        {
+            SetLastUpgrade();
+            return;
+        }
+
         requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
         requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
         vm.village.upgrade = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
@@ -72,6 +79,10 @@ public class UIBuildingPopUp : UIWindow
     public void OnButtonUpgrade()
     {
         vm.village.Upgrade();
+        for(int i = 0; i < kindOfResource; ++i)
+        {
+            //im.ownItemList[i] -= requireItemNums[i];
+        }
         SetPopUp();
     }
 
@@ -89,7 +100,9 @@ public class UIBuildingPopUp : UIWindow
         if (upgradeComponent.UpgradeGrade < grade.Count)
             nextEffectDescription.text = UpgradeData.GetUpgradeData(upgradeComponent.UpgradeId, upgradeComponent.UpgradeGrade + 1).UpgradeDesc;
         else
+        {
             nextEffectDescription.text = $"현재 마지막 업그레이드 단계입니다.";
+        }
     }
 
     public void SetRequireItem()
@@ -100,7 +113,8 @@ public class UIBuildingPopUp : UIWindow
         }
         resourceList.Clear();
 
-        
+        if (upgradeComponent.UpgradeGrade >= grade.Count)
+            return;
 
         for (int i = 0; i < kindOfResource; ++i)
         {
@@ -114,7 +128,10 @@ public class UIBuildingPopUp : UIWindow
 
     public bool checkRequireItem()
     {
-        for(int i = 0; i < kindOfResource; ++i)
+        if (upgradeComponent.UpgradeGrade >= grade.Count)
+            return false;
+
+        for (int i = 0; i < kindOfResource; ++i)
         {
             if(im.ownItemList.GetValueOrDefault(i) >= requireItemNums[i])
             {
@@ -138,5 +155,20 @@ public class UIBuildingPopUp : UIWindow
                 return false;
         }
         return true;
+    }
+
+    public void SetLastUpgrade()
+    {
+
+        SetText();
+
+        for (int i = 0; i < resourceList.Count; ++i)
+        {
+            Destroy(resourceList[i].gameObject);
+        }
+        resourceList.Clear();
+
+        upgrade.interactable = false;
+
     }
 }

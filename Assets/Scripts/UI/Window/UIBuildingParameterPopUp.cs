@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.UI.CanvasScaler;
 
 public class UIBuildingParameterPopUp : UIWindow
 {
@@ -57,6 +58,14 @@ public class UIBuildingParameterPopUp : UIWindow
         vm.village.upgrade = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>(); 
         upgradeComponent = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
         grade = DataTableManager.upgradeTable.GetData(um.currentNormalBuidling.UpgradeId);
+
+        if (upgradeComponent.UpgradeGrade >= grade.Count)
+        {
+            SetLastUpgrade();
+            return;
+        }
+            
+
         requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
         requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
         SetPopUp();
@@ -91,9 +100,11 @@ public class UIBuildingParameterPopUp : UIWindow
         buildingName.text = um.currentNormalBuidling.StructureName;
         defaultDescription.text = um.currentNormalBuidling.StructureDesc;
         if (upgradeComponent.UpgradeGrade < grade.Count)
-            nextEffectDescription.text = UpgradeData.GetUpgradeData(upgradeComponent.UpgradeId, upgradeComponent.UpgradeGrade).UpgradeDesc;
+            nextEffectDescription.text = UpgradeData.GetUpgradeData(upgradeComponent.UpgradeId, upgradeComponent.UpgradeGrade + 1).UpgradeDesc;
         else
-            nextEffectDescription.text = null;
+        {
+            nextEffectDescription.text = $"현재 마지막 업그레이드 단계입니다.";
+        }
     }
 
     public void SetCharacterInformation()
@@ -120,6 +131,8 @@ public class UIBuildingParameterPopUp : UIWindow
             info.characterId = units[i].stats.InstanceID;
             info.characterGrade.text = units[i].stats.UnitGrade.ToString();
             info.characterName.text = units[i].stats.Name;
+            info.characterIcon.uvRect
+                = GameManager.uiManager.unitRenderTexture.LoadRenderTexture(units[i].stats.AssetFileName);
 
             characters.Add(character);
         }
@@ -161,6 +174,9 @@ public class UIBuildingParameterPopUp : UIWindow
         }
         resourceList.Clear();
 
+        if (upgradeComponent.UpgradeGrade >= grade.Count)
+            return;
+
         var requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
         var requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
 
@@ -178,6 +194,9 @@ public class UIBuildingParameterPopUp : UIWindow
 
     public bool checkRequireItem()
     {
+        if (upgradeComponent.UpgradeGrade >= grade.Count)
+            return false;
+
         if (im.Gold < grade[upgradeComponent.UpgradeGrade].RequireGold
                 && im.Rune < grade[upgradeComponent.UpgradeGrade].RequireRune)
             return false;
@@ -209,5 +228,19 @@ public class UIBuildingParameterPopUp : UIWindow
                 return false;
         }
         return true;
+    }
+
+    public void SetLastUpgrade()
+    {
+        SetText();
+
+        for (int i = 0; i < resourceList.Count; ++i)
+        {
+            Destroy(resourceList[i].gameObject);
+        }
+        resourceList.Clear();
+
+        upgrade.interactable = false;
+
     }
 }
