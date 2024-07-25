@@ -138,6 +138,7 @@ public class UnitStats : Stats
 
         SetConstantStats(data);
         CalulateGrade();
+        GameManager.Subscribe(EVENT_TYPE.UPGRADE, UpdateCombatPoint);
     }
 
     public override void ResetStats()
@@ -156,6 +157,7 @@ public class UnitStats : Stats
         BaseStr.SetUpgrade(GameManager.playerManager.unitStr);
         BaseWiz.SetUpgrade(GameManager.playerManager.unitMag);
         BaseAgi.SetUpgrade(GameManager.playerManager.unitAgi);
+        UpdateCombatPoint();
     }
 
     public void SetLocation(LOCATION location, LOCATION nextLocation = LOCATION.NONE)
@@ -193,7 +195,7 @@ public class UnitStats : Stats
             else
             {
                 ForceReturn();
-            }    
+            }
 
         }
 

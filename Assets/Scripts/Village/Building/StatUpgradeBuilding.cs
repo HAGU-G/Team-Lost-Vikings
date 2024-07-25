@@ -55,6 +55,7 @@ public class StatUpgradeBuilding : MonoBehaviour, IInteractableWithPlayer
                 GameManager.playerManager.unitAgi.defaultValue = upgradeValue;
                 break;
         }
+        GameManager.Publish(EVENT_TYPE.UPGRADE);
     }
 
     public void SetUnits(List<UnitOnVillage> units)
