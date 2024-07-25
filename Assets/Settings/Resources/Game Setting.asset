@@ -25,9 +25,9 @@ MonoBehaviour:
   staminaReduceAmount: 1
   stressReduceAmount: 1
   overrollUltraRare: 231
-  overrollSuperRare: 121
-  overrollRare: 91
-  overrollNormal: 51
-  autoGachaSeconds: 90
+  overrollSuperRare: 180
+  overrollRare: 170
+  overrollNormal: 140
+  autoGachaSeconds: 3
   autoGachaMaxCount: 99
   monsterRoamSeconds: 2
