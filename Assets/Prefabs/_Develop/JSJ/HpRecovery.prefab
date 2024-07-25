@@ -255,7 +255,7 @@ MonoBehaviour:
   building: {fileID: 0}
   parameterType: 1
   interactingUnits: []
-  recoveryAmount: 50
+  recoveryAmount: 20
   recoveryTime: 5
 --- !u!212 &2412001903260141252
 SpriteRenderer:
@@ -884,3 +884,4 @@ MonoBehaviour:
   <ItemNums>k__BackingField: 
   <UpgradeDesc>k__BackingField: "5\uCD08\uB9C8\uB2E4 \uC0DD\uBA85\uB825 20 \uB9CC\uD07C
     \uD68C\uBCF5"
+  currentGrade: 1

@@ -1,4 +1,5 @@
-﻿using UnityEngine.UI;
+﻿using TMPro;
+using UnityEngine.UI;
 
 public class UINotification : UIWindow
 {
@@ -6,6 +7,8 @@ public class UINotification : UIWindow
 
     public Button confirm;
     public Button exit;
+    public RawImage unitImage;
+    public TextMeshProUGUI description;
 
     public void OnButtonConfirm()
     {
