@@ -190,7 +190,7 @@ public class VillageManager : MonoBehaviour
             Debug.Log(GameManager.uiManager.isWindowOn);
             if (GameManager.uiManager.isWindowOn)
                 return;
-            Debug.Log("확인용");
+
             if (hit.collider != null)
             {
                 Debug.Log(hit);
