@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class UnitMove : MonoBehaviour
@@ -9,10 +10,11 @@ public class UnitMove : MonoBehaviour
     private Cell currentTile;
     private Cell goalTile;
 
-    private float moveTime = 0.5f;
+    private float moveTime = 1.0f;
     private float timer;
 
     private bool isMoving = false;
+    private bool moveStart = false;
 
     List<Cell> path;
 
@@ -21,17 +23,25 @@ public class UnitMove : MonoBehaviour
     public event Action<Cell> OnTile;
     public event Action<Cell> OnTargetTile;
 
+    private Vector3 start;
+    private float moveSpeed;
+
     private void Awake()
     {
         gridMap = GameObject.FindWithTag("GridMap").GetComponent<GridMap>();
+        moveSpeed = gameObject.GetComponentInChildren<UnitOnVillage>().stats.MoveSpeed.defaultValue;
     }
 
     private void Update()
     {
-        if (!isMoving)
+        //if (!isMoving)
+        //    return;
+        timer += Time.deltaTime;
+
+        if (!moveStart)
             return;
 
-        timer += Time.deltaTime;
+        Move();
 
         if (timer >= moveTime)
         {
@@ -54,10 +64,26 @@ public class UnitMove : MonoBehaviour
         else
         {
             var start = gridMap.IndexToPos(currentTile.tileInfo.id);
+            //gameObject.transform.position;
             var end = gridMap.IndexToPos(path[0].tileInfo.id);
 
-            transform.position = Vector3.Lerp(start, end, timer / moveTime);
+            transform.position = Vector3.Lerp(start, end, timer / (moveTime * moveSpeed));
         }
+
+        
+       
+
+        
+
+    }
+
+    private void Move()
+    {
+        var startPos = transform.position;
+        var endPos = gridMap.IndexToPos(path.Last().tileInfo.id);
+
+        transform.position = Vector3.Lerp(startPos, endPos, timer / (moveTime * moveSpeed));
+        moveStart = false;
     }
 
     public bool MoveTo(Cell startTile, Cell target)
@@ -80,14 +106,27 @@ public class UnitMove : MonoBehaviour
             return false;
         }
 
-        path = gridMap.PathFinding(isMoving ? path[0] : startTile, target);
+        //path = gridMap.PathFinding(isMoving ? path[0] : startTile, target);
+        //if (path.Count == 0)
+        //    return false;
+
+        //if (!isMoving)
+        //{
+        //    path.RemoveAt(0);
+        //    isMoving = true;
+        //    timer = 0f;
+
+        //    OnMoveStart?.Invoke();
+        //}
+
+        path = gridMap.PathFinding(startTile, target);
         if (path.Count == 0)
             return false;
 
-        if (!isMoving)
+        if (!moveStart)
         {
             path.RemoveAt(0);
-            isMoving = true;
+            moveStart = true;
             timer = 0f;
 
             OnMoveStart?.Invoke();
