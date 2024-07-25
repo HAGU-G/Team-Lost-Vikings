@@ -54,6 +54,7 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
 
         stats.UpdateEllipsePosition();
         FSM.Update();
+        UpdateAnimator();
 
         //오브젝트가 더이상 사용하지 않는 상태인지 검사. TODO 개선 필요
         if (stats != null)
@@ -156,15 +157,30 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
         return false;
     }
 
-    public int TryAttack()
+    public bool TryAttack()
     {
         if (attackTarget == null)
-            return -1;
+            return false;
 
+        animator?.AnimAttack();
         OnAttacked?.Invoke();
         stats.AttackTimer = 0f;
 
         stats.Stamina.Current -= GameSetting.Instance.staminaReduceAmount;
+        isTargetFixed = true;
+
+
+        return true;
+    }
+
+    protected override void OnAnimationAttackHit()
+    {
+        base.OnAnimationAttackHit();
+        if (attackTarget == null)
+        {
+            isTargetFixed = false;
+            return;
+        }
 
         bool isCritical = Random.Range(0, 100) < stats.CritChance.Current;
         var criticalWeight = isCritical ? stats.CritWeight.Current : 1f;
@@ -172,11 +188,9 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
 
         if (attackBehaviour.Attack(attackTarget, damage, stats.BasicAttackType))
         {
-            isTargetFixed = true;
+            attackTarget = null;
             stats.Stress.Current -= GameSetting.Instance.stressReduceAmount;
-            return 1;
         }
-        return 0;
     }
 
     public bool HasTarget()

@@ -288,17 +288,19 @@ public class HuntZone : MonoBehaviour
 
     public void SpawnUnit()
     {
-        foreach (var unitSelected in GameManager.unitManager.Units)
-        {
-            var unit = unitSelected.Value;
-            if (unit.Location != LOCATION.NONE)
-                continue;
+        //사용하지 않는 메서드
+        //제거 필요
+        //foreach (var unitSelected in GameManager.unitManager.Units)
+        //{
+        //    var unit = unitSelected.Value;
+        //    if (unit.Location != LOCATION.NONE)
+        //        continue;
 
-            var unitOnHunt = GameManager.huntZoneManager.GetUnitOnHunt(this, unit);
-            unitOnHunt.transform.position = PortalPos;
-            Debug.Log(unit.InstanceID + "소환됨", unitOnHunt.gameObject);
-            break;
-        }
+        //    var unitOnHunt = GameManager.huntZoneManager.GetUnitOnHunt(this, unit);
+        //    unitOnHunt.transform.position = PortalPos;
+        //    Debug.Log(unit.InstanceID + "소환됨", unitOnHunt.gameObject);
+        //    break;
+        //}
     }
 
     public void SpawnUnit(int instanceID)
