@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum WINDOW_NAME
 {
@@ -39,6 +40,7 @@ public class UIManager : MonoBehaviour
     public bool isWindowOn = false;
 
     public Sprite[] gradeIcons;
+    public Sprite[] tutorialPages;
 
     /////////////////////////////////////////////////////////////////
     // UI -> Function ///////////////////////////////////////////////
