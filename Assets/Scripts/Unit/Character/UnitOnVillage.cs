@@ -52,6 +52,7 @@ public class UnitOnVillage : Unit
     private void Update()
     {
         VillageFSM.Update();
+        UpdateAnimator();
     }
 
     public List<Cell> FindPath(Cell start, Cell end)

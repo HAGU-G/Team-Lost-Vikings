@@ -58,6 +58,7 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
         stats.ResetStats();
         stats.isBoss = isBoss;
         stats.ResetEllipse(transform);
+        attackTarget = null;
 
         if (dress != null)
             Addressables.ReleaseInstance(dress);
@@ -149,7 +150,7 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
         this.observer.Remove(observer);
     }
 
-    public int TryAttack()
+    public bool TryAttack()
     {
         stats.AttackTimer = 0f;
         if (!attackTarget.isTargetFixed)
@@ -158,9 +159,11 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
             attackTarget.attackTarget = this;
         }
         if (attackBehaviour.Attack(attackTarget, stats.CombatPoint))
-            return 1;
+        {
+            attackTarget = null;
+        }
 
-        return 0;
+        return true;
     }
 
     public bool HasTarget()
@@ -207,7 +210,7 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
         var itemList = GameManager.itemManager.ownItemList;
 
         GameManager.itemManager.Gold += dropData.DropGold();
-        foreach(var itemID in dropData.DropItem())
+        foreach (var itemID in dropData.DropItem())
         {
             if (itemList.ContainsKey(itemID))
             {

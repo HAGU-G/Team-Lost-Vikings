@@ -141,7 +141,6 @@ public class HuntZoneManager : MonoBehaviour
         var unit = UnitPool.Get();
         unit.ResetUnit(unitStats, huntZone);
 
-        unit.stats.ResetStats(); //TESTCODE 회복 기능이 없는 상태에서 테스트 했기 때문에 넣었음.
         unit.gameObject.transform.SetParent(huntZone.unitsRoot.transform);
         unit.gameObject.SetActive(true);
 
