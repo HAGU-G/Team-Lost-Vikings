@@ -1,7 +1,33 @@
-ëª¬ìŠ¤í„°ì´ë¦„,ëª¬ìŠ¤í„°Id,ì´ë™ì†ë„,í¬ê¸°ë²”ìœ„,ì¸ì‹ë²”ìœ„,ì¡´ì¬ë²”ìœ„,ê¸°ë³¸ê³µê²©ë²”ìœ„,ì „íˆ¬ë ¥,ê³µê²©ì†ë„,ìµœëŒ€ìƒëª…ë ¥,ë¬¼ë¦¬ë°©ì–´ë ¥,ë§ˆë²•ë°©ì–´ë ¥,íŠ¹ìˆ˜ë°©ì–´ë ¥,ë“œëí…Œì´ë¸”Id,ëª¬ìŠ¤í„°ì—ì…‹íŒŒì¼ëª…
-string,int,float,float,float,float,float,int,float,int,int,int,int,int,string
-MonsterName,MonsterId,MoveSpeed,SizeRange,RecognizeRange,PresenseRange,BasicAttackRange,CombatPoint,AttackSpeed,MaxHP,PhysicalDef,MagicalDef,SpecialDef,DropId,MonsterAssetFileName
-ë³´ìŠ¤,1,2,0.8,10,20,1.1,100,0.5,300,2,2,2,0,Boss_Monster_000
-ì¼ë°˜1,2,2,0.3,6,5,0.5,30,0.3,300,2,2,2,0,Normal_Monster_000
-ì¼ë°˜2,3,2,0.3,10,3,0.5,30,0.3,300,2,2,2,0,Normal_Monster_001
-ê³ ë¸”ë¦°,6000001,6,3,2,2,1,10,7,200,10,0,0,700001,Normal_Monster_001
+¸ó½ºÅÍÀÌ¸§	¸ó½ºÅÍId	ÀÌµ¿¼Óµµ	Å©±â¹üÀ§	ÀÎ½Ä¹üÀ§	Á¸Àç¹üÀ§	±âº»°ø°İ¹üÀ§	ÀüÅõ·Â	°ø°İ¼Óµµ	ÃÖ´ë»ı¸í·Â	¹°¸®¹æ¾î·Â	¸¶¹ı¹æ¾î·Â	Æ¯¼ö¹æ¾î·Â	µå¶øÅ×ÀÌºíId	¸ó½ºÅÍ¿¡¼ÂÆÄÀÏ¸í
+string	int	float	float	float	float	float	int	float	int	int	int	int	int	string
+MonsterName	MonsterId	MoveSpeed	SizeRange	RecognizeRange	PresenseRange	BasicAttackRange	CombatPoint	AttackSpeed	MaxHP	PhysicalDef	MagicalDef	SpecialDef	DropId	MonsterAssetFileName
+1Áö¿ª °íºí¸° 01	6000001	2	3	2	2	1	3	1	100	0	0	0	700001	Normal_Monster_001
+1Áö¿ª °íºí¸° 02	6000002	2	3	2	2	1	4	1	130	0	0	0	700002	Normal_Monster_001
+1Áö¿ª °íºí¸° 03	6000003	2	3	2	2	1	5	1	140	0	0	0	700003	Normal_Monster_001
+1Áö¿ª °íºí¸° 04	6000004	2	3	2	2	1	6	1	150	0	0	0	700004	Normal_Monster_001
+1Áö¿ª °íºí¸° 05	6000005	2	3	2	2	1	7	1	160	0	0	0	700005	Normal_Monster_001
+1Áö¿ª °íºí¸° 06	6000006	2	3	2	2	1	8	1	170	0	0	0	700006	Normal_Monster_001
+1Áö¿ª °íºí¸° 07	6000007	2	3	2	2	1	9	1	180	0	0	0	700007	Normal_Monster_001
+1Áö¿ª °íºí¸° 08	6000008	2	3	2	2	1	10	1	190	0	0	0	700008	Normal_Monster_001
+1Áö¿ª °íºí¸° 09	6000009	2	3	2	2	1	11	1	200	0	0	0	700009	Normal_Monster_001
+1Áö¿ª °íºí¸° 10	6000010	2	3	2	2	1	12	1	210	0	0	0	700010	Normal_Monster_001
+º¸½º°íºí¸°01	6100001	2	3	2	2	1	13	1	500	0	0	0	710001	Boss_Monster_000
+º¸½º°íºí¸°02	6100002	2	3	2	2	1	8	1	510	0	0	0	710002	Boss_Monster_001
+º¸½º°íºí¸°03	6100003	2	3	2	2	1	10	1	520	0	0	0	710003	Boss_Monster_002
+º¸½º°íºí¸°04	6100004	2	3	2	2	1	12	1	530	0	0	0	710004	Boss_Monster_003
+º¸½º°íºí¸°05	6100005	2	3	2	2	1	14	1	540	0	0	0	710005	Boss_Monster_004
+º¸½º°íºí¸°06	6100006	2	3	2	2	1	15	1	550	0	0	0	710006	Boss_Monster_005
+º¸½º°íºí¸°07	6100007	2	3	2	2	1	16	1	560	0	0	0	710007	Boss_Monster_006
+º¸½º°íºí¸°08	6100008	2	3	2	2	1	17	1	570	0	0	0	710008	Boss_Monster_007
+º¸½º°íºí¸°09	6100009	2	3	2	2	1	18	1	580	0	0	0	710009	Boss_Monster_008
+º¸½º°íºí¸°10	6100010	2	3	2	2	1	19	1	590	0	0	0	710010	Boss_Monster_009
+2Áö¿ª °íºí¸° 01	6001001	2	3	2	2	1	3	1	100	0	0	0	700001	Normal_Monster_000
+2Áö¿ª °íºí¸° 02	6001002	2	3	2	2	1	4	1	130	0	0	0	700002	Normal_Monster_000
+2Áö¿ª °íºí¸° 03	6001003	2	3	2	2	1	5	1	140	0	0	0	700003	Normal_Monster_000
+2Áö¿ª °íºí¸° 04	6001004	2	3	2	2	1	6	1	150	0	0	0	700004	Normal_Monster_000
+2Áö¿ª °íºí¸° 05	6001005	2	3	2	2	1	7	1	160	0	0	0	700005	Normal_Monster_000
+2Áö¿ª °íºí¸° 06	6001006	2	3	2	2	1	8	1	170	0	0	0	700006	Normal_Monster_000
+2Áö¿ª °íºí¸° 07	6001007	2	3	2	2	1	9	1	180	0	0	0	700007	Normal_Monster_000
+2Áö¿ª °íºí¸° 08	6001008	2	3	2	2	1	10	1	190	0	0	0	700008	Normal_Monster_000
+2Áö¿ª °íºí¸° 09	6001009	2	3	2	2	1	11	1	200	0	0	0	700009	Normal_Monster_000
+2Áö¿ª °íºí¸° 10	6001010	2	3	2	2	1	12	1	210	0	0	0	700010	Normal_Monster_000
