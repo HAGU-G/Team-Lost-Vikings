@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using UnityEngine;
 
 [JsonObject(MemberSerialization.OptIn)]
 public class ItemManager
@@ -13,7 +14,7 @@ public class ItemManager
         }
         set
         {
-            _gold = value;
+            _gold = Mathf.Clamp(value, 0, 100000000);
             GameManager.uiManager.uiDevelop.SetGold(value);
         }
     }

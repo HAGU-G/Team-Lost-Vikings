@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16e120b65961f8543b286e5d368be52d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <StructureName>k__BackingField: standard
+  <StructureName>k__BackingField: "\uAE30\uC900 \uAC74\uBB3C"
   <StructureId>k__BackingField: 3
   <Width>k__BackingField: 1
   <Length>k__BackingField: 1

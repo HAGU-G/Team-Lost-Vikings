@@ -138,6 +138,7 @@ public class UnitStats : Stats
 
         SetConstantStats(data);
         CalulateGrade();
+        GameManager.Subscribe(EVENT_TYPE.UPGRADE, UpdateCombatPoint);
     }
 
     public override void ResetStats()
@@ -156,6 +157,7 @@ public class UnitStats : Stats
         BaseStr.SetUpgrade(GameManager.playerManager.unitStr);
         BaseWiz.SetUpgrade(GameManager.playerManager.unitMag);
         BaseAgi.SetUpgrade(GameManager.playerManager.unitAgi);
+        UpdateCombatPoint();
     }
 
     public void SetLocation(LOCATION location, LOCATION nextLocation = LOCATION.NONE)
@@ -193,7 +195,7 @@ public class UnitStats : Stats
             else
             {
                 ForceReturn();
-            }    
+            }
 
         }
 
@@ -296,10 +298,10 @@ public class UnitStats : Stats
 
         UnitGrade = overroll switch
         {
-            _ when (overroll >= 231) => UNIT_GRADE.ULTRA_RARE,
-            _ when (overroll >= 121) => UNIT_GRADE.SUPER_RARE,
-            _ when (overroll >= 91) => UNIT_GRADE.RARE,
-            _ when (overroll >= 51) => UNIT_GRADE.NORMAL,
+            _ when (overroll >= GameSetting.Instance.overrollUltraRare) => UNIT_GRADE.ULTRA_RARE,
+            _ when (overroll >= GameSetting.Instance.overrollSuperRare) => UNIT_GRADE.SUPER_RARE,
+            _ when (overroll >= GameSetting.Instance.overrollRare) => UNIT_GRADE.RARE,
+            _ when (overroll >= GameSetting.Instance.overrollNormal) => UNIT_GRADE.NORMAL,
             _ => UNIT_GRADE.COMMON,
         };
     }

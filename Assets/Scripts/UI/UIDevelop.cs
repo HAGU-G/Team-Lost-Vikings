@@ -159,6 +159,12 @@ public class UIDevelop : MonoBehaviour
         this.gold.text = gold.ToString() ;
     }
 
+    public void GoldCheat()
+    {
+        
+        GameManager.itemManager.Gold += 10000;
+    }
+
     public void OnButtonQuit()
     {
         GameManager.GameQuit();
