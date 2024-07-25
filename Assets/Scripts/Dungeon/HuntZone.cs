@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
+using TMPro;
 using UnityEngine;
 
 public class HuntZone : MonoBehaviour
@@ -100,6 +102,7 @@ public class HuntZone : MonoBehaviour
         var maxtile = new Vector2Int(gridMap.gridInfo.row - 1, gridMap.gridInfo.col - 1);
         PortalPos = construct.PlaceBuilding(standardBuildingPrefab, gridMap.tiles[maxtile], gridMap)
             .GetComponent<Building>().entranceTile.transform.position;
+        GameManager.huntZoneManager.SetDevelopText(false);
     }
 
     public void ResetHuntZone(bool isRemoveUnit)
@@ -309,4 +312,6 @@ public class HuntZone : MonoBehaviour
             }
             )].RemoveUnit();
     }
+
+    
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -196,5 +197,18 @@ public class HuntZoneManager : MonoBehaviour
     public bool IsDeployed(int instanceID, int huntZoneNum)
     {
         return UnitDeployment[huntZoneNum].Contains(instanceID);
+    }
+
+    public void SetDevelopText(bool isOn)
+    {
+        for(int i = 0; i < HuntZones.Count; ++i)
+        {
+            foreach (var tile in HuntZones.GetValueOrDefault(i+1).gridMap.tiles)
+            {
+                var component = tile.Value.GetComponentInChildren<TextMeshPro>();
+                if (component != null)
+                    component.enabled = isOn;
+            }
+        }
     }
 }

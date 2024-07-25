@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 
@@ -84,6 +85,7 @@ public class Building : MonoBehaviour
     {
         var localScale = building.transform.localScale;
         var transedId = building.entranceTile.tileInfo.id;
+        Vector3 textScale;
         if (building.entranceTile.tileInfo.RoadLayer.LayerObject != null)
         {
             building.entranceTile.tileInfo.RoadLayer.LayerObject.GetComponent<
@@ -98,6 +100,8 @@ public class Building : MonoBehaviour
                 || gridMap.tiles[transedId].tileInfo.TileType == TileType.OBJECT)
                 return;
 
+            textScale = building.gameObject.GetComponentInChildren<TextMeshPro>().gameObject.transform.localScale;
+            textScale.x *= -1;
             localScale.x *= -1;
             building.isFlip = true;
         }
@@ -109,11 +113,13 @@ public class Building : MonoBehaviour
             if (!gridMap.usingTileList.Contains(gridMap.tiles[transedId])
                 || gridMap.tiles[transedId].tileInfo.TileType == TileType.OBJECT)
                 return;
-
+            textScale = building.gameObject.GetComponentInChildren<TextMeshPro>().gameObject.transform.localScale;
+            textScale.x *= -1;
             localScale.x *= -1;
             building.isFlip = false;
         }
         building.transform.localScale = localScale;
+        building.gameObject.GetComponentInChildren<TextMeshPro>().gameObject.transform.localScale = textScale;
         building.entranceTile.ResetTileInfo();
         building.entranceTile = gridMap.tiles[transedId];
         building.entranceTile.TileColorChange(); 

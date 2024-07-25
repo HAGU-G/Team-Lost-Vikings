@@ -15,8 +15,6 @@ public class CameraManager : MonoBehaviour
     private bool IsReady;
     private GridMap gridMap;
 
-    private bool isClickedUnit = false;
-
     private void Awake()
     {
         if (GameManager.cameraManager != null)

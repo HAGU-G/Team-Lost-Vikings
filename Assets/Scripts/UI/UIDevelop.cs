@@ -58,6 +58,7 @@ public class UIDevelop : MonoBehaviour
     public void OnButtonDevelopText()
     {
         GameManager.villageManager.SetDevelopText(isDevelopTextOn);
+        GameManager.huntZoneManager.SetDevelopText(isDevelopTextOn);
         isDevelopTextOn = !isDevelopTextOn;
     }
 
