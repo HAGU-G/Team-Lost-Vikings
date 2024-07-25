@@ -29,6 +29,9 @@
 
     protected override bool Transition()
     {
+        if (owner.stats.AttackTimer < owner.stats.AttackSpeed.Current)
+            return false;
+
         if (owner.forceReturn)
         {
             controller.ChangeState((int)UnitOnHunt.STATE.RETURN);
@@ -41,6 +44,7 @@
                 controller.ChangeState((int)UnitOnHunt.STATE.RETURN);
             else
                 controller.ChangeState((int)UnitOnHunt.STATE.IDLE);
+            return true;
         }
 
         controller.ChangeState((int)UnitOnHunt.STATE.TRACE);
