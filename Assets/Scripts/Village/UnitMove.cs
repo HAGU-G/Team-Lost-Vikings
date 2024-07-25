@@ -25,33 +25,36 @@ public class UnitMove : MonoBehaviour
 
     private Vector3 start;
     private float moveSpeed;
+    private UnitOnVillage unitOnVillage;
 
     private void Awake()
     {
         gridMap = GameObject.FindWithTag("GridMap").GetComponent<GridMap>();
-        moveSpeed = gameObject.GetComponentInChildren<UnitOnVillage>().stats.MoveSpeed.defaultValue;
+        unitOnVillage = GetComponentInChildren<UnitOnVillage>();
     }
 
     private void Update()
     {
-        //if (!isMoving)
-        //    return;
+        if (!isMoving)
+            return;
         timer += Time.deltaTime;
 
-        if (!moveStart)
-            return;
+        //if (!moveStart)
+        //    return;
 
-        Move();
+        //Move();
 
-        if (timer >= moveTime)
+        if (timer >= (1f / unitOnVillage.stats.MoveSpeed.Current))
         {
             timer = 0f;
             currentTile = path[0];
-            
+
             OnTile?.Invoke(currentTile);
 
             path.RemoveAt(0);
             var pos = gridMap.IndexToPos(currentTile.tileInfo.id);
+
+            start = transform.position;
 
             if (path.Count == 0)
             {
@@ -63,31 +66,26 @@ public class UnitMove : MonoBehaviour
         }
         else
         {
-            var start = gridMap.IndexToPos(currentTile.tileInfo.id);
+           // var start = gridMap.IndexToPos(currentTile.tileInfo.id);
             //gameObject.transform.position;
             var end = gridMap.IndexToPos(path[0].tileInfo.id);
-
-            transform.position = Vector3.Lerp(start, end, timer / (moveTime * moveSpeed));
+            transform.position = Vector3.Lerp(start, end, timer / (1f/ unitOnVillage.stats.MoveSpeed.Current));
         }
-
-        
-       
-
-        
-
     }
 
     private void Move()
     {
-        var startPos = transform.position;
         var endPos = gridMap.IndexToPos(path.Last().tileInfo.id);
 
-        transform.position = Vector3.Lerp(startPos, endPos, timer / (moveTime * moveSpeed));
+        transform.position = Vector3.Lerp(start, endPos, timer / (moveTime * moveSpeed));
         moveStart = false;
     }
 
     public bool MoveTo(Cell startTile, Cell target)
     {
+        start = transform.position;
+
+
         if (startTile == target)
         {
             currentTile = target;
@@ -106,33 +104,38 @@ public class UnitMove : MonoBehaviour
             return false;
         }
 
-        //path = gridMap.PathFinding(isMoving ? path[0] : startTile, target);
-        //if (path.Count == 0)
-        //    return false;
+        path = gridMap.PathFinding(isMoving ? path[0] : startTile, target);
+        if (path.Count == 0)
+            return false;
 
-        //if (!isMoving)
+        if (!isMoving)
+        {
+            //path.RemoveAt(0);
+            isMoving = true;
+
+            OnMoveStart?.Invoke();
+        }
+
+        path.RemoveAt(0);
+        timer = 0f;
+
+        //path = gridMap.PathFinding(startTile, target);
+        if (path.Count == 0)
+            return false;
+
+        //if (!moveStart)
         //{
         //    path.RemoveAt(0);
-        //    isMoving = true;
+        //    moveStart = true;
         //    timer = 0f;
 
         //    OnMoveStart?.Invoke();
         //}
 
-        path = gridMap.PathFinding(startTile, target);
-        if (path.Count == 0)
-            return false;
-
-        if (!moveStart)
-        {
-            path.RemoveAt(0);
-            moveStart = true;
-            timer = 0f;
-
-            OnMoveStart?.Invoke();
-        }
-
         goalTile = target;
+        //var end = gridMap.IndexToPos(path[0].tileInfo.id);
+        //transform.position = Vector3.Lerp(start, end, timer / moveTime);
+
         return true;
     }
 }
