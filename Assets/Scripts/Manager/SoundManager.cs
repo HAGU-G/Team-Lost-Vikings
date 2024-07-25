@@ -18,30 +18,32 @@ public class SoundManager : MonoBehaviour
 
         GameManager.soundManager = this;
 
-        GameManager.Subscribe(EVENT_TYPE.INIT, OnGameInit);
+        GameManager.Subscribe(EVENT_TYPE.START, OnGameStart);
     }
 
-    private void OnGameInit()
+    private void OnGameStart()
     {
         //audioSource.GetComponent<AudioSource>();
 
-        audioSource.clip = audioClips[currentClip];
-        audioSource.Play();
+        //audioSource.clip = audioClips[currentClip];
+        //audioSource.Play();
+        //Debug.Log($"currentClip : {currentClip} / onGameStart {audioSource.clip.name}");
     }
 
     private void Update()
     {
         if (!audioSource.isPlaying)
         {
-            PlayNextBGM();
+            PlayBGM();
         }
     }
 
-    private void PlayNextBGM()
+    private void PlayBGM()
     {
-        currentClip = (currentClip + 1) % audioClips.Length;
+        currentClip = currentClip % audioClips.Length;
         audioSource.clip = audioClips[currentClip];
         audioSource.Play();
+        ++currentClip;
     }
 
 }
