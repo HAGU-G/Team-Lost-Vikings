@@ -40,6 +40,7 @@ public class UIUnitsInformation : UIWindow
             info.gradeIcon.sprite = GameManager.uiManager.gradeIcons[(int)unit.Value.UnitGrade];
             info.characterButton.onClick.AddListener(() =>
             {
+                GameManager.uiManager.currentUnitStats = unit.Value;
                 OnButtonUnit(unit.Value);
                 Close();
             });
@@ -75,7 +76,7 @@ public class UIUnitsInformation : UIWindow
 
     public void OnButtonUnit(UnitStats unit)
     {
-        GameManager.cameraManager.SetViewPoint(unit);
+        GameManager.uiManager.windows[WINDOW_NAME.NOTIFICATION].Open();
     }
 
     public void OnButtonExit()
