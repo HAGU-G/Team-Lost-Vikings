@@ -10,6 +10,7 @@ public class CharacterInfo : MonoBehaviour
     public Slider parameterBar;
     public Button information;
     public RawImage characterIcon;
+    public Button characterButton;
 
     public int characterId;
 }

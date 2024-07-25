@@ -15,6 +15,8 @@ public class CameraManager : MonoBehaviour
     private bool IsReady;
     private GridMap gridMap;
 
+    private bool isClickedUnit = false;
+
     private void Awake()
     {
         if (GameManager.cameraManager != null)
@@ -99,6 +101,45 @@ public class CameraManager : MonoBehaviour
             var position = pos;
             position.z = -10;
             transform.position = position;
+        }
+    }
+
+    public void SetViewPoint(UnitStats unit)
+    {
+        if (unit == null)
+            return;
+
+        switch(unit.Location)
+        {
+            case LOCATION.NONE:
+                SetLocation(LOCATION.VILLAGE);
+                break;
+            case LOCATION.VILLAGE:
+                gridMap = GameManager.villageManager.gridMap;
+                foreach (var character in GameManager.villageManager.village.units)
+                {
+                    if (character.stats == unit)
+                    {
+                        SetPosition(character.transform.position);
+                        break;
+                    }
+                }
+                break;
+            case LOCATION.HUNTZONE:
+                var huntZones = GameManager.huntZoneManager.HuntZones;
+                if (!huntZones.ContainsKey(unit.HuntZoneNum))
+                    return;
+
+                gridMap = huntZones[unit.HuntZoneNum].gridMap;
+                foreach(var character in GameManager.huntZoneManager.HuntZones[unit.HuntZoneNum].Units)
+                {
+                    if (character.stats == unit)
+                    {
+                        SetPosition(character.transform.position);
+                        break;
+                    }
+                }
+                break;
         }
     }
 }

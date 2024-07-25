@@ -38,7 +38,11 @@ public class UIUnitsInformation : UIWindow
             var info = button.GetComponent<CharacterInfo>();
             info.characterName.text = $"{unit.Value.Name}";
             info.gradeIcon.sprite = GameManager.uiManager.gradeIcons[(int)unit.Value.UnitGrade];
-            //info.characterGrade.text = $"{unit.Value.UnitGrade}"; //없어질 예정
+            info.characterButton.onClick.AddListener(() =>
+            {
+                OnButtonUnit(unit.Value);
+                Close();
+            });
             info.characterIcon.uvRect
                 = GameManager.uiManager.unitRenderTexture.LoadRenderTexture(unit.Value.AssetFileName);
             info.information.onClick.AddListener(
@@ -69,6 +73,10 @@ public class UIUnitsInformation : UIWindow
         //}
     }
 
+    public void OnButtonUnit(UnitStats unit)
+    {
+        GameManager.cameraManager.SetViewPoint(unit);
+    }
 
     public void OnButtonExit()
     {
