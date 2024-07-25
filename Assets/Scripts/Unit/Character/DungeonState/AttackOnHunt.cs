@@ -5,8 +5,7 @@
     public override void EnterState()
     {
         owner.currentState = UnitOnHunt.STATE.ATTACK;
-        //owner.
-        //Renderer.color = Color.red;
+        owner.isTargetFixed = true;
     }
 
     public override void ExitState()
