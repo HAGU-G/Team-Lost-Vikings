@@ -32,6 +32,7 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
     public event System.Action OnUpdated;
 
     //AdditionalStats
+    public bool isTargetFixed;
     public override STAT_GROUP StatGroup => STAT_GROUP.UNIT_ON_DUNGEON;
     public bool IsDead { get; private set; }
     public bool IsNeedReturn
@@ -108,6 +109,7 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
         IsDead = false;
 
         attackTarget = null;
+        isTargetFixed = false;
         Enemies = CurrentHuntZone.Monsters;
 
         FSM.ResetFSM();
@@ -170,6 +172,7 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
 
         if (attackBehaviour.Attack(attackTarget, damage, stats.BasicAttackType))
         {
+            isTargetFixed = true;
             stats.Stress.Current -= GameSetting.Instance.stressReduceAmount;
             return 1;
         }

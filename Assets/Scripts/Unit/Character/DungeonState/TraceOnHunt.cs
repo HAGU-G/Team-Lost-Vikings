@@ -12,6 +12,7 @@ public class TraceOnHunt : State<UnitOnHunt>
 
     public override void ExitState()
     {
+        owner.isTargetFixed = false;
     }
 
     public override void ResetState()

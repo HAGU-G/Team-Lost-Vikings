@@ -152,7 +152,11 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
     public int TryAttack()
     {
         stats.AttackTimer = 0f;
-
+        if (!attackTarget.isTargetFixed)
+        {
+            attackTarget.isTargetFixed = true;
+            attackTarget.attackTarget = this;
+        }
         if (attackBehaviour.Attack(attackTarget, stats.CombatPoint))
             return 1;
 
