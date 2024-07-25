@@ -153,29 +153,6 @@ public class Village : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.inputManager.Press)
-        {
-            Vector2 mousePos = GameManager.inputManager.WorldPos;
-            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, 100f);
-
-            if (GameManager.uiManager.isWindowOn)
-                return;
-
-            if (hit.collider != null)
-            {
-                var building = hit.transform.gameObject.GetComponent<Building>();
-
-                if (building != null)
-                {
-                    upgrade = building.gameObject.GetComponent<BuildingUpgrade>();
-                }
-                else
-                {
-                    upgrade = null;
-                }
-            }
-        }
-
         timer += Time.deltaTime;
         if (timer >= 5f)
         {

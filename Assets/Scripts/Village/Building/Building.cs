@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 
-public class Building : MonoBehaviour
+public class Building : MonoBehaviour, IPointerClickHandler
 {
     //데이터 테이블에서 받아오기 전 임시로 입력
-    [field:SerializeField] 
+    [field: SerializeField]
     public string StructureName { get; set; }
     [field: SerializeField]
     public int StructureId { get; set; }
@@ -38,7 +39,7 @@ public class Building : MonoBehaviour
     private bool isFlip = false;
     //private static bool isRotating = false;
     public GridMap gridMap;
-    
+
 
     public IInteractableWithPlayer interactWithPlayer { get; private set; }
     public IInteractableWithUnit interactWithUnit { get; private set; }
@@ -69,7 +70,7 @@ public class Building : MonoBehaviour
 
     private void Update()
     {
-        
+
     }
 
 
@@ -122,10 +123,30 @@ public class Building : MonoBehaviour
         building.gameObject.GetComponentInChildren<TextMeshPro>().gameObject.transform.localScale = textScale;
         building.entranceTile.ResetTileInfo();
         building.entranceTile = gridMap.tiles[transedId];
-        building.entranceTile.TileColorChange(); 
+        building.entranceTile.TileColorChange();
         if (building.entranceTile.tileInfo.RoadLayer.LayerObject != null)
         {
             //building.entranceTile.tileInfo.RoadLayer.LayerObject.GetComponent<SpriteRenderer>().material.color = Color.magenta;
         }
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Debug.Log(GameManager.uiManager.isWindowOn);
+        if (GameManager.uiManager.isWindowOn)
+            return;
+
+        var building = GetComponent<Building>();
+        var parameter = GetComponent<ParameterRecoveryBuilding>();
+        if (parameter != null)
+        {
+            parameter.TouchParameterBuilding();
+        }
+        else
+        {
+            TouchBuilding();
+        }
+
+        GameManager.villageManager.village.upgrade = gameObject.GetComponent<BuildingUpgrade>();
     }
 }

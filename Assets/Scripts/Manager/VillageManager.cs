@@ -182,30 +182,7 @@ public class VillageManager : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.inputManager.Press)
-        {
-            Vector2 mousePos = GameManager.inputManager.WorldPos;
-            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero, 100f);
-
-            Debug.Log(GameManager.uiManager.isWindowOn);
-            if (GameManager.uiManager.isWindowOn)
-                return;
-
-            if (hit.collider != null)
-            {
-                Debug.Log(hit);
-                var building = hit.transform.gameObject.GetComponent<Building>();
-                var parameter = hit.transform.gameObject.GetComponent<ParameterRecoveryBuilding>();
-                if(parameter != null)
-                {
-                    parameter.TouchParameterBuilding();
-                }
-                else if(building != null)
-                {
-                    building.TouchBuilding();
-                }
-            }
-        }
+        
 
         //if (Input.GetMouseButtonDown(0) && construct.isSelected)
         //{

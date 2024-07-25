@@ -7,8 +7,9 @@ public class InputManager : MonoBehaviour
 {
     public RayReceiver receiver;
 
-    public bool Tap { get; private set; }
     public bool Touch { get; private set; }
+    public bool Press {  get; private set; }
+    public bool Tap { get; private set; }
     public bool Moved { get; private set; }
     public Vector2 Pos { get; private set; }
     public Vector3 WorldPos => Camera.main.ScreenToWorldPoint(Pos);
@@ -16,7 +17,6 @@ public class InputManager : MonoBehaviour
     public Vector3 WorldDeltaPos { get; private set; }
     public Vector2 PrevPos { get; private set; }
     public float MoveDistance { get; private set; }
-    public bool Press {  get; private set; }
 
     private float tapAllowInch = 0.2f;
     private Finger firstID;
