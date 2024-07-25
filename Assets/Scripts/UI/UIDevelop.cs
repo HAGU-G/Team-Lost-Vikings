@@ -8,6 +8,8 @@ public class UIDevelop : MonoBehaviour
     public Button buttonHuntZone;
     public TextMeshProUGUI textHuntZone;
 
+    public TextMeshProUGUI currentStageText;
+
     public GameObject onVillage;
     public GameObject onHuntZone;
     public TextMeshProUGUI textBossButton;
@@ -162,6 +164,11 @@ public class UIDevelop : MonoBehaviour
         GameManager.GameQuit();
     }
 
+    public void SetHuntzoneStage()
+    {
+        currentStageText.text = $"STAGE {GameManager.huntZoneManager.HuntZones[currentHuntZone].Stage.ToString()}";
+    }
+
     private void Start()
     {
         SetVillageLevel();
@@ -180,5 +187,7 @@ public class UIDevelop : MonoBehaviour
         {
             textBossButton.text = "보스 소환";
         }
+
+        SetHuntzoneStage();
     }
 }
