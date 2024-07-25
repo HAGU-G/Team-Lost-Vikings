@@ -26,7 +26,7 @@ public enum PARAMETER_TYPE
 
 public enum UNIT_JOB
 {
-    NONE,
+    NONE = -1,
     WARRIOR,
     MAGICIAN,
     ARCHER
