@@ -91,6 +91,7 @@ public abstract class Unit : MonoBehaviour, IStatUsable
             animator.listener.onAttackHit += OnAnimationAttackHit;
         };
 
+        isActing = false;
         stats?.ResetEllipse(transform);
         ResetEvents();
     }

@@ -23,6 +23,12 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
     private FSM<Monster> fsm;
     public STATE currentState;
 
+    public DressAnimator animator = new();
+    private Vector3 prePos;
+    public bool isActing;
+
+
+
     //Attack
     private IAttackStrategy attackBehaviour = new AttackDefault();
     public UnitOnHunt attackTarget;
@@ -32,6 +38,19 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
 
     //AdditionalStats
     public bool IsDead { get; private set; }
+
+
+    public void LookTarget(Transform target)
+    {
+        if (dress == null || target == null)
+            return;
+
+        var direc = target.position - transform.position;
+        dress.transform.localScale = new Vector3(
+            Mathf.Abs(dress.transform.localScale.x) * (direc.x > 0f ? -1f : 1f),
+            dress.transform.localScale.y,
+            dress.transform.localScale.z);
+    }
 
     public void Ready(HuntZone huntZone)
     {
@@ -63,6 +82,7 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
         if (dress != null)
             Addressables.ReleaseInstance(dress);
 
+
         Addressables.InstantiateAsync(stats.AssetFileName, transform)
         .Completed += (handle) =>
         {
@@ -70,13 +90,54 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
                 Destroy(dress);
 
             dress = handle.Result;
+            animator.Init(
+                handle.Result.GetComponentInChildren<Animator>(),
+                0,
+                stats.MoveSpeed,
+                stats.AttackSpeed);
+
+            animator.listener.onAttackHit += OnAnimationAttackHit;
         };
 
         IsDead = false;
+        isActing = false;
 
         Enemies = CurrentHuntZone.Units;
 
         fsm.ResetFSM();
+    }
+
+    protected void OnAnimationAttackHit() 
+    {
+        if (attackBehaviour.Attack(attackTarget, stats.CombatPoint))
+        {
+            attackTarget = null;
+        }
+    }
+
+    public void UpdateAnimator()
+    {
+        if (!isActing && animator != null && dress != null)
+        {
+            if (transform.position != prePos)
+            {
+                float preLook = Mathf.Sign(dress.transform.localScale.x);
+                float currLook = Mathf.Sign((transform.position - prePos).x) * -1f;
+                bool flip = (preLook != currLook) && currLook != 0f;
+
+                dress.transform.localScale = new Vector3(
+                    dress.transform.localScale.x * (flip ? -1f : 1f),
+                    dress.transform.localScale.y,
+                    dress.transform.localScale.z);
+
+                animator.AnimRun();
+            }
+            else
+            {
+                animator.AnimIdle();
+            }
+        }
+        prePos = transform.position;
     }
 
     public void OnRelease()
@@ -92,6 +153,7 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
         stats.UpdateAttackTimer();
         stats.UpdateEllipsePosition();
         fsm.Update();
+        UpdateAnimator();
         CollisionUpdate();
     }
     private void CollisionUpdate()
@@ -152,16 +214,17 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
 
     public bool TryAttack()
     {
+        if (attackTarget == null)
+            return false;
+        animator?.AnimAttack();
+
         stats.AttackTimer = 0f;
         if (!attackTarget.isTargetFixed)
         {
             attackTarget.isTargetFixed = true;
             attackTarget.attackTarget = this;
         }
-        if (attackBehaviour.Attack(attackTarget, stats.CombatPoint))
-        {
-            attackTarget = null;
-        }
+        
 
         return true;
     }
