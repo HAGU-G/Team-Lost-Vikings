@@ -25,6 +25,7 @@ public static class GameManager
     public static QuestManager questManager;
     public static ItemManager itemManager;
     public static CameraManager cameraManager;
+    public static SoundManager soundManager;
 
     private static IDictionary<EVENT_TYPE, UnityEvent> events = new Dictionary<EVENT_TYPE, UnityEvent>();
 
