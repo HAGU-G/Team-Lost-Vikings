@@ -40,11 +40,18 @@ public class HuntZone : MonoBehaviour
     private void Awake()
     {
         GameManager.Subscribe(EVENT_TYPE.INIT, OnGameInit);
+        GameManager.Subscribe(EVENT_TYPE.START, OnGameStart);
     }
+
     private void OnGameInit()
     {
         Init();
         ResetHuntZone(true);
+    }
+
+    private void OnGameStart()
+    {
+        GameManager.huntZoneManager.SetDevelopText(false);
     }
 
     private void Update()
@@ -102,7 +109,6 @@ public class HuntZone : MonoBehaviour
         var maxtile = new Vector2Int(gridMap.gridInfo.row - 1, gridMap.gridInfo.col - 1);
         PortalPos = construct.PlaceBuilding(standardBuildingPrefab, gridMap.tiles[maxtile], gridMap)
             .GetComponent<Building>().entranceTile.transform.position;
-        GameManager.huntZoneManager.SetDevelopText(false);
     }
 
     public void ResetHuntZone(bool isRemoveUnit)

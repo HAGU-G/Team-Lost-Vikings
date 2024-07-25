@@ -21,10 +21,11 @@ public class UIDevelop : MonoBehaviour
     public TextMeshProUGUI gold;
 
 
+
     public void OnButtonVillage()
     {
         //onVillage.SetActive(true);
-        //onHuntZone.SetActive(false);
+        onHuntZone.SetActive(false);
 
         isShowVillage = true;
 
@@ -35,7 +36,7 @@ public class UIDevelop : MonoBehaviour
     public void OnButtonHuntZone()
     {
         //onVillage.SetActive(false);
-        //onHuntZone.SetActive(true);
+        onHuntZone.SetActive(true);
 
         if (isShowVillage)
         {
@@ -154,6 +155,11 @@ public class UIDevelop : MonoBehaviour
     public void SetGold(int gold)
     {
         this.gold.text = gold.ToString() ;
+    }
+
+    public void OnButtonQuit()
+    {
+        GameManager.GameQuit();
     }
 
     private void Start()
