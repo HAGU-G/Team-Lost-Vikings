@@ -20,8 +20,14 @@ public class TraceMonster : State<Monster>
 
     public override void Update()
     {
-        if (Transition() || isCollidedWithTarget)
+        if (Transition())
             return;
+
+        if (isCollidedWithTarget)
+        {
+            owner.LookTarget(owner.attackTarget.transform);
+            return;
+        }
 
         var moveDirection = owner.transform.position - (owner.attackTarget).transform.position;
         owner.transform.position -= moveDirection.normalized * Time.deltaTime * owner.stats.MoveSpeed.Current;

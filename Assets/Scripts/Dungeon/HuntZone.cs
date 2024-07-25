@@ -308,7 +308,6 @@ public class HuntZone : MonoBehaviour
         var unitStat = GameManager.unitManager.GetUnit(instanceID);
         var unitOnHunt = GameManager.huntZoneManager.GetUnitOnHunt(this, unitStat);
         unitOnHunt.transform.position = PortalPos;
-        Debug.Log(unitStat.InstanceID + "소환됨", unitOnHunt.gameObject);
     }
 
     public void RemoveUnit(int instanceID)
