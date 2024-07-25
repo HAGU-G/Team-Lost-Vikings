@@ -298,10 +298,10 @@ public class UnitStats : Stats
 
         UnitGrade = overroll switch
         {
-            _ when (overroll >= 231) => UNIT_GRADE.ULTRA_RARE,
-            _ when (overroll >= 121) => UNIT_GRADE.SUPER_RARE,
-            _ when (overroll >= 91) => UNIT_GRADE.RARE,
-            _ when (overroll >= 51) => UNIT_GRADE.NORMAL,
+            _ when (overroll >= GameSetting.Instance.overrollUltraRare) => UNIT_GRADE.ULTRA_RARE,
+            _ when (overroll >= GameSetting.Instance.overrollSuperRare) => UNIT_GRADE.SUPER_RARE,
+            _ when (overroll >= GameSetting.Instance.overrollRare) => UNIT_GRADE.RARE,
+            _ when (overroll >= GameSetting.Instance.overrollNormal) => UNIT_GRADE.NORMAL,
             _ => UNIT_GRADE.COMMON,
         };
     }
