@@ -24,6 +24,7 @@ public class UnitMove : MonoBehaviour
     public event Action<Cell> OnTargetTile;
 
     private Vector3 start;
+    private Vector3 end;
     private float moveSpeed;
     private UnitOnVillage unitOnVillage;
 
@@ -43,8 +44,10 @@ public class UnitMove : MonoBehaviour
         //    return;
 
         //Move();
-
-        if (timer >= (1f / unitOnVillage.stats.MoveSpeed.Current))
+        end = gridMap.IndexToPos(path[0].tileInfo.id);
+        var dis = Vector3.Distance(start, end);
+        Debug.Log(dis);
+        if (timer >= (1f * dis / unitOnVillage.stats.MoveSpeed.Current) )
         {
             timer = 0f;
             currentTile = path[0];
@@ -52,7 +55,7 @@ public class UnitMove : MonoBehaviour
             OnTile?.Invoke(currentTile);
 
             path.RemoveAt(0);
-            var pos = gridMap.IndexToPos(currentTile.tileInfo.id);
+            //var pos = gridMap.IndexToPos(currentTile.tileInfo.id);
 
             start = transform.position;
 
@@ -66,19 +69,13 @@ public class UnitMove : MonoBehaviour
         }
         else
         {
-           // var start = gridMap.IndexToPos(currentTile.tileInfo.id);
+            // var start = gridMap.IndexToPos(currentTile.tileInfo.id);
             //gameObject.transform.position;
-            var end = gridMap.IndexToPos(path[0].tileInfo.id);
-            transform.position = Vector3.Lerp(start, end, timer / (1f/ unitOnVillage.stats.MoveSpeed.Current));
+
+            //end = gridMap.IndexToPos(path[0].tileInfo.id);
+            
+            transform.position = Vector3.Lerp(start, end, timer / (1f * dis / unitOnVillage.stats.MoveSpeed.Current) );
         }
-    }
-
-    private void Move()
-    {
-        var endPos = gridMap.IndexToPos(path.Last().tileInfo.id);
-
-        transform.position = Vector3.Lerp(start, endPos, timer / (moveTime * moveSpeed));
-        moveStart = false;
     }
 
     public bool MoveTo(Cell startTile, Cell target)
