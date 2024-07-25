@@ -8,6 +8,7 @@ public class IdleOnHunt : State<UnitOnHunt>
     public override void EnterState()
     {
         owner.currentState = UnitOnHunt.STATE.IDLE;
+        owner.isTargetFixed = false;
         //owner.spriteRenderer.color = Color.white;
     }
 
