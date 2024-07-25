@@ -48,7 +48,7 @@ public class UICharacterStash : UIWindow
         {
             var button = Instantiate(characterbuttonPrefab, scrollRect.content);
             var unit = button.GetComponent<StashCharacter>();
-            unit.characterName.text = $"{character.Value.Name} / {character.Value.UnitGrade}";
+            unit.characterName.text = $"{character.Value.Name}";
             unit.rarity.sprite = GameManager.uiManager.gradeIcons[(int)character.Value.UnitGrade];
             unit.recruit.onClick.AddListener(
             () =>

@@ -59,6 +59,18 @@ public class UIUnitDetailInformation : UIWindow
         SetInfo();
     }
 
+    private void Update()
+    {
+        SetParameterBar();
+    }
+
+    public void SetParameterBar()
+    {
+        hpBar.value = (float)unit.HP.Current / (float)unit.HP.max;
+        staminaBar.value = (float)unit.Stamina.Current / (float)unit.Stamina.max;
+        stressBar.value = (float)unit.Stress.Current / (float)unit.Stress.max;
+    }
+
     public void SetInfo()
     {
         characterName.text = unit.Name;
