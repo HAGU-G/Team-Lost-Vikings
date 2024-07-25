@@ -82,8 +82,8 @@ MonoBehaviour:
   building: {fileID: 0}
   parameterType: 2
   interactingUnits: []
-  recoveryAmount: 50
-  recoveryTime: 3
+  recoveryAmount: 11
+  recoveryTime: 5
 --- !u!212 &4002369554470818257
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -627,6 +627,7 @@ MonoBehaviour:
   <ItemIds>k__BackingField: 
   <ItemNums>k__BackingField: 
   <UpgradeDesc>k__BackingField: "stamina \uD68C\uBCF5 \uAC74\uBB3C\uC785\uB2C8\uB2E4"
+  currentGrade: 1
 --- !u!1 &7086700837805051294
 GameObject:
   m_ObjectHideFlags: 0

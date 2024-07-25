@@ -101,6 +101,10 @@ public class BuildingUpgrade : MonoBehaviour
                 break;
             case (int)STRUCTURE_TYPE.ITEM_SELL:
                 break;
+            case (int)STRUCTURE_TYPE.STANDARD:
+                ++currentGrade;
+                SetBuildingUpgrade();
+                break;
         }
     }
 

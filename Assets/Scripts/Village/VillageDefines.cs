@@ -1,11 +1,10 @@
 ﻿public enum STRUCTURE_TYPE
 {
-    STANDARD = -1,
     STAT_UPGRADE,
     PARAMETER_RECOVERY,
     ITEM_PRODUCE,
     ITEM_SELL,
-    REVIVE,
+    STANDARD,
     PORTAL,
 }
 

@@ -77,6 +77,7 @@ public class UIBuildingPopUp : UIWindow
 
     public void OnButtonUpgrade()
     {
+        vm.village.upgrade = upgradeComponent;
         vm.village.Upgrade();
         im.Gold -= grade[upgradeComponent.UpgradeGrade].RequireGold;
         //for (int i = 0; i < kindOfResource; ++i)

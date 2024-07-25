@@ -119,7 +119,9 @@ public class UIBuildingParameterPopUp : UIWindow
         buildingName.text = um.currentNormalBuidling.StructureName;
         defaultDescription.text = um.currentNormalBuidling.StructureDesc;
         if (upgradeComponent.UpgradeGrade < grade.Count)
-            nextEffectDescription.text = UpgradeData.GetUpgradeData(upgradeComponent.UpgradeId, upgradeComponent.UpgradeGrade + 1).UpgradeDesc;
+            //nextEffectDescription.text = UpgradeData.GetUpgradeData(upgradeComponent.UpgradeId, upgradeComponent.UpgradeGrade + 1).UpgradeDesc;
+            //프로토타입까지는 다음 레벨 효과가 아닌 현재 레벨 효과로 글자 출력
+            nextEffectDescription.text = UpgradeData.GetUpgradeData(upgradeComponent.UpgradeId, upgradeComponent.UpgradeGrade).UpgradeDesc;
         else
         {
             nextEffectDescription.text = $"현재 마지막 업그레이드 단계입니다.";
