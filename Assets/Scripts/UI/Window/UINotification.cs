@@ -39,7 +39,11 @@ public class UINotification : UIWindow
     public void OnButtonConfirm()
     {
         Close();
-        GameManager.cameraManager.SetViewPoint(unit);
+        var cm = GameManager.cameraManager;
+
+        cm.SetLocation(unit.Location, unit.HuntZoneNum);
+        cm.SetPosition(unit.objectTransform.position);
+       GameManager.cameraManager.SetViewPoint(unit);
     }
 
     public void OnButtonExit()

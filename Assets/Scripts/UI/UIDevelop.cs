@@ -27,8 +27,6 @@ public class UIDevelop : MonoBehaviour
     public void OnButtonVillage()
     {
         //onVillage.SetActive(true);
-        onHuntZone.SetActive(false);
-
         isShowVillage = true;
 
         //Camera.main.transform.position = Vector3.zero + Vector3.forward * -10f;
@@ -38,7 +36,6 @@ public class UIDevelop : MonoBehaviour
     public void OnButtonHuntZone()
     {
         //onVillage.SetActive(false);
-        onHuntZone.SetActive(true);
 
         if (isShowVillage)
         {
@@ -156,12 +153,12 @@ public class UIDevelop : MonoBehaviour
 
     public void SetGold(int gold)
     {
-        this.gold.text = gold.ToString() ;
+        this.gold.text = gold.ToString();
     }
 
     public void GoldCheat()
     {
-        
+
         GameManager.itemManager.Gold += 10000;
     }
 
@@ -185,6 +182,8 @@ public class UIDevelop : MonoBehaviour
 
     private void Update()
     {
+        onHuntZone.SetActive(GameManager.cameraManager.location == LOCATION.HUNTZONE);
+
         if (!GameManager.huntZoneManager.HuntZones[currentHuntZone].CanSpawnBoss)
         {
             textBossButton.text = $"{GameManager.huntZoneManager.HuntZones[currentHuntZone].BossTimer:00} | {GameManager.huntZoneManager.HuntZones[currentHuntZone].RetryTimer:00}";

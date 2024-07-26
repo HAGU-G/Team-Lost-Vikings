@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Animations;
 
 public class CameraManager : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class CameraManager : MonoBehaviour
 
     private bool IsReady;
     private GridMap gridMap;
+    public LOCATION location { get; private set; }
 
     private void Awake()
     {
@@ -61,10 +63,10 @@ public class CameraManager : MonoBehaviour
 
     public void SetLocation(LOCATION location, int huntzoneNum = -1)
     {
+        this.location = location;
         switch (location)
         {
             case LOCATION.NONE:
-                gridMap = null;
                 break;
             case LOCATION.VILLAGE:
                 gridMap = GameManager.villageManager.gridMap;
