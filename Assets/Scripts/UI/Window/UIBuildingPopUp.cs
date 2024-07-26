@@ -61,7 +61,7 @@ public class UIBuildingPopUp : UIWindow
         requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
         requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
         vm.village.upgrade = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
-        SetPopUp(); 
+        SetPopUp();
     }
 
     private void SetPopUp()
@@ -79,7 +79,8 @@ public class UIBuildingPopUp : UIWindow
     {
         vm.village.upgrade = upgradeComponent;
         vm.village.Upgrade();
-        im.Gold -= grade[upgradeComponent.UpgradeGrade].RequireGold;
+        im.Gold -= UpgradeData.GetUpgradeData(upgradeComponent.UpgradeId, upgradeComponent.UpgradeGrade).RequireGold;
+
         //for (int i = 0; i < kindOfResource; ++i)
         //{
         //    im.ownItemList[i] -= requireItemNums[i];
@@ -108,7 +109,7 @@ public class UIBuildingPopUp : UIWindow
 
     public void SetRequireItem()
     {
-        for(int i = 0; i < resourceList.Count; ++i)
+        for (int i = 0; i < resourceList.Count; ++i)
         {
             Destroy(resourceList[i].gameObject);
         }
@@ -171,7 +172,7 @@ public class UIBuildingPopUp : UIWindow
         //    }
         //}
 
-        foreach(var resource in resourceList)
+        foreach (var resource in resourceList)
         {
             if (resource.GetComponentInChildren<TextMeshProUGUI>().color == Color.red)
                 return false;

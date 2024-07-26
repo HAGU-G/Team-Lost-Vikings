@@ -105,7 +105,7 @@ public class UIBuildingParameterPopUp : UIWindow
     public void OnButtonUpgrade()
     {
         vm.village.Upgrade();
-        im.Gold -= grade[upgradeComponent.UpgradeGrade].RequireGold;
+        im.Gold -= UpgradeData.GetUpgradeData(upgradeComponent.UpgradeId, upgradeComponent.UpgradeGrade).RequireGold;
         SetPopUp();
     }
 
