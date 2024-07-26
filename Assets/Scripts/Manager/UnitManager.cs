@@ -66,7 +66,7 @@ public class UnitManager
         var sleepSeconds = (System.DateTime.Now - lastAutoGachaTime).Seconds;
         var gachaCount = Mathf.FloorToInt(sleepSeconds / GameSetting.Instance.autoGachaSeconds);
 
-        Debug.Log($"{sleepSeconds} {gachaCount}");
+        Debug.Log($"지난 시간: {sleepSeconds}, 누적된 가챠 수: {gachaCount}");
 
         while (gachaCount > 0 && !IsMaxWait)
         {

@@ -26,6 +26,7 @@ public class TraceMonster : State<Monster>
         if (isCollidedWithTarget)
         {
             owner.LookTarget(owner.attackTarget.transform);
+            owner.animator.AnimIdle();
             return;
         }
 

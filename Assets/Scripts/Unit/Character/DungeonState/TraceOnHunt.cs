@@ -27,6 +27,7 @@ public class TraceOnHunt : State<UnitOnHunt>
         if(isCollidedWithTarget)
         {
             owner.LookTarget(owner.attackTarget.transform);
+            owner.animator.AnimIdle();
             return;
         }
 
