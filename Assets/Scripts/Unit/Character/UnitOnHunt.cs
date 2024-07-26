@@ -159,7 +159,7 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
 
     public bool TryAttack()
     {
-        if (attackTarget == null)
+        if (!HasTarget())
             return false;
 
         animator?.AnimAttack();
@@ -176,7 +176,7 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
     protected override void OnAnimationAttackHit()
     {
         base.OnAnimationAttackHit();
-        if (attackTarget == null)
+        if (!HasTarget())
         {
             isTargetFixed = false;
             return;
@@ -195,11 +195,9 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
 
     public bool HasTarget()
     {
-        if (attackTarget == null)
-        {
-            return false;
-        }
-        else if (!attackTarget.gameObject.activeSelf)
+        if (attackTarget == null
+            || !attackTarget.gameObject.activeSelf
+            || !Enemies.Contains(attackTarget))
         {
             attackTarget = null;
             return false;

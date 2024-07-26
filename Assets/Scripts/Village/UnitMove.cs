@@ -45,7 +45,7 @@ public class UnitMove : MonoBehaviour
         //Move();
         end = gridMap.IndexToPos(path[0].tileInfo.id);
         var dis = Vector3.Distance(start, end);
-        Debug.Log(dis);
+        //Debug.Log(dis);
         if (timer >= (1f * dis / unitOnVillage.stats.MoveSpeed.Current) )
         {
             timer = 0f;

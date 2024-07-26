@@ -16,7 +16,7 @@
 
     public override void Update()
     {
-        if (owner.attackTarget == null && Transition())
+        if (!owner.HasTarget() && Transition())
             return;
 
         foreach (var skill in owner.skills.SkillList)
@@ -42,7 +42,7 @@
             return true;
         }
 
-        if (owner.attackTarget == null)
+        if (!owner.HasTarget())
             controller.ChangeState((int)UnitOnHunt.STATE.IDLE);
         else
             controller.ChangeState((int)UnitOnHunt.STATE.TRACE);
