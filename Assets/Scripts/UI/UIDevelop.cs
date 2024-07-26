@@ -15,7 +15,6 @@ public class UIDevelop : MonoBehaviour
     public TextMeshProUGUI textBossButton;
     public TMP_InputField inputStageNum;
 
-    private int currentHuntZone = 1;
     private bool isShowVillage = true;
     private bool isDevelopTextOn = true;
 
@@ -40,19 +39,24 @@ public class UIDevelop : MonoBehaviour
         if (isShowVillage)
         {
             isShowVillage = false;
+            if (!GameManager.huntZoneManager.HuntZones.ContainsKey(GameManager.cameraManager.HuntZoneNum))
+                GameManager.cameraManager.SetLocation(LOCATION.HUNTZONE, 1);
+
         }
         else
         {
+            var currentHuntZone = GameManager.cameraManager.HuntZoneNum;
             currentHuntZone++;
+
             if (currentHuntZone > GameManager.huntZoneManager.HuntZones.Count)
             {
                 currentHuntZone = 1;
             }
+            GameManager.cameraManager.SetLocation(LOCATION.HUNTZONE, currentHuntZone);
         }
 
-        textHuntZone.text = $"HuntZone {currentHuntZone}";
+        textHuntZone.text = $"HuntZone {GameManager.cameraManager.HuntZoneNum}";
         //Camera.main.transform.position = GameManager.huntZoneManager.HuntZones[currentHuntZone].transform.position + Vector3.forward * -10f;
-        GameManager.cameraManager.SetLocation(LOCATION.HUNTZONE, currentHuntZone);
     }
 
     public void OnButtonDevelopText()
@@ -91,33 +95,33 @@ public class UIDevelop : MonoBehaviour
 
     public void OnButtonSpawnMonster()
     {
-        GameManager.huntZoneManager.HuntZones[currentHuntZone].SpawnMonster(1);
+        GameManager.huntZoneManager.HuntZones[GameManager.cameraManager.HuntZoneNum].SpawnMonster(1);
     }
     public void OnButtonSpawnUnitOnHunt()
     {
-        GameManager.huntZoneManager.HuntZones[currentHuntZone].SpawnUnit();
+        GameManager.huntZoneManager.HuntZones[GameManager.cameraManager.HuntZoneNum].SpawnUnit();
     }
     public void OnButtonKillLastSpawnedMonster()
     {
-        GameManager.huntZoneManager.HuntZones[currentHuntZone].KillLastSpawnedMonster();
+        GameManager.huntZoneManager.HuntZones[GameManager.cameraManager.HuntZoneNum].KillLastSpawnedMonster();
 
     }
     public void OnButtonUpdateRegenPoint()
     {
-        GameManager.huntZoneManager.HuntZones[currentHuntZone].UpdateRegenPoints();
+        GameManager.huntZoneManager.HuntZones[GameManager.cameraManager.HuntZoneNum].UpdateRegenPoints();
     }
 
     public void OnButtonChangeStage()
     {
-        GameManager.huntZoneManager.HuntZones[currentHuntZone].SetStage(int.Parse(inputStageNum.text));
+        GameManager.huntZoneManager.HuntZones[GameManager.cameraManager.HuntZoneNum].SetStage(int.Parse(inputStageNum.text));
     }
     public void OnButtonSpawnBoss()
     {
-        if (!GameManager.huntZoneManager.HuntZones[currentHuntZone].CanSpawnBoss)
+        if (!GameManager.huntZoneManager.HuntZones[GameManager.cameraManager.HuntZoneNum].CanSpawnBoss)
             return;
 
-        GameManager.huntZoneManager.HuntZones[currentHuntZone].ResetHuntZone(false);
-        GameManager.huntZoneManager.HuntZones[currentHuntZone].StartBossBattle();
+        GameManager.huntZoneManager.HuntZones[GameManager.cameraManager.HuntZoneNum].ResetHuntZone(false);
+        GameManager.huntZoneManager.HuntZones[GameManager.cameraManager.HuntZoneNum].StartBossBattle();
     }
 
     public void OnButtonTutorialPopUp()
@@ -169,24 +173,32 @@ public class UIDevelop : MonoBehaviour
 
     public void SetHuntzoneStage()
     {
-        currentStageText.text = $"STAGE {GameManager.huntZoneManager.HuntZones[currentHuntZone].Stage.ToString()}";
+        if (GameManager.huntZoneManager.HuntZones.ContainsKey(GameManager.cameraManager.HuntZoneNum))
+            currentStageText.text = $"STAGE {GameManager.huntZoneManager.HuntZones[GameManager.cameraManager.HuntZoneNum].Stage.ToString()}";
     }
 
     private void Start()
     {
         SetVillageLevel();
-        textHuntZone.text = $"HuntZone {currentHuntZone}";
+        textHuntZone.text = $"HuntZone {1}";
         inputStageNum.text = 1.ToString();
         onHuntZone.SetActive(false);
     }
 
     private void Update()
     {
-        onHuntZone.SetActive(GameManager.cameraManager.location == LOCATION.HUNTZONE);
+        onHuntZone.SetActive(GameManager.cameraManager.LookLocation == LOCATION.HUNTZONE);
 
-        if (!GameManager.huntZoneManager.HuntZones[currentHuntZone].CanSpawnBoss)
+        var huntNum = GameManager.cameraManager.HuntZoneNum;
+        if (!GameManager.huntZoneManager.HuntZones.ContainsKey(GameManager.cameraManager.HuntZoneNum))
+            huntNum = 1;
+        textHuntZone.text = $"HuntZone {huntNum}";
+
+
+        if (GameManager.huntZoneManager.HuntZones.ContainsKey(GameManager.cameraManager.HuntZoneNum)
+            && !GameManager.huntZoneManager.HuntZones[GameManager.cameraManager.HuntZoneNum].CanSpawnBoss)
         {
-            textBossButton.text = $"{GameManager.huntZoneManager.HuntZones[currentHuntZone].BossTimer:00} | {GameManager.huntZoneManager.HuntZones[currentHuntZone].RetryTimer:00}";
+            textBossButton.text = $"{GameManager.huntZoneManager.HuntZones[GameManager.cameraManager.HuntZoneNum].BossTimer:00} | {GameManager.huntZoneManager.HuntZones[GameManager.cameraManager.HuntZoneNum].RetryTimer:00}";
         }
         else
         {

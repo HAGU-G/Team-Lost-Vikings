@@ -14,7 +14,8 @@ public class CameraManager : MonoBehaviour
 
     private bool IsReady;
     private GridMap gridMap;
-    public LOCATION location { get; private set; }
+    public LOCATION LookLocation { get; private set; }
+    public int HuntZoneNum { get; private set; }
 
     private void Awake()
     {
@@ -62,7 +63,8 @@ public class CameraManager : MonoBehaviour
 
     public void SetLocation(LOCATION location, int huntzoneNum = -1)
     {
-        this.location = location;
+        LookLocation = location;
+        HuntZoneNum = huntzoneNum;
         switch (location)
         {
             case LOCATION.NONE:

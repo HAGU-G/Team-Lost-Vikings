@@ -43,7 +43,7 @@ public class UINotification : UIWindow
 
         cm.SetLocation(unit.Location, unit.HuntZoneNum);
         cm.SetPosition(unit.objectTransform.position);
-       GameManager.cameraManager.SetViewPoint(unit);
+       //GameManager.cameraManager.SetViewPoint(unit);
     }
 
     public void OnButtonExit()
