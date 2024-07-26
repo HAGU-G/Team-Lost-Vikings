@@ -92,6 +92,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c4abce40afb035545ad70bc9813a991d
+    m_Address: Assets/DataTable/BuildingTable.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 14aa998e0142e9c42bf955679810242a
     m_Address: Assets/DataTable/UnitTable.csv
     m_ReadOnly: 0
@@ -112,53 +117,103 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 83ad922e6412ca446a80b458e2a852f7
-    m_Address: Buildings-v4 (21).prefab
+  - m_GUID: 481a82e76c7de474ea8a88341361d7f3
+    m_Address: 28_SkullKnight
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a607f960cbd100845adc8413125d8660
-    m_Address: Buildings-v4 (22).prefab
+  - m_GUID: 67fba7679bd084d43b2436cc24ebd6c5
+    m_Address: 16_SuperStudent
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 4b41e46144ce37b42ac3e63c1b35e85a
-    m_Address: Buildings-v4 (23).prefab
+  - m_GUID: 2577fedf7525dbe488c89256d659b32d
+    m_Address: 27_Shadow
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: cb8fbf8fcfba41e42baedb1b02a01f2a
-    m_Address: Buildings-v4 (24).prefab
+  - m_GUID: 624cae34b54874e468706b4d4564f5e4
+    m_Address: 5_Defender
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7ca5a81d03540134b894a852678b5731
-    m_Address: Buildings-v4 (33).prefab
+  - m_GUID: fb065f92bb03d24448ad96092da860aa
+    m_Address: 4_Thief
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a0ccebe4e1f379344a1721c8be5be4a0
-    m_Address: Buildings-v4 (46).prefab
+  - m_GUID: e7578b8151bee3649aa319a0a3a4a6db
+    m_Address: 14_YoungAcher
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ed5dcf04c1d6bc64d8e51c1a45e9150f
-    m_Address: Buildings-v4 (47).prefab
+  - m_GUID: 8f2dc13b9388cf9488a37bbda2c8b44f
+    m_Address: 25_ThiefMagician
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d96db87911cb906419b0ebe8b052c44b
-    m_Address: Buildings-v4 (63).prefab
+  - m_GUID: c245f52961b52d047aa5ae985c2b3ac2
+    m_Address: 13_ArcherMan
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 26d5e901844efd24589653fb7d0a5e12
-    m_Address: Buildings-v4 (64).prefab
+  - m_GUID: 6b6e3b6682c5d134a88740957a692a7b
+    m_Address: 18_IceMagican
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a990f42e09ae82440b92a7ee955b99b7
-    m_Address: Buildings-v4 (104).prefab
+  - m_GUID: 86dd9e8cc17efde44a58d05ca81468f2
+    m_Address: 23_DarkFire
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4d8a16ae84f5620418de797148a732d6
+    m_Address: 1_Archer
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d90f497d06bd72641a904101e13dda09
+    m_Address: 22_ArcherGuard
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 08e03dd603278ce449514e1337f787df
+    m_Address: 26_Kunoichi
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7df48e2a64656214299ee51987a6f4fb
+    m_Address: 24_DevilMagician
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5f07afe67d7097347bc47bce63b47ebf
+    m_Address: 29_SkullThief
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 973a71139d7e2cf4586d56b9c6b475b2
+    m_Address: 20_DarkSword
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 79b1269a50d00014ca489f5d3556d81f
+    m_Address: 9_Assasin
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 382ab93367ba36749bdb284049e8a357
+    m_Address: 21_LittleSwordMan
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ffc419a9ea6e7ff4095ca38e9bf57f58
+    m_Address: 3_Healer
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 91417190aa16ae544885e46b330e7c5e
+    m_Address: 8_Bishop
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
