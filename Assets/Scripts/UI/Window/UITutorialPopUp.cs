@@ -21,6 +21,7 @@ public class UITutorialPopUp : UIWindow
     private void SetTutorial()
     {
         previous.interactable = false;
+        next.interactable = true;
         currentPage = 0;
         currentPageImage.sprite = GameManager.uiManager.tutorialPages[currentPage];
     }
