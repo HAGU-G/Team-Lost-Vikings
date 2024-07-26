@@ -64,7 +64,6 @@ public class CameraManager : MonoBehaviour
     public void SetLocation(LOCATION location, int huntzoneNum = -1)
     {
         LookLocation = location;
-        HuntZoneNum = huntzoneNum;
         switch (location)
         {
             case LOCATION.NONE:
@@ -85,6 +84,7 @@ public class CameraManager : MonoBehaviour
                 var huntZones = GameManager.huntZoneManager.HuntZones;
                 if (huntZones.ContainsKey(huntzoneNum))
                 {
+                    HuntZoneNum = huntzoneNum;
                     gridMap = huntZones[huntzoneNum].gridMap;
                     SetPosition(huntZones[huntzoneNum].transform.position);
                 }
@@ -96,7 +96,7 @@ public class CameraManager : MonoBehaviour
     {
         if (gridMap == null || !IsReady)
             return;
-        
+
         if (gridMap.PosToIndex(pos) != Vector2Int.one * -1)
         {
             var position = pos;
@@ -110,7 +110,7 @@ public class CameraManager : MonoBehaviour
         if (unit == null)
             return;
 
-        switch(unit.Location)
+        switch (unit.Location)
         {
             case LOCATION.NONE:
                 SetLocation(LOCATION.VILLAGE);
@@ -132,7 +132,7 @@ public class CameraManager : MonoBehaviour
                     return;
 
                 gridMap = huntZones[unit.HuntZoneNum].gridMap;
-                foreach(var character in GameManager.huntZoneManager.HuntZones[unit.HuntZoneNum].Units)
+                foreach (var character in GameManager.huntZoneManager.HuntZones[unit.HuntZoneNum].Units)
                 {
                     if (character.stats == unit)
                     {

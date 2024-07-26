@@ -15,7 +15,6 @@ public class UIDevelop : MonoBehaviour
     public TextMeshProUGUI textBossButton;
     public TMP_InputField inputStageNum;
 
-    private bool isShowVillage = true;
     private bool isDevelopTextOn = true;
 
     public TextMeshProUGUI villageLevel;
@@ -26,7 +25,6 @@ public class UIDevelop : MonoBehaviour
     public void OnButtonVillage()
     {
         //onVillage.SetActive(true);
-        isShowVillage = true;
 
         //Camera.main.transform.position = Vector3.zero + Vector3.forward * -10f;
         GameManager.cameraManager.SetLocation(LOCATION.VILLAGE);
@@ -36,11 +34,12 @@ public class UIDevelop : MonoBehaviour
     {
         //onVillage.SetActive(false);
 
-        if (isShowVillage)
+        if (GameManager.cameraManager.LookLocation != LOCATION.HUNTZONE)
         {
-            isShowVillage = false;
             if (!GameManager.huntZoneManager.HuntZones.ContainsKey(GameManager.cameraManager.HuntZoneNum))
                 GameManager.cameraManager.SetLocation(LOCATION.HUNTZONE, 1);
+            else
+                GameManager.cameraManager.SetLocation(LOCATION.HUNTZONE, GameManager.cameraManager.HuntZoneNum);
 
         }
         else
