@@ -20,7 +20,7 @@ public class UIDevelop : MonoBehaviour
     public TextMeshProUGUI villageLevel;
     public TextMeshProUGUI gold;
 
-
+    public TextMeshProUGUI textVersion;
 
     public void OnButtonVillage()
     {
@@ -182,6 +182,7 @@ public class UIDevelop : MonoBehaviour
         textHuntZone.text = $"HuntZone {1}";
         inputStageNum.text = 1.ToString();
         onHuntZone.SetActive(false);
+        textVersion.text = Application.version;
     }
 
     private void Update()
