@@ -80,7 +80,7 @@ public static class SaveManager
         {
             GameManager.huntZoneManager.HuntZones[huntZoneInfo.HuntZoneNum].Info = huntZoneInfo;
         }
-        save.UnitDeployment = GameManager.huntZoneManager.UnitDeployment;
+        GameManager.huntZoneManager.UnitDeployment = save.UnitDeployment;
 
         for (int i = 0; i < save.buildingUpgrade.Count; i++)
         {

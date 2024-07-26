@@ -19,7 +19,7 @@ public class HuntZoneManager : MonoBehaviour
     /// <summary>
     /// Key: 사냥터 Num, Value: 사냥터에 배치된 유닛 instanceID List
     /// </summary>
-    public Dictionary<int, List<int>> UnitDeployment { get; private set; } = new();
+    public Dictionary<int, List<int>> UnitDeployment { get; set; } = new();
 
     private IObjectPool<Monster> MonsterPool { get; set; }
     private IObjectPool<UnitOnHunt> UnitPool { get; set; }
