@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class AttackOnHunt : State<UnitOnHunt>
+﻿public class AttackOnHunt : State<UnitOnHunt>
 {
 
 

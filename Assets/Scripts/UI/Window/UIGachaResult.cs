@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using TMPro;
 using UnityEngine.UI;
-using static UnityEngine.UI.CanvasScaler;
 
 public class UIGachaResult : UIWindow
 {

@@ -1,7 +1,4 @@
-﻿using Unity.Jobs;
-using UnityEditor.ShaderKeywordFilter;
-using UnityEditorInternal;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DressAnimator
 {
