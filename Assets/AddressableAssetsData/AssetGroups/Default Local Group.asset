@@ -92,11 +92,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c4abce40afb035545ad70bc9813a991d
-    m_Address: Assets/DataTable/BuildingTable.csv
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 14aa998e0142e9c42bf955679810242a
     m_Address: Assets/DataTable/UnitTable.csv
     m_ReadOnly: 0
@@ -114,6 +109,56 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 54d6dec0559b7a549b08d6a1ab7c5e0d
     m_Address: Assets/DataTable/SkillTable.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 83ad922e6412ca446a80b458e2a852f7
+    m_Address: Buildings-v4 (21).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a607f960cbd100845adc8413125d8660
+    m_Address: Buildings-v4 (22).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4b41e46144ce37b42ac3e63c1b35e85a
+    m_Address: Buildings-v4 (23).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cb8fbf8fcfba41e42baedb1b02a01f2a
+    m_Address: Buildings-v4 (24).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7ca5a81d03540134b894a852678b5731
+    m_Address: Buildings-v4 (33).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a0ccebe4e1f379344a1721c8be5be4a0
+    m_Address: Buildings-v4 (46).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ed5dcf04c1d6bc64d8e51c1a45e9150f
+    m_Address: Buildings-v4 (47).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d96db87911cb906419b0ebe8b052c44b
+    m_Address: Buildings-v4 (63).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 26d5e901844efd24589653fb7d0a5e12
+    m_Address: Buildings-v4 (64).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a990f42e09ae82440b92a7ee955b99b7
+    m_Address: Buildings-v4 (104).prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
