@@ -55,15 +55,16 @@ public class TraceOnHunt : State<UnitOnHunt>
         }
         else
         {
-            foreach (var skill in owner.skills.SkillList)
-            {
-                if (skill.IsReady
-                    && owner.attackTarget.stats.SizeEllipse.IsCollidedWith(skill.CastEllipse))
-                {
-                    controller.ChangeState((int)UnitOnHunt.STATE.SKILL);
-                    return true;
-                }
-            }
+            //스킬 사용 비활성화
+            //foreach (var skill in owner.skills.SkillList)
+            //{
+            //    if (skill.IsReady
+            //        && owner.attackTarget.stats.SizeEllipse.IsCollidedWith(skill.CastEllipse))
+            //    {
+            //        controller.ChangeState((int)UnitOnHunt.STATE.SKILL);
+            //        return true;
+            //    }
+            //}
 
             isCollidedWithTarget = owner.attackTarget.stats.SizeEllipse.IsCollidedWith(owner.stats.BasicAttackEllipse);
 

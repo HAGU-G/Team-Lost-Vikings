@@ -214,7 +214,7 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
 
     public bool TryAttack()
     {
-        if (attackTarget == null)
+        if (!HasTarget())
             return false;
         animator?.AnimAttack();
 
