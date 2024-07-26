@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <StructureName>k__BackingField: "\uAE30\uC900 \uAC74\uBB3C"
-  <StructureId>k__BackingField: 3
+  <StructureId>k__BackingField: 990001
   <Width>k__BackingField: 1
   <Length>k__BackingField: 1
   <StructureType>k__BackingField: 4
@@ -124,7 +124,7 @@ PolygonCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3313551129836266134}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
