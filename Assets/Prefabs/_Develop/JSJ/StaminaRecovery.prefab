@@ -82,8 +82,8 @@ MonoBehaviour:
   building: {fileID: 0}
   parameterType: 2
   interactingUnits: []
-  recoveryAmount: 12
-  recoveryTime: 2
+  recoveryAmount: 11
+  recoveryTime: 5
 --- !u!212 &4002369554470818257
 SpriteRenderer:
   m_ObjectHideFlags: 0
