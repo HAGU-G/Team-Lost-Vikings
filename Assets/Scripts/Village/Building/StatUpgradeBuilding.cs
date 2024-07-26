@@ -18,6 +18,9 @@ public class StatUpgradeBuilding : MonoBehaviour, IInteractableWithPlayer
 
     private void OnGameStart()
     {
+        var buildingUp = GetComponent<BuildingUpgrade>();
+        buildingUp.SetBuildingUpgrade();
+        upgradeValue = buildingUp.StatReturn;
         RiseStat();
     }
 

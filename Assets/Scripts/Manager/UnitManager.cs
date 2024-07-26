@@ -35,15 +35,15 @@ public class UnitManager
         {
             unit.Value.InitStats(DataTableManager.characterTable.GetData(unit.Value.Id), false);
             unit.Value.UpdateMaxHP();
-            unit.Value.UpdateCombatPoint();
             unit.Value.SetUpgradeStats();
+            unit.Value.UpdateCombatPoint();
         }
         foreach (var unit in DeadUnits)
         {
             unit.Value.InitStats(DataTableManager.characterTable.GetData(unit.Value.Id), false);
             unit.Value.UpdateMaxHP();
-            unit.Value.UpdateCombatPoint();
             unit.Value.SetUpgradeStats();
+            unit.Value.UpdateCombatPoint();
         }
         foreach (var unit in Waitings)
         {

@@ -75,9 +75,9 @@ public static class GameManager
         Publish(EVENT_TYPE.INIT);
 
         SaveManager.LoadGame();
-        unitManager ??= new();
         playerManager ??= new();
         itemManager ??= new();
+        unitManager ??= new();
         unitManager.LoadUnits();
 
         Publish(EVENT_TYPE.START);
