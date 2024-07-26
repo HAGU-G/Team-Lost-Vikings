@@ -55,10 +55,10 @@ MonoBehaviour:
   <Length>k__BackingField: 1
   <StructureType>k__BackingField: 1
   <UnlockTownLevel>k__BackingField: 0
-  <CanMultiBuild>k__BackingField: 0
-  <CanReverse>k__BackingField: 0
-  <CanReplace>k__BackingField: 0
-  <CanDestroy>k__BackingField: 0
+  <CanMultiBuild>k__BackingField: 1
+  <CanReverse>k__BackingField: 1
+  <CanReplace>k__BackingField: 1
+  <CanDestroy>k__BackingField: 1
   <UpgradeId>k__BackingField: 200300001
   <StructureAssetFileName>k__BackingField: Building-v4 (18)
   <StructureDesc>k__BackingField: "\uC720\uB2DB\uC758 \uC815\uC2E0\uB825\uC744 \uD68C\uBCF5\uC2DC\uCF1C\uC8FC\uB294
@@ -82,8 +82,8 @@ MonoBehaviour:
   building: {fileID: 0}
   parameterType: 3
   interactingUnits: []
-  recoveryAmount: 11
-  recoveryTime: 5
+  recoveryAmount: 12
+  recoveryTime: 2
 --- !u!212 &4889437894300722720
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -697,7 +697,8 @@ MonoBehaviour:
   <RequireRune>k__BackingField: 0
   <ItemIds>k__BackingField: 
   <ItemNums>k__BackingField: 
-  <UpgradeDesc>k__BackingField: "stress \uD68C\uBCF5 \uAC74\uBB3C\uC785\uB2C8\uB2E4."
+  <UpgradeDesc>k__BackingField: "2\uCD08\uB9C8\uB2E4 \uC815\uC2E0\uB825 12 \uB9CC\uD2C8
+    \uD68C\uBCF5"
   currentGrade: 1
 --- !u!1 &3866149846544589759
 GameObject:

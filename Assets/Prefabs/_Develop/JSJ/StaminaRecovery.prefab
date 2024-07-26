@@ -55,7 +55,7 @@ MonoBehaviour:
   <Length>k__BackingField: 1
   <StructureType>k__BackingField: 1
   <UnlockTownLevel>k__BackingField: 0
-  <CanMultiBuild>k__BackingField: 0
+  <CanMultiBuild>k__BackingField: 1
   <CanReverse>k__BackingField: 1
   <CanReplace>k__BackingField: 1
   <CanDestroy>k__BackingField: 1
@@ -82,8 +82,8 @@ MonoBehaviour:
   building: {fileID: 0}
   parameterType: 2
   interactingUnits: []
-  recoveryAmount: 11
-  recoveryTime: 5
+  recoveryAmount: 12
+  recoveryTime: 2
 --- !u!212 &4002369554470818257
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -626,7 +626,8 @@ MonoBehaviour:
   <RequireRune>k__BackingField: 0
   <ItemIds>k__BackingField: 
   <ItemNums>k__BackingField: 
-  <UpgradeDesc>k__BackingField: "stamina \uD68C\uBCF5 \uAC74\uBB3C\uC785\uB2C8\uB2E4"
+  <UpgradeDesc>k__BackingField: "2\uCD08\uB9C8\uB2E4 \uD65C\uB3D9\uB825 12 \uB9CC\uD2C8
+    \uD68C\uBCF5"
   currentGrade: 1
 --- !u!1 &7086700837805051294
 GameObject:

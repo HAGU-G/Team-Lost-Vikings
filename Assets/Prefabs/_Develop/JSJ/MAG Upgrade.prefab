@@ -55,10 +55,10 @@ MonoBehaviour:
   <Length>k__BackingField: 1
   <StructureType>k__BackingField: 0
   <UnlockTownLevel>k__BackingField: 0
-  <CanMultiBuild>k__BackingField: 0
-  <CanReverse>k__BackingField: 0
-  <CanReplace>k__BackingField: 0
-  <CanDestroy>k__BackingField: 0
+  <CanMultiBuild>k__BackingField: 1
+  <CanReverse>k__BackingField: 1
+  <CanReplace>k__BackingField: 1
+  <CanDestroy>k__BackingField: 1
   <UpgradeId>k__BackingField: 202000001
   <StructureAssetFileName>k__BackingField: 
   <StructureDesc>k__BackingField: "\uC720\uB2DB\uC758 \uC9C0\uB2A5\uC744 \uC99D\uAC00\uC2DC\uD0A4\uB294
@@ -642,7 +642,7 @@ MonoBehaviour:
   <RequireRune>k__BackingField: 0
   <ItemIds>k__BackingField: 
   <ItemNums>k__BackingField: 
-  <UpgradeDesc>k__BackingField: "\uBAA8\uB4E0 \uC720\uB2DB\uC758 \uC9C0\uB2A5 \uC2A4\uD15F\uC774
+  <UpgradeDesc>k__BackingField: "\uBAA8\uB4E0 \uC720\uB2DB\uC758 \uBBFC\uCCA9 \uC2A4\uD15F\uC774
     10 \uC99D\uAC00\uD569\uB2C8\uB2E4"
   currentGrade: 1
 --- !u!1 &6073918091685744411
