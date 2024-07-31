@@ -258,6 +258,7 @@ MonoBehaviour:
   - {fileID: 3437462031091102053, guid: b29c408c91eb17b44a759b0c264d55db, type: 3}
   standardPrefab: {fileID: 3313551129836266134, guid: 568c83c00f47df44fb15e420920b1664, type: 3}
   roadPrefab: {fileID: 101424399208625417, guid: cba03f8874769744bb9e7ee7ac90b656, type: 3}
+  buildingPrefab: {fileID: 888002931920025196, guid: 8746d58972713344ea05a8ff6b3b58d3, type: 3}
   gridMaps: []
 --- !u!4 &927712893
 Transform:
@@ -384,23 +385,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fdfb9230d4b5a34aabbdf91b4e0d2d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <UpgradeName>k__BackingField: 
-  <UpgradeId>k__BackingField: 0
-  <UpgradeGrade>k__BackingField: 0
-  <StructureLevel>k__BackingField: 0
-  <StructureType>k__BackingField: 0
-  <StatType>k__BackingField: 0
-  <StatReturn>k__BackingField: 0
-  <ParameterType>k__BackingField: 0
-  <ParameterRecovery>k__BackingField: 0
-  <RecvoeryTime>k__BackingField: 0
-  <RecipeId>k__BackingField: 0
-  <ItemStack>k__BackingField: 0
-  <RequireTime>k__BackingField: 0
-  <RequireGold>k__BackingField: 0
-  <RequireRune>k__BackingField: 0
-  <ItemNum>k__BackingField: 0
-  <ItemId>k__BackingField: 0
   currentGrade: 0
 --- !u!114 &1399002950
 MonoBehaviour:
@@ -426,6 +410,7 @@ MonoBehaviour:
   <CanDestroy>k__BackingField: 0
   <UpgradeId>k__BackingField: 0
   <StructureAssetFileName>k__BackingField: 
+  <StructureDesc>k__BackingField: 
   placedTiles: []
   entranceTile: {fileID: 0}
   gridMap: {fileID: 0}

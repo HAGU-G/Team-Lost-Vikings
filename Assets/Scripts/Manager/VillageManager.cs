@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
+using UnityEditor.Build.Pipeline.Utilities;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class VillageManager : MonoBehaviour
 {
@@ -13,6 +17,7 @@ public class VillageManager : MonoBehaviour
     public List<GameObject> installableBuilding = new();
     public GameObject standardPrefab;
     public GameObject roadPrefab;
+    public GameObject buildingPrefab;
 
     public List<GridMap> gridMaps;
 
@@ -20,7 +25,7 @@ public class VillageManager : MonoBehaviour
 
     private GameObject selectedObj;
 
-    public int PlayerLevel {  get { return playerLevel; } }
+    public int PlayerLevel { get { return playerLevel; } }
 
     private void Awake()
     {
@@ -50,11 +55,14 @@ public class VillageManager : MonoBehaviour
 
     private void Init()
     {
+        MakeBuildings();
+
         foreach (var obj in installableBuilding)
         {
             var building = obj.GetComponent<Building>();
             objectList.Add(building.StructureId, obj);
         }
+
         //gridMap.SetUsingTileList(1);
 
         //foreach(var map in gridMaps)
@@ -62,12 +70,118 @@ public class VillageManager : MonoBehaviour
         //    map.SetUsingTileList(map.usableTileList.Count - 1);
         //}
 
-        gridMap.SetUsingTileList(gridMap.usableTileList.Count -1);
+        gridMap.SetUsingTileList(gridMap.usableTileList.Count - 1);
         //var standard = construct.ConstructStandardBuilding(standardPrefab, gridMap);
         //constructedBuildings.Add(standard);
 
-       // village = gameObject.AddComponent<Village>();
+        // village = gameObject.AddComponent<Village>();
     }
+
+    private GameObject LoadBuildingObj(string path)
+    {
+        var obj = Addressables.LoadAssetAsync<GameObject>(path);
+        Debug.Log(obj.Result);
+        return obj.Result; 
+    }
+
+    private async void MakeBuildings()
+    {
+        var datas = DataTableManager.buildingTable.GetDatas();
+        string filePath = "Assets/Pick_Asset/2WEEK/Building";
+
+        for (int i = 0; i < datas.Count; ++i)
+        {
+            var buildingComponenet = buildingPrefab.AddComponent<Building>();
+            buildingComponenet.StructureName = datas[i].StructureName;
+            buildingComponenet.StructureId = datas[i].StructureId;
+            buildingComponenet.Width = datas[i].Width;
+            buildingComponenet.Length = datas[i].Length;
+            buildingComponenet.StructureType = datas[i].StructureType;
+            buildingComponenet.UnlockTownLevel = datas[i].UnlockTownLevel;
+            buildingComponenet.CanReverse = datas[i].CanReverse;
+            buildingComponenet.CanReplace = datas[i].CanReplace;
+            buildingComponenet.CanDestroy = datas[i].CanDestroy;
+            buildingComponenet.UpgradeId = datas[i].UpgradeId;
+            buildingComponenet.StructureAssetFileName = datas[i].StructureAssetFileName;
+
+            var sprite = buildingPrefab.GetComponent<SpriteRenderer>();
+            var path = string.Concat(filePath, "/", buildingComponenet.StructureAssetFileName,".prefab");
+            Debug.Log(path);
+
+            var loadedObj = await Addressables.LoadAssetAsync<GameObject>(path).Task;
+
+            sprite.sprite = loadedObj.GetComponentInChildren<SpriteRenderer>().sprite;
+
+
+            if(buildingComponenet.UpgradeId != 0)
+            {
+                var upgradeComponent = buildingPrefab.AddComponent<BuildingUpgrade>();
+
+                var dt = DataTableManager.upgradeTable.GetData(buildingComponenet.UpgradeId);
+
+                upgradeComponent.UpgradeGrade = upgradeComponent.currentGrade;
+
+                var upgradeData = dt[upgradeComponent.UpgradeGrade];
+
+                upgradeComponent.UpgradeName = upgradeData.UpgradeName;
+                upgradeComponent.StatType = upgradeData.StatType;
+                upgradeComponent.StatReturn = upgradeData.StatReturn;
+                upgradeComponent.ParameterRecovery = upgradeData.ParameterRecovery;
+                upgradeComponent.RecoveryTime = upgradeData.RecoveryTime;
+                upgradeComponent.ProgressVarType = upgradeData.ProgressVarType;
+                upgradeComponent.ProgressVarReturn = upgradeData.ProgressVarReturn;
+                upgradeComponent.RecipeId = upgradeData.RecipeId;
+                upgradeComponent.ItemStack = upgradeData.ItemStack;
+                upgradeComponent.RequireTime = upgradeData.RequireTime;
+                upgradeComponent.RequireGold = upgradeData.RequireGold;
+                upgradeComponent.RequireRune = upgradeData.RequireRune;
+
+                upgradeComponent.ItemIds = new();
+                upgradeComponent.ItemNums = new();
+
+                for (int j = 0; j < 5; ++j)
+                {
+                    upgradeComponent.ItemIds.Add(upgradeData.ItemIds[j]);
+                    upgradeComponent.ItemNums.Add(upgradeData.ItemNums[j]);
+                }
+
+                upgradeComponent.UpgradeDesc = upgradeComponent.UpgradeDesc;
+
+                switch (buildingComponenet.StructureType)
+                {
+                    case STRUCTURE_TYPE.PARAMETER_RECOVERY:
+                        var parameterComponent = buildingPrefab.AddComponent<ParameterRecoveryBuilding>();
+                        parameterComponent.building = buildingComponenet;
+                        parameterComponent.parameterType = (PARAMETER_TYPE)upgradeData.ParameterType;
+                        parameterComponent.recoveryAmount = upgradeData.ParameterRecovery;
+                        parameterComponent.recoveryTime = upgradeData.RecoveryTime;
+                        break;
+                    case STRUCTURE_TYPE.STAT_UPGRADE:
+                        buildingPrefab.AddComponent<StatUpgradeBuilding>();
+                        var statComponent = buildingPrefab.AddComponent<StatUpgradeBuilding>();
+                        statComponent.building = buildingComponenet;
+                        statComponent.upgradeStat = upgradeData.StatType;
+                        statComponent.upgradeValue = upgradeData.StatReturn;
+                        break;
+                    case STRUCTURE_TYPE.ITEM_SELL:
+                        buildingPrefab.AddComponent<ItemSellBuilding>();
+                        break;
+                    case STRUCTURE_TYPE.ITEM_PRODUCE:
+                        buildingPrefab.AddComponent<ItemProduceBuilding>();
+                        break;
+                    case STRUCTURE_TYPE.STANDARD:
+
+                        break;
+                    case STRUCTURE_TYPE.PORTAL:
+                        buildingPrefab.AddComponent<PortalBuilding>();
+                        break;
+                }
+            }
+
+            //var b = Instantiate(buildingPrefab);
+            installableBuilding.Add(buildingPrefab);
+        }
+}
 
     private void OnGUI()
     {

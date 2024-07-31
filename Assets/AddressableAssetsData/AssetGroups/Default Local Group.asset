@@ -217,6 +217,101 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ed5dcf04c1d6bc64d8e51c1a45e9150f
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (47).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 14d0739b77c342747bef2c479b108ade
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (4).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 83ad922e6412ca446a80b458e2a852f7
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (21).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a607f960cbd100845adc8413125d8660
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (22).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4b41e46144ce37b42ac3e63c1b35e85a
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (23).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cb8fbf8fcfba41e42baedb1b02a01f2a
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (24).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7ca5a81d03540134b894a852678b5731
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (33).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a0ccebe4e1f379344a1721c8be5be4a0
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (46).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d96db87911cb906419b0ebe8b052c44b
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (63).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 26d5e901844efd24589653fb7d0a5e12
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (64).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ce5855ea214c7fc4994b238ea63f561b
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (65).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3775a6e26d03c3d4dbc0bf1a5718a189
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (91).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 863eba96227091a489f4175e515c53b5
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (95).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4ed7e7940e4edb8449b3bbeba096d96b
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (96).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 863bfa0fdd0d83d489c5893deac821a8
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (97).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a990f42e09ae82440b92a7ee955b99b7
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (104).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3b7477cbe043a0b43a21ddf47d95e675
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (106).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eb8c78b140fa8734c94fd1c3fa317d27
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (107).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: de619dd61fa080442bd63ca9f8371957
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (108).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 06eaf29b6f1bf084f803a683a0542cea, type: 2}
   m_SchemaSet:

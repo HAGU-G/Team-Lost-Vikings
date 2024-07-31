@@ -4,30 +4,30 @@ using UnityEngine;
 [RequireComponent(typeof(Building))]
 public class BuildingUpgrade : MonoBehaviour
 {
-    [field: SerializeField] public string UpgradeName { get; private set; }
-    [field: SerializeField] public int UpgradeId { get; private set; }
-    [field: SerializeField] public int UpgradeGrade { get; private set; }
-    [field: SerializeField] public int StructureLevel { get; private set; }
-    [field: SerializeField] public int StructureType { get; private set; }
-    [field: SerializeField] public STAT_TYPE StatType { get; private set; }
-    [field: SerializeField] public int StatReturn { get; private set; }
-    [field: SerializeField] public int ParameterType { get; private set; }
-    [field: SerializeField] public int ParameterRecovery { get; private set; }
-    [field: SerializeField] public float RecoveryTime { get; private set; }
-    [field: SerializeField] public int ProgressVarType { get; private set; }
-    [field: SerializeField] public float ProgressVarReturn { get; private set; }
-    [field: SerializeField] public int RecipeId { get; private set; }
-    [field: SerializeField] public int ItemStack { get; private set; }
-    [field: SerializeField] public float RequireTime { get; private set; }
-    [field: SerializeField] public int RequireGold { get; private set; }
-    [field: SerializeField] public int RequireRune { get; private set; }
-    [field: SerializeField] public List<int> ItemIds { get; private set; }
-    [field: SerializeField] public List<int> ItemNums { get; private set; }
-    [field: SerializeField] public string UpgradeDesc { get; private set; }
+    public string UpgradeName { get; set; }
+    public int UpgradeId { get; set; }
+    public int UpgradeGrade { get; set; }
+    public int StructureLevel { get; set; }
+    public int StructureType { get; set; }
+    public STAT_TYPE StatType { get; set; }
+    public int StatReturn { get; set; }
+    public int ParameterType { get; set; }
+    public int ParameterRecovery { get; set; }
+    public float RecoveryTime { get; set; }
+    public int ProgressVarType { get; set; }
+    public float ProgressVarReturn { get; set; }
+    public int RecipeId { get; set; }
+    public int ItemStack { get; set; }
+    public float RequireTime { get; set; }
+    public int RequireGold { get; set; }
+    public int RequireRune { get; set; }
+    public List<int> ItemIds { get; set; }
+    public List<int> ItemNums { get; set; }
+    public string UpgradeDesc { get; set; }
 
     public int currentGrade = 1;
 
-    private void Awake()
+    private void Start()
     {
         GameManager.Subscribe(EVENT_TYPE.START, SetBuildingUpgrade);
     }

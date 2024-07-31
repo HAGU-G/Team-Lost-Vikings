@@ -10,7 +10,7 @@ public class StatUpgradeBuilding : MonoBehaviour, IInteractableWithPlayer
     private List<UnitOnVillage> units;
     private StatInt statInt = new();
 
-    private void Awake()
+    private void Start()
     {
         building = GetComponent<Building>();
         GameManager.Subscribe(EVENT_TYPE.START, OnGameStart);
