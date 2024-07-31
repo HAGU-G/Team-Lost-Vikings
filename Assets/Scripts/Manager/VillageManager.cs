@@ -43,7 +43,6 @@ public class VillageManager : MonoBehaviour
 
     private void OnGameInit()
     {
-        Debug.Log("OnGameInit");
         gridMaps = new List<GridMap>();
         //gridMap = new GridMap();
         //gridMap2 = new GridMap();
@@ -63,7 +62,6 @@ public class VillageManager : MonoBehaviour
             var building = obj.GetComponent<Building>();
             objectList.Add(building.StructureId, obj);
         }
-        Debug.Log($"Init - objectList : {objectList.Count}");
 
         //gridMap.SetUsingTileList(1);
 
@@ -101,7 +99,6 @@ public class VillageManager : MonoBehaviour
         var datas = DataTableManager.buildingTable.GetDatas();
         string filePath = "Assets/Pick_Asset/2WEEK/Building";
 
-        Debug.Log($"datas Count : {datas.Count}");
 
         for (int i = 0; i < datas.Count; ++i)
         {
@@ -118,6 +115,7 @@ public class VillageManager : MonoBehaviour
             buildingComponenet.CanReplace = datas[i].CanReplace;
             buildingComponenet.CanDestroy = datas[i].CanDestroy;
             buildingComponenet.UpgradeId = datas[i].UpgradeId;
+            Debug.Log(datas[i].UpgradeId);
             buildingComponenet.StructureAssetFileName = datas[i].StructureAssetFileName;
 
             var sprite = b.GetComponent<SpriteRenderer>();
@@ -137,8 +135,9 @@ public class VillageManager : MonoBehaviour
 
                 upgradeComponent.UpgradeGrade = upgradeComponent.currentGrade;
 
-                var upgradeData = dt[upgradeComponent.UpgradeGrade];
+                var upgradeData = dt[upgradeComponent.UpgradeGrade -1];
 
+                upgradeComponent.UpgradeId = buildingComponenet.UpgradeId;
                 upgradeComponent.UpgradeName = upgradeData.UpgradeName;
                 upgradeComponent.StatType = upgradeData.StatType;
                 upgradeComponent.StatReturn = upgradeData.StatReturn;
@@ -173,7 +172,6 @@ public class VillageManager : MonoBehaviour
                         parameterComponent.recoveryTime = upgradeData.RecoveryTime;
                         break;
                     case STRUCTURE_TYPE.STAT_UPGRADE:
-                        b.AddComponent<StatUpgradeBuilding>();
                         var statComponent = b.AddComponent<StatUpgradeBuilding>();
                         statComponent.building = buildingComponenet;
                         statComponent.upgradeStat = upgradeData.StatType;
@@ -197,8 +195,8 @@ public class VillageManager : MonoBehaviour
             b.GetComponentInChildren<TextMeshPro>().text = buildingComponenet.StructureName;
             b.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
             b.AddComponent<PolygonCollider2D>();
+            b.name = buildingComponenet.StructureId.ToString();
             installableBuilding.Add(b);
-            Debug.Log($"installable : {installableBuilding.Count}");
         }
 
     }
@@ -411,7 +409,6 @@ public class VillageManager : MonoBehaviour
 
         /////////
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.HP_RECOVERY);
-        Debug.Log($"VillageSet - objectList : {objectList.Count}");
         var hp = construct.PlaceBuilding(selectedObj, GetTile(1, 7, gridMap), gridMap);
         constructedBuildings.Add(hp);
 

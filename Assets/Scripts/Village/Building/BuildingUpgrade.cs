@@ -4,8 +4,11 @@ using UnityEngine;
 [RequireComponent(typeof(Building))]
 public class BuildingUpgrade : MonoBehaviour
 {
+    [field: SerializeField]
     public string UpgradeName { get; set; }
+    [field: SerializeField]
     public int UpgradeId { get; set; }
+    [field: SerializeField]
     public int UpgradeGrade { get; set; }
     public int StructureLevel { get; set; }
     public int StructureType { get; set; }
@@ -29,7 +32,7 @@ public class BuildingUpgrade : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Subscribe(EVENT_TYPE.START, SetBuildingUpgrade);
+        //GameManager.Subscribe(EVENT_TYPE.START, SetBuildingUpgrade);
     }
 
     public void SetBuildingUpgrade()
