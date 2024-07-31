@@ -43,6 +43,7 @@ public class VillageManager : MonoBehaviour
 
     private void OnGameInit()
     {
+        Debug.Log("OnGameInit");
         gridMaps = new List<GridMap>();
         //gridMap = new GridMap();
         //gridMap2 = new GridMap();
@@ -62,6 +63,7 @@ public class VillageManager : MonoBehaviour
             var building = obj.GetComponent<Building>();
             objectList.Add(building.StructureId, obj);
         }
+        Debug.Log($"Init - objectList : {objectList.Count}");
 
         //gridMap.SetUsingTileList(1);
 
@@ -77,21 +79,35 @@ public class VillageManager : MonoBehaviour
         // village = gameObject.AddComponent<Village>();
     }
 
-    private GameObject LoadBuildingObj(string path)
+    private AsyncOperationHandle<GameObject> LoadBuildingObj(string path)
     {
         var obj = Addressables.LoadAssetAsync<GameObject>(path);
-        Debug.Log(obj.Result);
-        return obj.Result; 
+        obj.Completed += OnBuildingAssetLoaded;
+        
+        return obj;
     }
 
-    private async void MakeBuildings()
+    public void OnBuildingAssetLoaded(AsyncOperationHandle<GameObject> handle)
+    {
+        if (handle.Status != AsyncOperationStatus.Succeeded)
+        {
+            Debug.LogError("AddressableAsset is not Loaded");
+            return;
+        }
+    }
+
+    private void MakeBuildings()
     {
         var datas = DataTableManager.buildingTable.GetDatas();
         string filePath = "Assets/Pick_Asset/2WEEK/Building";
 
+        Debug.Log($"datas Count : {datas.Count}");
+
         for (int i = 0; i < datas.Count; ++i)
         {
-            var buildingComponenet = buildingPrefab.AddComponent<Building>();
+            var b = Instantiate(buildingPrefab);
+
+            var buildingComponenet = b.AddComponent<Building>();
             buildingComponenet.StructureName = datas[i].StructureName;
             buildingComponenet.StructureId = datas[i].StructureId;
             buildingComponenet.Width = datas[i].Width;
@@ -104,18 +120,18 @@ public class VillageManager : MonoBehaviour
             buildingComponenet.UpgradeId = datas[i].UpgradeId;
             buildingComponenet.StructureAssetFileName = datas[i].StructureAssetFileName;
 
-            var sprite = buildingPrefab.GetComponent<SpriteRenderer>();
+            var sprite = b.GetComponent<SpriteRenderer>();
             var path = string.Concat(filePath, "/", buildingComponenet.StructureAssetFileName,".prefab");
-            Debug.Log(path);
 
-            var loadedObj = await Addressables.LoadAssetAsync<GameObject>(path).Task;
+            var handle = Addressables.LoadAssetAsync<GameObject>(path);
+            handle.WaitForCompletion(); //임시로 동기적 처리
 
-            sprite.sprite = loadedObj.GetComponentInChildren<SpriteRenderer>().sprite;
+            sprite.sprite = handle.Result.GetComponentInChildren<SpriteRenderer>().sprite;
 
 
             if(buildingComponenet.UpgradeId != 0)
             {
-                var upgradeComponent = buildingPrefab.AddComponent<BuildingUpgrade>();
+                var upgradeComponent = b.AddComponent<BuildingUpgrade>();
 
                 var dt = DataTableManager.upgradeTable.GetData(buildingComponenet.UpgradeId);
 
@@ -150,38 +166,42 @@ public class VillageManager : MonoBehaviour
                 switch (buildingComponenet.StructureType)
                 {
                     case STRUCTURE_TYPE.PARAMETER_RECOVERY:
-                        var parameterComponent = buildingPrefab.AddComponent<ParameterRecoveryBuilding>();
+                        var parameterComponent = b.AddComponent<ParameterRecoveryBuilding>();
                         parameterComponent.building = buildingComponenet;
                         parameterComponent.parameterType = (PARAMETER_TYPE)upgradeData.ParameterType;
                         parameterComponent.recoveryAmount = upgradeData.ParameterRecovery;
                         parameterComponent.recoveryTime = upgradeData.RecoveryTime;
                         break;
                     case STRUCTURE_TYPE.STAT_UPGRADE:
-                        buildingPrefab.AddComponent<StatUpgradeBuilding>();
-                        var statComponent = buildingPrefab.AddComponent<StatUpgradeBuilding>();
+                        b.AddComponent<StatUpgradeBuilding>();
+                        var statComponent = b.AddComponent<StatUpgradeBuilding>();
                         statComponent.building = buildingComponenet;
                         statComponent.upgradeStat = upgradeData.StatType;
                         statComponent.upgradeValue = upgradeData.StatReturn;
                         break;
                     case STRUCTURE_TYPE.ITEM_SELL:
-                        buildingPrefab.AddComponent<ItemSellBuilding>();
+                        b.AddComponent<ItemSellBuilding>();
                         break;
                     case STRUCTURE_TYPE.ITEM_PRODUCE:
-                        buildingPrefab.AddComponent<ItemProduceBuilding>();
+                        b.AddComponent<ItemProduceBuilding>();
                         break;
                     case STRUCTURE_TYPE.STANDARD:
 
                         break;
                     case STRUCTURE_TYPE.PORTAL:
-                        buildingPrefab.AddComponent<PortalBuilding>();
+                        b.AddComponent<PortalBuilding>();
                         break;
                 }
             }
 
-            //var b = Instantiate(buildingPrefab);
-            installableBuilding.Add(buildingPrefab);
+            b.GetComponentInChildren<TextMeshPro>().text = buildingComponenet.StructureName;
+            b.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
+            b.AddComponent<PolygonCollider2D>();
+            installableBuilding.Add(b);
+            Debug.Log($"installable : {installableBuilding.Count}");
         }
-}
+
+    }
 
     private void OnGUI()
     {
@@ -391,6 +411,7 @@ public class VillageManager : MonoBehaviour
 
         /////////
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.HP_RECOVERY);
+        Debug.Log($"VillageSet - objectList : {objectList.Count}");
         var hp = construct.PlaceBuilding(selectedObj, GetTile(1, 7, gridMap), gridMap);
         constructedBuildings.Add(hp);
 
