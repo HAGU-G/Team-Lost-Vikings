@@ -60,8 +60,9 @@ public class IdleOnHunt : State<UnitOnHunt>
         }
         else
         {
-            owner.transform.position += (dest - owner.transform.position).normalized
-                * owner.stats.MoveSpeed.Current * Time.deltaTime;
+            owner.Move(dest, Time.deltaTime);
+            //owner.transform.position += (dest - owner.transform.position).normalized
+            //    * owner.stats.MoveSpeed.Current * Time.deltaTime;
 
             if (Vector3.Distance(dest, owner.transform.position) <= 0.2f)
                 isMoving = false;

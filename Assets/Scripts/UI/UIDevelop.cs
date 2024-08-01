@@ -98,7 +98,8 @@ public class UIDevelop : MonoBehaviour
     }
     public void OnButtonSpawnUnitOnHunt()
     {
-        GameManager.huntZoneManager.HuntZones[GameManager.cameraManager.HuntZoneNum].SpawnUnit();
+        //TODO 사용하지 않는 버튼. 제거 필요
+        //GameManager.huntZoneManager.HuntZones[GameManager.cameraManager.HuntZoneNum].SpawnUnit();
     }
     public void OnButtonKillLastSpawnedMonster()
     {

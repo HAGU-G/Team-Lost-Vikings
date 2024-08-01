@@ -72,8 +72,13 @@ public class UnitMove : MonoBehaviour
             //gameObject.transform.position;
 
             //end = gridMap.IndexToPos(path[0].tileInfo.id);
-            
-            transform.position = Vector3.Lerp(start, end, timer / (1f * dis / unitOnVillage.stats.MoveSpeed.Current) );
+
+            unitOnVillage.SetPosition(
+                Vector3.Lerp(
+                    start, 
+                    end, 
+                    timer / (1f * dis / unitOnVillage.stats.MoveSpeed.Current)
+                    ));
         }
     }
 

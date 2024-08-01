@@ -284,23 +284,6 @@ public class HuntZone : MonoBehaviour
             Monsters[0].TakeDamage(Monsters[0].stats.HP.max, ATTACK_TYPE.NONE);
     }
 
-    public void SpawnUnit()
-    {
-        //사용하지 않는 메서드
-        //제거 필요
-        //foreach (var unitSelected in GameManager.unitManager.Units)
-        //{
-        //    var unit = unitSelected.Value;
-        //    if (unit.Location != LOCATION.NONE)
-        //        continue;
-
-        //    var unitOnHunt = GameManager.huntZoneManager.GetUnitOnHunt(this, unit);
-        //    unitOnHunt.transform.position = PortalPos;
-        //    Debug.Log(unit.InstanceID + "소환됨", unitOnHunt.gameObject);
-        //    break;
-        //}
-    }
-
     public void SpawnUnit(int instanceID)
     {
         var unitStat = GameManager.unitManager.GetUnit(instanceID);

@@ -4,7 +4,7 @@ using UnityEngine;
 public enum STAT_GROUP
 {
     UNIT_ON_VILLAGE,
-    UNIT_ON_DUNGEON,
+    UNIT_ON_HUNT,
     MONSTER
 }
 

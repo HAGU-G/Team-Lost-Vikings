@@ -33,7 +33,7 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
 
     //AdditionalStats
     public bool isTargetFixed;
-    public override STAT_GROUP StatGroup => STAT_GROUP.UNIT_ON_DUNGEON;
+    public override STAT_GROUP StatGroup => STAT_GROUP.UNIT_ON_HUNT;
     public bool IsDead { get; private set; }
     public bool IsNeedReturn
     {
@@ -54,7 +54,6 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
 
         stats.UpdateEllipsePosition();
         FSM.Update();
-        UpdateAnimator();
 
         //오브젝트가 더이상 사용하지 않는 상태인지 검사. TODO 개선 필요
         if (stats != null)

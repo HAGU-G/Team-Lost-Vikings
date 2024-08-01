@@ -26,13 +26,15 @@ public class TraceOnHunt : State<UnitOnHunt>
 
         if(isCollidedWithTarget)
         {
-            owner.LookTarget(owner.attackTarget.transform);
+            owner.LookAt(owner.attackTarget.transform);
             owner.animator.AnimIdle();
             return;
         }
 
-        var moveDirection = owner.transform.position - (owner.attackTarget).transform.position;
-        owner.transform.position -= moveDirection.normalized * Time.deltaTime * owner.stats.MoveSpeed.Current;
+        owner.Move(owner.attackTarget.transform, Time.deltaTime);
+
+        //var moveDirection = owner.transform.position - (owner.attackTarget).transform.position;
+        //owner.transform.position -= moveDirection.normalized * Time.deltaTime * owner.stats.MoveSpeed.Current;
 
     }
 

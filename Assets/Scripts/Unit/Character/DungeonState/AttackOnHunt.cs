@@ -8,7 +8,7 @@
         owner.isTargetFixed = true;
         owner.isActing = true;
 
-        owner.LookTarget(owner.attackTarget.transform);
+        owner.LookAt(owner.attackTarget.transform);
         owner.TryAttack();
     }
 

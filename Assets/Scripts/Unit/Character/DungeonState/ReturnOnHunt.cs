@@ -26,9 +26,9 @@ public class ReturnOnHunt : State<UnitOnHunt>
         if (Transition())
             return;
 
-
-        ownerTransform.position += (owner.PortalPos - ownerTransform.position).normalized
-            * owner.stats.MoveSpeed.Current * Time.deltaTime;
+        owner.Move(owner.PortalPos, Time.deltaTime);
+        //ownerTransform.position += (owner.PortalPos - ownerTransform.position).normalized
+        //    * owner.stats.MoveSpeed.Current * Time.deltaTime;
     }
 
     protected override bool Transition()

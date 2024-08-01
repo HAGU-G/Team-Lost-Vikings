@@ -3,13 +3,12 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 [Serializable]
-public abstract class Unit : MonoBehaviour, IStatUsable
+public abstract class Unit : MonoBehaviour
 {
     public UnitStats stats = null;
     public GameObject dress = null;
 
     public virtual STAT_GROUP StatGroup => STAT_GROUP.UNIT_ON_VILLAGE;
-    public Stats GetStats => stats;
     public UnitSkills skills;
     public GameObject skillEffect;
 
@@ -17,42 +16,44 @@ public abstract class Unit : MonoBehaviour, IStatUsable
     private Vector3 prePos;
     public bool isActing;
 
-    public void LookTarget(Transform target)
+
+    public void SetPosition(Vector3 pos)
     {
-        if(dress == null || target == null)
+        LookAt(pos);
+        animator.AnimRun();
+        transform.position = pos;
+        stats.UpdateEllipsePosition();
+    }
+
+    public void Move(Vector3 destination, float deltaTime)
+    {
+        LookAt(destination);
+        animator.AnimRun();
+        if (stats == null)
             return;
 
-        var direc = target.position - transform.position;
+        var direc = (destination - transform.position).normalized;
+        transform.position += direc * stats.MoveSpeed.Current * deltaTime;
+        stats.UpdateEllipsePosition();
+    }
+
+    public void Move(Transform target, float deltaTime) => Move(target.transform.position, deltaTime);
+
+
+    public void LookAt(Vector3 target)
+    {
+        if (dress == null || target == null)
+            return;
+
+        var direc = target - transform.position;
         dress.transform.localScale = new Vector3(
             Mathf.Abs(dress.transform.localScale.x) * (direc.x > 0f ? -1f : 1f),
             dress.transform.localScale.y,
             dress.transform.localScale.z);
-    }    
 
-    public void UpdateAnimator()
-    {
-        if (!isActing && animator != null && dress != null)
-        {
-            if (transform.position != prePos)
-            {
-                float preLook = Mathf.Sign(dress.transform.localScale.x);
-                float currLook = Mathf.Sign((transform.position - prePos).x) * -1f;
-                bool flip = (preLook != currLook) && currLook != 0f;
-
-                dress.transform.localScale = new Vector3(
-                    dress.transform.localScale.x * (flip ? -1f : 1f),
-                    dress.transform.localScale.y,
-                    dress.transform.localScale.z);
-
-                animator.AnimRun();
-            }
-            else
-            {
-                animator.AnimIdle();
-            }
-        }
-        prePos = transform.position;
     }
+
+    public void LookAt(Transform target) => LookAt(target.position);
 
     /// <summary>
     /// 오브젝트 풀 OnCreate에서 호출
