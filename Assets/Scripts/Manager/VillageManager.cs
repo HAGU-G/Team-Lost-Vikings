@@ -138,6 +138,7 @@ public class VillageManager : MonoBehaviour
 
                 var upgradeData = dt[upgradeComponent.UpgradeGrade -1];
 
+                upgradeComponent.StructureType = (int)buildingComponenet.StructureType;
                 upgradeComponent.UpgradeName = upgradeData.UpgradeName;
                 upgradeComponent.UpgradeId = buildingComponenet.UpgradeId;
                 upgradeComponent.StatType = upgradeData.StatType;
