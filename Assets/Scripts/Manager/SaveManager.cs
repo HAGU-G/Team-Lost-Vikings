@@ -7,7 +7,7 @@ using CurrentSave = SaveDataV1;
 public static class SaveManager
 {
     private static readonly string fileDirectory = $"{Application.persistentDataPath}/save";
-    private static readonly string fileName = "TLVProtoSave";
+    private static readonly string fileName = "AtferProtoSave";
     private static readonly string key = "89f0d73j038fjje0";
 
     private static SaveData saveData = null;

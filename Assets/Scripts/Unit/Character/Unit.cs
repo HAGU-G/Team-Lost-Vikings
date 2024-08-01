@@ -25,7 +25,7 @@ public abstract class Unit : MonoBehaviour
 
     public void SetPosition(Vector3 pos, bool playAnimation = false)
     {
-        if (playAnimation)
+        if (playAnimation && animator != null)
         {
             LookAt(pos);
             animator.AnimRun();

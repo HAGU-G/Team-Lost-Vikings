@@ -87,11 +87,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7ce01705b3a8669419fe17c57396e754
-    m_Address: Assets/DataTable/MonsterTable.csv
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c4abce40afb035545ad70bc9813a991d
     m_Address: Assets/DataTable/BuildingTable.csv
     m_ReadOnly: 0

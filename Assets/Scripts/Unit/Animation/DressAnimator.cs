@@ -31,12 +31,18 @@ public class DressAnimator
 
     public void AnimIdle()
     {
+        if (animator == null)
+            return;
+
         animator.ResetTrigger(triggerIdle);
         animator.SetTrigger(triggerIdle);
     }
 
     public void AnimRun()
     {
+        if (animator == null)
+            return;
+
         animator.SetFloat(paramMoveSpeed, moveSpeed.Current);
         animator.ResetTrigger(triggerRun);
         animator.SetTrigger(triggerRun);
@@ -44,6 +50,10 @@ public class DressAnimator
 
     public void AnimAttack()
     {
+        //TODO 프리펩 미리 로드 후 생성시 바로 작동할 수 있도록 변경 필요
+        if (animator == null)
+            return;
+
         animator.SetFloat(paramAttackSpeed, 1f / attackSpeed.Current);
         animator.ResetTrigger(triggerAttack);
         animator.SetTrigger(triggerAttack);
