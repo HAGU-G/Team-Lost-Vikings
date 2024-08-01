@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Construct
 {
@@ -18,41 +19,33 @@ public class Construct
             return null;
         }
             
-        var objInfo = obj.GetComponent<Building>();
-        var width = objInfo.Width;
-        var height = objInfo.Length;
+        //var objInfo = obj.GetComponent<Building>();
+        //var width = objInfo.Width;
+        //var height = objInfo.Length;
 
-        objInfo.placedTiles.Clear();
-        var tileId = tile.tileInfo.id;
-        var indexX = tileId.x + width - 1;
-        var indexY = tileId.y + height - 1;
+        //objInfo.placedTiles.Clear();
+        //var tileId = tile.tileInfo.id;
+        //var indexX = tileId.x + width - 1;
+        //var indexY = tileId.y + height - 1;
                   
-        objInfo.entranceTile = gridMap.tiles[new Vector2Int(tile.tileInfo.id.x - 1, tile.tileInfo.id.y)];
-        objInfo.entranceTile.TileColorChange();
-        if(objInfo.entranceTile.tileInfo.RoadLayer.LayerObject != null)
-        {
-            //objInfo.entranceTile.tileInfo.RoadLayer.LayerObject.GetComponent<SpriteRenderer>().material.color = Color.magenta;
-            //프로토타입 임시 코드
-        }
-        var instancedObj = GameObject.Instantiate(obj, gridMap.IndexToPos(tileId), Quaternion.identity, tile.transform);
+        //objInfo.entranceTile = gridMap.tiles[new Vector2Int(tile.tileInfo.id.x - 1, tile.tileInfo.id.y)];
+
+        var instancedObj = GameObject.Instantiate(obj, gridMap.IndexToPos(tile.tileInfo.id), Quaternion.identity, tile.transform);
         var pos = instancedObj.transform.position;
         pos.y = instancedObj.transform.position.y + gridMap.gridInfo.cellSize / (GameSetting.Instance.tileXY * 4f);
         instancedObj.transform.position = pos;
 
         var buildingComponent = instancedObj.GetComponent<Building>();
         buildingComponent.gridMap = gridMap;
-        buildingComponent.placedTiles.Add(tile);
 
-        for (int i = tileId.x; i <= indexX; ++i)
-        {
-            for (int j = tileId.y; j <= indexY; ++j)
-            {
-                var t = gridMap.tiles.GetValueOrDefault(new Vector2Int(i, j));
-                t.UpdateTileInfo(TileType.OBJECT, instancedObj);
+        //TO-DO : 입구타일 4방향 수정하기
+        buildingComponent.entranceTile = gridMap.tiles[new Vector2Int(tile.tileInfo.id.x - 1, tile.tileInfo.id.y)];
 
-                objInfo.placedTiles.Add(t);
-            }
-        }
+        SetBuildingInfo(instancedObj, tile, gridMap);
+        
+
+
+
         isSelected = false;
 
         return instancedObj;
@@ -65,8 +58,6 @@ public class Construct
 
         var indexX = tile.tileInfo.id.x;
         var indexY = tile.tileInfo.id.y;
-
-        
 
         var roadObj = GameObject.Instantiate(road, gridMap.IndexToPos(new Vector2Int(indexX, indexY)), Quaternion.identity, tile.transform);
         gridMap.GetTile(indexX, indexY).UpdateTileInfo(TileType.ROAD, roadObj);
@@ -157,14 +148,20 @@ public class Construct
         var width = building.Width;
         var length = building.Length;
 
-        var indexX = tile.tileInfo.id.x + width - 1;
-        var indexY = tile.tileInfo.id.y + length - 1;
+        //var indexX = tile.tileInfo.id.x + width - 1;
+        //var indexY = tile.tileInfo.id.y + length - 1;
 
+        var minX = tile.tileInfo.id.x - (width / 2);
+        var minY = tile.tileInfo.id.y - (length / 2);
+        var maxX = tile.tileInfo.id.x + (width / 2);
+        var maxY = tile.tileInfo.id.y + (length / 2);
+
+        //TO-DO : 입구 타일 4방향으로 수정하기
         var entranceX = tile.tileInfo.id.x - 1;
         var entranceY = tile.tileInfo.id.y;
 
-        if (indexX < 0 || indexY < 0
-            || indexX > gridMap.gridInfo.row - 1 || indexY > gridMap.gridInfo.col - 1
+        if (minX < 0 || minY < 0
+            || maxX > gridMap.gridInfo.row - 1 || maxY > gridMap.gridInfo.col - 1
             || entranceX < 0 || entranceY < 0
             || entranceX > gridMap.gridInfo.row - 1 || entranceY > gridMap.gridInfo.col - 1)
         {
@@ -204,11 +201,12 @@ public class Construct
             }
         }
 
-        for (int i = tile.tileInfo.id.x; i <= indexX; ++i)
+        for (int i = minX; i <= maxX; ++i)
         {
-            for(int j = tile.tileInfo.id.y; j <= indexY; ++j)
+            for(int j = minY; j <= maxY; ++j)
             {
-                if (gridMap.GetTile(i,j).tileInfo.TileType == TileType.OBJECT)
+                if (gridMap.GetTile(i,j).tileInfo.TileType == TileType.OBJECT
+                    || !gridMap.GetTile(i,j).tileInfo.MarginLayer.IsEmpty)
                     return false;
             }
         }
@@ -229,4 +227,114 @@ public class Construct
         return true;
     }
 
+    public Cell GetLowestTile(GameObject obj, Cell tile, GridMap gridMap)
+    {
+        var building = obj.GetComponent<Building>();
+        var width = building.Width;
+        var length = building.Length;
+
+        var minX = tile.tileInfo.id.x - (width / 2);
+        var minY = tile.tileInfo.id.y - (length / 2);
+        var maxX = tile.tileInfo.id.x + (width / 2);
+        var maxY = tile.tileInfo.id.y + (length / 2);
+
+        return gridMap.GetTile(minX, minY);
+    }
+
+    private Vector2Int GetLowestIndex(GameObject obj, Cell tile, GridMap gridMap)
+    {
+        var building = obj.GetComponent<Building>();
+        var width = building.Width;
+        var length = building.Length;
+
+        var minX = tile.tileInfo.id.x - (width / 2);
+        var minY = tile.tileInfo.id.y - (length / 2);
+
+        return new Vector2Int(minX, minY);
+    }
+
+    private Vector2Int GetHighestIndex(GameObject obj, Cell tile, GridMap gridMap)
+    {
+        var building = obj.GetComponent<Building>();
+        var width = building.Width;
+        var length = building.Length;
+
+        var maxX = tile.tileInfo.id.x + (width / 2);
+        var maxY = tile.tileInfo.id.y + (length / 2);
+
+        return new Vector2Int(maxX, maxY);
+    }
+
+    private void SetBuildingInfo(GameObject obj, Cell tile, GridMap gridMap)
+    {
+        var building = obj.GetComponent<Building>();
+        var width = building.Width;
+        var length = building.Length;
+
+        var lowestIndex = GetLowestIndex(obj, tile, gridMap);
+        var highestIndex = GetHighestIndex(obj, tile, gridMap);
+
+        //기준 타일 설정
+        building.standardTile = tile;
+        
+        //차지하는 전체 타일 설정
+        building.placedTiles.Clear();
+        for (int i = lowestIndex.x; i <= highestIndex.x; ++i)
+        {
+            for (int j = lowestIndex.y; j <= highestIndex.y; ++j)
+            {
+                var t = gridMap.tiles.GetValueOrDefault(new Vector2Int(i, j));
+
+                building.placedTiles.Add(t);
+            }
+        }
+
+        //여백 타일 설정
+        building.marginTiles.Clear();
+        for(int i = lowestIndex.x; i < lowestIndex.x + width; ++i)
+        { //하단 한줄
+            var t = gridMap.GetTile(i, lowestIndex.y);
+            t.UpdateTileInfo(TileType.MARGIN, null);
+
+            if(!building.marginTiles.Contains(t))
+                building.marginTiles.Add(t);
+        }
+        
+        for(int j = lowestIndex.y; j < lowestIndex.y + length; ++j)
+        { //우측 한줄
+            var t = gridMap.GetTile(lowestIndex.x, j);
+            t.UpdateTileInfo(TileType.MARGIN, null);
+
+            if (!building.marginTiles.Contains(t))
+                building.marginTiles.Add(t);
+        }
+
+        for(int i = lowestIndex.x; i < lowestIndex.x + width; ++i)
+        {//상단 한줄
+            var t = gridMap.GetTile(i, highestIndex.y);
+            t.UpdateTileInfo(TileType.MARGIN, null);
+
+            if (!building.marginTiles.Contains(t))
+                building.marginTiles.Add(t);
+        }
+
+        for (int j = lowestIndex.y; j < lowestIndex.y + length; ++j)
+        { //좌측 한줄
+            var t = gridMap.GetTile(highestIndex.x, j);
+            t.UpdateTileInfo(TileType.MARGIN, null);
+
+            if (!building.marginTiles.Contains(t))
+                building.marginTiles.Add(t);
+        }
+
+        //realOccupiedTiles 설정
+        foreach(var real in building.placedTiles)
+        {
+            if(!building.marginTiles.Contains(real))
+            {
+                building.realOccupiedTiles.Add(real);
+                real.UpdateTileInfo(TileType.OBJECT, obj);
+            }
+        }
+    }
 }

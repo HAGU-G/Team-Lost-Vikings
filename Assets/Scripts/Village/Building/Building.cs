@@ -34,8 +34,12 @@ public class Building : MonoBehaviour, IPointerClickHandler
     [field: SerializeField]
     public string StructureDesc { get; set; }
 
-    public List<Cell> placedTiles = new List<Cell>();
-    public Cell entranceTile;
+    public Cell standardTile; //설치, 회전 시 기준이 되는 타일
+    public List<Cell> placedTiles = new (); //건물 프리팹이 차지하는 모든 타일
+    public List<Cell> marginTiles = new(); //여백에 해당하는 타일
+    public List<Cell> realOccupiedTiles = new(); //여백을 제외한 실제 건물이 설치되는 타일
+
+    public Cell entranceTile; //TO-DO : 4방향 입구 타일 설정하기
     private bool isFlip = false;
     //private static bool isRotating = false;
     public GridMap gridMap;
@@ -53,12 +57,6 @@ public class Building : MonoBehaviour, IPointerClickHandler
     {
         interactWithPlayer = gameObject.GetComponent<IInteractableWithPlayer>();
         interactWithUnit = gameObject.GetComponent<IInteractableWithUnit>();
-    }
-
-    public void SetInteractWith()
-    {
-        interactWithPlayer = GetComponent<IInteractableWithPlayer>();
-        interactWithUnit = GetComponent<IInteractableWithUnit>();
     }
 
     public void Interact()
