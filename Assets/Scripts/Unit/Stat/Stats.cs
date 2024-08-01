@@ -1,13 +1,6 @@
 ﻿using Newtonsoft.Json;
 using UnityEngine;
 
-public enum STAT_GROUP
-{
-    UNIT_ON_VILLAGE,
-    UNIT_ON_HUNT,
-    MONSTER
-}
-
 
 [System.Serializable,JsonObject(MemberSerialization.OptIn)]
 public abstract class Stats

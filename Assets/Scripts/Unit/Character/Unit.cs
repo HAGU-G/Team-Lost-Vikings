@@ -2,13 +2,19 @@
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
+public enum LOCATION
+{
+    NONE,
+    VILLAGE,
+    HUNTZONE
+}
+
 [Serializable]
 public abstract class Unit : MonoBehaviour
 {
     public UnitStats stats = null;
     public GameObject dress = null;
 
-    public virtual STAT_GROUP StatGroup => STAT_GROUP.UNIT_ON_VILLAGE;
     public UnitSkills skills;
     public GameObject skillEffect;
 

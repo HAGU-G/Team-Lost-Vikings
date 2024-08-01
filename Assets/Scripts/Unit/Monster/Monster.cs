@@ -2,13 +2,11 @@
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackable, IStatUsable
+public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackable
 {
     public GameObject dress;
 
     public MonsterStats stats = new();
-    public Stats GetStats => stats;
-    public STAT_GROUP StatGroup => STAT_GROUP.MONSTER;
 
     public HuntZone CurrentHuntZone { get; private set; } = null;
 

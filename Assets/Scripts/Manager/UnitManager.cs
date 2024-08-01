@@ -98,7 +98,7 @@ public class UnitManager
 
         foreach (var data in DataTableManager.characterTable.GetDatas())
         {
-            if (level < data.GachaLevel)
+            if (level < data.GachaUnlockLv)
                 continue;
 
             for (int i = 0; i < data.GachaChance; i++)

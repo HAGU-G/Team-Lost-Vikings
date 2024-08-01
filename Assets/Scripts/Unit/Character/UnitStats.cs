@@ -2,60 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum STAT_TYPE
-{
-    NONE,
-    STR,
-    WIZ,
-    AGI,
-    VIT,
-    CRIT_CHANCE,
-    CRIT_WEIGHT,
-    HP,
-    STAMINA,
-    MENTAL
-}
-
-public enum PARAMETER_TYPE
-{
-    NONE,
-    HP,
-    STAMINA,
-    MENTAL,
-}
-
-public enum UNIT_JOB
-{
-    NONE = -1,
-    WARRIOR,
-    MAGICIAN,
-    ARCHER
-}
-
-public enum ATTACK_TYPE
-{
-    NONE,
-    PHYSICAL,
-    MAGIC,
-    SPECIAL,
-}
-
-public enum UNIT_GRADE
-{
-    COMMON,
-    NORMAL,
-    RARE,
-    SUPER_RARE,
-    ULTRA_RARE
-}
-
-public enum LOCATION
-{
-    NONE,
-    VILLAGE,
-    HUNTZONE
-}
-
 [System.Serializable, JsonObject(MemberSerialization.OptIn)]
 public class UnitStats : Stats
 {
@@ -103,7 +49,7 @@ public class UnitStats : Stats
 
     [JsonProperty]
     [field: SerializeField]
-    public StatInt BaseHP { get; private set; } = new();
+    public StatInt StatHP { get; private set; } = new();
 
     [JsonProperty]
     [field: SerializeField]
@@ -237,10 +183,10 @@ public class UnitStats : Stats
     }
     public void GachaDefaultStats(UnitStatsData data)
     {
-        Vit.defaultValue = Random.Range(data.VitMin, data.VitMax + 1);
-        BaseStr.defaultValue = Random.Range(data.StrMin, data.StrMax + 1);
-        BaseWiz.defaultValue = Random.Range(data.WizMin, data.WizMax + 1);
-        BaseAgi.defaultValue = Random.Range(data.AgiMin, data.AgiMax + 1);
+        Vit.defaultValue = Random.Range(data.MinBaseVit, data.MaxBaseVit + 1);
+        BaseStr.defaultValue = Random.Range(data.MinBaseStr, data.MaxBaseStr + 1);
+        BaseWiz.defaultValue = Random.Range(data.MinBaseWiz, data.MaxBaseWiz + 1);
+        BaseAgi.defaultValue = Random.Range(data.MinBaseAgi, data.MaxBaseAgi + 1);
         SkillId1 = data.SkillPoolId1;
         SkillId2 = data.SkillPoolId2;
     }
@@ -254,13 +200,13 @@ public class UnitStats : Stats
         AssetFileName = data.UnitAssetFileName;
 
         //Stats
-        Stamina.max = data.MaxStamina;
-        Stamina.defaultValue = data.MaxStamina;
+        Stamina.max = data.BaseStamina;
+        Stamina.defaultValue = data.BaseStamina;
 
-        Stress.max = data.MaxMental;
-        Stress.defaultValue = data.MaxMental;
+        Stress.max = data.BaseMental;
+        Stress.defaultValue = data.BaseMental;
 
-        BaseHP.defaultValue = data.MaxHP;
+        StatHP.defaultValue = data.BaseHP;
 
         VitWeight.defaultValue = data.VitWeight;
         StrWeight.defaultValue = data.StrWeight;
@@ -281,7 +227,7 @@ public class UnitStats : Stats
 
     public void UpdateMaxHP()
     {
-        HP.max = BaseHP.Current + GetWeightedStat(Vit.Current, VitWeight.Current);
+        HP.max = StatHP.Current + GetWeightedStat(Vit.Current, VitWeight.Current);
         HP.defaultValue = HP.max;
 
         if (HP.Current > HP.max)
@@ -332,7 +278,7 @@ public class UnitStats : Stats
         clone.Stamina = Stamina.Clone();
         clone.Stress = Stress.Clone();
 
-        clone.BaseHP = BaseHP.Clone() as StatInt;
+        clone.StatHP = StatHP.Clone() as StatInt;
         clone.Vit = Vit.Clone() as StatInt;
         clone.VitWeight = VitWeight.Clone() as StatFloat;
         clone.BaseStr = BaseStr.Clone() as StatInt;

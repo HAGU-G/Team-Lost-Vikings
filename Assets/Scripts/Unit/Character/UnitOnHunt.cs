@@ -33,7 +33,6 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
 
     //AdditionalStats
     public bool isTargetFixed;
-    public override STAT_GROUP StatGroup => STAT_GROUP.UNIT_ON_HUNT;
     public bool IsDead { get; private set; }
     public bool IsNeedReturn
     {
