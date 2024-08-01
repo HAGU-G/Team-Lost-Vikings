@@ -17,10 +17,13 @@ public abstract class Unit : MonoBehaviour
     public bool isActing;
 
 
-    public void SetPosition(Vector3 pos)
+    public void SetPosition(Vector3 pos, bool playAnimation = false)
     {
-        LookAt(pos);
-        animator.AnimRun();
+        if (playAnimation)
+        {
+            LookAt(pos);
+            animator.AnimRun();
+        }
         transform.position = pos;
         stats.UpdateEllipsePosition();
     }

@@ -73,12 +73,8 @@ public class UnitMove : MonoBehaviour
 
             //end = gridMap.IndexToPos(path[0].tileInfo.id);
 
-            unitOnVillage.SetPosition(
-                Vector3.Lerp(
-                    start, 
-                    end, 
-                    timer / (1f * dis / unitOnVillage.stats.MoveSpeed.Current)
-                    ));
+            var pos = Vector3.Lerp(start, end, timer / (1f * dis / unitOnVillage.stats.MoveSpeed.Current));
+            unitOnVillage.SetPosition(pos, true);
         }
     }
 
