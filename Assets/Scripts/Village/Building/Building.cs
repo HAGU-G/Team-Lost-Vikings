@@ -132,7 +132,6 @@ public class Building : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log(GameManager.uiManager.isWindowOn);
         if (GameManager.uiManager.isWindowOn)
             return;
 

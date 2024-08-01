@@ -9,11 +9,10 @@ public class UnitMove : MonoBehaviour
     private Cell currentTile;
     private Cell goalTile;
 
-    private float moveTime = 1.0f;
     private float timer;
 
     private bool isMoving = false;
-    private bool moveStart = false;
+    //private bool moveStart = false;
 
     List<Cell> path;
 

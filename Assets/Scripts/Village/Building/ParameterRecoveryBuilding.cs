@@ -12,7 +12,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
     public List<UnitOnVillage> interactingUnits;
     public int recoveryAmount;
     public float recoveryTime;
-    private bool isRecovering;
+    //private bool isRecovering;
 
     public event Action<PARAMETER_TYPE> OnRecoveryDone;
     private Coroutine recoveryCoroutine;
@@ -89,7 +89,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
             }
             if (isComplete)
             {
-                isRecovering = false;
+                //isRecovering = false;
                 interactingUnits.Remove(unit);
                 unit.RecoveryDone(parameterType);
                 //OnRecoveryDone?.Invoke(parameterType);
