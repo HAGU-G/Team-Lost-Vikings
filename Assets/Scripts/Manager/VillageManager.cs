@@ -111,12 +111,13 @@ public class VillageManager : MonoBehaviour
             buildingComponenet.Length = datas[i].Length;
             buildingComponenet.StructureType = datas[i].StructureType;
             buildingComponenet.UnlockTownLevel = datas[i].UnlockTownLevel;
+            buildingComponenet.CanMultiBuild = datas[i].CanMultiBuild;
             buildingComponenet.CanReverse = datas[i].CanReverse;
             buildingComponenet.CanReplace = datas[i].CanReplace;
             buildingComponenet.CanDestroy = datas[i].CanDestroy;
             buildingComponenet.UpgradeId = datas[i].UpgradeId;
-            Debug.Log(datas[i].UpgradeId);
             buildingComponenet.StructureAssetFileName = datas[i].StructureAssetFileName;
+            buildingComponenet.StructureDesc = datas[i].StructureDesc;
 
             var sprite = b.GetComponent<SpriteRenderer>();
             var path = string.Concat(filePath, "/", buildingComponenet.StructureAssetFileName,".prefab");
@@ -137,10 +138,11 @@ public class VillageManager : MonoBehaviour
 
                 var upgradeData = dt[upgradeComponent.UpgradeGrade -1];
 
-                upgradeComponent.UpgradeId = buildingComponenet.UpgradeId;
                 upgradeComponent.UpgradeName = upgradeData.UpgradeName;
+                upgradeComponent.UpgradeId = buildingComponenet.UpgradeId;
                 upgradeComponent.StatType = upgradeData.StatType;
                 upgradeComponent.StatReturn = upgradeData.StatReturn;
+                upgradeComponent.ParameterType = upgradeData.ParameterType;
                 upgradeComponent.ParameterRecovery = upgradeData.ParameterRecovery;
                 upgradeComponent.RecoveryTime = upgradeData.RecoveryTime;
                 upgradeComponent.ProgressVarType = upgradeData.ProgressVarType;
@@ -160,7 +162,7 @@ public class VillageManager : MonoBehaviour
                     upgradeComponent.ItemNums.Add(upgradeData.ItemNums[j]);
                 }
 
-                upgradeComponent.UpgradeDesc = upgradeComponent.UpgradeDesc;
+                upgradeComponent.UpgradeDesc = upgradeData.UpgradeDesc;
 
                 switch (buildingComponenet.StructureType)
                 {

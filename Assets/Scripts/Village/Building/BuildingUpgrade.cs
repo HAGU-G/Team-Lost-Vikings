@@ -10,22 +10,39 @@ public class BuildingUpgrade : MonoBehaviour
     public int UpgradeId { get; set; }
     [field: SerializeField]
     public int UpgradeGrade { get; set; }
+    [field: SerializeField]
     public int StructureLevel { get; set; }
+    [field: SerializeField]
     public int StructureType { get; set; }
+    [field: SerializeField]
     public STAT_TYPE StatType { get; set; }
+    [field: SerializeField]
     public int StatReturn { get; set; }
+    [field: SerializeField]
     public int ParameterType { get; set; }
+    [field: SerializeField]
     public int ParameterRecovery { get; set; }
+    [field: SerializeField]
     public float RecoveryTime { get; set; }
+    [field: SerializeField]
     public int ProgressVarType { get; set; }
+    [field: SerializeField]
     public float ProgressVarReturn { get; set; }
+    [field: SerializeField]
     public int RecipeId { get; set; }
+    [field: SerializeField]
     public int ItemStack { get; set; }
+    [field: SerializeField]
     public float RequireTime { get; set; }
+    [field: SerializeField]
     public int RequireGold { get; set; }
+    [field: SerializeField]
     public int RequireRune { get; set; }
+    [field: SerializeField]
     public List<int> ItemIds { get; set; }
+    [field: SerializeField]
     public List<int> ItemNums { get; set; }
+    [field: SerializeField]
     public string UpgradeDesc { get; set; }
 
     public int currentGrade = 1;

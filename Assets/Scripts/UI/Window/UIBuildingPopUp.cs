@@ -98,7 +98,7 @@ public class UIBuildingPopUp : UIWindow
     {
         buildingName.text = um.currentNormalBuidling.StructureName;
         defaultDescription.text = um.currentNormalBuidling.StructureDesc;
-        currentEffectDescription.text = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>().UpgradeDesc;
+        currentEffectDescription.text = UpgradeData.GetUpgradeData(upgradeComponent.UpgradeId, upgradeComponent.UpgradeGrade).UpgradeDesc;
         Debug.Log(upgradeComponent);
         Debug.Log(upgradeComponent.UpgradeId);
         Debug.Log(upgradeComponent.UpgradeGrade);
