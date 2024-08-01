@@ -73,11 +73,11 @@ public class UIUnitDetailInformation : UIWindow
 
     public void SetInfo()
     {
-        characterName.text = unit.Name;
+        characterName.text = unit.Data.Name;
         characterIcon.uvRect
-                = GameManager.uiManager.unitRenderTexture.LoadRenderTexture(unit.AssetFileName);
+                = GameManager.uiManager.unitRenderTexture.LoadRenderTexture(unit.Data.UnitAssetFileName);
         gradeIcon.sprite = GameManager.uiManager.gradeIcons[(int)unit.UnitGrade];
-        characterJob.text = unit.Job.ToString();
+        characterJob.text = unit.Data.Job.ToString();
 
         //skill1_Icon.sprite = 
         skill1_Name.text = DataTableManager.skillTable.GetData(unit.SkillId1).Name;
@@ -87,7 +87,7 @@ public class UIUnitDetailInformation : UIWindow
         //skill2_Desc.text = DataTableManager.skillTable.GetData(unit.SkillId2).; //스킬 설명 컬럼 추가 필요
 
         //attributeIcon.sprite = ;
-        attributeText.text = unit.BasicAttackType.ToString();
+        attributeText.text = unit.Data.BasicAttackType.ToString();
 
         //hpIcon.sprite = ;
         hpBar.interactable = false;

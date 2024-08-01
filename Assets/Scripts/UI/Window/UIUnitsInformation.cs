@@ -36,7 +36,7 @@ public class UIUnitsInformation : UIWindow
         {
             var button = GameObject.Instantiate(unitInfo, content);
             var info = button.GetComponent<CharacterInfo>();
-            info.characterName.text = $"{unit.Value.Name}";
+            info.characterName.text = $"{unit.Value.Data.Name}";
             info.gradeIcon.sprite = GameManager.uiManager.gradeIcons[(int)unit.Value.UnitGrade];
             info.characterButton.onClick.AddListener(() =>
             {
@@ -45,7 +45,7 @@ public class UIUnitsInformation : UIWindow
                 Close();
             });
             info.characterIcon.uvRect
-                = GameManager.uiManager.unitRenderTexture.LoadRenderTexture(unit.Value.AssetFileName);
+                = GameManager.uiManager.unitRenderTexture.LoadRenderTexture(unit.Value.Data.UnitAssetFileName);
             info.information.onClick.AddListener(
             () =>
             {

@@ -84,7 +84,7 @@ public abstract class Unit : MonoBehaviour
         if (dress != null)
             Addressables.ReleaseInstance(dress);
 
-        Addressables.InstantiateAsync(stats.AssetFileName, transform)
+        Addressables.InstantiateAsync(stats.Data.UnitAssetFileName, transform)
         .Completed += (handle) =>
         {
             if (dress != null)
@@ -93,7 +93,7 @@ public abstract class Unit : MonoBehaviour
             dress = handle.Result;
             animator.Init(
                 handle.Result.GetComponentInChildren<Animator>(),
-                stats.Job,
+                stats.Data.Job,
                 stats.MoveSpeed,
                 stats.AttackSpeed);
 

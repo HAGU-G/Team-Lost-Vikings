@@ -25,11 +25,11 @@ public class UIGachaResult : UIWindow
 
     public void SetResult()
     {
-        gachaResultDesc.text = $"{gachaResultUnit.UnitGrade.ToString()} 등급의 {gachaResultUnit.Name}를 뽑았습니다.";
+        gachaResultDesc.text = $"{gachaResultUnit.UnitGrade.ToString()} 등급의 {gachaResultUnit.Data.Name}를 뽑았습니다.";
         //unitImage.sprite = GameManager.uiManager.unitRenderTexture.LoadRenderTexture(gachaResultUnit.AssetFileName);
-        unitImage.uvRect = GameManager.uiManager.unitRenderTexture.LoadRenderTexture(gachaResultUnit.AssetFileName);
+        unitImage.uvRect = GameManager.uiManager.unitRenderTexture.LoadRenderTexture(gachaResultUnit.Data.UnitAssetFileName);
         gradeICon.sprite = GameManager.uiManager.gradeIcons[(int)gachaResultUnit.UnitGrade];
-        unitName.text = gachaResultUnit.Name;
+        unitName.text = gachaResultUnit.Data.Name;
     }
 
     public void OnButtonExit()

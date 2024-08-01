@@ -35,7 +35,7 @@ public class UICharacterWaiting : UIWindow
             button.GetComponentInChildren<TextMeshProUGUI>().text = character.Value.InstanceID.ToString();
 
             button.GetComponentInChildren<RawImage>().uvRect
-                = GameManager.uiManager.unitRenderTexture.LoadRenderTexture(character.Value.AssetFileName);
+                = GameManager.uiManager.unitRenderTexture.LoadRenderTexture(character.Value.Data.UnitAssetFileName);
 
             button.onClick.AddListener(
                 () =>

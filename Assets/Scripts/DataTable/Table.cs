@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using CsvHelper;
+using CsvHelper.Configuration;
+using CsvHelper.TypeConversion;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -20,7 +23,7 @@ public class Table<T, U> where U : ITableAvaialable<T>
     /// <summary>
     /// Key: ID, Value: Class
     /// </summary>
-    protected Dictionary<T, U> datas;
+    public Dictionary<T, U> datas;
 
     public AsyncOperationHandle<TextAsset> Load()
     {

@@ -112,9 +112,6 @@ public class UICharacterLocate : UIWindow
     public void SetUnitHuntZone(int huntzone)
     {
         unit.SetHuntZone(huntzone);
-
-        //TODO 아래는 테스트 코드. 제거해야함
-        GameManager.villageManager.village.GoHunt(unit.InstanceID);
     }
 
     public void VillageAraive()

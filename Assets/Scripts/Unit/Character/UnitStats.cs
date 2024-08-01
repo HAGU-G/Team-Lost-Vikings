@@ -5,97 +5,19 @@ using UnityEngine;
 [System.Serializable, JsonObject(MemberSerialization.OptIn)]
 public class UnitStats : Stats
 {
-    public static List<int> existIDs = new();
-
-    [JsonProperty]
-    [field: SerializeField]
-    public int InstanceID { get; private set; }
-
-    public UnitStats()
-    {
-        InstanceID = System.DateTime.Now.GetHashCode();
-        while (existIDs.Contains(InstanceID))
-        {
-            InstanceID++;
-        }
-        existIDs.Add(InstanceID);
-    }
-
-    [JsonConstructor]
-    public UnitStats(int instanceId)
-    {
-        InstanceID = instanceId;
-        existIDs.Add(instanceId);
-    }
-
-    [JsonProperty] public UNIT_GRADE UnitGrade { get; private set; }
-    public UNIT_JOB Job { get; private set; }
-    public ATTACK_TYPE BasicAttackType { get; private set; }
-    [JsonProperty] public int SkillId1 { get; private set; }
-    [JsonProperty] public int SkillId2 { get; private set; }
-
     //Location
     [JsonProperty] public LOCATION Location { get; private set; }
     [JsonProperty] public LOCATION NextLocation { get; private set; }
     [JsonProperty][field: SerializeField] public int HuntZoneNum { get; private set; } = -1;
 
-    [JsonProperty]
-    [field: SerializeField]
-    public Parameter Stamina { get; private set; } = new();
-
-    [JsonProperty]
-    [field: SerializeField]
-    public Parameter Stress { get; private set; } = new();
-
-    [JsonProperty]
-    [field: SerializeField]
-    public StatInt StatHP { get; private set; } = new();
-
-    [JsonProperty]
-    [field: SerializeField]
-    public StatInt Vit { get; private set; } = new();
-    [field: SerializeField] public StatFloat VitWeight { get; private set; } = new();
-
-    [JsonProperty]
-    [field: SerializeField]
-    public StatInt BaseStr { get; private set; } = new();
-    [field: SerializeField] public StatFloat StrWeight { get; private set; } = new();
-
-    [JsonProperty]
-    [field: SerializeField]
-    public StatInt BaseWiz { get; private set; } = new();
-    [field: SerializeField] public StatFloat WizWeight { get; private set; } = new();
-
-    [JsonProperty]
-    [field: SerializeField]
-    public StatInt BaseAgi { get; private set; } = new();
-    [field: SerializeField] public StatFloat AgiWeight { get; private set; } = new();
-
-    [field: SerializeField] public StatFloat CritChance { get; set; } = new();
-    [field: SerializeField] public StatFloat CritWeight { get; set; } = new();
-
     public event System.Action ArriveVillage;
     public PARAMETER_TYPE parameterType;
 
-    public void InitStats(UnitStatsData data, bool doGacha = true)
+    public override void InitStats(StatsData data, bool doGacha = true)
     {
+        base.InitStats(data, doGacha);
         if (doGacha)
-            GachaDefaultStats(data);
-
-        SetConstantStats(data);
-        CalulateGrade();
-        GameManager.Subscribe(EVENT_TYPE.UPGRADE, UpdateCombatPoint);
-    }
-
-    public override void ResetStats()
-    {
-        UpdateMaxHP();
-
-        base.ResetStats();
-        Stress.Reset();
-        Stamina.Reset();
-
-        UpdateCombatPoint();
+            RegisterCharacter();
     }
 
     public void SetUpgradeStats()
@@ -103,7 +25,6 @@ public class UnitStats : Stats
         BaseStr.SetUpgrade(GameManager.playerManager.unitStr);
         BaseWiz.SetUpgrade(GameManager.playerManager.unitMag);
         BaseAgi.SetUpgrade(GameManager.playerManager.unitAgi);
-        UpdateCombatPoint();
     }
 
     public void SetLocation(LOCATION location, LOCATION nextLocation = LOCATION.NONE)
@@ -172,126 +93,6 @@ public class UnitStats : Stats
             return;
 
         objectTransform.GetComponent<UnitOnHunt>().forceReturn = true;
-    }
-
-    public void UpdateCombatPoint()
-    {
-        CombatPoint =
-            GetWeightedStat(BaseStr.Current, StrWeight.Current)
-            + GetWeightedStat(BaseWiz.Current, WizWeight.Current)
-            + GetWeightedStat(BaseAgi.Current, AgiWeight.Current);
-    }
-    public void GachaDefaultStats(UnitStatsData data)
-    {
-        Vit.defaultValue = Random.Range(data.MinBaseVit, data.MaxBaseVit + 1);
-        BaseStr.defaultValue = Random.Range(data.MinBaseStr, data.MaxBaseStr + 1);
-        BaseWiz.defaultValue = Random.Range(data.MinBaseWiz, data.MaxBaseWiz + 1);
-        BaseAgi.defaultValue = Random.Range(data.MinBaseAgi, data.MaxBaseAgi + 1);
-        SkillId1 = data.SkillPoolId1;
-        SkillId2 = data.SkillPoolId2;
-    }
-
-    private void SetConstantStats(UnitStatsData data)
-    {
-        Id = data.Id;
-        Name = data.Name;
-        Job = data.Job;
-        BasicAttackType = data.BasicAttackType;
-        AssetFileName = data.UnitAssetFileName;
-
-        //Stats
-        Stamina.max = data.BaseStamina;
-        Stamina.defaultValue = data.BaseStamina;
-
-        Stress.max = data.BaseMental;
-        Stress.defaultValue = data.BaseMental;
-
-        StatHP.defaultValue = data.BaseHP;
-
-        VitWeight.defaultValue = data.VitWeight;
-        StrWeight.defaultValue = data.StrWeight;
-        WizWeight.defaultValue = data.WizWeight;
-        AgiWeight.defaultValue = data.AgiWeight;
-
-        UnitSize.defaultValue = data.SizeRange;
-        MoveSpeed.defaultValue = data.MoveSpeed;
-        RecognizeRange.defaultValue = data.RecognizeRange;
-        PresenseRange.defaultValue = data.PresenseRange;
-
-        AttackRange.defaultValue = data.BasicAttackRange;
-        AttackSpeed.defaultValue = data.AttackSpeed;
-
-        CritChance.defaultValue = data.CritChance;
-        CritWeight.defaultValue = data.CritWeight;
-    }
-
-    public void UpdateMaxHP()
-    {
-        HP.max = StatHP.Current + GetWeightedStat(Vit.Current, VitWeight.Current);
-        HP.defaultValue = HP.max;
-
-        if (HP.Current > HP.max)
-            HP.Current = HP.max;
-    }
-
-    private void CalulateGrade()
-    {
-        //TODO 유닛 등급 계산 필요
-        var overroll = BaseStr.defaultValue
-            + BaseWiz.defaultValue
-            + BaseAgi.defaultValue
-            + Vit.defaultValue;
-
-        UnitGrade = overroll switch
-        {
-            _ when (overroll >= GameSetting.Instance.overrollUltraRare) => UNIT_GRADE.ULTRA_RARE,
-            _ when (overroll >= GameSetting.Instance.overrollSuperRare) => UNIT_GRADE.SUPER_RARE,
-            _ when (overroll >= GameSetting.Instance.overrollRare) => UNIT_GRADE.RARE,
-            _ when (overroll >= GameSetting.Instance.overrollNormal) => UNIT_GRADE.NORMAL,
-            _ => UNIT_GRADE.COMMON,
-        };
-    }
-
-
-
-
-    public UnitStats Clone()
-    {
-        var clone = new UnitStats();
-        clone.Id = Id;
-        clone.Name = Name;
-        clone.Job = Job;
-        clone.HP = HP.Clone();
-        clone.MoveSpeed = MoveSpeed.Clone() as StatFloat;
-        clone.UnitSize = UnitSize.Clone() as StatFloat;
-        clone.RecognizeRange = RecognizeRange.Clone() as StatFloat;
-        clone.PresenseRange = PresenseRange.Clone() as StatFloat;
-        clone.AttackRange = AttackRange.Clone() as StatFloat;
-        clone.AttackSpeed = AttackSpeed.Clone() as StatFloat;
-
-        clone.UnitGrade = UnitGrade;
-        clone.Job = Job;
-        clone.BasicAttackType = BasicAttackType;
-        clone.SkillId1 = SkillId1;
-        clone.SkillId2 = SkillId2;
-
-        clone.Stamina = Stamina.Clone();
-        clone.Stress = Stress.Clone();
-
-        clone.StatHP = StatHP.Clone() as StatInt;
-        clone.Vit = Vit.Clone() as StatInt;
-        clone.VitWeight = VitWeight.Clone() as StatFloat;
-        clone.BaseStr = BaseStr.Clone() as StatInt;
-        clone.StrWeight = StrWeight.Clone() as StatFloat;
-        clone.BaseWiz = BaseWiz.Clone() as StatInt;
-        clone.WizWeight = WizWeight.Clone() as StatFloat;
-        clone.BaseAgi = BaseAgi.Clone() as StatInt;
-        clone.AgiWeight = AgiWeight.Clone() as StatFloat;
-
-        clone.CritChance = CritChance.Clone() as StatFloat;
-        clone.CritWeight = CritWeight.Clone() as StatFloat;
-
-        return clone;
     }
 
     public void OnArrived()

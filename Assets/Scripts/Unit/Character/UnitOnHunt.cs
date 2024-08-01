@@ -184,7 +184,7 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
         var criticalWeight = isCritical ? stats.CritWeight.Current : 1f;
         var damage = Mathf.FloorToInt(stats.CombatPoint * criticalWeight);
 
-        if (attackBehaviour.Attack(attackTarget, damage, stats.BasicAttackType))
+        if (attackBehaviour.Attack(attackTarget, damage, stats.Data.BasicAttackType))
         {
             attackTarget = null;
             stats.Stress.Current -= GameSetting.Instance.stressReduceAmount;

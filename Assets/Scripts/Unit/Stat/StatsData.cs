@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using UnityEngine;
 
 public enum STAT_TYPE
@@ -25,7 +26,7 @@ public enum PARAMETER_TYPE
 
 public enum UNIT_JOB
 {
-    NONE = 0,
+    NONE,
     WARRIOR,
     MAGICIAN,
     ARCHER
@@ -59,11 +60,11 @@ public enum UNIT_GRADE
 public enum UNIT_TYPE
 {
     NONE,
-    CHARACTER
+    CHARACTER,
+    MONSTER
 }
 
-[Serializable]
-public class UnitStatsData : ITableAvaialable<int>
+public class StatsData : ITableAvaialable<int>
 {
     public string Name { get; set; }
     public int Id { get; set; }
@@ -108,12 +109,12 @@ public class UnitStatsData : ITableAvaialable<int>
     public int MagicalDef { get; set; }
     public int SpecialDef { get; set; }
 
-    public int SkillPoolId1 { get; set; }
-    public int SkillPoolId2 { get; set; }
+    public int SkillpoolId1 { get; set; }
+    public int SkillpoolId2 { get; set; }
 
     public int DropId { get; set; }
     public string UnitAssetFileName { get; set; }
-    public string StinrgId_Desc { get; set; }
+    public string StringId_Desc { get; set; }
 
     public int TableID => Id;
 }

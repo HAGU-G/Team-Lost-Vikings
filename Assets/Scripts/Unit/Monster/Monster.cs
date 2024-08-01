@@ -81,7 +81,7 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
             Addressables.ReleaseInstance(dress);
 
 
-        Addressables.InstantiateAsync(stats.AssetFileName, transform)
+        Addressables.InstantiateAsync(stats.Data.UnitAssetFileName, transform)
         .Completed += (handle) =>
         {
             if (dress != null)
@@ -264,10 +264,10 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
 
     public void DropItem()
     {
-        if (stats.DropId == 0)
+        if (stats.Data.DropId == 0)
             return;
 
-        var dropData = DataTableManager.dropTable.GetData(stats.DropId);
+        var dropData = DataTableManager.dropTable.GetData(stats.Data.DropId);
         var itemList = GameManager.itemManager.ownItemList;
 
         GameManager.itemManager.Gold += dropData.DropGold();

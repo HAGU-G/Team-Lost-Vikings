@@ -32,7 +32,7 @@ public class UINotification : UIWindow
                 location = "NONE";
                 break;
         }
-        unitImage.uvRect = GameManager.uiManager.unitRenderTexture.LoadRenderTexture(unit.AssetFileName);
+        unitImage.uvRect = GameManager.uiManager.unitRenderTexture.LoadRenderTexture(unit.Data.UnitAssetFileName);
         description.text = $"선택한 캐릭터가 현재 {location}에 있습니다.\n이동하시겠습니까?";
     }
 

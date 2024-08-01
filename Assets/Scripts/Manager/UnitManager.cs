@@ -33,24 +33,21 @@ public class UnitManager
     {
         foreach (var unit in Units)
         {
-            unit.Value.InitStats(DataTableManager.characterTable.GetData(unit.Value.Id), false);
-            unit.Value.UpdateMaxHP();
+            unit.Value.InitStats(DataTableManager.unitTable.GetData(unit.Value.Id), false);
+            unit.Value.ResetMaxParameter();
             unit.Value.SetUpgradeStats();
-            unit.Value.UpdateCombatPoint();
         }
         foreach (var unit in DeadUnits)
         {
-            unit.Value.InitStats(DataTableManager.characterTable.GetData(unit.Value.Id), false);
-            unit.Value.UpdateMaxHP();
+            unit.Value.InitStats(DataTableManager.unitTable.GetData(unit.Value.Id), false);
+            unit.Value.ResetMaxParameter();
             unit.Value.SetUpgradeStats();
-            unit.Value.UpdateCombatPoint();
         }
         foreach (var unit in Waitings)
         {
-            unit.Value.InitStats(DataTableManager.characterTable.GetData(unit.Value.Id), false);
-            unit.Value.UpdateMaxHP();
-            unit.Value.UpdateCombatPoint();
-            //unit.Value.SetUpgradeStats(); 하면 안됨.
+            unit.Value.InitStats(DataTableManager.unitTable.GetData(unit.Value.Id), false);
+            unit.Value.ResetMaxParameter();
+            //unit.Value.SetUpgradeStats(); 하면 안됨. 대기목록에 있는 캐릭터는 업그레이드를 받지 않음
         }
 
         GameManager.Subscribe(EVENT_TYPE.START, OnGameStart);
@@ -92,13 +89,13 @@ public class UnitManager
         return Units[instanceID];
     }
 
-    private UnitStatsData GachaUnitData(int level)
+    private StatsData GachaUnitData(int level)
     {
-        var gachaList = new List<UnitStatsData>();
+        var gachaList = new List<StatsData>();
 
-        foreach (var data in DataTableManager.characterTable.GetDatas())
+        foreach (var data in DataTableManager.unitTable.GetDatas())
         {
-            if (level < data.GachaUnlockLv)
+            if (data.UnitType != UNIT_TYPE.CHARACTER || level < data.GachaUnlockLv)
                 continue;
 
             for (int i = 0; i < data.GachaChance; i++)

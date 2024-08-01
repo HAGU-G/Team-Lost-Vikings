@@ -136,14 +136,14 @@ public class HuntZone : MonoBehaviour
         return HuntZoneDatas[Info.Stage];
     }
 
-    public MonsterStatsData GetCurrentMonster()
+    public StatsData GetCurrentMonster()
     {
-        return DataTableManager.monsterTable.GetData(HuntZoneDatas[Info.Stage].NormalMonsterId);
+        return DataTableManager.unitTable.GetData(HuntZoneDatas[Info.Stage].NormalMonsterId);
     }
 
-    public MonsterStatsData GetCurrentBoss()
+    public StatsData GetCurrentBoss()
     {
-        return DataTableManager.monsterTable.GetData(HuntZoneDatas[Info.Stage].BossMonsterId);
+        return DataTableManager.unitTable.GetData(HuntZoneDatas[Info.Stage].BossMonsterId);
     }
 
     public void SetStage(int stageNum)

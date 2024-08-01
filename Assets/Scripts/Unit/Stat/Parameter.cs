@@ -4,12 +4,6 @@ using System;
 [Serializable, JsonObject(MemberSerialization.OptIn)]
 public class Parameter : IFormattable
 {
-    public Parameter(int defaultValue = default)
-    {
-        this.defaultValue = defaultValue;
-    }
-
-    [JsonProperty] public int defaultValue;
     public int min = 0;
     public int max = int.MaxValue;
 
@@ -55,7 +49,7 @@ public class Parameter : IFormattable
     public string ToString(string format, IFormatProvider provider) => Current.ToString(format, provider);
     public void Reset()
     {
-        Current = defaultValue;
+        Current = max;
     }
     public void SetMin(int min)
     {
@@ -69,7 +63,6 @@ public class Parameter : IFormattable
     public Parameter Clone()
     {
         var clone = new Parameter();
-        clone.defaultValue = defaultValue;
         clone.min = min;
         clone.max = max;
         clone.Current = Current;

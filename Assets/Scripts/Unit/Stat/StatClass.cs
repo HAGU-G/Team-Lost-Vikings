@@ -49,24 +49,6 @@ public abstract class StatClass<T>
         if (target == this || target == upgradeValue)
             return;
 
-#if !UNITY_EDITOR
         upgradeValue = target;
     }
-#else
-        if (upgradeValue != null)
-            upgradeValue.OnDefaultValueChanged -= UpdateUpOnInspector;
-
-        upgradeValue = target;
-        target.OnDefaultValueChanged += UpdateUpOnInspector;
-        UpdateUpOnInspector();
-    }
-
-    public void UpdateUpOnInspector()
-    {
-        upOnInspector = upgradeValue.defaultValue;
-    }
-
-    public T upOnInspector;
-
-#endif
 }

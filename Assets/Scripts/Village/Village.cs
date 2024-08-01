@@ -7,7 +7,7 @@ public class Village : MonoBehaviour
     public UnitOnVillage unitPrefab;
     public List<UnitOnVillage> units;
     public List<UnitStats> unitStats;
-    public UnitStatsData unitStatsData; 
+    public StatsData unitStatsData; 
     public BuildingUpgrade upgrade;
 
     public PlayerManager pm;
