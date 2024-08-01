@@ -115,21 +115,20 @@ public class VillageManager : MonoBehaviour
             var sprite = b.GetComponent<SpriteRenderer>();
             var path = string.Concat(filePath, "/", buildingComponenet.StructureAssetFileName,".prefab");
 
+
             var handle = Addressables.LoadAssetAsync<GameObject>(path);
             handle.WaitForCompletion(); //임시로 동기적 처리
 
             sprite.sprite = handle.Result.GetComponentInChildren<SpriteRenderer>().sprite;
 
+            UpgradeData upgradeData = new();
 
-            if(buildingComponenet.UpgradeId != 0)
+            if (buildingComponenet.UpgradeId != 0)
             {
                 var upgradeComponent = b.AddComponent<BuildingUpgrade>();
-
                 var dt = DataTableManager.upgradeTable.GetData(buildingComponenet.UpgradeId);
-
                 upgradeComponent.UpgradeGrade = upgradeComponent.currentGrade;
-
-                var upgradeData = dt[upgradeComponent.UpgradeGrade -1];
+                upgradeData = dt[upgradeComponent.UpgradeGrade - 1];
 
                 upgradeComponent.StructureType = (int)buildingComponenet.StructureType;
                 upgradeComponent.UpgradeName = upgradeData.UpgradeName;
@@ -158,36 +157,39 @@ public class VillageManager : MonoBehaviour
 
                 upgradeComponent.UpgradeDesc = upgradeData.UpgradeDesc;
 
-                switch (buildingComponenet.StructureType)
-                {
-                    case STRUCTURE_TYPE.PARAMETER_RECOVERY:
-                        var parameterComponent = b.AddComponent<ParameterRecoveryBuilding>();
-                        parameterComponent.building = buildingComponenet;
-                        parameterComponent.parameterType = (PARAMETER_TYPE)upgradeData.ParameterType;
-                        parameterComponent.recoveryAmount = upgradeData.ParameterRecovery;
-                        parameterComponent.recoveryTime = upgradeData.RecoveryTime;
-                        break;
-                    case STRUCTURE_TYPE.STAT_UPGRADE:
-                        var statComponent = b.AddComponent<StatUpgradeBuilding>();
-                        statComponent.building = buildingComponenet;
-                        statComponent.upgradeStat = upgradeData.StatType;
-                        statComponent.upgradeValue = upgradeData.StatReturn;
-                        break;
-                    case STRUCTURE_TYPE.ITEM_SELL:
-                        b.AddComponent<ItemSellBuilding>();
-                        break;
-                    case STRUCTURE_TYPE.ITEM_PRODUCE:
-                        b.AddComponent<ItemProduceBuilding>();
-                        break;
-                    case STRUCTURE_TYPE.STANDARD:
 
-                        break;
-                    case STRUCTURE_TYPE.PORTAL:
-                        b.AddComponent<PortalBuilding>();
-                        break;
-                }
             }
 
+            switch (buildingComponenet.StructureType)
+            {
+                case STRUCTURE_TYPE.PARAMETER_RECOVERY:
+                    var parameterComponent = b.AddComponent<ParameterRecoveryBuilding>();
+                    parameterComponent.building = buildingComponenet;
+                    parameterComponent.parameterType = (PARAMETER_TYPE)upgradeData.ParameterType;
+                    parameterComponent.recoveryAmount = upgradeData.ParameterRecovery;
+                    parameterComponent.recoveryTime = upgradeData.RecoveryTime;
+                    break;
+                case STRUCTURE_TYPE.STAT_UPGRADE:
+                    var statComponent = b.AddComponent<StatUpgradeBuilding>();
+                    statComponent.building = buildingComponenet;
+                    statComponent.upgradeStat = upgradeData.StatType;
+                    statComponent.upgradeValue = upgradeData.StatReturn;
+                    break;
+                case STRUCTURE_TYPE.ITEM_SELL:
+                    b.AddComponent<ItemSellBuilding>();
+                    break;
+                case STRUCTURE_TYPE.ITEM_PRODUCE:
+                    b.AddComponent<ItemProduceBuilding>();
+                    break;
+                case STRUCTURE_TYPE.STANDARD:
+
+                    break;
+                case STRUCTURE_TYPE.PORTAL:
+                    b.AddComponent<PortalBuilding>();
+                    break;
+            }
+
+            //buildingComponenet.SetInteractWith();
             b.GetComponentInChildren<TextMeshPro>().text = buildingComponenet.StructureName;
             b.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
             b.AddComponent<PolygonCollider2D>();

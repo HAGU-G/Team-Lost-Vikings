@@ -55,6 +55,12 @@ public class Building : MonoBehaviour, IPointerClickHandler
         interactWithUnit = gameObject.GetComponent<IInteractableWithUnit>();
     }
 
+    public void SetInteractWith()
+    {
+        interactWithPlayer = GetComponent<IInteractableWithPlayer>();
+        interactWithUnit = GetComponent<IInteractableWithUnit>();
+    }
+
     public void Interact()
     {
         interactWithPlayer?.InteractWithPlayer();
