@@ -95,14 +95,14 @@ public class Cell : MonoBehaviour
         }
     }
 
-    public void ClearTileInfo()
-    {
-        tileInfo.RoadLayer.LayerObject = null;
-        tileInfo.RoadLayer.IsEmpty = true;
-        tileInfo.ObjectLayer.LayerObject = null;
-        tileInfo.ObjectLayer.IsEmpty = true;
-        tileInfo.TileType = TileType.NONE;
-    }
+    //public void ClearTileInfo()
+    //{
+    //    tileInfo.RoadLayer.LayerObject = null;
+    //    tileInfo.RoadLayer.IsEmpty = true;
+    //    tileInfo.ObjectLayer.LayerObject = null;
+    //    tileInfo.ObjectLayer.IsEmpty = true;
+    //    tileInfo.TileType = TileType.NONE;
+    //}
 
     public void UpdateAutoTileId()
     {

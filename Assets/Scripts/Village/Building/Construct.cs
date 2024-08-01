@@ -98,10 +98,16 @@ public class Construct
         var width = objInfo.Width;
         var height = objInfo.Length;
 
+        if (!CanDestroyBuilding(obj))
+        {
+            Debug.Log("철거할 수 없는 건물입니다.");
+            return null;
+        }
+
         if (objInfo.placedTiles == null || !objInfo.placedTiles.Any())
             return null;
 
-        objInfo.entranceTile.RestoreTileColor();
+        //objInfo.entranceTile.RestoreTileColor();
 
         var standardTile = objInfo.placedTiles.First();
         var indexX = standardTile.tileInfo.id.x + width - 1;
@@ -124,26 +130,26 @@ public class Construct
         return obj;
     }
 
-    public GameObject ConstructStandardBuilding(GameObject standard, GridMap gridMap)
-    {
-        var buildingComponent = standard.GetComponent<Building>();
+    //public GameObject ConstructStandardBuilding(GameObject standard, GridMap gridMap)
+    //{
+    //    var buildingComponent = standard.GetComponent<Building>();
 
-        var index = new Vector2Int(32, 31);
-        var tile = gridMap.tiles[index];
-        var entranceX = tile.tileInfo.id.x - 1;
-        var entranceY = tile.tileInfo.id.y;
-        buildingComponent.entranceTile = gridMap.tiles[new Vector2Int(entranceX, entranceY)];
+    //    var index = new Vector2Int(32, 31);
+    //    var tile = gridMap.tiles[index];
+    //    var entranceX = tile.tileInfo.id.x - 1;
+    //    var entranceY = tile.tileInfo.id.y;
+    //    buildingComponent.entranceTile = gridMap.tiles[new Vector2Int(entranceX, entranceY)];
 
-        buildingComponent.placedTiles.Add(tile);
-        tile.UpdateTileInfo(TileType.OBJECT, standard);
+    //    buildingComponent.placedTiles.Add(tile);
+    //    tile.UpdateTileInfo(TileType.OBJECT, standard);
 
-        var standardBuilding = GameObject.Instantiate(standard, gridMap.IndexToPos(index), Quaternion.identity, tile.transform);
-        var pos = standardBuilding.transform.position;
-        pos.y = standardBuilding.transform.position.y + gridMap.gridInfo.cellSize / 4f;
-        standardBuilding.transform.position = pos;
+    //    var standardBuilding = GameObject.Instantiate(standard, gridMap.IndexToPos(index), Quaternion.identity, tile.transform);
+    //    var pos = standardBuilding.transform.position;
+    //    pos.y = standardBuilding.transform.position.y + gridMap.gridInfo.cellSize / 4f;
+    //    standardBuilding.transform.position = pos;
 
-        return standardBuilding;
-    }
+    //    return standardBuilding;
+    //}
 
     public bool CanBuildBuilding(GameObject obj, Cell tile, GridMap gridMap)
     {
@@ -174,17 +180,26 @@ public class Construct
 
         if(!building.CanMultiBuild)
         {
-            for(int i = 0; i < gridMap.gridInfo.row -1; ++i)
+            //for(int i = 0; i < gridMap.gridInfo.row -1; ++i)
+            //{
+            //    for(int j = 0; j < gridMap.gridInfo.col -1; ++j)
+            //    {
+            //        if(gridMap.GetTile(i,j).tileInfo.ObjectLayer.LayerObject != null 
+            //            && gridMap.GetTile(i,j).tileInfo.ObjectLayer.LayerObject
+            //            .GetComponent<Building>().StructureId
+            //            == obj.GetComponent<Building>().StructureId)
+            //        {
+            //            return false;
+            //        }
+            //    }
+            //}
+            foreach(var cell in gridMap.tiles.Values)
             {
-                for(int j = 0; j < gridMap.gridInfo.col -1; ++j)
-                {
-                    if(gridMap.GetTile(i,j).tileInfo.ObjectLayer.LayerObject != null 
-                        && gridMap.GetTile(i,j).tileInfo.ObjectLayer.LayerObject
-                        .GetComponent<Building>().StructureId
+                if(cell.tileInfo.ObjectLayer.LayerObject != null
+                    && cell.tileInfo.ObjectLayer.LayerObject.GetComponent<Building>().StructureId
                         == obj.GetComponent<Building>().StructureId)
-                    {
-                        return false;
-                    }
+                {
+                    return false;
                 }
             }
         }
@@ -197,8 +212,12 @@ public class Construct
                     return false;
             }
         }
-
         return true;
+    }
+
+    public bool CanDestroyBuilding(GameObject obj)
+    {
+        return obj.GetComponent<Building>().CanDestroy;
     }
 
     private bool CanBuildRoad(Cell tile, GridMap gridMap)

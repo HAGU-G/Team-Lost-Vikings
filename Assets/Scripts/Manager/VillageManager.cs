@@ -19,8 +19,6 @@ public class VillageManager : MonoBehaviour
     public GameObject roadPrefab;
     public GameObject buildingPrefab;
 
-    public List<GridMap> gridMaps;
-
     private int playerLevel = 1;
 
     private GameObject selectedObj;
@@ -43,14 +41,9 @@ public class VillageManager : MonoBehaviour
 
     private void OnGameInit()
     {
-        gridMaps = new List<GridMap>();
-        //gridMap = new GridMap();
-        //gridMap2 = new GridMap();
-
         Init();
 
         VillageSet(gridMap);
-        //VillageSet(gridMap2);
     }
 
     private void Init()
@@ -122,21 +115,20 @@ public class VillageManager : MonoBehaviour
             var sprite = b.GetComponent<SpriteRenderer>();
             var path = string.Concat(filePath, "/", buildingComponenet.StructureAssetFileName,".prefab");
 
+
             var handle = Addressables.LoadAssetAsync<GameObject>(path);
             handle.WaitForCompletion(); //임시로 동기적 처리
 
             sprite.sprite = handle.Result.GetComponentInChildren<SpriteRenderer>().sprite;
 
+            UpgradeData upgradeData = new();
 
-            if(buildingComponenet.UpgradeId != 0)
+            if (buildingComponenet.UpgradeId != 0)
             {
                 var upgradeComponent = b.AddComponent<BuildingUpgrade>();
-
                 var dt = DataTableManager.upgradeTable.GetData(buildingComponenet.UpgradeId);
-
                 upgradeComponent.UpgradeGrade = upgradeComponent.currentGrade;
-
-                var upgradeData = dt[upgradeComponent.UpgradeGrade -1];
+                upgradeData = dt[upgradeComponent.UpgradeGrade - 1];
 
                 upgradeComponent.StructureType = (int)buildingComponenet.StructureType;
                 upgradeComponent.UpgradeName = upgradeData.UpgradeName;
@@ -165,36 +157,39 @@ public class VillageManager : MonoBehaviour
 
                 upgradeComponent.UpgradeDesc = upgradeData.UpgradeDesc;
 
-                switch (buildingComponenet.StructureType)
-                {
-                    case STRUCTURE_TYPE.PARAMETER_RECOVERY:
-                        var parameterComponent = b.AddComponent<ParameterRecoveryBuilding>();
-                        parameterComponent.building = buildingComponenet;
-                        parameterComponent.parameterType = (PARAMETER_TYPE)upgradeData.ParameterType;
-                        parameterComponent.recoveryAmount = upgradeData.ParameterRecovery;
-                        parameterComponent.recoveryTime = upgradeData.RecoveryTime;
-                        break;
-                    case STRUCTURE_TYPE.STAT_UPGRADE:
-                        var statComponent = b.AddComponent<StatUpgradeBuilding>();
-                        statComponent.building = buildingComponenet;
-                        statComponent.upgradeStat = upgradeData.StatType;
-                        statComponent.upgradeValue = upgradeData.StatReturn;
-                        break;
-                    case STRUCTURE_TYPE.ITEM_SELL:
-                        b.AddComponent<ItemSellBuilding>();
-                        break;
-                    case STRUCTURE_TYPE.ITEM_PRODUCE:
-                        b.AddComponent<ItemProduceBuilding>();
-                        break;
-                    case STRUCTURE_TYPE.STANDARD:
 
-                        break;
-                    case STRUCTURE_TYPE.PORTAL:
-                        b.AddComponent<PortalBuilding>();
-                        break;
-                }
             }
 
+            switch (buildingComponenet.StructureType)
+            {
+                case STRUCTURE_TYPE.PARAMETER_RECOVERY:
+                    var parameterComponent = b.AddComponent<ParameterRecoveryBuilding>();
+                    parameterComponent.building = buildingComponenet;
+                    parameterComponent.parameterType = (PARAMETER_TYPE)upgradeData.ParameterType;
+                    parameterComponent.recoveryAmount = upgradeData.ParameterRecovery;
+                    parameterComponent.recoveryTime = upgradeData.RecoveryTime;
+                    break;
+                case STRUCTURE_TYPE.STAT_UPGRADE:
+                    var statComponent = b.AddComponent<StatUpgradeBuilding>();
+                    statComponent.building = buildingComponenet;
+                    statComponent.upgradeStat = upgradeData.StatType;
+                    statComponent.upgradeValue = upgradeData.StatReturn;
+                    break;
+                case STRUCTURE_TYPE.ITEM_SELL:
+                    b.AddComponent<ItemSellBuilding>();
+                    break;
+                case STRUCTURE_TYPE.ITEM_PRODUCE:
+                    b.AddComponent<ItemProduceBuilding>();
+                    break;
+                case STRUCTURE_TYPE.STANDARD:
+
+                    break;
+                case STRUCTURE_TYPE.PORTAL:
+                    b.AddComponent<PortalBuilding>();
+                    break;
+            }
+
+            //buildingComponenet.SetInteractWith();
             b.GetComponentInChildren<TextMeshPro>().text = buildingComponenet.StructureName;
             b.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
             b.AddComponent<PolygonCollider2D>();
@@ -203,68 +198,6 @@ public class VillageManager : MonoBehaviour
         }
 
     }
-
-    private void OnGUI()
-    {
-        //if (GUI.Button(new Rect(0f, 0f, 100f, 70f), "Remove Building"))
-        //{
-        //    construct.isRemoveTime = true;
-        //}
-
-        //if (GUI.Button(new Rect(0f, 70f, 100f, 70f), "hp"))
-        //{
-        //    selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.HP_RECOVERY);
-        //    construct.isSelected = true;
-        //}
-
-        //if (GUI.Button(new Rect(0f, 140f, 100f, 70f), "stamina"))
-        //{
-        //    selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STAMINA_RECOVERY);
-        //    construct.isSelected = true;
-        //}
-
-        //if (GUI.Button(new Rect(0f, 210f, 100f, 70f), "stress"))
-        //{
-        //    selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STRESS_RECOVERY);
-        //    construct.isSelected = true;
-        //}
-
-        //if (GUI.Button(new Rect(0f, 350f, 100f, 70f), "Road"))
-        //{
-        //    if(!construct.isRoadBuild)
-        //        construct.isRoadBuild = true;
-        //    else if(construct.isRoadBuild)
-        //        construct.isRoadBuild = false;
-        //}
-
-        //if (GUI.Button(new Rect(0f, 420f, 100f, 70f), "Remove Road"))
-        //{
-        //    if(!construct.isRoadRemove)
-        //        construct.isRoadRemove = true;
-        //    else if (construct.isRoadRemove)
-        //        construct.isRoadRemove = false;
-        //}
-
-        //if (GUI.Button(new Rect(800f, 210f, 100f, 70f), "STR Upgrade"))
-        //{
-        //    selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STR_UPGRADE);
-        //    construct.isSelected = true;
-        //}
-
-        //if (GUI.Button(new Rect(800f, 280f, 100f, 70f), "MAG Upgrade"))
-        //{
-        //    selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.MAG_UPGRADE);
-        //    construct.isSelected = true;
-        //}
-
-        //if (GUI.Button(new Rect(800f, 350f, 100f, 70f), "AGI Upgrade"))
-        //{
-        //    selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.AGI_UPGRADE);
-        //    construct.isSelected = true;
-        //}
-
-    }
-
 
     public void LevelUp()
     {
@@ -429,17 +362,14 @@ public class VillageManager : MonoBehaviour
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STR_UPGRADE);
         var str = construct.PlaceBuilding(selectedObj, GetTile(1, 3, gridMap), gridMap);
-        //str.GetComponent<StatUpgradeBuilding>().RiseStat(); // StatUpgradeBuilding이 처리하도록 변경
         constructedBuildings.Add(str);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.MAG_UPGRADE);
         var mag = construct.PlaceBuilding(selectedObj, GetTile(1, 2, gridMap), gridMap);
-        //mag.GetComponent<StatUpgradeBuilding>().RiseStat();
         constructedBuildings.Add(mag);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.AGI_UPGRADE);
         var agi = construct.PlaceBuilding(selectedObj, GetTile(1, 1, gridMap), gridMap);
-        //agi.GetComponent<StatUpgradeBuilding>().RiseStat();
         constructedBuildings.Add(agi);
         
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.PORTAL);
@@ -450,8 +380,6 @@ public class VillageManager : MonoBehaviour
         portalBuilding.RotateBuilding(portalBuilding);
 
         SetDevelopText(false);
-
-        gridMaps.Add(gridMap);
     }
 
     public void SetDevelopText(bool isOn)
@@ -474,8 +402,8 @@ public class VillageManager : MonoBehaviour
     public bool FindBuilding(STRUCTURE_TYPE structureType, Predicate<GameObject> predicate)
     {
         if(constructedBuildings.Count <= 0
-            || constructedBuildings.FindIndex(predicate) < 0 ||
-            constructedBuildings.FindIndex(predicate) >= constructedBuildings.Count)
+            || constructedBuildings.FindIndex(predicate) < 0 
+            || constructedBuildings.FindIndex(predicate) >= constructedBuildings.Count)
         {
             Debug.Log("해당 건물이 없습니다.");
             return false;
@@ -491,7 +419,6 @@ public class VillageManager : MonoBehaviour
 
     public GameObject FindBuildingEntrance(STRUCTURE_TYPE structureType, Predicate<GameObject> predicate)
     {
-
         var building = constructedBuildings[constructedBuildings.FindIndex(predicate)];
         var tile = building.GetComponent<Building>().entranceTile;
         return building;

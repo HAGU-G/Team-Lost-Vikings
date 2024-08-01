@@ -55,6 +55,12 @@ public class Building : MonoBehaviour, IPointerClickHandler
         interactWithUnit = gameObject.GetComponent<IInteractableWithUnit>();
     }
 
+    public void SetInteractWith()
+    {
+        interactWithPlayer = GetComponent<IInteractableWithPlayer>();
+        interactWithUnit = GetComponent<IInteractableWithUnit>();
+    }
+
     public void Interact()
     {
         interactWithPlayer?.InteractWithPlayer();
@@ -132,7 +138,6 @@ public class Building : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log(GameManager.uiManager.isWindowOn);
         if (GameManager.uiManager.isWindowOn)
             return;
 
