@@ -52,7 +52,7 @@ public class Cell : MonoBehaviour
     {
         get
         {
-            return (tileInfo.TileType == TileType.ROAD);
+            return (tileInfo.TileType != TileType.OBJECT);
         }
     }
 

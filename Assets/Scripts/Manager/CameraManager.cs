@@ -72,16 +72,16 @@ public class CameraManager : MonoBehaviour
                 gridMap = GameManager.villageManager.gridMap;
 
                 //TO-DO : SetPosition 테스트 후 되돌리기
-                SetPosition(gridMap.gameObject.transform.position);
-                //foreach (var constructed in GameManager.villageManager.constructedBuildings)
-                //{
-                //    var building = constructed.GetComponent<Building>();
-                //    if (building.StructureType == STRUCTURE_TYPE.STANDARD)
-                //    {
-                //        SetPosition(building.transform.position);
-                //        break;
-                //    }
-                //}
+                //SetPosition(gridMap.gameObject.transform.position);
+                foreach (var constructed in GameManager.villageManager.constructedBuildings)
+                {
+                    var building = constructed.GetComponent<Building>();
+                    if (building.StructureType == STRUCTURE_TYPE.STANDARD)
+                    {
+                        SetPosition(building.transform.position);
+                        break;
+                    }
+                }
                 break;
             case LOCATION.HUNTZONE:
                 var huntZones = GameManager.huntZoneManager.HuntZones;

@@ -347,17 +347,17 @@ public class VillageManager : MonoBehaviour
         var hp = construct.PlaceBuilding(selectedObj, GetTile(1, 7, gridMap), gridMap);
         constructedBuildings.Add(hp);
 
-        //selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STAMINA_RECOVERY);
-        //var stamina = construct.PlaceBuilding(selectedObj, GetTile(1, 6, gridMap), gridMap);
-        //constructedBuildings.Add(stamina);
+        selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STAMINA_RECOVERY);
+        var stamina = construct.PlaceBuilding(selectedObj, GetTile(1, 4, gridMap), gridMap);
+        constructedBuildings.Add(stamina);
 
-        //selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STRESS_RECOVERY);
-        //var stress = construct.PlaceBuilding(selectedObj, GetTile(1, 5, gridMap), gridMap);
-        //constructedBuildings.Add(stress);
+        selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STRESS_RECOVERY);
+        var stress = construct.PlaceBuilding(selectedObj, GetTile(1, 1, gridMap), gridMap);
+        constructedBuildings.Add(stress);
 
-        //selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STANDARD);
-        //var standard = construct.PlaceBuilding(selectedObj, GetTile(4, 4, gridMap), gridMap);
-        //constructedBuildings.Add(standard);
+        selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STANDARD);
+        var standard = construct.PlaceBuilding(selectedObj, GetTile(4, 4, gridMap), gridMap);
+        constructedBuildings.Add(standard);
 
         //selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STR_UPGRADE);
         //var str = construct.PlaceBuilding(selectedObj, GetTile(1, 3, gridMap), gridMap);
@@ -370,13 +370,13 @@ public class VillageManager : MonoBehaviour
         //selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.AGI_UPGRADE);
         //var agi = construct.PlaceBuilding(selectedObj, GetTile(1, 1, gridMap), gridMap);
         //constructedBuildings.Add(agi);
-        
-        //selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.PORTAL);
-        //var portal = construct.PlaceBuilding(selectedObj, GetTile(7, 5, gridMap), gridMap);
-        //constructedBuildings.Add(portal);
 
-        //var portalBuilding = portal.GetComponent<Building>();
-        //portalBuilding.RotateBuilding(portalBuilding);
+        selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.PORTAL);
+        var portal = construct.PlaceBuilding(selectedObj, GetTile(7, 5, gridMap), gridMap);
+        constructedBuildings.Add(portal);
+
+        var portalBuilding = portal.GetComponent<Building>();
+        portalBuilding.RotateBuilding(portalBuilding);
 
         SetDevelopText(false);
     }
