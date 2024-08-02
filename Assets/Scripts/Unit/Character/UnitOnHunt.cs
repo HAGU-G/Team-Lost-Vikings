@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitOnHunt : Character, IDamagedable, IAttackable
+public class UnitOnHunt : Unit, IDamagedable, IAttackable
 {
     //State
     public enum STATE

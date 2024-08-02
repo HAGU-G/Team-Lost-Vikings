@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitOnVillage : Character
+public class UnitOnVillage : Unit
 {
     public FSM<UnitOnVillage> VillageFSM {get; private set;}
     public STATE currentState;

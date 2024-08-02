@@ -3,8 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+public enum LOCATION
+{
+    NONE,
+    VILLAGE,
+    HUNTZONE
+}
+
 [JsonObject(MemberSerialization.OptIn)]
-public abstract class Stats
+public class UnitStats
 {
     public StatsData Data { get; private set; }
 
@@ -12,10 +19,10 @@ public abstract class Stats
     [JsonProperty] public int InstanceID { get; private set; }
     public static List<int> existIDs = new();
 
-    public Stats() { }
+    public UnitStats() { }
 
     [JsonConstructor]
-    public Stats(int instanceId)
+    public UnitStats(int instanceId)
     {
         InstanceID = instanceId;
         existIDs.Add(instanceId);
@@ -111,6 +118,101 @@ public abstract class Stats
         }
     }
 
+    #region MONSTER
+    public bool isBoss;
+    #endregion
+
+    #region CHARACTER
+    //Character
+    [JsonProperty] public LOCATION Location { get; private set; }
+    [JsonProperty] public LOCATION NextLocation { get; private set; }
+    [JsonProperty][field: SerializeField] public int HuntZoneNum { get; private set; } = -1;
+
+    public event System.Action ArriveVillage;
+    public PARAMETER_TYPE parameterType;
+
+    public void SetUpgradeStats()
+    {
+        BaseStr.SetUpgrade(GameManager.playerManager.unitStr);
+        BaseWiz.SetUpgrade(GameManager.playerManager.unitMag);
+        BaseAgi.SetUpgrade(GameManager.playerManager.unitAgi);
+    }
+
+    public void SetLocation(LOCATION location, LOCATION nextLocation = LOCATION.NONE)
+    {
+        Location = location;
+        NextLocation = nextLocation;
+
+        if (Location == LOCATION.NONE && NextLocation != LOCATION.NONE)
+            GameManager.unitManager.SpawnOnNextLocation(this);
+    }
+
+    public bool SetHuntZone(int huntZoneNum)
+    {
+        var hm = GameManager.huntZoneManager;
+        var ud = hm.UnitDeployment;
+
+        if (hm.IsDeployed(InstanceID, huntZoneNum)
+            || ud[huntZoneNum].Count >= hm.HuntZones[huntZoneNum].GetCurrentData().UnitCapacity)
+            return false;
+
+        if (HuntZoneNum != huntZoneNum && HuntZoneNum != -1)
+            ud[HuntZoneNum].Remove(InstanceID);
+
+        ud[huntZoneNum].Add(InstanceID);
+        HuntZoneNum = huntZoneNum;
+
+        if (Location == LOCATION.HUNTZONE)
+        {
+            var unitOnHunt = objectTransform.GetComponent<UnitOnHunt>();
+            if (unitOnHunt.CurrentHuntZone.HuntZoneNum == huntZoneNum)
+            {
+                unitOnHunt.forceReturn = false;
+                unitOnHunt.FSM.ChangeState((int)UnitOnHunt.STATE.IDLE);
+            }
+            else
+            {
+                ForceReturn();
+            }
+
+        }
+
+        return true;
+    }
+
+    public void ResetHuntZone()
+    {
+        if (HuntZoneNum == -1)
+            return;
+
+        GameManager.huntZoneManager.UnitDeployment[HuntZoneNum].Remove(InstanceID);
+        HuntZoneNum = -1;
+
+        if (Location == LOCATION.VILLAGE)
+        {
+            var unitOnVillage = objectTransform.GetComponent<UnitOnVillage>();
+            if (unitOnVillage.currentState == UnitOnVillage.STATE.GOTO)
+            {
+                unitOnVillage.VillageFSM.ChangeState((int)UnitOnVillage.STATE.IDLE);
+            }
+        }
+    }
+
+    public void ForceReturn()
+    {
+        if (Location != LOCATION.HUNTZONE)
+            return;
+
+        objectTransform.GetComponent<UnitOnHunt>().forceReturn = true;
+    }
+
+    public void OnArrived()
+    {
+        ArriveVillage?.Invoke();
+    }
+    #endregion
+
+
 
     //Methods
     public virtual void InitStats(StatsData data, bool doGacha = true)
@@ -119,6 +221,9 @@ public abstract class Stats
             GachaDefaultStats(data);
 
         SetConstantStats(data);
+
+        if (doGacha && data.UnitType == UNIT_TYPE.CHARACTER)
+            RegisterCharacter();
     }
 
     public virtual void ResetStats()
@@ -171,10 +276,10 @@ public abstract class Stats
     {
         foreach (var other in others)
         {
-            if (other == null || other.GetStats == this)
+            if (other == null || other.stats == this)
                 continue;
 
-            var collisionDepth = SizeEllipse.CollisionDepthWith(other.GetStats.SizeEllipse);
+            var collisionDepth = SizeEllipse.CollisionDepthWith(other.stats.SizeEllipse);
             if (collisionDepth >= 0f)
             {
                 var prePos = objectTransform.position;

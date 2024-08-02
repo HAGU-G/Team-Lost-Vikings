@@ -1,4 +1,4 @@
 ﻿public interface IStatUsable
 {
-    public Stats GetStats { get; }
+    public UnitStats GetStats { get; }
 }

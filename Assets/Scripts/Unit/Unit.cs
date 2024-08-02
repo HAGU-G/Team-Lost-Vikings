@@ -3,7 +3,7 @@ using UnityEngine.AddressableAssets;
 
 public abstract class Unit : MonoBehaviour
 {
-    public abstract Stats GetStats { get; }
+    public UnitStats stats = null;
 
     public GameObject dress = null;
     public DressAnimator animator = new();
@@ -15,15 +15,20 @@ public abstract class Unit : MonoBehaviour
     public bool IsDead { get; protected set; }
 
     public virtual void Init() { }
-    protected void ResetBase()
+    public virtual void ResetUnit(UnitStats stats)
     {
+        if (stats == null)
+            Debug.LogWarning("유닛의 스탯이 재설정되지 않았습니다.", gameObject);
+        else
+            this.stats = stats;
+
         isActing = false;
         IsDead = false;
 
         if (dress != null)
             Addressables.ReleaseInstance(dress);
 
-        Addressables.InstantiateAsync(GetStats.Data.UnitAssetFileName, transform)
+        Addressables.InstantiateAsync(this.stats.Data.UnitAssetFileName, transform)
             .Completed += (handle) =>
             {
                 if (dress != null)
@@ -32,17 +37,23 @@ public abstract class Unit : MonoBehaviour
                 dress = handle.Result;
                 animator.Init(
                     handle.Result.GetComponentInChildren<Animator>(),
-                    GetStats.MoveSpeed,
-                    GetStats.AttackSpeed);
+                    this.stats.MoveSpeed,
+                    this.stats.AttackSpeed);
 
                 animator.listener.OnAttackHitEvent += OnAnimationAttackHit;
             };
 
-        GetStats.ResetEllipse(transform);
+        this.stats.ResetEllipse(transform);
         ResetEvents();
     }
 
-    public virtual void OnRelease() { }
+    public virtual void OnRelease()
+    {
+        if (stats.Data.UnitType == UNIT_TYPE.CHARACTER)
+        {
+            stats = null;
+        }
+    }
 
     public virtual void RemoveUnit() { }
 
@@ -58,7 +69,7 @@ public abstract class Unit : MonoBehaviour
             animator.AnimRun();
         }
         transform.position = pos;
-        GetStats.UpdateEllipsePosition();
+        stats.UpdateEllipsePosition();
     }
 
 
@@ -73,13 +84,13 @@ public abstract class Unit : MonoBehaviour
         LookDirection(direction);
         animator.AnimRun();
 
-        if (GetStats == null)
+        if (stats == null)
             return;
 
-        transform.position += direction.normalized * GetStats.MoveSpeed.Current * deltaTime;
-        GetStats.UpdateEllipsePosition();
+        transform.position += direction.normalized * stats.MoveSpeed.Current * deltaTime;
+        stats.UpdateEllipsePosition();
     }
-    
+
     public void LookDirection(Vector3 direction)
     {
         if (dress == null)
@@ -94,10 +105,10 @@ public abstract class Unit : MonoBehaviour
     public void LookAt(Vector3 target) => LookDirection(target - transform.position);
     public void LookAt(Transform target)
     {
-        if(target == null)
+        if (target == null)
             return;
 
-        LookAt(target.position); 
+        LookAt(target.position);
     }
 
 }

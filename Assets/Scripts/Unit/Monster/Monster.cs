@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class Monster : Unit, IDamagedable, ISubject<Monster>, IAttackable
 {
-    public MonsterStats stats = new();
-    public override Stats GetStats => stats;
     public HuntZone CurrentHuntZone { get; private set; } = null;
 
     public enum STATE
@@ -39,6 +37,7 @@ public class Monster : Unit, IDamagedable, ISubject<Monster>, IAttackable
     public void ResetMonster(HuntZone huntZone, bool isBoss = false)
     {
         CurrentHuntZone = huntZone;
+        stats ??= new();
 
         ResetEvents();
         stats.InitStats(isBoss ? huntZone.GetCurrentBoss() : huntZone.GetCurrentMonster());
@@ -46,7 +45,7 @@ public class Monster : Unit, IDamagedable, ISubject<Monster>, IAttackable
         stats.isBoss = isBoss;
         attackTarget = null;
 
-        ResetBase();
+        ResetUnit(stats);
 
         Enemies = CurrentHuntZone.Units;
 

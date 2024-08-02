@@ -58,8 +58,6 @@ public class DressAnimator
         if (animator == null)
             return;
 
-        Debug.Log($"{listener.name}공격 재생");
-
         animator.SetInteger(paramAttackMotion, (int)motion);
         animator.SetFloat(paramAttackSpeed, 1f / attackSpeed.Current);
         animator.ResetTrigger(triggerAttack);
