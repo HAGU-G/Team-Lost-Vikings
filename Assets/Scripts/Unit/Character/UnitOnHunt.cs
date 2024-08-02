@@ -42,6 +42,8 @@ public class UnitOnHunt : Character, IDamagedable, IAttackable
 
     public bool isTargetFixed;
 
+    public Vector3 entrancePos = new();
+
     private void Update()
     {
         stats.UpdateAttackTimer();
