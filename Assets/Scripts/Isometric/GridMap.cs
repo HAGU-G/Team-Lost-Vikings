@@ -222,6 +222,26 @@ public class GridMap : MonoBehaviour
         return path; //못 찾은 경우
     }
 
+    public (List<Cell>, Cell) GetShortestPath(Cell start, List<Cell>entrances)
+    {
+        var path = new List<Cell>();
+        Cell cell = new();
+        path = PathFinding(start, entrances[0]);
+        cell = entrances[0];
+
+        foreach(var entrance in entrances)
+        {
+            var temp = PathFinding(start, entrance);
+            if(temp.Count < path.Count)
+            {
+                path = temp;
+                cell = entrance;
+            }
+        }
+
+        return (path, cell);
+    }
+
     private void InitializeUsableTileList()
     {
         List<Cell> initialTiles = new List<Cell>(tiles.Values);

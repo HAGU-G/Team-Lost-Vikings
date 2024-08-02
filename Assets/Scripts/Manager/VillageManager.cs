@@ -409,8 +409,8 @@ public class VillageManager : MonoBehaviour
         }
 
         var building = constructedBuildings[constructedBuildings.FindIndex(predicate)];
-        var tile = building.GetComponent<Building>().entranceTile;
-        if (tile == null)
+        
+        if (building.GetComponent<Building>().entranceTiles == null)
             return false;
 
         return true;
@@ -419,7 +419,6 @@ public class VillageManager : MonoBehaviour
     public GameObject FindBuildingEntrance(STRUCTURE_TYPE structureType, Predicate<GameObject> predicate)
     {
         var building = constructedBuildings[constructedBuildings.FindIndex(predicate)];
-        var tile = building.GetComponent<Building>().entranceTile;
         return building;
     }
 }

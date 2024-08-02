@@ -9,6 +9,7 @@ public class UnitOnVillage : Unit
     public GameObject destination;
     public GameObject forceDestination;
     public Cell destinationTile;
+    public List<Cell> destinationTiles = new();
     public VillageManager villageManager;
     public UnitMove unitMove;
 
@@ -58,6 +59,11 @@ public class UnitOnVillage : Unit
     public List<Cell> FindPath(Cell start, Cell end)
     {
         return villageManager.gridMap.PathFinding(start, end);
+    }
+
+    public (List<Cell>, Cell) FindShortestPath(Cell start, List<Cell> entrances)
+    {
+        return villageManager.gridMap.GetShortestPath(start, entrances);
     }
 
     public LACKING_PARAMETER CheckParameter()

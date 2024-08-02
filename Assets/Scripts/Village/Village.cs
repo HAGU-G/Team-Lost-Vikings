@@ -54,7 +54,7 @@ public class Village : MonoBehaviour
             var building = constructed.GetComponent<Building>();
             if (building.StructureType == spawnBuilding)
             {
-                spawnPos = building.entranceTile.gameObject.transform.position;
+                spawnPos = building.entranceTiles[Random.Range(0, building.entranceTiles.Count)].gameObject.transform.position;
                 isFind = true;
                 break;
             }
@@ -67,7 +67,7 @@ public class Village : MonoBehaviour
                 var building = constructed.GetComponent<Building>();
                 if (building.StructureType == STRUCTURE_TYPE.STANDARD)
                 {
-                    spawnPos = building.entranceTile.gameObject.transform.position;
+                    spawnPos = building.entranceTiles[Random.Range(0, building.entranceTiles.Count)].gameObject.transform.position;
                     break;
                 }
             }
