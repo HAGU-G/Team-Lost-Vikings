@@ -18,10 +18,9 @@ public class VillageManager : MonoBehaviour
     public GameObject buildingPrefab;
 
     private int playerLevel = 1;
+    public int PlayerLevel {  get { return playerLevel; } }
 
     private GameObject selectedObj;
-
-    public int PlayerLevel { get { return playerLevel; } }
 
     private void Awake()
     {
@@ -61,7 +60,7 @@ public class VillageManager : MonoBehaviour
         //    map.SetUsingTileList(map.usableTileList.Count - 1);
         //}
 
-        gridMap.SetUsingTileList(gridMap.usableTileList.Count - 1);
+        gridMap.SetUsingTileList(playerLevel);
         //var standard = construct.ConstructStandardBuilding(standardPrefab, gridMap);
         //constructedBuildings.Add(standard);
 
@@ -320,24 +319,24 @@ public class VillageManager : MonoBehaviour
 
     private void VillageSet(GridMap gridMap)
     {
-        for (int i = 0; i < 9; ++i)
-        {
-            construct.PlaceRoad(roadPrefab, GetTile(0, i, gridMap), gridMap);
-            construct.PlaceRoad(roadPrefab, GetTile(4, i, gridMap), gridMap);
-            construct.PlaceRoad(roadPrefab, GetTile(8, i, gridMap), gridMap);
-        }
+        //for (int i = 0; i < 9; ++i)
+        //{
+        //    construct.PlaceRoad(roadPrefab, GetTile(0, i, gridMap), gridMap);
+        //    construct.PlaceRoad(roadPrefab, GetTile(4, i, gridMap), gridMap);
+        //    construct.PlaceRoad(roadPrefab, GetTile(8, i, gridMap), gridMap);
+        //}
 
-        for(int i = 0; i < 9; ++i)
-        {
-            construct.PlaceRoad(roadPrefab, GetTile(i, 0, gridMap), gridMap);
-            construct.PlaceRoad(roadPrefab, GetTile(i, 4, gridMap), gridMap);
-            construct.PlaceRoad(roadPrefab, GetTile(i, 8, gridMap), gridMap);
-        }
+        //for(int i = 0; i < 9; ++i)
+        //{
+        //    construct.PlaceRoad(roadPrefab, GetTile(i, 0, gridMap), gridMap);
+        //    construct.PlaceRoad(roadPrefab, GetTile(i, 4, gridMap), gridMap);
+        //    construct.PlaceRoad(roadPrefab, GetTile(i, 8, gridMap), gridMap);
+        //}
 
-        construct.PlaceRoad(roadPrefab, GetTile(3, 3, gridMap), gridMap);
-        construct.PlaceRoad(roadPrefab, GetTile(5, 3, gridMap), gridMap);
-        construct.PlaceRoad(roadPrefab, GetTile(3, 5, gridMap), gridMap);
-        construct.PlaceRoad(roadPrefab, GetTile(5, 5, gridMap), gridMap);
+        //construct.PlaceRoad(roadPrefab, GetTile(3, 3, gridMap), gridMap);
+        //construct.PlaceRoad(roadPrefab, GetTile(5, 3, gridMap), gridMap);
+        //construct.PlaceRoad(roadPrefab, GetTile(3, 5, gridMap), gridMap);
+        //construct.PlaceRoad(roadPrefab, GetTile(5, 5, gridMap), gridMap);
 
 
         /////////

@@ -47,8 +47,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <StructureName>k__BackingField: HuntZone Standard
   <StructureId>k__BackingField: 100
-  <Width>k__BackingField: 1
-  <Length>k__BackingField: 1
+  <Width>k__BackingField: 3
+  <Length>k__BackingField: 3
   <StructureType>k__BackingField: -1
   <UnlockTownLevel>k__BackingField: 0
   <CanMultiBuild>k__BackingField: 0
@@ -57,8 +57,12 @@ MonoBehaviour:
   <CanDestroy>k__BackingField: 0
   <UpgradeId>k__BackingField: 0
   <StructureAssetFileName>k__BackingField: 
+  <StructureDesc>k__BackingField: 
+  standardTile: {fileID: 0}
   placedTiles: []
-  entranceTile: {fileID: 0}
+  marginTiles: []
+  realOccupiedTiles: []
+  entranceTiles: []
   gridMap: {fileID: 0}
 --- !u!1001 &3852647298255804780
 PrefabInstance:

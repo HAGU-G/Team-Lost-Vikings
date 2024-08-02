@@ -11,7 +11,6 @@ public class UnitOnHunt : CombatUnit
         }
     }
 
-
     public void ResetUnit(UnitStats unitStats, HuntZone huntZone)
     {
         forceReturn = false;

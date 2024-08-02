@@ -35,6 +35,8 @@ public class HuntZone : MonoBehaviour
     public bool IsBossBattle { get; private set; }
     public float BossTimer { get; private set; }
 
+    public List<Cell> entranceTiles = new();
+
     private void Awake()
     {
         GameManager.Subscribe(EVENT_TYPE.INIT, OnGameInit);
@@ -105,8 +107,9 @@ public class HuntZone : MonoBehaviour
 
         //타일 설치
         var maxtile = new Vector2Int(gridMap.gridInfo.row - 1, gridMap.gridInfo.col - 1);
-        PortalPos = construct.PlaceBuilding(standardBuildingPrefab, gridMap.tiles[maxtile], gridMap)
-            .GetComponent<Building>().entranceTiles[0].transform.position;
+        entranceTiles = construct.PlaceBuilding(standardBuildingPrefab, gridMap.tiles[new Vector2Int(6,6)], gridMap)
+            .GetComponent<Building>().entranceTiles;
+        PortalPos = entranceTiles[Random.Range(0,entranceTiles.Count)].transform.position;
     }
 
     public void ResetHuntZone(bool isRemoveUnit)
