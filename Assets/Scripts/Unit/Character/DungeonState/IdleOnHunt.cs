@@ -43,15 +43,18 @@ public class IdleOnHunt : State<CombatUnit>
         //배회
         if (!isMoving)
         {
-            dest = owner.transform.position + (Vector3)Random.insideUnitCircle.normalized * owner.stats.MoveSpeed.Current;
-
             int count = 0;
-            while (owner.CurrentHuntZone.gridMap.PosToIndex(dest) == Vector2Int.one * -1
-                && count < 10)
+            Cell cell = null;
+
+            do
             {
                 dest = owner.transform.position + (Vector3)Random.insideUnitCircle.normalized * owner.stats.MoveSpeed.Current;
+                Vector2Int index = owner.CurrentHuntZone.gridMap.PosToIndex(dest);
+                cell = owner.CurrentHuntZone.gridMap.GetTile(index.x, index.y);
                 count++;
             }
+            while (count <= 10
+                   && cell == null ? true : !cell.tileInfo.ObjectLayer.IsEmpty);
 
             if (owner.CurrentHuntZone.gridMap.PosToIndex(dest) == Vector2Int.one * -1)
                 dest = owner.CurrentHuntZone.transform.position;
