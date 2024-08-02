@@ -13,6 +13,9 @@ public class InteractOnVillage : State<UnitOnVillage>
         //var building = currentTile.tileInfo.ObjectLayer.LayerObject;
         Interact(owner.destination);
 
+        //TODO 애니메이션 대신 프리펩 비활성화, 상호작용 완료시 다시 활성화
+        owner.animator.AnimIdle();
+
         OnInteract?.Invoke();
     }
 

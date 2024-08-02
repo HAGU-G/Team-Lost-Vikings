@@ -1,8 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using UnityEngine;
-
-public enum STAT_TYPE
+﻿public enum STAT_TYPE
 {
     NONE,
     STR,

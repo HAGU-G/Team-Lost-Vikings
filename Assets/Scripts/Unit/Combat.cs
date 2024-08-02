@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-public class Combat
+﻿public class Combat
 {
 
 }

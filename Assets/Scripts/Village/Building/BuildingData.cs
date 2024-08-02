@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class BuildingData : ITableAvaialable<int>
+﻿public class BuildingData : ITableAvaialable<int>
 {
     public string StructureName { get; set; }
     public int StructureId { get; set; }
