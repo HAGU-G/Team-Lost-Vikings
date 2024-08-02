@@ -1,8 +1,8 @@
-﻿public class UseSkillOnHunt : State<UnitOnHunt>
+﻿public class UseSkillOnHunt : State<CombatUnit>
 {
     public override void EnterState()
     {
-        owner.currentState = UnitOnHunt.STATE.ATTACK;
+        owner.currentState = CombatUnit.STATE.ATTACK;
         //owner.spriteRenderer.color = Color.magenta;
     }
 
@@ -38,14 +38,14 @@
     {
         if (owner.forceReturn)
         {
-            controller.ChangeState((int)UnitOnHunt.STATE.RETURN);
+            controller.ChangeState((int)CombatUnit.STATE.RETURN);
             return true;
         }
 
         if (!owner.HasTarget())
-            controller.ChangeState((int)UnitOnHunt.STATE.IDLE);
+            controller.ChangeState((int)CombatUnit.STATE.IDLE);
         else
-            controller.ChangeState((int)UnitOnHunt.STATE.TRACE);
+            controller.ChangeState((int)CombatUnit.STATE.TRACE);
 
         return true;
     }

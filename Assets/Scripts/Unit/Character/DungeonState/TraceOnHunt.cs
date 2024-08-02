@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 
-public class TraceOnHunt : State<UnitOnHunt>
+public class TraceOnHunt : State<CombatUnit>
 {
     private bool isCollidedWithTarget;
 
     public override void EnterState()
     {
-        owner.currentState = UnitOnHunt.STATE.TRACE;
+        owner.currentState = CombatUnit.STATE.TRACE;
         //owner.spriteRenderer.color = Color.yellow;
     }
 
@@ -43,16 +43,16 @@ public class TraceOnHunt : State<UnitOnHunt>
     {
         if (owner.forceReturn)
         {
-            controller.ChangeState((int)UnitOnHunt.STATE.RETURN);
+            controller.ChangeState((int)CombatUnit.STATE.RETURN);
             return true;
         }
 
         if (!owner.HasTarget())
         {
             if (owner.IsNeedReturn)
-                controller.ChangeState((int)UnitOnHunt.STATE.RETURN);
+                controller.ChangeState((int)CombatUnit.STATE.RETURN);
             else
-                controller.ChangeState((int)UnitOnHunt.STATE.IDLE);
+                controller.ChangeState((int)CombatUnit.STATE.IDLE);
             return true;
         }
         else
@@ -72,7 +72,7 @@ public class TraceOnHunt : State<UnitOnHunt>
 
             if (owner.stats.AttackTimer >= owner.stats.AttackSpeed.Current && isCollidedWithTarget)
             {
-                controller.ChangeState((int)UnitOnHunt.STATE.ATTACK);
+                controller.ChangeState((int)CombatUnit.STATE.ATTACK);
                 return true;
             }
         }

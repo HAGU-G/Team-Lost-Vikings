@@ -24,9 +24,9 @@ public class HuntZone : MonoBehaviour
 
     public bool IsReady { get; private set; }
 
-    public List<UnitOnHunt> Units { get; private set; } = new();
+    public List<CombatUnit> Units { get; private set; } = new();
 
-    public List<Monster> Monsters { get; private set; } = new();
+    public List<CombatUnit> Monsters { get; private set; } = new();
     private List<MonsterRegenPoint> regenPoints = new();
     private float regenTimer;
 

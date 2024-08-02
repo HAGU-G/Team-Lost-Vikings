@@ -1,31 +1,7 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-
-public class UnitOnHunt : Unit, IDamagedable, IAttackable
+﻿
+public class UnitOnHunt : CombatUnit
 {
-    //State
-    public enum STATE
-    {
-        IDLE,
-        TRACE,
-        ATTACK,
-        SKILL,
-        DEAD,
-        RETURN,
-    }
-
-    public Vector3 PortalPos { get; private set; }
-
-    public FSM<UnitOnHunt> FSM { get; private set; }
-    public STATE currentState;
-    public bool forceReturn = false;
-
-    //Attack
-    private IAttackStrategy attackBehaviour = new AttackDefault();
-    public Monster attackTarget;
-    public List<Monster> Enemies { get; private set; }
-
-    public bool IsNeedReturn
+    public override bool IsNeedReturn
     {
         get
         {
@@ -34,46 +10,7 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
                 || stats.Stress.Ratio < GameSetting.Instance.returnStressRaito;
         }
     }
-    public HuntZone CurrentHuntZone { get; private set; } = null;
 
-    public event System.Action OnDamaged;
-    public event System.Action OnAttacked;
-    public event System.Action OnUpdated;
-
-    public bool isTargetFixed;
-
-    private void Update()
-    {
-        stats.UpdateAttackTimer();
-
-        OnUpdated?.Invoke();
-
-        stats.UpdateEllipsePosition();
-        FSM.Update();
-
-        //오브젝트가 더이상 사용하지 않는 상태인지 검사. TODO 개선 필요
-        if (stats != null)
-        {
-            stats.Collision(CurrentHuntZone.gridMap, CurrentHuntZone.Units.ToArray());
-            stats.Collision(CurrentHuntZone.gridMap, CurrentHuntZone.Monsters.ToArray());
-        }
-    }
-
-
-    public override void Init()
-    {
-        base.Init();
-
-        FSM = new();
-        FSM.Init(this, 0,
-            new IdleOnHunt(),
-            new TraceOnHunt(),
-            new AttackOnHunt(),
-            new UseSkillOnHunt(),
-            new DeadOnHunt(),
-            new ReturnOnHunt()
-            );
-    }
 
     public void ResetUnit(UnitStats unitStats, HuntZone huntZone)
     {
@@ -95,12 +32,6 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
         FSM.ResetFSM();
     }
 
-    public override void OnRelease()
-    {
-        base.OnRelease();
-        CurrentHuntZone = null;
-    }
-
     public override void RemoveUnit()
     {
         base.RemoveUnit();
@@ -113,87 +44,5 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
         RemoveUnit();
     }
 
-    protected override void ResetEvents()
-    {
-        base.ResetEvents();
-        OnDamaged = null;
-        OnAttacked = null;
-        OnUpdated = null;
-    }
 
-    public bool TakeDamage(int damage, ATTACK_TYPE type)
-    {
-        stats.HP.Current -= damage;
-        OnDamaged?.Invoke();
-
-        if (!IsDead && stats.HP.Current <= 0)
-        {
-            IsDead = true;
-            FSM.ChangeState((int)STATE.DEAD);
-            return true;
-        }
-
-        return false;
-    }
-
-    public bool TryAttack()
-    {
-        if (!HasTarget())
-            return false;
-
-        animator?.AnimAttack(stats.Data.BasicAttackMotion);
-        OnAttacked?.Invoke();
-        stats.AttackTimer = 0f;
-
-        stats.Stamina.Current -= GameSetting.Instance.staminaReduceAmount;
-        isTargetFixed = true;
-
-
-        return true;
-    }
-
-    protected override void OnAnimationAttackHit()
-    {
-        if (!HasTarget())
-        {
-            isTargetFixed = false;
-            return;
-        }
-
-        base.OnAnimationAttackHit();
-
-        bool isCritical = Random.Range(0, 100) < stats.CritChance.Current;
-        var criticalWeight = isCritical ? stats.CritWeight.Current : 1f;
-        var damage = Mathf.FloorToInt(stats.CombatPoint * criticalWeight);
-
-        if (attackBehaviour.Attack(attackTarget, damage, stats.Data.BasicAttackType))
-        {
-            attackTarget = null;
-            stats.Stress.Current -= GameSetting.Instance.stressReduceAmount;
-        }
-    }
-
-    public bool HasTarget()
-    {
-        if (attackTarget == null
-            || !attackTarget.gameObject.activeSelf
-            || !Enemies.Contains(attackTarget))
-        {
-            attackTarget = null;
-            return false;
-        }
-
-        return true;
-    }
-
-    public void ForceChangeTarget(Monster monster)
-    {
-        if (monster == null
-            || !monster.gameObject.activeSelf
-            || !CurrentHuntZone.Monsters.Contains(monster))
-            return;
-
-        attackTarget = monster;
-        FSM.ChangeState((int)STATE.TRACE);
-    }
 }

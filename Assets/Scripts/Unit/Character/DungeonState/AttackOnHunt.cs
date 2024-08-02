@@ -1,10 +1,8 @@
-﻿public class AttackOnHunt : State<UnitOnHunt>
+﻿public class AttackOnHunt : State<CombatUnit>
 {
-
-
     public override void EnterState()
     {
-        owner.currentState = UnitOnHunt.STATE.ATTACK;
+        owner.currentState = CombatUnit.STATE.ATTACK;
         owner.isTargetFixed = true;
         owner.isActing = true;
 

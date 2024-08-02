@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 
-public class IdleOnHunt : State<UnitOnHunt>
+public class IdleOnHunt : State<CombatUnit>
 {
     private bool isMoving;
     private Vector3 dest;
 
     public override void EnterState()
     {
-        owner.currentState = UnitOnHunt.STATE.IDLE;
+        owner.currentState = CombatUnit.STATE.IDLE;
         owner.isTargetFixed = false;
         //owner.spriteRenderer.color = Color.white;
     }

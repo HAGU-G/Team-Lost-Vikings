@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class ReturnOnHunt : State<UnitOnHunt>
+public class ReturnOnHunt : State<CombatUnit>
 {
     Transform ownerTransform;
 
@@ -8,8 +8,7 @@ public class ReturnOnHunt : State<UnitOnHunt>
     {
         ownerTransform = owner.transform;
         owner.attackTarget = null;
-        owner.currentState = UnitOnHunt.STATE.RETURN;
-        //owner.spriteRenderer.color = Color.black;
+        owner.currentState = CombatUnit.STATE.RETURN;
     }
 
     public override void ExitState()
@@ -27,15 +26,14 @@ public class ReturnOnHunt : State<UnitOnHunt>
             return;
 
         owner.MoveToDestination(owner.PortalPos, Time.deltaTime);
-        //ownerTransform.position += (owner.PortalPos - ownerTransform.position).normalized
-        //    * owner.stats.MoveSpeed.Current * Time.deltaTime;
     }
 
     protected override bool Transition()
     {
-        if (Ellipse.IsPointInEllipse(owner.stats.SizeEllipse, owner.PortalPos))
+        if (Ellipse.IsPointInEllipse(owner.stats.SizeEllipse, owner.PortalPos)
+            && owner.stats.Data.UnitType == UNIT_TYPE.CHARACTER)
         {
-            owner.ReturnToVillage();
+            (owner as UnitOnHunt).ReturnToVillage();
             return true;
         }
         return false;
