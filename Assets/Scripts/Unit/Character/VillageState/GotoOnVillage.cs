@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.IO;
+using UnityEngine;
 
 public class GotoOnVillage : State<UnitOnVillage>
 {
@@ -11,12 +13,17 @@ public class GotoOnVillage : State<UnitOnVillage>
             var tileId = owner.villageManager.gridMap.PosToIndex(owner.gameObject.transform.position);
             var startTile = owner.villageManager.gridMap
                 .tiles[new Vector2Int(tileId.x, tileId.y)];
-            var forceTile = owner.forceDestination.GetComponent<Building>().entranceTile;
-            var path = owner.FindPath(startTile, forceTile);
-            if (path != null || startTile == forceTile)
+            var forceTiles = owner.forceDestination.GetComponent<Building>().entranceTiles;
+
+            List<Cell> path = new();
+            Cell cell = new();
+            (path, cell) = owner.FindShortestPath(startTile, forceTiles);
+
+            //var path = owner.FindPath(startTile, forceTile);
+            if (path != null || startTile == cell)
             {
                 owner.unitMove.OnTargetTile += OnEntranceTile;
-                owner.unitMove.MoveTo(startTile, forceTile);
+                owner.unitMove.MoveTo(startTile, cell);
                 return;
             }
             else
@@ -50,7 +57,7 @@ public class GotoOnVillage : State<UnitOnVillage>
                             break;
                         }
                     }
-                    owner.destinationTile = owner.destination.GetComponent<Building>().entranceTile;
+                    owner.destinationTiles = owner.destination.GetComponent<Building>().entranceTiles;
                 }
                 //controller.ChangeState((int)UnitOnVillage.STATE.IDLE);
                 //부족한 파라미터가 없으면 일단 돌아다니게 -> 사냥터로
@@ -62,9 +69,15 @@ public class GotoOnVillage : State<UnitOnVillage>
             var tileId = owner.villageManager.gridMap.PosToIndex(owner.gameObject.transform.position);
             var startTile = owner.villageManager.gridMap
                 .tiles[new Vector2Int(tileId.x, tileId.y)];
-            var path = owner.FindPath(startTile, owner.destinationTile);
-            if (path != null || startTile == owner.destinationTile)
+
+            List<Cell> path = new();
+            Cell cell = new();
+            (path, cell) = owner.FindShortestPath(startTile, owner.destinationTiles);
+
+            //var path = owner.FindPath(startTile, owner.destinationTile);
+            if (path != null || startTile == cell)
             {
+                owner.destinationTile = cell;
                 owner.unitMove.OnTargetTile += OnEntranceTile;
                 owner.unitMove.MoveTo(startTile, owner.destinationTile);
             }
@@ -123,7 +136,14 @@ public class GotoOnVillage : State<UnitOnVillage>
                     return false;
                 }
             });
-            owner.destinationTile = owner.destination.GetComponent<Building>().entranceTile;
+            owner.destinationTiles = owner.destination.GetComponent<Building>().entranceTiles;
+
+            var start = owner.villageManager.gridMap.PosToIndex(owner.transform.position);
+            var startTile = owner.villageManager.GetTile(start.x, start.y, owner.villageManager.gridMap);
+            
+            var (path, cell) = owner.FindShortestPath(startTile, owner.destinationTiles);
+
+            owner.destinationTile = cell;
         }
         else
         {

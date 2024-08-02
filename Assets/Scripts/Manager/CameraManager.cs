@@ -70,6 +70,9 @@ public class CameraManager : MonoBehaviour
                 break;
             case LOCATION.VILLAGE:
                 gridMap = GameManager.villageManager.gridMap;
+
+                //TO-DO : SetPosition 테스트 후 되돌리기
+                //SetPosition(gridMap.gameObject.transform.position);
                 foreach (var constructed in GameManager.villageManager.constructedBuildings)
                 {
                     var building = constructed.GetComponent<Building>();

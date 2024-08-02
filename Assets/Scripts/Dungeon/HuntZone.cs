@@ -106,7 +106,7 @@ public class HuntZone : MonoBehaviour
         //타일 설치
         var maxtile = new Vector2Int(gridMap.gridInfo.row - 1, gridMap.gridInfo.col - 1);
         PortalPos = construct.PlaceBuilding(standardBuildingPrefab, gridMap.tiles[maxtile], gridMap)
-            .GetComponent<Building>().entranceTile.transform.position;
+            .GetComponent<Building>().entranceTiles[0].transform.position;
     }
 
     public void ResetHuntZone(bool isRemoveUnit)

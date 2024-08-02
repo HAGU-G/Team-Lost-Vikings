@@ -34,8 +34,12 @@ public class Building : MonoBehaviour, IPointerClickHandler
     [field: SerializeField]
     public string StructureDesc { get; set; }
 
-    public List<Cell> placedTiles = new List<Cell>();
-    public Cell entranceTile;
+    public Cell standardTile; //설치, 회전 시 기준이 되는 타일
+    public List<Cell> placedTiles = new (); //건물 프리팹이 차지하는 모든 타일
+    public List<Cell> marginTiles = new(); //여백에 해당하는 타일
+    public List<Cell> realOccupiedTiles = new(); //여백을 제외한 실제 건물이 설치되는 타일
+
+    public List<Cell> entranceTiles = new();
     private bool isFlip = false;
     //private static bool isRotating = false;
     public GridMap gridMap;
@@ -55,12 +59,6 @@ public class Building : MonoBehaviour, IPointerClickHandler
         interactWithUnit = gameObject.GetComponent<IInteractableWithUnit>();
     }
 
-    public void SetInteractWith()
-    {
-        interactWithPlayer = GetComponent<IInteractableWithPlayer>();
-        interactWithUnit = GetComponent<IInteractableWithUnit>();
-    }
-
     public void Interact()
     {
         interactWithPlayer?.InteractWithPlayer();
@@ -74,38 +72,26 @@ public class Building : MonoBehaviour, IPointerClickHandler
         GameManager.uiManager.windows[WINDOW_NAME.BUILDING_POPUP].Open();
     }
 
-    private void Update()
-    {
-
-    }
-
-
-    //private void OnGUI()
-    //{
-    //    if(GUI.Button(new Rect(0f, 280f, 100f, 70f), "Rotate"))
-    //    {
-    //        isRotating = true;
-    //    }
-    //}
-
     public void RotateBuilding(Building building)
     {
         var localScale = building.transform.localScale;
-        var transedId = building.entranceTile.tileInfo.id;
         Vector3 textScale;
-        if (building.entranceTile.tileInfo.RoadLayer.LayerObject != null)
-        {
-            building.entranceTile.tileInfo.RoadLayer.LayerObject.GetComponent<
-                Renderer>().material.color = default;
-        }
+
+        //var transedId = building.entranceTile.tileInfo.id;
+        //if (building.entranceTile.tileInfo.RoadLayer.LayerObject != null)
+        //{
+        //    building.entranceTile.tileInfo.RoadLayer.LayerObject.GetComponent<
+        //        Renderer>().material.color = default;
+        //}
+
         gridMap = building.gridMap;
         if (!building.isFlip)
         {
-            transedId.x += 1;
-            transedId.y -= 1;
-            if (!gridMap.usingTileList.Contains(gridMap.tiles[transedId])
-                || gridMap.tiles[transedId].tileInfo.TileType == TileType.OBJECT)
-                return;
+            //transedId.x += 1;
+            //transedId.y -= 1;
+            //if (!gridMap.usingTileList.Contains(gridMap.tiles[transedId])
+            //    || gridMap.tiles[transedId].tileInfo.TileType == TileType.OBJECT)
+            //    return;
 
             textScale = building.gameObject.GetComponentInChildren<TextMeshPro>().gameObject.transform.localScale;
             textScale.x *= -1;
@@ -114,12 +100,12 @@ public class Building : MonoBehaviour, IPointerClickHandler
         }
         else
         {
-            transedId.x -= 1;
-            transedId.y += 1;
-            Debug.Log(gridMap);
-            if (!gridMap.usingTileList.Contains(gridMap.tiles[transedId])
-                || gridMap.tiles[transedId].tileInfo.TileType == TileType.OBJECT)
-                return;
+            //transedId.x -= 1;
+            //transedId.y += 1;
+            //if (!gridMap.usingTileList.Contains(gridMap.tiles[transedId])
+            //    || gridMap.tiles[transedId].tileInfo.TileType == TileType.OBJECT)
+            //    return;
+
             textScale = building.gameObject.GetComponentInChildren<TextMeshPro>().gameObject.transform.localScale;
             textScale.x *= -1;
             localScale.x *= -1;
@@ -127,13 +113,14 @@ public class Building : MonoBehaviour, IPointerClickHandler
         }
         building.transform.localScale = localScale;
         building.gameObject.GetComponentInChildren<TextMeshPro>().gameObject.transform.localScale = textScale;
-        building.entranceTile.ResetTileInfo();
-        building.entranceTile = gridMap.tiles[transedId];
-        building.entranceTile.TileColorChange();
-        if (building.entranceTile.tileInfo.RoadLayer.LayerObject != null)
-        {
-            //building.entranceTile.tileInfo.RoadLayer.LayerObject.GetComponent<SpriteRenderer>().material.color = Color.magenta;
-        }
+
+        //building.entranceTile.ResetTileInfo();
+        //building.entranceTile = gridMap.tiles[transedId];
+        //building.entranceTile.TileColorChange();
+        //if (building.entranceTile.tileInfo.RoadLayer.LayerObject != null)
+        //{
+        //    //building.entranceTile.tileInfo.RoadLayer.LayerObject.GetComponent<SpriteRenderer>().material.color = Color.magenta;
+        //}
     }
 
     public void OnPointerClick(PointerEventData eventData)

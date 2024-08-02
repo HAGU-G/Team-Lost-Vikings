@@ -11,6 +11,7 @@ public enum TileType
     NONE = -1,
     ROAD = 0,
     OBJECT = 15,
+    MARGIN,
 }
 
 public class CellInfo
@@ -21,6 +22,7 @@ public class CellInfo
     public Layer BaseLayer { get; set; }
     public Layer RoadLayer { get; set; }
     public Layer ObjectLayer { get; set; }
+    public Layer MarginLayer { get; set; }
     public Texture2D defaultTileTexture { get; set; }
     public TileType TileType { get; set; } = TileType.NONE;
 }

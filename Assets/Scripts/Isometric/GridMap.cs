@@ -198,8 +198,9 @@ public class GridMap : MonoBehaviour
             foreach (var adjacentTile in currentTile.adjacentTiles)
             {
                 if (adjacentTile == null 
-                    || adjacentTile.tileInfo.TileType != TileType.ROAD
                     || !usingTileList.Contains(adjacentTile)
+                    || adjacentTile.tileInfo.TileType == TileType.OBJECT
+                    //|| adjacentTile.tileInfo.TileType != TileType.ROAD //길 타일 개념 삭제
                     /*|| adjacentTile.tileInfo.Weight == int.MaxValue*/   //가중치 추가되면 수정하기
                     )
                     continue;
@@ -219,6 +220,26 @@ public class GridMap : MonoBehaviour
             }
         }
         return path; //못 찾은 경우
+    }
+
+    public (List<Cell>, Cell) GetShortestPath(Cell start, List<Cell>entrances)
+    {
+        var path = new List<Cell>();
+        Cell cell = new();
+        path = PathFinding(start, entrances[0]);
+        cell = entrances[0];
+
+        foreach(var entrance in entrances)
+        {
+            var temp = PathFinding(start, entrance);
+            if(temp.Count < path.Count)
+            {
+                path = temp;
+                cell = entrance;
+            }
+        }
+
+        return (path, cell);
     }
 
     private void InitializeUsableTileList()

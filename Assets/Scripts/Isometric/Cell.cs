@@ -41,12 +41,18 @@ public class Cell : MonoBehaviour
             LayerObject = null,
             IsEmpty = true
         };
+
+        tileInfo.MarginLayer = new Layer
+        {
+            LayerObject = null,
+            IsEmpty = true
+        };
     }
     public bool CanMove
     {
         get
         {
-            return (tileInfo.TileType == TileType.ROAD);
+            return (tileInfo.TileType != TileType.OBJECT);
         }
     }
 
@@ -61,6 +67,8 @@ public class Cell : MonoBehaviour
         tileInfo.RoadLayer.IsEmpty = true;
         tileInfo.ObjectLayer.LayerObject = null;
         tileInfo.ObjectLayer.IsEmpty = true;
+        tileInfo.MarginLayer.LayerObject = null;
+        tileInfo.MarginLayer.IsEmpty = true;
         tileInfo.TileType = TileType.NONE;
         RestoreTileColor();
 
@@ -91,6 +99,10 @@ public class Cell : MonoBehaviour
                 tileInfo.ObjectLayer.LayerObject = obj;
                 tileInfo.ObjectLayer.IsEmpty = false;
                 tileInfo.TileType = TileType.OBJECT;
+                break;
+            case TileType.MARGIN:
+                tileInfo.MarginLayer.IsEmpty = false;
+                tileInfo.TileType = TileType.MARGIN;
                 break;
         }
     }
