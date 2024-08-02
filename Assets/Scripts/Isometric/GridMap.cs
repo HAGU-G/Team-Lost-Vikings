@@ -106,9 +106,16 @@ public class GridMap : MonoBehaviour
     {
         usingTileList.Clear();
 
+        if(level > usableTileList.Count)
+        {
+            Debug.Log("최대로 확장되었습니다.");
+            return;
+        }
+
         foreach (var tile in usableTileList[level - 1])
         {
             usingTileList.Add(tile);
+            tile.TileColorChange();
         }
     }
 
@@ -254,22 +261,30 @@ public class GridMap : MonoBehaviour
 
         while (minRow <= maxRow - x && minCol <= maxCol - y)
         {
+            //if (minCol >= maxCol - y + 1 && minRow >= maxRow - x)
+            //    break;
+            //ExcludeTiles(x, maxRow, y, maxCol);
+            //y++;
+            //if (minCol >= maxCol - y + 1 && minRow >= maxRow - x)
+            //    break;
+            //ExcludeTiles(x, maxRow, y, maxCol);
+            //maxRow--;
+            //if (minCol >= maxCol - y + 1 && minRow >= maxRow - x)
+            //    break;
+            //ExcludeTiles(x, maxRow, y, maxCol);
+            //maxCol--;
+            //if (minCol >= maxCol - y + 1 && minRow >= maxRow - x)
+            //    break;
+            //ExcludeTiles(x, maxRow, y, maxCol);
+            //x++;
+
             if (minCol >= maxCol - y + 1 && minRow >= maxRow - x)
                 break;
-            ExcludeTiles(x, maxRow, y, maxCol);
             y++;
-            if (minCol >= maxCol - y + 1 && minRow >= maxRow - x)
-                break;
-            ExcludeTiles(x, maxRow, y, maxCol);
             maxRow--;
-            if (minCol >= maxCol - y + 1 && minRow >= maxRow - x)
-                break;
-            ExcludeTiles(x, maxRow, y, maxCol);
             maxCol--;
-            if (minCol >= maxCol - y + 1 && minRow >= maxRow - x)
-                break;
-            ExcludeTiles(x, maxRow, y, maxCol);
             x++;
+            ExcludeTiles(x, maxRow, y, maxCol);
         }
     }
 
