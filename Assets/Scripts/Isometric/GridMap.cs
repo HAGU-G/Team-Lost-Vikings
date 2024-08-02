@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class GridMap : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class GridMap : MonoBehaviour
     public List<Cell> usingTileList = new(); //gridMap 내에서 사용 가능한 타일 리스트
     public List<List<Cell>> usableTileList = new(); //usingTileList에 단계별로 할당하기 위한 List
 
+
+    private SortingGroup sortingGroup = null;
 
     public Cell GetTile(int x, int y)
     {
@@ -29,6 +32,8 @@ public class GridMap : MonoBehaviour
 
         InitializeUsableTileList();
         usableTileList.Reverse();
+        sortingGroup ??= gameObject.AddComponent<SortingGroup>();
+        sortingGroup.sortingLayerID = 0;
     }
 
     private void Start()

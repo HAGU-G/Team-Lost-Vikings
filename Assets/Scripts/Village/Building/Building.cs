@@ -2,6 +2,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering;
 
 
 public class Building : MonoBehaviour, IPointerClickHandler
@@ -48,6 +49,9 @@ public class Building : MonoBehaviour, IPointerClickHandler
     public IInteractableWithPlayer interactWithPlayer { get; private set; }
     public IInteractableWithUnit interactWithUnit { get; private set; }
 
+    private SortingGroup sortingGroup = null;
+
+
     private void Awake()
     {
         //gridMap = GameObject.FindWithTag("GridMap").GetComponent<GridMap>();
@@ -57,6 +61,9 @@ public class Building : MonoBehaviour, IPointerClickHandler
     {
         interactWithPlayer = gameObject.GetComponent<IInteractableWithPlayer>();
         interactWithUnit = gameObject.GetComponent<IInteractableWithUnit>();
+
+        sortingGroup ??= gameObject.AddComponent<SortingGroup>();
+        sortingGroup.sortingOrder = Mathf.FloorToInt(-transform.position.y);
     }
 
     public void Interact()

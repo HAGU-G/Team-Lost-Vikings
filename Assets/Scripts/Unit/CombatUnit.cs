@@ -67,8 +67,9 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable
 
 
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
         if (stats == null || gameObject.activeSelf == false)
             return;
 
