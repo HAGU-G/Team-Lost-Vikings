@@ -4,7 +4,7 @@ using UnityEngine;
 public class DressAnimator
 {
     private static readonly string nameIdle = "Idle";
-    private static readonly string nameRun = "Idle";
+    private static readonly string nameRun = "Run";
 
     private static readonly int triggerIdle = Animator.StringToHash(nameIdle);
     private static readonly int triggerRun = Animator.StringToHash(nameRun);
