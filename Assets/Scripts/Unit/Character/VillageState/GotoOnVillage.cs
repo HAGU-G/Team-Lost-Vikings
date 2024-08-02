@@ -15,7 +15,7 @@ public class GotoOnVillage : State<UnitOnVillage>
             var forceTiles = owner.forceDestination.GetComponent<Building>().entranceTiles;
 
             List<Cell> path = new();
-            Cell cell = new();
+            Cell cell = null;
             (path, cell) = owner.FindShortestPath(startTile, forceTiles);
 
             //var path = owner.FindPath(startTile, forceTile);
@@ -70,7 +70,7 @@ public class GotoOnVillage : State<UnitOnVillage>
                 .tiles[new Vector2Int(tileId.x, tileId.y)];
 
             List<Cell> path = new();
-            Cell cell = new();
+            Cell cell = null;
             (path, cell) = owner.FindShortestPath(startTile, owner.destinationTiles);
 
             //var path = owner.FindPath(startTile, owner.destinationTile);

@@ -232,7 +232,7 @@ public class GridMap : MonoBehaviour
     public (List<Cell>, Cell) GetShortestPath(Cell start, List<Cell>entrances)
     {
         var path = new List<Cell>();
-        Cell cell = new();
+        Cell cell = null;
         path = PathFinding(start, entrances[0]);
         cell = entrances[0];
 
