@@ -167,24 +167,29 @@ public abstract class Stats
         }
     }
 
-    public void Collision(Stats other, GridMap grid = null)
+    public void Collision(GridMap gridMap, params Unit[] others)
     {
-        var collisionDepth = SizeEllipse.CollisionDepthWith(other.SizeEllipse);
-        if (collisionDepth >= 0f)
+        foreach (var other in others)
         {
-            var prePos = objectTransform.position;
-            objectTransform.position -= (other.objectTransform.position - objectTransform.position).normalized * collisionDepth;
+            if (other == null || other.GetStats == this)
+                continue;
 
-            if (grid != null
-                && grid.PosToIndex(objectTransform.position) == Vector2Int.one * -1)
+            var collisionDepth = SizeEllipse.CollisionDepthWith(other.GetStats.SizeEllipse);
+            if (collisionDepth >= 0f)
             {
-                objectTransform.position = prePos;
-            }
+                var prePos = objectTransform.position;
+                objectTransform.position -= (other.transform.position - objectTransform.position).normalized * collisionDepth;
 
-            UpdateEllipsePosition();
+                if (gridMap != null
+                    && gridMap.PosToIndex(objectTransform.position) == Vector2Int.one * -1)
+                {
+                    objectTransform.position = prePos;
+                }
+
+                UpdateEllipsePosition();
+            }
         }
     }
-
 
     /// <param name="correctionFunc">null일 경우 내림 처리</param>
     public static int GetWeightedStat(int value, float weight, System.Func<float, int> correctionFunc = null)

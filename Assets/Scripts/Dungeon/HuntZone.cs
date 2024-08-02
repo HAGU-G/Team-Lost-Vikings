@@ -121,7 +121,7 @@ public class HuntZone : MonoBehaviour
         {
             if (i < Monsters.Count && (!IsBossBattle || !Monsters[i].stats.isBoss))
             {
-                Monsters[i].RemoveMonster();
+                Monsters[i].RemoveUnit();
             }
 
             if (isRemoveUnit && i < Units.Count)
@@ -245,7 +245,7 @@ public class HuntZone : MonoBehaviour
         }
         else
         {
-            boss.RemoveMonster();
+            boss.RemoveUnit();
             boss = null;
             StartRetryTimer();
         }

@@ -31,7 +31,7 @@ public class TraceOnHunt : State<UnitOnHunt>
             return;
         }
 
-        owner.Move(owner.attackTarget.transform, Time.deltaTime);
+        owner.MoveToDestination(owner.attackTarget.transform, Time.deltaTime);
 
         //var moveDirection = owner.transform.position - (owner.attackTarget).transform.position;
         //owner.transform.position -= moveDirection.normalized * Time.deltaTime * owner.stats.MoveSpeed.Current;

@@ -1,4 +1,4 @@
 ﻿public interface ISkillStrategy
 {
-    public void Use(Unit owner);
+    public void Use(Character owner);
 }

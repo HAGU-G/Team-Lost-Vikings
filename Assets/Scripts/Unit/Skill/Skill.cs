@@ -3,7 +3,7 @@
 [System.Serializable]
 public class Skill
 {
-    private Unit owner;
+    private Character owner;
     private ISkillStrategy skillBehaviour = new SkillTest001();
 
     public Skill(SkillData data, UnitOnHunt owner)
@@ -50,7 +50,7 @@ public class Skill
         Data = data;
     }
 
-    public void SetOwner(Unit owner)
+    public void SetOwner(Character owner)
     {
         this.owner = owner;
     }

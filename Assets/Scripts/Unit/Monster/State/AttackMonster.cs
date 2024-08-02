@@ -5,7 +5,7 @@
         owner.currentState = Monster.STATE.ATTACK;
         owner.isActing = true;
 
-        owner.LookTarget(owner.attackTarget.transform);
+        owner.LookAt(owner.attackTarget.transform);
         owner.TryAttack();
     }
 
@@ -32,9 +32,12 @@
             return false;
 
         if (!owner.HasTarget())
-            controller.ChangeState((int)UnitOnHunt.STATE.IDLE);
+        {
+                controller.ChangeState((int)Monster.STATE.IDLE);
+            return true;
+        }
 
-        controller.ChangeState((int)UnitOnHunt.STATE.TRACE);
+        controller.ChangeState((int)Monster.STATE.TRACE);
 
         return true;
     }

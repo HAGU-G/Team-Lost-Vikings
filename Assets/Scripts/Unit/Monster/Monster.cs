@@ -2,12 +2,10 @@
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackable
+public class Monster : Unit, IDamagedable, ISubject<Monster>, IAttackable
 {
-    public GameObject dress;
-
     public MonsterStats stats = new();
-
+    public override Stats GetStats => stats;
     public HuntZone CurrentHuntZone { get; private set; } = null;
 
     public enum STATE
@@ -21,12 +19,6 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
     private FSM<Monster> fsm;
     public STATE currentState;
 
-    public DressAnimator animator = new();
-    private Vector3 prePos;
-    public bool isActing;
-
-
-
     //Attack
     private IAttackStrategy attackBehaviour = new AttackDefault();
     public UnitOnHunt attackTarget;
@@ -34,28 +26,8 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
 
     public List<IObserver<Monster>> observer = new();
 
-    //AdditionalStats
-    public bool IsDead { get; private set; }
 
-
-    public void LookTarget(Transform target)
-    {
-        if (dress == null || target == null)
-            return;
-
-        var direc = target.position - transform.position;
-        dress.transform.localScale = new Vector3(
-            Mathf.Abs(dress.transform.localScale.x) * (direc.x > 0f ? -1f : 1f),
-            dress.transform.localScale.y,
-            dress.transform.localScale.z);
-    }
-
-    public void Ready(HuntZone huntZone)
-    {
-        Init();
-        ResetMonster(huntZone);
-    }
-    public void Init()
+    public override void Init()
     {
         fsm = new();
         fsm.Init(this, 0,
@@ -69,81 +41,73 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
     {
         CurrentHuntZone = huntZone;
 
-        //TODO 사냥터의 몬스터ID에 맞게 데이터 할당
         ResetEvents();
         stats.InitStats(isBoss ? huntZone.GetCurrentBoss() : huntZone.GetCurrentMonster());
         stats.ResetStats();
         stats.isBoss = isBoss;
-        stats.ResetEllipse(transform);
         attackTarget = null;
 
-        if (dress != null)
-            Addressables.ReleaseInstance(dress);
-
-
-        Addressables.InstantiateAsync(stats.Data.UnitAssetFileName, transform)
-        .Completed += (handle) =>
-        {
-            if (dress != null)
-                Destroy(dress);
-
-            dress = handle.Result;
-            animator.Init(
-                handle.Result.GetComponentInChildren<Animator>(),
-                0,
-                stats.MoveSpeed,
-                stats.AttackSpeed);
-
-            animator.listener.onAttackHit += OnAnimationAttackHit;
-        };
-
-        IsDead = false;
-        isActing = false;
+        ResetBase();
 
         Enemies = CurrentHuntZone.Units;
 
         fsm.ResetFSM();
     }
 
-    protected void OnAnimationAttackHit() 
+    protected override void OnAnimationAttackHit() 
     {
+        if (!HasTarget())
+            return;
+
+        base.OnAnimationAttackHit();
+
+
+        if (!attackTarget.isTargetFixed)
+        {
+            attackTarget.isTargetFixed = true;
+            attackTarget.attackTarget = this;
+        }
+
+        bool isCritical = Random.Range(0, 100) < stats.CritChance.Current;
+        var criticalWeight = isCritical ? stats.CritWeight.Current : 1f;
+        var damage = Mathf.FloorToInt(stats.CombatPoint * criticalWeight);
+
         if (attackBehaviour.Attack(attackTarget, stats.CombatPoint))
         {
             attackTarget = null;
         }
     }
 
-    public void UpdateAnimator()
+    //public void UpdateAnimator()
+    //{
+    //    if (!isActing && animator != null && dress != null)
+    //    {
+    //        if (transform.position != prePos)
+    //        {
+    //            float preLook = Mathf.Sign(dress.transform.localScale.x);
+    //            float currLook = Mathf.Sign((transform.position - prePos).x) * -1f;
+    //            bool flip = (preLook != currLook) && currLook != 0f;
+
+    //            dress.transform.localScale = new Vector3(
+    //                dress.transform.localScale.x * (flip ? -1f : 1f),
+    //                dress.transform.localScale.y,
+    //                dress.transform.localScale.z);
+
+    //            animator.AnimRun();
+    //        }
+    //        else
+    //        {
+    //            animator.AnimIdle();
+    //        }
+    //    }
+    //    prePos = transform.position;
+    //}
+
+    public override void OnRelease()
     {
-        if (!isActing && animator != null && dress != null)
-        {
-            if (transform.position != prePos)
-            {
-                float preLook = Mathf.Sign(dress.transform.localScale.x);
-                float currLook = Mathf.Sign((transform.position - prePos).x) * -1f;
-                bool flip = (preLook != currLook) && currLook != 0f;
-
-                dress.transform.localScale = new Vector3(
-                    dress.transform.localScale.x * (flip ? -1f : 1f),
-                    dress.transform.localScale.y,
-                    dress.transform.localScale.z);
-
-                animator.AnimRun();
-            }
-            else
-            {
-                animator.AnimIdle();
-            }
-        }
-        prePos = transform.position;
-    }
-
-    public void OnRelease()
-    {
+        base.OnRelease();
         CurrentHuntZone = null;
     }
-
-    public void ResetEvents() { }
 
 
     private void Update()
@@ -151,26 +115,12 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
         stats.UpdateAttackTimer();
         stats.UpdateEllipsePosition();
         fsm.Update();
-        UpdateAnimator();
-        CollisionUpdate();
-    }
-    private void CollisionUpdate()
-    {
-        var units = CurrentHuntZone.Units;
-        var monsters = CurrentHuntZone.Monsters;
-        var maxCount = Mathf.Max(units.Count, monsters.Count);
 
-        for (int i = 0; i < maxCount; i++)
+
+        if (stats != null)
         {
-            if (i < units.Count && units[i] != this)
-            {
-                stats.Collision(units[i].stats, CurrentHuntZone.gridMap);
-            }
-
-            if (i < monsters.Count && monsters[i] != this)
-            {
-                stats.Collision(monsters[i].stats, CurrentHuntZone.gridMap);
-            }
+            stats.Collision(CurrentHuntZone.gridMap, CurrentHuntZone.Units.ToArray());
+            stats.Collision(CurrentHuntZone.gridMap, CurrentHuntZone.Monsters.ToArray());
         }
     }
 
@@ -214,26 +164,18 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
     {
         if (!HasTarget())
             return false;
-        animator?.AnimAttack();
+
+        animator?.AnimAttack(stats.Data.BasicAttackMotion);
 
         stats.AttackTimer = 0f;
-        if (!attackTarget.isTargetFixed)
-        {
-            attackTarget.isTargetFixed = true;
-            attackTarget.attackTarget = this;
-        }
-        
-
         return true;
     }
 
     public bool HasTarget()
     {
-        if (attackTarget == null)
-        {
-            return false;
-        }
-        else if (!attackTarget.gameObject.activeSelf)
+        if (attackTarget == null
+            || !attackTarget.gameObject.activeSelf
+            || !Enemies.Contains(attackTarget))
         {
             attackTarget = null;
             return false;
@@ -256,8 +198,9 @@ public class Monster : MonoBehaviour, IDamagedable, ISubject<Monster>, IAttackab
         }
     }
 
-    public void RemoveMonster()
+    public override void RemoveUnit()
     {
+        base.RemoveUnit();
         SendNotification(NOTIFY_TYPE.REMOVE, true);
         GameManager.huntZoneManager.ReleaseMonster(this);
     }

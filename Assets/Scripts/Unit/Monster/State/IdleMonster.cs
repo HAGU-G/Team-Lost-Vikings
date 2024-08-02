@@ -77,8 +77,7 @@ public class IdleMonster : State<Monster>
             }
 
             roamTimer += Time.deltaTime;
-
-            owner.transform.position += direc * owner.stats.MoveSpeed.Current * Time.deltaTime;
+            owner.MoveToDirection(direc, Time.deltaTime);
         }
     }
 

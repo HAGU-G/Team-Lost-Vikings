@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitOnVillage : Unit
+public class UnitOnVillage : Character
 {
     public FSM<UnitOnVillage> VillageFSM {get; private set;}
     public STATE currentState;
@@ -45,7 +45,7 @@ public class UnitOnVillage : Unit
     public override void ResetUnit(UnitStats unitStats)
     {
         base.ResetUnit(unitStats);
-        unitStats.SetLocation(LOCATION.VILLAGE);
+        stats.SetLocation(LOCATION.VILLAGE);
         VillageFSM.ResetFSM();
     }
 

@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum LOCATION
+{
+    NONE,
+    VILLAGE,
+    HUNTZONE
+}
+
 [System.Serializable, JsonObject(MemberSerialization.OptIn)]
 public class UnitStats : Stats
 {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitOnHunt : Unit, IDamagedable, IAttackable
+public class UnitOnHunt : Character, IDamagedable, IAttackable
 {
     //State
     public enum STATE
@@ -9,15 +9,14 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
         IDLE,
         TRACE,
         ATTACK,
-        RETURN,
         SKILL,
-        DEAD
+        DEAD,
+        RETURN,
     }
 
-    public HuntZone CurrentHuntZone { get; private set; } = null;
     public Vector3 PortalPos { get; private set; }
 
-    public FSM<UnitOnHunt> FSM {get; private set;}
+    public FSM<UnitOnHunt> FSM { get; private set; }
     public STATE currentState;
     public bool forceReturn = false;
 
@@ -26,14 +25,6 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
     public Monster attackTarget;
     public List<Monster> Enemies { get; private set; }
 
-    //Event
-    public event System.Action OnDamaged;
-    public event System.Action OnAttacked;
-    public event System.Action OnUpdated;
-
-    //AdditionalStats
-    public bool isTargetFixed;
-    public bool IsDead { get; private set; }
     public bool IsNeedReturn
     {
         get
@@ -43,7 +34,13 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
                 || stats.Stress.Ratio < GameSetting.Instance.returnStressRaito;
         }
     }
+    public HuntZone CurrentHuntZone { get; private set; } = null;
 
+    public event System.Action OnDamaged;
+    public event System.Action OnAttacked;
+    public event System.Action OnUpdated;
+
+    public bool isTargetFixed;
 
     private void Update()
     {
@@ -56,24 +53,9 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
 
         //오브젝트가 더이상 사용하지 않는 상태인지 검사. TODO 개선 필요
         if (stats != null)
-            CollisionUpdate();
-    }
-
-    private void CollisionUpdate()
-    {
-        stats.UpdateEllipsePosition();
-        foreach (var unit in CurrentHuntZone.Units)
         {
-            if (unit == this)
-                continue;
-            stats.Collision(unit.stats, CurrentHuntZone.gridMap);
-        }
-
-        foreach (var unit in CurrentHuntZone.Monsters)
-        {
-            if (unit == this)
-                continue;
-            stats.Collision(unit.stats, CurrentHuntZone.gridMap);
+            stats.Collision(CurrentHuntZone.gridMap, CurrentHuntZone.Units.ToArray());
+            stats.Collision(CurrentHuntZone.gridMap, CurrentHuntZone.Monsters.ToArray());
         }
     }
 
@@ -87,9 +69,10 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
             new IdleOnHunt(),
             new TraceOnHunt(),
             new AttackOnHunt(),
-            new ReturnOnHunt(),
             new UseSkillOnHunt(),
-            new DeadOnHunt());
+            new DeadOnHunt(),
+            new ReturnOnHunt()
+            );
     }
 
     public void ResetUnit(UnitStats unitStats, HuntZone huntZone)
@@ -103,9 +86,7 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
     public override void ResetUnit(UnitStats unitStats)
     {
         base.ResetUnit(unitStats);
-        unitStats.SetLocation(LOCATION.HUNTZONE);
-
-        IsDead = false;
+        stats.SetLocation(LOCATION.HUNTZONE);
 
         attackTarget = null;
         isTargetFixed = false;
@@ -160,7 +141,7 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
         if (!HasTarget())
             return false;
 
-        animator?.AnimAttack();
+        animator?.AnimAttack(stats.Data.BasicAttackMotion);
         OnAttacked?.Invoke();
         stats.AttackTimer = 0f;
 
@@ -173,12 +154,13 @@ public class UnitOnHunt : Unit, IDamagedable, IAttackable
 
     protected override void OnAnimationAttackHit()
     {
-        base.OnAnimationAttackHit();
         if (!HasTarget())
         {
             isTargetFixed = false;
             return;
         }
+
+        base.OnAnimationAttackHit();
 
         bool isCritical = Random.Range(0, 100) < stats.CritChance.Current;
         var criticalWeight = isCritical ? stats.CritWeight.Current : 1f;

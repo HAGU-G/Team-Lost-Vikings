@@ -2,13 +2,13 @@
 
 public class DressListener : MonoBehaviour
 {
-    public event System.Action onAttackHit;
+    public event System.Action OnAttackHitEvent;
     public void OnAttackHit()
     {
-        onAttackHit?.Invoke();
+        OnAttackHitEvent?.Invoke();
     }
     public void ResetEvent()
     {
-        onAttackHit = null;
+        OnAttackHitEvent = null;
     }
 }

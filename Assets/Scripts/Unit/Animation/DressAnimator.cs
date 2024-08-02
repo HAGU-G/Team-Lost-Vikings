@@ -1,27 +1,30 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class DressAnimator
 {
-    private static readonly int triggerIdle = Animator.StringToHash("Idle");
-    private static readonly int triggerRun = Animator.StringToHash("Run");
+    private static readonly string nameIdle = "Idle";
+    private static readonly string nameRun = "Idle";
+
+    private static readonly int triggerIdle = Animator.StringToHash(nameIdle);
+    private static readonly int triggerRun = Animator.StringToHash(nameRun);
     private static readonly int triggerAttack = Animator.StringToHash("Attack");
 
-    private static readonly int paramJob = Animator.StringToHash("Job");
     private static readonly int paramMoveSpeed = Animator.StringToHash("MoveSpeed");
     private static readonly int paramAttackSpeed = Animator.StringToHash("AttackSpeed");
+    private static readonly int paramAttackMotion = Animator.StringToHash("AttackMotion");
 
     private Animator animator;
     public DressListener listener;
     public StatFloat moveSpeed;
     public StatFloat attackSpeed;
 
-    public void Init(Animator animator, UNIT_JOB job, StatFloat moveSpeed, StatFloat attackSpeed)
+    public void Init(Animator animator, StatFloat moveSpeed, StatFloat attackSpeed)
     {
         this.animator = animator;
         this.moveSpeed = moveSpeed;
         this.attackSpeed = attackSpeed;
 
-        animator.SetInteger(paramJob, (int)job);
 
         listener = animator.GetComponent<DressListener>();
         if (listener == null)
@@ -31,7 +34,8 @@ public class DressAnimator
 
     public void AnimIdle()
     {
-        if (animator == null)
+        if (animator == null
+            || animator.GetCurrentAnimatorStateInfo(0).IsName(nameIdle))
             return;
 
         animator.ResetTrigger(triggerIdle);
@@ -40,7 +44,8 @@ public class DressAnimator
 
     public void AnimRun()
     {
-        if (animator == null)
+        if (animator == null
+            || animator.GetCurrentAnimatorStateInfo(0).IsName(nameRun))
             return;
 
         animator.SetFloat(paramMoveSpeed, moveSpeed.Current);
@@ -48,12 +53,15 @@ public class DressAnimator
         animator.SetTrigger(triggerRun);
     }
 
-    public void AnimAttack()
+    public void AnimAttack(ATTACK_MOTION motion)
     {
         //TODO 프리펩 미리 로드 후 생성시 바로 작동할 수 있도록 변경 필요
         if (animator == null)
             return;
 
+        Debug.Log($"{listener.name}공격 재생");
+
+        animator.SetInteger(paramAttackMotion, (int)motion);
         animator.SetFloat(paramAttackSpeed, 1f / attackSpeed.Current);
         animator.ResetTrigger(triggerAttack);
         animator.SetTrigger(triggerAttack);
