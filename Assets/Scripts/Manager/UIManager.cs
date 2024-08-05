@@ -18,6 +18,8 @@ public enum WINDOW_NAME
     CHARACTER_INVENTORY,
     CHARACTER_MANAGEMENT,
     CHARACTER_LOCATE,
+    CONSTRUCT_MODE,
+    BUILDING_DETAIL,
 }
 
 
@@ -35,6 +37,7 @@ public class UIManager : MonoBehaviour
     public Building currentNormalBuidling;
     public ParameterRecoveryBuilding currentParameterBuilding;
     public UnitStats currentUnitStats;
+    public BuildingData currentBuildingData;
 
     public bool isWindowOn = false;
 
