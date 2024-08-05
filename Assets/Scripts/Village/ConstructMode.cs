@@ -14,6 +14,7 @@ public class ConstructMode
     private void SetConstructMode()
     {
         Time.timeScale = (currentTimeScale == 1f) ? 0f : 1f;
+        currentTimeScale = Time.timeScale;
     }
 
 
