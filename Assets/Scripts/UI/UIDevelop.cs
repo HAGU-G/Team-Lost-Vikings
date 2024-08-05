@@ -166,6 +166,11 @@ public class UIDevelop : MonoBehaviour
         GameManager.itemManager.Gold += 10000;
     }
 
+    public void SetConstructMode()
+    {
+        GameManager.Publish(EVENT_TYPE.CONSTRUCT);
+    }
+
     public void OnButtonQuit()
     {
         GameManager.GameQuit();

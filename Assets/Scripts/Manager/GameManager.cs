@@ -12,7 +12,8 @@ public enum EVENT_TYPE
     PAUSE,
     RESUME,
     QUIT,
-    UPGRADE
+    UPGRADE,
+    CONSTRUCT,
 }
 
 public static class GameManager

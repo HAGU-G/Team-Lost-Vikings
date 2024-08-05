@@ -21,11 +21,7 @@ public class SoundManager : MonoBehaviour
 
     private void OnGameStart()
     {
-        //audioSource.GetComponent<AudioSource>();
-
-        //audioSource.clip = audioClips[currentClip];
-        //audioSource.Play();
-        //Debug.Log($"currentClip : {currentClip} / onGameStart {audioSource.clip.name}");
+        GameManager.Subscribe(EVENT_TYPE.CONSTRUCT, SetAudioPlay);
     }
 
     private void Update()
@@ -42,6 +38,14 @@ public class SoundManager : MonoBehaviour
         audioSource.clip = audioClips[currentClip];
         audioSource.Play();
         ++currentClip;
+    }
+
+    private void SetAudioPlay()
+    {
+        if(GameManager.villageManager.constructMode.currentTimeScale == 0f)
+        {
+            audioSource.pitch = 1f;
+        }
     }
 
 }

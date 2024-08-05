@@ -22,6 +22,8 @@ public class VillageManager : MonoBehaviour
 
     private GameObject selectedObj;
 
+    public ConstructMode constructMode = new();
+
     private void Awake()
     {
         if (GameManager.villageManager != null)
@@ -39,6 +41,7 @@ public class VillageManager : MonoBehaviour
     private void OnGameInit()
     {
         Init();
+        constructMode.Init();
 
         VillageSet(gridMap);
     }
@@ -157,6 +160,9 @@ public class VillageManager : MonoBehaviour
 
             }
 
+            b.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
+            var collider = b.AddComponent<PolygonCollider2D>();
+
             switch (buildingComponenet.StructureType)
             {
                 case STRUCTURE_TYPE.PARAMETER_RECOVERY:
@@ -183,12 +189,12 @@ public class VillageManager : MonoBehaviour
                     break;
                 case STRUCTURE_TYPE.PORTAL:
                     b.AddComponent<PortalBuilding>();
+                    Destroy(collider);
                     break;
             }
 
             b.GetComponentInChildren<TextMeshPro>().text = buildingComponenet.StructureName;
-            b.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
-            b.AddComponent<PolygonCollider2D>();
+            
             b.name = buildingComponenet.StructureId.ToString();
             installableBuilding.Add(b);
         }
