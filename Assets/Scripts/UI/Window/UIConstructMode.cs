@@ -89,7 +89,7 @@ public class UIConstructMode : UIWindow
         foreach (var building in buildingDatas)
         {
             if(buildings.TryGetValue(building, out GameObject value))
-                CheckBuildingButton(building, value.GetComponent<Button>());
+                CheckBuildingButton(building, value);
         }
         SortBuildingButtons();
     }
@@ -100,7 +100,7 @@ public class UIConstructMode : UIWindow
         {
             foreach(var building in buildings)
             {
-                CheckBuildingButton(building.Key, building.Value.GetComponent<Button>());
+                CheckBuildingButton(building.Key, building.Value);
             }
             return;
         }
@@ -116,20 +116,23 @@ public class UIConstructMode : UIWindow
             var handle = Addressables.LoadAssetAsync<GameObject>(path);
             handle.WaitForCompletion();
 
-            b.GetComponent<Image>().sprite = handle.Result.GetComponentInChildren<SpriteRenderer>().sprite;
-            var button = b.GetComponent<Button>();
+            var frame = b.GetComponent<BuildingFrame>();
+            frame.buildingImage.sprite = handle.Result.GetComponentInChildren<SpriteRenderer>().sprite;
+            var button = frame.button;
             button.onClick.AddListener
             (() =>
             {
                 um.currentBuildingData = buildingData;
                 GameManager.uiManager.windows[WINDOW_NAME.BUILDING_DETAIL].Open();
             });
-            CheckBuildingButton(buildingData, button);
+            
+
+            CheckBuildingButton(buildingData, b);
             buildings.Add(buildingData, b);
         }
     }
 
-    private void CheckBuildingButton(BuildingData data, Button button)
+    private void CheckBuildingButton(BuildingData data, GameObject building)
     {
         bool isActive = true;
         int grade;
@@ -143,7 +146,9 @@ public class UIConstructMode : UIWindow
             grade = value;
         }
 
-        if(data.UpgradeId == 0)
+        var button = building.GetComponent<BuildingFrame>().button;
+
+        if(data.UpgradeId == 0) //portal
         {
             SetButtonColor(button, false);
             isActive = false;
@@ -153,36 +158,58 @@ public class UIConstructMode : UIWindow
 
         var upgradeData = DataTableManager.upgradeTable.GetData(data.UpgradeId)[grade];
 
+        foreach(var tile in GameManager.villageManager.gridMap.tiles.Values)
+        {
+            if(!tile.tileInfo.ObjectLayer.IsEmpty
+                && tile.tileInfo.ObjectLayer.LayerObject.GetComponentInChildren<Building>().StructureId == data.StructureId
+                && !data.CanMultiBuild)
+            {
+                SetButtonColor(button, false);
+                isActive = false;
+                buttonActivationStatus[button] = isActive;
+                return;
+            }
+        }
+
         if (data.UnlockTownLevel > GameManager.playerManager.level)
         {
             SetButtonColor(button, false);
             isActive = false;
+            buttonActivationStatus[button] = isActive;
+            return;
         }
 
-        for (int i = 0; i < upgradeData.ItemIds.Count; ++i)
-        {
-            if (im.ownItemList.TryGetValue(upgradeData.ItemIds[i], out int itemNum))
-            {
-                if (im.ownItemList[upgradeData.ItemIds[i]] < upgradeData.ItemNums[i])
-                {
-                    SetButtonColor(button, false);
-                    isActive = false;
-                    break;
-                }
-                else
-                {
-                    SetButtonColor(button, true);
-                    isActive = true;
-                }
-            }
-            else
-            {
-                SetButtonColor(button, false);
-                isActive = false;
-                break;
-            }
-            
-        }
+        ////////////////TO-DO : 아이템 추가되면 주석 해제하기////////////////////////////////
+        //for (int i = 0; i < upgradeData.ItemIds.Count; ++i)
+        //{
+        //    if (im.ownItemList.TryGetValue(upgradeData.ItemIds[i], out int itemNum))
+        //    {
+        //        if (im.ownItemList[upgradeData.ItemIds[i]] < upgradeData.ItemNums[i])
+        //        {
+        //            SetButtonColor(button, false);
+        //            isActive = false;
+        //            break;
+        //        }
+        //        else
+        //        {
+        //            SetButtonColor(button, true);
+        //            isActive = true;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        SetButtonColor(button, false);
+        //        isActive = false;
+        //        break;
+        //    }
+
+        //}
+
+        //모든 조건 검사 통과했을 때
+        SetButtonColor(button, true);
+        isActive = true;
+        buttonActivationStatus[button] = isActive;
+        return;
 
         if (isActive)
             SetButtonColor(button, true);
@@ -215,10 +242,10 @@ public class UIConstructMode : UIWindow
 
         children.Sort((a, b) =>
         {
-            var dataA = GetBuildingDataFromButton(a.GetComponent<Button>());
-            var dataB = GetBuildingDataFromButton(b.GetComponent<Button>());
-            bool isActiveA = buttonActivationStatus[a.GetComponent<Button>()];
-            bool isActiveB = buttonActivationStatus[b.GetComponent<Button>()];
+            var dataA = GetBuildingDataFromObj(a.gameObject);
+            var dataB = GetBuildingDataFromObj(b.gameObject);
+            bool isActiveA = buttonActivationStatus[a.GetComponent<BuildingFrame>().button];
+            bool isActiveB = buttonActivationStatus[b.GetComponent<BuildingFrame>().button];
 
             if (isActiveA == isActiveB)
             {
@@ -233,11 +260,11 @@ public class UIConstructMode : UIWindow
         }
     }
 
-    private BuildingData GetBuildingDataFromButton(Button button)
+    private BuildingData GetBuildingDataFromObj(GameObject obj)
     {
         foreach (var kvp in buildings)
         {
-            if (kvp.Value.GetComponent<Button>() == button)
+            if (kvp.Value == obj)
             {
                 return kvp.Key;
             }

@@ -5821,7 +5821,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isShowOnly: 0
   content: {fileID: 1729888244}
-  buidlingUIPrefab: {fileID: 8708626553950136585, guid: 62f51e086670e714d95c71b996ab72a5, type: 3}
+  buidlingUIPrefab: {fileID: 141728207980421395, guid: 19480e1ef08ba6d42a0f9c1da2b8d56a, type: 3}
   constructOff: {fileID: 118969704}
   constructModeinProgress: {fileID: 483744635}
   destroyPopUp: {fileID: 1397267843}
