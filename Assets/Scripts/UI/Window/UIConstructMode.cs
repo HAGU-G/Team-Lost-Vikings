@@ -195,17 +195,12 @@ public class UIConstructMode : UIWindow
         if (satisfy)
         {
             button.interactable = true;
-            ColorBlock colorBlock = button.colors; 
-            colorBlock.normalColor = new Color(200, 231, 167);
-            //colorBlock.normalColor = Color.white;
-            button.colors = colorBlock;
+            button.targetGraphic.color = new Color(200f / 255f, 231f / 255f, 167f / 255f);
         }
         else
         {
             button.interactable = false;
-            ColorBlock colorBlock = button.colors;
-            colorBlock.normalColor = new Color(255, 128, 128);
-            button.colors = colorBlock;
+            button.targetGraphic.color = new Color(255f / 255f, 128f / 255f, 128f / 255f);
         }
     }
 
