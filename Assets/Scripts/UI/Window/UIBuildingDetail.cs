@@ -1,15 +1,18 @@
 ﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 public class UIBuildingDetail : UIWindow
 {
     public override WINDOW_NAME WindowName => WINDOW_NAME.BUILDING_DETAIL;
 
-    public List<BuildingData> buildingDatas = DataTableManager.buildingTable.GetDatas();
-    public List<UpgradeData> upgradeDatas = DataTableManager.upgradeTable.GetDatas();
+    public List<BuildingData> buildingDatas = new();
+    public List<UpgradeData> upgradeDatas = new();
 
     public ItemManager im;
+    public UIManager um;
 
     public TextMeshProUGUI buildingName;
     public Image buildingImage;
@@ -32,6 +35,9 @@ public class UIBuildingDetail : UIWindow
     {
         base.OnGameStart();
         im = GameManager.itemManager;
+        um = GameManager.uiManager;
+        buildingDatas = DataTableManager.buildingTable.GetDatas();
+        upgradeDatas = DataTableManager.upgradeTable.GetDatas();
     }
 
     private void OnEnable()
@@ -41,32 +47,42 @@ public class UIBuildingDetail : UIWindow
 
     private void SetBuildingDetail()
     {
-        foreach (var buildingData in buildingDatas)
+        var buildingData = um.currentBuildingData;
+
+
+        var upgrade = DataTableManager.upgradeTable.GetData(buildingData.UpgradeId)[1];
+
+        buildingName.text = buildingData.StructureName.ToString();
+
+        string assetName = buildingData.StructureAssetFileName;
+        var path = $"Assets/Pick_Asset/2WEEK/Building/{assetName}.prefab"; //TO-DO : 파일 경로 수정하기
+
+        var handle = Addressables.LoadAssetAsync<GameObject>(path);
+        handle.WaitForCompletion();
+
+        buildingImage.sprite = handle.Result.GetComponentInChildren<SpriteRenderer>().sprite;
+        
+        unlockTownLevel.text = buildingData.UnlockTownLevel.ToString();
+        //buidlingSize.text = $"{buildingData.Width} X {buildingData.Length}";
+        buildingDesc.text = buildingData.StructureDesc.ToString();
+
+        foreach (var r in resources)
         {
-            var upgrade = upgradeDatas[buildingData.UpgradeId];
+            resources.Remove(r);
+            Destroy(r);
+        }
+        resources.Clear();
 
-            buildingName.text = buildingData.StructureName.ToString();
-            //detail.buildingImage = upgrade. //데이터테이블 매니저 수정 후 적기
-            unlockTownLevel.text = buildingData.UnlockTownLevel.ToString();
-            buidlingSize.text = $"{buildingData.Width} X {buildingData.Length}";
-            buildingDesc.text = buildingData.StructureDesc.ToString();
+        for (int i = 0; i < upgrade.ItemNums.Count; ++i)
+        {
+            var resource = GameObject.Instantiate(upgradeResource, requireTransform);
+            //resource.GetComponentInChildren<Image>().sprite = ; //이미지 박아 놓는건지 가변적인지 물어보기
 
-            foreach (var r in resources)
-            {
-                resources.Remove(r);
-                Destroy(r);
-            }
-            resources.Clear();
+            //TO-DO : 아이템 추가되면 주석 해제하기
+            //resource.GetComponentInChildren<TextMeshProUGUI>().text
+            //    = $"{im.ownItemList[upgrade.ItemIds[i]]} / {upgrade.ItemNums[upgrade.ItemIds[i]].ToString()}";
 
-            for (int i = 0; i < upgrade.ItemNums.Count; ++i)
-            {
-                var resource = GameObject.Instantiate(upgradeResource, requireTransform);
-                //resource.GetComponentInChildren<Image>().sprite = ; //이미지 박아 놓는건지 가변적인지 물어보기
-                resource.GetComponentInChildren<TextMeshProUGUI>().text
-                    = $"{im.ownItemList[upgrade.ItemIds[i]]} / {upgrade.ItemNums[upgrade.ItemIds[i]].ToString()}";
-
-                resources.Add(resource);
-            }
+            resources.Add(resource);
         }
     }
 
@@ -76,5 +92,15 @@ public class UIBuildingDetail : UIWindow
         {
 
         }
+    }
+
+    public void OnButtonConstruct()
+    {
+
+    }
+
+    public void OnButtonExit()
+    {
+        Close();
     }
 }
