@@ -68,8 +68,17 @@ public class Building : MonoBehaviour, IPointerClickHandler
 
     public void TouchBuilding()
     {
-        GameManager.uiManager.currentNormalBuidling = this;
-        GameManager.uiManager.windows[WINDOW_NAME.BUILDING_POPUP].Open();
+        if(!GameManager.villageManager.constructMode.isConstructMode)
+        {
+            GameManager.uiManager.currentNormalBuidling = this;
+            GameManager.uiManager.windows[WINDOW_NAME.BUILDING_POPUP].Open();
+        }
+        else if(GameManager.villageManager.constructMode.isConstructMode)
+        {
+            GameManager.uiManager.currentNormalBuidling = this;
+            GameManager.uiManager.uiDevelop.TouchBuildingInConstructMode();
+        }
+       
     }
 
     public void RotateBuilding(Building building)
@@ -125,8 +134,8 @@ public class Building : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (GameManager.uiManager.isWindowOn)
-            return;
+        //if (GameManager.uiManager.isWindowOn)
+        //    return;
 
         var building = GetComponent<Building>();
         var parameter = GetComponent<ParameterRecoveryBuilding>();

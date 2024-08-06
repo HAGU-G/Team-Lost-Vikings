@@ -11,14 +11,19 @@ public class UIConstructMode : UIWindow
 
     private ItemManager im;
     private UIManager um;
+    private VillageManager vm;
+    private ConstructMode constructMode;
 
     public Transform content; // 건물 목록 스크롤뷰의 content
     public GameObject buidlingUIPrefab;
-    public Button constructOff;
-    public TextMeshProUGUI constructModeinProgress;
 
-    public List<BuildingData> buildingDatas = DataTableManager.buildingTable.GetDatas();
-    public List<UpgradeData> upgradeDatas = DataTableManager.upgradeTable.GetDatas();
+    public Button constructOff;
+    public GameObject constructModeinProgress;
+
+    public GameObject destroyPopUp;
+
+    public List<BuildingData> buildingDatas = new();
+    public List<UpgradeData> upgradeDatas = new();
 
     private Dictionary<BuildingData, GameObject> buildings = new();
     private Dictionary<Button, bool> buttonActivationStatus = new();
@@ -33,33 +38,86 @@ public class UIConstructMode : UIWindow
         base.OnGameStart();
         im = GameManager.itemManager;
         um = GameManager.uiManager;
-        MakeBuildingList();
-        SortBuildingButtons();
+        vm = GameManager.villageManager;
+        constructMode = vm.constructMode;
+        constructModeinProgress.SetActive(false);
+
+        buildingDatas = DataTableManager.buildingTable.GetDatas();
+        upgradeDatas = DataTableManager.upgradeTable.GetDatas();
+    }
+
+    public void OnButtonChangePlacement()
+    {
+
+    }
+
+    public void OnButtonRotateBuilding()
+    {
+        um.currentNormalBuidling.RotateBuilding(um.currentNormalBuidling);
+    }
+
+    public void OnButtonDestroyBuilding()
+    {
+        destroyPopUp.SetActive(true);
+    }
+
+    public void OnButtonDestroyCommit()
+    {
+        constructMode.construct.RemoveBuilding(um.currentNormalBuidling, vm.gridMap);
+    }
+
+    public void OnButtonDestroyExit()
+    {
+        destroyPopUp.SetActive(false);
+    }
+
+    public void OnButtonExit()
+    {
+        constructModeinProgress.SetActive(false);
+        GameManager.Publish(EVENT_TYPE.CONSTRUCT);
+        Close();
     }
 
     private void OnEnable()
     {
-        foreach(var building in buildingDatas)
+        MakeBuildingList();
+        constructModeinProgress.SetActive(true);
+
+        GameManager.uiManager.uiDevelop.ConstructButtonsOff();
+        destroyPopUp.SetActive(false);
+
+        foreach (var building in buildingDatas)
         {
-            CheckBuildingButton(building, buildings.GetValueOrDefault(building).GetComponentInChildren<Button>());
+            if(buildings.TryGetValue(building, out GameObject value))
+                CheckBuildingButton(building, value.GetComponent<Button>());
         }
         SortBuildingButtons();
     }
 
     private void MakeBuildingList()
     {
+        if(buildings.Count != 0)
+        {
+            foreach(var building in buildings)
+            {
+                CheckBuildingButton(building.Key, building.Value.GetComponent<Button>());
+            }
+            return;
+        }
+        
+
         foreach (var buildingData in buildingDatas)
         {
             var b = GameObject.Instantiate(buidlingUIPrefab, content);
             
-            string assetName = buildingDatas[buildingData.UpgradeId].StructureAssetFileName;
-            var path = $"{assetName}"; //TO-DO : 파일 경로 수정하기
+            string assetName = buildingData.StructureAssetFileName;
+            var path = $"Assets/Pick_Asset/2WEEK/Building/{assetName}.prefab"; //TO-DO : 파일 경로 수정하기
 
             var handle = Addressables.LoadAssetAsync<GameObject>(path);
             handle.WaitForCompletion();
 
-            b.GetComponentInChildren<Image>().sprite = handle.Result.GetComponentInChildren<SpriteRenderer>().sprite;
-            var button = b.GetComponentInChildren<Button>();
+            b.GetComponent<Image>().sprite = handle.Result.GetComponentInChildren<SpriteRenderer>().sprite;
+            var button = b.GetComponent<Button>();
             button.onClick.AddListener
             (() =>
             {
@@ -69,13 +127,31 @@ public class UIConstructMode : UIWindow
             CheckBuildingButton(buildingData, button);
             buildings.Add(buildingData, b);
         }
-        
     }
 
     private void CheckBuildingButton(BuildingData data, Button button)
     {
         bool isActive = true;
-        var upgradeData = upgradeDatas[data.UpgradeId];
+        int grade;
+        if (!GameManager.playerManager.buildingUpgradeGrades.TryGetValue(data.StructureId, out int value))
+        {
+            value = 1;
+            grade = value;
+        }
+        else
+        {
+            grade = value;
+        }
+
+        if(data.UpgradeId == 0)
+        {
+            SetButtonColor(button, false);
+            isActive = false;
+            buttonActivationStatus[button] = isActive;
+            return;
+        }
+
+        var upgradeData = DataTableManager.upgradeTable.GetData(data.UpgradeId)[grade];
 
         if (data.UnlockTownLevel > GameManager.playerManager.level)
         {
@@ -85,17 +161,27 @@ public class UIConstructMode : UIWindow
 
         for (int i = 0; i < upgradeData.ItemIds.Count; ++i)
         {
-            if (im.ownItemList[upgradeData.ItemIds[i]] < upgradeData.ItemNums[i])
+            if (im.ownItemList.TryGetValue(upgradeData.ItemIds[i], out int itemNum))
+            {
+                if (im.ownItemList[upgradeData.ItemIds[i]] < upgradeData.ItemNums[i])
+                {
+                    SetButtonColor(button, false);
+                    isActive = false;
+                    break;
+                }
+                else
+                {
+                    SetButtonColor(button, true);
+                    isActive = true;
+                }
+            }
+            else
             {
                 SetButtonColor(button, false);
                 isActive = false;
                 break;
             }
-            else
-            {
-                SetButtonColor(button, true);
-                isActive = true;
-            }
+            
         }
 
         if (isActive)
@@ -134,10 +220,10 @@ public class UIConstructMode : UIWindow
 
         children.Sort((a, b) =>
         {
-            var dataA = GetBuildingDataFromButton(a.GetComponentInChildren<Button>());
-            var dataB = GetBuildingDataFromButton(b.GetComponentInChildren<Button>());
-            bool isActiveA = buttonActivationStatus[a.GetComponentInChildren<Button>()];
-            bool isActiveB = buttonActivationStatus[b.GetComponentInChildren<Button>()];
+            var dataA = GetBuildingDataFromButton(a.GetComponent<Button>());
+            var dataB = GetBuildingDataFromButton(b.GetComponent<Button>());
+            bool isActiveA = buttonActivationStatus[a.GetComponent<Button>()];
+            bool isActiveB = buttonActivationStatus[b.GetComponent<Button>()];
 
             if (isActiveA == isActiveB)
             {
@@ -156,7 +242,7 @@ public class UIConstructMode : UIWindow
     {
         foreach (var kvp in buildings)
         {
-            if (kvp.Value.GetComponentInChildren<Button>() == button)
+            if (kvp.Value.GetComponent<Button>() == button)
             {
                 return kvp.Key;
             }

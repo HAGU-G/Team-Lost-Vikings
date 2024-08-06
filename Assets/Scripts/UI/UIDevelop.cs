@@ -22,6 +22,10 @@ public class UIDevelop : MonoBehaviour
 
     public TextMeshProUGUI textVersion;
 
+    public Button changePlacement;
+    public Button rotateBuilding;
+    public Button destroyBuilding;
+
     public void OnButtonVillage()
     {
         //onVillage.SetActive(true);
@@ -169,6 +173,66 @@ public class UIDevelop : MonoBehaviour
     public void SetConstructMode()
     {
         GameManager.Publish(EVENT_TYPE.CONSTRUCT);
+        GameManager.uiManager.windows[WINDOW_NAME.CONSTRUCT_MODE].Open();
+    }
+
+    public void TouchBuildingInConstructMode()
+    {
+        changePlacement.gameObject.SetActive(true);
+        rotateBuilding.gameObject.SetActive(true);
+        destroyBuilding.gameObject.SetActive(true);
+
+        if (!GameManager.uiManager.currentNormalBuidling.CanReplace)
+        {
+            changePlacement.interactable = false;
+            ColorBlock colorBlock = changePlacement.colors;
+            colorBlock.normalColor = new Color(255,128,128);
+            changePlacement.colors = colorBlock;
+        }
+        else
+        {
+            changePlacement.interactable = true;
+            ColorBlock colorBlock = changePlacement.colors;
+            colorBlock.normalColor = new Color(200,231,167);
+            changePlacement.colors = colorBlock;
+        }
+
+        if(!GameManager.uiManager.currentNormalBuidling.CanReverse)
+        {
+            rotateBuilding.interactable = false;
+            ColorBlock colorBlock = rotateBuilding.colors;
+            colorBlock.normalColor = new Color(255, 128, 128);
+            rotateBuilding.colors = colorBlock;
+        }
+        else
+        {
+            rotateBuilding.interactable = true;
+            ColorBlock colorBlock = rotateBuilding.colors;
+            colorBlock.normalColor = new Color(200, 231, 167);
+            rotateBuilding.colors = colorBlock;
+        }
+
+        if (!GameManager.uiManager.currentNormalBuidling.CanDestroy)
+        {
+            destroyBuilding.interactable = false;
+            ColorBlock colorBlock = destroyBuilding.colors;
+            colorBlock.normalColor = new Color(255, 128, 128);
+            destroyBuilding.colors = colorBlock;
+        }
+        else
+        {
+            destroyBuilding.interactable = true;
+            ColorBlock colorBlock = destroyBuilding.colors;
+            colorBlock.normalColor = new Color(200, 231, 167);
+            destroyBuilding.colors = colorBlock;
+        }
+    }
+
+    public void ConstructButtonsOff()
+    {
+        changePlacement.gameObject.SetActive(false);
+        rotateBuilding.gameObject.SetActive(false);
+        destroyBuilding.gameObject.SetActive(false);
     }
 
     public void OnButtonQuit()

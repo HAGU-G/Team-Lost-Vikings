@@ -101,6 +101,43 @@ public class Construct
         return obj;
     }
 
+    public void RemoveBuilding(Building building, GridMap gridMap)
+    {
+        if (!CanDestroyBuilding(building.gameObject))
+            return;
+
+        foreach(var tile in gridMap.tiles.Values)
+        {
+            if(!tile.tileInfo.ObjectLayer.IsEmpty)
+            {
+                var b = tile.tileInfo.ObjectLayer.LayerObject.GetComponent<Building>();
+                if (b == building)
+                {
+                    foreach (var t in building.placedTiles)
+                        t.ResetTileInfo();
+
+                    var upgrade = tile.tileInfo.ObjectLayer.LayerObject.GetComponent<BuildingUpgrade>();
+                    if (upgrade != null)
+                    {
+                        if (GameManager.playerManager.buildingUpgradeGrades.TryGetValue(b.StructureId, out int value))
+                        {
+                            value = upgrade.currentGrade;
+                        }
+                        else
+                        {
+                            GameManager.playerManager.buildingUpgradeGrades.Add(b.StructureId, upgrade.currentGrade);
+                        }
+                    }
+
+                    GameObject.Destroy(b);
+                }
+                else
+                    continue;
+            }
+        }
+    }
+
+
     public bool CanBuildBuilding(GameObject obj, Cell tile, GridMap gridMap)
     {
         var building = obj.GetComponent<Building>();
