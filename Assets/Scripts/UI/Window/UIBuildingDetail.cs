@@ -14,6 +14,8 @@ public class UIBuildingDetail : UIWindow
     public ItemManager im;
     public UIManager um;
 
+    UIWindow[] exceptWindows;
+
     public TextMeshProUGUI buildingName;
     public Image buildingImage;
     public TextMeshProUGUI unlockTownLevel;
@@ -34,8 +36,13 @@ public class UIBuildingDetail : UIWindow
     protected override void OnGameStart()
     {
         base.OnGameStart();
+        isShowOnly = false;
+
         im = GameManager.itemManager;
         um = GameManager.uiManager;
+
+        exceptWindows = new UIWindow[20];
+
         buildingDatas = DataTableManager.buildingTable.GetDatas();
         upgradeDatas = DataTableManager.upgradeTable.GetDatas();
     }
@@ -45,7 +52,7 @@ public class UIBuildingDetail : UIWindow
         SetBuildingDetail();
     }
 
-    private void SetBuildingDetail()
+    public void SetBuildingDetail()
     {
         var buildingData = um.currentBuildingData;
 
@@ -68,7 +75,6 @@ public class UIBuildingDetail : UIWindow
 
         foreach (var r in resources)
         {
-            resources.Remove(r);
             Destroy(r);
         }
         resources.Clear();
@@ -96,11 +102,15 @@ public class UIBuildingDetail : UIWindow
 
     public void OnButtonConstruct()
     {
+        exceptWindows[0] = um.windows[WINDOW_NAME.CONSTRUCT_MODE];
+        um.CloseWindows(exceptWindows);
+
 
     }
 
     public void OnButtonExit()
     {
-        Close();
+        exceptWindows[0] = um.windows[WINDOW_NAME.CONSTRUCT_MODE];
+        um.CloseWindows(exceptWindows);
     }
 }

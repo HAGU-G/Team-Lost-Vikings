@@ -28,6 +28,7 @@ public class UIConstructMode : UIWindow
     private Dictionary<BuildingData, GameObject> buildings = new();
     private Dictionary<Button, bool> buttonActivationStatus = new();
 
+
     protected override void Awake()
     {
         base.Awake();
@@ -73,13 +74,22 @@ public class UIConstructMode : UIWindow
 
     public void OnButtonExit()
     {
+        GameManager.villageManager.constructMode.isConstructMode = false;
         constructModeinProgress.SetActive(false);
         GameManager.Publish(EVENT_TYPE.CONSTRUCT);
         Close();
     }
 
+    public void EscapeConstructMode()
+    {
+        //다른 ui를 띄우는 경우
+
+        //사냥터로 이동하는 경우
+    }
+
     private void OnEnable()
     {
+        GameManager.villageManager.constructMode.isConstructMode = true;
         MakeBuildingList();
         constructModeinProgress.SetActive(true);
 
@@ -123,7 +133,12 @@ public class UIConstructMode : UIWindow
             (() =>
             {
                 um.currentBuildingData = buildingData;
-                GameManager.uiManager.windows[WINDOW_NAME.BUILDING_DETAIL].Open();
+                var buildingDetailWindow = GameManager.uiManager.windows[WINDOW_NAME.BUILDING_DETAIL] as UIBuildingDetail;
+                if (buildingDetailWindow != null)
+                {
+                    buildingDetailWindow.SetBuildingDetail();
+                    buildingDetailWindow.Open();
+                }
             });
             
 
