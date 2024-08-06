@@ -108,22 +108,15 @@ public class UIBuildingDetail : UIWindow
         exceptWindows[0] = um.windows[WINDOW_NAME.CONSTRUCT_MODE];
         um.CloseWindows(exceptWindows);
         isConstructing = true;
-        Debug.Log("OnButtonConstruct");
     }
-
-    //private void Update()
-    //{
-        
-        
-    //}
 
     public void ConstructBuilding(Cell cell)
     {
         if (vm.objectList.TryGetValue(um.currentBuildingData.StructureId, out var building))
         {
-            vm.constructMode.construct.PlaceBuilding(building, cell, vm.gridMap);
-
-            vm.SetDevelopText(false);
+            var obj = vm.constructMode.construct.PlaceBuilding(building, cell, vm.gridMap);
+            obj.GetComponentInChildren<TextMeshPro>().enabled = false;
+            //vm.SetDevelopText(false);
         }
     }
 

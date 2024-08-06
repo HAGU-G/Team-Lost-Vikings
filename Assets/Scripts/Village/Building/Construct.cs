@@ -114,8 +114,7 @@ public class Construct
                 var b = tile.tileInfo.ObjectLayer.LayerObject.GetComponent<Building>();
                 if (b == building)
                 {
-                    foreach (var t in building.placedTiles)
-                        t.ResetTileInfo();
+                    
 
                     var upgrade = tile.tileInfo.ObjectLayer.LayerObject.GetComponent<BuildingUpgrade>();
                     if (upgrade != null)
@@ -130,7 +129,10 @@ public class Construct
                         }
                     }
 
-                    GameObject.Destroy(b);
+                    foreach (var t in building.placedTiles)
+                        t.ResetTileInfo();
+
+                    GameObject.Destroy(building.gameObject);
                 }
                 else
                     continue;
@@ -256,7 +258,7 @@ public class Construct
             for (int j = lowestIndex.y; j <= highestIndex.y; ++j)
             {
                 var t = gridMap.tiles.GetValueOrDefault(new Vector2Int(i, j));
-
+                t.UpdateTileInfo(TileType.OBJECT, obj);
                 building.placedTiles.Add(t);
             }
         }

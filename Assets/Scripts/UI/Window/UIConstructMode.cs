@@ -67,6 +67,12 @@ public class UIConstructMode : UIWindow
     public void OnButtonDestroyCommit()
     {
         constructMode.construct.RemoveBuilding(um.currentNormalBuidling, vm.gridMap);
+        destroyPopUp.SetActive(false);
+
+        if (buildings.TryGetValue(um.currentBuildingData, out GameObject value))
+            CheckBuildingButton(um.currentBuildingData, value);
+
+        SortBuildingButtons();
     }
 
     public void OnButtonDestroyExit()
