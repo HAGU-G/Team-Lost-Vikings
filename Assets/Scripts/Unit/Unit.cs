@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using UnityEditorInternal;
+using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Rendering;
 
 public abstract class Unit : MonoBehaviour
 {
@@ -11,10 +13,14 @@ public abstract class Unit : MonoBehaviour
 
     public UnitSkills skills;
     public GameObject skillEffect;
+    private SortingGroup sortingGroup = null;
 
     public bool IsDead { get; protected set; }
 
-    public virtual void Init() { }
+    public virtual void Init() 
+    {
+        sortingGroup ??= gameObject.AddComponent<SortingGroup>();
+    }
     public virtual void ResetUnit(UnitStats stats)
     {
         if (stats == null)
@@ -46,6 +52,12 @@ public abstract class Unit : MonoBehaviour
         this.stats.ResetEllipse(transform);
         ResetEvents();
     }
+
+    protected virtual void Update()
+    {
+        sortingGroup.sortingOrder = Mathf.FloorToInt(-transform.position.y);
+    }
+
 
     public virtual void OnRelease()
     {

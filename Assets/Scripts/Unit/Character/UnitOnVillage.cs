@@ -50,8 +50,9 @@ public class UnitOnVillage : Unit
         VillageFSM.ResetFSM();
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
         VillageFSM.Update();
     }
 
