@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ConstructMode
 {
-    public Construct construct;
+    public Construct construct = new();
     public float currentTimeScale;
     public bool isConstructMode;
 

@@ -2,6 +2,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 public class UIBuildingDetail : UIWindow
@@ -13,6 +14,7 @@ public class UIBuildingDetail : UIWindow
 
     public ItemManager im;
     public UIManager um;
+    public VillageManager vm;
 
     UIWindow[] exceptWindows;
 
@@ -28,6 +30,12 @@ public class UIBuildingDetail : UIWindow
     public List<GameObject> resources = new();
     public Transform requireTransform;
 
+    private Vector3 position;
+    public bool isConstructing = false;
+
+    //private bool isDragging = false;
+    List<Cell> buildingCells = new List<Cell>();
+
     protected override void Awake()
     {
         base.Awake();
@@ -40,6 +48,7 @@ public class UIBuildingDetail : UIWindow
 
         im = GameManager.itemManager;
         um = GameManager.uiManager;
+        vm = GameManager.villageManager;
 
         exceptWindows = new UIWindow[20];
 
@@ -47,15 +56,9 @@ public class UIBuildingDetail : UIWindow
         upgradeDatas = DataTableManager.upgradeTable.GetDatas();
     }
 
-    private void OnEnable()
-    {
-        SetBuildingDetail();
-    }
-
     public void SetBuildingDetail()
     {
         var buildingData = um.currentBuildingData;
-
 
         var upgrade = DataTableManager.upgradeTable.GetData(buildingData.UpgradeId)[1];
 
@@ -104,8 +107,55 @@ public class UIBuildingDetail : UIWindow
     {
         exceptWindows[0] = um.windows[WINDOW_NAME.CONSTRUCT_MODE];
         um.CloseWindows(exceptWindows);
+        isConstructing = true;
+        Debug.Log("OnButtonConstruct");
+    }
 
+    //private void Update()
+    //{
+        
+        
+    //}
 
+    public void ConstructBuilding(Cell cell)
+    {
+        if (vm.objectList.TryGetValue(um.currentBuildingData.StructureId, out var building))
+        {
+            vm.constructMode.construct.PlaceBuilding(building, cell, vm.gridMap);
+
+            vm.SetDevelopText(false);
+        }
+    }
+
+    private void MakeBuildingGrid()
+    {
+        var width = um.currentBuildingData.Width;
+        var length = um.currentBuildingData.Length;
+        var gridMap = GameManager.villageManager.gridMap;
+
+        Vector3 centerPos = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, Camera.main.nearClipPlane));
+        Vector2Int centerIndex = gridMap.PosToIndex(centerPos);
+
+        CreateBuildingGrid(centerIndex, width, length);
+    }
+
+    private void CreateBuildingGrid(Vector2Int centerIndex, int width, int length)
+    {
+        var gridMap = GameManager.villageManager.gridMap;
+
+        for (int x = -width / 2; x <= width / 2; x++)
+        {
+            for (int y = -length / 2; y <= length / 2; y++)
+            {
+                Vector2Int cellIndex = new Vector2Int(centerIndex.x + x, centerIndex.y + y);
+                Cell cell = gridMap.GetTile(cellIndex.x, cellIndex.y);
+                if (cell != null)
+                {
+                    buildingCells.Add(cell);
+                    cell.GetComponent<SpriteRenderer>().color = Color.green; // 임시 색상
+                }
+            }
+        }
     }
 
     public void OnButtonExit()

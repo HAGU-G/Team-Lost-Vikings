@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class Construct
@@ -25,11 +26,11 @@ public class Construct
 
         var buildingComponent = instancedObj.GetComponent<Building>();
         buildingComponent.gridMap = gridMap;
-
         SetBuildingInfo(instancedObj, tile, gridMap);
         
+        
         isSelected = false;
-
+        GameManager.villageManager.constructedBuildings.Add(instancedObj);
         return instancedObj;
     }
 

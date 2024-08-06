@@ -182,6 +182,7 @@ GameObject:
   - component: {fileID: 6494264128091016833}
   - component: {fileID: 8218434530687436147}
   - component: {fileID: 7875950619231276755}
+  - component: {fileID: 148204949641916181}
   m_Layer: 0
   m_Name: tile
   m_TagString: Untagged
@@ -271,3 +272,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   previous: {fileID: 0}
   gridMap: {fileID: 0}
+--- !u!60 &148204949641916181
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8088564192278140151}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 2.25}
+    pivot: {x: 0.5, y: 0.28}
+    oldSize: {x: 5.12, y: 5.12}
+    newSize: {x: 1, y: 0.5}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.008133426, y: 1.4514494}
+      - {x: -2.549648, y: -0.0034086704}
+      - {x: 0.005531013, y: -1.44684}
+      - {x: 2.5325637, y: 0.0028708577}
+  m_UseDelaunayMesh: 0

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
 
 public class GridMap : MonoBehaviour
@@ -84,7 +85,6 @@ public class GridMap : MonoBehaviour
                 text.text = $"{tile.tileInfo.id}";
                 tiles.Add(tile.tileInfo.id, tile);
                 tileArray[x, y] = tile;
-
             }
         }
 
@@ -120,7 +120,6 @@ public class GridMap : MonoBehaviour
         foreach (var tile in usableTileList[level - 1])
         {
             usingTileList.Add(tile);
-            tile.TileColorChange();
         }
     }
 

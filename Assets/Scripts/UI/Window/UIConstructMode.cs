@@ -28,7 +28,7 @@ public class UIConstructMode : UIWindow
     private Dictionary<BuildingData, GameObject> buildings = new();
     private Dictionary<Button, bool> buttonActivationStatus = new();
 
-
+    private UIBuildingDetail buildingDetail;
     protected override void Awake()
     {
         base.Awake();
@@ -45,6 +45,8 @@ public class UIConstructMode : UIWindow
 
         buildingDatas = DataTableManager.buildingTable.GetDatas();
         upgradeDatas = DataTableManager.upgradeTable.GetDatas();
+
+        buildingDetail = um.windows[WINDOW_NAME.BUILDING_DETAIL] as UIBuildingDetail;
     }
 
     public void OnButtonChangePlacement()
@@ -104,6 +106,24 @@ public class UIConstructMode : UIWindow
         SortBuildingButtons();
     }
 
+    private void Update()
+    {
+        if (buildingDetail.isConstructing)
+        {
+            if (GameManager.inputManager.Press)
+            {
+                var pos = GameManager.inputManager.WorldPos;
+                var index = vm.gridMap.PosToIndex(pos);
+                var tile = vm.gridMap.GetTile(index.x, index.y);
+
+                buildingDetail.ConstructBuilding(tile);
+                buildingDetail.isConstructing = false;
+                buildings.TryGetValue(um.currentBuildingData, out var obj);
+                CheckBuildingButton(um.currentBuildingData, obj);
+                SortBuildingButtons();
+            }
+        }
+    }
     private void MakeBuildingList()
     {
         if(buildings.Count != 0)

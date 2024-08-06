@@ -63,6 +63,9 @@ public class Building : MonoBehaviour, IPointerClickHandler
         interactWithUnit = gameObject.GetComponent<IInteractableWithUnit>();
 
         sortingGroup ??= gameObject.AddComponent<SortingGroup>();
+
+        if (gameObject.GetComponent<SortingGroup>() != null)
+            sortingGroup = gameObject.GetComponent<SortingGroup>();
         sortingGroup.sortingOrder = Mathf.FloorToInt(-transform.position.y);
     }
 
