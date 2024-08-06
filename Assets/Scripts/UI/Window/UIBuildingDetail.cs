@@ -110,14 +110,17 @@ public class UIBuildingDetail : UIWindow
         isConstructing = true;
     }
 
-    public void ConstructBuilding(Cell cell)
+    public GameObject ConstructBuilding(Cell cell)
     {
         if (vm.objectList.TryGetValue(um.currentBuildingData.StructureId, out var building))
         {
             var obj = vm.constructMode.construct.PlaceBuilding(building, cell, vm.gridMap);
+            if (obj == null)
+                return null;
             obj.GetComponentInChildren<TextMeshPro>().enabled = false;
-            //vm.SetDevelopText(false);
+            return obj;
         }
+        return null;
     }
 
     private void MakeBuildingGrid()

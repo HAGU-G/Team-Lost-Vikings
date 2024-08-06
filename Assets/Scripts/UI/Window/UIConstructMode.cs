@@ -29,6 +29,8 @@ public class UIConstructMode : UIWindow
     private Dictionary<Button, bool> buttonActivationStatus = new();
 
     private UIBuildingDetail buildingDetail;
+    private bool isReplacing = false;
+
     protected override void Awake()
     {
         base.Awake();
@@ -51,7 +53,7 @@ public class UIConstructMode : UIWindow
 
     public void OnButtonChangePlacement()
     {
-
+        isReplacing = true;
     }
 
     public void OnButtonRotateBuilding()
@@ -73,6 +75,7 @@ public class UIConstructMode : UIWindow
             CheckBuildingButton(um.currentBuildingData, value);
 
         SortBuildingButtons();
+        um.uiDevelop.ConstructButtonsOff();
     }
 
     public void OnButtonDestroyExit()
@@ -129,7 +132,43 @@ public class UIConstructMode : UIWindow
                 SortBuildingButtons();
             }
         }
+
+        if(isReplacing)
+        {
+            if (GameManager.inputManager.Press)
+            {
+                var prevTile = um.currentNormalBuidling.standardTile;
+                var isFlip = um.currentNormalBuidling.isFlip;
+                var pos = GameManager.inputManager.WorldPos;
+                var index = vm.gridMap.PosToIndex(pos);
+                var tile = vm.gridMap.GetTile(index.x, index.y);
+
+                if(constructMode.construct.RemoveBuilding(um.currentNormalBuidling, vm.gridMap))
+                {
+                    var b = buildingDetail.ConstructBuilding(tile);
+                    if(b == null)
+                    {
+                        buildingDetail.ConstructBuilding(prevTile);
+                        Debug.Log("설치할 수 없는 위치입니다.");
+                    }
+                    if(isFlip)
+                    {
+                        b.GetComponent<Building>().RotateBuilding(b.GetComponent<Building>());
+                    }
+                }
+                else
+                {
+                    buildings.TryGetValue(um.currentBuildingData, out var obj);
+                    CheckBuildingButton(um.currentBuildingData, obj);
+                    SortBuildingButtons();
+                }
+                
+                isReplacing = false;
+                um.uiDevelop.ConstructButtonsOff();
+            }
+        }
     }
+
     private void MakeBuildingList()
     {
         if(buildings.Count != 0)

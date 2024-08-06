@@ -102,10 +102,10 @@ public class Construct
         return obj;
     }
 
-    public void RemoveBuilding(Building building, GridMap gridMap)
+    public bool RemoveBuilding(Building building, GridMap gridMap)
     {
         if (!CanDestroyBuilding(building.gameObject))
-            return;
+            return false;
 
         foreach(var tile in gridMap.tiles.Values)
         {
@@ -133,11 +133,13 @@ public class Construct
                         t.ResetTileInfo();
 
                     GameObject.Destroy(building.gameObject);
+                    return true;
                 }
                 else
                     continue;
             }
         }
+        return false;
     }
 
 

@@ -41,7 +41,7 @@ public class Building : MonoBehaviour, IPointerClickHandler
     public List<Cell> realOccupiedTiles = new(); //여백을 제외한 실제 건물이 설치되는 타일
 
     public List<Cell> entranceTiles = new();
-    private bool isFlip = false;
+    public bool isFlip = false;
     //private static bool isRotating = false;
     public GridMap gridMap;
 
