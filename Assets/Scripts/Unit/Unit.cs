@@ -19,7 +19,8 @@ public abstract class Unit : MonoBehaviour
 
     public virtual void Init() 
     {
-        sortingGroup ??= gameObject.AddComponent<SortingGroup>();
+        if(!TryGetComponent(out sortingGroup))
+            sortingGroup = gameObject.AddComponent<SortingGroup>();
         sortingGroup.sortAtRoot = true;
     }
     public virtual void ResetUnit(UnitStats stats)
