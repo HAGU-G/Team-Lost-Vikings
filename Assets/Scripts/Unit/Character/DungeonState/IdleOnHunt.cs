@@ -54,7 +54,7 @@ public class IdleOnHunt : State<CombatUnit>
                 count++;
             }
             while (count <= 10
-                   && cell == null ? true : !cell.tileInfo.ObjectLayer.IsEmpty);
+                   && (cell == null ? true : !cell.tileInfo.ObjectLayer.IsEmpty));
 
             if (owner.CurrentHuntZone.gridMap.PosToIndex(dest) == Vector2Int.one * -1)
                 dest = owner.CurrentHuntZone.transform.position;
