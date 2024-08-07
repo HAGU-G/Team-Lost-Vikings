@@ -13,7 +13,7 @@ public enum SKILL_ACTIVE_TYPE
     BASIC_ATTACK_COUNT
 }
 
-public enum STAT_VAULE_TYPE
+public enum STAT_VALUE_TYPE
 {
     NONE,
     ADD,
@@ -55,7 +55,7 @@ public class SkillData : ITableAvaialable<int>
     public float ActiveValue { get; set; }
     public float BuffRange { get; set; }
     public STAT_TYPE BuffStateType { get; set; }
-    public STAT_VAULE_TYPE BUffStateValueType { get; set; }
+    public STAT_VALUE_TYPE BuffStateValueType { get; set; }
     public float BuffStateValue { get; set; }
     public float SkillDuration { get; set; }
     public float ProjectileSpeed { get; set; }
