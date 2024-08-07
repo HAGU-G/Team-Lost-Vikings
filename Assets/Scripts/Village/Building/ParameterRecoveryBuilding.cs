@@ -10,6 +10,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
     public PARAMETER_TYPE parameterType;
    // private UnitOnVillage unit;
     public List<UnitOnVillage> interactingUnits;
+    public List<UnitOnVillage> movingUnits;
     public int recoveryAmount;
     public float recoveryTime;
     //private bool isRecovering;
@@ -45,6 +46,13 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
 
         while (true)
         {
+            if(unit.isQuited)
+            {
+                unit.RecoveryAgain(parameterType);
+                unit.isQuited = false;
+                break;
+            }
+
             switch (parameterType)
             {
                 case PARAMETER_TYPE.HP:
@@ -139,5 +147,29 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
             GameManager.uiManager.uiDevelop.TouchBuildingInConstructMode();
         }
             
+    }
+
+    public void AddMovingUnit(UnitOnVillage unit)
+    {
+        if(!movingUnits.Contains(unit))
+        {
+            movingUnits.Add(unit);
+        }
+    }
+
+    public void RemoveMovingUnit(UnitOnVillage unit)
+    {
+        if(movingUnits.Contains(unit))
+        {
+            movingUnits.Remove(unit);
+        }
+    }
+
+    public void UpdateMovingUnitsDestination()
+    {
+        foreach(var unit in movingUnits)
+        {
+            unit.UpdateDestination(building.gameObject);
+        }
     }
 }

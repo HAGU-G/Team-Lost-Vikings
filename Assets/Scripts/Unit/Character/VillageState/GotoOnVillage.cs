@@ -88,6 +88,11 @@ public class GotoOnVillage : State<UnitOnVillage>
     public override void ExitState()
     {
         owner.unitMove.OnTargetTile -= OnEntranceTile;
+        var building = owner.destination.GetComponent<ParameterRecoveryBuilding>();
+        if (building != null)
+        {
+            building.RemoveMovingUnit(owner);
+        }
     }
 
     public override void ResetState()

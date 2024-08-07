@@ -244,6 +244,13 @@ public class UIDevelop : MonoBehaviour
 
     public void OnButtonQuit()
     {
+        var constructMode = GameManager.uiManager.windows[WINDOW_NAME.CONSTRUCT_MODE] as UIConstructMode;
+        if (GameManager.villageManager.constructMode.isConstructMode)
+        {
+            constructMode.FinishConstructMode();
+            GameManager.Publish(EVENT_TYPE.CONSTRUCT);
+        }
+
         GameManager.GameQuit();
     }
 

@@ -120,7 +120,7 @@ public class UIConstructMode : UIWindow
 
         foreach (var building in buildingDatas)
         {
-            if(buildings.TryGetValue(building, out GameObject value))
+            if (buildings.TryGetValue(building, out GameObject value))
                 CheckBuildingButton(building, value);
         }
         SortBuildingButtons();
@@ -144,7 +144,7 @@ public class UIConstructMode : UIWindow
             }
         }
 
-        if(isReplacing)
+        if (isReplacing)
         {
             if (GameManager.inputManager.Press)
             {
@@ -153,18 +153,34 @@ public class UIConstructMode : UIWindow
                 var pos = GameManager.inputManager.WorldPos;
                 var index = vm.gridMap.PosToIndex(pos);
                 var tile = vm.gridMap.GetTile(index.x, index.y);
+                
+                //파라미터 건물 예외 처리
+                if (um.currentNormalBuidling.StructureType == STRUCTURE_TYPE.PARAMETER_RECOVERY)
+                {
+                    ParameterHandle();
+                }
 
-                if(constructMode.construct.RemoveBuilding(um.currentNormalBuidling, vm.gridMap))
+                if (constructMode.construct.ForceRemovingBuilding(um.currentNormalBuidling, vm.gridMap))
                 {
                     var b = buildingDetail.ConstructBuilding(tile);
-                    if(b == null)
+                    if (b == null)
                     {
                         buildingDetail.ConstructBuilding(prevTile);
                         Debug.Log("설치할 수 없는 위치입니다.");
                     }
-                    if(isFlip)
+                    if (isFlip)
                     {
                         b.GetComponent<Building>().RotateBuilding(b.GetComponent<Building>());
+                    }
+
+                    if (um.currentNormalBuidling.StructureType == STRUCTURE_TYPE.PARAMETER_RECOVERY)
+                    {
+                        var building = um.currentNormalBuidling;
+                        var movingUnits = building.GetComponent<ParameterRecoveryBuilding>().movingUnits;
+                        foreach (var unit in movingUnits)
+                        {
+                            unit.UpdateDestination(building.gameObject);
+                        }
                     }
                 }
                 else
@@ -173,29 +189,42 @@ public class UIConstructMode : UIWindow
                     CheckBuildingButton(um.currentBuildingData, obj);
                     SortBuildingButtons();
                 }
-                
+
                 isReplacing = false;
                 um.uiDevelop.ConstructButtonsOff();
             }
         }
     }
 
+    private void ParameterHandle()
+    {
+        var building = um.currentNormalBuidling;
+        var interactingunits = building.GetComponent<ParameterRecoveryBuilding>().interactingUnits;
+        foreach(var unit in interactingunits)
+        {
+            unit.isQuited = true;
+            unit.forceDestination = building.gameObject;
+            unit.VillageFSM.ChangeState((int)UnitOnVillage.STATE.IDLE);
+        }
+        
+    }
+
     private void MakeBuildingList()
     {
-        if(buildings.Count != 0)
+        if (buildings.Count != 0)
         {
-            foreach(var building in buildings)
+            foreach (var building in buildings)
             {
                 CheckBuildingButton(building.Key, building.Value);
             }
             return;
         }
-        
+
 
         foreach (var buildingData in buildingDatas)
         {
             var b = GameObject.Instantiate(buidlingUIPrefab, content);
-            
+
             string assetName = buildingData.StructureAssetFileName;
             var path = $"Assets/Pick_Asset/2WEEK/Building/{assetName}.prefab"; //TO-DO : 파일 경로 수정하기
 
@@ -216,7 +245,7 @@ public class UIConstructMode : UIWindow
                     buildingDetailWindow.Open();
                 }
             });
-            
+
 
             CheckBuildingButton(buildingData, b);
             buildings.Add(buildingData, b);
@@ -239,7 +268,7 @@ public class UIConstructMode : UIWindow
 
         var button = building.GetComponent<BuildingFrame>().button;
 
-        if(data.UpgradeId == 0) //portal
+        if (data.UpgradeId == 0) //portal
         {
             SetButtonColor(button, false);
             isActive = false;
@@ -249,9 +278,9 @@ public class UIConstructMode : UIWindow
 
         var upgradeData = DataTableManager.upgradeTable.GetData(data.UpgradeId)[grade];
 
-        foreach(var tile in GameManager.villageManager.gridMap.tiles.Values)
+        foreach (var tile in GameManager.villageManager.gridMap.tiles.Values)
         {
-            if(!tile.tileInfo.ObjectLayer.IsEmpty
+            if (!tile.tileInfo.ObjectLayer.IsEmpty
                 && tile.tileInfo.ObjectLayer.LayerObject.GetComponentInChildren<Building>().StructureId == data.StructureId
                 && !data.CanMultiBuild)
             {
@@ -326,7 +355,7 @@ public class UIConstructMode : UIWindow
     {
         List<Transform> children = new();
 
-        foreach(Transform child in content)
+        foreach (Transform child in content)
         {
             children.Add(child);
         }

@@ -12,6 +12,7 @@ public class UnitOnVillage : Unit
     public List<Cell> destinationTiles = new();
     public VillageManager villageManager;
     public UnitMove unitMove;
+    public bool isQuited = false;
 
     //public event Action<PARAMETER_TYPES> OnUnitRecoveryDone;
 
@@ -54,6 +55,15 @@ public class UnitOnVillage : Unit
     {
         base.Update();
         VillageFSM.Update();
+
+        if (currentState == STATE.GOTO && destination != null)
+        {
+            var building = destination.GetComponent<ParameterRecoveryBuilding>();
+            if (building != null)
+            {
+                building.AddMovingUnit(this);
+            }
+        }
     }
 
     public List<Cell> FindPath(Cell start, Cell end)
@@ -85,8 +95,19 @@ public class UnitOnVillage : Unit
         GameManager.uiManager.windows[WINDOW_NAME.PARAMETER_POPUP].GetComponent<UIBuildingParameterPopUp>().SetCharacterInformation();
     }
 
+    public void RecoveryAgain(PARAMETER_TYPE type)
+    {
+        VillageFSM.ChangeState((int)STATE.GOTO);
+        var parameterPopup = GameManager.uiManager.windows[WINDOW_NAME.PARAMETER_POPUP] as UIBuildingParameterPopUp;
+        parameterPopup.SetCharacterInformation();
+    }
 
-
-
-   
+    public void UpdateDestination(GameObject newDestination)
+    {
+        destination = newDestination;
+        if(currentState == STATE.GOTO)
+        {
+            VillageFSM.ChangeState((int)STATE.GOTO);
+        }
+    }
 }

@@ -133,6 +133,43 @@ public class Construct
                         t.ResetTileInfo();
 
                     GameObject.Destroy(building.gameObject);
+                    GameManager.villageManager.constructedBuildings.Remove(building.gameObject);
+                    return true;
+                }
+                else
+                    continue;
+            }
+        }
+        return false;
+    }
+
+    public bool ForceRemovingBuilding(Building building, GridMap gridMap)
+    {
+        foreach (var tile in gridMap.tiles.Values)
+        {
+            if (!tile.tileInfo.ObjectLayer.IsEmpty)
+            {
+                var b = tile.tileInfo.ObjectLayer.LayerObject.GetComponent<Building>();
+                if (b == building)
+                {
+                    var upgrade = tile.tileInfo.ObjectLayer.LayerObject.GetComponent<BuildingUpgrade>();
+                    if (upgrade != null)
+                    {
+                        if (GameManager.playerManager.buildingUpgradeGrades.TryGetValue(b.StructureId, out int value))
+                        {
+                            value = upgrade.currentGrade;
+                        }
+                        else
+                        {
+                            GameManager.playerManager.buildingUpgradeGrades.Add(b.StructureId, upgrade.currentGrade);
+                        }
+                    }
+
+                    foreach (var t in building.placedTiles)
+                        t.ResetTileInfo();
+
+                    GameObject.Destroy(building.gameObject);
+                    GameManager.villageManager.constructedBuildings.Remove(building.gameObject);
                     return true;
                 }
                 else
