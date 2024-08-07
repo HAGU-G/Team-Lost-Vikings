@@ -80,10 +80,10 @@ public class UIUnitDetailInformation : UIWindow
         characterJob.text = unit.Data.Job.ToString();
 
         //skill1_Icon.sprite = 
-        skill1_Name.text = DataTableManager.skillTable.GetData(unit.SkillId1).Name;
+        skill1_Name.text = DataTableManager.skillTable.GetData(unit.SkillId1).SkillName;
         //skill1_Desc.text = DataTableManager.skillTable.GetData(unit.SkillId1).; //스킬 설명 컬럼 추가 필요
         //skill2_Icon.sprite = 
-        skill2_Name.text = DataTableManager.skillTable.GetData(unit.SkillId2).Name;
+        skill2_Name.text = DataTableManager.skillTable.GetData(unit.SkillId2).SkillName;
         //skill2_Desc.text = DataTableManager.skillTable.GetData(unit.SkillId2).; //스킬 설명 컬럼 추가 필요
 
         //attributeIcon.sprite = ;

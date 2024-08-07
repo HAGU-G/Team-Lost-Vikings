@@ -32,10 +32,6 @@ public class TraceOnHunt : State<CombatUnit>
         }
 
         owner.MoveToDestination(owner.attackTarget.transform, Time.deltaTime);
-
-        //var moveDirection = owner.transform.position - (owner.attackTarget).transform.position;
-        //owner.transform.position -= moveDirection.normalized * Time.deltaTime * owner.stats.MoveSpeed.Current;
-
     }
 
 
@@ -58,15 +54,15 @@ public class TraceOnHunt : State<CombatUnit>
         else
         {
             //스킬 사용 비활성화
-            //foreach (var skill in owner.skills.SkillList)
-            //{
-            //    if (skill.IsReady
-            //        && owner.attackTarget.stats.SizeEllipse.IsCollidedWith(skill.CastEllipse))
-            //    {
-            //        controller.ChangeState((int)UnitOnHunt.STATE.SKILL);
-            //        return true;
-            //    }
-            //}
+            foreach (var skill in owner.skills.SkillList)
+            {
+                if (skill.IsReady
+                    && owner.attackTarget.stats.SizeEllipse.IsCollidedWith(skill.CastEllipse))
+                {
+                    controller.ChangeState((int)CombatUnit.STATE.SKILL);
+                    return true;
+                }
+            }
 
             isCollidedWithTarget = owner.attackTarget.stats.SizeEllipse.IsCollidedWith(owner.stats.BasicAttackEllipse);
 

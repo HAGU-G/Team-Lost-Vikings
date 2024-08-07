@@ -1,47 +1,82 @@
-﻿using System;
-using UnityEngine;
-
-public enum SKILL_DIVISION
+﻿public enum SKILL_DIVISION
 {
     PASSIVE,
     ACTIVE,
 }
+
 public enum SKILL_ACTIVE_TYPE
 {
-    NONE,
+    NONE = -1,
     ALWAYS,
     COOLTIME,
     BASIC_ATTACK_PROBABILITY,
     BASIC_ATTACK_COUNT
 }
 
-public enum RETURN_TYPE
+public enum STAT_VALUE_TYPE
 {
     NONE,
     ADD,
     RATIO,
 }
 
-[Serializable]
+public enum TARGET_TYPE
+{
+    OWN,
+    TEAM,
+    TEAM_ALL,
+    ENEMY
+}
+
+public enum SKILL_TYPE
+{
+    NONE,
+    SINGLE,
+    RANGE,
+    FLOOR,
+    PROJECTILE
+}
+
+
+
 public class SkillData : ITableAvaialable<int>
 {
-    [field: SerializeField] public string Name { get; set; }
-    [field: SerializeField] public int Id { get; set; }
-    [field: SerializeField] public float SkillRankPoint { get; set; }
-    [field: SerializeField] public SKILL_DIVISION SkillDivision { get; set; }
-    [field: SerializeField] public SKILL_ACTIVE_TYPE ActiveType { get; set; }
-    [field: SerializeField] public float ActiveValue { get; set; }
-    [field: SerializeField] public float CastRange { get; set; }
-    [field: SerializeField] public float CastTime { get; set; }
-    [field: SerializeField] public ATTACK_TYPE SkillAttackType { get; set; }
-    [field: SerializeField] public float SkillDmgRatio { get; set; }
-    [field: SerializeField] public int SkillAttackNum { get; set; }
-    [field: SerializeField] public STAT_TYPE StatType { get; set; }
-    [field: SerializeField] public PARAMETER_TYPE ParameterType { get; set; }
-    [field: SerializeField] public RETURN_TYPE PassiveReturnType { get; set; }
-    [field: SerializeField] public float PassiveValue { get; set; }
-    [field: SerializeField] public string SkillIconAssetFileName { get; set; }
-    [field: SerializeField] public string SkillEffectAssetFileName { get; set; }
+    public int Id { get; set; }
+    public ATTACK_TYPE SkillAttackType { get; set; }
+    public TARGET_TYPE SkillTarget { get; set; }
+    public SKILL_ACTIVE_TYPE ActiveType { get; set; }
+    public SKILL_TYPE SkillType { get; set; }
+    public float CastTime { get; set; }
+    public float CastRange { get; set; }
+    public float SkillAttackRange { get; set; }
+    public int ActiveNum { get; set; }
+    public float ActiveTerm { get; set; }
+
+    public float ActiveValue { get; set; }
+    public float BuffRange { get; set; }
+    public STAT_TYPE BuffStateType { get; set; }
+    public STAT_VALUE_TYPE BuffStateValueType { get; set; }
+    public float BuffStateValue { get; set; }
+    public float SkillDuration { get; set; }
+    public float ProjectileSpeed { get; set; }
+
+    public float SkillDmgRatio { get; set; }
+    public float SkillStrRatio { get; set; }
+    public float SkillWizRatio { get; set; }
+    public float SkillAgiRatio { get; set; }
+    public float FloorDmgRatio { get; set; }
+    public float VitDrainRatio { get; set; }
+
+    public string SkillName { get; set; }
+    public string SkillDesc { get; set; }
+    public string SkillDetail { get; set; }
+
+    public string SkillEffectName { get; set; }
+    public string SkillIconName { get; set; }
+    public string SkillSEName { get; set; }
+    public int SkillAnime { get; set; }
+
+    //public float SkillRankPoint { get; set; }
 
     public int TableID => Id;
 }
