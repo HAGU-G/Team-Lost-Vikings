@@ -33,7 +33,9 @@ public class GridMap : MonoBehaviour
 
         InitializeUsableTileList();
         usableTileList.Reverse();
-        sortingGroup ??= gameObject.AddComponent<SortingGroup>();
+
+        if (!TryGetComponent(out sortingGroup))
+            sortingGroup = gameObject.AddComponent<SortingGroup>();
         sortingGroup.sortingLayerName = "Grid"; //TODO 임시로 string 사용. 수정 필요
     }
 
