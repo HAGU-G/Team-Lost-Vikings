@@ -63,6 +63,7 @@ public class Building : MonoBehaviour, IPointerClickHandler
         interactWithUnit = gameObject.GetComponent<IInteractableWithUnit>();
 
         sortingGroup ??= gameObject.AddComponent<SortingGroup>();
+        sortingGroup.sortAtRoot = true;
 
         if (gameObject.GetComponent<SortingGroup>() != null)
             sortingGroup = gameObject.GetComponent<SortingGroup>();
