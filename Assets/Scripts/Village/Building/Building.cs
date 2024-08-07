@@ -41,7 +41,7 @@ public class Building : MonoBehaviour, IPointerClickHandler
     public List<Cell> realOccupiedTiles = new(); //여백을 제외한 실제 건물이 설치되는 타일
 
     public List<Cell> entranceTiles = new();
-    private bool isFlip = false;
+    public bool isFlip = false;
     //private static bool isRotating = false;
     public GridMap gridMap;
 
@@ -63,6 +63,9 @@ public class Building : MonoBehaviour, IPointerClickHandler
         interactWithUnit = gameObject.GetComponent<IInteractableWithUnit>();
 
         sortingGroup ??= gameObject.AddComponent<SortingGroup>();
+
+        if (gameObject.GetComponent<SortingGroup>() != null)
+            sortingGroup = gameObject.GetComponent<SortingGroup>();
         sortingGroup.sortingOrder = Mathf.FloorToInt(-transform.position.y);
     }
 
@@ -75,8 +78,17 @@ public class Building : MonoBehaviour, IPointerClickHandler
 
     public void TouchBuilding()
     {
-        GameManager.uiManager.currentNormalBuidling = this;
-        GameManager.uiManager.windows[WINDOW_NAME.BUILDING_POPUP].Open();
+        if(!GameManager.villageManager.constructMode.isConstructMode)
+        {
+            GameManager.uiManager.currentNormalBuidling = this;
+            GameManager.uiManager.windows[WINDOW_NAME.BUILDING_POPUP].Open();
+        }
+        else if(GameManager.villageManager.constructMode.isConstructMode)
+        {
+            GameManager.uiManager.currentNormalBuidling = this;
+            GameManager.uiManager.uiDevelop.TouchBuildingInConstructMode();
+        }
+       
     }
 
     public void RotateBuilding(Building building)
@@ -132,8 +144,8 @@ public class Building : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (GameManager.uiManager.isWindowOn)
-            return;
+        //if (GameManager.uiManager.isWindowOn)
+        //    return;
 
         var building = GetComponent<Building>();
         var parameter = GetComponent<ParameterRecoveryBuilding>();

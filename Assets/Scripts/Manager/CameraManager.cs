@@ -47,6 +47,11 @@ public class CameraManager : MonoBehaviour
             SetPosition(transform.position - im.WorldDeltaPos);
         }
 
+        if(im.Moved && im.receiver.Received && GameManager.villageManager.constructMode.isConstructMode)
+        {
+            SetPosition(transform.position - im.WorldDeltaPos);
+        }
+
         //float horizontal = Input.GetAxis("Horizontal");
         //float vertical = Input.GetAxis("Vertical");
 

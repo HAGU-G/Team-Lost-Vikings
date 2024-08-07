@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class Construct
@@ -25,11 +26,11 @@ public class Construct
 
         var buildingComponent = instancedObj.GetComponent<Building>();
         buildingComponent.gridMap = gridMap;
-
         SetBuildingInfo(instancedObj, tile, gridMap);
         
+        
         isSelected = false;
-
+        GameManager.villageManager.constructedBuildings.Add(instancedObj);
         return instancedObj;
     }
 
@@ -100,6 +101,47 @@ public class Construct
 
         return obj;
     }
+
+    public bool RemoveBuilding(Building building, GridMap gridMap)
+    {
+        if (!CanDestroyBuilding(building.gameObject))
+            return false;
+
+        foreach(var tile in gridMap.tiles.Values)
+        {
+            if(!tile.tileInfo.ObjectLayer.IsEmpty)
+            {
+                var b = tile.tileInfo.ObjectLayer.LayerObject.GetComponent<Building>();
+                if (b == building)
+                {
+                    
+
+                    var upgrade = tile.tileInfo.ObjectLayer.LayerObject.GetComponent<BuildingUpgrade>();
+                    if (upgrade != null)
+                    {
+                        if (GameManager.playerManager.buildingUpgradeGrades.TryGetValue(b.StructureId, out int value))
+                        {
+                            value = upgrade.currentGrade;
+                        }
+                        else
+                        {
+                            GameManager.playerManager.buildingUpgradeGrades.Add(b.StructureId, upgrade.currentGrade);
+                        }
+                    }
+
+                    foreach (var t in building.placedTiles)
+                        t.ResetTileInfo();
+
+                    GameObject.Destroy(building.gameObject);
+                    return true;
+                }
+                else
+                    continue;
+            }
+        }
+        return false;
+    }
+
 
     public bool CanBuildBuilding(GameObject obj, Cell tile, GridMap gridMap)
     {
@@ -218,7 +260,7 @@ public class Construct
             for (int j = lowestIndex.y; j <= highestIndex.y; ++j)
             {
                 var t = gridMap.tiles.GetValueOrDefault(new Vector2Int(i, j));
-
+                t.UpdateTileInfo(TileType.OBJECT, obj);
                 building.placedTiles.Add(t);
             }
         }

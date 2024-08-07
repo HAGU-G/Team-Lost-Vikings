@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Text;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public enum Sides
 {
@@ -20,8 +22,6 @@ public class Cell : MonoBehaviour
 
     private void Awake()
     {
-        
-
         tileInfo = new CellInfo();
         tileInfo.Weight = 1;
         tileInfo.BaseLayer = new Layer
@@ -48,6 +48,7 @@ public class Cell : MonoBehaviour
             IsEmpty = true
         };
     }
+
     public bool CanMove
     {
         get
