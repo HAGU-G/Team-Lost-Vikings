@@ -11853,6 +11853,7 @@ MonoBehaviour:
   villageLevel: {fileID: 1946089132}
   gold: {fileID: 1655030623}
   textVersion: {fileID: 1300055091}
+  constructButton: {fileID: 1103690107}
   changePlacement: {fileID: 1096821013}
   rotateBuilding: {fileID: 1370983374}
   destroyBuilding: {fileID: 260630053}
@@ -13401,6 +13402,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isShowOnly: 1
   um: {fileID: 0}
+  vm: {fileID: 0}
   buildingName: {fileID: 1214402942}
   buildingImage: {fileID: 1187510202}
   unlockTownLevel: {fileID: 847946323}
@@ -13411,6 +13413,7 @@ MonoBehaviour:
   exit: {fileID: 1933853546}
   resources: []
   requireTransform: {fileID: 1930671627}
+  isConstructing: 0
 --- !u!1 &485752518
 GameObject:
   m_ObjectHideFlags: 0
@@ -15757,10 +15760,10 @@ RectTransform:
   - {fileID: 1229594327}
   m_Father: {fileID: 547366251}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 646.056, y: -74.532}
-  m_SizeDelta: {x: 246.42241, y: 129.064}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &562170305
 GameObject:
@@ -23603,10 +23606,10 @@ RectTransform:
   - {fileID: 28210111}
   m_Father: {fileID: 547366251}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 133.21121, y: -74.532}
-  m_SizeDelta: {x: 246.42241, y: 129.064}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &810690397
 GameObject:
@@ -52271,10 +52274,10 @@ RectTransform:
   - {fileID: 874317455}
   m_Father: {fileID: 547366251}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 389.63364, y: -74.532}
-  m_SizeDelta: {x: 246.42241, y: 129.064}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1758676813
 GameObject:

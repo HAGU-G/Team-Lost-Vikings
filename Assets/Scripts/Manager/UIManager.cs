@@ -121,6 +121,24 @@ public class UIManager : MonoBehaviour
             window.Value.Close();
         }
     }
+
+    public void OpenWindow(WINDOW_NAME windowName)
+    {
+        if (windows.ContainsKey(windowName))
+        {
+            UIWindow windowToOpen = windows[windowName];
+
+            // ConstructMode를 제외한 다른 창이 열릴 때 ConstructMode 종료
+            if (windowName != WINDOW_NAME.CONSTRUCT_MODE && windowName != WINDOW_NAME.BUILDING_DETAIL)
+            {
+                var constructModeWindow = windows[WINDOW_NAME.CONSTRUCT_MODE] as UIConstructMode;
+                if (constructModeWindow != null && GameManager.villageManager.constructMode.isConstructMode)
+                {
+                    constructModeWindow.FinishConstructMode();
+                }
+            }
+        }
+    }
     //public void CloseWindows(params WINDOW_NAME[] exceptWindow)
     //{
     //    var excepts = exceptWindow.ToList();

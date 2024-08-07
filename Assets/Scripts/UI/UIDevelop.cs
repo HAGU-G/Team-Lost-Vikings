@@ -22,6 +22,7 @@ public class UIDevelop : MonoBehaviour
 
     public TextMeshProUGUI textVersion;
 
+    public Button constructButton;
     public Button changePlacement;
     public Button rotateBuilding;
     public Button destroyBuilding;
@@ -31,12 +32,14 @@ public class UIDevelop : MonoBehaviour
         //onVillage.SetActive(true);
 
         //Camera.main.transform.position = Vector3.zero + Vector3.forward * -10f;
+        constructButton.gameObject.SetActive(true);
         GameManager.cameraManager.SetLocation(LOCATION.VILLAGE);
     }
 
     public void OnButtonHuntZone()
     {
         //onVillage.SetActive(false);
+        constructButton.gameObject.SetActive(false);
         var constructMode = GameManager.uiManager.windows[WINDOW_NAME.CONSTRUCT_MODE] as UIConstructMode;
         if(GameManager.villageManager.constructMode.isConstructMode)
         {
@@ -179,6 +182,15 @@ public class UIDevelop : MonoBehaviour
 
     public void SetConstructMode()
     {
+        //활성화되었던 다른 UI 닫기
+        foreach(var window in GameManager.uiManager.windows.Values)
+        {
+            if(window.isOpened)
+            {
+                window.Close();
+            }
+        }
+
         GameManager.Publish(EVENT_TYPE.CONSTRUCT);
         GameManager.uiManager.windows[WINDOW_NAME.CONSTRUCT_MODE].Open();
     }
