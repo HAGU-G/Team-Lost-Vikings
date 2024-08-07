@@ -28,7 +28,7 @@ public enum TARGET_TYPE
     ENEMY
 }
 
-public enum SKILL_TYPE
+public enum SKILL_ATTACK_TYPE
 {
     NONE,
     SINGLE,
@@ -42,10 +42,10 @@ public enum SKILL_TYPE
 public class SkillData : ITableAvaialable<int>
 {
     public int Id { get; set; }
-    public ATTACK_TYPE SkillAttackType { get; set; }
+    public ATTACK_TYPE SkillType { get; set; }
     public TARGET_TYPE SkillTarget { get; set; }
     public SKILL_ACTIVE_TYPE ActiveType { get; set; }
-    public SKILL_TYPE SkillType { get; set; }
+    public SKILL_ATTACK_TYPE SkillAttackType { get; set; }
     public float CastTime { get; set; }
     public float CastRange { get; set; }
     public float SkillAttackRange { get; set; }
@@ -74,7 +74,7 @@ public class SkillData : ITableAvaialable<int>
     public string SkillEffectName { get; set; }
     public string SkillIconName { get; set; }
     public string SkillSEName { get; set; }
-    public int SkillAnime { get; set; }
+    public ATTACK_MOTION SkillAnime { get; set; }
 
     //public float SkillRankPoint { get; set; }
 

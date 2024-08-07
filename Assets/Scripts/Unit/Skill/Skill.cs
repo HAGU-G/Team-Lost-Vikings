@@ -1,15 +1,16 @@
-﻿using UnityEngine;
+﻿using Newtonsoft.Json;
+using UnityEngine;
 
-[System.Serializable]
+[JsonObject(MemberSerialization.OptIn)]
 public class Skill
 {
-    private Unit owner;
-    private ISkillStrategy skillBehaviour = new SkillTest001();
+    private UnitStats owner;
+    private ISkillStrategy skillBehaviour = new SkillSingle();
 
-    public Skill(SkillData data, UnitOnHunt owner)
+    public Skill(SkillData data, UnitStats owner)
     {
         Init(data, owner);
-        ResetSkill();
+        ResetActiveValue();
     }
 
     [field: SerializeField] public SkillData Data { get; private set; }
@@ -18,7 +19,7 @@ public class Skill
     public float CurrentActiveValue { get; private set; }
 
     //Don't Save
-    public Ellipse CastEllipse { get; private set; }
+    public Ellipse CastEllipse { get; private set; } = null;
     public bool IsReady
     {
         get
@@ -36,35 +37,26 @@ public class Skill
     }
 
 
-    public void Init(SkillData data, UnitOnHunt owner)
-    {
-        SetData(data);
-        SetOwner(owner);
-
-        CastEllipse ??= new();
-        CastEllipse.SetAxies(data.CastRange, owner.transform.position);
-    }
-
-    public void SetData(SkillData data)
+    private void Init(SkillData data, UnitStats owner)
     {
         Data = data;
-    }
-
-    public void SetOwner(Unit owner)
-    {
         this.owner = owner;
+
+        CastEllipse ??= new();
+        CastEllipse.SetAxies(data.CastRange);
+        if (owner.objectTransform != null)
+            CastEllipse.position = owner.objectTransform.position;
     }
 
-    private void SetConditionUpdate()
+    public void ResetConditionUpdate()
     {
-        var unit = owner as UnitOnHunt;
-        if (unit == null)
+        if (owner.objectTransform == null)
             return;
 
-        unit.OnUpdated += () =>
-        {
-            CastEllipse.position = unit.transform.position;
-        };
+        var combatUnit = owner.objectTransform.GetComponent<CombatUnit>();
+
+        if (combatUnit == null)
+            return;
 
         switch (Data.ActiveType)
         {
@@ -75,15 +67,15 @@ public class Skill
                 break;
 
             case SKILL_ACTIVE_TYPE.COOLTIME:
-                unit.OnUpdated += ConditionUpdate;
+                combatUnit.OnUpdated += ConditionUpdate;
 
                 break;
             case SKILL_ACTIVE_TYPE.BASIC_ATTACK_PROBABILITY:
-                unit.OnAttacked += ConditionUpdate;
+                combatUnit.OnAttacked += ConditionUpdate;
                 break;
 
             case SKILL_ACTIVE_TYPE.BASIC_ATTACK_COUNT:
-                unit.OnAttacked += ConditionUpdate;
+                combatUnit.OnAttacked += ConditionUpdate;
                 break;
 
             default:
@@ -91,13 +83,17 @@ public class Skill
         }
     }
 
-    public void Use()
+    public void UpdateEllipsePosition(Vector3 pos)
     {
-        skillBehaviour.Use(owner);
-        ResetActiveValue();
+        CastEllipse.position = pos;
     }
 
-    public virtual void ConditionUpdate()
+    public void Use()
+    {
+        skillBehaviour.Use(owner, this);
+    }
+
+    private void ConditionUpdate()
     {
         switch (Data.ActiveType)
         {
@@ -131,13 +127,8 @@ public class Skill
         CurrentActiveValue -= Time.deltaTime;
     }
 
-    public virtual void ResetSkill()
-    {
-        ResetActiveValue();
-        SetConditionUpdate();
-    }
 
-    private void ResetActiveValue()
+    public void ResetActiveValue()
     {
         switch (Data.ActiveType)
         {

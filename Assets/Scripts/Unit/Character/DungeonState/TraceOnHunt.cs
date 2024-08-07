@@ -53,20 +53,22 @@ public class TraceOnHunt : State<CombatUnit>
         }
         else
         {
+            var stats = owner.stats;
             //스킬 사용 비활성화
-            foreach (var skill in owner.skills.SkillList)
+            for (int i = 0; i < stats.Skills.Count; i++)
             {
-                if (skill.IsReady
-                    && owner.attackTarget.stats.SizeEllipse.IsCollidedWith(skill.CastEllipse))
+                if (stats.Skills[i].IsReady
+                    && owner.attackTarget.stats.SizeEllipse.IsCollidedWith(stats.Skills[i].CastEllipse))
                 {
+                    owner.usingSkillNum = i;
                     controller.ChangeState((int)CombatUnit.STATE.SKILL);
                     return true;
                 }
             }
 
-            isCollidedWithTarget = owner.attackTarget.stats.SizeEllipse.IsCollidedWith(owner.stats.BasicAttackEllipse);
+            isCollidedWithTarget = owner.attackTarget.stats.SizeEllipse.IsCollidedWith(stats.BasicAttackEllipse);
 
-            if (owner.stats.AttackTimer >= owner.stats.AttackSpeed.Current && isCollidedWithTarget)
+            if (stats.AttackTimer >= stats.AttackSpeed.Current && isCollidedWithTarget)
             {
                 controller.ChangeState((int)CombatUnit.STATE.ATTACK);
                 return true;

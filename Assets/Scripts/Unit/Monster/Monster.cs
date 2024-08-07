@@ -21,6 +21,7 @@ public class Monster : CombatUnit, ISubject<Monster>
         ResetUnit(stats);
 
         Enemies = CurrentHuntZone.Units;
+        Allies = CurrentHuntZone.Monsters;
 
         FSM.ResetFSM();
     }

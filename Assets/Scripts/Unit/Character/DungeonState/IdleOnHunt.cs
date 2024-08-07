@@ -24,17 +24,9 @@ public class IdleOnHunt : State<CombatUnit>
     public override void Update()
     {
         //색적
-        float maxDepth = float.MinValue;
-        foreach (var target in owner.Enemies)
-        {
-            var depth = Ellipse.CollisionDepth(owner.stats.RecognizeEllipse, target.stats.PresenseEllipse);
-
-            if (depth >= 0f && depth >= maxDepth)
-            {
-                maxDepth = depth;
-                owner.attackTarget = target;
-            }
-        }
+        var enemies = owner.GetCollidedUnit(owner.stats.RecognizeEllipse, owner.Enemies.ToArray());
+        if (enemies.Count > 0)
+            owner.attackTarget = enemies[0].Item1;
 
         //상태 전환
         if (Transition())
@@ -54,7 +46,7 @@ public class IdleOnHunt : State<CombatUnit>
                 count++;
             }
             while (count <= 10
-                   && cell == null ? true : !cell.tileInfo.ObjectLayer.IsEmpty);
+                   && (cell == null ? true : !cell.tileInfo.ObjectLayer.IsEmpty));
 
             if (owner.CurrentHuntZone.gridMap.PosToIndex(dest) == Vector2Int.one * -1)
                 dest = owner.CurrentHuntZone.transform.position;

@@ -1,4 +1,7 @@
-﻿public interface ISkillStrategy
+﻿using UnityEngine;
+
+public interface ISkillStrategy
 {
-    public void Use(Unit owner);
+    public Vector3 LastTargetPosition { get; set; }
+    public void Use(UnitStats owner, Skill skil);
 }

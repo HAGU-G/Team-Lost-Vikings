@@ -8,6 +8,7 @@ public class DressAnimator
     private static readonly int triggerIdle = Animator.StringToHash(nameIdle);
     private static readonly int triggerRun = Animator.StringToHash(nameRun);
     private static readonly int triggerAttack = Animator.StringToHash("Attack");
+    private static readonly int triggerSkill = Animator.StringToHash("Skill");
 
     private static readonly int paramMoveSpeed = Animator.StringToHash("MoveSpeed");
     private static readonly int paramAttackSpeed = Animator.StringToHash("AttackSpeed");
@@ -17,13 +18,13 @@ public class DressAnimator
     public DressListener listener;
     public StatFloat moveSpeed;
     public StatFloat attackSpeed;
+    public float castTime;
 
     public void Init(Animator animator, StatFloat moveSpeed, StatFloat attackSpeed)
     {
         this.animator = animator;
         this.moveSpeed = moveSpeed;
         this.attackSpeed = attackSpeed;
-
 
         listener = animator.GetComponent<DressListener>();
         if (listener == null)
@@ -64,5 +65,14 @@ public class DressAnimator
         animator.SetTrigger(triggerAttack);
     }
 
+    public void AnimSkill(ATTACK_MOTION motion, float castTime)
+    {
+        if (animator == null)
+            return;
 
+        animator.SetInteger(paramAttackMotion, (int)motion);
+        animator.SetFloat(paramAttackSpeed, 1f / castTime);
+        animator.ResetTrigger(triggerSkill);
+        animator.SetTrigger(triggerSkill);
+    }
 }

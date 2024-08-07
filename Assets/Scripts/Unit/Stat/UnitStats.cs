@@ -65,8 +65,10 @@ public class UnitStats
 
 
     //Skill
-    [JsonProperty] public int SkillId1 { get; private set; }
-    [JsonProperty] public int SkillId2 { get; private set; }
+    /// <summary>
+    /// Skill ID, Skill
+    /// </summary>
+    [JsonProperty] public List<Skill> Skills { get; private set; } = new();
 
 
     //Ellipse
@@ -123,7 +125,6 @@ public class UnitStats
     #endregion
 
     #region CHARACTER
-    //Character
     [JsonProperty] public LOCATION Location { get; private set; }
     [JsonProperty] public LOCATION NextLocation { get; private set; }
     [JsonProperty][field: SerializeField] public int HuntZoneNum { get; private set; } = -1;
@@ -262,6 +263,11 @@ public class UnitStats
         RecognizeEllipse.position = pos;
         PresenseEllipse.position = pos;
         BasicAttackEllipse.position = pos;
+
+        foreach (var skill in Skills)
+        {
+            skill.UpdateEllipsePosition(pos);
+        }
     }
 
     public void UpdateAttackTimer()
@@ -327,8 +333,12 @@ public class UnitStats
         BaseStr.defaultValue = Random.Range(data.MinBaseStr, data.MaxBaseStr + 1);
         BaseWiz.defaultValue = Random.Range(data.MinBaseWiz, data.MaxBaseWiz + 1);
         BaseAgi.defaultValue = Random.Range(data.MinBaseAgi, data.MaxBaseAgi + 1);
-        SkillId1 = data.SkillpoolId1;
-        SkillId2 = data.SkillpoolId2;
+
+        Skills.Clear();
+        if (data.SkillpoolId1 != 0)
+            Skills.Add(new(DataTableManager.skillTable.GetData(data.SkillpoolId1), this));
+        if (data.SkillpoolId2 != 0)
+            Skills.Add(new(DataTableManager.skillTable.GetData(data.SkillpoolId2), this));
     }
 
     protected void SetConstantStats(StatsData data)

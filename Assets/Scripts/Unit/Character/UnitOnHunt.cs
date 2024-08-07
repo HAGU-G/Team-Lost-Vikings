@@ -27,6 +27,7 @@ public class UnitOnHunt : CombatUnit
         attackTarget = null;
         isTargetFixed = false;
         Enemies = CurrentHuntZone.Monsters;
+        Allies = CurrentHuntZone.Units;
 
         FSM.ResetFSM();
     }

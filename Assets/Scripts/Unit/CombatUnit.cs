@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class CombatUnit : Unit, IDamagedable, IAttackable
+public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
 {
     public HuntZone CurrentHuntZone { get; protected set; } = null;
     public Vector3 PortalPos { get; protected set; }
@@ -9,8 +9,10 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable
     protected IAttackStrategy attackBehaviour = new AttackDefault();
 
     public List<CombatUnit> Enemies { get; protected set; }
+    public List<CombatUnit> Allies { get; protected set; }
     public CombatUnit attackTarget;
     public bool isTargetFixed;
+    public int usingSkillNum = -1;
 
     public abstract bool IsNeedReturn { get; }
     public bool forceReturn = false;
@@ -50,6 +52,16 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable
             new ReturnOnHunt()
             );
     }
+
+    public override void ResetUnit(UnitStats stats)
+    {
+        base.ResetUnit(stats);
+        foreach (var skill in stats.Skills)
+        {
+            skill.ResetConditionUpdate();
+        }
+    }
+
 
     protected override void ResetEvents()
     {
@@ -106,7 +118,7 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable
         return true;
     }
 
-    public bool TakeDamage(int damage, ATTACK_TYPE type)
+    public (bool, int) TakeDamage(int damage, ATTACK_TYPE type)
     {
         float def = type switch
         {
@@ -124,10 +136,10 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable
         {
             IsDead = true;
             FSM.ChangeState((int)STATE.DEAD);
-            return true;
+            return (true, calculatedDamage);
         }
 
-        return false;
+        return (false, calculatedDamage);
     }
 
     public bool TryAttack()
@@ -144,6 +156,31 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable
 
 
         return true;
+    }
+
+    public List<(CombatUnit, float)> GetCollidedUnit(Ellipse ellipse, params CombatUnit[] units)
+    {
+        List<(CombatUnit, float)> targets = new();
+
+        foreach (var target in units)
+        {
+            var depth = Ellipse.CollisionDepth(ellipse, target.stats.PresenseEllipse);
+            if (depth >= 0f)
+            {
+                targets.Add((target, depth));
+            }
+        }
+
+        targets.Sort(
+            (left, right) =>
+            {
+                return (int)Mathf.Sign(left.Item2 - right.Item2);
+            });
+
+        if (targets.Count > 0)
+            Debug.Log($"{targets[0].Item2} {targets[^1].Item2}");
+
+        return targets;
     }
 
     public void ForceChangeTarget(CombatUnit enemy)
@@ -183,5 +220,10 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable
             attackTarget = null;
             stats.Stress.Current -= GameSetting.Instance.stressReduceAmount;
         }
+    }
+
+    public void TakeHeal(int heal)
+    {
+        stats.HP.Current += heal;
     }
 }
