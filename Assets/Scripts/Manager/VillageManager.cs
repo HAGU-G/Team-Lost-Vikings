@@ -385,6 +385,13 @@ public class VillageManager : MonoBehaviour
 
     public void SetDevelopText(bool isOn)
     {
+        foreach (var tile in gridMap.tiles)
+        {
+            var component = tile.Value.GetComponentInChildren<TextMeshPro>();
+            if (component != null)
+                component.enabled = isOn;
+        }
+
         foreach (var building in constructedBuildings)
         {
             var component = building.GetComponentInChildren<TextMeshPro>();
@@ -392,12 +399,6 @@ public class VillageManager : MonoBehaviour
                 component.enabled = isOn;
         }
 
-        foreach (var tile in gridMap.tiles)
-        {
-            var component = tile.Value.GetComponentInChildren<TextMeshPro>();
-            if (component != null)
-                component.enabled = isOn;
-        }
     }
 
     public bool FindBuilding(STRUCTURE_TYPE structureType, Predicate<GameObject> predicate)

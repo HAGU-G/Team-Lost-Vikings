@@ -37,6 +37,13 @@ public class UIDevelop : MonoBehaviour
     public void OnButtonHuntZone()
     {
         //onVillage.SetActive(false);
+        var constructMode = GameManager.uiManager.windows[WINDOW_NAME.CONSTRUCT_MODE] as UIConstructMode;
+        if(GameManager.villageManager.constructMode.isConstructMode)
+        {
+            constructMode.FinishConstructMode();
+            GameManager.Publish(EVENT_TYPE.CONSTRUCT);
+        }
+            
 
         if (GameManager.cameraManager.LookLocation != LOCATION.HUNTZONE)
         {

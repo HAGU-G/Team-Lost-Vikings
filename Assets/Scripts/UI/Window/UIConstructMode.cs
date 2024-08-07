@@ -71,8 +71,15 @@ public class UIConstructMode : UIWindow
         constructMode.construct.RemoveBuilding(um.currentNormalBuidling, vm.gridMap);
         destroyPopUp.SetActive(false);
 
-        if (buildings.TryGetValue(um.currentBuildingData, out GameObject value))
-            CheckBuildingButton(um.currentBuildingData, value);
+        //TO-DO : 아이템 추가 후 재화 돌려받는 내용 적기
+
+        foreach (var buildingData in buildingDatas)
+        {
+            if (buildings.TryGetValue(buildingData, out GameObject buildingObj))
+            {
+                CheckBuildingButton(buildingData, buildingObj);
+            }
+        }
 
         SortBuildingButtons();
         um.uiDevelop.ConstructButtonsOff();
@@ -85,9 +92,13 @@ public class UIConstructMode : UIWindow
 
     public void OnButtonExit()
     {
+        FinishConstructMode();
+    }
+
+    public void FinishConstructMode()
+    {
         GameManager.villageManager.constructMode.isConstructMode = false;
         constructModeinProgress.SetActive(false);
-        GameManager.Publish(EVENT_TYPE.CONSTRUCT);
         Close();
     }
 
