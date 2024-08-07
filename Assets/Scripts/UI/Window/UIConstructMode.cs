@@ -162,25 +162,36 @@ public class UIConstructMode : UIWindow
 
                 if (constructMode.construct.ForceRemovingBuilding(um.currentNormalBuidling, vm.gridMap))
                 {
+                    foreach(var data in buildingDatas)
+                    {
+                        if(data.StructureId == um.currentNormalBuidling.StructureId)
+                        {
+                            um.currentBuildingData = data;
+                            break;
+                        }
+                    }
                     var b = buildingDetail.ConstructBuilding(tile);
                     if (b == null)
                     {
                         buildingDetail.ConstructBuilding(prevTile);
                         Debug.Log("설치할 수 없는 위치입니다.");
                     }
+                    else
+                    {
+                        if (um.currentNormalBuidling.StructureType == STRUCTURE_TYPE.PARAMETER_RECOVERY)
+                        {
+                            var building = um.currentNormalBuidling;
+                            var movingUnits = new List<UnitOnVillage>(building.GetComponent<ParameterRecoveryBuilding>().movingUnits);
+                            foreach (var unit in movingUnits)
+                            {
+                                unit.UpdateDestination(building.gameObject);
+                            }
+                        }
+                    }
+
                     if (isFlip)
                     {
                         b.GetComponent<Building>().RotateBuilding(b.GetComponent<Building>());
-                    }
-
-                    if (um.currentNormalBuidling.StructureType == STRUCTURE_TYPE.PARAMETER_RECOVERY)
-                    {
-                        var building = um.currentNormalBuidling;
-                        var movingUnits = building.GetComponent<ParameterRecoveryBuilding>().movingUnits;
-                        foreach (var unit in movingUnits)
-                        {
-                            unit.UpdateDestination(building.gameObject);
-                        }
                     }
                 }
                 else

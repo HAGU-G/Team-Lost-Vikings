@@ -112,7 +112,7 @@ public class UIBuildingDetail : UIWindow
 
     public GameObject ConstructBuilding(Cell cell)
     {
-        if (vm.objectList.TryGetValue(um.currentNormalBuidling.StructureId, out var building))
+        if (vm.objectList.TryGetValue(um.currentBuildingData.StructureId, out var building))
         {
             var obj = vm.constructMode.construct.PlaceBuilding(building, cell, vm.gridMap);
             if (obj == null)
