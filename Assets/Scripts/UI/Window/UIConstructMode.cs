@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using TMPro;
+using UnityEditor.Build.Pipeline.Utilities;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
@@ -71,6 +72,12 @@ public class UIConstructMode : UIWindow
         constructMode.construct.RemoveBuilding(um.currentNormalBuidling, vm.gridMap);
         destroyPopUp.SetActive(false);
 
+        var statUp = um.currentNormalBuidling.GetComponent<StatUpgradeBuilding>();
+        if (um.currentNormalBuidling.StructureType == STRUCTURE_TYPE.STAT_UPGRADE)
+        {
+            statUp.upgradeValue = 0;
+            statUp.RiseStat();
+        }
         //TO-DO : 아이템 추가 후 재화 돌려받는 내용 적기
 
         foreach (var buildingData in buildingDatas)

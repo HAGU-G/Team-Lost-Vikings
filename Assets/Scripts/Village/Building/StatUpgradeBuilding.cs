@@ -48,6 +48,15 @@ public class StatUpgradeBuilding : MonoBehaviour, IInteractableWithPlayer
             case STAT_TYPE.CRIT_WEIGHT:
                 GameManager.playerManager.unitCritWeight.defaultValue = upgradeValue;
                 break;
+            case STAT_TYPE.HP:
+                GameManager.playerManager.unitHp.defaultValue = upgradeValue;
+                break;
+            case STAT_TYPE.STAMINA:
+                GameManager.playerManager.unitStamina.defaultValue = upgradeValue;
+                break;
+            case STAT_TYPE.MENTAL:
+                GameManager.playerManager.unitMental.defaultValue = upgradeValue;
+                break;
         }
         GameManager.Publish(EVENT_TYPE.UPGRADE);
     }

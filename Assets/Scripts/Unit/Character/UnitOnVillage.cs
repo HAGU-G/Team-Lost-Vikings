@@ -67,7 +67,6 @@ public class UnitOnVillage : Unit
                 building.AddMovingUnit(this);
             }
         }
-        Debug.Log($"{currentState}, {this.stats.Data.Name}");
     }
 
     public List<Cell> FindPath(Cell start, Cell end)

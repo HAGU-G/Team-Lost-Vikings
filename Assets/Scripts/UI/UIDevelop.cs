@@ -201,6 +201,11 @@ public class UIDevelop : MonoBehaviour
         rotateBuilding.gameObject.SetActive(true);
         destroyBuilding.gameObject.SetActive(true);
 
+        SetButtonColor();
+    }
+
+    public void SetButtonColor()
+    {
         Color falseColor = new Color(255f / 255f, 128f / 255f, 128f / 255f);
         Color trueColor = new Color(200f / 255f, 231f / 255f, 167f / 255f);
 
@@ -209,6 +214,7 @@ public class UIDevelop : MonoBehaviour
             changePlacement.interactable = false;
             ColorBlock colorBlock = changePlacement.colors;
             colorBlock.normalColor = falseColor;
+            colorBlock.selectedColor = falseColor;
             changePlacement.colors = colorBlock;
         }
         else
@@ -216,14 +222,16 @@ public class UIDevelop : MonoBehaviour
             changePlacement.interactable = true;
             ColorBlock colorBlock = changePlacement.colors;
             colorBlock.normalColor = trueColor;
+            colorBlock.selectedColor = trueColor;
             changePlacement.colors = colorBlock;
         }
 
-        if(!GameManager.uiManager.currentNormalBuidling.CanReverse)
+        if (!GameManager.uiManager.currentNormalBuidling.CanReverse)
         {
             rotateBuilding.interactable = false;
             ColorBlock colorBlock = rotateBuilding.colors;
             colorBlock.normalColor = falseColor;
+            colorBlock.selectedColor = falseColor;
             rotateBuilding.colors = colorBlock;
         }
         else
@@ -231,6 +239,7 @@ public class UIDevelop : MonoBehaviour
             rotateBuilding.interactable = true;
             ColorBlock colorBlock = rotateBuilding.colors;
             colorBlock.normalColor = trueColor;
+            colorBlock.selectedColor = trueColor;
             rotateBuilding.colors = colorBlock;
         }
 
@@ -239,6 +248,7 @@ public class UIDevelop : MonoBehaviour
             destroyBuilding.interactable = false;
             ColorBlock colorBlock = destroyBuilding.colors;
             colorBlock.normalColor = falseColor;
+            colorBlock.selectedColor = falseColor;
             destroyBuilding.colors = colorBlock;
         }
         else
@@ -246,6 +256,7 @@ public class UIDevelop : MonoBehaviour
             destroyBuilding.interactable = true;
             ColorBlock colorBlock = destroyBuilding.colors;
             colorBlock.normalColor = trueColor;
+            colorBlock.selectedColor = trueColor;
             destroyBuilding.colors = colorBlock;
         }
     }

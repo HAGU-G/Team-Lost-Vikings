@@ -134,6 +134,8 @@ public class Construct
 
                     GameObject.Destroy(building.gameObject);
                     GameManager.villageManager.constructedBuildings.Remove(building.gameObject);
+
+                    
                     return true;
                 }
                 else
