@@ -106,6 +106,7 @@ public class UIBuildingParameterPopUp : UIWindow
     {
         vm.village.Upgrade();
         im.Gold -= UpgradeData.GetUpgradeData(upgradeComponent.UpgradeId, upgradeComponent.UpgradeGrade).RequireGold;
+        //TO-DO : 요구 아이템 줄어들도록 수정하기
         SetPopUp();
     }
 

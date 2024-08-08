@@ -1,9 +1,11 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ReviveBuilding : MonoBehaviour, IInteractableWithUnit
 {
     public float reviveTime;
+    public List<UnitOnVillage> revivingUnits;
 
     public void InteractWithUnit(UnitOnVillage unit)
     {
