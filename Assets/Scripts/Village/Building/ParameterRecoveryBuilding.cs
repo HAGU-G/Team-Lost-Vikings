@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UI.CanvasScaler;
 
 [RequireComponent(typeof(Building))]
 public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
@@ -46,11 +47,11 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
 
         while (true)
         {
-            if(unit.isQuited)
+            if(unit.isRecoveryQuited)
             {
                 interactingUnits.Remove(unit);
                 unit.RecoveryAgain(parameterType);
-                unit.isQuited = false;
+                unit.isRecoveryQuited = false;
                 break;
             }
 
@@ -168,9 +169,13 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
 
     public void UpdateMovingUnitsDestination()
     {
-        foreach(var unit in movingUnits)
+        for(int i = movingUnits.Count -1; i >= 0; --i)
         {
-            unit.UpdateDestination(building.gameObject);
+            movingUnits[i].UpdateDestination(building.gameObject);
         }
+        //foreach(var unit in movingUnits)
+        //{
+        //    unit.UpdateDestination(building.gameObject);
+        //}
     }
 }

@@ -12,7 +12,8 @@ public class UnitOnVillage : Unit
     public List<Cell> destinationTiles = new();
     public VillageManager villageManager;
     public UnitMove unitMove;
-    public bool isQuited = false;
+    public bool isRecoveryQuited = false;
+    public bool isReviveQuited = false;
 
     //public event Action<PARAMETER_TYPES> OnUnitRecoveryDone;
 
@@ -66,6 +67,7 @@ public class UnitOnVillage : Unit
                 building.AddMovingUnit(this);
             }
         }
+        Debug.Log($"{currentState}, {this.stats.Data.Name}");
     }
 
     public List<Cell> FindPath(Cell start, Cell end)
@@ -93,13 +95,13 @@ public class UnitOnVillage : Unit
     public void RecoveryDone(PARAMETER_TYPE type)
     {
         //OnUnitRecoveryDone?.Invoke(type);
-        VillageFSM.ChangeState((int)UnitOnHunt.STATE.IDLE);
+        VillageFSM.ChangeState((int)UnitOnVillage.STATE.IDLE);
         GameManager.uiManager.windows[WINDOW_NAME.PARAMETER_POPUP].GetComponent<UIBuildingParameterPopUp>().SetCharacterInformation();
     }
 
     public void RecoveryAgain(PARAMETER_TYPE type)
     {
-        VillageFSM.ChangeState((int)STATE.GOTO);
+        VillageFSM.ChangeState((int)STATE.IDLE);
         var parameterPopup = GameManager.uiManager.windows[WINDOW_NAME.PARAMETER_POPUP] as UIBuildingParameterPopUp;
         parameterPopup.SetCharacterInformation();
     }
@@ -109,7 +111,7 @@ public class UnitOnVillage : Unit
         destination = newDestination;
         if(currentState == STATE.GOTO)
         {
-            VillageFSM.ChangeState((int)STATE.GOTO);
+            VillageFSM.ChangeState((int)STATE.IDLE);
         }
     }
 }

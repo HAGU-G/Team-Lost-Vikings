@@ -201,18 +201,21 @@ public class UIDevelop : MonoBehaviour
         rotateBuilding.gameObject.SetActive(true);
         destroyBuilding.gameObject.SetActive(true);
 
+        Color falseColor = new Color(255f / 255f, 128f / 255f, 128f / 255f);
+        Color trueColor = new Color(200f / 255f, 231f / 255f, 167f / 255f);
+
         if (!GameManager.uiManager.currentNormalBuidling.CanReplace)
         {
             changePlacement.interactable = false;
             ColorBlock colorBlock = changePlacement.colors;
-            colorBlock.normalColor = new Color(255,128,128);
+            colorBlock.normalColor = falseColor;
             changePlacement.colors = colorBlock;
         }
         else
         {
             changePlacement.interactable = true;
             ColorBlock colorBlock = changePlacement.colors;
-            colorBlock.normalColor = new Color(200,231,167);
+            colorBlock.normalColor = trueColor;
             changePlacement.colors = colorBlock;
         }
 
@@ -220,14 +223,14 @@ public class UIDevelop : MonoBehaviour
         {
             rotateBuilding.interactable = false;
             ColorBlock colorBlock = rotateBuilding.colors;
-            colorBlock.normalColor = new Color(255, 128, 128);
+            colorBlock.normalColor = falseColor;
             rotateBuilding.colors = colorBlock;
         }
         else
         {
             rotateBuilding.interactable = true;
             ColorBlock colorBlock = rotateBuilding.colors;
-            colorBlock.normalColor = new Color(200, 231, 167);
+            colorBlock.normalColor = trueColor;
             rotateBuilding.colors = colorBlock;
         }
 
@@ -235,14 +238,14 @@ public class UIDevelop : MonoBehaviour
         {
             destroyBuilding.interactable = false;
             ColorBlock colorBlock = destroyBuilding.colors;
-            colorBlock.normalColor = new Color(255, 128, 128);
+            colorBlock.normalColor = falseColor;
             destroyBuilding.colors = colorBlock;
         }
         else
         {
             destroyBuilding.interactable = true;
             ColorBlock colorBlock = destroyBuilding.colors;
-            colorBlock.normalColor = new Color(200, 231, 167);
+            colorBlock.normalColor = trueColor;
             destroyBuilding.colors = colorBlock;
         }
     }

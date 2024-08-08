@@ -213,7 +213,7 @@ public class UIConstructMode : UIWindow
         var interactingunits = building.GetComponent<ParameterRecoveryBuilding>().interactingUnits;
         foreach(var unit in interactingunits)
         {
-            unit.isQuited = true;
+            unit.isRecoveryQuited = true;
             unit.forceDestination = building.gameObject;
             unit.VillageFSM.ChangeState((int)UnitOnVillage.STATE.IDLE);
         }

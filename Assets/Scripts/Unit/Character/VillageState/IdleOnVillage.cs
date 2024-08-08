@@ -30,6 +30,7 @@ public class IdleOnVillage : State<UnitOnVillage>
         if (Transition())
             return;
 
+        Debug.Log(isIdle);
         if (!isIdle)
         {
             isIdle = true;
@@ -44,7 +45,8 @@ public class IdleOnVillage : State<UnitOnVillage>
         if(owner.CheckParameter() != UnitOnVillage.LACKING_PARAMETER.NONE
             ||GameManager.huntZoneManager.HuntZones.ContainsKey(owner.stats.HuntZoneNum)
             || owner.forceDestination != null
-            || owner.destination != null)
+            || owner.destination != null
+            || owner.isRecoveryQuited == true)
         {
             controller.ChangeState((int)UnitOnVillage.STATE.GOTO);
             return true;
