@@ -112,7 +112,6 @@ public class BuildingUpgrade : MonoBehaviour
                     ++currentGrade;
                     SetBuildingUpgrade();
                     stat.upgradeValue = StatReturn;
-
                     stat.RiseStat();
                 }
                 break;
@@ -135,6 +134,21 @@ public class BuildingUpgrade : MonoBehaviour
                 GameManager.villageManager.LevelUp();
                 ++currentGrade;
                 SetBuildingUpgrade();
+                break;
+            case (int)STRUCTURE_TYPE.PARAMETER_UPGRADE:
+                var paramUp = GetComponent<ParameterUpgradeBuilding>();
+                if(StatType == paramUp.upgradeParameter)
+                {
+                    ++currentGrade;
+                    SetBuildingUpgrade();
+                    paramUp.upgradeValue = StatReturn;
+                    paramUp.RiseParameter();
+                }
+                break;
+            case (int)STRUCTURE_TYPE.REVIVE:
+                var reviveTime = ProgressVarReturn;
+                var revive = GetComponent<ReviveBuilding>();
+                revive.reviveTime = reviveTime;
                 break;
         }
     }

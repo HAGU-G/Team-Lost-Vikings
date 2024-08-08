@@ -191,6 +191,10 @@ public class VillageManager : MonoBehaviour
                     b.AddComponent<PortalBuilding>();
                     Destroy(collider);
                     break;
+                case STRUCTURE_TYPE.REVIVE:
+                    var revive = b.AddComponent<ReviveBuilding>();
+                    revive.reviveTime = upgradeData.ProgressVarReturn;
+                    break;
             }
 
             b.GetComponentInChildren<TextMeshPro>().text = buildingComponenet.StructureName;
@@ -377,6 +381,9 @@ public class VillageManager : MonoBehaviour
         var portal = construct.PlaceBuilding(selectedObj, GetTile(7, 5, gridMap), gridMap);
         //constructedBuildings.Add(portal);
 
+        selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.REVIVE);
+        construct.PlaceBuilding(selectedObj, GetTile(7, 9, gridMap), gridMap);
+
         var portalBuilding = portal.GetComponent<Building>();
         portalBuilding.RotateBuilding(portalBuilding);
 
@@ -423,5 +430,22 @@ public class VillageManager : MonoBehaviour
     {
         var building = constructedBuildings[constructedBuildings.FindIndex(predicate)];
         return building;
+    }
+
+    public GameObject GetBuilding(STRUCTURE_ID id)
+    {
+        foreach(var tile in gridMap.tiles.Values)
+        {
+            if(!tile.tileInfo.ObjectLayer.IsEmpty)
+            {
+                if(tile.tileInfo.ObjectLayer.LayerObject.GetComponent<Building>().StructureId == (int)id)
+                {
+                    return tile.tileInfo.ObjectLayer.LayerObject;
+                }
+            }
+        }
+
+        Debug.Log("해당하는 id의 건물이 설치되지 않았습니다.");
+        return null;
     }
 }

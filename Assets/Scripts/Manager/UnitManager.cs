@@ -122,7 +122,7 @@ public class UnitManager
                 break;
             case LOCATION.VILLAGE:
                 GameManager.villageManager.village.UnitSpawn(stats.InstanceID,
-                    (stats.HP.Current == 0) ? STRUCTURE_TYPE.STANDARD : STRUCTURE_TYPE.PORTAL);
+                    (stats.HP.Current == 0) ? STRUCTURE_TYPE.REVIVE : STRUCTURE_TYPE.PORTAL);
                 break;
             case LOCATION.HUNTZONE:
                 GameManager.huntZoneManager.HuntZones[stats.HuntZoneNum].SpawnUnit(stats.InstanceID);

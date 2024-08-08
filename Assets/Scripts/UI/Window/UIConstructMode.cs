@@ -287,7 +287,7 @@ public class UIConstructMode : UIWindow
             return;
         }
 
-        var upgradeData = DataTableManager.upgradeTable.GetData(data.UpgradeId)[grade];
+        var upgradeData = DataTableManager.upgradeTable.GetData(data.UpgradeId)[grade -1];
 
         foreach (var tile in GameManager.villageManager.gridMap.tiles.Values)
         {

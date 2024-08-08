@@ -6,6 +6,8 @@
     ITEM_SELL,
     STANDARD,
     PORTAL,
+    PARAMETER_UPGRADE,
+    REVIVE,
 }
 
 public enum RECIPE
@@ -41,4 +43,5 @@ public enum STRUCTURE_ID
     MAG_UPGRADE = 990007,
     AGI_UPGRADE = 990008,
     PORTAL = 990002,
+    REVIVE = 990009,
 }

@@ -34,28 +34,19 @@ public class StatUpgradeBuilding : MonoBehaviour, IInteractableWithPlayer
         switch (upgradeStat)
         {
             case STAT_TYPE.STR:
-                //foreach(var unit in units)
-                //{
-                //    statInt.defaultValue = upgradeValue;
-                //    unit.stats.Str.upgradeValue = statInt;
-                //}
                 GameManager.playerManager.unitStr.defaultValue = upgradeValue;
                 break;
             case STAT_TYPE.WIZ:
-                //foreach (var unit in units)
-                //{
-                //    statInt.defaultValue = upgradeValue;
-                //    unit.stats.Mag.upgradeValue = statInt;
-                //}
                 GameManager.playerManager.unitMag.defaultValue = upgradeValue;
                 break;
             case STAT_TYPE.AGI:
-                //foreach (var unit in units)
-                //{
-                //    statInt.defaultValue = upgradeValue;
-                //    unit.stats.Agi.upgradeValue = statInt;
-                //}
                 GameManager.playerManager.unitAgi.defaultValue = upgradeValue;
+                break;
+            case STAT_TYPE.CRIT_CHANCE:
+                GameManager.playerManager.unitCritChance.defaultValue = upgradeValue;
+                break;
+            case STAT_TYPE.CRIT_WEIGHT:
+                GameManager.playerManager.unitCritWeight.defaultValue = upgradeValue;
                 break;
         }
         GameManager.Publish(EVENT_TYPE.UPGRADE);

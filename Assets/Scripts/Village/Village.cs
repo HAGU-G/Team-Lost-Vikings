@@ -54,6 +54,17 @@ public class Village : MonoBehaviour
             var building = constructed.GetComponent<Building>();
             if (building.StructureType == spawnBuilding)
             {
+                if(building.StructureType == STRUCTURE_TYPE.REVIVE)
+                {
+                    spawnPos = building.entranceTiles[Random.Range(0, building.entranceTiles.Count)].gameObject.transform.position;
+                    var unitOnVillage = Instantiate(unitPrefab, spawnPos, Quaternion.identity, villageManager.gridMap.transform);
+                    unitOnVillage.Init();
+                    unitOnVillage.ResetUnit(GameManager.unitManager.GetUnit(instanceID));
+                    units.Add(unitOnVillage);
+                    building.interactWithUnit?.InteractWithUnit(unitOnVillage);
+                    isFind = true;
+                    return;
+                }
                 spawnPos = building.entranceTiles[Random.Range(0, building.entranceTiles.Count)].gameObject.transform.position;
                 isFind = true;
                 break;

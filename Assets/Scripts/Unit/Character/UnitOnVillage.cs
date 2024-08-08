@@ -21,6 +21,7 @@ public class UnitOnVillage : Unit
         IDLE,
         GOTO,
         INTERACT,
+        REVIVE,
     }
 
     public enum LACKING_PARAMETER
@@ -41,7 +42,8 @@ public class UnitOnVillage : Unit
         VillageFSM.Init(this, 0,
             new IdleOnVillage(),
             new GotoOnVillage(),
-            new InteractOnVillage());
+            new InteractOnVillage(),
+            new ReviveOnVillage());
     }
 
     public override void ResetUnit(UnitStats unitStats)
