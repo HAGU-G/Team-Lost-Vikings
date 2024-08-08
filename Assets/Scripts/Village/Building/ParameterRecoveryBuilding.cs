@@ -48,6 +48,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
         {
             if(unit.isQuited)
             {
+                interactingUnits.Remove(unit);
                 unit.RecoveryAgain(parameterType);
                 unit.isQuited = false;
                 break;

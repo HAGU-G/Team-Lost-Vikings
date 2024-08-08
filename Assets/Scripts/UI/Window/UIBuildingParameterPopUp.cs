@@ -133,7 +133,7 @@ public class UIBuildingParameterPopUp : UIWindow
     {
         if (vm == null || vm.village.upgrade == null)
             return;
-
+        Debug.Log(characters.Count);
         for (int i = 0; i < characters.Count; ++i)
         {
             Destroy(characters[i].gameObject);
@@ -143,8 +143,9 @@ public class UIBuildingParameterPopUp : UIWindow
         var parameter = vm.village.upgrade.gameObject.GetComponent<ParameterRecoveryBuilding>();
         if (parameter == null)
             return;
-        
+
         var units = parameter.interactingUnits;
+        Debug.Log(units.Count);
 
         for(int i = 0; i < units.Count; ++i)
         {
