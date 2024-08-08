@@ -7,10 +7,19 @@ public class ReviveOnVillage : State<UnitOnVillage>
 
     public override void EnterState()
     {
-        owner.currentState = UnitOnVillage.STATE.REVIVE;
         var reviveBuilding = GameManager.villageManager.GetBuilding(STRUCTURE_ID.REVIVE);
         reviveTime = reviveBuilding.GetComponent<ReviveBuilding>().reviveTime;
-        //owner.gameObject.gameObject.SetActive(false);
+
+        owner.currentState = UnitOnVillage.STATE.REVIVE;
+        var renders = owner.gameObject.GetComponentsInChildren<SpriteRenderer>();
+        foreach (var render in renders)
+        {
+            render.enabled = false;
+        }
+        
+        
+
+        
     }
 
     public override void ExitState()
@@ -32,7 +41,12 @@ public class ReviveOnVillage : State<UnitOnVillage>
         if(timer >= reviveTime)
         {
             timer = 0f;
-            //owner.gameObject.gameObject.SetActive(true);
+            var renders = owner.gameObject.GetComponentsInChildren<SpriteRenderer>();
+
+            foreach (var render in renders)
+            {
+                render.enabled = true;
+            }
             controller.ChangeState((int)UnitOnVillage.STATE.IDLE);
         }
     }

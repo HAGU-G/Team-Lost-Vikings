@@ -149,9 +149,14 @@ public class Building : MonoBehaviour, IPointerClickHandler
 
         var building = GetComponent<Building>();
         var parameter = GetComponent<ParameterRecoveryBuilding>();
+        var revive = GetComponent<ReviveBuilding>();
         if (parameter != null)
         {
             parameter.TouchParameterBuilding();
+        }
+        else if(revive != null)
+        {
+            revive.TouchReviveBuilding();
         }
         else
         {
