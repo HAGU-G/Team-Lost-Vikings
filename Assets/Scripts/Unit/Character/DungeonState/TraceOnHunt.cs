@@ -54,7 +54,6 @@ public class TraceOnHunt : State<CombatUnit>
         else
         {
             var stats = owner.stats;
-            //스킬 사용 비활성화
             for (int i = 0; i < stats.Skills.Count; i++)
             {
                 if (stats.Skills[i].IsReady

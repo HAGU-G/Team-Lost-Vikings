@@ -85,7 +85,7 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
         if (stats == null || gameObject.activeSelf == false)
             return;
 
-        stats.UpdateAttackTimer();
+        stats.UpdateTimers(Time.deltaTime);
 
         OnUpdated?.Invoke();
 
@@ -171,14 +171,10 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
             }
         }
 
-        targets.Sort(
-            (left, right) =>
+        targets.Sort((left, right) =>
             {
                 return (int)Mathf.Sign(left.Item2 - right.Item2);
             });
-
-        if (targets.Count > 0)
-            Debug.Log($"{targets[0].Item2} {targets[^1].Item2}");
 
         return targets;
     }

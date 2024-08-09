@@ -4,21 +4,6 @@
     {
         owner.isActing = true;
         owner.currentState = CombatUnit.STATE.DEAD;
-
-        switch (owner.stats.Data.UnitType)
-        {
-            case UNIT_TYPE.CHARACTER:
-                (owner as UnitOnHunt).ReturnToVillage();
-                break;
-            case UNIT_TYPE.MONSTER:
-                var monster = owner as Monster;
-                monster.SendNotification(NOTIFY_TYPE.DEAD, true);
-                monster.DropItem();
-                GameManager.huntZoneManager.ReleaseMonster(monster);
-                break;
-            default:
-                break;
-        }
     }
 
     public override void ExitState()
@@ -33,6 +18,20 @@
 
     public override void Update()
     {
+        switch (owner.stats.Data.UnitType)
+        {
+            case UNIT_TYPE.CHARACTER:
+                (owner as UnitOnHunt).ReturnToVillage();
+                break;
+            case UNIT_TYPE.MONSTER:
+                var monster = owner as Monster;
+                monster.SendNotification(NOTIFY_TYPE.DEAD, true);
+                monster.DropItem();
+                GameManager.huntZoneManager.ReleaseMonster(monster);
+                break;
+            default:
+                break;
+        }
     }
 
     protected override bool Transition()

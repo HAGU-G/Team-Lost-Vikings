@@ -3,9 +3,14 @@
 [Serializable]
 public class StatFloat : StatClass<float>
 {
-    protected override float Add(float left, float right)
+    protected override float Add(params float[] values)
     {
-        return left + right;
+        float result = 0;
+        foreach (var value in values)
+        {
+            result += value;
+        }
+        return result;
     }
 
     public override StatClass<float> Clone()
@@ -15,5 +20,20 @@ public class StatFloat : StatClass<float>
         clone.upgradeValue = upgradeValue;
 
         return clone;
+    }
+
+    protected override float Multiply(params float[] values)
+    {
+        float result = 1f;
+        foreach (var value in values)
+        {
+            result *= value;
+        }
+        return result;
+    }
+
+    protected override float Multiply(float left, float right)
+    {
+        return left * right;
     }
 }

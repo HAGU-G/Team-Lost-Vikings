@@ -1,14 +1,22 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
-public class SkillSingle : ISkillStrategy
+public class SkillFloor : ISkillStrategy
 {
+    private Ellipse attackEllipse = null;
+    private Ellipse buffEllipse = null;
+
     public void Use(UnitStats owner, Skill skill, Vector3 targetPos)
     {
         var combat = owner.objectTransform.GetComponent<CombatUnit>();
 
         if (combat == null)
             return;
+
+        //범위 설정
+        attackEllipse = new(skill.Data.SkillAttackRange, targetPos);
+        buffEllipse = new(skill.Data.BuffRange, combat.attackTarget.transform.position);
 
         //대상 설정
         List<CombatUnit> targetList = new();
@@ -20,22 +28,20 @@ public class SkillSingle : ISkillStrategy
 
             case TARGET_TYPE.TEAM:
                 {
-                    var targets = combat.GetCollidedUnit(skill.CastEllipse, combat.Allies.ToArray());
+                    var targets = combat.GetCollidedUnit(buffEllipse, combat.Allies.ToArray());
                     foreach (var target in targets)
                     {
                         if (target.Item1.stats == owner
                             || target.Item1.IsDead
                             || !target.Item1.gameObject.activeSelf)
                             continue;
-
                         targetList.Add(target.Item1);
-                        break;
                     }
                 }
                 break;
             case TARGET_TYPE.TEAM_ALL:
                 {
-                    var targets = combat.GetCollidedUnit(skill.CastEllipse, combat.Allies.ToArray());
+                    var targets = combat.GetCollidedUnit(buffEllipse, combat.Allies.ToArray());
                     foreach (var target in targets)
                     {
                         if (target.Item1.IsDead
@@ -43,14 +49,24 @@ public class SkillSingle : ISkillStrategy
                             continue;
 
                         targetList.Add(target.Item1);
-                        break;
                     }
                 }
                 break;
 
             case TARGET_TYPE.ENEMY:
-                if (combat.HasTarget())
-                    targetList.Add(combat.attackTarget);
+                {
+                    if (combat == null)
+                        break;
+                    var targets = combat.GetCollidedUnit(attackEllipse, combat.Enemies.ToArray());
+                    foreach (var target in targets)
+                    {
+                        if (target.Item1.IsDead
+                            || !target.Item1.gameObject.activeSelf)
+                            continue;
+
+                        targetList.Add(target.Item1);
+                    }
+                }
                 break;
         }
 
@@ -63,7 +79,12 @@ public class SkillSingle : ISkillStrategy
 
         var appliedDamage = 0;
         if (damage > 0)
-            appliedDamage = targetList[0].TakeDamage(damage, skill.Data.SkillType).Item2;
+        {
+            foreach (var target in targetList)
+            {
+                appliedDamage += target.TakeDamage(damage, skill.Data.SkillType).Item2;
+            }
+        }
 
 
         //흡혈
@@ -71,7 +92,20 @@ public class SkillSingle : ISkillStrategy
             combat.TakeHeal(Mathf.FloorToInt(appliedDamage * skill.Data.VitDrainRatio));
 
         //버프
-        targetList[0].stats.ApplyBuff(new(skill));
+        foreach (var target in targetList)
+        {
+            target.stats.ApplyBuff(new(skill));
+        }
+
+        //장판 생성
+        var handle = Addressables.InstantiateAsync("Projectile");
+        var proj = handle.WaitForCompletion().GetComponent<Projectile>();
+        proj.Init(skill.Data);
+        proj.ResetProjectile(
+            Mathf.FloorToInt(skill.Damage * skill.Data.SkillFloorDmgRatio),
+            targetPos,
+            targetPos,
+            combat);
 
         //이펙트
 

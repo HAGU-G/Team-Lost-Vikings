@@ -69,7 +69,7 @@ public class UnitStats
     /// Skill ID, Skill
     /// </summary>
     [JsonProperty] public List<Skill> Skills { get; private set; } = new();
-
+    public Dictionary<int, Buff> Buffs { get; private set; } = new();
 
     //Ellipse
     public StatFloat SizeRange { get; private set; } = new();
@@ -119,6 +119,9 @@ public class UnitStats
             };
         }
     }
+
+
+
 
     #region MONSTER
     public bool isBoss;
@@ -274,12 +277,14 @@ public class UnitStats
         }
     }
 
-    public void UpdateAttackTimer()
+    public void UpdateTimers(float deltaTime)
     {
         if (AttackTimer < AttackSpeed.Current)
         {
-            AttackTimer += Time.deltaTime;
+            AttackTimer += deltaTime;
         }
+
+        UpdateBuff(deltaTime);
     }
 
     public void Collision(GridMap gridMap, params Unit[] others)
@@ -380,5 +385,114 @@ public class UnitStats
     }
 
 
+    //Buff
 
+    public void ApplyBuff(Buff buff)
+    {
+        if (buff.type == STAT_TYPE.NONE)
+            return;
+
+        if (Buffs.ContainsKey(buff.id))
+            RemoveBuff(buff);
+
+        Buffs.Add(buff.id, buff);
+
+        switch (buff.type)
+        {
+            case STAT_TYPE.STR:
+                buff.Apply(BaseStr);
+                break;
+            case STAT_TYPE.WIZ:
+                buff.Apply(BaseWiz);
+                break;
+            case STAT_TYPE.AGI:
+                buff.Apply(BaseAgi);
+                break;
+            case STAT_TYPE.VIT:
+                buff.Apply(BaseVit);
+                break;
+            case STAT_TYPE.CRIT_CHANCE:
+                buff.Apply(CritChance);
+                break;
+            case STAT_TYPE.CRIT_WEIGHT:
+                buff.Apply(CritWeight);
+                break;
+            case STAT_TYPE.HP:
+                buff.Apply(BaseHP);
+                ResetMaxParameter();
+                break;
+            case STAT_TYPE.STAMINA:
+                buff.Apply(BaseStamina);
+                ResetMaxParameter();
+                break;
+            case STAT_TYPE.MENTAL:
+                buff.Apply(BaseStress);
+                ResetMaxParameter();
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    private void UpdateBuff(float deltaTime)
+    {
+        List<Buff> remove = new();
+        foreach (var buff in Buffs.Values)
+        {
+            buff.Update(deltaTime);
+            if (buff.Timer < 0f)
+                remove.Add(buff);
+        }
+
+        foreach (var buff in remove)
+        {
+            RemoveBuff(buff);
+        }
+    }
+
+    public void RemoveBuff(Buff buff)
+    {
+        if (!Buffs.ContainsKey(buff.id)
+            || buff.type == STAT_TYPE.NONE)
+            return;
+
+        Buffs.Remove(buff.id);
+
+        switch (buff.type)
+        {
+            case STAT_TYPE.STR:
+                buff.Remove(BaseStr);
+                break;
+            case STAT_TYPE.WIZ:
+                buff.Remove(BaseWiz);
+                break;
+            case STAT_TYPE.AGI:
+                buff.Remove(BaseAgi);
+                break;
+            case STAT_TYPE.VIT:
+                buff.Remove(BaseVit);
+                break;
+            case STAT_TYPE.CRIT_CHANCE:
+                buff.Remove(CritChance);
+                break;
+            case STAT_TYPE.CRIT_WEIGHT:
+                buff.Remove(CritWeight);
+                break;
+            case STAT_TYPE.HP:
+                buff.Remove(BaseHP);
+                ResetMaxParameter();
+                break;
+            case STAT_TYPE.STAMINA:
+                buff.Remove(BaseStamina);
+                ResetMaxParameter();
+                break;
+            case STAT_TYPE.MENTAL:
+                buff.Remove(BaseStress);
+                ResetMaxParameter();
+                break;
+            default:
+                break;
+        }
+    }
 }

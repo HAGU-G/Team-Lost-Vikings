@@ -41,22 +41,22 @@ public enum SKILL_ATTACK_TYPE
 
 public class SkillData : ITableAvaialable<int>
 {
-    public int Id { get; set; }
+    public int SkillId { get; set; }
     public ATTACK_TYPE SkillType { get; set; }
     public TARGET_TYPE SkillTarget { get; set; }
-    public SKILL_ACTIVE_TYPE ActiveType { get; set; }
+    public SKILL_ACTIVE_TYPE SkillActiveType { get; set; }
     public SKILL_ATTACK_TYPE SkillAttackType { get; set; }
-    public float CastTime { get; set; }
-    public float CastRange { get; set; }
+    public float SkillCastTime { get; set; }
+    public float SkillCastRange { get; set; }
     public float SkillAttackRange { get; set; }
-    public int ActiveNum { get; set; }
-    public float ActiveTerm { get; set; }
+    public int SkillActiveNum { get; set; }
+    public float SkillFloorActiveTerm { get; set; }
 
-    public float ActiveValue { get; set; }
+    public float SkillActiveValue { get; set; }
     public float BuffRange { get; set; }
-    public STAT_TYPE BuffStateType { get; set; }
-    public STAT_VALUE_TYPE BuffStateValueType { get; set; }
-    public float BuffStateValue { get; set; }
+    public STAT_TYPE BuffType { get; set; }
+    public STAT_VALUE_TYPE BuffStatValueType { get; set; }
+    public float BuffStatValue { get; set; }
     public float SkillDuration { get; set; }
     public float ProjectileSpeed { get; set; }
 
@@ -64,7 +64,7 @@ public class SkillData : ITableAvaialable<int>
     public float SkillStrRatio { get; set; }
     public float SkillWizRatio { get; set; }
     public float SkillAgiRatio { get; set; }
-    public float FloorDmgRatio { get; set; }
+    public float SkillFloorDmgRatio { get; set; }
     public float VitDrainRatio { get; set; }
 
     public string SkillName { get; set; }
@@ -75,8 +75,10 @@ public class SkillData : ITableAvaialable<int>
     public string SkillIconName { get; set; }
     public string SkillSEName { get; set; }
     public ATTACK_MOTION SkillAnime { get; set; }
+    public string ProjectileFileType { get; set; }
+    public string ProjectileFileName {  get; set; }
 
     //public float SkillRankPoint { get; set; }
 
-    public int TableID => Id;
+    public int TableID => SkillId;
 }

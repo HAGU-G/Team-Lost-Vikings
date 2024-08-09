@@ -68,18 +68,18 @@ public class IdleOnHunt : State<CombatUnit>
     {
         if (owner.forceReturn)
         {
-            controller.ChangeState((int)UnitOnHunt.STATE.RETURN);
+            controller.ChangeState((int)CombatUnit.STATE.RETURN);
             return true;
         }
 
         if (owner.HasTarget())
         {
-            controller.ChangeState((int)UnitOnHunt.STATE.TRACE);
+            controller.ChangeState((int)CombatUnit.STATE.TRACE);
             return true;
         }
         else if (owner.IsNeedReturn)
         {
-            controller.ChangeState((int)UnitOnHunt.STATE.RETURN);
+            controller.ChangeState((int)CombatUnit.STATE.RETURN);
             return true;
         }
         return false;

@@ -1,13 +1,16 @@
 ﻿using UnityEditorInternal;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class UseSkillOnHunt : State<CombatUnit>
 {
     private bool isUsing = false;
+    private bool isPlaying = false;
     private int useCount = 0;
     private float timer = 0f;
     private Skill skill = null;
     private Vector3 targetPos;
+    private CombatUnit target;
 
     public override void EnterState()
     {
@@ -18,40 +21,74 @@ public class UseSkillOnHunt : State<CombatUnit>
         skill = owner.stats.Skills[owner.usingSkillNum];
         isUsing = true;
         useCount = 0;
-        timer = skill.Data.ActiveTerm;
+        timer = skill.Data.SkillCastTime;
+        target = owner.attackTarget;
+        targetPos = owner.attackTarget.transform.position;
+
+        if (owner.animator.listener != null)
+            owner.animator.listener.OnSkillHitEvent += UseSkill;
 
         skill.ResetActiveValue();
-        targetPos = owner.attackTarget.transform.position;
+        owner.LookAt(owner.attackTarget.transform);
+
+        Debug.Log($"스킬 시전 {skill.Data.SkillName}");
     }
 
     public override void ExitState()
     {
         owner.isActing = false;
+        isPlaying = false;
         owner.usingSkillNum = -1;
+
+        if (owner.animator.listener != null)
+            owner.animator.listener.OnSkillHitEvent -= UseSkill;
     }
 
     public override void ResetState()
     {
         owner.isActing = false;
+        isPlaying = false;
         owner.usingSkillNum = -1;
+
+        if (owner.animator.listener != null)
+            owner.animator.listener.OnSkillHitEvent -= UseSkill;
     }
 
     public override void Update()
     {
         timer += Time.deltaTime;
-        if (Transition() || timer >= skill.Data.ActiveTerm)
+
+        if (Transition() || timer < skill.Data.SkillCastTime || isPlaying)
             return;
 
+        if (useCount >= skill.Data.SkillActiveNum)
+        {
+            isUsing = false;
+            return;
+        }
 
-        owner.animator?.AnimSkill(skill.Data.SkillAnime, skill.Data.CastTime);
-        skill.Use();
+        if (target != null && !target.IsDead && target.gameObject.activeSelf)
+        { 
+            targetPos = target.transform.position;
+            owner.LookAt(target.transform);
+        }
+        else
+        {
+            target = null;
+        }
+
+        isPlaying = true;
+        owner.animator.AnimSkill(skill.Data.SkillAnime, skill.Data.SkillCastTime);
 
         owner.isTargetFixed = true;
         timer = 0f;
+    }
 
-        if (++useCount >= skill.Data.ActiveNum)
-            isUsing = false;
-
+    private void UseSkill()
+    {
+        skill?.Use(targetPos);
+        useCount++;
+        isPlaying = false;
     }
 
     protected override bool Transition()

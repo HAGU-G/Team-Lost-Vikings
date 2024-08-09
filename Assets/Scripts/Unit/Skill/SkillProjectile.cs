@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
-public class SkillSingle : ISkillStrategy
+public class SkillProjectile : ISkillStrategy
 {
     public void Use(UnitStats owner, Skill skill, Vector3 targetPos)
     {
@@ -54,23 +55,24 @@ public class SkillSingle : ISkillStrategy
                 break;
         }
 
+        
+
+
+        //투사체 생성
+        var handle = Addressables.InstantiateAsync("Projectile");
+        var proj = handle.WaitForCompletion().GetComponent<Projectile>();
+        proj.Init(skill.Data);
+        proj.ResetProjectile(
+            skill.Damage,
+            combat.transform.position,
+            targetPos,
+            combat);
+
+        //버프
+
         if (targetList.Count == 0)
             return;
 
-
-        //데미지
-        int damage = skill.Damage;
-
-        var appliedDamage = 0;
-        if (damage > 0)
-            appliedDamage = targetList[0].TakeDamage(damage, skill.Data.SkillType).Item2;
-
-
-        //흡혈
-        if (skill.Data.VitDrainRatio > 0f && appliedDamage > 0)
-            combat.TakeHeal(Mathf.FloorToInt(appliedDamage * skill.Data.VitDrainRatio));
-
-        //버프
         targetList[0].stats.ApplyBuff(new(skill));
 
         //이펙트

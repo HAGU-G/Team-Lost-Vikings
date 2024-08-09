@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Buffers;
+using UnityEngine;
 
 public class DressAnimator
 {
@@ -38,7 +39,6 @@ public class DressAnimator
             || animator.GetCurrentAnimatorStateInfo(0).IsName(nameIdle))
             return;
 
-        animator.ResetTrigger(triggerIdle);
         animator.SetTrigger(triggerIdle);
     }
 
@@ -49,7 +49,6 @@ public class DressAnimator
             return;
 
         animator.SetFloat(paramMoveSpeed, moveSpeed.Current);
-        animator.ResetTrigger(triggerRun);
         animator.SetTrigger(triggerRun);
     }
 
@@ -60,9 +59,16 @@ public class DressAnimator
             return;
 
         animator.SetInteger(paramAttackMotion, (int)motion);
-        animator.SetFloat(paramAttackSpeed, 1f / attackSpeed.Current);
-        animator.ResetTrigger(triggerAttack);
         animator.SetTrigger(triggerAttack);
+
+        float currLength = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+        float nextLength = 0;
+        var nextClips = animator.GetNextAnimatorClipInfo(0);
+        if (nextClips.Length > 0)
+            nextLength = nextClips[0].clip.length;
+
+        float multiplier = ((nextLength == 0f) ? currLength : nextLength) / attackSpeed.Current;
+        animator.SetFloat(paramAttackSpeed, multiplier);
     }
 
     public void AnimSkill(ATTACK_MOTION motion, float castTime)
@@ -71,8 +77,15 @@ public class DressAnimator
             return;
 
         animator.SetInteger(paramAttackMotion, (int)motion);
-        animator.SetFloat(paramAttackSpeed, 1f / castTime);
-        animator.ResetTrigger(triggerSkill);
         animator.SetTrigger(triggerSkill);
+
+        float currLength = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+        float nextLength = 0;
+        var nextClips = animator.GetNextAnimatorClipInfo(0);
+        if (nextClips.Length > 0)
+            nextLength = nextClips[0].clip.length;
+
+        float multiplier = ((nextLength == 0f) ? currLength : nextLength) / castTime;
+        animator.SetFloat(paramAttackSpeed, multiplier);
     }
 }
