@@ -5,6 +5,7 @@ public abstract class UIWindow : MonoBehaviour
     public bool isShowOnly = true;
     public abstract WINDOW_NAME WindowName { get; }
     protected bool IsReady = false;
+    public bool isOpened = false;
 
     protected virtual void Awake()
     {
@@ -22,14 +23,18 @@ public abstract class UIWindow : MonoBehaviour
 
     public virtual void Open()
     {
+        isOpened = true;
         GameManager.uiManager.isWindowOn = true;
         gameObject.SetActive(true);
         if (isShowOnly)
             GameManager.uiManager.CloseWindows(this);
+
+        GameManager.uiManager.OpenWindow(WindowName);
     }
 
     public virtual void Close()
     {
+        isOpened = false;
         gameObject.SetActive(false);
         foreach (var window in GameManager.uiManager.windows)
         {

@@ -22,6 +22,7 @@ public class UIDevelop : MonoBehaviour
 
     public TextMeshProUGUI textVersion;
 
+    public Button constructButton;
     public Button changePlacement;
     public Button rotateBuilding;
     public Button destroyBuilding;
@@ -31,12 +32,21 @@ public class UIDevelop : MonoBehaviour
         //onVillage.SetActive(true);
 
         //Camera.main.transform.position = Vector3.zero + Vector3.forward * -10f;
+        constructButton.gameObject.SetActive(true);
         GameManager.cameraManager.SetLocation(LOCATION.VILLAGE);
     }
 
     public void OnButtonHuntZone()
     {
         //onVillage.SetActive(false);
+        constructButton.gameObject.SetActive(false);
+        var constructMode = GameManager.uiManager.windows[WINDOW_NAME.CONSTRUCT_MODE] as UIConstructMode;
+        if(GameManager.villageManager.constructMode.isConstructMode)
+        {
+            constructMode.FinishConstructMode();
+            GameManager.Publish(EVENT_TYPE.CONSTRUCT);
+        }
+            
 
         if (GameManager.cameraManager.LookLocation != LOCATION.HUNTZONE)
         {
@@ -172,6 +182,15 @@ public class UIDevelop : MonoBehaviour
 
     public void SetConstructMode()
     {
+        //활성화되었던 다른 UI 닫기
+        foreach(var window in GameManager.uiManager.windows.Values)
+        {
+            if(window.isOpened)
+            {
+                window.Close();
+            }
+        }
+
         GameManager.Publish(EVENT_TYPE.CONSTRUCT);
         GameManager.uiManager.windows[WINDOW_NAME.CONSTRUCT_MODE].Open();
     }
@@ -182,33 +201,45 @@ public class UIDevelop : MonoBehaviour
         rotateBuilding.gameObject.SetActive(true);
         destroyBuilding.gameObject.SetActive(true);
 
+        SetButtonColor();
+    }
+
+    public void SetButtonColor()
+    {
+        Color falseColor = new Color(255f / 255f, 128f / 255f, 128f / 255f);
+        Color trueColor = new Color(200f / 255f, 231f / 255f, 167f / 255f);
+
         if (!GameManager.uiManager.currentNormalBuidling.CanReplace)
         {
             changePlacement.interactable = false;
             ColorBlock colorBlock = changePlacement.colors;
-            colorBlock.normalColor = new Color(255,128,128);
+            colorBlock.normalColor = falseColor;
+            colorBlock.selectedColor = falseColor;
             changePlacement.colors = colorBlock;
         }
         else
         {
             changePlacement.interactable = true;
             ColorBlock colorBlock = changePlacement.colors;
-            colorBlock.normalColor = new Color(200,231,167);
+            colorBlock.normalColor = trueColor;
+            colorBlock.selectedColor = trueColor;
             changePlacement.colors = colorBlock;
         }
 
-        if(!GameManager.uiManager.currentNormalBuidling.CanReverse)
+        if (!GameManager.uiManager.currentNormalBuidling.CanReverse)
         {
             rotateBuilding.interactable = false;
             ColorBlock colorBlock = rotateBuilding.colors;
-            colorBlock.normalColor = new Color(255, 128, 128);
+            colorBlock.normalColor = falseColor;
+            colorBlock.selectedColor = falseColor;
             rotateBuilding.colors = colorBlock;
         }
         else
         {
             rotateBuilding.interactable = true;
             ColorBlock colorBlock = rotateBuilding.colors;
-            colorBlock.normalColor = new Color(200, 231, 167);
+            colorBlock.normalColor = trueColor;
+            colorBlock.selectedColor = trueColor;
             rotateBuilding.colors = colorBlock;
         }
 
@@ -216,14 +247,16 @@ public class UIDevelop : MonoBehaviour
         {
             destroyBuilding.interactable = false;
             ColorBlock colorBlock = destroyBuilding.colors;
-            colorBlock.normalColor = new Color(255, 128, 128);
+            colorBlock.normalColor = falseColor;
+            colorBlock.selectedColor = falseColor;
             destroyBuilding.colors = colorBlock;
         }
         else
         {
             destroyBuilding.interactable = true;
             ColorBlock colorBlock = destroyBuilding.colors;
-            colorBlock.normalColor = new Color(200, 231, 167);
+            colorBlock.normalColor = trueColor;
+            colorBlock.selectedColor = trueColor;
             destroyBuilding.colors = colorBlock;
         }
     }
@@ -237,6 +270,13 @@ public class UIDevelop : MonoBehaviour
 
     public void OnButtonQuit()
     {
+        var constructMode = GameManager.uiManager.windows[WINDOW_NAME.CONSTRUCT_MODE] as UIConstructMode;
+        if (GameManager.villageManager.constructMode.isConstructMode)
+        {
+            constructMode.FinishConstructMode();
+            GameManager.Publish(EVENT_TYPE.CONSTRUCT);
+        }
+
         GameManager.GameQuit();
     }
 

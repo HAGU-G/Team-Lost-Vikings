@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UI.CanvasScaler;
 
 [RequireComponent(typeof(Building))]
 public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
@@ -10,6 +11,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
     public PARAMETER_TYPE parameterType;
    // private UnitOnVillage unit;
     public List<UnitOnVillage> interactingUnits;
+    public List<UnitOnVillage> movingUnits;
     public int recoveryAmount;
     public float recoveryTime;
     //private bool isRecovering;
@@ -39,12 +41,20 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
         //isRecovering = true;
         Debug.Log($"hp : {unit.stats.HP} stamina : {unit.stats.Stamina} stress : {unit.stats.Stress}");
         interactingUnits.Add(unit);
+        bool isComplete = false;
         GameManager.uiManager.windows[WINDOW_NAME.PARAMETER_POPUP].GetComponent<UIBuildingParameterPopUp>().SetCharacterInformation();
         yield return new WaitForSeconds(recoveryTime);
-        bool isComplete = false;
 
         while (true)
         {
+            if(unit.isRecoveryQuited)
+            {
+                interactingUnits.Remove(unit);
+                unit.RecoveryAgain(parameterType);
+                unit.isRecoveryQuited = false;
+                break;
+            }
+
             switch (parameterType)
             {
                 case PARAMETER_TYPE.HP:
@@ -139,5 +149,33 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
             GameManager.uiManager.uiDevelop.TouchBuildingInConstructMode();
         }
             
+    }
+
+    public void AddMovingUnit(UnitOnVillage unit)
+    {
+        if(!movingUnits.Contains(unit))
+        {
+            movingUnits.Add(unit);
+        }
+    }
+
+    public void RemoveMovingUnit(UnitOnVillage unit)
+    {
+        if(movingUnits.Contains(unit))
+        {
+            movingUnits.Remove(unit);
+        }
+    }
+
+    public void UpdateMovingUnitsDestination()
+    {
+        for(int i = movingUnits.Count -1; i >= 0; --i)
+        {
+            movingUnits[i].UpdateDestination(building.gameObject);
+        }
+        //foreach(var unit in movingUnits)
+        //{
+        //    unit.UpdateDestination(building.gameObject);
+        //}
     }
 }

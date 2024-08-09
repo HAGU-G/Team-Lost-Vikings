@@ -178,18 +178,16 @@ public class VillageManager : MonoBehaviour
                     statComponent.upgradeStat = upgradeData.StatType;
                     statComponent.upgradeValue = upgradeData.StatReturn;
                     break;
-                case STRUCTURE_TYPE.ITEM_SELL:
-                    b.AddComponent<ItemSellBuilding>();
-                    break;
-                case STRUCTURE_TYPE.ITEM_PRODUCE:
-                    b.AddComponent<ItemProduceBuilding>();
-                    break;
                 case STRUCTURE_TYPE.STANDARD:
 
                     break;
                 case STRUCTURE_TYPE.PORTAL:
                     b.AddComponent<PortalBuilding>();
                     Destroy(collider);
+                    break;
+                case STRUCTURE_TYPE.REVIVE:
+                    var revive = b.AddComponent<ReviveBuilding>();
+                    revive.reviveTime = upgradeData.ProgressVarReturn;
                     break;
             }
 
@@ -377,6 +375,9 @@ public class VillageManager : MonoBehaviour
         var portal = construct.PlaceBuilding(selectedObj, GetTile(7, 5, gridMap), gridMap);
         //constructedBuildings.Add(portal);
 
+        selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.REVIVE);
+        construct.PlaceBuilding(selectedObj, GetTile(7, 9, gridMap), gridMap);
+
         var portalBuilding = portal.GetComponent<Building>();
         portalBuilding.RotateBuilding(portalBuilding);
 
@@ -385,6 +386,13 @@ public class VillageManager : MonoBehaviour
 
     public void SetDevelopText(bool isOn)
     {
+        foreach (var tile in gridMap.tiles)
+        {
+            var component = tile.Value.GetComponentInChildren<TextMeshPro>();
+            if (component != null)
+                component.enabled = isOn;
+        }
+
         foreach (var building in constructedBuildings)
         {
             var component = building.GetComponentInChildren<TextMeshPro>();
@@ -392,12 +400,6 @@ public class VillageManager : MonoBehaviour
                 component.enabled = isOn;
         }
 
-        foreach (var tile in gridMap.tiles)
-        {
-            var component = tile.Value.GetComponentInChildren<TextMeshPro>();
-            if (component != null)
-                component.enabled = isOn;
-        }
     }
 
     public bool FindBuilding(STRUCTURE_TYPE structureType, Predicate<GameObject> predicate)
@@ -422,5 +424,22 @@ public class VillageManager : MonoBehaviour
     {
         var building = constructedBuildings[constructedBuildings.FindIndex(predicate)];
         return building;
+    }
+
+    public GameObject GetBuilding(STRUCTURE_ID id)
+    {
+        foreach(var tile in gridMap.tiles.Values)
+        {
+            if(!tile.tileInfo.ObjectLayer.IsEmpty)
+            {
+                if(tile.tileInfo.ObjectLayer.LayerObject.GetComponent<Building>().StructureId == (int)id)
+                {
+                    return tile.tileInfo.ObjectLayer.LayerObject;
+                }
+            }
+        }
+
+        Debug.Log("해당하는 id의 건물이 설치되지 않았습니다.");
+        return null;
     }
 }

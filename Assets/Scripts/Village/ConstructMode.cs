@@ -12,14 +12,14 @@ public class ConstructMode
     public void Init()
     {
         GameManager.Subscribe(EVENT_TYPE.CONSTRUCT, SetConstructMode);
-        currentTimeScale = 1f;
+        //currentTimeScale = 1f;
     }
 
     private void SetConstructMode()
     {
-        Time.timeScale = (currentTimeScale == 1f) ? 0f : 1f;
-        currentTimeScale = Time.timeScale;
-        isConstructMode = (currentTimeScale == 1f) ? false : true;
+        //Time.timeScale = (currentTimeScale == 1f) ? 0f : 1f;
+        //currentTimeScale = Time.timeScale;
+        isConstructMode = !isConstructMode;
     }
 
 

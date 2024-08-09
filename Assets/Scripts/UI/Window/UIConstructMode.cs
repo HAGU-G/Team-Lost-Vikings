@@ -71,8 +71,21 @@ public class UIConstructMode : UIWindow
         constructMode.construct.RemoveBuilding(um.currentNormalBuidling, vm.gridMap);
         destroyPopUp.SetActive(false);
 
-        if (buildings.TryGetValue(um.currentBuildingData, out GameObject value))
-            CheckBuildingButton(um.currentBuildingData, value);
+        var statUp = um.currentNormalBuidling.GetComponent<StatUpgradeBuilding>();
+        if (um.currentNormalBuidling.StructureType == STRUCTURE_TYPE.STAT_UPGRADE)
+        {
+            statUp.upgradeValue = 0;
+            statUp.RiseStat();
+        }
+        //TO-DO : 아이템 추가 후 재화 돌려받는 내용 적기
+
+        foreach (var buildingData in buildingDatas)
+        {
+            if (buildings.TryGetValue(buildingData, out GameObject buildingObj))
+            {
+                CheckBuildingButton(buildingData, buildingObj);
+            }
+        }
 
         SortBuildingButtons();
         um.uiDevelop.ConstructButtonsOff();
@@ -85,9 +98,13 @@ public class UIConstructMode : UIWindow
 
     public void OnButtonExit()
     {
+        FinishConstructMode();
+    }
+
+    public void FinishConstructMode()
+    {
         GameManager.villageManager.constructMode.isConstructMode = false;
         constructModeinProgress.SetActive(false);
-        GameManager.Publish(EVENT_TYPE.CONSTRUCT);
         Close();
     }
 
@@ -109,7 +126,7 @@ public class UIConstructMode : UIWindow
 
         foreach (var building in buildingDatas)
         {
-            if(buildings.TryGetValue(building, out GameObject value))
+            if (buildings.TryGetValue(building, out GameObject value))
                 CheckBuildingButton(building, value);
         }
         SortBuildingButtons();
@@ -125,15 +142,23 @@ public class UIConstructMode : UIWindow
                 var index = vm.gridMap.PosToIndex(pos);
                 var tile = vm.gridMap.GetTile(index.x, index.y);
 
-                buildingDetail.ConstructBuilding(tile);
-                buildingDetail.isConstructing = false;
-                buildings.TryGetValue(um.currentBuildingData, out var obj);
-                CheckBuildingButton(um.currentBuildingData, obj);
-                SortBuildingButtons();
+                var constructObj = buildingDetail.ConstructBuilding(tile);
+                if(constructObj != null)
+                {
+                    buildingDetail.isConstructing = false;
+                    buildings.TryGetValue(um.currentBuildingData, out var obj);
+                    CheckBuildingButton(um.currentBuildingData, obj);
+                    SortBuildingButtons();
+                }
+                else
+                {
+                    buildingDetail.isConstructing = false;
+                }
+                
             }
         }
 
-        if(isReplacing)
+        if (isReplacing)
         {
             if (GameManager.inputManager.Press)
             {
@@ -142,16 +167,34 @@ public class UIConstructMode : UIWindow
                 var pos = GameManager.inputManager.WorldPos;
                 var index = vm.gridMap.PosToIndex(pos);
                 var tile = vm.gridMap.GetTile(index.x, index.y);
-
-                if(constructMode.construct.RemoveBuilding(um.currentNormalBuidling, vm.gridMap))
+                
+                if (constructMode.construct.ForceRemovingBuilding(um.currentNormalBuidling, vm.gridMap))
                 {
-                    var b = buildingDetail.ConstructBuilding(tile);
-                    if(b == null)
+                    foreach(var data in buildingDatas)
                     {
-                        buildingDetail.ConstructBuilding(prevTile);
+                        if(data.StructureId == um.currentNormalBuidling.StructureId)
+                        {
+                            um.currentBuildingData = data;
+                            break;
+                        }
+                    }
+                    var b = buildingDetail.ConstructBuilding(tile);
+                    if (b == null)
+                    {
+                        var obj = buildingDetail.ConstructBuilding(prevTile);
+                        if (isFlip)
+                        {
+                            obj.GetComponent<Building>().RotateBuilding(obj.GetComponent<Building>());
+                        }
+                        um.currentNormalBuidling = obj.GetComponent<Building>();
                         Debug.Log("설치할 수 없는 위치입니다.");
                     }
-                    if(isFlip)
+
+                    if (um.currentNormalBuidling.StructureType == STRUCTURE_TYPE.PARAMETER_RECOVERY)
+                    {
+                        ParameterHandle();
+                    }
+                    if (isFlip)
                     {
                         b.GetComponent<Building>().RotateBuilding(b.GetComponent<Building>());
                     }
@@ -162,29 +205,49 @@ public class UIConstructMode : UIWindow
                     CheckBuildingButton(um.currentBuildingData, obj);
                     SortBuildingButtons();
                 }
-                
+
                 isReplacing = false;
                 um.uiDevelop.ConstructButtonsOff();
             }
         }
     }
 
+    private void ParameterHandle()
+    {
+        var building = um.currentNormalBuidling;
+        var parameterBuilding = building.GetComponent<ParameterRecoveryBuilding>();
+        var movingUnits = new List<UnitOnVillage>(parameterBuilding.movingUnits);
+        foreach (var unit in movingUnits)
+        {
+            unit.UpdateDestination(building.gameObject);
+        }
+
+        var interactingUnits = parameterBuilding.interactingUnits;
+        Debug.Log($"interactingUnits : {interactingUnits.Count}");
+
+        for(int i = interactingUnits.Count -1; i >= 0; --i)
+        {
+            interactingUnits[i].isRecoveryQuited = true;
+            interactingUnits[i].UpdateDestination(building.gameObject);
+        }
+    }
+
     private void MakeBuildingList()
     {
-        if(buildings.Count != 0)
+        if (buildings.Count != 0)
         {
-            foreach(var building in buildings)
+            foreach (var building in buildings)
             {
                 CheckBuildingButton(building.Key, building.Value);
             }
             return;
         }
-        
+
 
         foreach (var buildingData in buildingDatas)
         {
             var b = GameObject.Instantiate(buidlingUIPrefab, content);
-            
+
             string assetName = buildingData.StructureAssetFileName;
             var path = $"Assets/Pick_Asset/2WEEK/Building/{assetName}.prefab"; //TO-DO : 파일 경로 수정하기
 
@@ -205,7 +268,7 @@ public class UIConstructMode : UIWindow
                     buildingDetailWindow.Open();
                 }
             });
-            
+
 
             CheckBuildingButton(buildingData, b);
             buildings.Add(buildingData, b);
@@ -228,7 +291,7 @@ public class UIConstructMode : UIWindow
 
         var button = building.GetComponent<BuildingFrame>().button;
 
-        if(data.UpgradeId == 0) //portal
+        if (data.UpgradeId == 0) //portal
         {
             SetButtonColor(button, false);
             isActive = false;
@@ -236,11 +299,11 @@ public class UIConstructMode : UIWindow
             return;
         }
 
-        var upgradeData = DataTableManager.upgradeTable.GetData(data.UpgradeId)[grade];
+        var upgradeData = DataTableManager.upgradeTable.GetData(data.UpgradeId)[grade -1];
 
-        foreach(var tile in GameManager.villageManager.gridMap.tiles.Values)
+        foreach (var tile in GameManager.villageManager.gridMap.tiles.Values)
         {
-            if(!tile.tileInfo.ObjectLayer.IsEmpty
+            if (!tile.tileInfo.ObjectLayer.IsEmpty
                 && tile.tileInfo.ObjectLayer.LayerObject.GetComponentInChildren<Building>().StructureId == data.StructureId
                 && !data.CanMultiBuild)
             {
@@ -315,7 +378,7 @@ public class UIConstructMode : UIWindow
     {
         List<Transform> children = new();
 
-        foreach(Transform child in content)
+        foreach (Transform child in content)
         {
             children.Add(child);
         }

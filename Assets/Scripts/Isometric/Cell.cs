@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Text;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public enum Sides
 {

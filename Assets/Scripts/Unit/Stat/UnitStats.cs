@@ -137,6 +137,10 @@ public class UnitStats
         BaseStr.SetUpgrade(GameManager.playerManager.unitStr);
         BaseWiz.SetUpgrade(GameManager.playerManager.unitMag);
         BaseAgi.SetUpgrade(GameManager.playerManager.unitAgi);
+
+        BaseHP.SetUpgrade(GameManager.playerManager.unitHp);
+        BaseStamina.SetUpgrade(GameManager.playerManager.unitStamina);
+        BaseStress.SetUpgrade(GameManager.playerManager.unitMental);
     }
 
     public void SetLocation(LOCATION location, LOCATION nextLocation = LOCATION.NONE)

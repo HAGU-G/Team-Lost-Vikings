@@ -60,7 +60,7 @@ public class UIBuildingDetail : UIWindow
     {
         var buildingData = um.currentBuildingData;
 
-        var upgrade = DataTableManager.upgradeTable.GetData(buildingData.UpgradeId)[1];
+        var upgrade = DataTableManager.upgradeTable.GetData(buildingData.UpgradeId)[0];
 
         buildingName.text = buildingData.StructureName.ToString();
 
@@ -72,7 +72,7 @@ public class UIBuildingDetail : UIWindow
 
         buildingImage.sprite = handle.Result.GetComponentInChildren<SpriteRenderer>().sprite;
         
-        unlockTownLevel.text = buildingData.UnlockTownLevel.ToString();
+        unlockTownLevel.text = $"요구 마을회관 레벨 : {buildingData.UnlockTownLevel.ToString()}";
         //buidlingSize.text = $"{buildingData.Width} X {buildingData.Length}";
         buildingDesc.text = buildingData.StructureDesc.ToString();
 
@@ -82,17 +82,17 @@ public class UIBuildingDetail : UIWindow
         }
         resources.Clear();
 
-        for (int i = 0; i < upgrade.ItemNums.Count; ++i)
-        {
-            var resource = GameObject.Instantiate(upgradeResource, requireTransform);
-            //resource.GetComponentInChildren<Image>().sprite = ; //이미지 박아 놓는건지 가변적인지 물어보기
+        //for (int i = 0; i < upgrade.ItemNums.Count; ++i)
+        //{
+        //    var resource = GameObject.Instantiate(upgradeResource, requireTransform);
+        //    //resource.GetComponentInChildren<Image>().sprite = ; //이미지 박아 놓는건지 가변적인지 물어보기
 
-            //TO-DO : 아이템 추가되면 주석 해제하기
-            //resource.GetComponentInChildren<TextMeshProUGUI>().text
-            //    = $"{im.ownItemList[upgrade.ItemIds[i]]} / {upgrade.ItemNums[upgrade.ItemIds[i]].ToString()}";
+        //    //TO-DO : 아이템 추가되면 주석 해제하기
+        //    resource.GetComponentInChildren<TextMeshProUGUI>().text
+        //        = $"{im.ownItemList[upgrade.ItemIds[i]]} / {upgrade.ItemNums[upgrade.ItemIds[i]].ToString()}";
 
-            resources.Add(resource);
-        }
+        //    resources.Add(resource);
+        //}
     }
 
     private void CheckRequireItems()

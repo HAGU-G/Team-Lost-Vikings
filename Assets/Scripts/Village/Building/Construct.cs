@@ -133,6 +133,9 @@ public class Construct
                         t.ResetTileInfo();
 
                     GameObject.Destroy(building.gameObject);
+                    GameManager.villageManager.constructedBuildings.Remove(building.gameObject);
+
+                    
                     return true;
                 }
                 else
@@ -140,6 +143,91 @@ public class Construct
             }
         }
         return false;
+    }
+
+    public bool ForceRemovingBuilding(Building building, GridMap gridMap)
+    {
+        foreach (var tile in gridMap.tiles.Values)
+        {
+            if (!tile.tileInfo.ObjectLayer.IsEmpty)
+            {
+                var b = tile.tileInfo.ObjectLayer.LayerObject.GetComponent<Building>();
+                if (b == building)
+                {
+                    var upgrade = tile.tileInfo.ObjectLayer.LayerObject.GetComponent<BuildingUpgrade>();
+                    if (upgrade != null)
+                    {
+                        if (GameManager.playerManager.buildingUpgradeGrades.TryGetValue(b.StructureId, out int value))
+                        {
+                            value = upgrade.currentGrade;
+                        }
+                        else
+                        {
+                            GameManager.playerManager.buildingUpgradeGrades.Add(b.StructureId, upgrade.currentGrade);
+                        }
+                    }
+
+                    foreach (var t in building.placedTiles)
+                        t.ResetTileInfo();
+
+                    GameObject.Destroy(building.gameObject);
+                    GameManager.villageManager.constructedBuildings.Remove(building.gameObject);
+                    return true;
+                }
+                else
+                    continue;
+            }
+        }
+        return false;
+    }
+
+    public GameObject ReplaceBuilding(GameObject obj, Cell tile, GridMap gridMap) 
+    {
+        //TO-DO : 자신이 차지하는 위치 중 하나로 옮겨도 사용가능하도록 수정 필요
+        if (!CanReplaceBuilding(obj, tile, gridMap))
+            return null;
+
+        var building = obj.GetComponent<Building>();
+        foreach(var t in building.placedTiles)
+        {
+            t.ResetTileInfo();
+        }
+
+        var pos = gridMap.IndexToPos(tile.tileInfo.id);
+        obj.transform.SetParent(tile.gameObject.transform);
+        obj.transform.position = pos;
+        SetBuildingInfo(obj, tile, gridMap);
+
+        return obj;
+    }
+
+    private bool CanReplaceBuilding(GameObject obj, Cell tile, GridMap gridMap)
+    {
+        var building = obj.GetComponent<Building>();
+        var width = building.Width;
+        var length = building.Length;
+
+        var minX = tile.tileInfo.id.x - (width / 2);
+        var minY = tile.tileInfo.id.y - (length / 2);
+        var maxX = tile.tileInfo.id.x + (width / 2);
+        var maxY = tile.tileInfo.id.y + (length / 2);
+
+        if (minX < 0 || minY < 0
+            || maxX > gridMap.gridInfo.row - 1 || maxY > gridMap.gridInfo.col - 1)
+        {
+            return false;
+        }
+
+        for (int i = minX; i <= maxX; ++i)
+        {
+            for (int j = minY; j <= maxY; ++j)
+            {
+                if (gridMap.GetTile(i, j).tileInfo.TileType == TileType.OBJECT
+                    || !gridMap.GetTile(i, j).tileInfo.MarginLayer.IsEmpty)
+                    return false;
+            }
+        }
+        return true;
     }
 
 

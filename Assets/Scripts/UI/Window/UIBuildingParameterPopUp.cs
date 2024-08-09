@@ -106,6 +106,7 @@ public class UIBuildingParameterPopUp : UIWindow
     {
         vm.village.Upgrade();
         im.Gold -= UpgradeData.GetUpgradeData(upgradeComponent.UpgradeId, upgradeComponent.UpgradeGrade).RequireGold;
+        //TO-DO : 요구 아이템 줄어들도록 수정하기
         SetPopUp();
     }
 
@@ -132,7 +133,6 @@ public class UIBuildingParameterPopUp : UIWindow
     {
         if (vm == null || vm.village.upgrade == null)
             return;
-
         for (int i = 0; i < characters.Count; ++i)
         {
             Destroy(characters[i].gameObject);
@@ -142,7 +142,7 @@ public class UIBuildingParameterPopUp : UIWindow
         var parameter = vm.village.upgrade.gameObject.GetComponent<ParameterRecoveryBuilding>();
         if (parameter == null)
             return;
-        
+
         var units = parameter.interactingUnits;
 
         for(int i = 0; i < units.Count; ++i)

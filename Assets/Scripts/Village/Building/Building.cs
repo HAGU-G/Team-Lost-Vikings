@@ -62,11 +62,10 @@ public class Building : MonoBehaviour, IPointerClickHandler
         interactWithPlayer = gameObject.GetComponent<IInteractableWithPlayer>();
         interactWithUnit = gameObject.GetComponent<IInteractableWithUnit>();
 
-        sortingGroup ??= gameObject.AddComponent<SortingGroup>();
+        sortingGroup = gameObject.GetComponent<SortingGroup>();
+        if (sortingGroup == null)
+            sortingGroup = gameObject.AddComponent<SortingGroup>();
         sortingGroup.sortAtRoot = true;
-
-        if (gameObject.GetComponent<SortingGroup>() != null)
-            sortingGroup = gameObject.GetComponent<SortingGroup>();
         sortingGroup.sortingOrder = Mathf.FloorToInt(-transform.position.y);
     }
 
@@ -150,9 +149,14 @@ public class Building : MonoBehaviour, IPointerClickHandler
 
         var building = GetComponent<Building>();
         var parameter = GetComponent<ParameterRecoveryBuilding>();
+        var revive = GetComponent<ReviveBuilding>();
         if (parameter != null)
         {
             parameter.TouchParameterBuilding();
+        }
+        else if(revive != null)
+        {
+            revive.TouchReviveBuilding();
         }
         else
         {

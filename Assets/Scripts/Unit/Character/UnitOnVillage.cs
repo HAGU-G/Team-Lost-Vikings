@@ -12,6 +12,11 @@ public class UnitOnVillage : Unit
     public List<Cell> destinationTiles = new();
     public VillageManager villageManager;
     public UnitMove unitMove;
+    public bool isRecoveryQuited = false;
+    public bool isReviveQuited = false;
+
+    private float timer = 0f;
+    private float debugTime = 5f;
 
     //public event Action<PARAMETER_TYPES> OnUnitRecoveryDone;
 
@@ -20,6 +25,7 @@ public class UnitOnVillage : Unit
         IDLE,
         GOTO,
         INTERACT,
+        REVIVE,
     }
 
     public enum LACKING_PARAMETER
@@ -40,7 +46,8 @@ public class UnitOnVillage : Unit
         VillageFSM.Init(this, 0,
             new IdleOnVillage(),
             new GotoOnVillage(),
-            new InteractOnVillage());
+            new InteractOnVillage(),
+            new ReviveOnVillage());
     }
 
     public override void ResetUnit(UnitStats unitStats)
@@ -54,6 +61,22 @@ public class UnitOnVillage : Unit
     {
         base.Update();
         VillageFSM.Update();
+
+        timer += Time.deltaTime;
+        if (timer >= debugTime)
+        {
+            Debug.Log($"str : {stats.BaseStr}, hp : {stats.BaseHP}");
+            timer = 0f;
+        }
+
+        if (currentState == STATE.GOTO && destination != null)
+        {
+            var building = destination.GetComponent<ParameterRecoveryBuilding>();
+            if (building != null)
+            {
+                building.AddMovingUnit(this);
+            }
+        }
     }
 
     public List<Cell> FindPath(Cell start, Cell end)
@@ -81,12 +104,20 @@ public class UnitOnVillage : Unit
     public void RecoveryDone(PARAMETER_TYPE type)
     {
         //OnUnitRecoveryDone?.Invoke(type);
-        VillageFSM.ChangeState((int)UnitOnHunt.STATE.IDLE);
+        VillageFSM.ChangeState((int)UnitOnVillage.STATE.IDLE);
         GameManager.uiManager.windows[WINDOW_NAME.PARAMETER_POPUP].GetComponent<UIBuildingParameterPopUp>().SetCharacterInformation();
     }
 
+    public void RecoveryAgain(PARAMETER_TYPE type)
+    {
+        VillageFSM.ChangeState((int)STATE.IDLE);
+        var parameterPopup = GameManager.uiManager.windows[WINDOW_NAME.PARAMETER_POPUP] as UIBuildingParameterPopUp;
+        parameterPopup.SetCharacterInformation();
+    }
 
-
-
-   
+    public void UpdateDestination(GameObject newDestination)
+    {
+        destination = newDestination;
+        VillageFSM.ChangeState((int)STATE.IDLE);
+    }
 }

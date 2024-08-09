@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UI.CanvasScaler;
 
 public class IdleOnVillage : State<UnitOnVillage>
 {
@@ -41,7 +42,10 @@ public class IdleOnVillage : State<UnitOnVillage>
     protected override bool Transition()
     {
         if(owner.CheckParameter() != UnitOnVillage.LACKING_PARAMETER.NONE
-            ||GameManager.huntZoneManager.HuntZones.ContainsKey(owner.stats.HuntZoneNum))
+            ||GameManager.huntZoneManager.HuntZones.ContainsKey(owner.stats.HuntZoneNum)
+            || owner.forceDestination != null
+            || owner.destination != null
+            || owner.isRecoveryQuited == true)
         {
             controller.ChangeState((int)UnitOnVillage.STATE.GOTO);
             return true;
