@@ -82,17 +82,17 @@ public static class SaveManager
         }
         GameManager.huntZoneManager.UnitDeployment = save.UnitDeployment;
 
-        for (int i = 0; i < save.buildingUpgrade.Count; i++)
-        {
-            var up = GameManager.villageManager.constructedBuildings[i].GetComponent<BuildingUpgrade>();
+        //for (int i = 0; i < save.buildingUpgrade.Count; i++)
+        //{
+        //    var up = GameManager.villageManager.constructedBuildings[i].GetComponent<BuildingUpgrade>();
 
-            if (up == null)
-                continue;
+        //    if (up == null)
+        //        continue;
 
-            up.currentGrade = save.buildingUpgrade[i];
-            up.SetBuildingUpgrade();
-            up.GetComponent<StatUpgradeBuilding>()?.RiseStat();
-        }
+        //    up.currentGrade = save.buildingUpgrade[i];
+        //    up.SetBuildingUpgrade();
+        //    up.GetComponent<StatUpgradeBuilding>()?.RiseStat();
+        //}
     }
 
     private static void SaveFile()
