@@ -15,6 +15,9 @@ public class UnitOnVillage : Unit
     public bool isRecoveryQuited = false;
     public bool isReviveQuited = false;
 
+    private float timer = 0f;
+    private float debugTime = 5f;
+
     //public event Action<PARAMETER_TYPES> OnUnitRecoveryDone;
 
     public enum STATE
@@ -58,6 +61,13 @@ public class UnitOnVillage : Unit
     {
         base.Update();
         VillageFSM.Update();
+
+        timer += Time.deltaTime;
+        if (timer >= debugTime)
+        {
+            Debug.Log($"str : {stats.BaseStr}, hp : {stats.BaseHP}");
+            timer = 0f;
+        }
 
         if (currentState == STATE.GOTO && destination != null)
         {
@@ -108,10 +118,6 @@ public class UnitOnVillage : Unit
     public void UpdateDestination(GameObject newDestination)
     {
         destination = newDestination;
-        if(currentState == STATE.GOTO)
-        {
-            VillageFSM.ChangeState((int)STATE.IDLE);
-        }
         VillageFSM.ChangeState((int)STATE.IDLE);
     }
 }

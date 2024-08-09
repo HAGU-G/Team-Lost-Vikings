@@ -181,8 +181,9 @@ public class Construct
         return false;
     }
 
-    public GameObject ReplaceBuilding(GameObject obj, Cell tile, GridMap gridMap)
+    public GameObject ReplaceBuilding(GameObject obj, Cell tile, GridMap gridMap) 
     {
+        //TO-DO : 자신이 차지하는 위치 중 하나로 옮겨도 사용가능하도록 수정 필요
         if (!CanReplaceBuilding(obj, tile, gridMap))
             return null;
 

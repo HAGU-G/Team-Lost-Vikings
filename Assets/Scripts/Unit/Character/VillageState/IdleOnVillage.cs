@@ -10,9 +10,6 @@ public class IdleOnVillage : State<UnitOnVillage>
 
     public override void EnterState()
     {
-        Debug.Log($"destination : {owner.destination}");
-        Debug.Log($"force destination : {owner.forceDestination}");
-        Debug.Log($"isQuited : {owner.isRecoveryQuited}");
         owner.currentState = UnitOnVillage.STATE.IDLE;
         isIdle = false;
 

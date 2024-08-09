@@ -143,11 +143,19 @@ public class UIConstructMode : UIWindow
                 var index = vm.gridMap.PosToIndex(pos);
                 var tile = vm.gridMap.GetTile(index.x, index.y);
 
-                buildingDetail.ConstructBuilding(tile);
-                buildingDetail.isConstructing = false;
-                buildings.TryGetValue(um.currentBuildingData, out var obj);
-                CheckBuildingButton(um.currentBuildingData, obj);
-                SortBuildingButtons();
+                var constructObj = buildingDetail.ConstructBuilding(tile);
+                if(constructObj != null)
+                {
+                    buildingDetail.isConstructing = false;
+                    buildings.TryGetValue(um.currentBuildingData, out var obj);
+                    CheckBuildingButton(um.currentBuildingData, obj);
+                    SortBuildingButtons();
+                }
+                else
+                {
+                    buildingDetail.isConstructing = false;
+                }
+                
             }
         }
 
@@ -161,12 +169,6 @@ public class UIConstructMode : UIWindow
                 var index = vm.gridMap.PosToIndex(pos);
                 var tile = vm.gridMap.GetTile(index.x, index.y);
                 
-                //파라미터 건물 예외 처리
-                if (um.currentNormalBuidling.StructureType == STRUCTURE_TYPE.PARAMETER_RECOVERY)
-                {
-                    //ParameterHandle();
-                }
-
                 if (constructMode.construct.ForceRemovingBuilding(um.currentNormalBuidling, vm.gridMap))
                 {
                     foreach(var data in buildingDatas)
@@ -180,13 +182,15 @@ public class UIConstructMode : UIWindow
                     var b = buildingDetail.ConstructBuilding(tile);
                     if (b == null)
                     {
-                        buildingDetail.ConstructBuilding(prevTile);
+                        var obj = buildingDetail.ConstructBuilding(prevTile);
+                        if (isFlip)
+                        {
+                            obj.GetComponent<Building>().RotateBuilding(obj.GetComponent<Building>());
+                        }
+                        um.currentNormalBuidling = obj.GetComponent<Building>();
                         Debug.Log("설치할 수 없는 위치입니다.");
                     }
-                    else
-                    {
-                        
-                    }
+
                     if (um.currentNormalBuidling.StructureType == STRUCTURE_TYPE.PARAMETER_RECOVERY)
                     {
                         ParameterHandle();
@@ -226,7 +230,6 @@ public class UIConstructMode : UIWindow
         {
             interactingUnits[i].isRecoveryQuited = true;
             interactingUnits[i].UpdateDestination(building.gameObject);
-            //interactingUnits[i].VillageFSM.ChangeState((int)UnitOnVillage.STATE.GOTO);
         }
     }
 
