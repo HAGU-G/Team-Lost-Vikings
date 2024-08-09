@@ -141,6 +141,8 @@ public class BuildingUpgrade : MonoBehaviour
             //    }
             //    break;
             case (int)STRUCTURE_TYPE.REVIVE:
+                ++currentGrade;
+                SetBuildingUpgrade();
                 var reviveTime = ProgressVarReturn;
                 var revive = GetComponent<ReviveBuilding>();
                 revive.reviveTime = reviveTime;

@@ -241,6 +241,7 @@ public class UIBuildingParameterPopUp : UIWindow
         {
             ColorBlock colorBlock = upgrade.colors;
             colorBlock.normalColor = Color.green;
+            colorBlock.pressedColor = Color.green;
             upgrade.colors = colorBlock;
             resourceList[0].GetComponentInChildren<TextMeshProUGUI>().color = Color.gray;
         }
@@ -248,6 +249,7 @@ public class UIBuildingParameterPopUp : UIWindow
         {
             ColorBlock colorBlock = upgrade.colors;
             colorBlock.normalColor = Color.gray;
+            colorBlock.pressedColor = Color.gray;
             upgrade.colors = colorBlock;
             resourceList[0].GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
         }
