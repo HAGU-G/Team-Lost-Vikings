@@ -185,24 +185,12 @@ public class UIConstructMode : UIWindow
                     }
                     else
                     {
-                        if (um.currentNormalBuidling.StructureType == STRUCTURE_TYPE.PARAMETER_RECOVERY)
-                        {
-                            var building = um.currentNormalBuidling;
-                            var parameterBuilding = building.GetComponent<ParameterRecoveryBuilding>();
-                            var movingUnits = new List<UnitOnVillage>(parameterBuilding.movingUnits);
-                            foreach (var unit in movingUnits)
-                            {
-                                unit.UpdateDestination(building.gameObject);
-                            }
-                            ParameterHandle();
-                            //var interactingUnits = new List<UnitOnVillage>(parameterBuilding.interactingUnits);
-                            //foreach(var unit in interactingUnits)
-                            //{
-                            //    unit.UpdateDestination(building.gameObject);
-                            //}
-                        }
+                        
                     }
-
+                    if (um.currentNormalBuidling.StructureType == STRUCTURE_TYPE.PARAMETER_RECOVERY)
+                    {
+                        ParameterHandle();
+                    }
                     if (isFlip)
                     {
                         b.GetComponent<Building>().RotateBuilding(b.GetComponent<Building>());
@@ -224,22 +212,22 @@ public class UIConstructMode : UIWindow
     private void ParameterHandle()
     {
         var building = um.currentNormalBuidling;
-        var interactingUnits = building.GetComponent<ParameterRecoveryBuilding>().interactingUnits;
+        var parameterBuilding = building.GetComponent<ParameterRecoveryBuilding>();
+        var movingUnits = new List<UnitOnVillage>(parameterBuilding.movingUnits);
+        foreach (var unit in movingUnits)
+        {
+            unit.UpdateDestination(building.gameObject);
+        }
+
+        var interactingUnits = parameterBuilding.interactingUnits;
         Debug.Log($"interactingUnits : {interactingUnits.Count}");
 
         for(int i = interactingUnits.Count -1; i >= 0; --i)
         {
             interactingUnits[i].isRecoveryQuited = true;
             interactingUnits[i].UpdateDestination(building.gameObject);
-            interactingUnits[i].VillageFSM.ChangeState((int)UnitOnVillage.STATE.GOTO);
+            //interactingUnits[i].VillageFSM.ChangeState((int)UnitOnVillage.STATE.GOTO);
         }
-        //foreach(var unit in interactingUnits)
-        //{
-        //    unit.isRecoveryQuited = true;
-        //    unit.UpdateDestination(building.gameObject);
-        //    unit.VillageFSM.ChangeState((int)UnitOnVillage.STATE.GOTO);
-        //}
-        
     }
 
     private void MakeBuildingList()

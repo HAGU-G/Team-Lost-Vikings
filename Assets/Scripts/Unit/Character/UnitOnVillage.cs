@@ -112,5 +112,6 @@ public class UnitOnVillage : Unit
         {
             VillageFSM.ChangeState((int)STATE.IDLE);
         }
+        VillageFSM.ChangeState((int)STATE.IDLE);
     }
 }

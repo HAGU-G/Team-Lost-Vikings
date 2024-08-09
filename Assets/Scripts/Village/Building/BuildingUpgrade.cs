@@ -126,10 +126,6 @@ public class BuildingUpgrade : MonoBehaviour
 
                 }
                 break;
-            case (int)STRUCTURE_TYPE.ITEM_PRODUCE:
-                break;
-            case (int)STRUCTURE_TYPE.ITEM_SELL:
-                break;
             case (int)STRUCTURE_TYPE.STANDARD:
                 GameManager.villageManager.LevelUp();
                 ++currentGrade;

@@ -178,12 +178,6 @@ public class VillageManager : MonoBehaviour
                     statComponent.upgradeStat = upgradeData.StatType;
                     statComponent.upgradeValue = upgradeData.StatReturn;
                     break;
-                case STRUCTURE_TYPE.ITEM_SELL:
-                    b.AddComponent<ItemSellBuilding>();
-                    break;
-                case STRUCTURE_TYPE.ITEM_PRODUCE:
-                    b.AddComponent<ItemProduceBuilding>();
-                    break;
                 case STRUCTURE_TYPE.STANDARD:
 
                     break;
