@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.TerrainUtils;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
@@ -63,10 +64,17 @@ public class UIReviveBuilding : UIWindow
 
         SetRevivingList();
 
+        if(upgradeComponent.currentGrade >= grade.Count)
+        {
+            upgrade.interactable = false; 
+            
+        }
+
         var time = um.currentNormalBuidling.gameObject.GetComponent<ReviveBuilding>().reviveTime;
         reviveTimeText.text = $"부활 대기시간 {time}초";
 
         SetUpgradeItemList();
+        CheckResource();
     }
 
     public void SetRevivingList()
@@ -100,16 +108,20 @@ public class UIReviveBuilding : UIWindow
         }
         resourceList.Clear();
 
-        for(int i = 0; i < upgradeComponent.ItemIds.Count; ++i)
-        {
-            var item = Instantiate(upgradePrefab, upgradeTransform);
-            //item.GetComponentInChildren<TextMeshProUGUI>().text = $"{im.ownItemList[i]}/{upgradeComponent.ItemNums[i]}";
-            //TO-DO : item 추가되면 주석 풀기
+        var gold = Instantiate(upgradePrefab, upgradeTransform);
+        gold.GetComponentInChildren<TextMeshProUGUI>().text = $"{im.Gold}/{upgradeComponent.RequireGold}";
+        resourceList.Add(gold);
 
-            //item.GetComponentInChildren<Image>().sprite = DataTableManager.
-            //TO-DO : 재화 테이블 추가되면 수정하기
-            resourceList.Add(item);
-        }
+        //for (int i = 0; i < upgradeComponent.ItemIds.Count; ++i)
+        //{
+        //    var item = Instantiate(upgradePrefab, upgradeTransform);
+        //    //item.GetComponentInChildren<TextMeshProUGUI>().text = $"{im.ownItemList[i]}/{upgradeComponent.ItemNums[i]}";
+        //    //TO-DO : item 추가되면 주석 풀기
+
+        //    //item.GetComponentInChildren<Image>().sprite = DataTableManager.
+        //    //TO-DO : 재화 테이블 추가되면 수정하기
+        //    resourceList.Add(item);
+        //}
 
         //CheckResource();
     }
@@ -120,23 +132,34 @@ public class UIReviveBuilding : UIWindow
         if (upgradeComponent.UpgradeGrade >= grade.Count)
             return false;
 
-        if (im.Gold < grade[upgradeComponent.UpgradeGrade].RequireGold
-                && im.Rune < grade[upgradeComponent.UpgradeGrade].RequireRune)
-            return false;
-
-        for(int i = 0; i < resourceList.Count; ++i)
+        if (im.Gold < upgradeComponent.RequireGold
+                /*&& im.Rune < grade[upgradeComponent.UpgradeGrade].RequireRune*/)
         {
-            if(grade[upgradeComponent.UpgradeId].ItemNums[i] <= im.ownItemList[i])
+            for(int i = 0; i < resourceList.Count; ++i)
             {
-                resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.black;
+                resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.red; //골드만 사용하는 임시 내용
             }
-            else
-            {
-                resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = new Color(255 / 255, 8 / 255, 0 / 255);
-                isEnough = false;
-            }
+            upgrade.interactable = false;
+            return false;
         }
 
+
+        //for(int i = 0; i < resourceList.Count; ++i)
+        //{
+        //    if(grade[upgradeComponent.UpgradeId].ItemNums[i] <= im.ownItemList[i])
+        //    {
+        //        resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.black;
+        //    }
+        //    else
+        //    {
+        //        resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = new Color(255 / 255, 8 / 255, 0 / 255);
+        //        isEnough = false;
+        //    }
+        //}
+        for (int i = 0; i < resourceList.Count; ++i)
+        {
+            resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.gray; //골드만 사용하는 임시 내용
+        }
         upgrade.interactable = isEnough;
         return isEnough;
     }
@@ -173,7 +196,12 @@ public class UIReviveBuilding : UIWindow
 
     public void OnButtonUpgrade()
     {
-        vm.village.Upgrade();
+        if(im.Gold >= upgradeComponent.RequireGold)
+        {
+            im.Gold -= upgradeComponent.RequireGold;
+            vm.village.Upgrade();
+            SetUI();
+        }
     }
 
     public void OnButtonExit()
