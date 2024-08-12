@@ -61,6 +61,15 @@ public class StatUpgradeBuilding : MonoBehaviour, IInteractableWithPlayer
         GameManager.Publish(EVENT_TYPE.UPGRADE);
     }
 
+    public void SetUpgradeStat(Building obj)
+    {
+        var buildingUpgrade = obj.GetComponent<BuildingUpgrade>();
+        var id = obj.UpgradeId;
+        var upgradeData = DataTableManager.upgradeTable.GetData(id);
+        upgradeValue = upgradeData[buildingUpgrade.UpgradeGrade - 1].StatReturn;
+        upgradeStat = upgradeData[buildingUpgrade.UpgradeGrade - 1].StatType;
+    }
+
     public void SetUnits(List<UnitOnVillage> units)
     {
         this.units = units;

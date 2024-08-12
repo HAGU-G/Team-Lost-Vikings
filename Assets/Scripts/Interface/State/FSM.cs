@@ -52,7 +52,7 @@ public class FSM<T>
 
         state.EnterState();
         currentState = state;
-        Debug.Log($"{Time.time}: {currentState.ToString()}");
+        //Debug.Log($"{Time.time}: {currentState.ToString()}");
 
         return true;
     }

@@ -38,7 +38,6 @@ public class InteractOnVillage : State<UnitOnVillage>
 
     protected override bool Transition()
     {
-        //Debug.Log(owner.isRecoveryQuited);
         if (owner.isRecoveryQuited)
         {
             controller.ChangeState((int)UnitOnVillage.STATE.IDLE);

@@ -79,6 +79,7 @@ public class UIConstructMode : UIWindow
         {
             statUp.upgradeValue = 0;
             statUp.RiseStat();
+            GameManager.unitManager.UnitUpgrade();
         }
         //TO-DO : 아이템 추가 후 재화 돌려받는 내용 적기
 
@@ -146,10 +147,22 @@ public class UIConstructMode : UIWindow
                 var tile = vm.gridMap.GetTile(index.x, index.y);
 
                 var constructObj = buildingDetail.ConstructBuilding(tile);
-                if(constructObj != null)
+                if (constructObj != null)
                 {
                     buildingDetail.isConstructing = false;
                     buildings.TryGetValue(um.currentBuildingData, out var obj);
+
+                    var statUp = constructObj?.GetComponent<StatUpgradeBuilding>();
+                    if(statUp != null
+                        && um.currentBuildingData.StructureType == STRUCTURE_TYPE.STAT_UPGRADE)
+                    {
+                        var building = constructObj.GetComponent<Building>();
+                        statUp.SetUpgradeStat(building);
+                        statUp.RiseStat();
+                        GameManager.unitManager.UnitUpgrade();
+                    }
+
+
                     CheckBuildingButton(um.currentBuildingData, obj);
                     SortBuildingButtons();
                 }
@@ -232,7 +245,6 @@ public class UIConstructMode : UIWindow
         }
 
         var interactingUnits = parameterBuilding.interactingUnits;
-        Debug.Log($"interactingUnits : {interactingUnits.Count}");
 
         for(int i = interactingUnits.Count -1; i >= 0; --i)
         {
@@ -259,8 +271,6 @@ public class UIConstructMode : UIWindow
         {
             prevMovingUnits[i].UpdateDestination(building.gameObject);
         }
-
-        Debug.Log($"interactingUnits : {prevInteractingUnits.Count}");
 
         for (int i = prevInteractingUnits.Count - 1; i >= 0; --i)
         {
@@ -297,6 +307,13 @@ public class UIConstructMode : UIWindow
             button.onClick.AddListener
             (() =>
             {
+                //foreach(var building in vm.objectList.Values)
+                //{
+                //    if(building.GetComponent<Building>().StructureId == buildingData.StructureId)
+                //    {
+                //        um.currentNormalBuidling = building.GetComponent<Building>();
+                //    }
+                //}
                 um.currentBuildingData = buildingData;
                 var buildingDetailWindow = GameManager.uiManager.windows[WINDOW_NAME.BUILDING_DETAIL] as UIBuildingDetail;
                 if (buildingDetailWindow != null)
