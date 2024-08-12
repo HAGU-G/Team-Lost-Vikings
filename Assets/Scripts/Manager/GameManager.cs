@@ -78,11 +78,16 @@ public static class GameManager
         Publish(EVENT_TYPE.INIT);
 
         SaveManager.LoadGame();
+
         playerManager ??= new();
         itemManager ??= new();
+
         unitManager ??= new();
         unitManager.LoadUnits();
+
         questManager ??= new();
+        questManager.LoadAchievements();
+        questManager.LoadQuests();
 
         Publish(EVENT_TYPE.START);
     }

@@ -14,6 +14,7 @@ public class Quest : ITableAvaialable<int>, ITableExtraLoadable
     public string Name { get; set; }
     public int Id { get; set; }
     public QUEST_TYPE QuestType { get; set; }
+    public int CanAutoClear { get; set; }
     public string QuestDesc { get; set; }
     public List<int> AchievementIDs { get; set; } = new();
     public List<int> RequireNums { get; set; } = new();
@@ -31,7 +32,7 @@ public class Quest : ITableAvaialable<int>, ITableExtraLoadable
             bool result = true;
             for (int i = 0; i < AchievementIDs.Count; i++)
             {
-                result &= GameManager.questManager.Achivements[AchievementIDs[i]] >= RequireNums[i];
+                result &= GameManager.questManager.Achievements[AchievementIDs[i]] >= RequireNums[i];
             }
             return result;
         }
