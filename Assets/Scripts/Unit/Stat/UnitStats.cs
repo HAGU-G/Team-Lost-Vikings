@@ -137,6 +137,9 @@ public class UnitStats
         BaseWiz.SetUpgrade(GameManager.playerManager.unitMag);
         BaseAgi.SetUpgrade(GameManager.playerManager.unitAgi);
 
+        CritChance.SetUpgrade(GameManager.playerManager.unitCritChance);
+        CritWeight.SetUpgrade(GameManager.playerManager.unitCritWeight);
+
         BaseHP.SetUpgrade(GameManager.playerManager.unitHp);
         BaseStamina.SetUpgrade(GameManager.playerManager.unitStamina);
         BaseStress.SetUpgrade(GameManager.playerManager.unitMental);
