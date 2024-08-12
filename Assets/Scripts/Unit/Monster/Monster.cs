@@ -70,6 +70,7 @@ public class Monster : CombatUnit, ISubject<Monster>
         var itemList = GameManager.itemManager.ownItemList;
 
         GameManager.playerManager.Exp += dropData.DropExp;
+        //GameManager.itemManager.AddGold(dropData.DropGold());
         foreach (var item in dropData.DropItem())
         {
             if (itemList.ContainsKey(item.Key))

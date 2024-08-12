@@ -122,7 +122,6 @@ public class BuildingUpgrade : MonoBehaviour
                     SetBuildingUpgrade();
                     parameter.recoveryAmount = ParameterRecovery;
                     parameter.recoveryTime = RecoveryTime;
-
                 }
                 break;
             case (int)STRUCTURE_TYPE.STANDARD:
@@ -130,22 +129,28 @@ public class BuildingUpgrade : MonoBehaviour
                 ++currentGrade;
                 SetBuildingUpgrade();
                 break;
-            //case (int)STRUCTURE_TYPE.PARAMETER_UPGRADE:
-            //    var paramUp = GetComponent<ParameterUpgradeBuilding>();
-            //    if(StatType == paramUp.upgradeParameter)
-            //    {
-            //        ++currentGrade;
-            //        SetBuildingUpgrade();
-            //        paramUp.upgradeValue = StatReturn;
-            //        paramUp.RiseParameter();
-            //    }
-            //    break;
             case (int)STRUCTURE_TYPE.REVIVE:
                 ++currentGrade;
                 SetBuildingUpgrade();
                 var reviveTime = ProgressVarReturn;
                 var revive = GetComponent<ReviveBuilding>();
                 revive.reviveTime = reviveTime;
+                break;
+            case (int)STRUCTURE_TYPE.PROGRESS:
+                ++currentGrade;
+                SetBuildingUpgrade();
+                var storage = GetComponent<StorageBuilding>();
+                if(storage != null)
+                {
+                    Debug.Log(ProgressVarReturn);
+                    storage.UpgradeGoldLimit((int)ProgressVarReturn);
+                }
+
+                //var hotel = GetComponent<>();
+                //if(hotel != null)
+                //{
+
+                //}
                 break;
         }
     }

@@ -190,6 +190,16 @@ public class VillageManager : MonoBehaviour
                     var revive = b.AddComponent<ReviveBuilding>();
                     revive.reviveTime = upgradeData.ProgressVarReturn;
                     break;
+                case STRUCTURE_TYPE.PROGRESS:
+                    if(upgradeData.ProgressVarType == (int)PROGRESS_TYPE.STORAGE)
+                    {
+                        var storage = b.AddComponent<StorageBuilding>();
+                    }
+                    else if(upgradeData.ProgressVarType == (int)PROGRESS_TYPE.HOTEL)
+                    {
+
+                    }
+                    break;
             }
 
             b.GetComponentInChildren<TextMeshPro>().text = buildingComponenet.StructureName;
