@@ -198,7 +198,7 @@ public class UIReviveBuilding : UIWindow
     {
         if(im.Gold >= upgradeComponent.RequireGold)
         {
-            im.SpendGold(upgradeComponent.RequireGold);
+            im.Gold -= upgradeComponent.RequireGold;
             vm.village.Upgrade();
             SetUI();
         }

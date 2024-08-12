@@ -10,12 +10,35 @@ public class ItemManager
     {
         get
         {
-            return _gold;
+            if (!ownItemList.TryGetValue(0, out int gold))
+            {
+                ownItemList.Add(0, 0);
+                return ownItemList[0];
+            }
+            return ownItemList[0];
         }
         set
         {
-            _gold = Mathf.Clamp(value, 0, goldLimit);
-            GameManager.uiManager.uiDevelop.SetGold(value);
+            if (!ownItemList.TryGetValue(0, out int gold))
+            {
+                ownItemList.Add(0, 0);
+                ownItemList[0] = value;
+            }
+
+            if (value >= goldLimit)
+            {
+                if (ownItemList[0] < goldLimit)
+                {
+                    ownItemList[0] = goldLimit;
+                }
+            }
+            else
+            {
+                ownItemList[0] = value;
+            }
+    
+
+            GameManager.uiManager.uiDevelop.SetGold(ownItemList[0]);
         }
     }
     [JsonProperty] public int Rune { get; set; }
@@ -25,27 +48,37 @@ public class ItemManager
 
     public bool AddGold(int amount)
     {
-        if(Gold + amount >= goldLimit)
+        if(!ownItemList.TryGetValue(0, out int gold))
         {
-            if (Gold < goldLimit)
+            ownItemList.Add(0, 0);
+        }
+        
+        if (ownItemList[0] + amount >= goldLimit)
+        {
+            if (ownItemList[0] < goldLimit)
             {
-                Gold = goldLimit;
+                ownItemList[0] = goldLimit;
             }
             return false;
         }
 
-        Gold += amount;
+        ownItemList[0] += amount;
         return true;
     }
 
     public bool SpendGold(int amount)
     {
-        if (Gold - amount < 0)
+        if (!ownItemList.TryGetValue(0, out int gold))
+        {
+            ownItemList.Add(0, 0);
+        }
+
+        if (ownItemList[0] - amount < 0)
         {
             return false;
         }
 
-        Gold -= amount;
+        ownItemList[0] -= amount;
         return true;
     }
 }
