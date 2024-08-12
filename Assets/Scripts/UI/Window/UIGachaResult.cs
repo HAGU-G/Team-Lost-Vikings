@@ -12,24 +12,21 @@ public class UIGachaResult : UIWindow
     public TextMeshProUGUI unitName;
 
     public Button exit;
-    public UnitStats gachaResultUnit;
+    //public UnitStats gachaResultUnit;
 
     private void OnEnable()
     {
         if (!IsReady)
             return;
-
-        gachaResultUnit = GameManager.unitManager.Waitings.Last().Value;
-        SetResult();
     }
 
-    public void SetResult()
+    public void SetResult(UnitStats unitStats)
     {
-        gachaResultDesc.text = $"{gachaResultUnit.UnitGrade.ToString()} 등급의 {gachaResultUnit.Data.Name}를 뽑았습니다.";
+        gachaResultDesc.text = $"{unitStats.UnitGrade.ToString()} 등급의 {unitStats.Data.Name}를 뽑았습니다.";
         //unitImage.sprite = GameManager.uiManager.unitRenderTexture.LoadRenderTexture(gachaResultUnit.AssetFileName);
-        unitImage.uvRect = GameManager.uiManager.unitRenderTexture.LoadRenderTexture(gachaResultUnit.Data.UnitAssetFileName);
-        gradeICon.sprite = GameManager.uiManager.gradeIcons[(int)gachaResultUnit.UnitGrade];
-        unitName.text = gachaResultUnit.Data.Name;
+        unitImage.uvRect = GameManager.uiManager.unitRenderTexture.LoadRenderTexture(unitStats.Data.UnitAssetFileName);
+        gradeICon.sprite = GameManager.uiManager.gradeIcons[(int)unitStats.UnitGrade];
+        unitName.text = unitStats.Data.Name;
     }
 
     public void OnButtonExit()

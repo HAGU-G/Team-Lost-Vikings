@@ -98,13 +98,25 @@ public class UnitManager
             if (data.UnitType != UNIT_TYPE.CHARACTER || level < data.GachaUnlockLv)
                 continue;
 
+            //중복검사
+            bool isDupli = false;
+            foreach (var unit in Waitings.Values)
+            {
+                if (unit.Id == data.Id)
+                    isDupli = true;
+            }
+            if (isDupli)
+                continue;
+
             for (int i = 0; i < data.GachaChance; i++)
             {
                 gachaList.Add(data);
             }
         }
-
-        return gachaList[Random.Range(0, gachaList.Count)];
+        StatsData result = null;
+        if (gachaList.Count > 0)
+            result = gachaList[Random.Range(0, gachaList.Count)];
+        return result;
     }
 
     public void SpawnOnNextLocation(UnitStats stats)
@@ -152,10 +164,25 @@ public class UnitManager
 
     public UnitStats GachaCharacter(int level)
     {
+        var data = GachaUnitData(level);
+
+        if (data == null)
+            return null;
+
         var waitCharacter = new UnitStats();
-        waitCharacter.InitStats(GachaUnitData(level));
+        waitCharacter.InitStats(data);
         waitCharacter.ResetStats();
         Waitings.Add(waitCharacter.InstanceID, waitCharacter);
+
+        //중복검사
+        bool isDupli = false;
+        foreach (var unit in Units.Values)
+        {
+            if (unit.Id == waitCharacter.Id)
+                isDupli = true;
+        }
+        if (!isDupli)
+            PickUpCharacter(waitCharacter.InstanceID);
 
         SaveManager.SaveGame();
 
