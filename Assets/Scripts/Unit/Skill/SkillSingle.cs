@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 public class SkillSingle : ISkillStrategy
 {
@@ -74,6 +75,9 @@ public class SkillSingle : ISkillStrategy
         targetList[0].stats.ApplyBuff(new(skill));
 
         //이펙트
+        //TODO addressable 수정 필요 - 오브젝트 풀이나 미리 로드하는 방식 사용
+        var skillHandle = Addressables.InstantiateAsync(skill.Data.SkillEffectName, targetList[0].transform.position, Quaternion.identity);
+        skillHandle.WaitForCompletion().AddComponent<AddressableDestroyWhenDisable>();
 
 
 

@@ -204,7 +204,7 @@ public class HuntZone : MonoBehaviour
             var point = randomPoints[Random.Range(0, randomPoints.Count)];
             var monster = GameManager.huntZoneManager.GetMonster(this);
 
-            monster.transform.position = point.transform.position;
+            monster.SetPosition(point.transform.position);
             point.Spawned(monster);
             randomPoints.Remove(point);
 

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-public class SkillRange : ISkillStrategy
+public class SkillNoneAttack : ISkillStrategy
 {
     private Ellipse attackEllipse = null;
     private Ellipse buffEllipse = null;
@@ -11,13 +11,14 @@ public class SkillRange : ISkillStrategy
 
     public void Use(UnitStats owner, Skill skill, Vector3 targetPos)
     {
+        if (skill.Data.SkillActiveType == SKILL_ACTIVE_TYPE.ALWAYS)
+            return;
+
         var combat = owner.objectTransform.GetComponent<CombatUnit>();
 
         if (combat == null)
             return;
 
-        //범위 설정
-        attackEllipse = new(skill.Data.SkillAttackRange, targetPos);
         buffEllipse = new(skill.Data.BuffRange, combat.attackTarget.transform.position);
 
         //대상 설정
@@ -75,24 +76,6 @@ public class SkillRange : ISkillStrategy
         if (targetList.Count == 0)
             return;
 
-
-        //데미지
-        int damage = skill.Damage;
-
-        int appliedDamage = 0;
-        if (damage > 0)
-        {
-            foreach (var target in targetList)
-            {
-                appliedDamage += target.TakeDamage(damage, skill.Data.SkillType).Item2;
-            }
-        }
-
-
-        //흡혈
-        if (skill.Data.VitDrainRatio > 0f && appliedDamage > 0)
-            combat.TakeHeal(Mathf.FloorToInt(appliedDamage * skill.Data.VitDrainRatio));
-
         //버프
         foreach (var target in targetList)
         {
@@ -101,10 +84,11 @@ public class SkillRange : ISkillStrategy
 
         //이펙트
         //TODO addressable 수정 필요 - 오브젝트 풀이나 미리 로드하는 방식 사용
-        var skillHandle = Addressables.InstantiateAsync(skill.Data.SkillEffectName, targetPos, Quaternion.identity);
-        skillHandle.WaitForCompletion().AddComponent<AddressableDestroyWhenDisable>();
 
-
-
+        foreach (var target in targetList)
+        {
+            var skillHandle = Addressables.InstantiateAsync(skill.Data.SkillEffectName, target.transform.position, Quaternion.identity);
+            skillHandle.WaitForCompletion().AddComponent<AddressableDestroyWhenDisable>();
+        }
     }
 }

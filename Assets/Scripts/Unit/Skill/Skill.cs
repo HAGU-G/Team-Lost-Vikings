@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 [JsonObject(MemberSerialization.OptIn)]
 public class Skill
@@ -18,6 +18,7 @@ public class Skill
         + owner.BaseStr.Current * Data.SkillStrRatio
         + owner.BaseWiz.Current * Data.SkillWizRatio
         + owner.BaseAgi.Current * Data.SkillAgiRatio);
+
     public Ellipse CastEllipse { get; private set; } = null;
     public bool IsReady
     {
@@ -53,6 +54,7 @@ public class Skill
 
         skillBehaviour = data.SkillAttackType switch
         {
+            SKILL_ATTACK_TYPE.NONE => new SkillNoneAttack(),
             SKILL_ATTACK_TYPE.SINGLE => new SkillSingle(),
             SKILL_ATTACK_TYPE.RANGE => new SkillRange(),
             SKILL_ATTACK_TYPE.FLOOR => new SkillFloor(),
@@ -60,7 +62,7 @@ public class Skill
             _ => null
         };
 
-        if(data.SkillActiveType == SKILL_ACTIVE_TYPE.ALWAYS)
+        if (data.SkillActiveType == SKILL_ACTIVE_TYPE.ALWAYS)
             owner.ApplyBuff(new(this));
     }
 

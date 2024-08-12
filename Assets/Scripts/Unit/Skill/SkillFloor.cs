@@ -74,6 +74,7 @@ public class SkillFloor : ISkillStrategy
             return;
 
 
+
         //데미지
         int damage = skill.Damage;
 
@@ -108,7 +109,9 @@ public class SkillFloor : ISkillStrategy
             combat);
 
         //이펙트
-
+        //TODO addressable 수정 필요 - 오브젝트 풀이나 미리 로드하는 방식 사용
+        var skillHandle = Addressables.InstantiateAsync(skill.Data.SkillEffectName, targetPos, Quaternion.identity);
+        skillHandle.WaitForCompletion().AddComponent<AddressableDestroyWhenDisable>();
 
 
     }
