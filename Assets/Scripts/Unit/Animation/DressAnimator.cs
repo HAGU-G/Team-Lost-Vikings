@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Buffers;
+using UnityEngine;
 
 public class DressAnimator
 {
@@ -8,6 +9,7 @@ public class DressAnimator
     private static readonly int triggerIdle = Animator.StringToHash(nameIdle);
     private static readonly int triggerRun = Animator.StringToHash(nameRun);
     private static readonly int triggerAttack = Animator.StringToHash("Attack");
+    private static readonly int triggerSkill = Animator.StringToHash("Skill");
 
     private static readonly int paramMoveSpeed = Animator.StringToHash("MoveSpeed");
     private static readonly int paramAttackSpeed = Animator.StringToHash("AttackSpeed");
@@ -17,13 +19,13 @@ public class DressAnimator
     public DressListener listener;
     public StatFloat moveSpeed;
     public StatFloat attackSpeed;
+    public float castTime;
 
     public void Init(Animator animator, StatFloat moveSpeed, StatFloat attackSpeed)
     {
         this.animator = animator;
         this.moveSpeed = moveSpeed;
         this.attackSpeed = attackSpeed;
-
 
         listener = animator.GetComponent<DressListener>();
         if (listener == null)
@@ -37,7 +39,6 @@ public class DressAnimator
             || animator.GetCurrentAnimatorStateInfo(0).IsName(nameIdle))
             return;
 
-        animator.ResetTrigger(triggerIdle);
         animator.SetTrigger(triggerIdle);
     }
 
@@ -48,7 +49,6 @@ public class DressAnimator
             return;
 
         animator.SetFloat(paramMoveSpeed, moveSpeed.Current);
-        animator.ResetTrigger(triggerRun);
         animator.SetTrigger(triggerRun);
     }
 
@@ -59,10 +59,33 @@ public class DressAnimator
             return;
 
         animator.SetInteger(paramAttackMotion, (int)motion);
-        animator.SetFloat(paramAttackSpeed, 1f / attackSpeed.Current);
-        animator.ResetTrigger(triggerAttack);
         animator.SetTrigger(triggerAttack);
+
+        float currLength = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+        float nextLength = 0;
+        var nextClips = animator.GetNextAnimatorClipInfo(0);
+        if (nextClips.Length > 0)
+            nextLength = nextClips[0].clip.length;
+
+        float multiplier = ((nextLength == 0f) ? currLength : nextLength) / attackSpeed.Current;
+        animator.SetFloat(paramAttackSpeed, multiplier);
     }
 
+    public void AnimSkill(ATTACK_MOTION motion, float castTime)
+    {
+        if (animator == null)
+            return;
 
+        animator.SetInteger(paramAttackMotion, (int)motion);
+        animator.SetTrigger(triggerSkill);
+
+        float currLength = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+        float nextLength = 0;
+        var nextClips = animator.GetNextAnimatorClipInfo(0);
+        if (nextClips.Length > 0)
+            nextLength = nextClips[0].clip.length;
+
+        float multiplier = ((nextLength == 0f) ? currLength : nextLength) / castTime;
+        animator.SetFloat(paramAttackSpeed, multiplier);
+    }
 }

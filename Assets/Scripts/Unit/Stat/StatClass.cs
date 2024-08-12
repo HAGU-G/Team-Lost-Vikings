@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 
 [JsonObject(MemberSerialization.OptIn)]
 public abstract class StatClass<T>
@@ -28,10 +29,18 @@ public abstract class StatClass<T>
         }
     }
     public StatClass<T> upgradeValue = null;
+    public T buffValue;
+    public float ratioBuffValue;
 
-    public T Current => Add(defaultValue, ((upgradeValue != null) ? upgradeValue.Current : default));
+    public T Current =>
+        Multiply(1f + ratioBuffValue,
+            Add(defaultValue,
+                (upgradeValue != null) ? upgradeValue.Current : default,
+                buffValue));
 
-    protected abstract T Add(T left, T right);
+    protected abstract T Add(params T[] values);
+    protected abstract T Multiply(params T[] values);
+    protected abstract T Multiply(float left, T right);
 
     public override string ToString()
     {

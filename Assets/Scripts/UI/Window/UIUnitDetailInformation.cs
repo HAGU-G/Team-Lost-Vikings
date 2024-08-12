@@ -79,13 +79,20 @@ public class UIUnitDetailInformation : UIWindow
         gradeIcon.sprite = GameManager.uiManager.gradeIcons[(int)unit.UnitGrade];
         characterJob.text = unit.Data.Job.ToString();
 
-        //skill1_Icon.sprite = 
-        skill1_Name.text = DataTableManager.skillTable.GetData(unit.SkillId1).SkillName;
-        //skill1_Desc.text = DataTableManager.skillTable.GetData(unit.SkillId1).; //스킬 설명 컬럼 추가 필요
-        //skill2_Icon.sprite = 
-        skill2_Name.text = DataTableManager.skillTable.GetData(unit.SkillId2).SkillName;
-        //skill2_Desc.text = DataTableManager.skillTable.GetData(unit.SkillId2).; //스킬 설명 컬럼 추가 필요
-
+        //스킬 정보 임시 수정
+        //TODO 스킬이 없을 경우 처리 필요
+        if (unit.Skills.Count >= 1)
+        {
+            //skill1_Icon.sprite = 
+            skill1_Name.text = unit.Skills[0].Data.SkillName;
+            skill1_Desc.text = unit.Skills[0].Data.SkillDesc;
+        }
+        if (unit.Skills.Count >= 2)
+        {
+            //skill2_Icon.sprite = 
+            skill2_Name.text = unit.Skills[1].Data.SkillName;
+            skill1_Desc.text = unit.Skills[1].Data.SkillDesc;
+        }
         //attributeIcon.sprite = ;
         attributeText.text = unit.Data.BasicAttackType.ToString();
 

@@ -61,11 +61,12 @@ public class UICharacterGacha : UIWindow
 
     public void OnButtonGacha()
     {
-        GameManager.unitManager.GachaCharacter(GameManager.playerManager.level);
-        var gachaResultUnit = GameManager.unitManager.Waitings.Last();
+        var result = GameManager.unitManager.GachaCharacter(GameManager.playerManager.level);
         im.Gold -= requireGold;
-        
-        GameManager.uiManager.windows[WINDOW_NAME.GACHA_RESULT].Open();
+
+        var uiResult = GameManager.uiManager.windows[WINDOW_NAME.GACHA_RESULT] as UIGachaResult;
+        uiResult.SetResult(result);
+        uiResult.Open();
     }
 
     public void OnButtonExit()

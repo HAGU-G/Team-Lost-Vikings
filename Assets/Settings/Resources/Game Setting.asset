@@ -31,3 +31,4 @@ MonoBehaviour:
   autoGachaSeconds: 30
   autoGachaMaxCount: 10
   monsterRoamSeconds: 2
+  projectileSize: 0.5

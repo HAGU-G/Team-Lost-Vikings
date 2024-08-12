@@ -10,7 +10,6 @@ public abstract class Unit : MonoBehaviour
     public DressAnimator animator = new();
     public bool isActing = false;
 
-    public UnitSkills skills;
     public GameObject skillEffect;
     private SortingGroup sortingGroup = null;
 
@@ -22,8 +21,11 @@ public abstract class Unit : MonoBehaviour
             sortingGroup = gameObject.AddComponent<SortingGroup>();
         sortingGroup.sortAtRoot = true;
     }
+
     public virtual void ResetUnit(UnitStats stats)
     {
+        ResetEvents();
+
         if (stats == null)
             Debug.LogWarning("유닛의 스탯이 재설정되지 않았습니다.", gameObject);
         else
@@ -51,7 +53,6 @@ public abstract class Unit : MonoBehaviour
             };
 
         this.stats.ResetEllipse(transform);
-        ResetEvents();
     }
 
     protected virtual void Update()
@@ -82,6 +83,7 @@ public abstract class Unit : MonoBehaviour
             animator.AnimRun();
         }
         transform.position = pos;
+
         stats.UpdateEllipsePosition();
     }
 
