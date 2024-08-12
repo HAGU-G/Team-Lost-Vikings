@@ -36,6 +36,11 @@ public class Projectile : MonoBehaviour
     {
         if (!isActive)
         {
+            if (!IsFloor)
+            {
+                var skillHandle = Addressables.InstantiateAsync(skillData.SkillEffectName, transform.position, Quaternion.identity);
+                skillHandle.WaitForCompletion().AddComponent<AddressableDestroyWhenDisable>();
+            }
             gameObject.SetActive(false);
             Addressables.ReleaseInstance(gameObject);
         }
@@ -91,8 +96,8 @@ public class Projectile : MonoBehaviour
         }
 
         //흡혈
-        if(skillData.VitDrainRatio > 0f && appliedDamage > 0f)
-                owner.TakeHeal(Mathf.FloorToInt(appliedDamage * skillData.VitDrainRatio));
+        if (skillData.VitDrainRatio > 0f && appliedDamage > 0f)
+            owner.TakeHeal(Mathf.FloorToInt(appliedDamage * skillData.VitDrainRatio));
     }
 
     public void Init(SkillData skillData)
