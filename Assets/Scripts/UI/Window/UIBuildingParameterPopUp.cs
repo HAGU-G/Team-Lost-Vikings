@@ -96,7 +96,7 @@ public class UIBuildingParameterPopUp : UIWindow
         SetRequireItem();
         SetCharacterInformation();
 
-        if (!checkRequireItem())
+        if (!CheckRequireItem())
             upgrade.interactable = false;
         else
             upgrade.interactable = true;
@@ -226,11 +226,8 @@ public class UIBuildingParameterPopUp : UIWindow
         //}
     }
 
-    public bool checkRequireItem()
+    public bool CheckRequireItem()
     {
-        if (upgradeComponent.UpgradeGrade >= grade.Count)
-            return false;
-
         if (im.Gold < grade[upgradeComponent.UpgradeGrade].RequireGold
                 && im.Rune < grade[upgradeComponent.UpgradeGrade].RequireRune)
             return false;
@@ -239,49 +236,57 @@ public class UIBuildingParameterPopUp : UIWindow
         var requireGold = grade[upgradeComponent.UpgradeGrade].RequireGold;
         if(requireGold <= im.Gold)
         {
-            ColorBlock colorBlock = upgrade.colors;
-            colorBlock.normalColor = Color.green;
-            colorBlock.pressedColor = Color.green;
-            upgrade.colors = colorBlock;
+            upgrade.targetGraphic.color = Color.green;
+            //ColorBlock colorBlock = upgrade.colors;
+            //colorBlock.normalColor = Color.green;
+            //colorBlock.pressedColor = Color.green;
+            //upgrade.colors = colorBlock;
             resourceList[0].GetComponentInChildren<TextMeshProUGUI>().color = Color.gray;
         }
         else
         {
-            ColorBlock colorBlock = upgrade.colors;
-            colorBlock.normalColor = Color.gray;
-            colorBlock.pressedColor = Color.gray;
-            upgrade.colors = colorBlock;
+            upgrade.targetGraphic.color = Color.gray;
+            //ColorBlock colorBlock = upgrade.colors;
+            //colorBlock.normalColor = Color.gray;
+            //colorBlock.pressedColor = Color.gray;
+            //upgrade.colors = colorBlock;
             resourceList[0].GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
         }
+
+        bool check = true;
 
         //var requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
         //var requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
 
-        //for (int i = 0; i < kindOfResource; ++i)
+        //for (int i = 0; i < requireItemIds.Count; ++i)
         //{
         //    //requireItemNums[i] <= im.ownItemList.GetValueOrDefault(i)
         //    if (requireItemNums[i] <= im.ownItemList.GetValueOrDefault(i))
         //    {
-        //        ColorBlock colorBlock = upgrade.colors;
-        //        colorBlock.normalColor = Color.green;
-        //        upgrade.colors = colorBlock;
+        //        upgrade.targetGraphic.color = Color.green;
+        //        //ColorBlock colorBlock = upgrade.colors;
+        //        //colorBlock.normalColor = Color.green;
+        //        //upgrade.colors = colorBlock;
         //        resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.gray;
         //    }
         //    else
         //    {
-        //        ColorBlock colorBlock = upgrade.colors;
-        //        colorBlock.normalColor = Color.gray;
-        //        upgrade.colors = colorBlock;
+        //        upgrade.targetGraphic.color = Color.gray;
+        //        //ColorBlock colorBlock = upgrade.colors;
+        //        //colorBlock.normalColor = Color.gray;
+        //        //upgrade.colors = colorBlock;
         //        resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
+        //        check = false;
         //    }
         //}
 
-        foreach (var resource in resourceList)
-        {
-            if (resource.GetComponentInChildren<TextMeshProUGUI>().color == Color.red)
-                return false;
-        }
-        return true;
+        //if (GameManager.playerManager.level < upgradeComponent.RequirePlayerLv)
+        //    return false;
+
+        if (upgradeComponent.UpgradeGrade >= grade.Count)
+            return false;
+
+        return check;
     }
 
     public void SetLastUpgrade()

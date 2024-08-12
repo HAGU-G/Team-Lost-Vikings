@@ -129,38 +129,49 @@ public class UIReviveBuilding : UIWindow
     private bool CheckResource()
     {
         bool isEnough = true;
-        if (upgradeComponent.UpgradeGrade >= grade.Count)
-            return false;
 
-        if (im.Gold < upgradeComponent.RequireGold
-                /*&& im.Rune < grade[upgradeComponent.UpgradeGrade].RequireRune*/)
+        ///////////////////////////골드만 사용하는 임시 내용///////////////////
+        if (im.Gold < upgradeComponent.RequireGold)
         {
             for(int i = 0; i < resourceList.Count; ++i)
             {
-                resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.red; //골드만 사용하는 임시 내용
+                upgrade.targetGraphic.color = Color.gray;
+                resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
             }
             upgrade.interactable = false;
             return false;
         }
 
+        for (int i = 0; i < resourceList.Count; ++i)
+        {
+            upgrade.targetGraphic.color = Color.green;
+            resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.gray;
+        }
+        upgrade.interactable = isEnough;
+        ////////////////////////////////////////////////////////////////////////////////////////
 
-        //for(int i = 0; i < resourceList.Count; ++i)
+
+        //for (int i = 0; i < resourceList.Count; ++i)
         //{
-        //    if(grade[upgradeComponent.UpgradeId].ItemNums[i] <= im.ownItemList[i])
+        //    if (grade[upgradeComponent.UpgradeId].ItemNums[i] <= im.ownItemList[i])
         //    {
-        //        resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.black;
+        //        resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.gray;
         //    }
         //    else
         //    {
-        //        resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = new Color(255 / 255, 8 / 255, 0 / 255);
+        //        resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = new Color(255f / 255f, 8f / 255f, 0f / 255f);
         //        isEnough = false;
         //    }
         //}
-        for (int i = 0; i < resourceList.Count; ++i)
-        {
-            resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.gray; //골드만 사용하는 임시 내용
-        }
-        upgrade.interactable = isEnough;
+
+
+        //if (upgradeComponent.RequirePlayerLv < GameManager.playerManager.level)
+        //    return false;
+
+        if (upgradeComponent.UpgradeGrade >= grade.Count)
+            return false;
+
+
         return isEnough;
     }
 

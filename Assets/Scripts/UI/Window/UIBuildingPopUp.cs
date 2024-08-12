@@ -69,7 +69,7 @@ public class UIBuildingPopUp : UIWindow
         SetText();
         SetRequireItem();
 
-        if (!checkRequireItem())
+        if (!CheckRequireItem())
             upgrade.interactable = false;
         else
             upgrade.interactable = true;
@@ -124,61 +124,66 @@ public class UIBuildingPopUp : UIWindow
         resource.GetComponentInChildren<TextMeshProUGUI>().text = $"{im.Gold} / {requireGold.ToString()}";
         resourceList.Add(resource);
 
-        //for (int i = 0; i < kindOfResource; ++i)
+        //for (int i = 0; i < requireItemIds.Count; ++i)
         //{
         //    var resource = Instantiate(upgradeResource, resourceLayout);
         //    resource.GetComponentInChildren<TextMeshProUGUI>().text = $"{im.ownItemList.GetValueOrDefault(i)} / {requireItemIds[i]}";
-        //    //resource.GetComponent<Image>().sprite = ;
+        //    resource.GetComponentInChildren<Image>().sprite = ;
 
         //    resourceList.Add(resource);
         //}
     }
 
-    public bool checkRequireItem()
+    public bool CheckRequireItem()
     {
-        if (upgradeComponent.UpgradeGrade >= grade.Count)
-            return false;
-
+        bool check = true;
         var requireGold = grade[upgradeComponent.UpgradeGrade].RequireGold;
         if (requireGold <= im.Gold)
         {
-            ColorBlock colorBlock = upgrade.colors;
-            colorBlock.normalColor = Color.green;
-            upgrade.colors = colorBlock;
-            resourceList[0].GetComponentInChildren<TextMeshProUGUI>().color = Color.gray;
+            upgrade.targetGraphic.color = Color.green;
+            //ColorBlock colorBlock = upgrade.colors;
+            //colorBlock.normalColor = Color.green;
+            //upgrade.colors = colorBlock;
+            resourceList[0].GetComponentInChildren<TextMeshProUGUI>().color = Color.black;
         }
         else
         {
-            ColorBlock colorBlock = upgrade.colors;
-            colorBlock.normalColor = Color.gray;
-            upgrade.colors = colorBlock;
+            upgrade.targetGraphic.color = Color.gray;
+            //ColorBlock colorBlock = upgrade.colors;
+            //colorBlock.normalColor = Color.gray;
+            //upgrade.colors = colorBlock;
             resourceList[0].GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
+            check = false;
         }
 
-        //for (int i = 0; i < kindOfResource; ++i)
+        //플레이어 레벨 검사후 업그레이드 활성/비활성화
+        //if(GameManager.playerManager.level < upgradeComponent.RequirePlayerLv)
+        //    return false;
+
+        if (upgradeComponent.UpgradeGrade >= grade.Count)
+            return false;
+
+        //for (int i = 0; i < requireItemIds.Count; ++i)
         //{
-        //    if(im.ownItemList.GetValueOrDefault(i) >= requireItemNums[i])
+        //    if (requireItemNums[i] <= im.ownItemList.GetValueOrDefault(i))
         //    {
-        //        ColorBlock colorBlock = upgrade.colors;
-        //        colorBlock.normalColor = Color.green;
-        //        upgrade.colors = colorBlock;
+        //        upgrade.targetGraphic.color = Color.green;
+        //        //ColorBlock colorBlock = upgrade.colors;
+        //        //colorBlock.normalColor = Color.green;
+        //        //upgrade.colors = colorBlock;
         //        resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.gray;
         //    }
         //    else
         //    {
-        //        ColorBlock colorBlock = upgrade.colors;
-        //        colorBlock.normalColor = Color.gray;
-        //        upgrade.colors = colorBlock;
+        //        upgrade.targetGraphic.color = Color.gray;
+        //        //ColorBlock colorBlock = upgrade.colors;
+        //        //colorBlock.normalColor = Color.gray;
+        //        //upgrade.colors = colorBlock;
         //        resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
+        //        check = false;
         //    }
         //}
-
-        foreach (var resource in resourceList)
-        {
-            if (resource.GetComponentInChildren<TextMeshProUGUI>().color == Color.red)
-                return false;
-        }
-        return true;
+        return check;
     }
 
     public void SetLastUpgrade()
