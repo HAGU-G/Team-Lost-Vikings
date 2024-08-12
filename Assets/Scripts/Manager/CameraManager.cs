@@ -2,20 +2,26 @@
 
 public class CameraManager : MonoBehaviour
 {
-    //private float moveSpeed = 100f;
-    //private float zoomSpeed = 4f;
-    //private float minFov = 15f;
-    //private float maxFov = 90f;
-
-    private Vector2? lastPanPosition;
-    private int fingerId;
-    private bool wasZoomingLastFrame;
-    private Vector2[] lastZoomPositions;
-
     private bool IsReady;
     private GridMap gridMap;
     public LOCATION LookLocation { get; private set; }
     public int HuntZoneNum { get; private set; }
+
+    public float minZoom = 5f;
+    public float maxZoom = 30f;
+    public float zoomMagnification = 0.05f;
+    private float _zoomValue;
+    public float ZoomValue
+    {
+        get
+        {
+            return _zoomValue;
+        }
+        set
+        {
+            _zoomValue = Mathf.Clamp(value, minZoom, maxZoom);
+        }
+    }
 
     private void Awake()
     {
@@ -25,8 +31,8 @@ public class CameraManager : MonoBehaviour
             return;
         }
         GameManager.cameraManager = this;
-
         GameManager.Subscribe(EVENT_TYPE.START, OnGameStart);
+        ZoomValue = Camera.main.orthographicSize;
     }
 
     private void OnGameStart()
@@ -47,22 +53,16 @@ public class CameraManager : MonoBehaviour
             SetPosition(transform.position - im.WorldDeltaPos);
         }
 
-        if(im.Moved && im.receiver.Received && GameManager.villageManager.constructMode.isConstructMode)
+        if (im.Moved && im.receiver.Received && GameManager.villageManager.constructMode.isConstructMode)
         {
             SetPosition(transform.position - im.WorldDeltaPos);
         }
 
-        //float horizontal = Input.GetAxis("Horizontal");
-        //float vertical = Input.GetAxis("Vertical");
-
-        //Vector3 movement = new Vector3(horizontal, vertical, 0);
-        //transform.Translate(movement * moveSpeed * Time.deltaTime, Space.World);
-
-        //float fov = Camera.main.orthographicSize;
-        //fov -= Input.GetAxis("Mouse ScrollWheel") * zoomSpeed;
-        //fov = Mathf.Clamp(fov, minFov, maxFov);
-        //Camera.main.orthographicSize = fov;
-
+        if (!GameManager.uiManager.isWindowOn)
+        {
+            ZoomValue -= im.Zoom * zoomMagnification;
+            Camera.main.orthographicSize = ZoomValue;
+        }
     }
 
 
