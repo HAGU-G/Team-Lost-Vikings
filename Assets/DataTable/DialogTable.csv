@@ -1,0 +1,5 @@
+대화스크립트Id,대화그룹,화자,초상화,초상화 표시위치,대화내용,스킵가능
+int,int,string,string,int,string,int
+Id,DialogGroup,SpeakerName,ImageFileName,ImageMarker,DialogText,SkipBtnEnable
+100,1,나님,0,1,등장,1
+101,1,너님,0,2,또 등장,2

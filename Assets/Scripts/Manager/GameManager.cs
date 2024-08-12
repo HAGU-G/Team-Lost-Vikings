@@ -1,5 +1,6 @@
 ﻿//임시로 사용 중
 
+using JetBrains.Annotations;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -21,16 +22,17 @@ public static class GameManager
     public static VillageManager villageManager;
     public static HuntZoneManager huntZoneManager;
     public static UIManager uiManager;
-    public static UnitManager unitManager;
+    public static UnitManager unitManager = null;
     public static InputManager inputManager;
-    public static PlayerManager playerManager;
-    public static QuestManager questManager;
-    public static ItemManager itemManager;
+    public static PlayerManager playerManager = null;
+    public static QuestManager questManager = null;
+    public static ItemManager itemManager = null;
     public static CameraManager cameraManager;
     public static SoundManager soundManager;
 
     private static IDictionary<EVENT_TYPE, UnityEvent> events = new Dictionary<EVENT_TYPE, UnityEvent>();
 
+    private static float prevTimeScale;
 
     public static void Subscribe(EVENT_TYPE eventType, in UnityAction listener)
     {
@@ -80,6 +82,7 @@ public static class GameManager
         itemManager ??= new();
         unitManager ??= new();
         unitManager.LoadUnits();
+        questManager ??= new();
 
         Publish(EVENT_TYPE.START);
     }
@@ -97,5 +100,18 @@ public static class GameManager
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
+    }
+
+    public static void GamePause()
+    {
+        Publish(EVENT_TYPE.PAUSE);
+        prevTimeScale = Time.timeScale;
+        Time.timeScale = 0f;
+    }
+
+    public static void GameResume()
+    {
+        Publish(EVENT_TYPE.RESUME);
+        Time.timeScale = prevTimeScale;
     }
 }
