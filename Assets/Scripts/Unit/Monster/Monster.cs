@@ -69,7 +69,7 @@ public class Monster : CombatUnit, ISubject<Monster>
         var dropData = DataTableManager.dropTable.GetData(stats.Data.DropId);
         var itemList = GameManager.itemManager.ownItemList;
 
-        GameManager.itemManager.Gold += dropData.DropGold();
+        GameManager.itemManager.AddGold(dropData.DropGold());
         foreach (var itemID in dropData.DropItem())
         {
             if (itemList.ContainsKey(itemID))

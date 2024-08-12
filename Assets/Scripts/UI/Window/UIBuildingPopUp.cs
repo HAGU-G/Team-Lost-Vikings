@@ -79,7 +79,7 @@ public class UIBuildingPopUp : UIWindow
     {
         vm.village.upgrade = upgradeComponent;
         vm.village.Upgrade();
-        im.Gold -= UpgradeData.GetUpgradeData(upgradeComponent.UpgradeId, upgradeComponent.UpgradeGrade).RequireGold;
+        im.SpendGold(UpgradeData.GetUpgradeData(upgradeComponent.UpgradeId, upgradeComponent.UpgradeGrade).RequireGold);
 
         //for (int i = 0; i < kindOfResource; ++i)
         //{
