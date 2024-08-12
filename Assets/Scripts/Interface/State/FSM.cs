@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class FSM<T>
 {
@@ -51,6 +52,7 @@ public class FSM<T>
 
         state.EnterState();
         currentState = state;
+        Debug.Log($"{Time.time}: {currentState.ToString()}");
 
         return true;
     }

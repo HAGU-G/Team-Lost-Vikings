@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
+using static UnityEngine.UI.CanvasScaler;
 
 public class UIConstructMode : UIWindow
 {
@@ -31,6 +32,8 @@ public class UIConstructMode : UIWindow
     private UIBuildingDetail buildingDetail;
     private bool isReplacing = false;
 
+    private List<UnitOnVillage> prevMovingUnits = new();
+    private List<UnitOnVillage> prevInteractingUnits = new();
     protected override void Awake()
     {
         base.Awake();
@@ -167,7 +170,9 @@ public class UIConstructMode : UIWindow
                 var pos = GameManager.inputManager.WorldPos;
                 var index = vm.gridMap.PosToIndex(pos);
                 var tile = vm.gridMap.GetTile(index.x, index.y);
-                
+
+                SavePrevUnits();
+
                 if (constructMode.construct.ForceRemovingBuilding(um.currentNormalBuidling, vm.gridMap))
                 {
                     foreach(var data in buildingDatas)
@@ -181,22 +186,26 @@ public class UIConstructMode : UIWindow
                     var b = buildingDetail.ConstructBuilding(tile);
                     if (b == null)
                     {
-                        var obj = buildingDetail.ConstructBuilding(prevTile);
+                        var obj = buildingDetail.ConstructBuilding(prevTile); 
+                        um.currentNormalBuidling = obj.GetComponent<Building>();
+                        if (um.currentNormalBuidling.StructureType == STRUCTURE_TYPE.PARAMETER_RECOVERY)
+                        {
+                            ReplaceFailParameterHandle();
+                        }
+                        Debug.Log("설치할 수 없는 위치입니다.");
                         if (isFlip)
                         {
                             obj.GetComponent<Building>().RotateBuilding(obj.GetComponent<Building>());
                         }
-                        um.currentNormalBuidling = obj.GetComponent<Building>();
-                        Debug.Log("설치할 수 없는 위치입니다.");
+                        
                     }
-
-                    if (um.currentNormalBuidling.StructureType == STRUCTURE_TYPE.PARAMETER_RECOVERY)
+                    else if (um.currentNormalBuidling.StructureType == STRUCTURE_TYPE.PARAMETER_RECOVERY)
                     {
-                        ParameterHandle();
-                    }
-                    if (isFlip)
-                    {
-                        b.GetComponent<Building>().RotateBuilding(b.GetComponent<Building>());
+                        ParameterHandle(); 
+                        if (isFlip)
+                        {
+                            b.GetComponent<Building>().RotateBuilding(b.GetComponent<Building>());
+                        }
                     }
                 }
                 else
@@ -227,8 +236,36 @@ public class UIConstructMode : UIWindow
 
         for(int i = interactingUnits.Count -1; i >= 0; --i)
         {
-            interactingUnits[i].isRecoveryQuited = true;
             interactingUnits[i].UpdateDestination(building.gameObject);
+            interactingUnits[i].isRecoveryQuited = true;
+        }
+    }
+
+    private void SavePrevUnits()
+    {
+        var building = um.currentNormalBuidling;
+
+        var parameterBuilding = building?.GetComponent<ParameterRecoveryBuilding>();
+        if (parameterBuilding == null)
+            return;
+        prevMovingUnits = parameterBuilding.movingUnits;
+        prevInteractingUnits = parameterBuilding.interactingUnits;
+    }
+
+    private void ReplaceFailParameterHandle()
+    {
+        var building = um.currentNormalBuidling;
+        for(int i = prevMovingUnits.Count -1; i >= 0; --i)
+        {
+            prevMovingUnits[i].UpdateDestination(building.gameObject);
+        }
+
+        Debug.Log($"interactingUnits : {prevInteractingUnits.Count}");
+
+        for (int i = prevInteractingUnits.Count - 1; i >= 0; --i)
+        {
+            prevInteractingUnits[i].isRecoveryQuited = true;
+            prevInteractingUnits[i].UpdateDestination(building.gameObject);
         }
     }
 
