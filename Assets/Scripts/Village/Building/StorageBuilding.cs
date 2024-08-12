@@ -1,18 +1,23 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StorageBuilding : MonoBehaviour
+public class StorageBuilding : MonoBehaviour, IInteractableWithPlayer
 {
-    // Start is called before the first frame update
-    void Start()
+    private int _defaultGoldLimit = 4000;
+    public int DefaultGoldLimit
+    {
+        get { return _defaultGoldLimit; }
+        set { _defaultGoldLimit = value; }
+    }
+
+    public void InteractWithPlayer()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public void UpgradeGoldLimit(int gold)
     {
-        
+        GameManager.itemManager.goldLimit = gold;
     }
 }

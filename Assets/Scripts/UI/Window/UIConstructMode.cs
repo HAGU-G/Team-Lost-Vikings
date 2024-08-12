@@ -74,13 +74,8 @@ public class UIConstructMode : UIWindow
         constructMode.construct.RemoveBuilding(um.currentNormalBuidling, vm.gridMap);
         destroyPopUp.SetActive(false);
 
-        var statUp = um.currentNormalBuidling.GetComponent<StatUpgradeBuilding>();
-        if (um.currentNormalBuidling.StructureType == STRUCTURE_TYPE.STAT_UPGRADE)
-        {
-            statUp.upgradeValue = 0;
-            statUp.RiseStat();
-            GameManager.unitManager.UnitUpgrade();
-        }
+        ResetBuildingEffection(um.currentNormalBuidling);
+        
         //TO-DO : 아이템 추가 후 재화 돌려받는 내용 적기
 
         foreach (var buildingData in buildingDatas)
@@ -471,6 +466,14 @@ public class UIConstructMode : UIWindow
                 statUp.RiseStat();
                 GameManager.unitManager.UnitUpgrade();
                 break;
+            case STRUCTURE_TYPE.PROGRESS:
+                if(building.StructureId == (int)STRUCTURE_ID.STORAGE)
+                {
+                    var storage = building.GetComponent<StorageBuilding>();
+                    var upgrade = building.GetComponent<BuildingUpgrade>();
+                    storage.UpgradeGoldLimit((int)upgrade.ProgressVarReturn);
+                }
+                break;
 
         }
     }
@@ -478,6 +481,22 @@ public class UIConstructMode : UIWindow
     private void ResetBuildingEffection(Building building)
     {
         var type = building.StructureType;
-
+        switch (type)
+        {
+            case STRUCTURE_TYPE.STAT_UPGRADE:
+                var statUp = um.currentNormalBuidling.GetComponent<StatUpgradeBuilding>();
+                statUp.upgradeValue = 0;
+                statUp.RiseStat();
+                GameManager.unitManager.UnitUpgrade();
+                break;
+            case STRUCTURE_TYPE.PROGRESS:
+                if (building.StructureId == (int)STRUCTURE_ID.STORAGE)
+                {
+                    var storage = building.GetComponent<StorageBuilding>();
+                    var upgrade = building.GetComponent<BuildingUpgrade>();
+                    storage.UpgradeGoldLimit(storage.DefaultGoldLimit);
+                }
+                break;
+        }
     }
 }

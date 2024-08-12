@@ -177,7 +177,7 @@ public class UIDevelop : MonoBehaviour
     public void GoldCheat()
     {
 
-        GameManager.itemManager.AddGold(10000);
+        GameManager.itemManager.AddGold(1000);
     }
 
     public void SetConstructMode()

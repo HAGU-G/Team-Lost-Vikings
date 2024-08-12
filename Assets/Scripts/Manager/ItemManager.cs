@@ -25,9 +25,12 @@ public class ItemManager
 
     public bool AddGold(int amount)
     {
-        if(Gold + amount > goldLimit)
+        if(Gold + amount >= goldLimit)
         {
-            Gold = goldLimit;
+            if (Gold < goldLimit)
+            {
+                Gold = goldLimit;
+            }
             return false;
         }
 
