@@ -10,7 +10,7 @@ public enum TABLE_NAME
 
 public static class DataTableManager
 {
-    public static Table<int, PlayerData> playerTable = new("Assets/DataTable/PlayerTable.csv"); 
+    public static Table<int, PlayerData> playerTable = new("Assets/DataTable/LevelTable.csv"); 
 
     public static Table<int, SkillData> skillTable = new("Assets/DataTable/SkillTable.csv");
     public static Table<int, SkillPool> skillPoolTable = new("Assets/DataTable/SkillPoolTable.csv");
@@ -30,9 +30,11 @@ public static class DataTableManager
     {
         handles = new()
         {
-            unitTable.Load(),
+            playerTable.Load(),
+
             skillTable.Load(),
             skillPoolTable.Load(),
+            unitTable.Load(),
 
             huntZoneTable.Load(),
             dropTable.Load(),
