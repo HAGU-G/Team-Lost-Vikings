@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class UnitOnVillage : Unit
@@ -12,7 +13,17 @@ public class UnitOnVillage : Unit
     public List<Cell> destinationTiles = new();
     public VillageManager villageManager;
     public UnitMove unitMove;
-    public bool isRecoveryQuited = false;
+
+    private bool isRecoveryQuitedTest = false;
+    public bool isRecoveryQuited
+    {
+        get { return isRecoveryQuitedTest; } 
+        set 
+        {
+            isRecoveryQuitedTest = value;
+            Debug.Log($"isRecoveryQuitedTest: {isRecoveryQuitedTest}", gameObject);
+        }
+    }
     public bool isReviveQuited = false;
 
     private float timer = 0f;
@@ -65,7 +76,7 @@ public class UnitOnVillage : Unit
         timer += Time.deltaTime;
         if (timer >= debugTime)
         {
-            Debug.Log($"str : {stats.BaseStr}, hp : {stats.BaseHP}");
+            Debug.Log($"unit : {stats.Id} / combatPoint : {stats.CombatPoint}");
             timer = 0f;
         }
 
@@ -118,6 +129,9 @@ public class UnitOnVillage : Unit
     public void UpdateDestination(GameObject newDestination)
     {
         destination = newDestination;
-        VillageFSM.ChangeState((int)STATE.IDLE);
+        if(currentState == STATE.GOTO)
+        {
+            VillageFSM.ChangeState((int)STATE.IDLE);
+        }
     }
 }

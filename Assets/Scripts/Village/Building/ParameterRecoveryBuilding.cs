@@ -9,7 +9,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
 {
     public Building building;
     public PARAMETER_TYPE parameterType;
-   // private UnitOnVillage unit;
+    private UnitOnVillage unit;
     public List<UnitOnVillage> interactingUnits;
     public List<UnitOnVillage> movingUnits;
     public int recoveryAmount;
@@ -47,13 +47,13 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
 
         while (true)
         {
-            if(unit.isRecoveryQuited)
-            {
-                interactingUnits.Remove(unit);
-                unit.RecoveryAgain(parameterType);
-                unit.isRecoveryQuited = false;
-                break;
-            }
+            //if(unit.isRecoveryQuited)
+            //{
+            //    interactingUnits.Remove(unit);
+            //    unit.RecoveryAgain(parameterType);
+            //    unit.isRecoveryQuited = false;
+            //    break;
+            //}
 
             switch (parameterType)
             {
@@ -116,7 +116,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
 
     public void SetUnit(UnitOnVillage unit)
     {
-       // this.unit = unit;
+       this.unit = unit;
     }
 
     public void SetParameter(PARAMETER_TYPE parameterType)

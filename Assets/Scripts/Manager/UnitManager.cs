@@ -228,4 +228,16 @@ public class UnitManager
             }
         }
     }
+
+    public void UnitUpgrade()
+    {
+        foreach (var unit in Units)
+        {
+            unit.Value.SetUpgradeStats();
+        }
+        foreach (var unit in DeadUnits)
+        {
+            unit.Value.SetUpgradeStats();
+        }
+    }
 }

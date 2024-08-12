@@ -4,12 +4,16 @@
     STR,
     WIZ,
     AGI,
-    VIT,
     CRIT_CHANCE,
     CRIT_WEIGHT,
     HP,
     STAMINA,
-    MENTAL
+    MENTAL,
+    WARRIOR_WEIGHT,
+    MAGICIAN_WEIGHT,
+    ARCHER_WEIGHT,
+    ATTACK_SPEED,
+    VIT,
 }
 
 public enum PARAMETER_TYPE

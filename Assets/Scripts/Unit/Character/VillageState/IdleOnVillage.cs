@@ -12,7 +12,7 @@ public class IdleOnVillage : State<UnitOnVillage>
     {
         owner.currentState = UnitOnVillage.STATE.IDLE;
         isIdle = false;
-
+        owner.isRecoveryQuited = false;
     }
 
     public override void ExitState()

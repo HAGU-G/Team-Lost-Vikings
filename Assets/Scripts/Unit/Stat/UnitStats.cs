@@ -91,9 +91,26 @@ public class UnitStats
     {
         get
         {
-            return GetWeightedStat(BaseStr.Current, StrWeight.Current)
+            float weight;
+            switch(Data.Job)
+            {
+                case UNIT_JOB.WARRIOR:
+                    weight = GameManager.playerManager.warriorWeight.Current;
+                    break;
+                case UNIT_JOB.MAGICIAN:
+                    weight = GameManager.playerManager.magicianWeight.Current;
+                    break;
+                case UNIT_JOB.ARCHER:
+                    weight = GameManager.playerManager.archerWeight.Current;
+                    break;
+                default:
+                    weight = 0f;
+                    break;
+            }
+
+            return Mathf.FloorToInt((GetWeightedStat(BaseStr.Current, StrWeight.Current)
             + GetWeightedStat(BaseWiz.Current, WizWeight.Current)
-            + GetWeightedStat(BaseAgi.Current, AgiWeight.Current);
+            + GetWeightedStat(BaseAgi.Current, AgiWeight.Current)) * (1f + (weight / 100f)));
         }
     }
     public float AttackTimer { get; set; }
@@ -140,6 +157,9 @@ public class UnitStats
         BaseStr.SetUpgrade(GameManager.playerManager.unitStr);
         BaseWiz.SetUpgrade(GameManager.playerManager.unitMag);
         BaseAgi.SetUpgrade(GameManager.playerManager.unitAgi);
+
+        CritChance.SetUpgrade(GameManager.playerManager.unitCritChance);
+        CritWeight.SetUpgrade(GameManager.playerManager.unitCritWeight);
 
         BaseHP.SetUpgrade(GameManager.playerManager.unitHp);
         BaseStamina.SetUpgrade(GameManager.playerManager.unitStamina);

@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
+using static UnityEngine.UI.CanvasScaler;
 
 public class UIConstructMode : UIWindow
 {
@@ -31,6 +32,8 @@ public class UIConstructMode : UIWindow
     private UIBuildingDetail buildingDetail;
     private bool isReplacing = false;
 
+    private List<UnitOnVillage> prevMovingUnits = new();
+    private List<UnitOnVillage> prevInteractingUnits = new();
     protected override void Awake()
     {
         base.Awake();
@@ -76,6 +79,7 @@ public class UIConstructMode : UIWindow
         {
             statUp.upgradeValue = 0;
             statUp.RiseStat();
+            GameManager.unitManager.UnitUpgrade();
         }
         //TO-DO : 아이템 추가 후 재화 돌려받는 내용 적기
 
@@ -143,10 +147,13 @@ public class UIConstructMode : UIWindow
                 var tile = vm.gridMap.GetTile(index.x, index.y);
 
                 var constructObj = buildingDetail.ConstructBuilding(tile);
-                if(constructObj != null)
+                if (constructObj != null)
                 {
                     buildingDetail.isConstructing = false;
                     buildings.TryGetValue(um.currentBuildingData, out var obj);
+
+                    ApplyBuildingEffection(constructObj.GetComponent<Building>());
+                    
                     CheckBuildingButton(um.currentBuildingData, obj);
                     SortBuildingButtons();
                 }
@@ -167,7 +174,9 @@ public class UIConstructMode : UIWindow
                 var pos = GameManager.inputManager.WorldPos;
                 var index = vm.gridMap.PosToIndex(pos);
                 var tile = vm.gridMap.GetTile(index.x, index.y);
-                
+
+                SavePrevUnits();
+
                 if (constructMode.construct.ForceRemovingBuilding(um.currentNormalBuidling, vm.gridMap))
                 {
                     foreach(var data in buildingDatas)
@@ -181,22 +190,26 @@ public class UIConstructMode : UIWindow
                     var b = buildingDetail.ConstructBuilding(tile);
                     if (b == null)
                     {
-                        var obj = buildingDetail.ConstructBuilding(prevTile);
+                        var obj = buildingDetail.ConstructBuilding(prevTile); 
+                        um.currentNormalBuidling = obj.GetComponent<Building>();
+                        if (um.currentNormalBuidling.StructureType == STRUCTURE_TYPE.PARAMETER_RECOVERY)
+                        {
+                            ReplaceFailParameterHandle();
+                        }
+                        Debug.Log("설치할 수 없는 위치입니다.");
                         if (isFlip)
                         {
                             obj.GetComponent<Building>().RotateBuilding(obj.GetComponent<Building>());
                         }
-                        um.currentNormalBuidling = obj.GetComponent<Building>();
-                        Debug.Log("설치할 수 없는 위치입니다.");
+                        
                     }
-
-                    if (um.currentNormalBuidling.StructureType == STRUCTURE_TYPE.PARAMETER_RECOVERY)
+                    else if (um.currentNormalBuidling.StructureType == STRUCTURE_TYPE.PARAMETER_RECOVERY)
                     {
-                        ParameterHandle();
-                    }
-                    if (isFlip)
-                    {
-                        b.GetComponent<Building>().RotateBuilding(b.GetComponent<Building>());
+                        ParameterHandle(); 
+                        if (isFlip)
+                        {
+                            b.GetComponent<Building>().RotateBuilding(b.GetComponent<Building>());
+                        }
                     }
                 }
                 else
@@ -223,12 +236,37 @@ public class UIConstructMode : UIWindow
         }
 
         var interactingUnits = parameterBuilding.interactingUnits;
-        Debug.Log($"interactingUnits : {interactingUnits.Count}");
 
         for(int i = interactingUnits.Count -1; i >= 0; --i)
         {
-            interactingUnits[i].isRecoveryQuited = true;
             interactingUnits[i].UpdateDestination(building.gameObject);
+            interactingUnits[i].isRecoveryQuited = true;
+        }
+    }
+
+    private void SavePrevUnits()
+    {
+        var building = um.currentNormalBuidling;
+
+        var parameterBuilding = building?.GetComponent<ParameterRecoveryBuilding>();
+        if (parameterBuilding == null)
+            return;
+        prevMovingUnits = parameterBuilding.movingUnits;
+        prevInteractingUnits = parameterBuilding.interactingUnits;
+    }
+
+    private void ReplaceFailParameterHandle()
+    {
+        var building = um.currentNormalBuidling;
+        for(int i = prevMovingUnits.Count -1; i >= 0; --i)
+        {
+            prevMovingUnits[i].UpdateDestination(building.gameObject);
+        }
+
+        for (int i = prevInteractingUnits.Count - 1; i >= 0; --i)
+        {
+            prevInteractingUnits[i].isRecoveryQuited = true;
+            prevInteractingUnits[i].UpdateDestination(building.gameObject);
         }
     }
 
@@ -260,6 +298,13 @@ public class UIConstructMode : UIWindow
             button.onClick.AddListener
             (() =>
             {
+                //foreach(var building in vm.objectList.Values)
+                //{
+                //    if(building.GetComponent<Building>().StructureId == buildingData.StructureId)
+                //    {
+                //        um.currentNormalBuidling = building.GetComponent<Building>();
+                //    }
+                //}
                 um.currentBuildingData = buildingData;
                 var buildingDetailWindow = GameManager.uiManager.windows[WINDOW_NAME.BUILDING_DETAIL] as UIBuildingDetail;
                 if (buildingDetailWindow != null)
@@ -413,5 +458,26 @@ public class UIConstructMode : UIWindow
             }
         }
         return null;
+    }
+
+    private void ApplyBuildingEffection(Building building)
+    {
+        var type = building.StructureType;
+        switch(type)
+        {
+            case STRUCTURE_TYPE.STAT_UPGRADE:
+                var statUp = building.GetComponent<StatUpgradeBuilding>();
+                statUp.SetUpgradeStat(building);
+                statUp.RiseStat();
+                GameManager.unitManager.UnitUpgrade();
+                break;
+
+        }
+    }
+
+    private void ResetBuildingEffection(Building building)
+    {
+        var type = building.StructureType;
+
     }
 }

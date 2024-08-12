@@ -57,8 +57,26 @@ public class StatUpgradeBuilding : MonoBehaviour, IInteractableWithPlayer
             case STAT_TYPE.MENTAL:
                 GameManager.playerManager.unitMental.defaultValue = upgradeValue;
                 break;
+            case STAT_TYPE.WARRIOR_WEIGHT:
+                GameManager.playerManager.warriorWeight.defaultValue = upgradeValue;
+                break;
+            case STAT_TYPE.MAGICIAN_WEIGHT:
+                GameManager.playerManager.magicianWeight.defaultValue = upgradeValue;
+                break;
+            case STAT_TYPE.ARCHER_WEIGHT:
+                GameManager.playerManager.archerWeight.defaultValue = upgradeValue;
+                break;
         }
         GameManager.Publish(EVENT_TYPE.UPGRADE);
+    }
+
+    public void SetUpgradeStat(Building obj)
+    {
+        var buildingUpgrade = obj.GetComponent<BuildingUpgrade>();
+        var id = obj.UpgradeId;
+        var upgradeData = DataTableManager.upgradeTable.GetData(id);
+        upgradeValue = upgradeData[buildingUpgrade.UpgradeGrade - 1].StatReturn;
+        upgradeStat = upgradeData[buildingUpgrade.UpgradeGrade - 1].StatType;
     }
 
     public void SetUnits(List<UnitOnVillage> units)
