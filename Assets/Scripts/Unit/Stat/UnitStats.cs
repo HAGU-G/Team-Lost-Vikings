@@ -303,7 +303,6 @@ public class UnitStats
         {
             AttackTimer += deltaTime;
         }
-
         UpdateBuff(deltaTime);
     }
 

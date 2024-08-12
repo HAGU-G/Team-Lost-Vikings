@@ -1,5 +1,6 @@
 ﻿using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 using static UnityEngine.GraphicsBuffer;
 
 public class UseSkillOnHunt : State<CombatUnit>
@@ -68,7 +69,7 @@ public class UseSkillOnHunt : State<CombatUnit>
         }
 
         if (target != null && !target.IsDead && target.gameObject.activeSelf)
-        { 
+        {
             targetPos = target.transform.position;
             owner.LookAt(target.transform);
         }
@@ -78,7 +79,10 @@ public class UseSkillOnHunt : State<CombatUnit>
         }
 
         isPlaying = true;
-        owner.animator.AnimSkill(skill.Data.SkillAnime, skill.Data.SkillCastTime);
+        if (skill.Data.SkillCastTime <= 0f)
+            UseSkill();
+        else
+            owner.animator.AnimSkill(skill.Data.SkillAnime, skill.Data.SkillCastTime);
 
         owner.isTargetFixed = true;
         timer = 0f;

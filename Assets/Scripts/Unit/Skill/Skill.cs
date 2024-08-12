@@ -29,17 +29,18 @@ public class Skill
                 SKILL_ACTIVE_TYPE.NONE => false,
                 SKILL_ACTIVE_TYPE.ALWAYS => false,
                 SKILL_ACTIVE_TYPE.COOLTIME => (CurrentActiveValue <= 0),
-                SKILL_ACTIVE_TYPE.BASIC_ATTACK_PROBABILITY => (Random.value <= Data.SkillActiveValue),
+                SKILL_ACTIVE_TYPE.BASIC_ATTACK_PROBABILITY => isRandomActive,
                 SKILL_ACTIVE_TYPE.BASIC_ATTACK_COUNT => (CurrentActiveValue >= Data.SkillActiveValue),
                 _ => false
             };
         }
     }
+    private bool isRandomActive = false;
 
     public Skill(SkillData data, UnitStats owner)
     {
         Init(data, owner);
-        ResetActiveValue();
+        ResetActiveValue(true);
     }
 
     private void Init(SkillData data, UnitStats owner)
@@ -72,9 +73,7 @@ public class Skill
             return;
 
         var combatUnit = owner.objectTransform.GetComponent<CombatUnit>();
-
-        if (combatUnit == null)
-            return;
+        var unit = owner.objectTransform.GetComponent<Unit>();
 
         switch (Data.SkillActiveType)
         {
@@ -85,15 +84,18 @@ public class Skill
                 break;
 
             case SKILL_ACTIVE_TYPE.COOLTIME:
-                combatUnit.OnUpdated += ConditionUpdate;
+                if (unit != null)
+                    combatUnit.OnUpdated += ConditionUpdate;
 
                 break;
             case SKILL_ACTIVE_TYPE.BASIC_ATTACK_PROBABILITY:
-                combatUnit.OnAttacked += ConditionUpdate;
+                if (combatUnit != null)
+                    combatUnit.OnAttacked += ConditionUpdate;
                 break;
 
             case SKILL_ACTIVE_TYPE.BASIC_ATTACK_COUNT:
-                combatUnit.OnAttacked += ConditionUpdate;
+                if (combatUnit != null)
+                    combatUnit.OnAttacked += ConditionUpdate;
                 break;
 
             default:
@@ -126,6 +128,8 @@ public class Skill
                 break;
 
             case SKILL_ACTIVE_TYPE.BASIC_ATTACK_PROBABILITY:
+                var value = Random.value;
+                isRandomActive |= (value <= Data.SkillActiveValue);
                 break;
 
             case SKILL_ACTIVE_TYPE.BASIC_ATTACK_COUNT:
@@ -146,7 +150,7 @@ public class Skill
     }
 
 
-    public void ResetActiveValue()
+    public void ResetActiveValue(bool canActive = false)
     {
         switch (Data.SkillActiveType)
         {
@@ -155,9 +159,10 @@ public class Skill
             case SKILL_ACTIVE_TYPE.ALWAYS:
                 break;
             case SKILL_ACTIVE_TYPE.COOLTIME:
-                CurrentActiveValue = Data.SkillActiveValue;
+                CurrentActiveValue = canActive ? 0f : Data.SkillActiveValue;
                 break;
             case SKILL_ACTIVE_TYPE.BASIC_ATTACK_PROBABILITY:
+                isRandomActive = false;
                 break;
             case SKILL_ACTIVE_TYPE.BASIC_ATTACK_COUNT:
                 CurrentActiveValue = 0;
