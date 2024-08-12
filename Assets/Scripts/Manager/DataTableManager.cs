@@ -22,6 +22,10 @@ public static class DataTableManager
     public static Table<int, BuildingData> buildingTable = new("Assets/DataTable/BuildingTable.csv");
     public static TableDuplicatedID<int, UpgradeData> upgradeTable = new("Assets/DataTable/UpgradeTable.csv");
 
+    public static Table<int, AchievementData> achievementTable = new("Assets/DataTable/AchievementTable.csv");
+    public static Table<int, DialogData> dialogTable = new("Assets/DataTable/DialogTable.csv");
+    public static Table<int, Quest> questTable = new("Assets/DataTable/QuestTable.csv");
+
     public static List<AsyncOperationHandle> handles;
     public static float progress = 0f;
     public static bool IsReady = false;
@@ -41,6 +45,10 @@ public static class DataTableManager
 
             buildingTable.Load(),
             upgradeTable.Load(),
+
+            achievementTable.Load(),
+            dialogTable.Load(),
+            questTable.Load(),
         };
     }
 
