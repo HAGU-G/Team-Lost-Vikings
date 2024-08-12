@@ -114,6 +114,7 @@ public class UIBuildingDetail : UIWindow
     {
         if (vm.objectList.TryGetValue(um.currentBuildingData.StructureId, out var building))
         {
+            Debug.Log(building.GetComponent<RecruitBuilding>());
             var obj = vm.constructMode.construct.PlaceBuilding(building, cell, vm.gridMap);
             if (obj == null)
                 return null;

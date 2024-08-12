@@ -149,6 +149,11 @@ public class BuildingUpgrade : MonoBehaviour
                 {
                     hotel.UpgradeUnitLimit((int)ProgressVarReturn);
                 }
+                var recruit = GetComponent<RecruitBuilding>();
+                if(recruit != null)
+                {
+                    recruit.UpgradeUnlockLevel((int)ProgressVarReturn);
+                }
                 break;
         }
     }

@@ -479,6 +479,12 @@ public class UIConstructMode : UIWindow
                     var upgrade = building.GetComponent<BuildingUpgrade>();
                     hotel.UpgradeUnitLimit((int)upgrade.ProgressVarReturn);
                 }
+                else if(building.StructureId == (int)STRUCTURE_ID.RECRUIT)
+                {
+                    var recruit = building.GetComponent<RecruitBuilding>();
+                    var upgrade = building.GetComponent<BuildingUpgrade>();
+                    recruit.UpgradeUnlockLevel((int)upgrade.ProgressVarReturn);
+                }
                 break;
 
         }
@@ -499,7 +505,7 @@ public class UIConstructMode : UIWindow
                 if (building.StructureId == (int)STRUCTURE_ID.STORAGE)
                 {
                     var storage = building.GetComponent<StorageBuilding>();
-                    var upgrade = building.GetComponent<BuildingUpgrade>();
+                    //var upgrade = building.GetComponent<BuildingUpgrade>();
                     storage.UpgradeGoldLimit(storage.DefaultGoldLimit);
                 }
                 else if(building.StructureId == (int)STRUCTURE_ID.HOTEL)
@@ -507,6 +513,12 @@ public class UIConstructMode : UIWindow
                     var hotel = building.GetComponent<HotelBuilding>();
                     var limit = GameManager.unitManager.unitLimitCount;
                     hotel.UpgradeUnitLimit(limit);
+                }
+                else if(building.StructureId == (int)STRUCTURE_ID.RECRUIT)
+                {
+                    var recruit = building.GetComponent<RecruitBuilding>();
+                    var upgrade = building.GetComponent<BuildingUpgrade>();
+                    recruit.UpgradeUnlockLevel(recruit.DefaultGachaUnlockLevel);
                 }
                 break;
         }

@@ -15,6 +15,7 @@ public enum PROGRESS_TYPE
     HOTEL,
     REVIVE,
     STORAGE,
+    RECRUIT,
 }
 
 public enum RECIPE

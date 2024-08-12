@@ -64,7 +64,7 @@ public class UICharacterGacha : UIWindow
 
     public void OnButtonGacha()
     {
-        var result = GameManager.unitManager.GachaCharacter(GameManager.playerManager.level);
+        var result = GameManager.unitManager.GachaCharacter(GameManager.playerManager.recruitLevel);
         im.Gold -= requireGold;
         SetGachaUI();
         var uiResult = GameManager.uiManager.windows[WINDOW_NAME.GACHA_RESULT] as UIGachaResult;
