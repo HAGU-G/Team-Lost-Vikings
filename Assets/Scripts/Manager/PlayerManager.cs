@@ -14,6 +14,10 @@ public class PlayerManager
     public StatInt unitHp = new();
     public StatInt unitStamina = new();
     public StatInt unitMental = new();
+    public StatFloat warriorWeight = new();
+    public StatFloat magicianWeight = new();
+    public StatFloat archerWeight = new();
+
 
     public Dictionary<int, int> buildingUpgradeGrades = new(); //structureId, upgradeGrade
 }

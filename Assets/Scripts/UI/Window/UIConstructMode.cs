@@ -152,17 +152,8 @@ public class UIConstructMode : UIWindow
                     buildingDetail.isConstructing = false;
                     buildings.TryGetValue(um.currentBuildingData, out var obj);
 
-                    var statUp = constructObj?.GetComponent<StatUpgradeBuilding>();
-                    if(statUp != null
-                        && um.currentBuildingData.StructureType == STRUCTURE_TYPE.STAT_UPGRADE)
-                    {
-                        var building = constructObj.GetComponent<Building>();
-                        statUp.SetUpgradeStat(building);
-                        statUp.RiseStat();
-                        GameManager.unitManager.UnitUpgrade();
-                    }
-
-
+                    ApplyBuildingEffection(constructObj.GetComponent<Building>());
+                    
                     CheckBuildingButton(um.currentBuildingData, obj);
                     SortBuildingButtons();
                 }
@@ -467,5 +458,26 @@ public class UIConstructMode : UIWindow
             }
         }
         return null;
+    }
+
+    private void ApplyBuildingEffection(Building building)
+    {
+        var type = building.StructureType;
+        switch(type)
+        {
+            case STRUCTURE_TYPE.STAT_UPGRADE:
+                var statUp = building.GetComponent<StatUpgradeBuilding>();
+                statUp.SetUpgradeStat(building);
+                statUp.RiseStat();
+                GameManager.unitManager.UnitUpgrade();
+                break;
+
+        }
+    }
+
+    private void ResetBuildingEffection(Building building)
+    {
+        var type = building.StructureType;
+
     }
 }

@@ -57,6 +57,15 @@ public class StatUpgradeBuilding : MonoBehaviour, IInteractableWithPlayer
             case STAT_TYPE.MENTAL:
                 GameManager.playerManager.unitMental.defaultValue = upgradeValue;
                 break;
+            case STAT_TYPE.WARRIOR_WEIGHT:
+                GameManager.playerManager.warriorWeight.defaultValue = upgradeValue;
+                break;
+            case STAT_TYPE.MAGICIAN_WEIGHT:
+                GameManager.playerManager.magicianWeight.defaultValue = upgradeValue;
+                break;
+            case STAT_TYPE.ARCHER_WEIGHT:
+                GameManager.playerManager.archerWeight.defaultValue = upgradeValue;
+                break;
         }
         GameManager.Publish(EVENT_TYPE.UPGRADE);
     }

@@ -76,7 +76,7 @@ public class UnitOnVillage : Unit
         timer += Time.deltaTime;
         if (timer >= debugTime)
         {
-            Debug.Log($"str : {stats.BaseStr}, hp : {stats.BaseHP}");
+            Debug.Log($"unit : {stats.Id} / combatPoint : {stats.CombatPoint}");
             timer = 0f;
         }
 
