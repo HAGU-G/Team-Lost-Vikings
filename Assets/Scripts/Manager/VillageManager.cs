@@ -197,7 +197,7 @@ public class VillageManager : MonoBehaviour
                     }
                     else if(upgradeData.ProgressVarType == (int)PROGRESS_TYPE.HOTEL)
                     {
-
+                        var hotel = b.AddComponent<HotelBuilding>();
                     }
                     break;
             }
