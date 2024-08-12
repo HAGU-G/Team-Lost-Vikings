@@ -16,6 +16,7 @@ public class UnitManager
     [JsonProperty] public Dictionary<int, UnitStats> Waitings { get; private set; } = new();
 
     public bool IsMaxWait => Waitings.Count >= GameSetting.Instance.autoGachaMaxCount;
+    public int unitLimitCount = GameSetting.Instance.defaultUnitLimit;
 
     [JsonProperty] public System.DateTime lastAutoGachaTime = System.DateTime.Now;
     private float autoGachaTimeCorrection = 0f;
@@ -239,5 +240,10 @@ public class UnitManager
         {
             unit.Value.SetUpgradeStats();
         }
+    }
+
+    public void SetUnitLimit(int value)
+    {
+        unitLimitCount = value;
     }
 }

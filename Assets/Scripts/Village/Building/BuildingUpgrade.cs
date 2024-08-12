@@ -142,15 +142,13 @@ public class BuildingUpgrade : MonoBehaviour
                 var storage = GetComponent<StorageBuilding>();
                 if(storage != null)
                 {
-                    Debug.Log(ProgressVarReturn);
                     storage.UpgradeGoldLimit((int)ProgressVarReturn);
                 }
-
-                //var hotel = GetComponent<>();
-                //if(hotel != null)
-                //{
-
-                //}
+                var hotel = GetComponent<HotelBuilding>();
+                if (hotel != null)
+                {
+                    hotel.UpgradeUnitLimit((int)ProgressVarReturn);
+                }
                 break;
         }
     }

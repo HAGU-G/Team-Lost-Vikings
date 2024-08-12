@@ -45,7 +45,7 @@ public class UICharacterGacha : UIWindow
             ColorBlock colorBlock = gacha.colors;
             colorBlock.normalColor = Color.green;
             gacha.colors = colorBlock;
-            gacha.enabled = true;
+            gacha.interactable = true;
             requireGoldText.color = Color.black;
 
         }
@@ -54,16 +54,19 @@ public class UICharacterGacha : UIWindow
             ColorBlock colorBlock = gacha.colors;
             colorBlock.normalColor = Color.gray;
             gacha.colors = colorBlock;
-            gacha.enabled = false;
+            gacha.interactable = false;
             requireGoldText.color = Color.red;
         }
+
+        if (GameManager.unitManager.unitLimitCount <= GameManager.unitManager.Units.Count)
+            gacha.interactable = false;
     }
 
     public void OnButtonGacha()
     {
         var result = GameManager.unitManager.GachaCharacter(GameManager.playerManager.level);
         im.Gold -= requireGold;
-
+        SetGachaUI();
         var uiResult = GameManager.uiManager.windows[WINDOW_NAME.GACHA_RESULT] as UIGachaResult;
         uiResult.SetResult(result);
         uiResult.Open();

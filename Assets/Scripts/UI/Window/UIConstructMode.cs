@@ -473,6 +473,12 @@ public class UIConstructMode : UIWindow
                     var upgrade = building.GetComponent<BuildingUpgrade>();
                     storage.UpgradeGoldLimit((int)upgrade.ProgressVarReturn);
                 }
+                else if(building.StructureId == (int)STRUCTURE_ID.HOTEL)
+                {
+                    var hotel = building.GetComponent<HotelBuilding>();
+                    var upgrade = building.GetComponent<BuildingUpgrade>();
+                    hotel.UpgradeUnitLimit((int)upgrade.ProgressVarReturn);
+                }
                 break;
 
         }
@@ -495,6 +501,12 @@ public class UIConstructMode : UIWindow
                     var storage = building.GetComponent<StorageBuilding>();
                     var upgrade = building.GetComponent<BuildingUpgrade>();
                     storage.UpgradeGoldLimit(storage.DefaultGoldLimit);
+                }
+                else if(building.StructureId == (int)STRUCTURE_ID.HOTEL)
+                {
+                    var hotel = building.GetComponent<HotelBuilding>();
+                    var limit = GameManager.unitManager.unitLimitCount;
+                    hotel.UpgradeUnitLimit(limit);
                 }
                 break;
         }

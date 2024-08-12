@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class HotelBuilding : MonoBehaviour, IInteractableWithPlayer
 {
-    private int _defaultUnitLimit = 4;
-    public int DefaultUnitLimit
-    {
-        get { return _defaultUnitLimit; }
-        set { _defaultUnitLimit = int.MaxValue; }
-    }
+    //private int _defaultUnitLimit = 4;
+    //public int DefaultUnitLimit
+    //{
+    //    get { return _defaultUnitLimit; }
+    //    set { _defaultUnitLimit = int.MaxValue; }
+    //}
 
 
     public void InteractWithPlayer()
@@ -19,7 +19,7 @@ public class HotelBuilding : MonoBehaviour, IInteractableWithPlayer
 
     public void UpgradeUnitLimit(int amount)
     {
-        
+        GameManager.unitManager.SetUnitLimit(amount);
     }
 
 }
