@@ -109,6 +109,7 @@ public class InputManager : MonoBehaviour
                         else if (secondID == touch.finger)
                         {
                             TouchDistance = 0f;
+                            secondID = null;
                         }
                         break;
                 }

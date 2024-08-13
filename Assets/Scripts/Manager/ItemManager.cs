@@ -48,10 +48,7 @@ public class ItemManager
     {
         get
         {
-            if (ownItemList.TryGetValue(GameSetting.Instance.goldID, out int amount))
-                return amount;
-            else
-                return 0;
+            return GetItem(GameSetting.Instance.goldID);
         }
         set
         {
