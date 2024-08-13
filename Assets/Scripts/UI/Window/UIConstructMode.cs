@@ -341,7 +341,7 @@ public class UIConstructMode : UIWindow
 
         var upgradeData = DataTableManager.upgradeTable.GetData(data.UpgradeId)[grade -1];
 
-        foreach (var tile in GameManager.villageManager.gridMap.tiles.Values)
+        foreach (var tile in vm.gridMap.tiles.Values)
         {
             if (!tile.tileInfo.ObjectLayer.IsEmpty
                 && tile.tileInfo.ObjectLayer.LayerObject.GetComponentInChildren<Building>().StructureId == data.StructureId
@@ -354,7 +354,7 @@ public class UIConstructMode : UIWindow
             }
         }
 
-        if (data.UnlockTownLevel > GameManager.playerManager.level)
+        if (data.UnlockTownLevel > vm.VillageHallLevel)
         {
             SetButtonColor(button, false);
             isActive = false;

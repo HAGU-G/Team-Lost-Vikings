@@ -17,8 +17,12 @@ public class VillageManager : MonoBehaviour
     public GameObject roadPrefab;
     public GameObject buildingPrefab;
 
-    private int playerLevel = 1;
-    public int PlayerLevel {  get { return playerLevel; } }
+    private int villagehallLv = 1;
+    public int VillageHallLevel
+    {
+        get { return villagehallLv; }
+        set { villagehallLv = value; }
+    }
 
     private GameObject selectedObj;
 
@@ -35,6 +39,7 @@ public class VillageManager : MonoBehaviour
         GameManager.villageManager = this;
 
         GameManager.Subscribe(EVENT_TYPE.INIT, OnGameInit);
+        GameManager.Subscribe(EVENT_TYPE.START, OnGameStart);
     }
 
 
@@ -45,6 +50,11 @@ public class VillageManager : MonoBehaviour
 
         //TO-DO : saveData가 없을 때만 실행하도록 수정해야함
         VillageSet(gridMap);
+    }
+
+    private void OnGameStart()
+    {
+        gridMap.SetUsingTileList(GameManager.playerManager.level);
     }
 
     private void Init()
@@ -64,7 +74,7 @@ public class VillageManager : MonoBehaviour
         //    map.SetUsingTileList(map.usableTileList.Count - 1);
         //}
 
-        gridMap.SetUsingTileList(playerLevel);
+        
         //var standard = construct.ConstructStandardBuilding(standardPrefab, gridMap);
         //constructedBuildings.Add(standard);
 
@@ -215,8 +225,8 @@ public class VillageManager : MonoBehaviour
 
     public void LevelUp()
     {
-        ++playerLevel;
-        gridMap.SetUsingTileList(playerLevel);
+        ++GameManager.playerManager.level;
+        gridMap.SetUsingTileList(GameManager.playerManager.level);
 
     }
 

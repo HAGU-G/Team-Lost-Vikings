@@ -81,6 +81,8 @@ public class UIBuildingPopUp : UIWindow
         vm.village.Upgrade();
         im.Gold -= UpgradeData.GetUpgradeData(upgradeComponent.UpgradeId, upgradeComponent.UpgradeGrade).RequireGold;
 
+        
+
         //for (int i = 0; i < kindOfResource; ++i)
         //{
         //    im.ownItemList[i] -= requireItemNums[i];
@@ -144,7 +146,7 @@ public class UIBuildingPopUp : UIWindow
             //ColorBlock colorBlock = upgrade.colors;
             //colorBlock.normalColor = Color.green;
             //upgrade.colors = colorBlock;
-            resourceList[0].GetComponentInChildren<TextMeshProUGUI>().color = Color.black;
+            resourceList[0].GetComponentInChildren<TextMeshProUGUI>().color = Color.gray;
         }
         else
         {
@@ -188,7 +190,6 @@ public class UIBuildingPopUp : UIWindow
 
     public void SetLastUpgrade()
     {
-
         SetText();
 
         for (int i = 0; i < resourceList.Count; ++i)
