@@ -1,4 +1,4 @@
-퀘스트명,퀘스트Id,퀘스트타입,퀘스트설명,요구업적Id1,요구량1,요구업적Id2,요구량2,대화스크립트Id,보상경험치,보상재화Id1,보상량1,보상재화Id2,보상량2,보상재화Id3,보상량3,보상재화Id4,보상량4,보상재화Id5,보상량5,d
-string,int,int,string,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,d
-Name,Id,QuestType,QuestDesc,AchievementId1,RequireNum1,AchievementId2,RequireNum2,DialogId,RewardExp,RewardCurrencyId1,RewardNum1,RewardCurrencyId2,RewardNum2,RewardCurrencyId3,RewardNum3,RewardCurrencyId4,RewardNum4,RewardCurrencyId5,RewardNum5,CanAutoClear
-테스트,1,1,설명,10000001,4,0,0,0,100,0,0,0,0,0,0,0,0,0,0,1
+퀘스트명,퀘스트Id,퀘스트타입,퀘스트설명,요구업적Id1,요구량1,요구업적Id2,요구량2,대화스크립트Id,대화스크립트Id2,대화스크립트Id3,보상경험치,보상재화Id1,보상량1,보상재화Id2,보상량2,보상재화Id3,보상량3,보상재화Id4,보상량4,보상재화Id5,보상량5,d
+string,int,int,string,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,d
+Name,Id,QuestType,QuestDesc,AchievementId1,RequireNum1,AchievementId2,RequireNum2,DialogId1,DialogId2,DialogId3,RewardExp,RewardCurrencyId1,RewardNum1,RewardCurrencyId2,RewardNum2,RewardCurrencyId3,RewardNum3,RewardCurrencyId4,RewardNum4,RewardCurrencyId5,RewardNum5,CanAutoClear
+테스트,1,1,설명,10000001,4,0,0,0,0,0,100,0,0,0,0,0,0,0,0,0,0,1

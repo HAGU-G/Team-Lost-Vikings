@@ -34,6 +34,8 @@ public class QuestData : ITableAvaialable<int>, ITableExtraLoadable
             bool result = true;
             for (int i = 0; i < AchievementIDs.Count; i++)
             {
+                if(!GameManager.questManager.Achievements.ContainsKey(AchievementIDs[i]))
+                    continue;
                 result &= GameManager.questManager.Achievements[AchievementIDs[i]] >= RequireNums[i];
             }
             return result;
