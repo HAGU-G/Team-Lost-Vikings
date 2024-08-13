@@ -40,7 +40,7 @@ public class DialogManager
         if (!DialogQueue.Contains(id) && !ShowedDialog.Contains(id))
             DialogQueue.Enqueue(id);
         if (GameManager.IsReady && !IsShowing && DialogQueue.Count > 0)
-            Start(DialogQueue.Dequeue());
+            Start(DialogQueue.Peek());
     }
 
     public void BookReward(int dialogID, QuestData questData)
@@ -96,9 +96,10 @@ public class DialogManager
         CurrentScript = null;
         NextScript = null;
 
+        DialogQueue.Dequeue();
 
         if (GameManager.IsReady && !IsShowing && DialogQueue.Count > 0)
-            Start(DialogQueue.Dequeue());
+            Start(DialogQueue.Peek());
     }
 
     public void Next() => SetCurrentScript(currentIndex + 1);

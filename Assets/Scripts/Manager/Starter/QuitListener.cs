@@ -4,10 +4,12 @@ public class QuitListener : MonoBehaviour
 {
     private void OnApplicationQuit()
     {
-        SaveManager.SaveGame();
+        if (GameManager.IsReady)
+            SaveManager.SaveGame();
     }
     private void OnApplicationPause(bool pause)
     {
-        SaveManager.SaveGame();
+        if (GameManager.IsReady)
+            SaveManager.SaveGame();
     }
 }

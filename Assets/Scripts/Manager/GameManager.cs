@@ -102,7 +102,7 @@ public static class GameManager
         IsReady = true;
 
         if (dialogManager.DialogQueue.Count > 0)
-            dialogManager.Start(dialogManager.DialogQueue.Dequeue());
+            dialogManager.Start(dialogManager.DialogQueue.Peek());
 
         Publish(EVENT_TYPE.GAME_READY);
     }
