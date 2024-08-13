@@ -101,6 +101,10 @@ public class UIBuildingPopUp : UIWindow
             im.SpendItem(requireItemIds[i], requireItemNums[i]);
         }
 
+        //업적 카운팅
+        var buildingID = upgradeComponent.GetComponent<Building>().StructureId;
+        GameManager.questManager.SetAchievementCountByTargetID(buildingID, ACHIEVEMENT_TYPE.BUILDING_UPGRADE, 1);
+
         SetPopUp();
     }
 

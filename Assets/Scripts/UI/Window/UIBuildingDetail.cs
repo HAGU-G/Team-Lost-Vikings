@@ -79,7 +79,7 @@ public class UIBuildingDetail : UIWindow
         handle.WaitForCompletion();
 
         buildingImage.sprite = handle.Result.GetComponentInChildren<SpriteRenderer>().sprite;
-        
+
         unlockTownLevel.text = $"요구 마을회관 레벨 : {buildingData.UnlockTownLevel.ToString()}";
         //buidlingSize.text = $"{buildingData.Width} X {buildingData.Length}";
         buildingDesc.text = buildingData.StructureDesc.ToString();
@@ -156,6 +156,11 @@ public class UIBuildingDetail : UIWindow
             if (obj == null)
                 return null;
             obj.GetComponentInChildren<TextMeshPro>().enabled = false;
+
+            //업적 카운팅
+            var buildingID = building.GetComponent<Building>().StructureId;
+            GameManager.questManager.SetAchievementCountByTargetID(buildingID, ACHIEVEMENT_TYPE.BUILDING_BUILD, 1);
+
             return obj;
         }
         return null;
