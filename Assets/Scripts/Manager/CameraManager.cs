@@ -48,12 +48,9 @@ public class CameraManager : MonoBehaviour
 
         var im = GameManager.inputManager;
 
-        if (im.Moved && im.receiver.Received && !GameManager.uiManager.isWindowOn)
-        {
-            SetPosition(transform.position - im.WorldDeltaPos);
-        }
-
-        if (im.Moved && im.receiver.Received && GameManager.villageManager.constructMode.isConstructMode)
+        if (im.Moved
+            && im.receiver.Received
+            && (!GameManager.uiManager.isWindowOn || GameManager.villageManager.constructMode.isConstructMode))
         {
             SetPosition(transform.position - im.WorldDeltaPos);
         }

@@ -57,7 +57,8 @@ public class HuntZone : MonoBehaviour
 
     private void OnGameQUIT()
     {
-        EndBossBattle(false);
+        if (IsBossBattle)
+            EndBossBattle(false);
         gameObject.SetActive(false);
     }
 
