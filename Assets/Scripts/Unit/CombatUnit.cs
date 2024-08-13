@@ -130,6 +130,7 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
         {
             IsDead = true;
             FSM.ChangeState((int)STATE.DEAD);
+            GameManager.questManager.SetAchievementCountByTargetID(stats.Id, ACHIEVEMENT_TYPE.MONSTER_KILL, 1);
             return (true, calculatedDamage);
         }
 

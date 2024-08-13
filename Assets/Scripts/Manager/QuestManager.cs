@@ -47,7 +47,7 @@ public class QuestManager
 
         if (achieveID == 0)
         {
-            Debug.LogError($"{targetID}를 사용하는 타입 {type}의 업적이 없습니다.");
+            Debug.Log($"{targetID}를 사용하는 타입 {type}의 업적이 없습니다.");
             return;
         }
 

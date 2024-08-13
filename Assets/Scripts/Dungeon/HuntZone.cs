@@ -41,6 +41,7 @@ public class HuntZone : MonoBehaviour
     {
         GameManager.Subscribe(EVENT_TYPE.INIT, OnGameInit);
         GameManager.Subscribe(EVENT_TYPE.START, OnGameStart);
+        GameManager.Subscribe(EVENT_TYPE.QUIT, OnGameQUIT);
     }
 
     private void OnGameInit()
@@ -52,6 +53,12 @@ public class HuntZone : MonoBehaviour
     private void OnGameStart()
     {
         GameManager.huntZoneManager.SetDevelopText(false);
+    }
+
+    private void OnGameQUIT()
+    {
+        EndBossBattle(false);
+        gameObject.SetActive(false);
     }
 
     private void Update()
@@ -107,9 +114,9 @@ public class HuntZone : MonoBehaviour
 
         //타일 설치
         var maxtile = new Vector2Int(gridMap.gridInfo.row - 1, gridMap.gridInfo.col - 1);
-        entranceTiles = construct.PlaceBuilding(standardBuildingPrefab, gridMap.tiles[new Vector2Int(6,6)], gridMap)
+        entranceTiles = construct.PlaceBuilding(standardBuildingPrefab, gridMap.tiles[new Vector2Int(6, 6)], gridMap)
             .GetComponent<Building>().entranceTiles;
-        PortalPos = entranceTiles[Random.Range(0,entranceTiles.Count)].transform.position;
+        PortalPos = entranceTiles[Random.Range(0, entranceTiles.Count)].transform.position;
     }
 
     public void ResetHuntZone(bool isRemoveUnit)
@@ -304,5 +311,5 @@ public class HuntZone : MonoBehaviour
             )].RemoveUnit();
     }
 
-    
+
 }

@@ -95,11 +95,6 @@ public static class GameManager
     public static void GameQuit()
     {
         Publish(EVENT_TYPE.QUIT);
-        //foreach (var huntZone in huntZoneManager.HuntZones)
-        //{
-        //    huntZone.Value.EndBossBattle(false);
-        //    huntZone.Value.gameObject.SetActive(false);
-        //}
         SaveManager.SaveGame();
         Application.Quit();
 #if UNITY_EDITOR
