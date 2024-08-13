@@ -39,27 +39,26 @@ public class UICharacterGacha : UIWindow
     {
         requireGoldText.text = $"{im.Gold} / {requireGold}";
 
-        //To-Do : 가챠 요구 골드 조건 넣기  
+        bool isEnough = true;
+
         if (im.Gold >= requireGold)
         {
-            ColorBlock colorBlock = gacha.colors;
-            colorBlock.normalColor = Color.green;
-            gacha.colors = colorBlock;
-            gacha.interactable = true;
+            gacha.targetGraphic.color = Color.green;
             requireGoldText.color = Color.black;
-
         }
         else
         {
-            ColorBlock colorBlock = gacha.colors;
-            colorBlock.normalColor = Color.gray;
-            gacha.colors = colorBlock;
-            gacha.interactable = false;
+            gacha.targetGraphic.color = Color.gray;
             requireGoldText.color = Color.red;
+            isEnough = false;
         }
+        gacha.interactable = isEnough;
 
         if (GameManager.unitManager.unitLimitCount <= GameManager.unitManager.Units.Count)
             gacha.interactable = false;
+
+        //모집소 건물이 없을 시 가챠되지 않도록 설정
+
     }
 
     public void OnButtonGacha()
@@ -75,6 +74,5 @@ public class UICharacterGacha : UIWindow
     public void OnButtonExit()
     {
         Close();
-
     }
 }

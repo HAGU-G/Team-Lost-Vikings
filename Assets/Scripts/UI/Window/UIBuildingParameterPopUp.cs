@@ -105,8 +105,10 @@ public class UIBuildingParameterPopUp : UIWindow
     public void OnButtonUpgrade()
     {
         vm.village.Upgrade();
-        im.Gold -= UpgradeData.GetUpgradeData(upgradeComponent.UpgradeId, upgradeComponent.UpgradeGrade).RequireGold;
-        //TO-DO : 요구 아이템 줄어들도록 수정하기
+        for (int i = 0; i < requireItemIds.Count; ++i)
+        {
+            im.ownItemList[requireItemIds[i]] -= requireItemNums[i];
+        }
         SetPopUp();
     }
 
@@ -151,8 +153,6 @@ public class UIBuildingParameterPopUp : UIWindow
             var info = character.GetComponent<CharacterInfo>();
             info.parameterBar.interactable = false;
             info.characterId = units[i].stats.InstanceID;
-            //info.gradeIcon.sprite = ;
-            //info.characterGrade.text = units[i].stats.UnitGrade.ToString(); //없어질 예정
             info.characterName.text = units[i].stats.Data.Name;
             info.characterIcon.uvRect
                 = GameManager.uiManager.unitRenderTexture.LoadRenderTexture(units[i].stats.Data.UnitAssetFileName);
@@ -163,7 +163,6 @@ public class UIBuildingParameterPopUp : UIWindow
 
     private void Update()
     {
-        //CheckCurrentBuilding();
         SetParameterBar();
     }
 
@@ -206,82 +205,45 @@ public class UIBuildingParameterPopUp : UIWindow
         if (upgradeComponent.UpgradeGrade >= grade.Count)
             return;
 
-        var requireGold = grade[upgradeComponent.UpgradeGrade].RequireGold;
-        var resource = Instantiate(upgradeResource, resourceLayout);
-        resource.GetComponentInChildren<TextMeshProUGUI>().text = $"{im.Gold} / {requireGold.ToString()}";
-        resourceList.Add(resource);
+        var requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
+        var requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
 
-        //var requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
-        //var requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
+        for (int i = 0; i < requireItemIds.Count; ++i)
+        {
+            var resource = Instantiate(upgradeResource, resourceLayout);
+            resource.GetComponentInChildren<TextMeshProUGUI>().text = $"{im.ownItemList[requireItemIds[i]]} / {requireItemNums[i]}";
 
-        //for (int i = 0; i < kindOfResource; ++i)
-        //{
-        //    var resource = Instantiate(upgradeResource, resourceLayout);
+            //var fileName = DataTableManager.itemTable.GetData(requireItemIds[i]).CurrencyAssetFileName;
+            //resource.GetComponent<Image>().sprite = ;
 
-        //    //TO-DO : 소유 중인 아이템 / 테이블에서 요구하는 아이템 스트링 테이블 연결값
-        //    resource.GetComponentInChildren<TextMeshProUGUI>().text = $"{im.ownItemList.GetValueOrDefault(requireItemIds[i])} / {requireItemNums[i]}";
-        //    //resource.GetComponent<Image>().sprite = ;
-
-        //    resourceList.Add(resource);
-        //}
+            resourceList.Add(resource);
+        }
     }
 
     public bool CheckRequireItem()
     {
-        if (im.Gold < grade[upgradeComponent.UpgradeGrade].RequireGold
-                && im.Rune < grade[upgradeComponent.UpgradeGrade].RequireRune)
-            return false;
-
-
-        var requireGold = grade[upgradeComponent.UpgradeGrade].RequireGold;
-        if(requireGold <= im.Gold)
-        {
-            upgrade.targetGraphic.color = Color.green;
-            //ColorBlock colorBlock = upgrade.colors;
-            //colorBlock.normalColor = Color.green;
-            //colorBlock.pressedColor = Color.green;
-            //upgrade.colors = colorBlock;
-            resourceList[0].GetComponentInChildren<TextMeshProUGUI>().color = Color.gray;
-        }
-        else
-        {
-            upgrade.targetGraphic.color = Color.gray;
-            //ColorBlock colorBlock = upgrade.colors;
-            //colorBlock.normalColor = Color.gray;
-            //colorBlock.pressedColor = Color.gray;
-            //upgrade.colors = colorBlock;
-            resourceList[0].GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
-        }
-
         bool check = true;
 
-        //var requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
-        //var requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
+        var requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
+        var requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
 
-        //for (int i = 0; i < requireItemIds.Count; ++i)
-        //{
-        //    //requireItemNums[i] <= im.ownItemList.GetValueOrDefault(i)
-        //    if (requireItemNums[i] <= im.ownItemList.GetValueOrDefault(i))
-        //    {
-        //        upgrade.targetGraphic.color = Color.green;
-        //        //ColorBlock colorBlock = upgrade.colors;
-        //        //colorBlock.normalColor = Color.green;
-        //        //upgrade.colors = colorBlock;
-        //        resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.gray;
-        //    }
-        //    else
-        //    {
-        //        upgrade.targetGraphic.color = Color.gray;
-        //        //ColorBlock colorBlock = upgrade.colors;
-        //        //colorBlock.normalColor = Color.gray;
-        //        //upgrade.colors = colorBlock;
-        //        resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
-        //        check = false;
-        //    }
-        //}
+        for (int i = 0; i < requireItemIds.Count; ++i)
+        {
+            if (requireItemNums[i] <= im.ownItemList[requireItemIds[i]])
+            {
+                upgrade.targetGraphic.color = Color.green;
+                resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.gray;
+            }
+            else
+            {
+                upgrade.targetGraphic.color = Color.gray;
+                resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
+                check = false;
+            }
+        }
 
-        //if (GameManager.playerManager.level < upgradeComponent.RequirePlayerLv)
-        //    return false;
+        if (GameManager.playerManager.level < upgradeComponent.RequirePlayerLv)
+            return false;
 
         if (upgradeComponent.UpgradeGrade >= grade.Count)
             return false;

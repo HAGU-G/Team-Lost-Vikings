@@ -101,6 +101,7 @@ public class VillageManager : MonoBehaviour
     private void MakeBuildings()
     {
         var datas = DataTableManager.buildingTable.GetDatas();
+        BuildingUpgrade upgradeComponent; 
         string filePath = "Assets/Pick_Asset/2WEEK/Building";
 
 
@@ -120,23 +121,15 @@ public class VillageManager : MonoBehaviour
             buildingComponenet.CanReplace = datas[i].CanReplace;
             buildingComponenet.CanDestroy = datas[i].CanDestroy;
             buildingComponenet.UpgradeId = datas[i].UpgradeId;
-            buildingComponenet.StructureAssetFileName = datas[i].StructureAssetFileName;
             buildingComponenet.StructureDesc = datas[i].StructureDesc;
 
             var sprite = b.GetComponent<SpriteRenderer>();
-            var path = string.Concat(filePath, "/", buildingComponenet.StructureAssetFileName,".prefab");
-
-
-            var handle = Addressables.LoadAssetAsync<GameObject>(path);
-            handle.WaitForCompletion(); //임시로 동기적 처리
-
-            sprite.sprite = handle.Result.GetComponentInChildren<SpriteRenderer>().sprite;
-
+            upgradeComponent = b.AddComponent<BuildingUpgrade>();
+           
             UpgradeData upgradeData = new();
 
             if (buildingComponenet.UpgradeId != 0)
             {
-                var upgradeComponent = b.AddComponent<BuildingUpgrade>();
                 var dt = DataTableManager.upgradeTable.GetData(buildingComponenet.UpgradeId);
                 upgradeComponent.UpgradeGrade = upgradeComponent.currentGrade;
                 upgradeData = dt[upgradeComponent.UpgradeGrade - 1];
@@ -151,11 +144,6 @@ public class VillageManager : MonoBehaviour
                 upgradeComponent.RecoveryTime = upgradeData.RecoveryTime;
                 upgradeComponent.ProgressVarType = upgradeData.ProgressVarType;
                 upgradeComponent.ProgressVarReturn = upgradeData.ProgressVarReturn;
-                upgradeComponent.RecipeId = upgradeData.RecipeId;
-                upgradeComponent.ItemStack = upgradeData.ItemStack;
-                upgradeComponent.RequireTime = upgradeData.RequireTime;
-                upgradeComponent.RequireGold = upgradeData.RequireGold;
-                upgradeComponent.RequireRune = upgradeData.RequireRune;
 
                 upgradeComponent.ItemIds = new();
                 upgradeComponent.ItemNums = new();
@@ -167,9 +155,14 @@ public class VillageManager : MonoBehaviour
                 }
 
                 upgradeComponent.UpgradeDesc = upgradeData.UpgradeDesc;
-
-
+                upgradeComponent.StructureAssetFileName = upgradeData.StructureAssetFileName;
             }
+
+            var path = string.Concat(filePath, "/", upgradeComponent.StructureAssetFileName, ".prefab");
+            var handle = Addressables.LoadAssetAsync<GameObject>(path);
+            handle.WaitForCompletion(); //임시로 동기적 처리
+
+            sprite.sprite = handle.Result.GetComponentInChildren<SpriteRenderer>().sprite;
 
             b.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
             var collider = b.AddComponent<PolygonCollider2D>();

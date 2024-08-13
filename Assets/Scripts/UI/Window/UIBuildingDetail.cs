@@ -64,7 +64,7 @@ public class UIBuildingDetail : UIWindow
 
         buildingName.text = buildingData.StructureName.ToString();
 
-        string assetName = buildingData.StructureAssetFileName;
+        string assetName = upgrade.StructureAssetFileName;
         var path = $"Assets/Pick_Asset/2WEEK/Building/{assetName}.prefab"; //TO-DO : 파일 경로 수정하기
 
         var handle = Addressables.LoadAssetAsync<GameObject>(path);

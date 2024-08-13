@@ -32,6 +32,9 @@ public class UIReviveBuilding : UIWindow
     private BuildingUpgrade upgradeComponent;
     private List<UpgradeData> grade;
 
+    private List<int> requireItemIds = new();
+    private List<int> requireItemNums = new();
+
     protected override void Awake()
     {
         base.Awake();
@@ -54,6 +57,9 @@ public class UIReviveBuilding : UIWindow
         grade = DataTableManager.upgradeTable.GetData(um.currentNormalBuidling.UpgradeId);
         vm.village.upgrade = upgradeComponent;
 
+        requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
+        requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
+
         SetUI();
     }
 
@@ -64,10 +70,10 @@ public class UIReviveBuilding : UIWindow
 
         SetRevivingList();
 
-        if(upgradeComponent.currentGrade >= grade.Count)
+        if (upgradeComponent.currentGrade >= grade.Count)
         {
-            upgrade.interactable = false; 
-            
+            upgrade.interactable = false;
+
         }
 
         var time = um.currentNormalBuidling.gameObject.GetComponent<ReviveBuilding>().reviveTime;
@@ -87,7 +93,7 @@ public class UIReviveBuilding : UIWindow
 
         var reviveBuilding = GameManager.villageManager.GetBuilding(STRUCTURE_ID.REVIVE);
         var reviveComponent = reviveBuilding.GetComponent<ReviveBuilding>();
-        foreach(var unit in reviveComponent.revivingUnits)
+        foreach (var unit in reviveComponent.revivingUnits)
         {
             var obj = Instantiate(revivePrefab, reviveTransform);
             var info = obj.GetComponent<CharacterInfo>();
@@ -102,26 +108,22 @@ public class UIReviveBuilding : UIWindow
 
     private void SetUpgradeItemList()
     {
-        foreach(var resource in resourceList)
+        foreach (var resource in resourceList)
         {
             Destroy(resource);
         }
         resourceList.Clear();
 
-        var gold = Instantiate(upgradePrefab, upgradeTransform);
-        gold.GetComponentInChildren<TextMeshProUGUI>().text = $"{im.Gold}/{upgradeComponent.RequireGold}";
-        resourceList.Add(gold);
+        for (int i = 0; i < requireItemIds.Count; ++i)
+        {
+            var resource = Instantiate(upgradePrefab, upgradeTransform);
+            resource.GetComponentInChildren<TextMeshProUGUI>().text = $"{im.ownItemList[requireItemIds[i]]} / {requireItemNums[i]}";
 
-        //for (int i = 0; i < upgradeComponent.ItemIds.Count; ++i)
-        //{
-        //    var item = Instantiate(upgradePrefab, upgradeTransform);
-        //    //item.GetComponentInChildren<TextMeshProUGUI>().text = $"{im.ownItemList[i]}/{upgradeComponent.ItemNums[i]}";
-        //    //TO-DO : item 추가되면 주석 풀기
+            //var fileName = DataTableManager.itemTable.GetData(requireItemIds[i]).CurrencyAssetFileName;
+            //resource.GetComponent<Image>().sprite = ;
 
-        //    //item.GetComponentInChildren<Image>().sprite = DataTableManager.
-        //    //TO-DO : 재화 테이블 추가되면 수정하기
-        //    resourceList.Add(item);
-        //}
+            resourceList.Add(resource);
+        }
 
         //CheckResource();
     }
@@ -130,47 +132,25 @@ public class UIReviveBuilding : UIWindow
     {
         bool isEnough = true;
 
-        ///////////////////////////골드만 사용하는 임시 내용///////////////////
-        if (im.Gold < upgradeComponent.RequireGold)
-        {
-            for(int i = 0; i < resourceList.Count; ++i)
-            {
-                upgrade.targetGraphic.color = Color.gray;
-                resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
-            }
-            upgrade.interactable = false;
-            return false;
-        }
-
         for (int i = 0; i < resourceList.Count; ++i)
         {
-            upgrade.targetGraphic.color = Color.green;
-            resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.gray;
+            var upgradeData = grade[upgradeComponent.UpgradeId];
+            if (upgradeData.ItemNums[i] <= im.ownItemList[upgradeData.ItemIds[i]])
+            {
+                resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.gray;
+            }
+            else
+            {
+                resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = new Color(255f / 255f, 8f / 255f, 0f / 255f);
+                isEnough = false;
+            }
         }
-        upgrade.interactable = isEnough;
-        ////////////////////////////////////////////////////////////////////////////////////////
 
-
-        //for (int i = 0; i < resourceList.Count; ++i)
-        //{
-        //    if (grade[upgradeComponent.UpgradeId].ItemNums[i] <= im.ownItemList[i])
-        //    {
-        //        resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.gray;
-        //    }
-        //    else
-        //    {
-        //        resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = new Color(255f / 255f, 8f / 255f, 0f / 255f);
-        //        isEnough = false;
-        //    }
-        //}
-
-
-        //if (upgradeComponent.RequirePlayerLv < GameManager.playerManager.level)
-        //    return false;
+        if (upgradeComponent.RequirePlayerLv < GameManager.playerManager.level)
+            return false;
 
         if (upgradeComponent.UpgradeGrade >= grade.Count)
             return false;
-
 
         return isEnough;
     }
@@ -207,12 +187,12 @@ public class UIReviveBuilding : UIWindow
 
     public void OnButtonUpgrade()
     {
-        if(im.Gold >= upgradeComponent.RequireGold)
+        vm.village.Upgrade();
+        for (int i = 0; i < requireItemIds.Count; ++i)
         {
-            im.Gold -= upgradeComponent.RequireGold;
-            vm.village.Upgrade();
-            SetUI();
+            im.ownItemList[requireItemIds[i]] -= requireItemNums[i];
         }
+        SetUI();
     }
 
     public void OnButtonExit()

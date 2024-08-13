@@ -78,6 +78,7 @@ public class UIConstructMode : UIWindow
         
         //TO-DO : 아이템 추가 후 재화 돌려받는 내용 적기
 
+
         foreach (var buildingData in buildingDatas)
         {
             if (buildings.TryGetValue(buildingData, out GameObject buildingObj))
@@ -280,8 +281,7 @@ public class UIConstructMode : UIWindow
         foreach (var buildingData in buildingDatas)
         {
             var b = GameObject.Instantiate(buidlingUIPrefab, content);
-
-            string assetName = buildingData.StructureAssetFileName;
+            string assetName = upgradeDatas[buildingData.UpgradeId].StructureAssetFileName;
             var path = $"Assets/Pick_Asset/2WEEK/Building/{assetName}.prefab"; //TO-DO : 파일 경로 수정하기
 
             var handle = Addressables.LoadAssetAsync<GameObject>(path);
@@ -293,13 +293,6 @@ public class UIConstructMode : UIWindow
             button.onClick.AddListener
             (() =>
             {
-                //foreach(var building in vm.objectList.Values)
-                //{
-                //    if(building.GetComponent<Building>().StructureId == buildingData.StructureId)
-                //    {
-                //        um.currentNormalBuidling = building.GetComponent<Building>();
-                //    }
-                //}
                 um.currentBuildingData = buildingData;
                 var buildingDetailWindow = GameManager.uiManager.windows[WINDOW_NAME.BUILDING_DETAIL] as UIBuildingDetail;
                 if (buildingDetailWindow != null)
@@ -361,32 +354,31 @@ public class UIConstructMode : UIWindow
             buttonActivationStatus[button] = isActive;
             return;
         }
+        
+        for (int i = 0; i < upgradeData.ItemIds.Count; ++i)
+        {
+            if (im.ownItemList.TryGetValue(upgradeData.ItemIds[i], out int itemNum))
+            {
+                if (im.ownItemList[upgradeData.ItemIds[i]] < upgradeData.ItemNums[i])
+                {
+                    SetButtonColor(button, false);
+                    isActive = false;
+                    break;
+                }
+                else
+                {
+                    SetButtonColor(button, true);
+                    isActive = true;
+                }
+            }
+            else
+            {
+                SetButtonColor(button, false);
+                isActive = false;
+                break;
+            }
 
-        ////////////////TO-DO : 아이템 추가되면 주석 해제하기////////////////////////////////
-        //for (int i = 0; i < upgradeData.ItemIds.Count; ++i)
-        //{
-        //    if (im.ownItemList.TryGetValue(upgradeData.ItemIds[i], out int itemNum))
-        //    {
-        //        if (im.ownItemList[upgradeData.ItemIds[i]] < upgradeData.ItemNums[i])
-        //        {
-        //            SetButtonColor(button, false);
-        //            isActive = false;
-        //            break;
-        //        }
-        //        else
-        //        {
-        //            SetButtonColor(button, true);
-        //            isActive = true;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        SetButtonColor(button, false);
-        //        isActive = false;
-        //        break;
-        //    }
-
-        //}
+        }
 
         //모든 조건 검사 통과했을 때
         SetButtonColor(button, true);

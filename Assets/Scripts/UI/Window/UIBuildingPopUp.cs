@@ -79,14 +79,12 @@ public class UIBuildingPopUp : UIWindow
     {
         vm.village.upgrade = upgradeComponent;
         vm.village.Upgrade();
-        im.Gold -= UpgradeData.GetUpgradeData(upgradeComponent.UpgradeId, upgradeComponent.UpgradeGrade).RequireGold;
 
-        
+        for (int i = 0; i < requireItemIds.Count; ++i)
+        {
+            im.ownItemList[requireItemIds[i]] -= requireItemNums[i];
+        }
 
-        //for (int i = 0; i < kindOfResource; ++i)
-        //{
-        //    im.ownItemList[i] -= requireItemNums[i];
-        //}
         SetPopUp();
     }
 
@@ -121,70 +119,43 @@ public class UIBuildingPopUp : UIWindow
         if (upgradeComponent.UpgradeGrade >= grade.Count)
             return;
 
-        var requireGold = grade[upgradeComponent.UpgradeGrade].RequireGold;
-        var resource = Instantiate(upgradeResource, resourceLayout);
-        resource.GetComponentInChildren<TextMeshProUGUI>().text = $"{im.Gold} / {requireGold.ToString()}";
-        resourceList.Add(resource);
+        for (int i = 0; i < requireItemIds.Count; ++i)
+        {
+            var resource = Instantiate(upgradeResource, resourceLayout);
+            resource.GetComponentInChildren<TextMeshProUGUI>().text = $"{im.ownItemList[requireItemIds[i]]} / {requireItemNums[i]}";
 
-        //for (int i = 0; i < requireItemIds.Count; ++i)
-        //{
-        //    var resource = Instantiate(upgradeResource, resourceLayout);
-        //    resource.GetComponentInChildren<TextMeshProUGUI>().text = $"{im.ownItemList.GetValueOrDefault(i)} / {requireItemIds[i]}";
-        //    resource.GetComponentInChildren<Image>().sprite = ;
+            //var fileName = DataTableManager.itemTable.GetData(requireItemIds[i]).CurrencyAssetFileName;
+            //resource.GetComponent<Image>().sprite = ;
 
-        //    resourceList.Add(resource);
-        //}
+            resourceList.Add(resource);
+        }
     }
 
     public bool CheckRequireItem()
     {
         bool check = true;
-        var requireGold = grade[upgradeComponent.UpgradeGrade].RequireGold;
-        if (requireGold <= im.Gold)
+        
+        for (int i = 0; i < requireItemIds.Count; ++i)
         {
-            upgrade.targetGraphic.color = Color.green;
-            //ColorBlock colorBlock = upgrade.colors;
-            //colorBlock.normalColor = Color.green;
-            //upgrade.colors = colorBlock;
-            resourceList[0].GetComponentInChildren<TextMeshProUGUI>().color = Color.gray;
-        }
-        else
-        {
-            upgrade.targetGraphic.color = Color.gray;
-            //ColorBlock colorBlock = upgrade.colors;
-            //colorBlock.normalColor = Color.gray;
-            //upgrade.colors = colorBlock;
-            resourceList[0].GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
-            check = false;
+            if (requireItemNums[i] <= im.ownItemList[requireItemIds[i]])
+            {
+                upgrade.targetGraphic.color = Color.green;
+                resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.gray;
+            }
+            else
+            {
+                upgrade.targetGraphic.color = Color.gray;
+                resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
+                check = false;
+            }
         }
 
-        //플레이어 레벨 검사후 업그레이드 활성/비활성화
-        //if(GameManager.playerManager.level < upgradeComponent.RequirePlayerLv)
-        //    return false;
+        if (GameManager.playerManager.level < upgradeComponent.RequirePlayerLv)
+            return false;
 
         if (upgradeComponent.UpgradeGrade >= grade.Count)
             return false;
 
-        //for (int i = 0; i < requireItemIds.Count; ++i)
-        //{
-        //    if (requireItemNums[i] <= im.ownItemList.GetValueOrDefault(i))
-        //    {
-        //        upgrade.targetGraphic.color = Color.green;
-        //        //ColorBlock colorBlock = upgrade.colors;
-        //        //colorBlock.normalColor = Color.green;
-        //        //upgrade.colors = colorBlock;
-        //        resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.gray;
-        //    }
-        //    else
-        //    {
-        //        upgrade.targetGraphic.color = Color.gray;
-        //        //ColorBlock colorBlock = upgrade.colors;
-        //        //colorBlock.normalColor = Color.gray;
-        //        //upgrade.colors = colorBlock;
-        //        resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
-        //        check = false;
-        //    }
-        //}
         return check;
     }
 
@@ -199,6 +170,5 @@ public class UIBuildingPopUp : UIWindow
         resourceList.Clear();
 
         upgrade.interactable = false;
-
     }
 }

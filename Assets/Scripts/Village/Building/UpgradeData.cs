@@ -7,6 +7,7 @@ public class UpgradeData : ITableAvaialable<int>, ITableExtraLoadable
     [field: SerializeField] public string UpgradeName { get; set; }
     [field: SerializeField] public int UpgradeId { get; set; }
     [field: SerializeField] public int UpgradeGrade { get; set; }
+    [field: SerializeField] public int RequirePlayerLv { get; set; }
     [field: SerializeField] public STAT_TYPE StatType { get; set; }
     [field: SerializeField] public int StatReturn { get; set; }
     [field: SerializeField] public int ParameterType { get; set; }
@@ -14,14 +15,11 @@ public class UpgradeData : ITableAvaialable<int>, ITableExtraLoadable
     [field: SerializeField] public float RecoveryTime { get; set; }
     [field: SerializeField] public int ProgressVarType { get; set; }
     [field: SerializeField] public float ProgressVarReturn { get; set; }
-    [field: SerializeField] public int RecipeId { get; set; }
-    [field: SerializeField] public int ItemStack { get; set; }
-    [field: SerializeField] public float RequireTime { get; set; }
-    [field: SerializeField] public int RequireGold { get; set; }
-    [field: SerializeField] public int RequireRune { get; set; }
     [field: SerializeField] public List<int> ItemIds { get; private set; } = new();
     [field: SerializeField] public List<int> ItemNums { get; private set; } = new();
     [field: SerializeField] public string UpgradeDesc { get; set; }
+    [field: SerializeField] public string StructureAssetFileName { get; set; }
+
 
     public int TableID => UpgradeId;
     private static readonly string formatItemID = "ItemId{0}";
