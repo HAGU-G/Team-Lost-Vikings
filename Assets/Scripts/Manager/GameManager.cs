@@ -92,6 +92,7 @@ public static class GameManager
 
         Publish(EVENT_TYPE.START);
         Publish(EVENT_TYPE.CONFIGURE);
+        playerManager.firstPlay = false;
     }
 
     public static void GameQuit()

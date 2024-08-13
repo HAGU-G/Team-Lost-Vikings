@@ -31,7 +31,7 @@ public class CameraManager : MonoBehaviour
             return;
         }
         GameManager.cameraManager = this;
-        GameManager.Subscribe(EVENT_TYPE.START, OnGameStart);
+        GameManager.Subscribe(EVENT_TYPE.CONFIGURE, OnGameStart);
         ZoomValue = Camera.main.orthographicSize;
     }
 

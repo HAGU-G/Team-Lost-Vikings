@@ -47,13 +47,13 @@ public class VillageManager : MonoBehaviour
     {
         Init();
         constructMode.Init();
-
-        //TO-DO : saveData가 없을 때만 실행하도록 수정해야함
-        VillageSet(gridMap);
     }
 
     private void OnGameStart()
     {
+        if(GameManager.playerManager.firstPlay)
+            VillageSet(gridMap);
+
         gridMap.SetUsingTileList(GameManager.playerManager.level);
     }
 
