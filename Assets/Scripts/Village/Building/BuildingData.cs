@@ -11,7 +11,7 @@
     public bool CanReplace { get; set; }
     public bool CanDestroy { get; set; }
     public int UpgradeId { get; set; }
-    public string StructureAssetFileName { get; set; }
+    //public string StructureAssetFileName { get; set; }
     public string StructureDesc { get; set; }
 
     public int TableID => StructureId;

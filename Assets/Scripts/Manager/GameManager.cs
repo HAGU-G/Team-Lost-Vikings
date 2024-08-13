@@ -15,6 +15,7 @@ public enum EVENT_TYPE
     QUIT,
     UPGRADE,
     CONSTRUCT,
+    CONFIGURE,
 }
 
 public static class GameManager
@@ -90,6 +91,7 @@ public static class GameManager
         questManager.LoadQuests();
 
         Publish(EVENT_TYPE.START);
+        Publish(EVENT_TYPE.CONFIGURE);
     }
 
     public static void GameQuit()

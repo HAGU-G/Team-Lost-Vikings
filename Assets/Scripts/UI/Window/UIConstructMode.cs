@@ -78,6 +78,7 @@ public class UIConstructMode : UIWindow
         
         //TO-DO : 아이템 추가 후 재화 돌려받는 내용 적기
 
+
         foreach (var buildingData in buildingDatas)
         {
             if (buildings.TryGetValue(buildingData, out GameObject buildingObj))
@@ -280,9 +281,8 @@ public class UIConstructMode : UIWindow
         foreach (var buildingData in buildingDatas)
         {
             var b = GameObject.Instantiate(buidlingUIPrefab, content);
-
-            string assetName = buildingData.StructureAssetFileName;
-            var path = $"Assets/Pick_Asset/2WEEK/Building/{assetName}.prefab"; //TO-DO : 파일 경로 수정하기
+            var assetName = DataTableManager.upgradeTable.GetData(buildingData.UpgradeId)[0].StructureAssetFileName;
+            var path = $"Assets/Pick_Asset/2WEEK/Building/{assetName}.prefab";
 
             var handle = Addressables.LoadAssetAsync<GameObject>(path);
             handle.WaitForCompletion();
@@ -290,32 +290,24 @@ public class UIConstructMode : UIWindow
             var frame = b.GetComponent<BuildingFrame>();
             frame.buildingImage.sprite = handle.Result.GetComponentInChildren<SpriteRenderer>().sprite;
             var button = frame.button;
+            var buildingDetailWindow = GameManager.uiManager.windows[WINDOW_NAME.BUILDING_DETAIL] as UIBuildingDetail;
+            bool canBuild = CheckBuildingButton(buildingData, b);
             button.onClick.AddListener
             (() =>
             {
-                //foreach(var building in vm.objectList.Values)
-                //{
-                //    if(building.GetComponent<Building>().StructureId == buildingData.StructureId)
-                //    {
-                //        um.currentNormalBuidling = building.GetComponent<Building>();
-                //    }
-                //}
                 um.currentBuildingData = buildingData;
-                var buildingDetailWindow = GameManager.uiManager.windows[WINDOW_NAME.BUILDING_DETAIL] as UIBuildingDetail;
+                
                 if (buildingDetailWindow != null)
                 {
-                    buildingDetailWindow.SetBuildingDetail();
+                    buildingDetailWindow.SetBuildingDetail(canBuild);
                     buildingDetailWindow.Open();
                 }
             });
-
-
-            CheckBuildingButton(buildingData, b);
             buildings.Add(buildingData, b);
         }
     }
 
-    private void CheckBuildingButton(BuildingData data, GameObject building)
+    private bool CheckBuildingButton(BuildingData data, GameObject building)
     {
         bool isActive = true;
         int grade;
@@ -331,17 +323,17 @@ public class UIConstructMode : UIWindow
 
         var button = building.GetComponent<BuildingFrame>().button;
 
-        if (data.UpgradeId == 0) //portal
+        if (data.UpgradeId == 2000009) //portal
         {
             SetButtonColor(button, false);
             isActive = false;
             buttonActivationStatus[button] = isActive;
-            return;
+            return isActive;
         }
 
         var upgradeData = DataTableManager.upgradeTable.GetData(data.UpgradeId)[grade -1];
 
-        foreach (var tile in GameManager.villageManager.gridMap.tiles.Values)
+        foreach (var tile in vm.gridMap.tiles.Values)
         {
             if (!tile.tileInfo.ObjectLayer.IsEmpty
                 && tile.tileInfo.ObjectLayer.LayerObject.GetComponentInChildren<Building>().StructureId == data.StructureId
@@ -350,19 +342,18 @@ public class UIConstructMode : UIWindow
                 SetButtonColor(button, false);
                 isActive = false;
                 buttonActivationStatus[button] = isActive;
-                return;
+                return isActive;
             }
         }
 
-        if (data.UnlockTownLevel > GameManager.playerManager.level)
+        if (data.UnlockTownLevel > vm.VillageHallLevel)
         {
             SetButtonColor(button, false);
             isActive = false;
             buttonActivationStatus[button] = isActive;
-            return;
+            return isActive;
         }
-
-        ////////////////TO-DO : 아이템 추가되면 주석 해제하기////////////////////////////////
+        
         //for (int i = 0; i < upgradeData.ItemIds.Count; ++i)
         //{
         //    if (im.ownItemList.TryGetValue(upgradeData.ItemIds[i], out int itemNum))
@@ -392,7 +383,7 @@ public class UIConstructMode : UIWindow
         SetButtonColor(button, true);
         isActive = true;
         buttonActivationStatus[button] = isActive;
-        return;
+        return isActive;
 
         if (isActive)
             SetButtonColor(button, true);
@@ -404,12 +395,12 @@ public class UIConstructMode : UIWindow
     {
         if (satisfy)
         {
-            button.interactable = true;
+            //button.interactable = true;
             button.targetGraphic.color = new Color(200f / 255f, 231f / 255f, 167f / 255f);
         }
         else
         {
-            button.interactable = false;
+            //button.interactable = false;
             button.targetGraphic.color = new Color(255f / 255f, 128f / 255f, 128f / 255f);
         }
     }
@@ -479,6 +470,12 @@ public class UIConstructMode : UIWindow
                     var upgrade = building.GetComponent<BuildingUpgrade>();
                     hotel.UpgradeUnitLimit((int)upgrade.ProgressVarReturn);
                 }
+                else if(building.StructureId == (int)STRUCTURE_ID.RECRUIT)
+                {
+                    var recruit = building.GetComponent<RecruitBuilding>();
+                    var upgrade = building.GetComponent<BuildingUpgrade>();
+                    recruit.UpgradeUnlockLevel((int)upgrade.ProgressVarReturn);
+                }
                 break;
 
         }
@@ -499,7 +496,7 @@ public class UIConstructMode : UIWindow
                 if (building.StructureId == (int)STRUCTURE_ID.STORAGE)
                 {
                     var storage = building.GetComponent<StorageBuilding>();
-                    var upgrade = building.GetComponent<BuildingUpgrade>();
+                    //var upgrade = building.GetComponent<BuildingUpgrade>();
                     storage.UpgradeGoldLimit(storage.DefaultGoldLimit);
                 }
                 else if(building.StructureId == (int)STRUCTURE_ID.HOTEL)
@@ -507,6 +504,12 @@ public class UIConstructMode : UIWindow
                     var hotel = building.GetComponent<HotelBuilding>();
                     var limit = GameManager.unitManager.unitLimitCount;
                     hotel.UpgradeUnitLimit(limit);
+                }
+                else if(building.StructureId == (int)STRUCTURE_ID.RECRUIT)
+                {
+                    var recruit = building.GetComponent<RecruitBuilding>();
+                    var upgrade = building.GetComponent<BuildingUpgrade>();
+                    recruit.UpgradeUnlockLevel(recruit.DefaultGachaUnlockLevel);
                 }
                 break;
         }
