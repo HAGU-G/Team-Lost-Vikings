@@ -30,7 +30,8 @@ public class Construct
         
         
         isSelected = false;
-        GameManager.villageManager.constructedBuildings.Add(instancedObj);
+        if(gridMap == GameManager.villageManager.gridMap)
+            GameManager.villageManager.constructedBuildings.Add(instancedObj);
         return instancedObj;
     }
 
