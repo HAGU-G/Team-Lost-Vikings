@@ -35,6 +35,7 @@ public class UIReviveBuilding : UIWindow
     private List<int> requireItemIds = new();
     private List<int> requireItemNums = new();
 
+    private bool isOpen = false;
     protected override void Awake()
     {
         base.Awake();
@@ -49,6 +50,13 @@ public class UIReviveBuilding : UIWindow
 
         upgrade.onClick.AddListener(OnButtonUpgrade);
         exit.onClick.AddListener(OnButtonExit);
+
+        GameManager.Subscribe(EVENT_TYPE.CONFIGURE, OnGameConfigure);
+    }
+
+    private void OnGameConfigure()
+    {
+        im.OnItemChangedCallback += OnItemChanged;
     }
 
     private void OnEnable()
@@ -57,10 +65,18 @@ public class UIReviveBuilding : UIWindow
         grade = DataTableManager.upgradeTable.GetData(um.currentNormalBuidling.UpgradeId);
         vm.village.upgrade = upgradeComponent;
 
-        requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
-        requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
+        isOpen = true;
+
+        requireItemIds = grade[upgradeComponent.UpgradeGrade -1].ItemIds;
+        requireItemNums = grade[upgradeComponent.UpgradeGrade -1].ItemNums;
 
         SetUI();
+    }
+
+    private void OnItemChanged()
+    {
+        if (isOpen)
+            SetResourceText();
     }
 
     private void SetUI()
@@ -117,7 +133,7 @@ public class UIReviveBuilding : UIWindow
         for (int i = 0; i < requireItemIds.Count; ++i)
         {
             var resource = Instantiate(upgradePrefab, upgradeTransform);
-            resource.GetComponentInChildren<TextMeshProUGUI>().text = $"{im.ownItemList[requireItemIds[i]]} / {requireItemNums[i]}";
+            resource.GetComponentInChildren<TextMeshProUGUI>().text = $"{im.GetItem(requireItemIds[i])} / {requireItemNums[i]}";
 
             //var fileName = DataTableManager.itemTable.GetData(requireItemIds[i]).CurrencyAssetFileName;
             //resource.GetComponent<Image>().sprite = ;
@@ -134,10 +150,10 @@ public class UIReviveBuilding : UIWindow
 
         for (int i = 0; i < resourceList.Count; ++i)
         {
-            var upgradeData = grade[upgradeComponent.UpgradeId];
-            if (upgradeData.ItemNums[i] <= im.ownItemList[upgradeData.ItemIds[i]])
+            var upgradeData = grade[upgradeComponent.UpgradeGrade -1];
+            if (upgradeData.ItemNums[i] <= im.GetItem(requireItemIds[i]))
             {
-                resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.gray;
+                resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.black;
             }
             else
             {
@@ -146,12 +162,13 @@ public class UIReviveBuilding : UIWindow
             }
         }
 
-        if (upgradeComponent.RequirePlayerLv < GameManager.playerManager.level)
-            return false;
+        if (upgradeComponent.RequirePlayerLv > GameManager.playerManager.level)
+            isEnough = false;
 
         if (upgradeComponent.UpgradeGrade >= grade.Count)
-            return false;
+            isEnough = false;
 
+        upgrade.interactable = isEnough;
         return isEnough;
     }
 
@@ -181,22 +198,32 @@ public class UIReviveBuilding : UIWindow
 
     }
 
-    private void Update()
-    {
-    }
-
     public void OnButtonUpgrade()
     {
         vm.village.Upgrade();
         for (int i = 0; i < requireItemIds.Count; ++i)
         {
-            im.ownItemList[requireItemIds[i]] -= requireItemNums[i];
+            im.SpendItem(requireItemIds[i], requireItemNums[i]);
         }
         SetUI();
     }
 
     public void OnButtonExit()
     {
+        isOpen = false;
         Close();
+    }
+
+    private void SetResourceText()
+    {
+        for (int i = 0; i < resourceList.Count; ++i)
+        {
+            resourceList[i].GetComponentInChildren<TextMeshProUGUI>().text = $"{im.GetItem(requireItemIds[i])} / {requireItemNums[i]}";
+        }
+
+        if (!CheckResource())
+            upgrade.interactable = false;
+        else
+            upgrade.interactable = true;
     }
 }

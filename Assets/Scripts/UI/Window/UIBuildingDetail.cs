@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -30,6 +31,9 @@ public class UIBuildingDetail : UIWindow
     public List<GameObject> resources = new();
     public Transform requireTransform;
 
+    private List<UpgradeData> grade = new();
+
+
     private Vector3 position;
     public bool isConstructing = false;
 
@@ -56,7 +60,11 @@ public class UIBuildingDetail : UIWindow
         upgradeDatas = DataTableManager.upgradeTable.GetDatas();
     }
 
-    public void SetBuildingDetail()
+    private void OnEnable()
+    {
+    }
+
+    public void SetBuildingDetail(bool canBuild)
     {
         var buildingData = um.currentBuildingData;
 
@@ -82,25 +90,55 @@ public class UIBuildingDetail : UIWindow
         }
         resources.Clear();
 
-        //for (int i = 0; i < upgrade.ItemNums.Count; ++i)
-        //{
-        //    var resource = GameObject.Instantiate(upgradeResource, requireTransform);
-        //    //resource.GetComponentInChildren<Image>().sprite = ; //이미지 박아 놓는건지 가변적인지 물어보기
+        for (int i = 0; i < upgrade.ItemIds.Count; ++i)
+        {
+            var resource = GameObject.Instantiate(upgradeResource, requireTransform);
 
-        //    //TO-DO : 아이템 추가되면 주석 해제하기
-        //    resource.GetComponentInChildren<TextMeshProUGUI>().text
-        //        = $"{im.ownItemList[upgrade.ItemIds[i]]} / {upgrade.ItemNums[upgrade.ItemIds[i]].ToString()}";
+            var asset = upgrade.ItemIds[i];
+            //resource.GetComponentInChildren<Image>().sprite = ;
 
-        //    resources.Add(resource);
-        //}
+            resource.GetComponentInChildren<TextMeshProUGUI>().text
+                = $"{im.GetItem(upgrade.ItemIds[i])} / {upgrade.ItemNums[i]}";
+
+            resources.Add(resource);
+        }
+        CheckRequireItems(canBuild);
     }
 
-    private void CheckRequireItems()
+    private void CheckRequireItems(bool canBuild = true)
     {
-        for (int i = 0; i < resources.Count; ++i)
-        {
+        var buildingData = um.currentBuildingData;
+        var upgrade = DataTableManager.upgradeTable.GetData(buildingData.UpgradeId)[0];
+        var requireItemIds = upgrade.ItemIds;
+        var requireItemNums = upgrade.ItemNums;
 
+        bool check = true;
+
+        Color trueColor = new Color(200f / 255f, 231f/55f, 167f / 255f);
+        Color falseColor = new Color(255f / 255f, 128f/55f, 128f / 255f);
+
+        for (int i = 0; i < upgrade.ItemIds.Count; ++i)
+        {
+            if (requireItemNums[i] <= im.GetItem(requireItemIds[i]))
+            {
+                resources[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.black;
+            }
+            else
+            {
+                resources[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
+                check = false;
+            }
         }
+
+        if (check)
+            construct.targetGraphic.color = trueColor;
+        else
+            construct.targetGraphic.color = falseColor;
+
+        construct.interactable = check;
+        
+        if(canBuild != true)
+            construct.interactable = canBuild;
     }
 
     public void OnButtonConstruct()
@@ -114,7 +152,6 @@ public class UIBuildingDetail : UIWindow
     {
         if (vm.objectList.TryGetValue(um.currentBuildingData.StructureId, out var building))
         {
-            Debug.Log(building.GetComponent<RecruitBuilding>());
             var obj = vm.constructMode.construct.PlaceBuilding(building, cell, vm.gridMap);
             if (obj == null)
                 return null;

@@ -27,10 +27,12 @@ public class UIBuildingParameterPopUp : UIWindow
     public Transform resourceLayout;
     public List<GameObject> resourceList;
 
-    public BuildingUpgrade upgradeComponent ;
+    public BuildingUpgrade upgradeComponent;
     public List<UpgradeData> grade;
     public List<int> requireItemIds;
     public List<int> requireItemNums;
+
+    private bool isOpen = false;
 
     protected override void Awake()
     {
@@ -43,6 +45,13 @@ public class UIBuildingParameterPopUp : UIWindow
         vm = GameManager.villageManager;
         um = GameManager.uiManager;
         im = GameManager.itemManager;
+
+        GameManager.Subscribe(EVENT_TYPE.CONFIGURE, OnGameConfigure);
+    }
+
+    private void OnGameConfigure()
+    {
+        im.OnItemChangedCallback += OnItemChanged;
     }
 
     private void OnEnable()
@@ -50,7 +59,9 @@ public class UIBuildingParameterPopUp : UIWindow
         if (!IsReady)
             return;
 
-        vm.village.upgrade = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>(); 
+        isOpen = true;
+
+        vm.village.upgrade = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
         upgradeComponent = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
         grade = DataTableManager.upgradeTable.GetData(um.currentNormalBuidling.UpgradeId);
 
@@ -59,10 +70,10 @@ public class UIBuildingParameterPopUp : UIWindow
             SetLastUpgrade();
             return;
         }
-            
 
-        requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
-        requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
+
+        requireItemIds = grade[upgradeComponent.UpgradeGrade - 1].ItemIds;
+        requireItemNums = grade[upgradeComponent.UpgradeGrade - 1].ItemNums;
         SetPopUp();
     }
 
@@ -82,9 +93,8 @@ public class UIBuildingParameterPopUp : UIWindow
                 return;
             }
 
-
-            requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
-            requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
+            requireItemIds = grade[upgradeComponent.UpgradeGrade - 1].ItemIds;
+            requireItemNums = grade[upgradeComponent.UpgradeGrade - 1].ItemNums;
             SetPopUp();
         }
     }
@@ -107,13 +117,14 @@ public class UIBuildingParameterPopUp : UIWindow
         vm.village.Upgrade();
         for (int i = 0; i < requireItemIds.Count; ++i)
         {
-            im.ownItemList[requireItemIds[i]] -= requireItemNums[i];
+            im.SpendItem(requireItemIds[i], requireItemNums[i]);
         }
         SetPopUp();
     }
 
     public void OnButtonExit()
     {
+        isOpen = false;
         Close();
     }
 
@@ -147,7 +158,7 @@ public class UIBuildingParameterPopUp : UIWindow
 
         var units = parameter.interactingUnits;
 
-        for(int i = 0; i < units.Count; ++i)
+        for (int i = 0; i < units.Count; ++i)
         {
             var character = Instantiate(characterInformation, characterContent);
             var info = character.GetComponent<CharacterInfo>();
@@ -179,7 +190,7 @@ public class UIBuildingParameterPopUp : UIWindow
         {
             var info = character.GetComponent<CharacterInfo>();
             var unit = GameManager.unitManager.GetUnit(info.characterId);
-            switch(parameter.parameterType)
+            switch (parameter.parameterType)
             {
                 case PARAMETER_TYPE.HP:
                     info.parameterBar.value = (float)unit.HP.Current / (float)unit.HP.max;
@@ -205,13 +216,10 @@ public class UIBuildingParameterPopUp : UIWindow
         if (upgradeComponent.UpgradeGrade >= grade.Count)
             return;
 
-        var requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
-        var requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
-
         for (int i = 0; i < requireItemIds.Count; ++i)
         {
             var resource = Instantiate(upgradeResource, resourceLayout);
-            resource.GetComponentInChildren<TextMeshProUGUI>().text = $"{im.ownItemList[requireItemIds[i]]} / {requireItemNums[i]}";
+            resource.GetComponentInChildren<TextMeshProUGUI>().text = $"{im.GetItem(requireItemIds[i])} / {requireItemNums[i]}";
 
             //var fileName = DataTableManager.itemTable.GetData(requireItemIds[i]).CurrencyAssetFileName;
             //resource.GetComponent<Image>().sprite = ;
@@ -220,23 +228,39 @@ public class UIBuildingParameterPopUp : UIWindow
         }
     }
 
+    private void SetResourceText()
+    {
+        for (int i = 0; i < resourceList.Count; ++i)
+        {
+            resourceList[i].GetComponentInChildren<TextMeshProUGUI>().text = $"{im.GetItem(requireItemIds[i])} / {requireItemNums[i]}";
+        }
+
+        if (!CheckRequireItem())
+            upgrade.interactable = false;
+        else
+            upgrade.interactable = true;
+    }
+
+    private void OnItemChanged()
+    {
+        if (isOpen)
+            SetResourceText();
+    }
+
     public bool CheckRequireItem()
     {
         bool check = true;
 
-        var requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
-        var requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
-
         for (int i = 0; i < requireItemIds.Count; ++i)
         {
-            if (requireItemNums[i] <= im.ownItemList[requireItemIds[i]])
+            if (requireItemNums[i] <= im.GetItem(requireItemIds[i]))
             {
-                upgrade.targetGraphic.color = Color.green;
-                resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.gray;
+                //upgrade.targetGraphic.color = Color.green;
+                resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.black;
             }
             else
             {
-                upgrade.targetGraphic.color = Color.gray;
+                //upgrade.targetGraphic.color = Color.gray;
                 resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
                 check = false;
             }

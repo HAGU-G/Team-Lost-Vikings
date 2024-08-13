@@ -74,7 +74,7 @@ public class VillageManager : MonoBehaviour
         //    map.SetUsingTileList(map.usableTileList.Count - 1);
         //}
 
-        
+
         //var standard = construct.ConstructStandardBuilding(standardPrefab, gridMap);
         //constructedBuildings.Add(standard);
 
@@ -85,7 +85,7 @@ public class VillageManager : MonoBehaviour
     {
         var obj = Addressables.LoadAssetAsync<GameObject>(path);
         obj.Completed += OnBuildingAssetLoaded;
-        
+
         return obj;
     }
 
@@ -101,7 +101,7 @@ public class VillageManager : MonoBehaviour
     private void MakeBuildings()
     {
         var datas = DataTableManager.buildingTable.GetDatas();
-        BuildingUpgrade upgradeComponent; 
+        BuildingUpgrade upgradeComponent;
         string filePath = "Assets/Pick_Asset/2WEEK/Building";
 
 
@@ -125,38 +125,35 @@ public class VillageManager : MonoBehaviour
 
             var sprite = b.GetComponent<SpriteRenderer>();
             upgradeComponent = b.AddComponent<BuildingUpgrade>();
-           
+
             UpgradeData upgradeData = new();
 
-            if (buildingComponenet.UpgradeId != 0)
+            var dt = DataTableManager.upgradeTable.GetData(buildingComponenet.UpgradeId);
+            upgradeComponent.UpgradeGrade = upgradeComponent.currentGrade;
+            upgradeData = dt[upgradeComponent.UpgradeGrade - 1];
+
+            upgradeComponent.StructureType = (int)buildingComponenet.StructureType;
+            upgradeComponent.UpgradeName = upgradeData.UpgradeName;
+            upgradeComponent.UpgradeId = buildingComponenet.UpgradeId;
+            upgradeComponent.StatType = upgradeData.StatType;
+            upgradeComponent.StatReturn = upgradeData.StatReturn;
+            upgradeComponent.ParameterType = upgradeData.ParameterType;
+            upgradeComponent.ParameterRecovery = upgradeData.ParameterRecovery;
+            upgradeComponent.RecoveryTime = upgradeData.RecoveryTime;
+            upgradeComponent.ProgressVarType = upgradeData.ProgressVarType;
+            upgradeComponent.ProgressVarReturn = upgradeData.ProgressVarReturn;
+
+            upgradeComponent.ItemIds = new();
+            upgradeComponent.ItemNums = new();
+
+            for (int j = 0; j < upgradeData.ItemIds.Count; ++j)
             {
-                var dt = DataTableManager.upgradeTable.GetData(buildingComponenet.UpgradeId);
-                upgradeComponent.UpgradeGrade = upgradeComponent.currentGrade;
-                upgradeData = dt[upgradeComponent.UpgradeGrade - 1];
-
-                upgradeComponent.StructureType = (int)buildingComponenet.StructureType;
-                upgradeComponent.UpgradeName = upgradeData.UpgradeName;
-                upgradeComponent.UpgradeId = buildingComponenet.UpgradeId;
-                upgradeComponent.StatType = upgradeData.StatType;
-                upgradeComponent.StatReturn = upgradeData.StatReturn;
-                upgradeComponent.ParameterType = upgradeData.ParameterType;
-                upgradeComponent.ParameterRecovery = upgradeData.ParameterRecovery;
-                upgradeComponent.RecoveryTime = upgradeData.RecoveryTime;
-                upgradeComponent.ProgressVarType = upgradeData.ProgressVarType;
-                upgradeComponent.ProgressVarReturn = upgradeData.ProgressVarReturn;
-
-                upgradeComponent.ItemIds = new();
-                upgradeComponent.ItemNums = new();
-
-                for (int j = 0; j < 5; ++j)
-                {
-                    upgradeComponent.ItemIds.Add(upgradeData.ItemIds[j]);
-                    upgradeComponent.ItemNums.Add(upgradeData.ItemNums[j]);
-                }
-
-                upgradeComponent.UpgradeDesc = upgradeData.UpgradeDesc;
-                upgradeComponent.StructureAssetFileName = upgradeData.StructureAssetFileName;
+                upgradeComponent.ItemIds.Add(upgradeData.ItemIds[j]);
+                upgradeComponent.ItemNums.Add(upgradeData.ItemNums[j]);
             }
+
+            upgradeComponent.UpgradeDesc = upgradeData.UpgradeDesc;
+            upgradeComponent.StructureAssetFileName = upgradeData.StructureAssetFileName;
 
             var path = string.Concat(filePath, "/", upgradeComponent.StructureAssetFileName, ".prefab");
             var handle = Addressables.LoadAssetAsync<GameObject>(path);
@@ -194,15 +191,15 @@ public class VillageManager : MonoBehaviour
                     revive.reviveTime = upgradeData.ProgressVarReturn;
                     break;
                 case STRUCTURE_TYPE.PROGRESS:
-                    if(upgradeData.ProgressVarType == (int)PROGRESS_TYPE.STORAGE)
+                    if (upgradeData.ProgressVarType == (int)PROGRESS_TYPE.STORAGE)
                     {
                         var storage = b.AddComponent<StorageBuilding>();
                     }
-                    else if(upgradeData.ProgressVarType == (int)PROGRESS_TYPE.HOTEL)
+                    else if (upgradeData.ProgressVarType == (int)PROGRESS_TYPE.HOTEL)
                     {
                         var hotel = b.AddComponent<HotelBuilding>();
                     }
-                    else if(upgradeData.ProgressVarType == (int)PROGRESS_TYPE.RECRUIT)
+                    else if (upgradeData.ProgressVarType == (int)PROGRESS_TYPE.RECRUIT)
                     {
                         var recruit = b.AddComponent<RecruitBuilding>();
                     }
@@ -240,14 +237,14 @@ public class VillageManager : MonoBehaviour
 
     public Cell GetTile(Vector3 position, GridMap map)
     {
-            Vector2Int tileId = gridMap.PosToIndex(position);
-            if (tileId.x >= 0 && tileId.y >= 0)
+        Vector2Int tileId = gridMap.PosToIndex(position);
+        if (tileId.x >= 0 && tileId.y >= 0)
+        {
+            if (map.tiles.ContainsKey(tileId))
             {
-                if (map.tiles.ContainsKey(tileId))
-                {
-                    return map.tiles[tileId];
-                }
+                return map.tiles[tileId];
             }
+        }
         if (map.PosToIndex(position) == new Vector2Int(-1, -1))
             return null;
 
@@ -267,7 +264,7 @@ public class VillageManager : MonoBehaviour
 
     private void Update()
     {
-        
+
 
         //if (Input.GetMouseButtonDown(0) && construct.isSelected)
         //{
@@ -422,8 +419,8 @@ public class VillageManager : MonoBehaviour
 
     public bool FindBuilding(STRUCTURE_TYPE structureType, Predicate<GameObject> predicate)
     {
-        if(constructedBuildings.Count <= 0
-            || constructedBuildings.FindIndex(predicate) < 0 
+        if (constructedBuildings.Count <= 0
+            || constructedBuildings.FindIndex(predicate) < 0
             || constructedBuildings.FindIndex(predicate) >= constructedBuildings.Count)
         {
             Debug.Log("해당 건물이 없습니다.");
@@ -431,7 +428,7 @@ public class VillageManager : MonoBehaviour
         }
 
         var building = constructedBuildings[constructedBuildings.FindIndex(predicate)];
-        
+
         if (building.GetComponent<Building>().entranceTiles == null)
             return false;
 
@@ -446,11 +443,11 @@ public class VillageManager : MonoBehaviour
 
     public GameObject GetBuilding(STRUCTURE_ID id)
     {
-        foreach(var tile in gridMap.tiles.Values)
+        foreach (var tile in gridMap.tiles.Values)
         {
-            if(!tile.tileInfo.ObjectLayer.IsEmpty)
+            if (!tile.tileInfo.ObjectLayer.IsEmpty)
             {
-                if(tile.tileInfo.ObjectLayer.LayerObject.GetComponent<Building>().StructureId == (int)id)
+                if (tile.tileInfo.ObjectLayer.LayerObject.GetComponent<Building>().StructureId == (int)id)
                 {
                     return tile.tileInfo.ObjectLayer.LayerObject;
                 }

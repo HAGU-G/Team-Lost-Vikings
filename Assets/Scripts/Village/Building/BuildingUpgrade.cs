@@ -71,7 +71,7 @@ public class BuildingUpgrade : MonoBehaviour
 
         ItemIds.Clear();
         ItemNums.Clear();
-        for (int i = 0; i < 5; ++i)
+        for (int i = 0; i < upgrade.ItemIds.Count; ++i)
         {
             ItemIds.Add(upgrade.ItemIds[i]);
             ItemNums.Add(upgrade.ItemNums[i]);

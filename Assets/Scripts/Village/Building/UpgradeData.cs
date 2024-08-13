@@ -22,8 +22,8 @@ public class UpgradeData : ITableAvaialable<int>, ITableExtraLoadable
 
 
     public int TableID => UpgradeId;
-    private static readonly string formatItemID = "ItemId{0}";
-    private static readonly string formatItemNum = "ItemNum{0}";
+    private static readonly string formatItemID = "CurrencyId{0}";
+    private static readonly string formatItemNum = "CurrencyNum{0}";
     public void ExtraLoad(CsvReader reader)
     {
         int count = 1;

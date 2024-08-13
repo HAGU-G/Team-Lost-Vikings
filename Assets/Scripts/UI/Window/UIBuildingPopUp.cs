@@ -29,6 +29,7 @@ public class UIBuildingPopUp : UIWindow
     public List<int> requireItemIds;
     public List<int> requireItemNums;
 
+    private bool isOpen = false;
 
     protected override void Awake()
     {
@@ -41,6 +42,13 @@ public class UIBuildingPopUp : UIWindow
         vm = GameManager.villageManager;
         um = GameManager.uiManager;
         im = GameManager.itemManager;
+
+        GameManager.Subscribe(EVENT_TYPE.CONFIGURE, OnGameConfigure);
+    }
+
+    private void OnGameConfigure()
+    {
+        im.OnItemChangedCallback += OnItemChanged;
     }
 
 
@@ -52,16 +60,24 @@ public class UIBuildingPopUp : UIWindow
         upgradeComponent = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
         grade = DataTableManager.upgradeTable.GetData(um.currentNormalBuidling.UpgradeId);
 
+        isOpen = true;
+
         if (upgradeComponent.UpgradeGrade >= grade.Count)
         {
             SetLastUpgrade();
             return;
         }
 
-        requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
-        requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
+        requireItemIds = grade[upgradeComponent.UpgradeGrade -1].ItemIds;
+        requireItemNums = grade[upgradeComponent.UpgradeGrade -1].ItemNums;
         vm.village.upgrade = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
         SetPopUp();
+    }
+
+    private void OnItemChanged()
+    {
+        if (isOpen)
+            SetResourceText();
     }
 
     private void SetPopUp()
@@ -82,7 +98,7 @@ public class UIBuildingPopUp : UIWindow
 
         for (int i = 0; i < requireItemIds.Count; ++i)
         {
-            im.ownItemList[requireItemIds[i]] -= requireItemNums[i];
+            im.SpendItem(requireItemIds[i], requireItemNums[i]);
         }
 
         SetPopUp();
@@ -90,6 +106,7 @@ public class UIBuildingPopUp : UIWindow
 
     public void OnButtonExit()
     {
+        isOpen = false;
         vm.village.Cancel();
         Close();
     }
@@ -122,7 +139,7 @@ public class UIBuildingPopUp : UIWindow
         for (int i = 0; i < requireItemIds.Count; ++i)
         {
             var resource = Instantiate(upgradeResource, resourceLayout);
-            resource.GetComponentInChildren<TextMeshProUGUI>().text = $"{im.ownItemList[requireItemIds[i]]} / {requireItemNums[i]}";
+            resource.GetComponentInChildren<TextMeshProUGUI>().text = $"{im.GetItem(requireItemIds[i])} / {requireItemNums[i]}";
 
             //var fileName = DataTableManager.itemTable.GetData(requireItemIds[i]).CurrencyAssetFileName;
             //resource.GetComponent<Image>().sprite = ;
@@ -137,14 +154,14 @@ public class UIBuildingPopUp : UIWindow
         
         for (int i = 0; i < requireItemIds.Count; ++i)
         {
-            if (requireItemNums[i] <= im.ownItemList[requireItemIds[i]])
+            if (requireItemNums[i] <= im.GetItem(requireItemIds[i]))
             {
-                upgrade.targetGraphic.color = Color.green;
-                resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.gray;
+                //upgrade.targetGraphic.color = Color.green;
+                resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.black;
             }
             else
             {
-                upgrade.targetGraphic.color = Color.gray;
+                //upgrade.targetGraphic.color = Color.gray;
                 resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
                 check = false;
             }
@@ -170,5 +187,18 @@ public class UIBuildingPopUp : UIWindow
         resourceList.Clear();
 
         upgrade.interactable = false;
+    }
+
+    private void SetResourceText()
+    {
+        for (int i = 0; i < resourceList.Count; ++i)
+        {
+            resourceList[i].GetComponentInChildren<TextMeshProUGUI>().text = $"{im.GetItem(requireItemIds[i])} / {requireItemNums[i]}";
+        }
+
+        if (!CheckRequireItem())
+            upgrade.interactable = false;
+        else
+            upgrade.interactable = true;
     }
 }
