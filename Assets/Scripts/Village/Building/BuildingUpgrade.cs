@@ -90,15 +90,17 @@ public class BuildingUpgrade : MonoBehaviour
         }
     }
 
-    public void Upgrade()
+    public void Upgrade(bool load = false)
     {
+        if(!load)
+            ++currentGrade;
+
         switch (StructureType)
         {
             case (int)STRUCTURE_TYPE.STAT_UPGRADE:
                 var stat = GetComponent<StatUpgradeBuilding>();
                 if (StatType == stat.upgradeStat)
                 {
-                    ++currentGrade;
                     SetBuildingUpgrade();
                     stat.upgradeValue = StatReturn;
                     stat.RiseStat();
@@ -108,28 +110,23 @@ public class BuildingUpgrade : MonoBehaviour
                 var parameter = GetComponent<ParameterRecoveryBuilding>();
                 if ((PARAMETER_TYPE)ParameterType == parameter.parameterType)
                 {
-                    ++currentGrade;
                     SetBuildingUpgrade();
                     parameter.recoveryAmount = ParameterRecovery;
                     parameter.recoveryTime = RecoveryTime;
                 }
                 break;
             case (int)STRUCTURE_TYPE.STANDARD:
-                //GameManager.villageManager.LevelUp();
-                ++currentGrade;
                 GameManager.villageManager.VillageHallLevel = currentGrade; 
                 GameManager.uiManager.uiDevelop.SetVillageLevel();
                 SetBuildingUpgrade();
                 break;
             case (int)STRUCTURE_TYPE.REVIVE:
-                ++currentGrade;
                 SetBuildingUpgrade();
                 var reviveTime = ProgressVarReturn;
                 var revive = GetComponent<ReviveBuilding>();
                 revive.reviveTime = reviveTime;
                 break;
             case (int)STRUCTURE_TYPE.PROGRESS:
-                ++currentGrade;
                 SetBuildingUpgrade();
                 var storage = GetComponent<StorageBuilding>();
                 if(storage != null)

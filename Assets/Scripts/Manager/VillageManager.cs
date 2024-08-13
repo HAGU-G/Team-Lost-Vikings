@@ -27,6 +27,7 @@ public class VillageManager : MonoBehaviour
     private GameObject selectedObj;
 
     public ConstructMode constructMode = new();
+    public Dictionary<Vector2Int, int> saveBuildingsData = new();
 
     private void Awake()
     {
@@ -51,11 +52,25 @@ public class VillageManager : MonoBehaviour
 
     private void OnGameStart()
     {
+        //GameManager.Subscribe(EVENT_TYPE.QUIT, OnGameQuit);
+
         if(GameManager.playerManager.firstPlay)
             VillageSet(gridMap);
 
         gridMap.SetUsingTileList(GameManager.playerManager.level);
     }
+
+    //private void OnGameQuit()
+    //{
+    //    for(int i = 0; i < constructedBuildings.Count; ++i)
+    //    {
+    //        var building = constructedBuildings[i].GetComponent<Building>();
+    //        var tileId = building.standardTile.tileInfo.id;
+    //        var structureId = building.StructureId;
+
+    //        saveBuildingsData.Add(tileId, structureId);
+    //    }
+    //}
 
     private void Init()
     {

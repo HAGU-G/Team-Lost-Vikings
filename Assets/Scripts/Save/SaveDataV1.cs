@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class SaveDataV1 : SaveData
 {
@@ -12,7 +13,9 @@ public class SaveDataV1 : SaveData
 
     public List<HuntZoneInfo> huntZones = new();
     public Dictionary<int, List<int>> UnitDeployment;
-    public List<int> buildingUpgrade = new();
+
+    public Dictionary<Vector2Int, int> buildings = new();
+    public Dictionary<int, int> buildingUpgrade = new();
 
     public override SaveData VersionDown()
     {
