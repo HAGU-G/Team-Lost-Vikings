@@ -3,8 +3,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
-using static UnityEngine.GraphicsBuffer;
 
 [JsonObject(MemberSerialization.OptIn)]
 public class QuestManager
@@ -132,6 +130,11 @@ public class QuestManager
         if (quest.IsSatisfied)
         {
             OnQuestSatisfied?.Invoke();
+
+            var dialogID = DataTableManager.questTable.GetData(id).DialogId2;
+            if (dialogID != 0)
+                GameManager.dialogManager.Book(dialogID);
+
             if (quest.CanAutoClear == 1)
                 QuestClear(quest.Id);
         }
@@ -147,6 +150,17 @@ public class QuestManager
 
         GuideQuests[id] = isClear;
         OnQuestCleared?.Invoke();
+        var questData = DataTableManager.questTable.GetData(id);
+        var dialogID = questData.DialogId3;
+        if (dialogID == 0)
+        {
+            DataTableManager.questTable.GetData(id).GetReward();
+        }
+        else
+        {
+            GameManager.dialogManager.Book(dialogID);
+            GameManager.dialogManager.BookReward(dialogID, questData);
+        }
 
         var nextQuestID = id + 1;
         if (GuideQuests.ContainsKey(nextQuestID))
@@ -159,6 +173,9 @@ public class QuestManager
     {
         currentQuestID = id;
         OnQuestAccepted?.Invoke();
+        var dialogID = DataTableManager.questTable.GetData(id).DialogId1;
+        if (dialogID != 0)
+            GameManager.dialogManager.Book(dialogID);
         CheckQuestSatisfy(id);
     }
 

@@ -6,4 +6,8 @@ public class QuitListener : MonoBehaviour
     {
         SaveManager.SaveGame();
     }
+    private void OnApplicationPause(bool pause)
+    {
+        SaveManager.SaveGame();
+    }
 }

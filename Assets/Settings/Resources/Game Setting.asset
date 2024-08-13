@@ -33,3 +33,4 @@ MonoBehaviour:
   defaultUnitLimit: 4
   monsterRoamSeconds: 2
   projectileSize: 0.5
+  goldID: 8000001

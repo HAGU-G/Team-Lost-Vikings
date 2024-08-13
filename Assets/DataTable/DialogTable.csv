@@ -1,5 +1,12 @@
-대화스크립트Id,대화그룹,화자,초상화,초상화 표시위치,대화내용,스킵가능
-int,int,string,string,int,string,int
-Id,DialogGroup,SpeakerName,ImageFileName,ImageMarker,DialogText,SkipBtnEnable
-100,1,나님,0,1,등장,1
-101,1,너님,0,2,또 등장,2
+아이디,초상화,초상화 표시위치,대화내용,스킵가능,화자
+int,string,int,string,int,string
+Id,ImageFileName,ImageMarker,DialogText,SkipBtnEnable,SpeakerName
+1,0,1,등장,1,나
+1,0,2,또 등장,2,너
+2,,1,완료함,0,우리
+2,,2,ㅇㅇ,1,모두
+3,,1,보상받음?,0,집에
+3,,2,ㅇㅇㅇ,0,가고
+4,,2,두번째 클리어함?,2,싶ㅍ다
+4,,1,ㅇㅇ,2,ㅇ
+4,,2,오,1,ㅇㅇ

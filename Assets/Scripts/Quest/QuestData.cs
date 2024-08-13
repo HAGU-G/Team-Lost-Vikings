@@ -93,19 +93,11 @@ public class QuestData : ITableAvaialable<int>, ITableExtraLoadable
 
     public void GetReward()
     {
-        var itemList = GameManager.itemManager.ownItemList;
-
         GameManager.playerManager.Exp += RewardExp;
+        var im = GameManager.itemManager;
         for (int i = 0; i < RewardCurrencyIds.Count; i++)
         {
-            if (itemList.ContainsKey(RewardCurrencyIds[i]))
-            {
-                itemList[RewardCurrencyIds[i]] += RewardNums[i];
-            }
-            else
-            {
-                itemList.Add(RewardCurrencyIds[i], RewardNums[i]);
-            }
+            im.AddItem(RewardCurrencyIds[i], RewardNums[i]);
         }
     }
 }

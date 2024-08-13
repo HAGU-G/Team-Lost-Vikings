@@ -28,6 +28,8 @@ public static class SaveManager
         save.unitManager = GameManager.unitManager;
         save.playerManager = GameManager.playerManager;
         save.itemManager = GameManager.itemManager;
+        save.questManager = GameManager.questManager;
+        save.dialogManager = GameManager.dialogManager;
 
         save.huntZones.Clear();
         foreach (var huntZoneInfo in GameManager.huntZoneManager.HuntZones)
@@ -75,6 +77,8 @@ public static class SaveManager
         GameManager.unitManager = save.unitManager;
         GameManager.playerManager = save.playerManager;
         GameManager.itemManager = save.itemManager;
+        GameManager.questManager = save.questManager;
+        GameManager.dialogManager = save.dialogManager;
 
         foreach (var huntZoneInfo in save.huntZones)
         {
