@@ -15,6 +15,8 @@ public abstract class Unit : MonoBehaviour
 
     public bool IsDead { get; protected set; }
 
+    public event System.Action OnUpdated;
+
     public virtual void Init() 
     {
         if(!TryGetComponent(out sortingGroup))
@@ -58,6 +60,8 @@ public abstract class Unit : MonoBehaviour
     protected virtual void Update()
     {
         sortingGroup.sortingOrder = Mathf.FloorToInt(-transform.position.y);
+        stats.UpdateTimers(Time.deltaTime);
+        OnUpdated?.Invoke();
     }
 
 
@@ -71,7 +75,10 @@ public abstract class Unit : MonoBehaviour
 
     public virtual void RemoveUnit() { }
 
-    protected virtual void ResetEvents() { }
+    protected virtual void ResetEvents()
+    {
+        OnUpdated = null;
+    }
 
     protected virtual void OnAnimationAttackHit() { }
 
@@ -125,5 +132,4 @@ public abstract class Unit : MonoBehaviour
 
         LookAt(target.position);
     }
-
 }

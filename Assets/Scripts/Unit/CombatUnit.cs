@@ -32,8 +32,6 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
 
     public event System.Action OnDamaged;
     public event System.Action OnAttacked;
-    public event System.Action OnUpdated;
-
 
 
 
@@ -68,7 +66,6 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
         base.ResetEvents();
         OnDamaged = null;
         OnAttacked = null;
-        OnUpdated = null;
     }
     public override void OnRelease()
     {
@@ -81,13 +78,10 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
 
     protected override void Update()
     {
-        base.Update();
         if (stats == null || gameObject.activeSelf == false)
             return;
 
-        stats.UpdateTimers(Time.deltaTime);
-
-        OnUpdated?.Invoke();
+        base.Update();
 
         stats.UpdateEllipsePosition();
         FSM.Update();
@@ -136,6 +130,7 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
         {
             IsDead = true;
             FSM.ChangeState((int)STATE.DEAD);
+            GameManager.questManager.SetAchievementCountByTargetID(stats.Id, ACHIEVEMENT_TYPE.MONSTER_KILL, 1);
             return (true, calculatedDamage);
         }
 

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public struct Buff
+public class Buff
 {
     public readonly int id;
     public readonly STAT_TYPE type;
@@ -89,6 +89,10 @@ public struct Buff
     public void Update(float deltaTime)
     {
         if (!isAlways)
+        {
             Timer -= deltaTime;
+
+            Debug.Log(Timer);
+        }
     }
 }
