@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Build.Pipeline.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -106,6 +107,12 @@ public class UIBuildingParameterPopUp : UIWindow
     {
         vm.village.Upgrade();
         im.Gold -= UpgradeData.GetUpgradeData(upgradeComponent.UpgradeId, upgradeComponent.UpgradeGrade).RequireGold;
+
+        //업적 카운팅
+        var buildingID = upgradeComponent.GetComponent<Building>().StructureId;
+        GameManager.questManager.SetAchievementCountByTargetID(buildingID, ACHIEVEMENT_TYPE.BUILDING_UPGRADE, 1);
+
+
         //TO-DO : 요구 아이템 줄어들도록 수정하기
         SetPopUp();
     }

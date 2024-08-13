@@ -81,6 +81,10 @@ public class UIBuildingPopUp : UIWindow
         vm.village.Upgrade();
         im.Gold -= UpgradeData.GetUpgradeData(upgradeComponent.UpgradeId, upgradeComponent.UpgradeGrade).RequireGold;
 
+        //업적 카운팅
+        var buildingID = upgradeComponent.GetComponent<Building>().StructureId;
+        GameManager.questManager.SetAchievementCountByTargetID(buildingID, ACHIEVEMENT_TYPE.BUILDING_UPGRADE, 1);
+
         //for (int i = 0; i < kindOfResource; ++i)
         //{
         //    im.ownItemList[i] -= requireItemNums[i];
