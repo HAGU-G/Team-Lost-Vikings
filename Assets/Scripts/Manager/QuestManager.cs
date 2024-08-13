@@ -150,7 +150,7 @@ public class QuestManager
 
         var nextQuestID = id + 1;
         if (GuideQuests.ContainsKey(nextQuestID))
-            currentQuestID = nextQuestID;
+            QuestAccept(nextQuestID);
         else
             currentQuestID = -1;
     }
