@@ -31,6 +31,9 @@ public class TableDuplicatedID<T, U> : Table<T, U>
         using (var reader = new StringReader(textAsset.text))
         using (var csvReader = new CsvReader(reader, CultureInfo.InvariantCulture))
         {
+            csvReader.Context.TypeConverterCache.AddConverter(new CsvStringConverter());
+            csvReader.Context.TypeConverterCache.AddConverter(new CsvFloatConverter());
+            csvReader.Context.TypeConverterCache.AddConverter(new CsvIntConverter());
             csvReader.Read();
             csvReader.Read();
 

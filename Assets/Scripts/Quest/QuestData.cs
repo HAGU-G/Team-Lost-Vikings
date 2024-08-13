@@ -9,7 +9,7 @@ public enum QUEST_TYPE
     TUTORIAL
 }
 
-public class Quest : ITableAvaialable<int>, ITableExtraLoadable
+public class QuestData : ITableAvaialable<int>, ITableExtraLoadable
 {
     public string Name { get; set; }
     public int Id { get; set; }
@@ -18,7 +18,9 @@ public class Quest : ITableAvaialable<int>, ITableExtraLoadable
     public string QuestDesc { get; set; }
     public List<int> AchievementIDs { get; set; } = new();
     public List<int> RequireNums { get; set; } = new();
-    public int DialogId { get; set; }
+    public int DialogId1 { get; set; }
+    public int DialogId2 { get; set; }
+    public int DialogId3 { get; set; }
     public int RewardExp { get; set; }
     public List<int> RewardCurrencyIds { get; set; } = new();
     public List<int> RewardNums { get; set; } = new();
@@ -32,6 +34,8 @@ public class Quest : ITableAvaialable<int>, ITableExtraLoadable
             bool result = true;
             for (int i = 0; i < AchievementIDs.Count; i++)
             {
+                if(!GameManager.questManager.Achievements.ContainsKey(AchievementIDs[i]))
+                    continue;
                 result &= GameManager.questManager.Achievements[AchievementIDs[i]] >= RequireNums[i];
             }
             return result;

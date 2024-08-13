@@ -67,20 +67,12 @@ public class Monster : CombatUnit, ISubject<Monster>
             return;
 
         var dropData = DataTableManager.dropTable.GetData(stats.Data.DropId);
-        var itemList = GameManager.itemManager.ownItemList;
+        var im = GameManager.itemManager;
 
         GameManager.playerManager.Exp += dropData.DropExp;
-        //GameManager.itemManager.AddGold(dropData.DropGold());
         foreach (var item in dropData.DropItem())
         {
-            if (itemList.ContainsKey(item.Key))
-            {
-                itemList[item.Key] += item.Value;
-            }
-            else
-            {
-                itemList.Add(item.Key, item.Value);
-            }
+            im.AddItem(item.Key, item.Value);
         }
     }
 }
