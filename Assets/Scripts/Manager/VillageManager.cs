@@ -337,64 +337,25 @@ public class VillageManager : MonoBehaviour
 
     private void VillageSet(GridMap gridMap)
     {
-        //for (int i = 0; i < 9; ++i)
-        //{
-        //    construct.PlaceRoad(roadPrefab, GetTile(0, i, gridMap), gridMap);
-        //    construct.PlaceRoad(roadPrefab, GetTile(4, i, gridMap), gridMap);
-        //    construct.PlaceRoad(roadPrefab, GetTile(8, i, gridMap), gridMap);
-        //}
-
-        //for(int i = 0; i < 9; ++i)
-        //{
-        //    construct.PlaceRoad(roadPrefab, GetTile(i, 0, gridMap), gridMap);
-        //    construct.PlaceRoad(roadPrefab, GetTile(i, 4, gridMap), gridMap);
-        //    construct.PlaceRoad(roadPrefab, GetTile(i, 8, gridMap), gridMap);
-        //}
-
-        //construct.PlaceRoad(roadPrefab, GetTile(3, 3, gridMap), gridMap);
-        //construct.PlaceRoad(roadPrefab, GetTile(5, 3, gridMap), gridMap);
-        //construct.PlaceRoad(roadPrefab, GetTile(3, 5, gridMap), gridMap);
-        //construct.PlaceRoad(roadPrefab, GetTile(5, 5, gridMap), gridMap);
-
-
-        /////////
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.HP_RECOVERY);
         var hp = construct.PlaceBuilding(selectedObj, GetTile(1, 7, gridMap), gridMap);
-        //constructedBuildings.Add(hp);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STAMINA_RECOVERY);
         var stamina = construct.PlaceBuilding(selectedObj, GetTile(1, 4, gridMap), gridMap);
-        //constructedBuildings.Add(stamina);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STRESS_RECOVERY);
         var stress = construct.PlaceBuilding(selectedObj, GetTile(1, 1, gridMap), gridMap);
-        //constructedBuildings.Add(stress);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STANDARD);
         var standard = construct.PlaceBuilding(selectedObj, GetTile(4, 4, gridMap), gridMap);
-        //constructedBuildings.Add(standard);
-
-        //selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STR_UPGRADE);
-        //var str = construct.PlaceBuilding(selectedObj, GetTile(1, 3, gridMap), gridMap);
-        //constructedBuildings.Add(str);
-
-        //selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.MAG_UPGRADE);
-        //var mag = construct.PlaceBuilding(selectedObj, GetTile(1, 2, gridMap), gridMap);
-        //constructedBuildings.Add(mag);
-
-        //selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.AGI_UPGRADE);
-        //var agi = construct.PlaceBuilding(selectedObj, GetTile(1, 1, gridMap), gridMap);
-        //constructedBuildings.Add(agi);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.PORTAL);
         var portal = construct.PlaceBuilding(selectedObj, GetTile(7, 5, gridMap), gridMap);
-        //constructedBuildings.Add(portal);
+        var portalBuilding = portal.GetComponent<Building>();
+        portalBuilding.RotateBuilding(portalBuilding);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.REVIVE);
         construct.PlaceBuilding(selectedObj, GetTile(7, 9, gridMap), gridMap);
-
-        var portalBuilding = portal.GetComponent<Building>();
-        portalBuilding.RotateBuilding(portalBuilding);
 
         SetDevelopText(false);
     }

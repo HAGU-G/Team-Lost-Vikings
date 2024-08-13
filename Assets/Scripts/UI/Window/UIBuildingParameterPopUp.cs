@@ -124,6 +124,12 @@ public class UIBuildingParameterPopUp : UIWindow
         //업적 카운팅
         var buildingID = upgradeComponent.GetComponent<Building>().StructureId;
         GameManager.questManager.SetAchievementCountByTargetID(buildingID, ACHIEVEMENT_TYPE.BUILDING_UPGRADE, 1);
+        
+        if (upgradeComponent.UpgradeGrade >= grade.Count)
+        {
+            SetLastUpgrade();
+            return;
+        }
 
         SetPopUp();
     }
@@ -261,12 +267,10 @@ public class UIBuildingParameterPopUp : UIWindow
         {
             if (requireItemNums[i] <= im.GetItem(requireItemIds[i]))
             {
-                //upgrade.targetGraphic.color = Color.green;
                 resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.black;
             }
             else
             {
-                //upgrade.targetGraphic.color = Color.gray;
                 resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
                 check = false;
             }
