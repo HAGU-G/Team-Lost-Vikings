@@ -4,7 +4,7 @@ using UnityEngine.AddressableAssets;
 
 public class SkillSingle : ISkillStrategy
 {
-    public void Use(UnitStats owner, Skill skill, Vector3 targetPos)
+    public void Use(UnitStats owner, Skill skill, CombatUnit targetUnit)
     {
         var combat = owner.objectTransform.GetComponent<CombatUnit>();
 

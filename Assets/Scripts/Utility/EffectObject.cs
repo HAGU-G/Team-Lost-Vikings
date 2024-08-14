@@ -39,14 +39,14 @@ public class EffectObject : MonoBehaviour
     {
         foreach (var p in particleSystems)
         {
-            p.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            p.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         }
         isStopped = true;
     }
 
     private void Update()
     {
-        if(!isLoop && !isOnProjectile)
+        if (!isLoop && !isOnProjectile)
         {
             bool isParticleStopped = true;
             foreach (var p in particleSystems)
@@ -94,7 +94,6 @@ public class EffectObject : MonoBehaviour
     {
         var delta = targetPos - transform.position;
         var rotationDeg = Mathf.Rad2Deg * Mathf.Atan2(delta.y, delta.x);
-        transform.rotation = Quaternion.Euler(0, 0, isFlip ? 180f - rotationDeg : rotationDeg);
-
+        transform.eulerAngles = new (0f, isFlip ? 180f : 0f, isFlip ? 180f - rotationDeg : rotationDeg);
     }
 }

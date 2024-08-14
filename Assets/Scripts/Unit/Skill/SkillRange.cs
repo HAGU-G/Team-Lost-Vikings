@@ -10,7 +10,7 @@ public class SkillRange : ISkillStrategy
 
 
 
-    public void Use(UnitStats owner, Skill skill, Vector3 targetPos)
+    public void Use(UnitStats owner, Skill skill, CombatUnit targetUnit)
     {
         var combat = owner.objectTransform.GetComponent<CombatUnit>();
 
@@ -18,7 +18,7 @@ public class SkillRange : ISkillStrategy
             return;
 
         //범위 설정
-        attackEllipse = new(skill.Data.SkillAttackRange, targetPos);
+        attackEllipse = new(skill.Data.SkillAttackRange, targetUnit.transform.position);
         buffEllipse = new(skill.Data.BuffRange, combat.attackTarget.transform.position);
 
         //대상 설정
@@ -102,7 +102,7 @@ public class SkillRange : ISkillStrategy
 
         //이펙트
         var effect = GameManager.effectManager.GetEffect(skill.Data.SkillEffectName, SORT_LAYER.OverUnit);
-        effect.transform.position = targetPos;
+        effect.transform.position = targetUnit.transform.position;
         if (combat.isFlip)
             effect.transform.Rotate(Vector3.up, 180f);
     }

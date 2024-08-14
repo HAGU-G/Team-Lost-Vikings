@@ -108,9 +108,9 @@ public class Skill
         CastEllipse.position = pos;
     }
 
-    public void Use(Vector3 targetPos)
+    public void Use(CombatUnit targetUnit)
     {
-        skillBehaviour?.Use(owner, this, targetPos);
+        skillBehaviour?.Use(owner, this, targetUnit);
     }
 
     private void ConditionUpdate()

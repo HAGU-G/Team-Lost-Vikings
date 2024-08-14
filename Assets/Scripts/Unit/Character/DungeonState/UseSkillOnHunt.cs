@@ -10,7 +10,6 @@ public class UseSkillOnHunt : State<CombatUnit>
     private int useCount = 0;
     private float timer = 0f;
     private Skill skill = null;
-    private Vector3 targetPos;
     private CombatUnit target;
 
     public override void EnterState()
@@ -24,15 +23,12 @@ public class UseSkillOnHunt : State<CombatUnit>
         useCount = 0;
         timer = skill.Data.SkillCastTime;
         target = owner.attackTarget;
-        targetPos = owner.attackTarget.transform.position;
 
         if (owner.animator.listener != null)
             owner.animator.listener.OnSkillHitEvent += UseSkill;
 
         skill.ResetActiveValue();
         owner.LookAt(owner.attackTarget.transform);
-
-        Debug.Log($"스킬 시전 {skill.Data.SkillName}");
     }
 
     public override void ExitState()
@@ -69,14 +65,9 @@ public class UseSkillOnHunt : State<CombatUnit>
         }
 
         if (target != null && !target.IsDead && target.gameObject.activeSelf)
-        {
-            targetPos = target.transform.position;
             owner.LookAt(target.transform);
-        }
         else
-        {
             target = null;
-        }
 
         isPlaying = true;
         if (skill.Data.SkillCastTime <= 0f)
@@ -90,7 +81,7 @@ public class UseSkillOnHunt : State<CombatUnit>
 
     private void UseSkill()
     {
-        skill?.Use(targetPos);
+        skill?.Use(target);
         useCount++;
         isPlaying = false;
     }

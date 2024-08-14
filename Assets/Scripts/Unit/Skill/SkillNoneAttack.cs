@@ -9,7 +9,7 @@ public class SkillNoneAttack : ISkillStrategy
 
 
 
-    public void Use(UnitStats owner, Skill skill, Vector3 targetPos)
+    public void Use(UnitStats owner, Skill skill, CombatUnit targetUnit)
     {
         if (skill.Data.SkillActiveType == SKILL_ACTIVE_TYPE.ALWAYS)
             return;

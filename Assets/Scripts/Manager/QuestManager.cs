@@ -51,7 +51,14 @@ public class QuestManager
         foreach (var achieve in DataTableManager.achievementTable.GetDatas())
         {
             if (!Achievements.ContainsKey(achieve.AchieveId))
-                Achievements.Add(achieve.AchieveId, 0);
+            {
+                var count = achieve.AchieveType switch
+                {
+                    ACHIEVEMENT_TYPE.BUILDING_UPGRADE => 1,
+                    _ => 0
+                };
+                Achievements.Add(achieve.AchieveId, count);
+            }
         }
     }
 
