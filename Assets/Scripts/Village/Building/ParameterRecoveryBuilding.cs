@@ -143,12 +143,16 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
         }
         else if(GameManager.villageManager.constructMode.isConstructMode)
         {
-            GameManager.uiManager.currentParameterBuilding = this;
+            var constructMode = GameManager.uiManager.windows[WINDOW_NAME.CONSTRUCT_MODE] as UIConstructMode;
 
-            GameManager.uiManager.currentNormalBuidling = gameObject.GetComponent<Building>();
-            GameManager.uiManager.currentBuildingData = GameManager.uiManager.currentNormalBuidling.GetBuildingData();
-            GameManager.villageManager.village.upgrade = gameObject.GetComponent<BuildingUpgrade>();
-            GameManager.uiManager.uiDevelop.TouchBuildingInConstructMode();
+            if (!constructMode.isConstructing && !constructMode.IsReplacing)
+            {
+                GameManager.uiManager.currentParameterBuilding = this;
+                GameManager.uiManager.currentNormalBuidling = gameObject.GetComponent<Building>();
+                GameManager.uiManager.currentBuildingData = GameManager.uiManager.currentNormalBuidling.GetBuildingData();
+                GameManager.villageManager.village.upgrade = gameObject.GetComponent<BuildingUpgrade>();
+                GameManager.uiManager.uiDevelop.TouchBuildingInConstructMode();
+            }
         }
             
     }

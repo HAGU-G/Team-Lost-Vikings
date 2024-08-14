@@ -201,7 +201,6 @@ public class UIDevelop : MonoBehaviour
         changePlacement.gameObject.SetActive(true);
         rotateBuilding.gameObject.SetActive(true);
         destroyBuilding.gameObject.SetActive(true);
-
         SetButtonColor();
     }
 

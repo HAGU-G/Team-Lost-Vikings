@@ -22,10 +22,15 @@ public class ReviveBuilding : MonoBehaviour, IInteractableWithUnit
         }
         else if (GameManager.villageManager.constructMode.isConstructMode)
         {
-            GameManager.uiManager.currentNormalBuidling = gameObject.GetComponent<Building>();
-            GameManager.uiManager.currentBuildingData = GameManager.uiManager.currentNormalBuidling.GetBuildingData();
-            GameManager.villageManager.village.upgrade = gameObject.GetComponent<BuildingUpgrade>();
-            GameManager.uiManager.uiDevelop.TouchBuildingInConstructMode();
+            var constructMode = GameManager.uiManager.windows[WINDOW_NAME.CONSTRUCT_MODE] as UIConstructMode;
+
+            if (!constructMode.isConstructing && !constructMode.IsReplacing)
+            {
+                GameManager.uiManager.currentNormalBuidling = gameObject.GetComponent<Building>();
+                GameManager.uiManager.currentBuildingData = GameManager.uiManager.currentNormalBuidling.GetBuildingData();
+                GameManager.villageManager.village.upgrade = gameObject.GetComponent<BuildingUpgrade>();
+                GameManager.uiManager.uiDevelop.TouchBuildingInConstructMode();
+            }
         }
     }
 
