@@ -188,7 +188,6 @@ public class Construct
 
     public GameObject ReplaceBuilding(GameObject obj, Cell tile, GridMap gridMap) 
     {
-        //TO-DO : 자신이 차지하는 위치 중 하나로 옮겨도 사용가능하도록 수정 필요
         if (!CanReplaceBuilding(obj, tile, gridMap))
             return null;
 
@@ -227,6 +226,9 @@ public class Construct
         {
             for (int j = minY; j <= maxY; ++j)
             {
+                if (building.placedTiles.Contains(gridMap.GetTile(i, j)))
+                    continue;
+
                 if (gridMap.GetTile(i, j).tileInfo.TileType == TileType.OBJECT
                     || !gridMap.GetTile(i, j).tileInfo.MarginLayer.IsEmpty)
                     return false;
@@ -453,14 +455,15 @@ public class Construct
 
     public void UpdateHighlightedCells(Vector2Int centerIndex)
     {
-        // 이전에 하이라이트된 타일들의 색상을 원래대로 복원
-        foreach (var cell in previousHighlightedCells)
+        if(previousHighlightedCells.Count != 0)
         {
-            cell.RestoreTileColor();
+            foreach (var cell in previousHighlightedCells)
+            {
+                cell.RestoreTileColor();
+            }
+            previousHighlightedCells.Clear();
         }
-        previousHighlightedCells.Clear();
-
-        // 현재 손가락 위치를 중심으로 새로운 타일들을 하이라이트
+        
         CreateBuildingGrid(centerIndex, GameManager.uiManager.currentBuildingData.Width, GameManager.uiManager.currentBuildingData.Length);
     }
 

@@ -109,6 +109,9 @@ public class UIConstructMode : UIWindow
     {
         GameManager.villageManager.constructMode.isConstructMode = false;
         constructModeinProgress.SetActive(false);
+
+        um.uiDevelop.constructComplete.SetActive(false);
+        GameManager.villageManager.construct.ResetPrevTileColor();
         Close();
     }
 
@@ -145,11 +148,7 @@ public class UIConstructMode : UIWindow
                 var pos = GameManager.inputManager.WorldPos;
                 Vector2Int currentIndex = vm.gridMap.PosToIndex(pos);
 
-                if (vm.construct.previousHighlightedCells.Count == 0 
-                    || !vm.construct.previousHighlightedCells.Contains(vm.gridMap.GetTile(currentIndex.x, currentIndex.y)))
-                {
-                    vm.construct.UpdateHighlightedCells(currentIndex);
-                }
+                vm.construct.UpdateHighlightedCells(currentIndex);
             }
         }
 
