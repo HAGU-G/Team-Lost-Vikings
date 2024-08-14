@@ -87,19 +87,28 @@ public class UIBuildingDetail : UIWindow
             Destroy(r);
         }
         resources.Clear();
+        //TO-DO : 재설치 텍스트 지우는 내용 추가하기
 
-        for (int i = 0; i < upgrade.ItemIds.Count; ++i)
+        if(!vm.construct.IsBuildedBefore(buildingData.StructureId))
         {
-            var resource = GameObject.Instantiate(upgradeResource, requireTransform);
+            for (int i = 0; i < upgrade.ItemIds.Count; ++i)
+            {
+                var resource = GameObject.Instantiate(upgradeResource, requireTransform);
 
-            var asset = upgrade.ItemIds[i];
-            //resource.GetComponentInChildren<Image>().sprite = ;
+                var asset = upgrade.ItemIds[i];
+                //resource.GetComponentInChildren<Image>().sprite = ;
 
-            resource.GetComponentInChildren<TextMeshProUGUI>().text
-                = $"{im.GetItem(upgrade.ItemIds[i])} / {upgrade.ItemNums[i]}";
+                resource.GetComponentInChildren<TextMeshProUGUI>().text
+                    = $"{im.GetItem(upgrade.ItemIds[i])} / {upgrade.ItemNums[i]}";
 
-            resources.Add(resource);
+                resources.Add(resource);
+            }
         }
+        else
+        {
+            //TO-DO : UI변경되면 텍스트 넣는 부분 추가하기
+        }
+        
         CheckRequireItems(canBuild);
     }
 
@@ -115,7 +124,7 @@ public class UIBuildingDetail : UIWindow
         Color trueColor = new Color(200f / 255f, 231f/55f, 167f / 255f);
         Color falseColor = new Color(255f / 255f, 128f/55f, 128f / 255f);
 
-        for (int i = 0; i < upgrade.ItemIds.Count; ++i)
+        for (int i = 0; i < resources.Count; ++i)
         {
             if (requireItemNums[i] <= im.GetItem(requireItemIds[i]))
             {

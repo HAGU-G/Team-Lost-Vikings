@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using TMPro;
+using UnityEditor.Build.Pipeline.Utilities;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
@@ -342,10 +343,10 @@ public class UIConstructMode : UIWindow
         buttonActivationStatus[button] = isActive;
         return isActive;
 
-        if (isActive)
-            SetButtonColor(button, true);
+        //if (isActive)
+        //    SetButtonColor(button, true);
 
-        buttonActivationStatus[button] = isActive;
+        //buttonActivationStatus[button] = isActive;
     }
 
     private void SetButtonColor(Button button, bool satisfy)
@@ -407,11 +408,17 @@ public class UIConstructMode : UIWindow
     {
         if(vm.construct.selectedCell != null)
         {
+            if (!vm.construct.IsBuildedBefore(um.currentBuildingData.StructureId))
+                SpendItemsForBuild(um.currentBuildingData);
+
             var constructObj = buildingDetail.ConstructBuilding(vm.construct.selectedCell);
             if (constructObj != null)
             {
                 isConstructing = false;
                 buildings.TryGetValue(um.currentBuildingData, out var obj);
+
+                var building = constructObj.GetComponent<Building>();
+                
 
                 ApplyBuildingEffection(constructObj.GetComponent<Building>());
 
@@ -490,7 +497,7 @@ public class UIConstructMode : UIWindow
     private void ApplyBuildingEffection(Building building)
     {
         var type = building.StructureType;
-        SpendItemsForBuild(building);
+        
         switch (type)
         {
             case STRUCTURE_TYPE.STAT_UPGRADE:
@@ -526,7 +533,7 @@ public class UIConstructMode : UIWindow
     private void ResetBuildingEffection(Building building)
     {
         var type = building.StructureType;
-        AddItemsForRemove(building);
+        //AddItemsForRemove(building);
         switch (type)
         {
             case STRUCTURE_TYPE.STAT_UPGRADE:
@@ -558,7 +565,7 @@ public class UIConstructMode : UIWindow
         }
     }
 
-    private void SpendItemsForBuild(Building building)
+    private void SpendItemsForBuild(BuildingData building)
     {
         var up = DataTableManager.upgradeTable.GetData(building.UpgradeId);
         for(int i = 0; i < up[0].ItemIds.Count; ++i)

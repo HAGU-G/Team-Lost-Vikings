@@ -25,8 +25,8 @@ public class UnitOnVillage : Unit
     }
     public bool isReviveQuited = false;
 
-    private float timer = 0f;
-    private float debugTime = 5f;
+    //private float timer = 0f;
+    //private float debugTime = 5f;
 
     //public event Action<PARAMETER_TYPES> OnUnitRecoveryDone;
 
@@ -72,12 +72,12 @@ public class UnitOnVillage : Unit
         base.Update();
         VillageFSM.Update();
 
-        timer += Time.deltaTime;
-        if (timer >= debugTime)
-        {
-            Debug.Log($"unit : {stats.Id} / combatPoint : {stats.CombatPoint}");
-            timer = 0f;
-        }
+        //timer += Time.deltaTime;
+        //if (timer >= debugTime)
+        //{
+        //    Debug.Log($"unit : {stats.Id} / combatPoint : {stats.CombatPoint}");
+        //    timer = 0f;
+        //}
 
         if (currentState == STATE.GOTO && destination != null)
         {

@@ -568,4 +568,26 @@ public class Construct
         }
         previousHighlightedCells.Clear();
     }
+
+    public bool IsBuildedBefore(int id)
+    {
+        int buildingID = id; //건물 ID
+        var achieveID = 0;
+        foreach (var achieve in DataTableManager.achievementTable.GetDatas())
+        {
+            if (achieve.TargetId == buildingID
+                && achieve.AchieveType == ACHIEVEMENT_TYPE.BUILDING_BUILD)
+                achieveID = achieve.AchieveId;
+        }
+
+        //관련 업적 없음
+        if (achieveID == 0)
+            return false;
+
+        //업적 클리어됨
+        if (GameManager.questManager.Achievements[achieveID] > 0)
+            return true;
+
+        return false;
+    }
 }
