@@ -143,7 +143,17 @@ public class UIConstructMode : UIWindow
     {
         if (buildingDetail.isConstructing)
         {
-            if(GameManager.inputManager.Press && GameManager.inputManager.receiver.Received)
+            if (GameManager.inputManager.Drag && GameManager.inputManager.Moved)
+            {
+                if (um.uiDevelop.constructComplete.activeSelf)
+                    um.uiDevelop.constructComplete.SetActive(false);
+
+                return;
+            }
+            //Debug.Log($"{GameManager.inputManager.Drag},{GameManager.inputManager.Moved}");
+            if (!GameManager.inputManager.Drag 
+                && !GameManager.inputManager.Moved
+                /*&& GameManager.inputManager.receiver.Received*/)
             {
                 var pos = GameManager.inputManager.WorldPos;
                 Vector2Int currentIndex = vm.gridMap.PosToIndex(pos);
