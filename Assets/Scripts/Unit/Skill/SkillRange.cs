@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using static UnityEngine.GraphicsBuffer;
 
 public class SkillRange : ISkillStrategy
 {
@@ -9,7 +10,7 @@ public class SkillRange : ISkillStrategy
 
 
 
-    public void Use(UnitStats owner, Skill skill, Vector3 targetPos)
+    public void Use(UnitStats owner, Skill skill, CombatUnit targetUnit)
     {
         var combat = owner.objectTransform.GetComponent<CombatUnit>();
 
@@ -17,7 +18,7 @@ public class SkillRange : ISkillStrategy
             return;
 
         //범위 설정
-        attackEllipse = new(skill.Data.SkillAttackRange, targetPos);
+        attackEllipse = new(skill.Data.SkillAttackRange, targetUnit.transform.position);
         buffEllipse = new(skill.Data.BuffRange, combat.attackTarget.transform.position);
 
         //대상 설정
@@ -100,11 +101,9 @@ public class SkillRange : ISkillStrategy
         }
 
         //이펙트
-        //TODO addressable 수정 필요 - 오브젝트 풀이나 미리 로드하는 방식 사용
-        var skillHandle = Addressables.InstantiateAsync(skill.Data.SkillEffectName, targetPos, Quaternion.identity);
-        skillHandle.WaitForCompletion().AddComponent<AddressableDestroyWhenDisable>();
-
-
-
+        var effect = GameManager.effectManager.GetEffect(skill.Data.SkillEffectName, SORT_LAYER.OverUnit);
+        effect.transform.position = targetUnit.transform.position;
+        if (combat.isFlip)
+            effect.transform.Rotate(Vector3.up, 180f);
     }
 }

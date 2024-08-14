@@ -34,3 +34,4 @@ MonoBehaviour:
   monsterRoamSeconds: 2
   projectileSize: 0.5
   goldID: 8000001
+  touchEffectName: VFX_Touch_001

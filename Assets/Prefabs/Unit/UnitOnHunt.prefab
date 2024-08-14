@@ -44,87 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73768bb8fed880847b50eec115ccb1ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats:
-    <Id>k__BackingField: 0
-    <Name>k__BackingField: 
-    <AssetFileName>k__BackingField: 
-    <HP>k__BackingField:
-      defaultValue: 0
-      min: 0
-      max: 2147483647
-      _current: 0
-    <MoveSpeed>k__BackingField:
-      _defaultValue: 0
-      upOnInspector: 0
-    <UnitSize>k__BackingField:
-      _defaultValue: 0
-      upOnInspector: 0
-    <RecognizeRange>k__BackingField:
-      _defaultValue: 0
-      upOnInspector: 0
-    <PresenseRange>k__BackingField:
-      _defaultValue: 0
-      upOnInspector: 0
-    <AttackRange>k__BackingField:
-      _defaultValue: 0
-      upOnInspector: 0
-    <AttackSpeed>k__BackingField:
-      _defaultValue: 0
-      upOnInspector: 0
-    <CombatPoint>k__BackingField: 0
-    objectTransform: {fileID: 0}
-    <InstanceID>k__BackingField: 2019996241
-    <HuntZoneNum>k__BackingField: -1
-    <Stamina>k__BackingField:
-      defaultValue: 0
-      min: 0
-      max: 2147483647
-      _current: 0
-    <Stress>k__BackingField:
-      defaultValue: 0
-      min: 0
-      max: 2147483647
-      _current: 0
-    <BaseHP>k__BackingField:
-      _defaultValue: 0
-      upOnInspector: 0
-    <Vit>k__BackingField:
-      _defaultValue: 0
-      upOnInspector: 0
-    <VitWeight>k__BackingField:
-      _defaultValue: 0
-      upOnInspector: 0
-    <BaseStr>k__BackingField:
-      _defaultValue: 0
-      upOnInspector: 0
-    <StrWeight>k__BackingField:
-      _defaultValue: 0
-      upOnInspector: 0
-    <BaseWiz>k__BackingField:
-      _defaultValue: 0
-      upOnInspector: 0
-    <WizWeight>k__BackingField:
-      _defaultValue: 0
-      upOnInspector: 0
-    <BaseAgi>k__BackingField:
-      _defaultValue: 0
-      upOnInspector: 0
-    <AgiWeight>k__BackingField:
-      _defaultValue: 0
-      upOnInspector: 0
-    <CritChance>k__BackingField:
-      _defaultValue: 0
-      upOnInspector: 0
-    <CritWeight>k__BackingField:
-      _defaultValue: 0
-      upOnInspector: 0
-    parameterType: 0
+  hitEffectPos: {fileID: 0}
   dress: {fileID: 0}
-  skills:
-    <SkillList>k__BackingField: []
-  skillEffect: {fileID: 0}
   isActing: 0
-  currentState: 0
-  forceReturn: 0
   attackTarget: {fileID: 0}
   isTargetFixed: 0
+  usingSkillNum: -1
+  forceReturn: 0
+  currentState: 0

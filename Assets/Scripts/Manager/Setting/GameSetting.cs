@@ -122,7 +122,8 @@ public class GameSetting : ScriptableObject
     public int autoGachaMaxCount = 99;
 
     public int defaultUnitLimit = 4;
-
+    public float defaultBowProjectileSpeed = 4f;
+    public float defaultMagicProjectileSpeed = 4f;
 
     //////////////////////////////////////////////////////////////////////////////////////////////
     // 몬스터 설정 ///////////////////////////////////////////////////////////////////////////////
@@ -138,4 +139,5 @@ public class GameSetting : ScriptableObject
 
     public float projectileSize = 0.5f;
     public int goldID = 8000001;
+    public string touchEffectName = string.Empty;
 }

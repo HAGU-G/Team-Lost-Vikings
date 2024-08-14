@@ -133,6 +133,7 @@ public class InputManager : MonoBehaviour
         {
             Pos = PrevPos = mouse.position.value;
             Touch = true;
+            Press = true;
         }
         if (mouse.leftButton.isPressed)
         {
