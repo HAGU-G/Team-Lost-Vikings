@@ -437,7 +437,7 @@ public class Construct
         building.entranceTiles.Add(gridMap.GetTile(tile.tileInfo.id.x, lowestIndex.y));
     }
 
-    private void MakeBuildingGrid()
+    public void MakeBuildingGrid()
     {
         var buildingData = GameManager.uiManager.currentBuildingData;
         var width = buildingData.Width;
@@ -475,15 +475,17 @@ public class Construct
                 Cell cell = gridMap.GetTile(cellIndex.x, cellIndex.y);
                 if (cell != null)
                 {
-                    previousHighlightedCells.Add(cell); // 현재 하이라이트된 타일들을 저장
-
-                    
+                    previousHighlightedCells.Add(cell);
                 }
             }
         }
 
         var standarCell = gridMap.GetTile(centerIndex.x, centerIndex.y);
         if (GameManager.villageManager.construct.CanBuildBuilding(width, length, standarCell, gridMap))
+        {
+            
+        }
+        else
         {
 
         }

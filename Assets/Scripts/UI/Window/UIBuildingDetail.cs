@@ -144,6 +144,7 @@ public class UIBuildingDetail : UIWindow
         exceptWindows[0] = um.windows[WINDOW_NAME.CONSTRUCT_MODE];
         um.CloseWindows(exceptWindows);
         isConstructing = true;
+        vm.construct.MakeBuildingGrid();
     }
 
     public GameObject ConstructBuilding(Cell cell)
