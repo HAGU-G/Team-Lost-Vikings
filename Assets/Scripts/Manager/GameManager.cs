@@ -32,6 +32,7 @@ public static class GameManager
     public static CameraManager cameraManager;
     public static SoundManager soundManager;
     public static DialogManager dialogManager = new();
+    public static EffectManager effectManager = null;
 
     public static bool IsReady { get; private set; } = false;
 
