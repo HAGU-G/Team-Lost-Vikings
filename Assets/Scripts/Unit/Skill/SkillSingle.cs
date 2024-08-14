@@ -75,8 +75,9 @@ public class SkillSingle : ISkillStrategy
         targetList[0].stats.ApplyBuff(new(skill));
 
         //이펙트
-
-        GameManager.effectManager.GetEffect(skill.Data.SkillEffectName, SORT_LAYER.OverUnit)
-            .transform.position = targetList[0].transform.position;
+        var effect = GameManager.effectManager.GetEffect(skill.Data.SkillEffectName, SORT_LAYER.OverUnit);
+        effect.transform.position = targetList[0].transform.position;
+        if (combat.isFlip)
+            effect.transform.Rotate(Vector3.up, 180f);
     }
 }

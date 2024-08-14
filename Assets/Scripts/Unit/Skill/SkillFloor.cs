@@ -111,8 +111,9 @@ public class SkillFloor : ISkillStrategy
 
         //이펙트
         //TODO addressable 수정 필요 - 오브젝트 풀이나 미리 로드하는 방식 사용
-        GameManager.effectManager.GetEffect(skill.Data.SkillEffectName, SORT_LAYER.OverUnit)
-            .transform.position = targetPos;
-
+        var effect = GameManager.effectManager.GetEffect(skill.Data.SkillEffectName, SORT_LAYER.OverUnit);
+        effect.transform.position = targetPos;
+        if (combat.isFlip)
+            effect.transform.Rotate(Vector3.up, 180f);
     }
 }

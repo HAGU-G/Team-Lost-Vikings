@@ -20,7 +20,10 @@ public class EffectObject : MonoBehaviour
 
     private bool isStopped = false;
     public bool isLoop = false;
+    public bool isFlip = false;
+    [HideInInspector] public bool isOnProjectile = false;
     public IObjectPool<EffectObject> pool;
+
 
     private void Awake()
     {
@@ -43,7 +46,7 @@ public class EffectObject : MonoBehaviour
 
     private void Update()
     {
-        if(!isLoop)
+        if(!isLoop && !isOnProjectile)
         {
             bool isParticleStopped = true;
             foreach (var p in particleSystems)
@@ -85,5 +88,13 @@ public class EffectObject : MonoBehaviour
             pool.Release(this);
         else if (!Addressables.ReleaseInstance(gameObject))
             Destroy(gameObject);
+    }
+
+    public void LookAt(Vector3 targetPos)
+    {
+        var delta = targetPos - transform.position;
+        var rotationDeg = Mathf.Rad2Deg * Mathf.Atan2(delta.y, delta.x);
+        transform.rotation = Quaternion.Euler(0, 0, isFlip ? 180f - rotationDeg : rotationDeg);
+
     }
 }

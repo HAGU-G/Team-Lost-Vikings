@@ -101,8 +101,9 @@ public class SkillRange : ISkillStrategy
         }
 
         //이펙트
-        GameManager.effectManager.GetEffect(skill.Data.SkillEffectName, SORT_LAYER.OverUnit)
-            .transform.position = targetPos;
-
+        var effect = GameManager.effectManager.GetEffect(skill.Data.SkillEffectName, SORT_LAYER.OverUnit);
+        effect.transform.position = targetPos;
+        if (combat.isFlip)
+            effect.transform.Rotate(Vector3.up, 180f);
     }
 }

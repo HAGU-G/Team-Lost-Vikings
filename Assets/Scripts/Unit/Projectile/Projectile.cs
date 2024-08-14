@@ -9,6 +9,7 @@ using static UnityEngine.GraphicsBuffer;
 public class Projectile : MonoBehaviour
 {
     public GameObject tempImage;
+    public Transform effectPos;
     private SortingGroup sortingGroup;
 
     private SkillData skillData;
@@ -26,6 +27,8 @@ public class Projectile : MonoBehaviour
     private float attackTimer;
     private bool isActive = true;
 
+    private EffectObject effect;
+
     private void Awake()
     {
         sortingGroup = GetComponent<SortingGroup>();
@@ -39,15 +42,16 @@ public class Projectile : MonoBehaviour
         {
             if (!IsFloor)
             {
-                GameManager.effectManager.GetEffect(skillData.SkillEffectName, SORT_LAYER.OverUnit)
-                    .transform.position = transform.position;
+                var hitEffect = GameManager.effectManager.GetEffect(skillData.SkillEffectName, SORT_LAYER.OverUnit);
+                hitEffect.transform.position = effectPos.position;
+                if (hitEffect.isFlip)
+                    hitEffect.transform.Rotate(Vector3.up, 180f);
             }
             gameObject.SetActive(false);
             Addressables.ReleaseInstance(gameObject);
         }
 
-        transform.position += direction * skillData.ProjectileSpeed * Time.deltaTime;
-        ellipse.position = transform.position;
+        SetPosition(transform.position + direction * skillData.ProjectileSpeed * Time.deltaTime);
 
         lifeTimer -= Time.deltaTime;
 
@@ -72,7 +76,7 @@ public class Projectile : MonoBehaviour
             }
 
             if (lifeTimer <= 0f)
-                isActive = false;
+                Remove();
         }
         else
         {
@@ -87,18 +91,44 @@ public class Projectile : MonoBehaviour
                 if (ellipse.IsCollidedWith(target.stats.SizeEllipse))
                 {
                     appliedDamage += target.TakeDamage(damage, skillData.SkillType).Item2;
-                    isActive = false;
+                    Remove();
                     break;
                 }
             }
 
             if (Vector3.Distance(transform.position, destination) <= skillData.ProjectileSpeed * Time.deltaTime)
-                isActive = false;
+                Remove();
         }
 
         //흡혈
         if (skillData.VitDrainRatio > 0f && appliedDamage > 0f)
             owner.TakeHeal(Mathf.FloorToInt(appliedDamage * skillData.VitDrainRatio));
+    }
+
+    private void Remove()
+    {
+        isActive = false;
+
+        if (effect == null)
+            return;
+
+        effect.Stop();
+        effect = null;
+    }
+
+    public void SetPosition(Vector3 pos, bool doRotate = true)
+    {
+        transform.position = pos;
+        ellipse.position = transform.position;
+
+        if (effect == null)
+            return;
+
+        if (doRotate)
+            effect.LookAt(effectPos.position);
+
+        effect.transform.position = effectPos.position;
+
     }
 
     public void Init(SkillData skillData)
@@ -129,12 +159,31 @@ public class Projectile : MonoBehaviour
         this.owner = owner;
         targets = owner.Enemies;
 
-        transform.position = position;
-        ellipse.position = position;
+        SetPosition(position);
         this.destination = destination;
         direction = (destination - position).normalized;
 
         isActive = true;
         gameObject.SetActive(true);
+
+        effect = GameManager.effectManager.GetEffect(skillData.ProjectileFileName);
+        if (effect != null)
+        {
+            effect.isOnProjectile = true;
+            effect.transform.position = effectPos.position;
+            effect.isFlip = owner.isFlip;
+
+            if (IsFloor)
+            {
+                effect.transform.localScale = Vector3.one * skillData.SkillAttackRange;
+                if (effect.isFlip)
+                    effect.transform.Rotate(Vector3.up, 180f);
+            }
+            else
+            {
+                effect.transform.localScale = Vector3.one * GameSetting.Instance.projectileSize;
+                effect.LookAt(destination);
+            }
+        }
     }
 }

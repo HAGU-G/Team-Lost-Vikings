@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using System.Linq;
 
 /// <summary>
 /// 레이어 이름을 사용하기 때문에 코드 규칙을 따르지 않음
@@ -84,7 +85,10 @@ public class EffectManager : MonoBehaviour
     public EffectObject GetEffect(string effectName, SORT_LAYER layer = SORT_LAYER.NONE)
     {
         if (!effectPools.ContainsKey(effectName))
-            AddPool(effectName);
+        {
+            if (!AddPool(effectName))
+                return null;
+        }
 
         var effect = effectPools[effectName].Get();
         if (layer != SORT_LAYER.NONE)
@@ -93,12 +97,19 @@ public class EffectManager : MonoBehaviour
     }
 
 
-    // 오브젝트 풀
-    private void AddPool(string effectName)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="effectName"></param>
+    /// <returns>어드레서블에 이펙트가 없을 경우 false 반환</returns>
+    private bool AddPool(string effectName)
     {
         if (effectPools.ContainsKey(effectName))
-            return;
+            return true;
 
+        if (Addressables.LoadResourceLocationsAsync(effectName).WaitForCompletion().Count <= 0)
+            return false;
+        
         var handle = Addressables.LoadAssetAsync<GameObject>(effectName);
         var go = handle.WaitForCompletion();
         var effect = go.GetComponent<EffectObject>();
@@ -121,6 +132,8 @@ public class EffectManager : MonoBehaviour
 
         effectPools.Add(effectName, pool);
         handles.Add(effectName, handle);
+
+        return true;
     }
 
     private void RemovePool(string effectName)
@@ -133,12 +146,17 @@ public class EffectManager : MonoBehaviour
         handles.Remove(effectName);
     }
 
-    private void OnGetEffect(EffectObject effectObject) 
+    private void OnGetEffect(EffectObject effectObject)
     {
         effectObject.gameObject.SetActive(true);
     }
 
-    private void OnReleaseEffect(EffectObject effectObject) { }
+    private void OnReleaseEffect(EffectObject effectObject)
+    {
+        effectObject.transform.localScale = Vector3.one;
+        effectObject.isOnProjectile = false;
+        effectObject.transform.rotation = Quaternion.identity;
+    }
 
     private void OnDestroyEffect(EffectObject effectObject) { }
 }

@@ -84,8 +84,10 @@ public class SkillNoneAttack : ISkillStrategy
 
         foreach (var target in targetList)
         {
-            GameManager.effectManager.GetEffect(skill.Data.SkillEffectName, SORT_LAYER.OverUnit)
-                .transform.position = target.transform.position;
+            var effect = GameManager.effectManager.GetEffect(skill.Data.SkillEffectName, SORT_LAYER.OverUnit);
+            effect.transform.position = target.transform.position;
+            if (combat.isFlip)
+                effect.transform.Rotate(Vector3.up, 180f);
         }
     }
 }
