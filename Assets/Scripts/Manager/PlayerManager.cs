@@ -23,6 +23,10 @@ public class PlayerManager
         }
     }
 
+    public int recruitLevel = 0;
+
+    [JsonProperty] public bool firstPlay = true;
+
     [JsonProperty] public StatInt unitStr = new();
     [JsonProperty] public StatInt unitMag = new();
     [JsonProperty] public StatInt unitAgi = new();

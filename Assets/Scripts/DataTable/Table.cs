@@ -43,6 +43,9 @@ public class Table<T, U> where U : ITableAvaialable<T>
         using (var reader = new StringReader(textAsset.text))
         using (var csvReader = new CsvReader(reader, CultureInfo.InvariantCulture))
         {
+            csvReader.Context.TypeConverterCache.AddConverter(new CsvStringConverter());
+            csvReader.Context.TypeConverterCache.AddConverter(new CsvFloatConverter());
+            csvReader.Context.TypeConverterCache.AddConverter(new CsvIntConverter());
             csvReader.Read();
             csvReader.Read();
 
@@ -62,6 +65,8 @@ public class Table<T, U> where U : ITableAvaialable<T>
         }
     }
 
+    public bool ContainsKey(T id) => datas.ContainsKey(id);
+    public bool ContainsValue(U value) => datas.ContainsValue(value);
     public U GetData(T id)
     {
         return datas[id];

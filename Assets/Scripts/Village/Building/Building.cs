@@ -31,8 +31,6 @@ public class Building : MonoBehaviour, IPointerClickHandler
     [field: SerializeField]
     public int UpgradeId { get; set; }
     [field: SerializeField]
-    public string StructureAssetFileName { get; set; }
-    [field: SerializeField]
     public string StructureDesc { get; set; }
 
     public Cell standardTile; //설치, 회전 시 기준이 되는 타일

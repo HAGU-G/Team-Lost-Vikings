@@ -61,7 +61,6 @@ public class InputManager : MonoBehaviour
                     Pos = touch.screenPosition;
 
                 bool isOutTapDistance = false;
-
                 switch (touch.phase)
                 {
                     case TouchPhase.Began:
@@ -89,7 +88,7 @@ public class InputManager : MonoBehaviour
                             isOutTapDistance = MoveDistance * Screen.dpi > tapAllowInch;
                             WorldDeltaPos = Camera.main.ScreenToWorldPoint(Pos) - Camera.main.ScreenToWorldPoint(PrevPos);
                         }
-                        else if (secondID == touch.finger)
+                        if (secondID == touch.finger)
                         {
                             SecondPos = touch.screenPosition;
                             if (TouchDistance > 0f)
@@ -106,9 +105,10 @@ public class InputManager : MonoBehaviour
                             Moved = false;
                             MoveDistance = 0f;
                         }
-                        else if (secondID == touch.finger)
+                        if (secondID == touch.finger)
                         {
                             TouchDistance = 0f;
+                            secondID = null;
                         }
                         break;
                 }

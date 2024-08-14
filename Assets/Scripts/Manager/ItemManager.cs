@@ -48,10 +48,7 @@ public class ItemManager
     {
         get
         {
-            if (ownItemList.TryGetValue(GameSetting.Instance.goldID, out int amount))
-                return amount;
-            else
-                return 0;
+            return GetItem(GameSetting.Instance.goldID);
         }
         set
         {
@@ -70,6 +67,9 @@ public class ItemManager
 
     [JsonProperty] public Dictionary<int, int> ownItemList = new();
     public int goldLimit = 4000;
+
+    public delegate void OnItemChanged();
+    public event OnItemChanged OnItemChangedCallback;
 
     public int GetItem(int id)
     {
@@ -107,6 +107,8 @@ public class ItemManager
             id,
             ACHIEVEMENT_TYPE.ITEM_GET,
             ownItemList[id] - prevAmount);
+
+        OnItemChangedCallback?.Invoke();
     }
 
     public bool SpendItem(int id, int amount, bool doForceSpend = false)
@@ -127,6 +129,8 @@ public class ItemManager
             default:
                 break;
         }
+
+        OnItemChangedCallback?.Invoke();
 
         GameManager.questManager.SetAchievementCountByTargetID(id, ACHIEVEMENT_TYPE.ITEM_USE, amount);
         return true;

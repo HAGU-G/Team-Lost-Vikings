@@ -69,7 +69,7 @@ public class UnitManager
         while (gachaCount > 0 && !IsMaxWait)
         {
             gachaCount--;
-            GachaCharacter(GameManager.playerManager.level);
+            GachaCharacter(GameManager.playerManager.recruitLevel);
         }
         autoGachaTimeCorrection = sleepSeconds - gachaCount;
 
@@ -221,7 +221,7 @@ public class UnitManager
             else
             {
                 autoGachaTimeCorrection = 0f;
-                GachaCharacter(GameManager.playerManager.level);
+                GachaCharacter(GameManager.playerManager.recruitLevel);
                 lastAutoGachaTime = System.DateTime.Now;
 
                 //TESTCODE

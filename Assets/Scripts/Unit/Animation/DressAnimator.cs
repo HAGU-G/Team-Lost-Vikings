@@ -59,16 +59,15 @@ public class DressAnimator
             return;
 
         animator.SetInteger(paramAttackMotion, (int)motion);
-        animator.SetTrigger(triggerAttack);
-
-        float currLength = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
-        float nextLength = 0;
-        var nextClips = animator.GetNextAnimatorClipInfo(0);
-        if (nextClips.Length > 0)
-            nextLength = nextClips[0].clip.length;
-
-        float multiplier = ((nextLength == 0f) ? currLength : nextLength) / attackSpeed.Current;
+        var clipNum = motion switch
+        {
+            ATTACK_MOTION.MAGIC => 5,
+            ATTACK_MOTION.BOW => 4,
+            _ => 6
+        };
+        float multiplier = animator.runtimeAnimatorController.animationClips[clipNum].length / attackSpeed.Current;
         animator.SetFloat(paramAttackSpeed, multiplier);
+        animator.SetTrigger(triggerAttack);
     }
 
     public void AnimSkill(ATTACK_MOTION motion, float castTime)
@@ -77,15 +76,14 @@ public class DressAnimator
             return;
 
         animator.SetInteger(paramAttackMotion, (int)motion);
-        animator.SetTrigger(triggerSkill);
-
-        float currLength = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
-        float nextLength = 0;
-        var nextClips = animator.GetNextAnimatorClipInfo(0);
-        if (nextClips.Length > 0)
-            nextLength = nextClips[0].clip.length;
-
-        float multiplier = ((nextLength == 0f) ? currLength : nextLength) / castTime;
+        var clipNum = motion switch
+        {
+            ATTACK_MOTION.MAGIC => 8,
+            ATTACK_MOTION.BOW => 7,
+            _ => 9
+        };
+        float multiplier = animator.runtimeAnimatorController.animationClips[clipNum].length / castTime;
         animator.SetFloat(paramAttackSpeed, multiplier);
+        animator.SetTrigger(triggerSkill);
     }
 }

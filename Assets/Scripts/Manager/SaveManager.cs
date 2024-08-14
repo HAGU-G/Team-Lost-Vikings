@@ -7,7 +7,7 @@ using CurrentSave = SaveDataV1;
 public static class SaveManager
 {
     private static readonly string fileDirectory = $"{Application.persistentDataPath}/save";
-    private static readonly string fileName = "AtferProtoSave";
+    private static readonly string fileName = "CBTSAVEFILE";
     private static readonly string key = "89f0d73j038fjje0";
 
     private static SaveData saveData = null;
@@ -28,6 +28,8 @@ public static class SaveManager
         save.unitManager = GameManager.unitManager;
         save.playerManager = GameManager.playerManager;
         save.itemManager = GameManager.itemManager;
+        save.questManager = GameManager.questManager;
+        save.dialogManager = GameManager.dialogManager;
 
         save.huntZones.Clear();
         foreach (var huntZoneInfo in GameManager.huntZoneManager.HuntZones)
@@ -36,11 +38,24 @@ public static class SaveManager
         }
         save.UnitDeployment = GameManager.huntZoneManager.UnitDeployment;
 
+        for (int i = 0; i < GameManager.villageManager.constructedBuildings.Count; ++i)
+        {
+            var building = GameManager.villageManager.constructedBuildings[i].GetComponent<Building>();
+            Debug.Log(GameManager.villageManager.constructedBuildings[i]);
+            var tileId = building.standardTile.tileInfo.id;
+            var structureId = building.StructureId;
+            Debug.Log($"{structureId},{tileId}");
+
+            if(!save.buildings.ContainsKey(tileId))
+                save.buildings.Add(tileId, structureId);
+        }
+
         save.buildingUpgrade.Clear();
         foreach (var building in GameManager.villageManager.constructedBuildings)
         {
             var up = building.GetComponent<BuildingUpgrade>();
-            save.buildingUpgrade.Add(up == null ? 0 : up.currentGrade);
+            var id = building.GetComponent<Building>().StructureId;
+            save.buildingUpgrade.Add(id,up == null ? 0 : up.currentGrade);
         }
 
 
@@ -75,6 +90,8 @@ public static class SaveManager
         GameManager.unitManager = save.unitManager;
         GameManager.playerManager = save.playerManager;
         GameManager.itemManager = save.itemManager;
+        GameManager.questManager = save.questManager;
+        GameManager.dialogManager = save.dialogManager;
 
         foreach (var huntZoneInfo in save.huntZones)
         {
@@ -82,17 +99,30 @@ public static class SaveManager
         }
         GameManager.huntZoneManager.UnitDeployment = save.UnitDeployment;
 
-        //for (int i = 0; i < save.buildingUpgrade.Count; i++)
-        //{
-        //    var up = GameManager.villageManager.constructedBuildings[i].GetComponent<BuildingUpgrade>();
 
-        //    if (up == null)
-        //        continue;
+        foreach (var key in save.buildings.Keys)
+        {
+            save.buildings.TryGetValue(key, out int structureId);
+            var obj = GameManager.villageManager.objectList[structureId];
+            var tile = GameManager.villageManager.gridMap.GetTile(key.x, key.y);
 
-        //    up.currentGrade = save.buildingUpgrade[i];
-        //    up.SetBuildingUpgrade();
-        //    up.GetComponent<StatUpgradeBuilding>()?.RiseStat();
-        //}
+            var constructedObj = 
+            GameManager.villageManager.constructMode.construct.PlaceBuilding(obj, tile, GameManager.villageManager.gridMap);
+
+            var up = constructedObj.GetComponent<BuildingUpgrade>();
+
+            if (up == null)
+                continue;
+
+            var upId = DataTableManager.buildingTable.GetData(structureId).UpgradeId;
+
+            up.currentGrade = save.buildingUpgrade[structureId];
+            up.SetBuildingUpgrade();
+            //up.GetComponent<StatUpgradeBuilding>()?.RiseStat();
+            up.Upgrade(true);
+
+            GameManager.villageManager.SetDevelopText(false);
+        }
     }
 
     private static void SaveFile()
@@ -108,6 +138,7 @@ public static class SaveManager
                 var serializer = new JsonSerializer();
                 serializer.Formatting = Formatting.Indented;
                 serializer.TypeNameHandling = TypeNameHandling.All;
+                serializer.Converters.Add(new Vector2IntConverter());
                 serializer.Serialize(jsonWriter, saveData);
             }
 
@@ -146,6 +177,7 @@ public static class SaveManager
             var serializer = new JsonSerializer();
             serializer.Formatting = Formatting.Indented;
             serializer.TypeNameHandling = TypeNameHandling.All;
+            serializer.Converters.Add(new Vector2IntConverter());
             load = serializer.Deserialize<SaveData>(reader);
         }
         //ICryptoTransform cryptoTransform2 = NewRijndaeManaged().CreateDecryptor();

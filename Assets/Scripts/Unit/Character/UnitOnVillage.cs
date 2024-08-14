@@ -21,7 +21,6 @@ public class UnitOnVillage : Unit
         set 
         {
             isRecoveryQuitedTest = value;
-            Debug.Log($"isRecoveryQuitedTest: {isRecoveryQuitedTest}", gameObject);
         }
     }
     public bool isReviveQuited = false;

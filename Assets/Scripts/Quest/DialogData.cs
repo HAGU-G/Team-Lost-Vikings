@@ -27,7 +27,6 @@ public enum BUTTON_SHOW_TYPE
 public class DialogData : ITableAvaialable<int>
 {
     public int Id { get; set; }
-    public int DialogGroup { get; set; }
     public string SpeakerName { get; set; }
     public string ImageFileName { get; set; }
     public DIRECTION_VERTICAL ImageMarker { get; set; }

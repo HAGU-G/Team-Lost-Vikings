@@ -70,7 +70,6 @@ public class DropData : ITableAvaialable<int>, ITableExtraLoadable
                     result[DropCurrenyIds[i]] += Random.Range(DropMinNums[i], DropMaxNums[i]);
             }
         }
-
         return result;
     }
 }

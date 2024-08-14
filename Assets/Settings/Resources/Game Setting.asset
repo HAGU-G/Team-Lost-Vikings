@@ -29,6 +29,8 @@ MonoBehaviour:
   overrollRare: 170
   overrollNormal: 140
   autoGachaSeconds: 30
-  autoGachaMaxCount: 10
+  autoGachaMaxCount: 15
+  defaultUnitLimit: 4
   monsterRoamSeconds: 2
   projectileSize: 0.5
+  goldID: 8000001
