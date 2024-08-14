@@ -126,6 +126,12 @@ public class QuestManager
 
     private void CheckQuestSatisfy(int id)
     {
+        if (!GuideQuests.ContainsKey(id))
+        {
+            Debug.LogError($"퀘스트 {id}이(가) 없습니다.");
+            return;
+        }
+
         var quest = DataTableManager.questTable.GetData(id);
         if (quest.IsSatisfied)
         {
@@ -135,7 +141,7 @@ public class QuestManager
             if (dialogID != 0)
                 GameManager.dialogManager.Book(dialogID);
 
-            if (quest.CanAutoClear == 1)
+            if (!GuideQuests[id] && quest.CanAutoClear == 1)
                 QuestClear(quest.Id);
         }
     }
