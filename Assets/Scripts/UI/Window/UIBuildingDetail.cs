@@ -34,7 +34,7 @@ public class UIBuildingDetail : UIWindow
     private List<UpgradeData> grade = new();
 
 
-    public bool isConstructing = false;
+    
 
     //private bool isDragging = false;
 
@@ -143,7 +143,8 @@ public class UIBuildingDetail : UIWindow
     {
         exceptWindows[0] = um.windows[WINDOW_NAME.CONSTRUCT_MODE];
         um.CloseWindows(exceptWindows);
-        isConstructing = true;
+        UIConstructMode constructMode = um.windows[WINDOW_NAME.CONSTRUCT_MODE] as UIConstructMode;
+        constructMode.isConstructing = true;
         vm.construct.MakeBuildingGrid();
     }
 
@@ -164,8 +165,6 @@ public class UIBuildingDetail : UIWindow
         }
         return null;
     }
-
-    
 
     public void OnButtonExit()
     {

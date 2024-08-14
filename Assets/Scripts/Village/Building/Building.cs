@@ -84,9 +84,28 @@ public class Building : MonoBehaviour, IPointerClickHandler
         else if(GameManager.villageManager.constructMode.isConstructMode)
         {
             GameManager.uiManager.currentNormalBuidling = this;
+            GameManager.uiManager.currentBuildingData = GetBuildingData();
             GameManager.uiManager.uiDevelop.TouchBuildingInConstructMode();
         }
        
+    }
+
+    public BuildingData GetBuildingData()
+    {
+        BuildingData newData = new();
+        newData.StructureName = StructureName;
+        newData.StructureId = StructureId;
+        newData.Width = Width;
+        newData.Length = Length;
+        newData.StructureType = StructureType;
+        newData.UnlockTownLevel = UnlockTownLevel;
+        newData.CanMultiBuild = CanMultiBuild;
+        newData.CanReverse = CanReverse;
+        newData.CanReplace = CanReplace;
+        newData.CanDestroy = CanDestroy;
+        newData.UpgradeId = UpgradeId;
+
+        return newData;
     }
 
     public void RotateBuilding(Building building)

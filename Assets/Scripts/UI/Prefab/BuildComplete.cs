@@ -23,7 +23,10 @@ public class BuildComplete : MonoBehaviour
     private void OnButtonYes()
     {
         var constructMode = GameManager.uiManager.windows[WINDOW_NAME.CONSTRUCT_MODE] as UIConstructMode;
-        constructMode.ConstructDecide();
+        if(constructMode.isConstructing)
+            constructMode.ConstructDecide();
+        if (constructMode.IsReplacing)
+            constructMode.ReplaceDecide();
         GameManager.villageManager.construct.ResetPrevTileColor();
         gameObject.SetActive(false);
     }

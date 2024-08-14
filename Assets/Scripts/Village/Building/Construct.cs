@@ -186,24 +186,24 @@ public class Construct
         return false;
     }
 
-    public GameObject ReplaceBuilding(GameObject obj, Cell tile, GridMap gridMap) 
-    {
-        if (!CanReplaceBuilding(obj, tile, gridMap))
-            return null;
+    //public GameObject ReplaceBuilding(GameObject obj, Cell tile, GridMap gridMap) 
+    //{
+    //    if (!CanReplaceBuilding(obj, tile, gridMap))
+    //        return null;
 
-        var building = obj.GetComponent<Building>();
-        foreach(var t in building.placedTiles)
-        {
-            t.ResetTileInfo();
-        }
+    //    var building = obj.GetComponent<Building>();
+    //    foreach(var t in building.placedTiles)
+    //    {
+    //        t.ResetTileInfo();
+    //    }
 
-        var pos = gridMap.IndexToPos(tile.tileInfo.id);
-        obj.transform.SetParent(tile.gameObject.transform);
-        obj.transform.position = pos;
-        SetBuildingInfo(obj, tile, gridMap);
+    //    var pos = gridMap.IndexToPos(tile.tileInfo.id);
+    //    obj.transform.SetParent(tile.gameObject.transform);
+    //    obj.transform.position = pos;
+    //    SetBuildingInfo(obj, tile, gridMap);
 
-        return obj;
-    }
+    //    return obj;
+    //}
 
     private bool CanReplaceBuilding(GameObject obj, Cell tile, GridMap gridMap)
     {
@@ -236,6 +236,35 @@ public class Construct
         }
         return true;
     }
+
+    //public bool CanReplaceBuilding(int width, int length, Cell tile, GridMap gridMap)
+    //{
+
+    //    var minX = tile.tileInfo.id.x - (width / 2);
+    //    var minY = tile.tileInfo.id.y - (length / 2);
+    //    var maxX = tile.tileInfo.id.x + (width / 2);
+    //    var maxY = tile.tileInfo.id.y + (length / 2);
+
+    //    if (minX < 0 || minY < 0
+    //        || maxX > gridMap.gridInfo.row - 1 || maxY > gridMap.gridInfo.col - 1)
+    //    {
+    //        return false;
+    //    }
+
+    //    for (int i = minX; i <= maxX; ++i)
+    //    {
+    //        for (int j = minY; j <= maxY; ++j)
+    //        {
+    //            if (building.placedTiles.Contains(gridMap.GetTile(i, j)))
+    //                continue;
+
+    //            if (gridMap.GetTile(i, j).tileInfo.TileType == TileType.OBJECT
+    //                || !gridMap.GetTile(i, j).tileInfo.MarginLayer.IsEmpty)
+    //                return false;
+    //        }
+    //    }
+    //    return true;
+    //}
 
 
     public bool CanBuildBuilding(GameObject obj, Cell tile, GridMap gridMap)
@@ -484,28 +513,51 @@ public class Construct
             }
         }
 
-        foreach(var tile in previousHighlightedCells)
-        {
-            if (!tile.tileInfo.MarginLayer.IsEmpty || !tile.tileInfo.ObjectLayer.IsEmpty)
-                tile.TileColorChange(false);
-            else
-                tile.TileColorChange(true);
-        }
+        
 
         selectedCell = gridMap.GetTile(centerIndex.x, centerIndex.y);
         var constructComplete = GameManager.uiManager.uiDevelop.constructComplete;
         constructComplete.SetActive(true);
         var constructCompo = constructComplete.GetComponent<BuildComplete>();
         constructComplete.gameObject.transform.position = gridMap.IndexToPos(centerIndex);
-        if (GameManager.villageManager.construct.CanBuildBuilding(width, length, selectedCell, gridMap))
-        {
-            constructCompo.yesButton.interactable = true;
 
-        }
-        else
+        var constructMode = GameManager.uiManager.windows[WINDOW_NAME.CONSTRUCT_MODE] as UIConstructMode;
+        if(constructMode.isConstructing)
         {
-            constructCompo.yesButton.interactable = false;
+            foreach (var tile in previousHighlightedCells)
+            {
+                if (!tile.tileInfo.MarginLayer.IsEmpty || !tile.tileInfo.ObjectLayer.IsEmpty)
+                    tile.TileColorChange(false);
+                else
+                    tile.TileColorChange(true);
+            }
+            if (GameManager.villageManager.construct.CanBuildBuilding(width, length, selectedCell, gridMap))
+            { constructCompo.yesButton.interactable = true; }
+            else
+            { constructCompo.yesButton.interactable = false; }
         }
+        else if(constructMode.IsReplacing)
+        {
+            foreach (var tile in previousHighlightedCells)
+            {
+                if(GameManager.uiManager.currentNormalBuidling.placedTiles.Contains(tile))
+                {
+                    tile.TileColorChange(true);
+                    continue;
+                }
+
+                if (!tile.tileInfo.MarginLayer.IsEmpty || !tile.tileInfo.ObjectLayer.IsEmpty)
+                    tile.TileColorChange(false);
+                else
+                    tile.TileColorChange(true);
+            }
+
+            if (GameManager.villageManager.construct.CanReplaceBuilding(GameManager.uiManager.currentNormalBuidling.gameObject, selectedCell, gridMap))
+            { constructCompo.yesButton.interactable = true; }
+            else
+            { constructCompo.yesButton.interactable = false; }
+        }
+        
     }
 
     public void ResetPrevTileColor()

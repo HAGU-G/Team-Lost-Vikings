@@ -144,7 +144,9 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
         else if(GameManager.villageManager.constructMode.isConstructMode)
         {
             GameManager.uiManager.currentParameterBuilding = this;
+
             GameManager.uiManager.currentNormalBuidling = gameObject.GetComponent<Building>();
+            GameManager.uiManager.currentBuildingData = GameManager.uiManager.currentNormalBuidling.GetBuildingData();
             GameManager.villageManager.village.upgrade = gameObject.GetComponent<BuildingUpgrade>();
             GameManager.uiManager.uiDevelop.TouchBuildingInConstructMode();
         }

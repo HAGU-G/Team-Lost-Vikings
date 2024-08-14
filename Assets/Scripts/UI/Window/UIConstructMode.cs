@@ -30,7 +30,10 @@ public class UIConstructMode : UIWindow
     private Dictionary<Button, bool> buttonActivationStatus = new();
 
     private UIBuildingDetail buildingDetail;
+
+    public bool isConstructing = false;
     private bool isReplacing = false;
+    public bool IsReplacing { get { return isReplacing; } }
 
     private List<UnitOnVillage> prevMovingUnits = new();
     private List<UnitOnVillage> prevInteractingUnits = new();
@@ -61,6 +64,7 @@ public class UIConstructMode : UIWindow
     public void OnButtonChangePlacement()
     {
         isReplacing = true;
+        vm.construct.MakeBuildingGrid();
     }
 
     public void OnButtonRotateBuilding()
@@ -141,7 +145,7 @@ public class UIConstructMode : UIWindow
 
     private void Update()
     {
-        if (buildingDetail.isConstructing)
+        if (isConstructing)
         {
             if (GameManager.inputManager.Drag && GameManager.inputManager.Moved)
             {
@@ -150,7 +154,6 @@ public class UIConstructMode : UIWindow
 
                 return;
             }
-            //Debug.Log($"{GameManager.inputManager.Drag},{GameManager.inputManager.Moved}");
             if (!GameManager.inputManager.Drag 
                 && !GameManager.inputManager.Moved
                 /*&& GameManager.inputManager.receiver.Received*/)
@@ -164,60 +167,21 @@ public class UIConstructMode : UIWindow
 
         if (isReplacing)
         {
-            if (GameManager.inputManager.Press)
+            if (GameManager.inputManager.Drag && GameManager.inputManager.Moved)
             {
-                var prevTile = um.currentNormalBuidling.standardTile;
-                var isFlip = um.currentNormalBuidling.isFlip;
+                if (um.uiDevelop.constructComplete.activeSelf)
+                    um.uiDevelop.constructComplete.SetActive(false);
+
+                return;
+            }
+            if (!GameManager.inputManager.Drag
+                && !GameManager.inputManager.Moved
+                /*&& GameManager.inputManager.receiver.Received*/)
+            {
                 var pos = GameManager.inputManager.WorldPos;
-                var index = vm.gridMap.PosToIndex(pos);
-                var tile = vm.gridMap.GetTile(index.x, index.y);
+                Vector2Int currentIndex = vm.gridMap.PosToIndex(pos);
 
-                SavePrevUnits();
-
-                if (constructMode.construct.ForceRemovingBuilding(um.currentNormalBuidling, vm.gridMap))
-                {
-                    foreach(var data in buildingDatas)
-                    {
-                        if(data.StructureId == um.currentNormalBuidling.StructureId)
-                        {
-                            um.currentBuildingData = data;
-                            break;
-                        }
-                    }
-                    var b = buildingDetail.ConstructBuilding(tile);
-                    if (b == null)
-                    {
-                        var obj = buildingDetail.ConstructBuilding(prevTile); 
-                        um.currentNormalBuidling = obj.GetComponent<Building>();
-                        if (um.currentNormalBuidling.StructureType == STRUCTURE_TYPE.PARAMETER_RECOVERY)
-                        {
-                            ReplaceFailParameterHandle();
-                        }
-                        Debug.Log("설치할 수 없는 위치입니다.");
-                        if (isFlip)
-                        {
-                            obj.GetComponent<Building>().RotateBuilding(obj.GetComponent<Building>());
-                        }
-                        
-                    }
-                    else if (um.currentNormalBuidling.StructureType == STRUCTURE_TYPE.PARAMETER_RECOVERY)
-                    {
-                        ParameterHandle(); 
-                        if (isFlip)
-                        {
-                            b.GetComponent<Building>().RotateBuilding(b.GetComponent<Building>());
-                        }
-                    }
-                }
-                else
-                {
-                    buildings.TryGetValue(um.currentBuildingData, out var obj);
-                    CheckBuildingButton(um.currentBuildingData, obj);
-                    SortBuildingButtons();
-                }
-
-                isReplacing = false;
-                um.uiDevelop.ConstructButtonsOff();
+                vm.construct.UpdateHighlightedCells(currentIndex);
             }
         }
     }
@@ -454,7 +418,7 @@ public class UIConstructMode : UIWindow
             var constructObj = buildingDetail.ConstructBuilding(vm.construct.selectedCell);
             if (constructObj != null)
             {
-                buildingDetail.isConstructing = false;
+                isConstructing = false;
                 buildings.TryGetValue(um.currentBuildingData, out var obj);
 
                 ApplyBuildingEffection(constructObj.GetComponent<Building>());
@@ -464,14 +428,71 @@ public class UIConstructMode : UIWindow
             }
             else
             {
-                buildingDetail.isConstructing = false;
+                isConstructing = false;
             }
         } 
     }
 
+    public void ReplaceDecide()
+    {
+        var prevTile = um.currentNormalBuidling.standardTile;
+        var isFlip = um.currentNormalBuidling.isFlip;
+        var pos = GameManager.inputManager.WorldPos;
+        var index = vm.gridMap.PosToIndex(pos);
+        var tile = vm.gridMap.GetTile(index.x, index.y);
+
+        SavePrevUnits();
+
+        if (constructMode.construct.ForceRemovingBuilding(um.currentNormalBuidling, vm.gridMap))
+        {
+            foreach (var data in buildingDatas)
+            {
+                if (data.StructureId == um.currentNormalBuidling.StructureId)
+                {
+                    um.currentBuildingData = data;
+                    break;
+                }
+            }
+            var b = buildingDetail.ConstructBuilding(vm.construct.selectedCell);
+            if (b == null)
+            {
+                var obj = buildingDetail.ConstructBuilding(prevTile);
+                um.currentNormalBuidling = obj.GetComponent<Building>();
+                if (um.currentNormalBuidling.StructureType == STRUCTURE_TYPE.PARAMETER_RECOVERY)
+                {
+                    ReplaceFailParameterHandle();
+                }
+                Debug.Log("설치할 수 없는 위치입니다.");
+                if (isFlip)
+                {
+                    obj.GetComponent<Building>().RotateBuilding(obj.GetComponent<Building>());
+                }
+
+            }
+            else if (um.currentNormalBuidling.StructureType == STRUCTURE_TYPE.PARAMETER_RECOVERY)
+            {
+                ParameterHandle();
+                if (isFlip)
+                {
+                    b.GetComponent<Building>().RotateBuilding(b.GetComponent<Building>());
+                }
+            }
+        }
+        else
+        {
+            buildings.TryGetValue(um.currentBuildingData, out var obj);
+            CheckBuildingButton(um.currentBuildingData, obj);
+            SortBuildingButtons();
+        }
+
+        isReplacing = false;
+        um.uiDevelop.ConstructButtonsOff();
+    }
+
     public void ConstructCancel()
     {
-        buildingDetail.isConstructing = false;
+        isConstructing = false; 
+        isReplacing = false;
     }
 
     private void ApplyBuildingEffection(Building building)
