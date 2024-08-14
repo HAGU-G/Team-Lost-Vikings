@@ -11,8 +11,10 @@ GameObject:
   - component: {fileID: 9066269943565510326}
   - component: {fileID: 9066269943565510325}
   - component: {fileID: 9066269943565510324}
+  - component: {fileID: 7577070355252040765}
+  - component: {fileID: 7905338442544838408}
   m_Layer: 0
-  m_Name: Electricity_Circle
+  m_Name: VFX_Touch_001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4900,3 +4902,29 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!210 &7577070355252040765
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9066269943565510331}
+  m_Enabled: 1
+  m_SortingLayerID: 1637995381
+  m_SortingLayer: 3
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
+--- !u!114 &7905338442544838408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9066269943565510331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5234ae4836998a547a2ab215c6abcfb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingGroup: {fileID: 0}
+  isLoop: 0

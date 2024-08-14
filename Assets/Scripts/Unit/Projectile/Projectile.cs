@@ -4,6 +4,7 @@ using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.AddressableAssets;
+using static UnityEngine.GraphicsBuffer;
 
 public class Projectile : MonoBehaviour
 {
@@ -38,8 +39,8 @@ public class Projectile : MonoBehaviour
         {
             if (!IsFloor)
             {
-                var skillHandle = Addressables.InstantiateAsync(skillData.SkillEffectName, transform.position, Quaternion.identity);
-                skillHandle.WaitForCompletion().AddComponent<AddressableDestroyWhenDisable>();
+                GameManager.effectManager.GetEffect(skillData.SkillEffectName, SORT_LAYER.OverUnit)
+                    .transform.position = transform.position;
             }
             gameObject.SetActive(false);
             Addressables.ReleaseInstance(gameObject);

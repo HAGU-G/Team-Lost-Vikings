@@ -82,13 +82,10 @@ public class SkillNoneAttack : ISkillStrategy
             target.stats.ApplyBuff(new(skill));
         }
 
-        //이펙트
-        //TODO addressable 수정 필요 - 오브젝트 풀이나 미리 로드하는 방식 사용
-
         foreach (var target in targetList)
         {
-            var skillHandle = Addressables.InstantiateAsync(skill.Data.SkillEffectName, target.transform.position, Quaternion.identity);
-            skillHandle.WaitForCompletion().AddComponent<AddressableDestroyWhenDisable>();
+            GameManager.effectManager.GetEffect(skill.Data.SkillEffectName, SORT_LAYER.OverUnit)
+                .transform.position = target.transform.position;
         }
     }
 }

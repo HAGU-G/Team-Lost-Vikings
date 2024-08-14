@@ -5,6 +5,13 @@ using UnityEngine.Rendering;
 using System.Collections.Generic;
 using System.Linq;
 
+public class EffectObjectReference : AssetReferenceT<EffectObject>
+{
+    public EffectObjectReference(string guid) : base(guid)
+    {
+    }
+}
+
 [RequireComponent(typeof(SortingGroup))]
 public class EffectObject : MonoBehaviour
 {
@@ -12,6 +19,7 @@ public class EffectObject : MonoBehaviour
     public SortingGroup sortingGroup;
 
     private bool isStopped = false;
+    public bool isLoop = false;
     public IObjectPool<EffectObject> pool;
 
     private void Awake()
@@ -35,6 +43,17 @@ public class EffectObject : MonoBehaviour
 
     private void Update()
     {
+        if(!isLoop)
+        {
+            bool isParticleStopped = true;
+            foreach (var p in particleSystems)
+            {
+                isParticleStopped &= p.isStopped;
+            }
+
+            gameObject.SetActive(!isParticleStopped);
+        }
+
         if (!isStopped)
         {
             sortingGroup.sortingOrder = -Mathf.FloorToInt(gameObject.transform.position.y);
