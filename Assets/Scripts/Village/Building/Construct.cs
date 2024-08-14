@@ -12,6 +12,7 @@ public class Construct
 
     List<Cell> buildingCells = new(); 
     public List<Cell> previousHighlightedCells = new List<Cell>();
+    public Cell selectedCell;
 
     public GameObject PlaceBuilding(GameObject obj, Cell tile, GridMap gridMap)
     {
@@ -480,15 +481,6 @@ public class Construct
             }
         }
 
-        var standarCell = gridMap.GetTile(centerIndex.x, centerIndex.y);
-        if (GameManager.villageManager.construct.CanBuildBuilding(width, length, standarCell, gridMap))
-        {
-            
-        }
-        else
-        {
-
-        }
         foreach(var tile in previousHighlightedCells)
         {
             if (!tile.tileInfo.MarginLayer.IsEmpty || !tile.tileInfo.ObjectLayer.IsEmpty)
@@ -496,5 +488,29 @@ public class Construct
             else
                 tile.TileColorChange(true);
         }
+
+        selectedCell = gridMap.GetTile(centerIndex.x, centerIndex.y);
+        var constructComplete = GameManager.uiManager.uiDevelop.constructComplete;
+        constructComplete.SetActive(true);
+        var constructCompo = constructComplete.GetComponent<BuildComplete>();
+        constructComplete.gameObject.transform.position = gridMap.IndexToPos(centerIndex);
+        if (GameManager.villageManager.construct.CanBuildBuilding(width, length, selectedCell, gridMap))
+        {
+            constructCompo.yesButton.interactable = true;
+
+        }
+        else
+        {
+            constructCompo.yesButton.interactable = false;
+        }
+    }
+
+    public void ResetPrevTileColor()
+    {
+        foreach (var cell in previousHighlightedCells)
+        {
+            cell.RestoreTileColor();
+        }
+        previousHighlightedCells.Clear();
     }
 }

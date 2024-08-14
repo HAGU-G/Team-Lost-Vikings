@@ -35,6 +35,8 @@ public class UIConstructMode : UIWindow
     private List<UnitOnVillage> prevMovingUnits = new();
     private List<UnitOnVillage> prevInteractingUnits = new();
 
+    public GameObject constructCommitPopUp;
+
 
     protected override void Awake()
     {
@@ -138,7 +140,7 @@ public class UIConstructMode : UIWindow
     {
         if (buildingDetail.isConstructing)
         {
-            if(GameManager.inputManager.Press)
+            if(GameManager.inputManager.Press && GameManager.inputManager.receiver.Received)
             {
                 var pos = GameManager.inputManager.WorldPos;
                 Vector2Int currentIndex = vm.gridMap.PosToIndex(pos);
@@ -149,30 +151,6 @@ public class UIConstructMode : UIWindow
                     vm.construct.UpdateHighlightedCells(currentIndex);
                 }
             }
-
-            //if (GameManager.inputManager.Press)
-            //{
-            //    var pos = GameManager.inputManager.WorldPos;
-            //    var index = vm.gridMap.PosToIndex(pos);
-            //    var tile = vm.gridMap.GetTile(index.x, index.y);
-
-            //    var constructObj = buildingDetail.ConstructBuilding(tile);
-            //    if (constructObj != null)
-            //    {
-            //        buildingDetail.isConstructing = false;
-            //        buildings.TryGetValue(um.currentBuildingData, out var obj);
-
-            //        ApplyBuildingEffection(constructObj.GetComponent<Building>());
-                    
-            //        CheckBuildingButton(um.currentBuildingData, obj);
-            //        SortBuildingButtons();
-            //    }
-            //    else
-            //    {
-            //        buildingDetail.isConstructing = false;
-            //    }
-                
-            //}
         }
 
         if (isReplacing)
@@ -458,6 +436,33 @@ public class UIConstructMode : UIWindow
             }
         }
         return null;
+    }
+
+    public void ConstructDecide()
+    {
+        if(vm.construct.selectedCell != null)
+        {
+            var constructObj = buildingDetail.ConstructBuilding(vm.construct.selectedCell);
+            if (constructObj != null)
+            {
+                buildingDetail.isConstructing = false;
+                buildings.TryGetValue(um.currentBuildingData, out var obj);
+
+                ApplyBuildingEffection(constructObj.GetComponent<Building>());
+
+                CheckBuildingButton(um.currentBuildingData, obj);
+                SortBuildingButtons();
+            }
+            else
+            {
+                buildingDetail.isConstructing = false;
+            }
+        } 
+    }
+
+    public void ConstructCancel()
+    {
+        buildingDetail.isConstructing = false;
     }
 
     private void ApplyBuildingEffection(Building building)
