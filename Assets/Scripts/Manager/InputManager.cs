@@ -11,6 +11,7 @@ public class InputManager : MonoBehaviour
     public bool Press { get; private set; }
     public bool Tap { get; private set; }
     public bool Moved { get; private set; }
+    public bool Drag {  get; private set; }
     public float Zoom { get; private set; }
     public Vector2 Pos { get; private set; }
     public Vector3 WorldPos => Camera.main.ScreenToWorldPoint(Pos);
@@ -70,6 +71,7 @@ public class InputManager : MonoBehaviour
                             Pos = touch.screenPosition;
                             PrevPos = touch.screenPosition;
                             Press = true;
+                            Drag = true;
                         }
                         else if (secondID == null)
                         {
@@ -103,6 +105,7 @@ public class InputManager : MonoBehaviour
                             Tap = MoveDistance <= tapAllowInch * Screen.dpi && !isOutTapDistance;
                             firstID = null;
                             Moved = false;
+                            Drag = false;
                             MoveDistance = 0f;
                         }
                         if (secondID == touch.finger)

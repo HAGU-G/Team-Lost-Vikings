@@ -27,6 +27,8 @@ public class UIDevelop : MonoBehaviour
     public Button rotateBuilding;
     public Button destroyBuilding;
 
+    public GameObject constructComplete;
+
     public void OnButtonVillage()
     {
         //onVillage.SetActive(true);

@@ -30,10 +30,17 @@ public class UIConstructMode : UIWindow
     private Dictionary<Button, bool> buttonActivationStatus = new();
 
     private UIBuildingDetail buildingDetail;
+
+    public bool isConstructing = false;
     private bool isReplacing = false;
+    public bool IsReplacing { get { return isReplacing; } }
 
     private List<UnitOnVillage> prevMovingUnits = new();
     private List<UnitOnVillage> prevInteractingUnits = new();
+
+    public GameObject constructCommitPopUp;
+
+
     protected override void Awake()
     {
         base.Awake();
@@ -57,6 +64,7 @@ public class UIConstructMode : UIWindow
     public void OnButtonChangePlacement()
     {
         isReplacing = true;
+        vm.construct.MakeBuildingGrid();
     }
 
     public void OnButtonRotateBuilding()
@@ -75,9 +83,6 @@ public class UIConstructMode : UIWindow
         destroyPopUp.SetActive(false);
 
         ResetBuildingEffection(um.currentNormalBuidling);
-        
-        //TO-DO : 아이템 추가 후 재화 돌려받는 내용 적기
-
 
         foreach (var buildingData in buildingDatas)
         {
@@ -105,14 +110,12 @@ public class UIConstructMode : UIWindow
     {
         GameManager.villageManager.constructMode.isConstructMode = false;
         constructModeinProgress.SetActive(false);
+
+        um.uiDevelop.constructComplete.SetActive(false);
+        isConstructing = false;
+        isReplacing = false;
+        GameManager.villageManager.construct.ResetPrevTileColor();
         Close();
-    }
-
-    public void EscapeConstructMode()
-    {
-        //다른 ui를 띄우는 경우
-
-        //사냥터로 이동하는 경우
     }
 
     private void OnEnable()
@@ -134,89 +137,43 @@ public class UIConstructMode : UIWindow
 
     private void Update()
     {
-        if (buildingDetail.isConstructing)
+        if (isConstructing)
         {
-            if (GameManager.inputManager.Press)
+            if (GameManager.inputManager.Drag && GameManager.inputManager.Moved)
+            {
+                if (um.uiDevelop.constructComplete.activeSelf)
+                    um.uiDevelop.constructComplete.SetActive(false);
+
+                return;
+            }
+            if (!GameManager.inputManager.Drag 
+                && !GameManager.inputManager.Moved
+                /*&& GameManager.inputManager.receiver.Received*/)
             {
                 var pos = GameManager.inputManager.WorldPos;
-                var index = vm.gridMap.PosToIndex(pos);
-                var tile = vm.gridMap.GetTile(index.x, index.y);
+                Vector2Int currentIndex = vm.gridMap.PosToIndex(pos);
 
-                var constructObj = buildingDetail.ConstructBuilding(tile);
-                if (constructObj != null)
-                {
-                    buildingDetail.isConstructing = false;
-                    buildings.TryGetValue(um.currentBuildingData, out var obj);
-
-                    ApplyBuildingEffection(constructObj.GetComponent<Building>());
-                    
-                    CheckBuildingButton(um.currentBuildingData, obj);
-                    SortBuildingButtons();
-                }
-                else
-                {
-                    buildingDetail.isConstructing = false;
-                }
-                
+                vm.construct.UpdateHighlightedCells(currentIndex);
             }
         }
 
         if (isReplacing)
         {
-            if (GameManager.inputManager.Press)
+            if (GameManager.inputManager.Drag && GameManager.inputManager.Moved)
             {
-                var prevTile = um.currentNormalBuidling.standardTile;
-                var isFlip = um.currentNormalBuidling.isFlip;
+                if (um.uiDevelop.constructComplete.activeSelf)
+                    um.uiDevelop.constructComplete.SetActive(false);
+
+                return;
+            }
+            if (!GameManager.inputManager.Drag
+                && !GameManager.inputManager.Moved
+                /*&& GameManager.inputManager.receiver.Received*/)
+            {
                 var pos = GameManager.inputManager.WorldPos;
-                var index = vm.gridMap.PosToIndex(pos);
-                var tile = vm.gridMap.GetTile(index.x, index.y);
+                Vector2Int currentIndex = vm.gridMap.PosToIndex(pos);
 
-                SavePrevUnits();
-
-                if (constructMode.construct.ForceRemovingBuilding(um.currentNormalBuidling, vm.gridMap))
-                {
-                    foreach(var data in buildingDatas)
-                    {
-                        if(data.StructureId == um.currentNormalBuidling.StructureId)
-                        {
-                            um.currentBuildingData = data;
-                            break;
-                        }
-                    }
-                    var b = buildingDetail.ConstructBuilding(tile);
-                    if (b == null)
-                    {
-                        var obj = buildingDetail.ConstructBuilding(prevTile); 
-                        um.currentNormalBuidling = obj.GetComponent<Building>();
-                        if (um.currentNormalBuidling.StructureType == STRUCTURE_TYPE.PARAMETER_RECOVERY)
-                        {
-                            ReplaceFailParameterHandle();
-                        }
-                        Debug.Log("설치할 수 없는 위치입니다.");
-                        if (isFlip)
-                        {
-                            obj.GetComponent<Building>().RotateBuilding(obj.GetComponent<Building>());
-                        }
-                        
-                    }
-                    else if (um.currentNormalBuidling.StructureType == STRUCTURE_TYPE.PARAMETER_RECOVERY)
-                    {
-                        ParameterHandle(); 
-                        if (isFlip)
-                        {
-                            b.GetComponent<Building>().RotateBuilding(b.GetComponent<Building>());
-                        }
-                    }
-                }
-                else
-                {
-                    buildings.TryGetValue(um.currentBuildingData, out var obj);
-                    CheckBuildingButton(um.currentBuildingData, obj);
-                    SortBuildingButtons();
-                }
-
-                isReplacing = false;
-                um.uiDevelop.ConstructButtonsOff();
+                vm.construct.UpdateHighlightedCells(currentIndex);
             }
         }
     }
@@ -446,10 +403,95 @@ public class UIConstructMode : UIWindow
         return null;
     }
 
+    public void ConstructDecide()
+    {
+        if(vm.construct.selectedCell != null)
+        {
+            var constructObj = buildingDetail.ConstructBuilding(vm.construct.selectedCell);
+            if (constructObj != null)
+            {
+                isConstructing = false;
+                buildings.TryGetValue(um.currentBuildingData, out var obj);
+
+                ApplyBuildingEffection(constructObj.GetComponent<Building>());
+
+                CheckBuildingButton(um.currentBuildingData, obj);
+                SortBuildingButtons();
+            }
+            else
+            {
+                isConstructing = false;
+            }
+        } 
+    }
+
+    public void ReplaceDecide()
+    {
+        var prevTile = um.currentNormalBuidling.standardTile;
+        var isFlip = um.currentNormalBuidling.isFlip;
+        var pos = GameManager.inputManager.WorldPos;
+        var index = vm.gridMap.PosToIndex(pos);
+        var tile = vm.gridMap.GetTile(index.x, index.y);
+
+        SavePrevUnits();
+
+        if (constructMode.construct.ForceRemovingBuilding(um.currentNormalBuidling, vm.gridMap))
+        {
+            foreach (var data in buildingDatas)
+            {
+                if (data.StructureId == um.currentNormalBuidling.StructureId)
+                {
+                    um.currentBuildingData = data;
+                    break;
+                }
+            }
+            var b = buildingDetail.ConstructBuilding(vm.construct.selectedCell);
+            if (b == null)
+            {
+                var obj = buildingDetail.ConstructBuilding(prevTile);
+                um.currentNormalBuidling = obj.GetComponent<Building>();
+                if (um.currentNormalBuidling.StructureType == STRUCTURE_TYPE.PARAMETER_RECOVERY)
+                {
+                    ReplaceFailParameterHandle();
+                }
+                Debug.Log("설치할 수 없는 위치입니다.");
+                if (isFlip)
+                {
+                    obj.GetComponent<Building>().RotateBuilding(obj.GetComponent<Building>());
+                }
+
+            }
+            else if (um.currentNormalBuidling.StructureType == STRUCTURE_TYPE.PARAMETER_RECOVERY)
+            {
+                ParameterHandle();
+                if (isFlip)
+                {
+                    b.GetComponent<Building>().RotateBuilding(b.GetComponent<Building>());
+                }
+            }
+        }
+        else
+        {
+            buildings.TryGetValue(um.currentBuildingData, out var obj);
+            CheckBuildingButton(um.currentBuildingData, obj);
+            SortBuildingButtons();
+        }
+
+        isReplacing = false;
+        um.uiDevelop.ConstructButtonsOff();
+    }
+
+    public void ConstructCancel()
+    {
+        isConstructing = false; 
+        isReplacing = false;
+    }
+
     private void ApplyBuildingEffection(Building building)
     {
         var type = building.StructureType;
-        switch(type)
+        SpendItemsForBuild(building);
+        switch (type)
         {
             case STRUCTURE_TYPE.STAT_UPGRADE:
                 var statUp = building.GetComponent<StatUpgradeBuilding>();
@@ -484,6 +526,7 @@ public class UIConstructMode : UIWindow
     private void ResetBuildingEffection(Building building)
     {
         var type = building.StructureType;
+        AddItemsForRemove(building);
         switch (type)
         {
             case STRUCTURE_TYPE.STAT_UPGRADE:
@@ -514,4 +557,23 @@ public class UIConstructMode : UIWindow
                 break;
         }
     }
+
+    private void SpendItemsForBuild(Building building)
+    {
+        var up = DataTableManager.upgradeTable.GetData(building.UpgradeId);
+        for(int i = 0; i < up[0].ItemIds.Count; ++i)
+        {
+            GameManager.itemManager.SpendItem(up[0].ItemIds[i], up[0].ItemNums[i]);
+        }
+    }
+
+    private void AddItemsForRemove(Building building)
+    {
+        var up = DataTableManager.upgradeTable.GetData(building.UpgradeId);
+        for (int i = 0; i < up[0].ItemIds.Count; ++i)
+        {
+            GameManager.itemManager.AddItem(up[0].ItemIds[i], up[0].ItemNums[i]);
+        }
+    }
+
 }
