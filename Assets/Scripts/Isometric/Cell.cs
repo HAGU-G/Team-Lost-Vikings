@@ -69,19 +69,21 @@ public class Cell : MonoBehaviour
         tileInfo.MarginLayer.LayerObject = null;
         tileInfo.MarginLayer.IsEmpty = true;
         tileInfo.TileType = TileType.NONE;
-        RestoreTileColor();
 
         UpdateAutoTileId();
     }
 
-    public void TileColorChange()
+    public void TileColorChange(bool canBuild)
     {
-        GetComponent<SpriteRenderer>().material.color = Color.magenta;
+        if(canBuild)
+            GetComponent<SpriteRenderer>().material.color = Color.green;
+        else
+            GetComponent<SpriteRenderer>().material.color = Color.red;
     }
 
     public void RestoreTileColor()
     {
-        //GetComponent<SpriteRenderer>().material.color = Color.white;
+        GetComponent<SpriteRenderer>().material.color = Color.white;
     }
 
 

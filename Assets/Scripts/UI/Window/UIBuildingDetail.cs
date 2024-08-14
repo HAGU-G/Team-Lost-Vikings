@@ -34,11 +34,9 @@ public class UIBuildingDetail : UIWindow
     private List<UpgradeData> grade = new();
 
 
-    private Vector3 position;
     public bool isConstructing = false;
 
     //private bool isDragging = false;
-    List<Cell> buildingCells = new List<Cell>();
 
     protected override void Awake()
     {
@@ -166,36 +164,7 @@ public class UIBuildingDetail : UIWindow
         return null;
     }
 
-    private void MakeBuildingGrid()
-    {
-        var width = um.currentBuildingData.Width;
-        var length = um.currentBuildingData.Length;
-        var gridMap = GameManager.villageManager.gridMap;
-
-        Vector3 centerPos = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, Camera.main.nearClipPlane));
-        Vector2Int centerIndex = gridMap.PosToIndex(centerPos);
-
-        CreateBuildingGrid(centerIndex, width, length);
-    }
-
-    private void CreateBuildingGrid(Vector2Int centerIndex, int width, int length)
-    {
-        var gridMap = GameManager.villageManager.gridMap;
-
-        for (int x = -width / 2; x <= width / 2; x++)
-        {
-            for (int y = -length / 2; y <= length / 2; y++)
-            {
-                Vector2Int cellIndex = new Vector2Int(centerIndex.x + x, centerIndex.y + y);
-                Cell cell = gridMap.GetTile(cellIndex.x, cellIndex.y);
-                if (cell != null)
-                {
-                    buildingCells.Add(cell);
-                    cell.GetComponent<SpriteRenderer>().color = Color.green; // 임시 색상
-                }
-            }
-        }
-    }
+    
 
     public void OnButtonExit()
     {
