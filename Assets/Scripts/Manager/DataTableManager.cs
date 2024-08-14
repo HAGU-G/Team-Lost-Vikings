@@ -24,7 +24,7 @@ public static class DataTableManager
     public static TableDuplicatedID<int, UpgradeData> upgradeTable = new("Assets/DataTable/UpgradeTable.csv");
 
     public static Table<int, AchievementData> achievementTable = new("Assets/DataTable/AchievementTable.csv");
-    public static Table<int, DialogData> dialogTable = new("Assets/DataTable/DialogTable.csv");
+    public static TableDuplicatedID<int, DialogData> dialogTable = new("Assets/DataTable/DialogTable.csv");
     public static Table<int, QuestData> questTable = new("Assets/DataTable/QuestTable.csv");
 
     public static List<AsyncOperationHandle> handles;

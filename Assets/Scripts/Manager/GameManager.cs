@@ -16,6 +16,7 @@ public enum EVENT_TYPE
     UPGRADE,
     CONSTRUCT,
     CONFIGURE,
+    GAME_READY,
 }
 
 public static class GameManager
@@ -30,6 +31,9 @@ public static class GameManager
     public static ItemManager itemManager = null;
     public static CameraManager cameraManager;
     public static SoundManager soundManager;
+    public static DialogManager dialogManager = new();
+
+    public static bool IsReady { get; private set; } = false;
 
     private static IDictionary<EVENT_TYPE, UnityEvent> events = new Dictionary<EVENT_TYPE, UnityEvent>();
 
@@ -90,9 +94,17 @@ public static class GameManager
         questManager.LoadAchievements();
         questManager.LoadQuests();
 
+        dialogManager ??= new();
+
         Publish(EVENT_TYPE.START);
         Publish(EVENT_TYPE.CONFIGURE);
         playerManager.firstPlay = false;
+        IsReady = true;
+
+        if (dialogManager.DialogQueue.Count > 0)
+            dialogManager.Start(dialogManager.DialogQueue.Peek());
+
+        Publish(EVENT_TYPE.GAME_READY);
     }
 
     public static void GameQuit()
