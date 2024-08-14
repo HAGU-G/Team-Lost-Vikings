@@ -15,6 +15,7 @@ public class HuntZoneData : ITableAvaialable<int>
     [field: SerializeField] public int BossMonsterId { get; set; }
     [field: SerializeField] public float BossTimer { get; set; }
     [field: SerializeField] public float BossRetryTimer { get; set; }
+    public int RequirePlayerLv { get; set; }
 
     public int TableID => HuntZoneId;
 }

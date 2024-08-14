@@ -1,4 +1,6 @@
-﻿public enum STAT_TYPE
+﻿using CsvHelper.Configuration.Attributes;
+
+public enum STAT_TYPE
 {
     NONE,
     STR,
@@ -114,7 +116,7 @@ public class StatsData : ITableAvaialable<int>
 
     public int DropId { get; set; }
     public string UnitAssetFileName { get; set; }
-    public string StringId_Desc { get; set; }
+    [Ignore] public string StringId_Desc { get; set; }
 
     public int TableID => Id;
 }

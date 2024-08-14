@@ -26,7 +26,7 @@ public class UnitManager
         {
             float sec = (System.DateTime.Now - lastAutoGachaTime).Seconds;
             float milliSec = (System.DateTime.Now - lastAutoGachaTime).Milliseconds * 0.001f;
-            return Mathf.Max(0f, GameSetting.Instance.autoGachaSeconds - sec - milliSec);
+            return Mathf.Max(0f, GameSetting.Instance.autoGachaSeconds - sec - milliSec - autoGachaTimeCorrection);
         }
     }
 
@@ -214,18 +214,21 @@ public class UnitManager
         {
             yield return new WaitForSeconds(GameSetting.Instance.autoGachaSeconds - autoGachaTimeCorrection);
 
-            if (IsMaxWait)
+            if (IsMaxWait && Units.Count >= unitLimitCount)
             {
                 autoGachaTimeCorrection = GameSetting.Instance.autoGachaSeconds - 1f;
+                continue;
+            }
+
+            autoGachaTimeCorrection = 0f;
+            if (GachaCharacter(GameManager.playerManager.recruitLevel) != null)
+            {
+                lastAutoGachaTime = System.DateTime.Now;
+                (GameManager.uiManager.windows[WINDOW_NAME.CHARACTER_STASH] as UICharacterStash).LoadCharacterButtons(Waitings);
             }
             else
             {
-                autoGachaTimeCorrection = 0f;
-                GachaCharacter(GameManager.playerManager.recruitLevel);
-                lastAutoGachaTime = System.DateTime.Now;
-
-                //TESTCODE
-                (GameManager.uiManager.windows[WINDOW_NAME.CHARACTER_STASH] as UICharacterStash).LoadCharacterButtons(Waitings);
+                autoGachaTimeCorrection = GameSetting.Instance.autoGachaSeconds - 1f;
             }
         }
     }
