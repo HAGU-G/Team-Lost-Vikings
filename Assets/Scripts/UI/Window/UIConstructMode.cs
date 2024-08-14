@@ -498,7 +498,8 @@ public class UIConstructMode : UIWindow
     private void ApplyBuildingEffection(Building building)
     {
         var type = building.StructureType;
-        switch(type)
+        SpendItemsForBuild(building);
+        switch (type)
         {
             case STRUCTURE_TYPE.STAT_UPGRADE:
                 var statUp = building.GetComponent<StatUpgradeBuilding>();
@@ -533,6 +534,7 @@ public class UIConstructMode : UIWindow
     private void ResetBuildingEffection(Building building)
     {
         var type = building.StructureType;
+        AddItemsForRemove(building);
         switch (type)
         {
             case STRUCTURE_TYPE.STAT_UPGRADE:
@@ -564,6 +566,22 @@ public class UIConstructMode : UIWindow
         }
     }
 
-    
+    private void SpendItemsForBuild(Building building)
+    {
+        var up = DataTableManager.upgradeTable.GetData(building.UpgradeId);
+        for(int i = 0; i < up[0].ItemIds.Count; ++i)
+        {
+            GameManager.itemManager.SpendItem(up[0].ItemIds[i], up[0].ItemNums[i]);
+        }
+    }
+
+    private void AddItemsForRemove(Building building)
+    {
+        var up = DataTableManager.upgradeTable.GetData(building.UpgradeId);
+        for (int i = 0; i < up[0].ItemIds.Count; ++i)
+        {
+            GameManager.itemManager.AddItem(up[0].ItemIds[i], up[0].ItemNums[i]);
+        }
+    }
 
 }
