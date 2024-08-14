@@ -83,9 +83,6 @@ public class UIConstructMode : UIWindow
         destroyPopUp.SetActive(false);
 
         ResetBuildingEffection(um.currentNormalBuidling);
-        
-        //TO-DO : 아이템 추가 후 재화 돌려받는 내용 적기
-
 
         foreach (var buildingData in buildingDatas)
         {
@@ -115,15 +112,10 @@ public class UIConstructMode : UIWindow
         constructModeinProgress.SetActive(false);
 
         um.uiDevelop.constructComplete.SetActive(false);
+        isConstructing = false;
+        isReplacing = false;
         GameManager.villageManager.construct.ResetPrevTileColor();
         Close();
-    }
-
-    public void EscapeConstructMode()
-    {
-        //다른 ui를 띄우는 경우
-
-        //사냥터로 이동하는 경우
     }
 
     private void OnEnable()
