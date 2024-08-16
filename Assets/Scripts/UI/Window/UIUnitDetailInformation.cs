@@ -53,7 +53,6 @@ public class UIUnitDetailInformation : UIWindow
     {
         if (!IsReady)
             return;
-
         unit = GameManager.uiManager.currentUnitStats;
         UnityEngine.Debug.Log(GameManager.uiManager.unitRenderTexture);
         SetInfo();
