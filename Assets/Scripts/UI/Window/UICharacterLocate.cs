@@ -106,6 +106,7 @@ public class UICharacterLocate : UIWindow
 
     public void OnButtonExit()
     {
+        GameManager.cameraManager.FinishFocousOnUnit();
         Close();
     }
 
