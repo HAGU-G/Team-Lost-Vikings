@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Transactions;
 using UnityEngine;
 
 
@@ -310,7 +311,10 @@ public class UnitStats
     {
         foreach (var other in others)
         {
-            if (other == null || other.stats == this)
+            if (other == null
+                || other.stats == null
+                || other.stats == this
+                || other.IsDead)
                 continue;
 
             var collisionDepth = SizeEllipse.CollisionDepthWith(other.stats.SizeEllipse);
