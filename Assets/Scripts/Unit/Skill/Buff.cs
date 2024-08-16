@@ -1,14 +1,16 @@
-﻿using UnityEngine;
+﻿using Newtonsoft.Json;
+using UnityEngine;
 
+[JsonObject(MemberSerialization.OptIn)]
 public class Buff
 {
-    public readonly int id;
-    public readonly STAT_TYPE type;
-    public readonly STAT_VALUE_TYPE valueType;
-    private readonly bool isAlways;
-    public float Value { get; private set; }
-    public float Duration { get; private set; }
-    public float Timer { get; private set; }
+    [JsonProperty] public readonly int id;
+    [JsonProperty] public readonly STAT_TYPE type;
+    [JsonProperty] public readonly STAT_VALUE_TYPE valueType;
+    [JsonProperty] private readonly bool isAlways;
+    [JsonProperty] public float Value { get; private set; }
+    [JsonProperty] public float Duration { get; private set; }
+    [JsonProperty] public float Timer { get; private set; }
 
     public Buff(Skill skill)
     {
@@ -20,6 +22,9 @@ public class Buff
         Timer = Duration;
         isAlways = skill.Data.SkillActiveType == SKILL_ACTIVE_TYPE.ALWAYS;
     }
+
+    [JsonConstructor]
+    private Buff() { }
 
     public void Apply(StatInt stat)
     {

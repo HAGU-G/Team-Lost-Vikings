@@ -81,7 +81,8 @@ public class UseSkillOnHunt : State<CombatUnit>
 
     private void UseSkill()
     {
-        skill?.Use(target);
+        if (owner.HasTarget())
+            skill?.Use(target);
         useCount++;
         isPlaying = false;
     }

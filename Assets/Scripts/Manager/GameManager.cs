@@ -80,9 +80,12 @@ public static class GameManager
     {
         UnitStats.existIDs.Clear();
 
+        Debug.Log(EVENT_TYPE.LOADED);
         Publish(EVENT_TYPE.LOADED);
+        Debug.Log(EVENT_TYPE.INIT);
         Publish(EVENT_TYPE.INIT);
 
+        Debug.Log("LOAD_SAVE_DATA");
         SaveManager.LoadGame();
 
         playerManager ??= new();
@@ -97,7 +100,9 @@ public static class GameManager
 
         dialogManager ??= new();
 
+        Debug.Log(EVENT_TYPE.START);
         Publish(EVENT_TYPE.START);
+        Debug.Log(EVENT_TYPE.CONFIGURE);
         Publish(EVENT_TYPE.CONFIGURE);
         playerManager.firstPlay = false;
         IsReady = true;
@@ -105,6 +110,7 @@ public static class GameManager
         if (dialogManager.DialogQueue.Count > 0)
             dialogManager.Start(dialogManager.DialogQueue.Peek());
 
+        Debug.Log(EVENT_TYPE.GAME_READY);
         Publish(EVENT_TYPE.GAME_READY);
     }
 

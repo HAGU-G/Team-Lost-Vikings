@@ -64,13 +64,16 @@ public class UnitStats
     public StatInt MagicalDef { get; private set; } = new();
     public StatInt SpecialDef { get; private set; } = new();
 
+    [JsonProperty] public bool isDead;
+    [JsonProperty] public float reviveTimer = 0f;
+
 
     //Skill
     /// <summary>
     /// Skill ID, Skill
     /// </summary>
     [JsonProperty] public List<Skill> Skills { get; private set; } = new();
-    public Dictionary<int, Buff> Buffs { get; private set; } = new();
+    [JsonProperty] public Dictionary<int, Buff> Buffs { get; private set; } = new();
 
     //Ellipse
     public StatFloat SizeRange { get; private set; } = new();
@@ -251,6 +254,14 @@ public class UnitStats
 
         SetConstantStats(data);
 
+        if(!doGacha)
+        {
+            foreach (var skill in Skills)
+            {
+                skill.Init(null, this, true);
+            }
+        }
+
         if (doGacha && data.UnitType == UNIT_TYPE.CHARACTER)
             RegisterCharacter();
     }
@@ -378,7 +389,11 @@ public class UnitStats
                 }
             }
             var skillData = DataTableManager.skillTable.GetData(skillPool[Random.Range(0, skillPool.Count)]);
-            Skills.Add(new(skillData, this));
+
+            Skill newSkill = new();
+            newSkill.Init(skillData, this);
+            newSkill.ResetActiveValue(true);
+            Skills.Add(newSkill);
         }
         if (data.SkillpoolId2 != 0)
         {
@@ -391,7 +406,11 @@ public class UnitStats
                 }
             }
             var skillData = DataTableManager.skillTable.GetData(skillPool[Random.Range(0, skillPool.Count)]);
-            Skills.Add(new(skillData, this));
+
+            Skill newSkill = new();
+            newSkill.Init(skillData, this);
+            newSkill.ResetActiveValue(true);
+            Skills.Add(newSkill);
         }
     }
 
