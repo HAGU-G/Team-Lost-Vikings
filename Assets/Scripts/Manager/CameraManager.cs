@@ -11,9 +11,11 @@ public class CameraManager : MonoBehaviour
     public float maxZoom = 30f;
     public float zoomMagnification = 0.05f;
     private float _zoomValue;
+    private float prevZoom;
+
 
     public bool isFocousOnUnit = false;
-    public Unit unit;
+    public UnitStats focousingUnit;
 
     public float ZoomValue
     {
@@ -41,7 +43,7 @@ public class CameraManager : MonoBehaviour
 
     private void OnGameStart()
     {
-        IsReady = true; 
+        IsReady = true;
         SetLocation(LOCATION.VILLAGE);
     }
 
@@ -50,9 +52,9 @@ public class CameraManager : MonoBehaviour
         if (!IsReady)
             return;
 
-        if(isFocousOnUnit)
+        if (isFocousOnUnit)
         {
-            SetPositionOnUnit(unit.transform.position);
+            SetPositionOnUnit();
             return;
         }
 
@@ -120,18 +122,28 @@ public class CameraManager : MonoBehaviour
         }
     }
 
-    public void SetPositionOnUnit(Vector3 pos)
+    private void SetPositionOnUnit()
     {
+        if (focousingUnit == null)
+        {
+            FinishFocousOnUnit();
+            return;
+        }
+
+        if (isFocousOnUnit)
+            prevZoom = ZoomValue;
         ZoomValue = maxZoom * zoomMagnification;
         Camera.main.orthographicSize = ZoomValue;
-        var position = pos;
+        var position = focousingUnit.objectTransform.position;
         position.z = -10;
-        transform.position = position;
+        SetLocation(focousingUnit.Location);
+        SetPosition(position);
     }
 
     public void FinishFocousOnUnit()
     {
-        ZoomValue = 15f;
+        if (isFocousOnUnit)
+            ZoomValue = prevZoom;
         Camera.main.orthographicSize = ZoomValue;
         isFocousOnUnit = false;
     }

@@ -152,7 +152,6 @@ public class UIConstructMode : UIWindow
             if (GameManager.inputManager.Up
                 && !GameManager.inputManager.receiver.Received)
             {
-                Debug.Log("!Drag");
                 var pos = GameManager.inputManager.WorldPos;
                 Vector2Int currentIndex = vm.gridMap.PosToIndex(pos);
                 if (currentIndex == new Vector2Int(-1, -1))
