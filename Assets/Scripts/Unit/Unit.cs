@@ -9,8 +9,8 @@ public abstract class Unit : MonoBehaviour
     public GameObject dress = null;
     public DressAnimator animator = new();
     public bool isActing = false;
+    [HideInInspector] public bool isFlip = true;
 
-    public GameObject skillEffect;
     private SortingGroup sortingGroup = null;
 
     public bool IsDead { get; protected set; }
@@ -118,8 +118,10 @@ public abstract class Unit : MonoBehaviour
         if (dress == null)
             return;
 
+        isFlip = direction.x <= 0f;
+
         dress.transform.localScale = new Vector3(
-            Mathf.Abs(dress.transform.localScale.x) * (direction.x > 0f ? -1f : 1f),
+            Mathf.Abs(dress.transform.localScale.x) * (isFlip ? 1f : -1f),
             dress.transform.localScale.y,
             dress.transform.localScale.z);
     }

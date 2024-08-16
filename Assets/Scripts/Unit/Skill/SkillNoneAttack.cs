@@ -9,7 +9,7 @@ public class SkillNoneAttack : ISkillStrategy
 
 
 
-    public void Use(UnitStats owner, Skill skill, Vector3 targetPos)
+    public void Use(UnitStats owner, Skill skill, CombatUnit targetUnit)
     {
         if (skill.Data.SkillActiveType == SKILL_ACTIVE_TYPE.ALWAYS)
             return;
@@ -82,13 +82,12 @@ public class SkillNoneAttack : ISkillStrategy
             target.stats.ApplyBuff(new(skill));
         }
 
-        //이펙트
-        //TODO addressable 수정 필요 - 오브젝트 풀이나 미리 로드하는 방식 사용
-
         foreach (var target in targetList)
         {
-            var skillHandle = Addressables.InstantiateAsync(skill.Data.SkillEffectName, target.transform.position, Quaternion.identity);
-            skillHandle.WaitForCompletion().AddComponent<AddressableDestroyWhenDisable>();
+            var effect = GameManager.effectManager.GetEffect(skill.Data.SkillEffectName, SORT_LAYER.OverUnit);
+            effect.transform.position = target.transform.position;
+            if (combat.isFlip)
+                effect.transform.Rotate(Vector3.up, 180f);
         }
     }
 }

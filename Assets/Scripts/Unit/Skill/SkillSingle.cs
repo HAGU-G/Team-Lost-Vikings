@@ -4,7 +4,7 @@ using UnityEngine.AddressableAssets;
 
 public class SkillSingle : ISkillStrategy
 {
-    public void Use(UnitStats owner, Skill skill, Vector3 targetPos)
+    public void Use(UnitStats owner, Skill skill, CombatUnit targetUnit)
     {
         var combat = owner.objectTransform.GetComponent<CombatUnit>();
 
@@ -75,11 +75,9 @@ public class SkillSingle : ISkillStrategy
         targetList[0].stats.ApplyBuff(new(skill));
 
         //이펙트
-        //TODO addressable 수정 필요 - 오브젝트 풀이나 미리 로드하는 방식 사용
-        var skillHandle = Addressables.InstantiateAsync(skill.Data.SkillEffectName, targetList[0].transform.position, Quaternion.identity);
-        skillHandle.WaitForCompletion().AddComponent<AddressableDestroyWhenDisable>();
-
-
-
+        var effect = GameManager.effectManager.GetEffect(skill.Data.SkillEffectName, SORT_LAYER.OverUnit);
+        effect.transform.position = targetList[0].transform.position;
+        if (combat.isFlip)
+            effect.transform.Rotate(Vector3.up, 180f);
     }
 }

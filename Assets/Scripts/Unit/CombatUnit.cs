@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
@@ -6,7 +7,7 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
     public HuntZone CurrentHuntZone { get; protected set; } = null;
     public Vector3 PortalPos { get; protected set; }
 
-    protected IAttackStrategy attackBehaviour = new AttackDefault();
+    protected IAttackStrategy attackBehaviour = null;
 
     public List<CombatUnit> Enemies { get; protected set; }
     public List<CombatUnit> Allies { get; protected set; }
@@ -54,6 +55,37 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
     public override void ResetUnit(UnitStats stats)
     {
         base.ResetUnit(stats);
+        switch (stats.Data.BasicAttackMotion)
+        {
+            case ATTACK_MOTION.MAGIC:
+            case ATTACK_MOTION.BOW:
+                attackBehaviour = new AttackProjectile();
+                var attackProjectile = attackBehaviour as AttackProjectile;
+                attackProjectile.owner = stats;
+
+                SkillData skill = new();
+                attackProjectile.skill = skill;
+                skill.SkillType = stats.Data.BasicAttackType;
+                skill.SkillAttackType = SKILL_ATTACK_TYPE.PROJECTILE;
+                skill.SkillTarget = TARGET_TYPE.ENEMY;
+                switch (stats.Data.BasicAttackMotion)
+                {
+                    case ATTACK_MOTION.MAGIC:
+                        skill.ProjectileFileName = "MagicProjectile";
+                        skill.ProjectileSpeed = GameSetting.Instance.defaultMagicProjectileSpeed;
+                        break;
+                    default:
+                        skill.ProjectileFileName = "BowProjectile";
+                        skill.ProjectileSpeed = GameSetting.Instance.defaultBowProjectileSpeed;
+                        break;
+                };
+                skill.SkillEffectName = string.Empty;
+                break;
+            default:
+                attackBehaviour = new AttackDefault();
+                break;
+        }
+
         foreach (var skill in stats.Skills)
         {
             skill.ResetConditionUpdate();

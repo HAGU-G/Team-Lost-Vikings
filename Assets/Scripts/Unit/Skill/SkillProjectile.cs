@@ -4,7 +4,7 @@ using UnityEngine.AddressableAssets;
 
 public class SkillProjectile : ISkillStrategy
 {
-    public void Use(UnitStats owner, Skill skill, Vector3 targetPos)
+    public void Use(UnitStats owner, Skill skill, CombatUnit targetUnit)
     {
         var combat = owner.objectTransform.GetComponent<CombatUnit>();
 
@@ -65,8 +65,8 @@ public class SkillProjectile : ISkillStrategy
         proj.ResetProjectile(
             skill.Damage,
             combat.transform.position,
-            targetPos,
-            combat);
+            targetUnit,
+            owner);
 
         //버프
 
