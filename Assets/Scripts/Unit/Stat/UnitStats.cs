@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Transactions;
 using UnityEngine;
 
 
@@ -92,7 +93,7 @@ public class UnitStats
         get
         {
             float weight;
-            switch(Data.Job)
+            switch (Data.Job)
             {
                 case UNIT_JOB.WARRIOR:
                     weight = GameManager.playerManager.warriorWeight.Current;
@@ -310,7 +311,10 @@ public class UnitStats
     {
         foreach (var other in others)
         {
-            if (other == null || other.stats == this)
+            if (other == null
+                || other.stats == null
+                || other.stats == this
+                || other.IsDead)
                 continue;
 
             var collisionDepth = SizeEllipse.CollisionDepthWith(other.stats.SizeEllipse);
@@ -364,9 +368,31 @@ public class UnitStats
 
         Skills.Clear();
         if (data.SkillpoolId1 != 0)
-            Skills.Add(new(DataTableManager.skillTable.GetData(data.SkillpoolId1), this));
+        {
+            List<int> skillPool = new();
+            foreach (var skills in DataTableManager.skillPoolTable.GetData(data.SkillpoolId1))
+            {
+                for (int i = 0; i < skills.SkillGachaChance; i++)
+                {
+                    skillPool.Add(skills.SkillId);
+                }
+            }
+            var skillData = DataTableManager.skillTable.GetData(skillPool[Random.Range(0, skillPool.Count)]);
+            Skills.Add(new(skillData, this));
+        }
         if (data.SkillpoolId2 != 0)
-            Skills.Add(new(DataTableManager.skillTable.GetData(data.SkillpoolId2), this));
+        {
+            List<int> skillPool = new();
+            foreach (var skills in DataTableManager.skillPoolTable.GetData(data.SkillpoolId2))
+            {
+                for (int i = 0; i < skills.SkillGachaChance; i++)
+                {
+                    skillPool.Add(skills.SkillId);
+                }
+            }
+            var skillData = DataTableManager.skillTable.GetData(skillPool[Random.Range(0, skillPool.Count)]);
+            Skills.Add(new(skillData, this));
+        }
     }
 
     protected void SetConstantStats(StatsData data)

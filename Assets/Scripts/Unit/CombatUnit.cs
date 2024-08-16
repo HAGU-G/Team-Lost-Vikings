@@ -135,6 +135,7 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
     {
         if (attackTarget == null
             || !attackTarget.gameObject.activeSelf
+            || attackTarget.IsDead
             || !Enemies.Contains(attackTarget))
         {
             attackTarget = null;

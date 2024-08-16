@@ -10,6 +10,7 @@ public class DressAnimator
     private static readonly int triggerRun = Animator.StringToHash(nameRun);
     private static readonly int triggerAttack = Animator.StringToHash("Attack");
     private static readonly int triggerSkill = Animator.StringToHash("Skill");
+    private static readonly int triggerDeath = Animator.StringToHash("Death");
 
     private static readonly int paramMoveSpeed = Animator.StringToHash("MoveSpeed");
     private static readonly int paramAttackSpeed = Animator.StringToHash("AttackSpeed");
@@ -31,6 +32,11 @@ public class DressAnimator
         if (listener == null)
             listener = animator.gameObject.AddComponent<DressListener>();
         listener.ResetEvent();
+    }
+
+    public void AnimDeath()
+    {
+        animator.SetTrigger(triggerDeath);
     }
 
     public void AnimIdle()
