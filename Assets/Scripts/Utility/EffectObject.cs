@@ -21,6 +21,7 @@ public class EffectObject : MonoBehaviour
     private bool isStopped = false;
     public bool isLoop = false;
     public bool isFlip = false;
+    public bool isTouchEffect = false;
     [HideInInspector] public bool isOnProjectile = false;
     public IObjectPool<EffectObject> pool;
 
@@ -46,6 +47,11 @@ public class EffectObject : MonoBehaviour
 
     private void Update()
     {
+        if (isTouchEffect)
+        {
+            transform.localScale = Vector3.one * Camera.main.orthographicSize * GameSetting.Instance.touchEffectScale;
+            transform.position += GameManager.cameraManager.DeltaPos;
+        }
         if (!isLoop && !isOnProjectile)
         {
             bool isParticleStopped = true;

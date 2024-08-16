@@ -312,11 +312,10 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: d7ef367992c628240ba7e965a3dfcbfb
+  - m_GUID: c63148c568fc5704c902df31426224d6
     m_Address: VFX_Touch_001
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - Effect
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 711771bd7b9b93849a783a168db02c84
     m_Address: Arrow Image

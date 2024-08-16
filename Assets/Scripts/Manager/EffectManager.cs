@@ -40,8 +40,9 @@ public class EffectManager : MonoBehaviour
 
         if (im.Press)
         {
-            GetEffect(GameSetting.Instance.touchEffectName, SORT_LAYER.OverUI).transform.position =
-                new(im.WorldPos.x, im.WorldPos.y, 0f);
+            var touchEffect = GetEffect(GameSetting.Instance.touchEffectName, SORT_LAYER.OverUI);
+            touchEffect.transform.position = new(im.WorldPos.x, im.WorldPos.y, 0f);
+            touchEffect.isTouchEffect = true;
         }
     }
 
@@ -108,7 +109,7 @@ public class EffectManager : MonoBehaviour
 
         if (Addressables.LoadResourceLocationsAsync(effectName).WaitForCompletion().Count <= 0)
             return false;
-        
+
         var handle = Addressables.LoadAssetAsync<GameObject>(effectName);
         var go = handle.WaitForCompletion();
         var effect = go.GetComponent<EffectObject>();
@@ -155,6 +156,7 @@ public class EffectManager : MonoBehaviour
         effectObject.transform.localScale = Vector3.one;
         effectObject.isOnProjectile = false;
         effectObject.transform.rotation = Quaternion.identity;
+        effectObject.isTouchEffect = false;
     }
 
     private void OnDestroyEffect(EffectObject effectObject) { }
