@@ -197,21 +197,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: ed5dcf04c1d6bc64d8e51c1a45e9150f
-    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (47).prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 14d0739b77c342747bef2c479b108ade
-    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (4).prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 83ad922e6412ca446a80b458e2a852f7
-    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (21).prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a607f960cbd100845adc8413125d8660
     m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (22).prefab
     m_ReadOnly: 0
@@ -232,11 +217,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a0ccebe4e1f379344a1721c8be5be4a0
-    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (46).prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d96db87911cb906419b0ebe8b052c44b
     m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (63).prefab
     m_ReadOnly: 0
@@ -252,23 +232,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 3775a6e26d03c3d4dbc0bf1a5718a189
-    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (91).prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 863eba96227091a489f4175e515c53b5
     m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (95).prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 4ed7e7940e4edb8449b3bbeba096d96b
-    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (96).prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 863bfa0fdd0d83d489c5893deac821a8
-    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (97).prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -425,6 +390,146 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 207cc5b8d156ba242937a97e25b8ac08
     m_Address: FireWallFloor
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e78b25788a3e63f4f89704abe81f6ce4
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (102).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b8c63922ada5f234c9742867200ca947
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (4).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: db89266a1b435ea478932779c6072547
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (47).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bee663b7989efa0428008b74ea7c136d
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (38).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1ab4a4610f3be2042abbd63e38d3213b
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (34).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 696c46a83b8eb504eaec070c24f4d9f5
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (35).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0fd3b786eb963664ca5951de032114d0
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (41).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 147936301fc2da54abcb4877a13b38e0
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (36).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 823456e85d133894db56ee9a72605942
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (18).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: af87f22a385645a45980bb7ac396e015
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (103).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 66dc91b9818e66f4a91af3fe8d04ef64
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (51).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: badd97be3e5475740b9a474d7ff733f7
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (48).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0eef1d7ed42562e41b587c28a23f9860
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (46).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 874762051658a43408862a2b7676ebb1
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (96).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 563ca4b72b062f345b4776d73e11205b
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (79).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: af0c459ecddcfbe459e457f226adcfe8
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (2).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6573d5315e225154a9516460985cfc51
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (91).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9ef13ed172566d342b58498d1fd64f40
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (70).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1c8393561686737478c1d5388012b4e7
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (81).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ef2ca762a571c08409cc7988374e95cc
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (49).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 55c07a467e8c5a94b95dd9a116239d4e
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (53).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 216e9d2f56bb3c143a7faf868ca2df98
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (97).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fb3946fab8c3f2a44be25e15de496bf9
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (42).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: aff363515756eb142a0d822a180c60f7
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (21).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 888b75d8e62f29b4b82f10e011419e21
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (1).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2ba9c719b10188849bbda8b775e857bf
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (19).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2bfb74f229cfb3640bc1ce035ebcc24c
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (52).prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 97d51963a14cb784abaaa3bd6407d500
+    m_Address: Assets/Pick_Asset/2WEEK/Building/Buildings-v4 (80).prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
