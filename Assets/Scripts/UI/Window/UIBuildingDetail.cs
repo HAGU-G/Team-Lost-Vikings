@@ -32,9 +32,11 @@ public class UIBuildingDetail : UIWindow
     public Transform requireTransform;
 
     private List<UpgradeData> grade = new();
+    public List<int> requireItemIds;
+    public List<int> requireItemNums;
 
+    private bool isOpen = false;
 
-    
 
     //private bool isDragging = false;
 
@@ -56,10 +58,40 @@ public class UIBuildingDetail : UIWindow
 
         buildingDatas = DataTableManager.buildingTable.GetDatas();
         upgradeDatas = DataTableManager.upgradeTable.GetDatas();
+
+        
+
+        GameManager.Subscribe(EVENT_TYPE.CONFIGURE, OnGameConfigure);
     }
 
     private void OnEnable()
     {
+        isOpen = true;
+    }
+
+    private void OnGameConfigure()
+    {
+        im.OnItemChangedCallback += OnItemChanged;
+    }
+
+    private void OnItemChanged()
+    {
+        if (isOpen)
+            SetResourceText();
+    }
+
+    private void SetResourceText()
+    {
+        grade = DataTableManager.upgradeTable.GetData(um.currentBuildingData.UpgradeId);
+        requireItemIds = grade[0].ItemIds;
+        requireItemNums = grade[0].ItemNums;
+
+        for (int i = 0; i < resources.Count; ++i)
+        {
+            resources[i].GetComponentInChildren<TextMeshProUGUI>().text = $"{im.GetItem(requireItemIds[i])} / {requireItemNums[i]}";
+        }
+
+        CheckRequireItems();
     }
 
     public void SetBuildingDetail(bool canBuild)
@@ -179,5 +211,6 @@ public class UIBuildingDetail : UIWindow
     {
         exceptWindows[0] = um.windows[WINDOW_NAME.CONSTRUCT_MODE];
         um.CloseWindows(exceptWindows);
+        isOpen = false;
     }
 }

@@ -44,7 +44,6 @@ public static class SaveManager
             Debug.Log(GameManager.villageManager.constructedBuildings[i]);
             var tileId = building.standardTile.tileInfo.id;
             var structureId = building.StructureId;
-            Debug.Log($"{structureId},{tileId}");
 
             if(!save.buildings.ContainsKey(tileId))
             {
