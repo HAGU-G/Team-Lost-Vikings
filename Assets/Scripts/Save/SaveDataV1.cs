@@ -16,6 +16,7 @@ public class SaveDataV1 : SaveData
 
     public Dictionary<Vector2Int, int> buildings = new();
     public Dictionary<int, int> buildingUpgrade = new();
+    public Dictionary<int, bool> buildingFlip = new();
 
     public override SaveData VersionDown()
     {

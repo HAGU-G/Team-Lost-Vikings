@@ -47,7 +47,11 @@ public static class SaveManager
             Debug.Log($"{structureId},{tileId}");
 
             if(!save.buildings.ContainsKey(tileId))
+            {
                 save.buildings.Add(tileId, structureId);
+                save.buildingFlip.Add(structureId, building.isFlip);
+            }
+                
         }
 
         save.buildingUpgrade.Clear();
@@ -108,6 +112,11 @@ public static class SaveManager
 
             var constructedObj = 
             GameManager.villageManager.constructMode.construct.PlaceBuilding(obj, tile, GameManager.villageManager.gridMap);
+
+            var building = constructedObj.GetComponent<Building>();
+            save.buildingFlip.TryGetValue(structureId, out var isFlip);
+            if(isFlip)
+                building.RotateBuilding(building);
 
             var up = constructedObj.GetComponent<BuildingUpgrade>();
 

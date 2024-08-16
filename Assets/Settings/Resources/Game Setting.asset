@@ -28,7 +28,7 @@ MonoBehaviour:
   overrollSuperRare: 180
   overrollRare: 170
   overrollNormal: 140
-  autoGachaSeconds: 30
+  autoGachaSeconds: 999
   autoGachaMaxCount: 15
   defaultUnitLimit: 4
   monsterRoamSeconds: 2
