@@ -110,9 +110,10 @@ public class DressAnimator
     public void AnimHit()
     {
         animator.SetTrigger(triggerHit);
+        var hitColor = GameSetting.Instance.hitEffectColor;
         foreach(var renderer in renderers)
         {
-            renderer.color = Color.red;
+            renderer.color = hitColor;
         }
     }
 
