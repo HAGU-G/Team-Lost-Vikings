@@ -157,6 +157,8 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
         var calculatedDamage = Mathf.FloorToInt(damage * (1f - def / 100f));
 
         stats.HP.Current -= calculatedDamage;
+            animator?.AnimHit();
+        
         OnDamaged?.Invoke();
 
         if (!IsDead && stats.HP.Current <= 0)
