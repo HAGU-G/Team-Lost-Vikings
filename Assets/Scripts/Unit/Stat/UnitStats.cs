@@ -370,7 +370,7 @@ public class UnitStats
             {
                 for (int i = 0; i < skills.SkillGachaChance; i++)
                 {
-                    skillPool.Add(skills.Id);
+                    skillPool.Add(skills.SkillId);
                 }
             }
             var skillData = DataTableManager.skillTable.GetData(skillPool[Random.Range(0, skillPool.Count)]);
@@ -383,7 +383,7 @@ public class UnitStats
             {
                 for (int i = 0; i < skills.SkillGachaChance; i++)
                 {
-                    skillPool.Add(skills.Id);
+                    skillPool.Add(skills.SkillId);
                 }
             }
             var skillData = DataTableManager.skillTable.GetData(skillPool[Random.Range(0, skillPool.Count)]);

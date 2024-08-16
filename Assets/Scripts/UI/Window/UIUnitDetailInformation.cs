@@ -91,7 +91,7 @@ public class UIUnitDetailInformation : UIWindow
         {
             //skill2_Icon.sprite = 
             skill2_Name.text = unit.Skills[1].Data.SkillName;
-            skill1_Desc.text = unit.Skills[1].Data.SkillDesc;
+            skill2_Desc.text = unit.Skills[1].Data.SkillDesc;
         }
         //attributeIcon.sprite = ;
         attributeText.text = unit.Data.BasicAttackType.ToString();
