@@ -159,7 +159,6 @@ public class UnitManager
             case LOCATION.VILLAGE:
                 GameManager.villageManager.village.UnitSpawn(stats.InstanceID,
                     (stats.isDead) ? STRUCTURE_TYPE.REVIVE : STRUCTURE_TYPE.PORTAL);
-                Debug.Log(stats.isDead);
                     break;
             case LOCATION.HUNTZONE:
                 GameManager.huntZoneManager.HuntZones[stats.HuntZoneNum].SpawnUnit(stats.InstanceID);

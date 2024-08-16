@@ -140,17 +140,19 @@ public class UIConstructMode : UIWindow
     {
         if (isConstructing)
         {
-            if (GameManager.inputManager.Drag && GameManager.inputManager.Moved)
+            if (GameManager.inputManager.Pressed
+                && GameManager.inputManager.Moved
+                && GameManager.inputManager.receiver.Received)
             {
                 if (um.uiDevelop.constructComplete.activeSelf)
                     um.uiDevelop.constructComplete.SetActive(false);
 
                 return;
             }
-            if (!GameManager.inputManager.Drag 
-                && !GameManager.inputManager.Moved
-                /*&& GameManager.inputManager.receiver.Received*/)
+            if (GameManager.inputManager.Up
+                && !GameManager.inputManager.receiver.Received)
             {
+                Debug.Log("!Drag");
                 var pos = GameManager.inputManager.WorldPos;
                 Vector2Int currentIndex = vm.gridMap.PosToIndex(pos);
                 if (currentIndex == new Vector2Int(-1, -1))
@@ -163,16 +165,17 @@ public class UIConstructMode : UIWindow
 
         if (isReplacing)
         {
-            if (GameManager.inputManager.Drag && GameManager.inputManager.Moved)
+            if (GameManager.inputManager.Pressed
+                && GameManager.inputManager.Moved
+                && GameManager.inputManager.receiver.Received)
             {
                 if (um.uiDevelop.constructComplete.activeSelf)
                     um.uiDevelop.constructComplete.SetActive(false);
 
                 return;
             }
-            if (!GameManager.inputManager.Drag
-                && !GameManager.inputManager.Moved
-                /*&& GameManager.inputManager.receiver.Received*/)
+            if (GameManager.inputManager.Up
+                && !GameManager.inputManager.receiver.Received)
             {
                 var pos = GameManager.inputManager.WorldPos;
                 Vector2Int currentIndex = vm.gridMap.PosToIndex(pos);
@@ -197,7 +200,7 @@ public class UIConstructMode : UIWindow
 
         var interactingUnits = parameterBuilding.interactingUnits;
 
-        for(int i = interactingUnits.Count -1; i >= 0; --i)
+        for (int i = interactingUnits.Count - 1; i >= 0; --i)
         {
             interactingUnits[i].UpdateDestination(building.gameObject);
             interactingUnits[i].isRecoveryQuited = true;
@@ -218,7 +221,7 @@ public class UIConstructMode : UIWindow
     private void ReplaceFailParameterHandle()
     {
         var building = um.currentNormalBuidling;
-        for(int i = prevMovingUnits.Count -1; i >= 0; --i)
+        for (int i = prevMovingUnits.Count - 1; i >= 0; --i)
         {
             prevMovingUnits[i].UpdateDestination(building.gameObject);
         }
@@ -260,7 +263,7 @@ public class UIConstructMode : UIWindow
             (() =>
             {
                 um.currentBuildingData = buildingData;
-                
+
                 if (buildingDetailWindow != null)
                 {
                     buildingDetailWindow.SetBuildingDetail(canBuild);
@@ -295,7 +298,7 @@ public class UIConstructMode : UIWindow
             return isActive;
         }
 
-        var upgradeData = DataTableManager.upgradeTable.GetData(data.UpgradeId)[grade -1];
+        var upgradeData = DataTableManager.upgradeTable.GetData(data.UpgradeId)[grade - 1];
 
         foreach (var tile in vm.gridMap.tiles.Values)
         {
@@ -317,7 +320,7 @@ public class UIConstructMode : UIWindow
             buttonActivationStatus[button] = isActive;
             return isActive;
         }
-        
+
         //for (int i = 0; i < upgradeData.ItemIds.Count; ++i)
         //{
         //    if (im.ownItemList.TryGetValue(upgradeData.ItemIds[i], out int itemNum))
@@ -412,7 +415,7 @@ public class UIConstructMode : UIWindow
 
     public void ConstructDecide()
     {
-        if(vm.construct.selectedCell != null)
+        if (vm.construct.selectedCell != null)
         {
             if (!vm.construct.IsBuildedBefore(um.currentBuildingData.StructureId))
                 SpendItemsForBuild(um.currentBuildingData);
@@ -424,7 +427,7 @@ public class UIConstructMode : UIWindow
                 buildings.TryGetValue(um.currentBuildingData, out var obj);
 
                 var building = constructObj.GetComponent<Building>();
-                
+
 
                 ApplyBuildingEffection(constructObj.GetComponent<Building>());
 
@@ -435,7 +438,7 @@ public class UIConstructMode : UIWindow
             {
                 isConstructing = false;
             }
-        } 
+        }
     }
 
     public void ReplaceDecide()
@@ -496,14 +499,14 @@ public class UIConstructMode : UIWindow
 
     public void ConstructCancel()
     {
-        isConstructing = false; 
+        isConstructing = false;
         isReplacing = false;
     }
 
     private void ApplyBuildingEffection(Building building)
     {
         var type = building.StructureType;
-        
+
         switch (type)
         {
             case STRUCTURE_TYPE.STAT_UPGRADE:
@@ -513,19 +516,19 @@ public class UIConstructMode : UIWindow
                 GameManager.unitManager.UnitUpgrade();
                 break;
             case STRUCTURE_TYPE.PROGRESS:
-                if(building.StructureId == (int)STRUCTURE_ID.STORAGE)
+                if (building.StructureId == (int)STRUCTURE_ID.STORAGE)
                 {
                     var storage = building.GetComponent<StorageBuilding>();
                     var upgrade = building.GetComponent<BuildingUpgrade>();
                     storage.UpgradeGoldLimit((int)upgrade.ProgressVarReturn);
                 }
-                else if(building.StructureId == (int)STRUCTURE_ID.HOTEL)
+                else if (building.StructureId == (int)STRUCTURE_ID.HOTEL)
                 {
                     var hotel = building.GetComponent<HotelBuilding>();
                     var upgrade = building.GetComponent<BuildingUpgrade>();
                     hotel.UpgradeUnitLimit((int)upgrade.ProgressVarReturn);
                 }
-                else if(building.StructureId == (int)STRUCTURE_ID.RECRUIT)
+                else if (building.StructureId == (int)STRUCTURE_ID.RECRUIT)
                 {
                     var recruit = building.GetComponent<RecruitBuilding>();
                     var upgrade = building.GetComponent<BuildingUpgrade>();
@@ -555,13 +558,13 @@ public class UIConstructMode : UIWindow
                     //var upgrade = building.GetComponent<BuildingUpgrade>();
                     storage.UpgradeGoldLimit(storage.DefaultGoldLimit);
                 }
-                else if(building.StructureId == (int)STRUCTURE_ID.HOTEL)
+                else if (building.StructureId == (int)STRUCTURE_ID.HOTEL)
                 {
                     var hotel = building.GetComponent<HotelBuilding>();
                     var limit = GameManager.unitManager.unitLimitCount;
                     hotel.UpgradeUnitLimit(limit);
                 }
-                else if(building.StructureId == (int)STRUCTURE_ID.RECRUIT)
+                else if (building.StructureId == (int)STRUCTURE_ID.RECRUIT)
                 {
                     var recruit = building.GetComponent<RecruitBuilding>();
                     var upgrade = building.GetComponent<BuildingUpgrade>();
@@ -574,7 +577,7 @@ public class UIConstructMode : UIWindow
     private void SpendItemsForBuild(BuildingData building)
     {
         var up = DataTableManager.upgradeTable.GetData(building.UpgradeId);
-        for(int i = 0; i < up[0].ItemIds.Count; ++i)
+        for (int i = 0; i < up[0].ItemIds.Count; ++i)
         {
             GameManager.itemManager.SpendItem(up[0].ItemIds[i], up[0].ItemNums[i]);
         }

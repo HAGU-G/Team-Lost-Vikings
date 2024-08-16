@@ -7,11 +7,11 @@ public class InputManager : MonoBehaviour
 {
     public RayReceiver receiver;
 
-    public bool Touch { get; private set; }
+    public bool Pressed { get; private set; }
     public bool Press { get; private set; }
+    public bool Up { get; private set; }
     public bool Tap { get; private set; }
     public bool Moved { get; private set; }
-    public bool Drag {  get; private set; }
     public float Zoom { get; private set; }
     public Vector2 Pos { get; private set; }
     public Vector3 WorldPos => Camera.main.ScreenToWorldPoint(Pos);
@@ -47,14 +47,15 @@ public class InputManager : MonoBehaviour
     private void Update()
     {
         Tap = false;
-        Touch = false;
+        Pressed = false;
         Press = false;
+        Up = false;
         Zoom = 0f;
 
         int touchCount = UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches.Count;
         if (touchCount > 0)
         {
-            Touch = true;
+            Pressed = true;
 
             foreach (var touch in UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches)
             {
@@ -71,7 +72,6 @@ public class InputManager : MonoBehaviour
                             Pos = touch.screenPosition;
                             PrevPos = touch.screenPosition;
                             Press = true;
-                            Drag = true;
                         }
                         else if (secondID == null)
                         {
@@ -105,7 +105,7 @@ public class InputManager : MonoBehaviour
                             Tap = MoveDistance <= tapAllowInch * Screen.dpi && !isOutTapDistance;
                             firstID = null;
                             Moved = false;
-                            Drag = false;
+                            Up = true;
                             MoveDistance = 0f;
                         }
                         if (secondID == touch.finger)
@@ -132,12 +132,12 @@ public class InputManager : MonoBehaviour
         if (mouse.leftButton.wasPressedThisFrame)
         {
             Pos = PrevPos = mouse.position.value;
-            Touch = true;
+            Pressed = true;
             Press = true;
         }
         if (mouse.leftButton.isPressed)
         {
-            Touch = true;
+            Pressed = true;
             Pos = mouse.position.value;
 
             DeltaPos = Pos - PrevPos;
@@ -151,6 +151,7 @@ public class InputManager : MonoBehaviour
         {
             Tap = MoveDistance <= tapAllowInch * Screen.dpi && !outTapDistance;
             Moved = false;
+            Up = true;
             MoveDistance = 0f;
         }
 

@@ -53,7 +53,6 @@ public class Building : MonoBehaviour, IPointerClickHandler
     private void Awake()
     {
         //gridMap = GameObject.FindWithTag("GridMap").GetComponent<GridMap>();
-        Debug.Log("생성");
         interactWithUnit = gameObject.GetComponent<IInteractableWithUnit>();
     }
 
@@ -61,8 +60,6 @@ public class Building : MonoBehaviour, IPointerClickHandler
     {
         interactWithPlayer = gameObject.GetComponent<IInteractableWithPlayer>();
         interactWithUnit = gameObject.GetComponent<IInteractableWithUnit>();
-        Debug.Log("할당");
-
 
         sortingGroup = gameObject.GetComponent<SortingGroup>();
         if (sortingGroup == null)
