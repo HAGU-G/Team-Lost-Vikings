@@ -225,12 +225,19 @@ public class Construct
         {
             for (int j = minY; j <= maxY; ++j)
             {
-                if (building.placedTiles.Contains(gridMap.GetTile(i, j)))
+                var t = gridMap.GetTile(i, j);
+                if (building.placedTiles.Contains(t))
                     continue;
 
-                if (gridMap.GetTile(i, j).tileInfo.TileType == TileType.OBJECT
-                    || !gridMap.GetTile(i, j).tileInfo.MarginLayer.IsEmpty)
+                if (t.tileInfo.TileType == TileType.OBJECT
+                    || !t.tileInfo.MarginLayer.IsEmpty)
                     return false;
+
+                if (gridMap == GameManager.villageManager.gridMap)
+                {
+                    if (!gridMap.usingTileList.Contains(t))
+                        return false;
+                }
             }
         }
         return true;
@@ -283,11 +290,7 @@ public class Construct
             return false;
         }
 
-        //if (!gridMap.usingTileList.Contains(tile)
-        //    || !gridMap.usingTileList.Contains(gridMap.tiles[new Vector2Int(entranceX, entranceY)]))
-        //    return false;
-
-        if(!building.CanMultiBuild)
+        if (!building.CanMultiBuild)
         {
             foreach(var cell in gridMap.tiles.Values)
             {
@@ -304,9 +307,16 @@ public class Construct
         {
             for(int j = minY; j <= maxY; ++j)
             {
-                if (gridMap.GetTile(i,j).tileInfo.TileType == TileType.OBJECT
-                    || !gridMap.GetTile(i,j).tileInfo.MarginLayer.IsEmpty)
+                var t = gridMap.GetTile(i, j);
+                if (t.tileInfo.TileType == TileType.OBJECT
+                    || !t.tileInfo.MarginLayer.IsEmpty)
                     return false;
+
+                if(GameManager.IsReady && gridMap == GameManager.villageManager.gridMap)
+                {
+                    if (!gridMap.usingTileList.Contains(t))
+                        return false;
+                }
             }
         }
         return true;
@@ -329,9 +339,16 @@ public class Construct
         {
             for (int j = minY; j <= maxY; ++j)
             {
-                if (gridMap.GetTile(i, j).tileInfo.TileType == TileType.OBJECT
-                    || !gridMap.GetTile(i, j).tileInfo.MarginLayer.IsEmpty)
+                var t = gridMap.GetTile(i, j);
+                if (t.tileInfo.TileType == TileType.OBJECT
+                    || !t.tileInfo.MarginLayer.IsEmpty)
                     return false;
+
+                if (gridMap == GameManager.villageManager.gridMap)
+                {
+                    if (!gridMap.usingTileList.Contains(t))
+                        return false;
+                }
             }
         }
         return true;
