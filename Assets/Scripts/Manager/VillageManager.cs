@@ -53,11 +53,12 @@ public class VillageManager : MonoBehaviour
     private void OnGameStart()
     {
         //GameManager.Subscribe(EVENT_TYPE.QUIT, OnGameQuit);
+        gridMap.ConcealGrid();
+        gridMap.SetUsingTileList(GameManager.playerManager.level);
 
         if(GameManager.playerManager.firstPlay)
             VillageSet(gridMap);
 
-        gridMap.SetUsingTileList(GameManager.playerManager.level);
     }
 
     //private void OnGameQuit()
@@ -230,9 +231,8 @@ public class VillageManager : MonoBehaviour
 
     public void LevelUp()
     {
-        ++GameManager.playerManager.level;
+        Debug.Log("Level UP");
         gridMap.SetUsingTileList(GameManager.playerManager.level);
-
     }
 
     private void InteractWithBuilding()
@@ -353,24 +353,24 @@ public class VillageManager : MonoBehaviour
     private void VillageSet(GridMap gridMap)
     {
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.HP_RECOVERY);
-        var hp = construct.PlaceBuilding(selectedObj, GetTile(1, 7, gridMap), gridMap);
+        var hp = construct.PlaceBuilding(selectedObj, GetTile(13, 19, gridMap), gridMap);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STAMINA_RECOVERY);
-        var stamina = construct.PlaceBuilding(selectedObj, GetTile(1, 4, gridMap), gridMap);
+        var stamina = construct.PlaceBuilding(selectedObj, GetTile(13, 16, gridMap), gridMap);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STRESS_RECOVERY);
-        var stress = construct.PlaceBuilding(selectedObj, GetTile(1, 1, gridMap), gridMap);
+        var stress = construct.PlaceBuilding(selectedObj, GetTile(13, 13, gridMap), gridMap);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STANDARD);
-        var standard = construct.PlaceBuilding(selectedObj, GetTile(4, 4, gridMap), gridMap);
+        var standard = construct.PlaceBuilding(selectedObj, GetTile(17, 17, gridMap), gridMap);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.PORTAL);
-        var portal = construct.PlaceBuilding(selectedObj, GetTile(7, 5, gridMap), gridMap);
+        var portal = construct.PlaceBuilding(selectedObj, GetTile(20, 19, gridMap), gridMap);
         var portalBuilding = portal.GetComponent<Building>();
         portalBuilding.RotateBuilding(portalBuilding);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.REVIVE);
-        construct.PlaceBuilding(selectedObj, GetTile(7, 9, gridMap), gridMap);
+        construct.PlaceBuilding(selectedObj, GetTile(20, 16, gridMap), gridMap);
 
         SetDevelopText(false);
     }

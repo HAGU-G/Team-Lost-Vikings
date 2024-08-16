@@ -64,6 +64,8 @@ public class UIBuildingDetail : UIWindow
     private void OnEnable()
     {
         isOpen = true;
+
+        um.uiDevelop.ConstructButtonsOff();
     }
 
     private void OnGameConfigure()

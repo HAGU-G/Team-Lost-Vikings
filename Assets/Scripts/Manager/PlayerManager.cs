@@ -17,6 +17,7 @@ public class PlayerManager
             {
                 _exp -= levelUpExp;
                 level++;
+                GameManager.villageManager.LevelUp();
                 levelUpExp = DataTableManager.playerTable.GetData(level).Exp;
             }
         }
