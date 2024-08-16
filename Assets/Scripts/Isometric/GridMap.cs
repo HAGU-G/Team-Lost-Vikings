@@ -108,19 +108,34 @@ public class GridMap : MonoBehaviour
         }
     }
 
+    public void ConcealGrid()
+    {
+        foreach(var tile in tiles.Values)
+        {
+            tile.GetComponent<SpriteRenderer>().enabled = false;
+        }
+    }
+
     public void SetUsingTileList(int level)
     {
         usingTileList.Clear();
 
-        if(level > usableTileList.Count)
+        int expandLevel = level / 10;
+
+        if(expandLevel > usableTileList.Count)
         {
             Debug.Log("최대로 확장되었습니다.");
             return;
         }
 
-        foreach (var tile in usableTileList[level - 1])
+        foreach (var tile in usableTileList[expandLevel])
         {
             usingTileList.Add(tile);
+        }
+
+        foreach(var tile in usingTileList)
+        {
+            tile.GetComponent<SpriteRenderer>().enabled = true;
         }
     }
 
