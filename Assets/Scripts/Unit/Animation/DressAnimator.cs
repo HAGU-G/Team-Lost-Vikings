@@ -1,4 +1,6 @@
 ﻿using System.Buffers;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class DressAnimator
@@ -11,6 +13,7 @@ public class DressAnimator
     private static readonly int triggerAttack = Animator.StringToHash("Attack");
     private static readonly int triggerSkill = Animator.StringToHash("Skill");
     private static readonly int triggerDeath = Animator.StringToHash("Death");
+    private static readonly int triggerHit = Animator.StringToHash("Hit");
 
     private static readonly int paramMoveSpeed = Animator.StringToHash("MoveSpeed");
     private static readonly int paramAttackSpeed = Animator.StringToHash("AttackSpeed");
@@ -22,6 +25,9 @@ public class DressAnimator
     public StatFloat attackSpeed;
     public float castTime;
 
+    private List<SpriteRenderer> renderers = new();
+    private List<Color> originalColors = new();
+
     public void Init(Animator animator, StatFloat moveSpeed, StatFloat attackSpeed)
     {
         this.animator = animator;
@@ -32,6 +38,14 @@ public class DressAnimator
         if (listener == null)
             listener = animator.gameObject.AddComponent<DressListener>();
         listener.ResetEvent();
+
+        renderers = animator.GetComponentsInChildren<SpriteRenderer>().ToList();
+        originalColors.Clear();
+        foreach(var renderer in renderers)
+        {
+            originalColors.Add(renderer.color);
+        }
+        listener.OnHitEffectEndEvent += ResetColors;
     }
 
     public void AnimDeath()
@@ -91,5 +105,23 @@ public class DressAnimator
         float multiplier = animator.runtimeAnimatorController.animationClips[clipNum].length / castTime;
         animator.SetFloat(paramAttackSpeed, multiplier);
         animator.SetTrigger(triggerSkill);
+    }
+
+    public void AnimHit()
+    {
+        animator.SetTrigger(triggerHit);
+        var hitColor = GameSetting.Instance.hitEffectColor;
+        foreach(var renderer in renderers)
+        {
+            renderer.color = hitColor;
+        }
+    }
+
+    public void ResetColors()
+    {
+        for (int i = 0; i < renderers.Count; i++)
+        {
+            renderers[i].color = originalColors[i];
+        }
     }
 }
