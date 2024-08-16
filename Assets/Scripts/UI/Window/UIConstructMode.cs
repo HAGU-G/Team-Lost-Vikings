@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
@@ -36,7 +37,7 @@ public class UIConstructMode : UIWindow
     private List<UnitOnVillage> prevInteractingUnits = new();
 
     public GameObject constructCommitPopUp;
-
+    Vector2Int currentIndex = new();
 
     protected override void Awake()
     {
@@ -145,14 +146,22 @@ public class UIConstructMode : UIWindow
 
                 return;
             }
-            if (GameManager.inputManager.Up
+
+            if (GameManager.inputManager.Up)
+            {
+                if (!um.uiDevelop.constructComplete.activeSelf)
+                    um.uiDevelop.constructComplete.SetActive(true);
+                um.uiDevelop.constructComplete.gameObject.transform.position 
+                    = vm.gridMap.IndexToPos(currentIndex);
+            }
+
+            if (GameManager.inputManager.Tap
                 && !GameManager.inputManager.receiver.Received)
             {
                 var pos = GameManager.inputManager.WorldPos;
-                Vector2Int currentIndex = vm.gridMap.PosToIndex(pos);
+                currentIndex = vm.gridMap.PosToIndex(pos);
                 if (currentIndex == new Vector2Int(-1, -1))
                     return;
-
 
                 vm.construct.UpdateHighlightedCells(currentIndex);
             }
@@ -169,11 +178,20 @@ public class UIConstructMode : UIWindow
 
                 return;
             }
-            if (GameManager.inputManager.Up
+
+            if (GameManager.inputManager.Up)
+            {
+                if (!um.uiDevelop.constructComplete.activeSelf)
+                    um.uiDevelop.constructComplete.SetActive(true);
+                um.uiDevelop.constructComplete.gameObject.transform.position
+                    = vm.gridMap.IndexToPos(currentIndex);
+            }
+
+            if (GameManager.inputManager.Tap
                 && !GameManager.inputManager.receiver.Received)
             {
                 var pos = GameManager.inputManager.WorldPos;
-                Vector2Int currentIndex = vm.gridMap.PosToIndex(pos);
+                currentIndex = vm.gridMap.PosToIndex(pos);
 
                 if (currentIndex == new Vector2Int(-1, -1))
                     return;
