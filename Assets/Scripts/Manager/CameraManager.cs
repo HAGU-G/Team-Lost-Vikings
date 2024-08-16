@@ -11,7 +11,7 @@ public class CameraManager : MonoBehaviour
     public float maxZoom = 30f;
     public float zoomMagnification = 0.05f;
     private float _zoomValue;
-    private float prevZoom;
+    public float prevZoom;
 
 
     public bool isFocousOnUnit = false;
@@ -130,13 +130,11 @@ public class CameraManager : MonoBehaviour
             return;
         }
 
-        if (isFocousOnUnit)
-            prevZoom = ZoomValue;
         ZoomValue = maxZoom * zoomMagnification;
         Camera.main.orthographicSize = ZoomValue;
         var position = focousingUnit.objectTransform.position;
         position.z = -10;
-        SetLocation(focousingUnit.Location);
+        SetLocation(focousingUnit.Location, focousingUnit.HuntZoneNum);
         SetPosition(position);
     }
 

@@ -94,10 +94,6 @@ public class Buff
     public void Update(float deltaTime)
     {
         if (!isAlways)
-        {
             Timer -= deltaTime;
-
-            Debug.Log(Timer);
-        }
     }
 }
