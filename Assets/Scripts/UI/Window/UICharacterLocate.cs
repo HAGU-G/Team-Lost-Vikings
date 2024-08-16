@@ -121,6 +121,9 @@ public class UICharacterLocate : UIWindow
 
         var unitOnVillage = unit.objectTransform.GetComponent<UnitOnVillage>();
 
+        if (unitOnVillage.currentState == UnitOnVillage.STATE.REVIVE)
+            return;
+
             foreach (var building in GameManager.villageManager.constructedBuildings)
         {
             if (building.GetComponent<ParameterRecoveryBuilding>() == null)

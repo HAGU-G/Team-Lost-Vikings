@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
 
-public abstract class Unit : MonoBehaviour
+public abstract class Unit : MonoBehaviour, IPointerClickHandler
 {
     public UnitStats stats = null;
 
@@ -22,6 +23,8 @@ public abstract class Unit : MonoBehaviour
         if(!TryGetComponent(out sortingGroup))
             sortingGroup = gameObject.AddComponent<SortingGroup>();
         sortingGroup.sortAtRoot = true;
+
+        gameObject.AddComponent<PolygonCollider2D>();
     }
 
     public virtual void ResetUnit(UnitStats stats)
@@ -134,4 +137,21 @@ public abstract class Unit : MonoBehaviour
 
         LookAt(target.position);
     }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        var gm = GameManager.cameraManager;
+        gm.SetLocation(stats.Location);
+        gm.unit = this;
+        gm.isFocousOnUnit = true;
+
+        if (GameManager.villageManager.constructMode.isConstructMode)
+        {
+            var constructMode = GameManager.uiManager.windows[WINDOW_NAME.CONSTRUCT_MODE] as UIConstructMode;
+            constructMode.FinishConstructMode();
+        }
+
+        GameManager.uiManager.windows[WINDOW_NAME.TOUCH_UNIT_BUTTONS].Open();
+    }
+
 }
