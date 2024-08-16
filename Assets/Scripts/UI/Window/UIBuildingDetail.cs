@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 public class UIBuildingDetail : UIWindow
 {
     public override WINDOW_NAME WindowName => WINDOW_NAME.BUILDING_DETAIL;

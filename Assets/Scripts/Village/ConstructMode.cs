@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-
-public class ConstructMode
+﻿public class ConstructMode
 {
     public Construct construct = new();
     public float currentTimeScale;

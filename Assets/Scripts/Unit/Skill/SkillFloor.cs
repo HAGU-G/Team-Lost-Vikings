@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using static UnityEngine.GraphicsBuffer;
 
 public class SkillFloor : ISkillStrategy
 {

@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.TerrainUtils;
-using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 public class UIReviveBuilding : UIWindow

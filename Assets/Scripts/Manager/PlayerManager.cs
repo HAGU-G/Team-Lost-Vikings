@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
-using UnityEditor.AddressableAssets.BuildReportVisualizer;
 
 [JsonObject(MemberSerialization.OptIn)]
 public class PlayerManager

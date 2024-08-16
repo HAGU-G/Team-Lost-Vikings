@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 [JsonObject(MemberSerialization.OptIn)]
 public class DialogManager

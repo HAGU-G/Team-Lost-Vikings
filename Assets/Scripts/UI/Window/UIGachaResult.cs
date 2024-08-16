@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using TMPro;
+﻿using TMPro;
 using UnityEngine.UI;
 
 public class UIGachaResult : UIWindow

@@ -7,7 +7,7 @@ using CurrentSave = SaveDataV1;
 public static class SaveManager
 {
     private static readonly string fileDirectory = $"{Application.persistentDataPath}/save";
-    private static readonly string fileName = "CBTSAVEFILE";
+    private static readonly string fileName = "CBTSAVEFILE2";
     private static readonly string key = "89f0d73j038fjje0";
 
     private static SaveData saveData = null;
