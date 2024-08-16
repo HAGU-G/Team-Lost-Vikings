@@ -14,6 +14,7 @@ public class UICharacterGacha : UIWindow
     public TextMeshProUGUI requireGoldText;
 
     private int requireGold = 1000;
+    private bool isOpen = false;
 
     protected override void Awake()
     {
@@ -24,6 +25,8 @@ public class UICharacterGacha : UIWindow
     {
         base.OnGameStart();
         im = GameManager.itemManager;
+
+        GameManager.Subscribe(EVENT_TYPE.CONFIGURE, OnGameConfigure);
     }
 
 
@@ -32,7 +35,20 @@ public class UICharacterGacha : UIWindow
         if (!IsReady)
             return;
 
+        isOpen = true;
+
         SetGachaUI();
+    }
+
+    private void OnGameConfigure()
+    {
+        im.OnItemChangedCallback += OnItemChanged;
+    }
+
+    private void OnItemChanged()
+    {
+        if (isOpen)
+            SetGachaUI();
     }
 
     public void SetGachaUI()
@@ -73,6 +89,7 @@ public class UICharacterGacha : UIWindow
 
     public void OnButtonExit()
     {
+        isOpen = false;
         Close();
     }
 }

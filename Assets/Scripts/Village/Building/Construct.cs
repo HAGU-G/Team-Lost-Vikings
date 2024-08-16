@@ -588,6 +588,6 @@ public class Construct
         if (GameManager.questManager.Achievements[achieveID] > 0)
             return true;
 
-        return false;
+       return false;
     }
 }

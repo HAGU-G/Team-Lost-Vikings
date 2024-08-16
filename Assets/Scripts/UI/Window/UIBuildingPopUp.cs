@@ -43,7 +43,6 @@ public class UIBuildingPopUp : UIWindow
         um = GameManager.uiManager;
         im = GameManager.itemManager;
 
-
         GameManager.Subscribe(EVENT_TYPE.CONFIGURE, OnGameConfigure);
     }
 
