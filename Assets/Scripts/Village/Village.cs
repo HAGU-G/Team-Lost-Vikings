@@ -62,6 +62,7 @@ public class Village : MonoBehaviour
                     unitOnVillage.ResetUnit(GameManager.unitManager.GetUnit(instanceID));
                     units.Add(unitOnVillage);
                     building.interactWithUnit?.InteractWithUnit(unitOnVillage);
+                    Debug.Log(building.interactWithUnit);
                     isFind = true;
                     return;
                 }

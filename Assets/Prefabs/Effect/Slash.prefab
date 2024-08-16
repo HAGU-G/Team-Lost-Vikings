@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1767774848064234034}
+  - component: {fileID: -6902843180476837412}
+  - component: {fileID: 1071158170735783774}
   m_Layer: 0
   m_Name: Slash
   m_TagString: Untagged
@@ -32,6 +34,34 @@ Transform:
   - {fileID: 6082599776991274424}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!210 &-6902843180476837412
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7587992925535706854}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
+--- !u!114 &1071158170735783774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7587992925535706854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5234ae4836998a547a2ab215c6abcfb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingGroup: {fileID: 0}
+  isLoop: 0
+  isFlip: 0
+  isOnProjectile: 0
 --- !u!1001 &5042673308618186342
 PrefabInstance:
   m_ObjectHideFlags: 0

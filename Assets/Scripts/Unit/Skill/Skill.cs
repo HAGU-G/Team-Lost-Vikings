@@ -10,7 +10,8 @@ public class Skill
     public SkillData Data { get; private set; }
 
     //Save
-    public float CurrentActiveValue { get; private set; }
+    [JsonProperty] public float CurrentActiveValue { get; private set; }
+    [JsonProperty] private int skillID;
 
     //Don't Save
     public int Damage => Mathf.FloorToInt(
@@ -37,15 +38,14 @@ public class Skill
     }
     private bool isRandomActive = false;
 
-    public Skill(SkillData data, UnitStats owner)
-    {
-        Init(data, owner);
-        ResetActiveValue(true);
-    }
 
-    private void Init(SkillData data, UnitStats owner)
+    public void Init(SkillData data, UnitStats owner, bool isUseSaveData = false)
     {
+        if (isUseSaveData)
+            data = DataTableManager.skillTable.GetData(skillID);
+        
         Data = data;
+        skillID = data.SkillId;
         this.owner = owner;
 
         CastEllipse ??= new();

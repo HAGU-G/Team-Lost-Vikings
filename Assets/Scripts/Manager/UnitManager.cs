@@ -35,14 +35,14 @@ public class UnitManager
         foreach (var unit in Units)
         {
             unit.Value.InitStats(DataTableManager.unitTable.GetData(unit.Value.Id), false);
-            unit.Value.ResetMaxParameter();
             unit.Value.SetUpgradeStats();
+            unit.Value.ResetMaxParameter();
         }
         foreach (var unit in DeadUnits)
         {
             unit.Value.InitStats(DataTableManager.unitTable.GetData(unit.Value.Id), false);
-            unit.Value.ResetMaxParameter();
             unit.Value.SetUpgradeStats();
+            unit.Value.ResetMaxParameter();
         }
         foreach (var unit in Waitings)
         {
@@ -81,13 +81,15 @@ public class UnitManager
 
     public UnitStats GetUnit(int instanceID)
     {
-        if (!Units.ContainsKey(instanceID))
-        {
-            Debug.LogWarning($"{instanceID} 존재하지 않는 유닛입니다.");
-            return null;
-        }
+        if (Units.ContainsKey(instanceID))
+            return Units[instanceID];
+        if (Waitings.ContainsKey(instanceID))
+            return Units[instanceID];
+        if (DeadUnits.ContainsKey(instanceID))
+            return Units[instanceID];
 
-        return Units[instanceID];
+        Debug.LogWarning($"{instanceID} 존재하지 않는 유닛입니다.");
+        return null;
     }
 
     private StatsData GachaUnitData(int level)
@@ -135,7 +137,7 @@ public class UnitManager
                 break;
             case LOCATION.VILLAGE:
                 GameManager.villageManager.village.UnitSpawn(stats.InstanceID,
-                    (stats.HP.Current == 0) ? STRUCTURE_TYPE.REVIVE : STRUCTURE_TYPE.PORTAL);
+                    (stats.isDead) ? STRUCTURE_TYPE.REVIVE : STRUCTURE_TYPE.PORTAL);
                 break;
             case LOCATION.HUNTZONE:
                 GameManager.huntZoneManager.HuntZones[stats.HuntZoneNum].SpawnUnit(stats.InstanceID);
@@ -155,8 +157,10 @@ public class UnitManager
             case LOCATION.NONE:
                 break;
             case LOCATION.VILLAGE:
-                GameManager.villageManager.village.UnitSpawn(stats.InstanceID, STRUCTURE_TYPE.STANDARD);
-                break;
+                GameManager.villageManager.village.UnitSpawn(stats.InstanceID,
+                    (stats.isDead) ? STRUCTURE_TYPE.REVIVE : STRUCTURE_TYPE.PORTAL);
+                Debug.Log(stats.isDead);
+                    break;
             case LOCATION.HUNTZONE:
                 GameManager.huntZoneManager.HuntZones[stats.HuntZoneNum].SpawnUnit(stats.InstanceID);
                 break;

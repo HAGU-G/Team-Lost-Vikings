@@ -1,11 +1,13 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 public class ReviveOnVillage : State<UnitOnVillage>
 {
     private float reviveTime;
-    private float timer = 0f;
     private ReviveBuilding reviveBuilding;
     private bool isReviving = false;
+    private List<SpriteRenderer> renderers = new();
 
     public override void EnterState()
     {
@@ -15,8 +17,8 @@ public class ReviveOnVillage : State<UnitOnVillage>
         reviveBuilding.revivingUnits.Add(owner);
         isReviving = true;
         owner.currentState = UnitOnVillage.STATE.REVIVE;
-        var renders = owner.gameObject.GetComponentsInChildren<SpriteRenderer>();
-        foreach (var render in renders)
+        renderers = owner.gameObject.GetComponentsInChildren<SpriteRenderer>().ToList();
+        foreach (var render in renderers)
         {
             render.enabled = false;
         }
@@ -35,22 +37,31 @@ public class ReviveOnVillage : State<UnitOnVillage>
 
     public override void Update()
     {
+        if (renderers == null || renderers.Count <= 1)
+        {
+            renderers = owner.gameObject.GetComponentsInChildren<SpriteRenderer>().ToList();
+            foreach (var render in renderers)
+            {
+                render.enabled = false;
+            }
+        }
+
         if (Transition())
             return;
 
-        timer += Time.deltaTime;
+        owner.stats.reviveTimer += Time.deltaTime;
         if (isReviving)
         {
-            GameManager.uiManager.windows[WINDOW_NAME.REVIVE_POPUP].GetComponent<UIReviveBuilding>().SetProgressBar(timer, reviveTime);
+            GameManager.uiManager.windows[WINDOW_NAME.REVIVE_POPUP].GetComponent<UIReviveBuilding>().SetProgressBar(owner.stats.reviveTimer, reviveTime);
         }
         
-        if (timer >= reviveTime)
+        if (owner.stats.reviveTimer >= reviveTime)
         {
-            timer = 0f;
+            owner.stats.isDead = false;
+            owner.stats.reviveTimer = 0f;
             isReviving = false;
-            var renders = owner.gameObject.GetComponentsInChildren<SpriteRenderer>();
 
-            foreach (var render in renders)
+            foreach (var render in renderers)
             {
                 render.enabled = true;
             }

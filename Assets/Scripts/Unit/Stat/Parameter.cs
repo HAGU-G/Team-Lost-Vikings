@@ -51,14 +51,6 @@ public class Parameter : IFormattable
     {
         Current = max;
     }
-    public void SetMin(int min)
-    {
-        this.min = min;
-    }
-    public void SetMax(int max)
-    {
-        this.max = max;
-    }
 
     public Parameter Clone()
     {

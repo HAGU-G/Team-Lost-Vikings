@@ -14,13 +14,27 @@ public abstract class Unit : MonoBehaviour, IPointerClickHandler
 
     private SortingGroup sortingGroup = null;
 
-    public bool IsDead { get; protected set; }
+    public bool IsDead
+    {
+        get
+        {
+            if (stats == null)
+                return true;
+            else
+                return stats.isDead;
+        }
+        protected set
+        {
+            if (stats != null)
+                stats.isDead = value;
+        }
+    }
 
     public event System.Action OnUpdated;
 
-    public virtual void Init() 
+    public virtual void Init()
     {
-        if(!TryGetComponent(out sortingGroup))
+        if (!TryGetComponent(out sortingGroup))
             sortingGroup = gameObject.AddComponent<SortingGroup>();
         sortingGroup.sortAtRoot = true;
 
@@ -37,7 +51,8 @@ public abstract class Unit : MonoBehaviour, IPointerClickHandler
             this.stats = stats;
 
         isActing = false;
-        IsDead = false;
+        if (stats.Data.UnitType == UNIT_TYPE.MONSTER)
+            IsDead = false;
 
         if (dress != null)
             Addressables.ReleaseInstance(dress);
