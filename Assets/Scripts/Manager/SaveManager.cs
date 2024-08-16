@@ -24,12 +24,13 @@ public static class SaveManager
 
         var save = saveData as CurrentSave;
 
-        //Version 1
+        //Version 2
         save.unitManager = GameManager.unitManager;
         save.playerManager = GameManager.playerManager;
         save.itemManager = GameManager.itemManager;
         save.questManager = GameManager.questManager;
         save.dialogManager = GameManager.dialogManager;
+        save.dialogQueue.Clear();
         foreach (var dialogId in save.dialogManager.DialogQueue)
         {
             save.dialogQueue.Add(dialogId);
@@ -93,7 +94,7 @@ public static class SaveManager
         saveData = load;
         var save = saveData as CurrentSave;
 
-        //Version 1
+        //Version 2
         GameManager.unitManager = save.unitManager;
         GameManager.playerManager = save.playerManager;
         GameManager.itemManager = save.itemManager;
