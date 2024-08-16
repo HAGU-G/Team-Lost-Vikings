@@ -14,7 +14,7 @@ public static class DataTableManager
     public static Table<int, PlayerData> playerTable = new("Assets/DataTable/LevelTable.csv"); 
 
     public static Table<int, SkillData> skillTable = new("Assets/DataTable/SkillTable.csv");
-    public static Table<int, SkillPool> skillPoolTable = new("Assets/DataTable/SkillPoolTable.csv");
+    public static TableDuplicatedID<int, SkillPool> skillPoolTable = new("Assets/DataTable/SkillPoolTable.csv");
     public static Table<int, StatsData> unitTable = new("Assets/DataTable/UnitTable.csv");
 
     public static Table<int, HuntZoneData> huntZoneTable = new("Assets/DataTable/HuntZoneTable.csv");
