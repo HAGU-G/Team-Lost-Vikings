@@ -49,6 +49,9 @@ public class DressAnimator
 
     public void AnimDeath()
     {
+        if (animator == null)
+            return;
+
         animator.SetTrigger(triggerDeath);
     }
 
@@ -108,6 +111,9 @@ public class DressAnimator
 
     public void AnimHit()
     {
+        if (animator == null)
+            return;
+
         animator.SetTrigger(triggerHit);
         var hitColor = GameSetting.Instance.hitEffectColor;
         foreach(var renderer in renderers)

@@ -42,26 +42,26 @@ public class UnitStats
     [JsonProperty] public Parameter HP { get; private set; } = new();
     [JsonProperty] public Parameter Stamina { get; private set; } = new();
     [JsonProperty] public Parameter Stress { get; private set; } = new();
-    public StatInt BaseHP { get; private set; } = new();
-    public StatInt BaseStamina { get; private set; } = new();
-    public StatInt BaseStress { get; private set; } = new();
+    [JsonProperty] public StatInt BaseHP { get; private set; } = new();
+    [JsonProperty] public StatInt BaseStamina { get; private set; } = new();
+    [JsonProperty] public StatInt BaseStress { get; private set; } = new();
 
     //Stat
     [JsonProperty] public StatInt BaseVit { get; private set; } = new();
     [JsonProperty] public StatInt BaseStr { get; private set; } = new();
     [JsonProperty] public StatInt BaseWiz { get; private set; } = new();
     [JsonProperty] public StatInt BaseAgi { get; private set; } = new();
-    public StatFloat VitWeight { get; private set; } = new();
-    public StatFloat StrWeight { get; private set; } = new();
-    public StatFloat WizWeight { get; private set; } = new();
-    public StatFloat AgiWeight { get; private set; } = new();
+    [JsonProperty] public StatFloat VitWeight { get; private set; } = new();
+    [JsonProperty] public StatFloat StrWeight { get; private set; } = new();
+    [JsonProperty] public StatFloat WizWeight { get; private set; } = new();
+    [JsonProperty] public StatFloat AgiWeight { get; private set; } = new();
 
-    public StatFloat CritChance { get; private set; } = new();
-    public StatFloat CritWeight { get; private set; } = new();
+    [JsonProperty] public StatFloat CritChance { get; private set; } = new();
+    [JsonProperty] public StatFloat CritWeight { get; private set; } = new();
 
-    public StatInt PhysicalDef { get; private set; } = new();
-    public StatInt MagicalDef { get; private set; } = new();
-    public StatInt SpecialDef { get; private set; } = new();
+    [JsonProperty] public StatInt PhysicalDef { get; private set; } = new();
+    [JsonProperty] public StatInt MagicalDef { get; private set; } = new();
+    [JsonProperty] public StatInt SpecialDef { get; private set; } = new();
 
     [JsonProperty] public bool isDead;
     [JsonProperty] public float reviveTimer = 0f;
@@ -75,10 +75,10 @@ public class UnitStats
     [JsonProperty] public Dictionary<int, Buff> Buffs { get; private set; } = new();
 
     //Ellipse
-    public StatFloat SizeRange { get; private set; } = new();
-    public StatFloat PresenseRange { get; private set; } = new();
-    public StatFloat RecognizeRange { get; private set; } = new();
-    public StatFloat BasicAttackRange { get; private set; } = new();
+    [JsonProperty] public StatFloat SizeRange { get; private set; } = new();
+    [JsonProperty] public StatFloat PresenseRange { get; private set; } = new();
+    [JsonProperty] public StatFloat RecognizeRange { get; private set; } = new();
+    [JsonProperty] public StatFloat BasicAttackRange { get; private set; } = new();
     public Ellipse SizeEllipse { get; set; } = null;
     public Ellipse PresenseEllipse { get; set; } = null;
     public Ellipse RecognizeEllipse { get; set; } = null;
@@ -88,8 +88,8 @@ public class UnitStats
 
 
     //Combat
-    public StatFloat MoveSpeed { get; private set; } = new();
-    public StatFloat AttackSpeed { get; private set; } = new();
+    [JsonProperty] public StatFloat MoveSpeed { get; private set; } = new();
+    [JsonProperty] public StatFloat AttackSpeed { get; private set; } = new();
     public int CombatPoint
     {
         get
@@ -355,15 +355,15 @@ public class UnitStats
     public void ResetMaxParameter()
     {
         HP.max = BaseHP.Current + GetWeightedStat(BaseVit.Current, VitWeight.Current);
-        if (HP.Current > HP.max)
+        if (GameManager.IsReady && HP.Current > HP.max)
             HP.Current = HP.max;
 
         Stamina.max = BaseStamina.Current;
-        if (Stamina.Current > Stamina.max)
+        if (GameManager.IsReady && Stamina.Current > Stamina.max)
             Stamina.Current = Stamina.max;
 
         Stress.max = BaseStress.Current;
-        if (Stress.Current > Stress.max)
+        if (GameManager.IsReady && Stress.Current > Stress.max)
             Stress.Current = Stress.max;
     }
 
@@ -492,6 +492,9 @@ public class UnitStats
                 buff.Apply(BaseStress);
                 ResetMaxParameter();
                 break;
+            case STAT_TYPE.ATTACK_SPEED:
+                buff.Apply(AttackSpeed);
+                break;
             default:
                 break;
         }
@@ -553,6 +556,9 @@ public class UnitStats
             case STAT_TYPE.MENTAL:
                 buff.Remove(BaseStress);
                 ResetMaxParameter();
+                break;
+            case STAT_TYPE.ATTACK_SPEED:
+                buff.Remove(AttackSpeed);
                 break;
             default:
                 break;
