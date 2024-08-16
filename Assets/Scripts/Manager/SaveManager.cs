@@ -2,7 +2,7 @@
 using System.IO;
 using System.Security.Cryptography;
 using UnityEngine;
-using CurrentSave = SaveDataV1;
+using CurrentSave = SaveDataV2;
 
 public static class SaveManager
 {
@@ -30,6 +30,10 @@ public static class SaveManager
         save.itemManager = GameManager.itemManager;
         save.questManager = GameManager.questManager;
         save.dialogManager = GameManager.dialogManager;
+        foreach (var dialogId in save.dialogManager.DialogQueue)
+        {
+            save.dialogQueue.Add(dialogId);
+        }
 
         save.huntZones.Clear();
         foreach (var huntZoneInfo in GameManager.huntZoneManager.HuntZones)
@@ -45,12 +49,12 @@ public static class SaveManager
             var tileId = building.standardTile.tileInfo.id;
             var structureId = building.StructureId;
 
-            if(!save.buildings.ContainsKey(tileId))
+            if (!save.buildings.ContainsKey(tileId))
             {
                 save.buildings.Add(tileId, structureId);
                 save.buildingFlip.Add(structureId, building.isFlip);
             }
-                
+
         }
 
         save.buildingUpgrade.Clear();
@@ -58,7 +62,7 @@ public static class SaveManager
         {
             var up = building.GetComponent<BuildingUpgrade>();
             var id = building.GetComponent<Building>().StructureId;
-            save.buildingUpgrade.Add(id,up == null ? 0 : up.currentGrade);
+            save.buildingUpgrade.Add(id, up == null ? 0 : up.currentGrade);
         }
 
 
@@ -95,6 +99,10 @@ public static class SaveManager
         GameManager.itemManager = save.itemManager;
         GameManager.questManager = save.questManager;
         GameManager.dialogManager = save.dialogManager;
+        foreach (var dialogId in save.dialogQueue)
+        {
+            GameManager.dialogManager.DialogQueue.Enqueue(dialogId);
+        }
 
         foreach (var huntZoneInfo in save.huntZones)
         {
@@ -109,12 +117,12 @@ public static class SaveManager
             var obj = GameManager.villageManager.objectList[structureId];
             var tile = GameManager.villageManager.gridMap.GetTile(key.x, key.y);
 
-            var constructedObj = 
+            var constructedObj =
             GameManager.villageManager.constructMode.construct.PlaceBuilding(obj, tile, GameManager.villageManager.gridMap);
 
             var building = constructedObj.GetComponent<Building>();
             save.buildingFlip.TryGetValue(structureId, out var isFlip);
-            if(isFlip)
+            if (isFlip)
                 building.RotateBuilding(building);
 
             var up = constructedObj.GetComponent<BuildingUpgrade>();

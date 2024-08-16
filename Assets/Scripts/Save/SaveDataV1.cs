@@ -25,6 +25,23 @@ public class SaveDataV1 : SaveData
 
     public override SaveData VersionUp()
     {
-        return this;
+        SaveDataV2 v2 = new SaveDataV2();
+        v2.unitManager = unitManager;
+        v2.playerManager = playerManager;
+        v2.itemManager = itemManager;
+        v2.questManager = questManager;
+        foreach (var quest in v2.questManager.GuideQuests)
+        {
+            v2.questManager.GuideQuests[quest.Key] = false;
+        }
+        v2.dialogManager = dialogManager;
+        v2.dialogManager.ShowedDialog.Clear();
+
+        v2.huntZones = huntZones;
+        v2.UnitDeployment = UnitDeployment;
+        v2.buildings = buildings;
+        v2.buildingUpgrade = buildingUpgrade;
+        v2.buildingFlip = buildingFlip;
+        return v2;
     }
 }

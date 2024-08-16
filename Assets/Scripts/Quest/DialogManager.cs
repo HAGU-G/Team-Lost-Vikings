@@ -5,7 +5,7 @@ using System.Collections.Generic;
 [JsonObject(MemberSerialization.OptIn)]
 public class DialogManager
 {
-    [JsonProperty] public Queue<int> DialogQueue { get; private set; } = new();
+    public Queue<int> DialogQueue { get; private set; } = new();
     [JsonProperty] public List<int> ShowedDialog { get; private set; } = new();
     private List<DialogData> currentData = null;
 
