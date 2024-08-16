@@ -25,53 +25,65 @@ public class UICharacterLocate : UIWindow
 
         village.onClick.AddListener(() =>
         {
+            GameManager.cameraManager.FinishFocousOnUnit();
             unit.ResetHuntZone();
             unit.ForceReturn();
+            Close();
         });
 
-        hpRecovery.onClick.AddListener(() => 
+        hpRecovery.onClick.AddListener(() =>
         {
+            GameManager.cameraManager.FinishFocousOnUnit();
             unit.ForceReturn();
             unit.parameterType = PARAMETER_TYPE.HP;
             if (unit.Location == LOCATION.HUNTZONE)
                 unit.ArriveVillage += VillageAraive;
             else
                 VillageAraive();
+            Close();
         });
 
         staminaRecovery.onClick.AddListener(() =>
         {
+            GameManager.cameraManager.FinishFocousOnUnit();
             unit.ForceReturn();
             unit.parameterType = PARAMETER_TYPE.STAMINA;
             if (unit.Location == LOCATION.HUNTZONE)
                 unit.ArriveVillage += VillageAraive;
             else
                 VillageAraive();
+            Close();
         });
 
         stressRecovery.onClick.AddListener(() =>
         {
+            GameManager.cameraManager.FinishFocousOnUnit();
             unit.ForceReturn();
             unit.parameterType = PARAMETER_TYPE.MENTAL;
             if (unit.Location == LOCATION.HUNTZONE)
                 unit.ArriveVillage += VillageAraive;
             else
                 VillageAraive();
+            Close();
         });
 
         var huntzones = GameManager.huntZoneManager.HuntZones;
         for(int i = 0; i < huntzones.Count; ++i)
         {
+            GameManager.cameraManager.FinishFocousOnUnit();
             int huntzoneNum = i;
             var location = Instantiate(locationPrefab, content);
             var locationComponent = location.GetComponent<Location>();
             locationComponent.locationName.text = $"{huntzoneNum + 1}번 사냥터";
             locationComponent.button.onClick.AddListener(() =>
             {
-                //사냥터 이동 시 동일한 사냥터면 return
+                GameManager.cameraManager.FinishFocousOnUnit();
+                
                 if (GameManager.huntZoneManager.IsDeployed(unit.InstanceID, huntzoneNum + 1))
                     return;
                 SetUnitHuntZone(GameManager.huntZoneManager.HuntZones[huntzoneNum + 1].Info.HuntZoneNum);
+
+                Close();
             });
         }
 
@@ -89,7 +101,6 @@ public class UICharacterLocate : UIWindow
     {
         if (!IsReady)
             return;
-
         unit = GameManager.uiManager.currentUnitStats;
     }
 

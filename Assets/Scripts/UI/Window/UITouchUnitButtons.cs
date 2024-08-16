@@ -25,7 +25,7 @@ public class UITouchUnitButtons : UIWindow
 
     private void OnButtonInformation()
     {
-       // GameManager.uiManager.windows[WINDOW_NAME.UNIT_DETAIL_INFORMATION].Open();
+       GameManager.uiManager.windows[WINDOW_NAME.UNIT_DETAIL_INFORMATION].Open();
     }
 
     private void OnButtonClose()
@@ -36,6 +36,6 @@ public class UITouchUnitButtons : UIWindow
 
     private void OnButtonPlacement()
     {
-        //GameManager.uiManager.windows[WINDOW_NAME.CHARACTER_LOCATE].Open();
+        GameManager.uiManager.windows[WINDOW_NAME.CHARACTER_LOCATE].Open();
     }
 }
