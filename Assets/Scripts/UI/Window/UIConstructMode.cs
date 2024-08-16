@@ -153,6 +153,9 @@ public class UIConstructMode : UIWindow
             {
                 var pos = GameManager.inputManager.WorldPos;
                 Vector2Int currentIndex = vm.gridMap.PosToIndex(pos);
+                if (currentIndex == new Vector2Int(-1, -1))
+                    return;
+
 
                 vm.construct.UpdateHighlightedCells(currentIndex);
             }
@@ -173,6 +176,9 @@ public class UIConstructMode : UIWindow
             {
                 var pos = GameManager.inputManager.WorldPos;
                 Vector2Int currentIndex = vm.gridMap.PosToIndex(pos);
+
+                if (currentIndex == new Vector2Int(-1, -1))
+                    return;
 
                 vm.construct.UpdateHighlightedCells(currentIndex);
             }
