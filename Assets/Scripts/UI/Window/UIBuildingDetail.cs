@@ -141,10 +141,10 @@ public class UIBuildingDetail : UIWindow
             //TO-DO : UI변경되면 텍스트 넣는 부분 추가하기
         }
         
-        CheckRequireItems(canBuild);
+        CheckRequireItems();
     }
 
-    private void CheckRequireItems(bool canBuild = true)
+    private void CheckRequireItems()
     {
         var buildingData = um.currentBuildingData;
         var upgrade = DataTableManager.upgradeTable.GetData(buildingData.UpgradeId)[0];
@@ -169,6 +169,16 @@ public class UIBuildingDetail : UIWindow
             }
         }
 
+        foreach (var tile in vm.gridMap.tiles.Values)
+        {
+            if (!tile.tileInfo.ObjectLayer.IsEmpty
+                && tile.tileInfo.ObjectLayer.LayerObject.GetComponentInChildren<Building>().StructureId == buildingData.StructureId
+                && !buildingData.CanMultiBuild)
+            {
+                check = false;
+            }
+        }
+
         if (check)
             construct.targetGraphic.color = trueColor;
         else
@@ -176,8 +186,8 @@ public class UIBuildingDetail : UIWindow
 
         construct.interactable = check;
         
-        if(canBuild != true)
-            construct.interactable = canBuild;
+        //if(canBuild != true)
+        //    construct.interactable = canBuild;
     }
 
     public void OnButtonConstruct()
