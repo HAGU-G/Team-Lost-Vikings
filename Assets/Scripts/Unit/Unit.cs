@@ -160,6 +160,7 @@ public abstract class Unit : MonoBehaviour, IPointerClickHandler
 
         var gm = GameManager.cameraManager;
         gm.SetLocation(stats.Location);
+        gm.prevZoom = gm.ZoomValue;
         gm.focousingUnit = stats;
         gm.isFocousOnUnit = true;
         GameManager.uiManager.currentUnitStats = stats;

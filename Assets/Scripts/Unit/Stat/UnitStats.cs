@@ -492,6 +492,9 @@ public class UnitStats
                 buff.Apply(BaseStress);
                 ResetMaxParameter();
                 break;
+            case STAT_TYPE.ATTACK_SPEED:
+                buff.Apply(AttackSpeed);
+                break;
             default:
                 break;
         }
@@ -553,6 +556,9 @@ public class UnitStats
             case STAT_TYPE.MENTAL:
                 buff.Remove(BaseStress);
                 ResetMaxParameter();
+                break;
+            case STAT_TYPE.ATTACK_SPEED:
+                buff.Remove(AttackSpeed);
                 break;
             default:
                 break;
