@@ -31,7 +31,10 @@ MonoBehaviour:
   autoGachaSeconds: 999
   autoGachaMaxCount: 15
   defaultUnitLimit: 4
+  defaultBowProjectileSpeed: 4
+  defaultMagicProjectileSpeed: 4
   monsterRoamSeconds: 2
   projectileSize: 0.5
   goldID: 8000001
   touchEffectName: VFX_Touch_001
+  hitEffectColor: {r: 1, g: 0, b: 0, a: 1}
