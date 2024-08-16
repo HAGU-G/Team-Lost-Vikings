@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 [JsonObject(MemberSerialization.OptIn)]

@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 
 [JsonObject(MemberSerialization.OptIn)]
 public abstract class StatClass<T>

@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
-using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.AddressableAssets;
-using static UnityEngine.GraphicsBuffer;
 
 public class Projectile : MonoBehaviour
 {

@@ -1,7 +1,4 @@
-﻿using CsvHelper.Configuration.Attributes;
-using Newtonsoft.Json;
-
-public enum ACHIEVEMENT_TYPE
+﻿public enum ACHIEVEMENT_TYPE
 {
     NONE,
     BUILDING_BUILD,

@@ -1,6 +1,4 @@
-﻿using UnityEngine.UI;
-
-public enum DIRECTION_VERTICAL
+﻿public enum DIRECTION_VERTICAL
 {
     MIDDLE,
     LEFT,

@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 [JsonObject(MemberSerialization.OptIn)]
 public class Skill
