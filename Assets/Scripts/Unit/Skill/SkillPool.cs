@@ -9,10 +9,5 @@ public class SkillPool : ITableAvaialable<int>
     public int SkillId { get; set; }
     public int SkillGachaChance { get; set; }
 
-    /// <summary>
-    /// 스킬ID, 가중치
-    /// </summary>
-    [Ignore] public Dictionary<int, int> Pool { get; set; }
-
     public int TableID => Id;
 }
