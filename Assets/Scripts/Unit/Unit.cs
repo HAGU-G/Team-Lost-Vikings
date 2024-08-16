@@ -140,10 +140,14 @@ public abstract class Unit : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (stats.Data.UnitType != UNIT_TYPE.CHARACTER)
+            return;
+
         var gm = GameManager.cameraManager;
         gm.SetLocation(stats.Location);
         gm.unit = this;
         gm.isFocousOnUnit = true;
+        GameManager.uiManager.currentUnitStats = stats;
 
         if (GameManager.villageManager.constructMode.isConstructMode)
         {

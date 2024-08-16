@@ -18,12 +18,24 @@ public class UITouchUnitButtons : UIWindow
         base.OnGameStart();
         isShowOnly = false;
 
+        information.onClick.AddListener(OnButtonInformation);
         close.onClick.AddListener(OnButtonClose);
+        placement.onClick.AddListener(OnButtonPlacement);
+    }
+
+    private void OnButtonInformation()
+    {
+       // GameManager.uiManager.windows[WINDOW_NAME.UNIT_DETAIL_INFORMATION].Open();
     }
 
     private void OnButtonClose()
     {
         GameManager.cameraManager.FinishFocousOnUnit();
         Close();
+    }
+
+    private void OnButtonPlacement()
+    {
+        //GameManager.uiManager.windows[WINDOW_NAME.CHARACTER_LOCATE].Open();
     }
 }

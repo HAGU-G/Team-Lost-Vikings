@@ -26,8 +26,12 @@ public abstract class UIWindow : MonoBehaviour
         isOpened = true;
         GameManager.uiManager.isWindowOn = true;
         gameObject.SetActive(true);
+
         if (isShowOnly)
             GameManager.uiManager.CloseWindows(this);
+
+        //if (GameManager.cameraManager.isFocousOnUnit)
+        //    GameManager.cameraManager.FinishFocousOnUnit();
 
         GameManager.uiManager.OpenWindow(WindowName);
     }

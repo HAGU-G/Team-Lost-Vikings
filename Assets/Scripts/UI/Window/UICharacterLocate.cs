@@ -91,7 +91,6 @@ public class UICharacterLocate : UIWindow
             return;
 
         unit = GameManager.uiManager.currentUnitStats;
-        
     }
 
     public void OnButtonExit()
