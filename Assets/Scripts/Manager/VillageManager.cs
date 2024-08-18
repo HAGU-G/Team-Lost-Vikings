@@ -231,7 +231,6 @@ public class VillageManager : MonoBehaviour
 
     public void LevelUp()
     {
-        Debug.Log("Level UP");
         gridMap.SetUsingTileList(GameManager.playerManager.level);
     }
 
