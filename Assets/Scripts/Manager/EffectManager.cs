@@ -81,9 +81,14 @@ public class EffectManager : MonoBehaviour
             true, 30, 10000
             );
 
+        List<DamageEffect> damageEffects = new();
         for (int i = 0; i < 20; i++)
         {
-            damagePool.Get();
+            damageEffects.Add(damagePool.Get());
+        }
+        foreach(var de in damageEffects)
+        {
+            de.gameObject.SetActive(false);
         }
 
         // 사용하는 유닛의 이펙트, 등장할 몬스터의 이펙트들 미리 생성

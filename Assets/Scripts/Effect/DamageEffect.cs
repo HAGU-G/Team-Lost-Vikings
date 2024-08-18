@@ -22,19 +22,19 @@ public class DamageEffect : MonoBehaviour
 
     private void OnEnable()
     {
-        animator.SetInteger(paramType, (int)type);
+        animator.SetFloat(paramType, (int)type);
         animator.SetTrigger(triggerPlay);
-
-        if(!GameManager.IsReady)
-            gameObject.SetActive(false);
     }
 
     private void OnDisable()
     {
-        pool.Release(this);
-
         text.color = Color.white;
         type = TYPE.DEFAULT;
+
+        if (pool == null)
+            Destroy(gameObject);
+        else
+            pool.Release(this);
     }
 
     private void OnEffectEnd()
@@ -49,6 +49,6 @@ public class DamageEffect : MonoBehaviour
         this.text.text = text;
         this.text.color = color;
         this.type = type;
-        animator.SetInteger(paramType, (int)type);
+        animator.SetFloat(paramType, (int)type);
     }
 }
