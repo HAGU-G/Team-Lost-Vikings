@@ -24,6 +24,10 @@ public class EffectManager : MonoBehaviour
 {
     private Dictionary<string, IObjectPool<EffectObject>> effectPools = new();
     private Dictionary<string, AsyncOperationHandle> handles = new();
+
+    public DamageEffect damageEffectPrefab;
+    private IObjectPool<DamageEffect> damagePool;
+
     private InputManager im = null;
 
 
@@ -60,6 +64,28 @@ public class EffectManager : MonoBehaviour
     {
         im = GameManager.inputManager;
 
+        // 데미지 이펙트 오브젝트 풀링
+        damagePool = new ObjectPool<DamageEffect>(
+            () =>
+            {
+                var damageEffect = Instantiate(damageEffectPrefab, transform);
+                damageEffect.pool = damagePool;
+                return damageEffect;
+            },
+            (x) =>
+            {
+                x.gameObject.SetActive(true);
+            },
+            null,
+            null,
+            true, 30, 10000
+            );
+
+        for (int i = 0; i < 20; i++)
+        {
+            damagePool.Get();
+        }
+
         // 사용하는 유닛의 이펙트, 등장할 몬스터의 이펙트들 미리 생성
         List<string> effectNames = new();
         effectNames.Add(GameSetting.Instance.touchEffectName);
@@ -82,6 +108,13 @@ public class EffectManager : MonoBehaviour
         }
     }
 
+    public DamageEffect GetDamageEffect(string text, Vector3 position, Color color, DamageEffect.TYPE type = DamageEffect.TYPE.DEFAULT)
+    {
+        var damageEffect = damagePool.Get();
+        damageEffect.Set(text, position, color, type);
+
+        return damageEffect;
+    }
     public EffectObject GetEffect(string effectName, SORT_LAYER layer = SORT_LAYER.NONE)
     {
         if (!effectPools.ContainsKey(effectName))
