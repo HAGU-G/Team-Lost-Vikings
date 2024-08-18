@@ -1,4 +1,6 @@
 ﻿
+using UnityEngine;
+
 public class UnitOnHunt : CombatUnit
 {
     public override bool IsNeedReturn

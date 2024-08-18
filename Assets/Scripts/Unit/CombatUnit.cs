@@ -3,6 +3,7 @@ using UnityEngine;
 
 public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
 {
+    public Transform damageEffectPosition;
     public HuntZone CurrentHuntZone { get; protected set; } = null;
     public Vector3 PortalPos { get; protected set; }
 
@@ -159,6 +160,10 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
             animator?.AnimHit();
         
         OnDamaged?.Invoke();
+        GameManager.effectManager.GetDamageEffect(
+            calculatedDamage.ToString(),
+            damageEffectPosition.position,
+            Color.white);
 
         if (!IsDead && stats.HP.Current <= 0)
         {
@@ -252,5 +257,9 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
     public void TakeHeal(int heal)
     {
         stats.HP.Current += heal;
+        GameManager.effectManager.GetDamageEffect(
+            heal.ToString(),
+            damageEffectPosition.position,
+            Color.green);
     }
 }

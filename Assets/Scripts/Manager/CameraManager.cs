@@ -13,6 +13,7 @@ public class CameraManager : MonoBehaviour
     private float _zoomValue;
     public float prevZoom;
 
+    public Vector3 DeltaPos { get; private set; }
 
     public bool isFocousOnUnit = false;
     public UnitStats focousingUnit;
@@ -74,6 +75,10 @@ public class CameraManager : MonoBehaviour
         }
     }
 
+    private void LateUpdate()
+    {
+        DeltaPos = Vector3.zero;
+    }
 
     public void SetLocation(LOCATION location, int huntzoneNum = -1)
     {
@@ -118,6 +123,7 @@ public class CameraManager : MonoBehaviour
         {
             var position = pos;
             position.z = -10;
+            DeltaPos += position - transform.position;
             transform.position = position;
         }
     }
