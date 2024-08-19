@@ -1,8 +1,8 @@
 재화이름,재화Id,재화아이콘이미지
 string,int,string
 Name,CurrencyId,CurrencyAssetFileName
-골드,8000001,0
-나무,8000002,0
-돌,8000003,0
-건물마정석,8000004,0
-캐릭터마정석,8000005,0
+골드,8000001,rpg_item_icon_coin_102
+나무,8000002,rpg_item_icon_log_1
+돌,8000003,rpg_item_icon_stone_20
+건물마정석,8000004,rpg_item_icon_copper_ore_22
+캐릭터마정석,8000005,rpg_item_icon_silver_ore_25
