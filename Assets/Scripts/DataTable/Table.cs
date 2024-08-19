@@ -69,6 +69,8 @@ public class Table<T, U> where U : ITableAvaialable<T>
     public bool ContainsValue(U value) => datas.ContainsValue(value);
     public U GetData(T id)
     {
+        if (!datas.ContainsKey(id))
+            ErrorMessage(ERROR_TYPE.LOAD_FAILED, id.ToString());
         return datas[id];
     }
 

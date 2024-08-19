@@ -52,6 +52,8 @@ public class TableDuplicatedID<T, U> : Table<T, U>
 
     public new List<U> GetData(T id)
     {
+        if (!datas.ContainsKey(id))
+            ErrorMessage(ERROR_TYPE.LOAD_FAILED, id.ToString());
         return datas[id];
     }
     public override List<U> GetDatas()

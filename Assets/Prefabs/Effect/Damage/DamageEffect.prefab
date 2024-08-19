@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1128093017007042772}
   - component: {fileID: 7310408184313857742}
   - component: {fileID: 7487799440197608642}
+  - component: {fileID: 3958253249790111388}
   m_Layer: 0
   m_Name: DamageEffect
   m_TagString: Untagged
@@ -70,6 +71,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!210 &3958253249790111388
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005247488292351672}
+  m_Enabled: 1
+  m_SortingLayerID: -788955929
+  m_SortingLayer: 1
+  m_SortingOrder: 0
+  m_SortAtRoot: 1
 --- !u!1 &4828425570397937843
 GameObject:
   m_ObjectHideFlags: 0

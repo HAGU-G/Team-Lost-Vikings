@@ -51,6 +51,7 @@ public class Projectile : MonoBehaviour
             }
             gameObject.SetActive(false);
             Addressables.ReleaseInstance(gameObject);
+            return;
         }
 
         if (!IsFloor)
