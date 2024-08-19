@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Text;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -57,9 +58,9 @@ public class GameSetting : ScriptableObject
     #endregion
 
     //////////////////////////////////////////////////////////////////////////////////////////////
-    // 에디터 설정 /////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////////////
+    [Header("에디터 설정")]
 
+    [Tooltip("에디터에서 저장/불러오기 사용")]
     public bool useSaveDataWhenEditor = false;
 
 
@@ -70,8 +71,8 @@ public class GameSetting : ScriptableObject
 
 
     //////////////////////////////////////////////////////////////////////////////////////////////
-    // 시간 설정 /////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////////////
+    [Header("시간 설정")]
+
     public string serverURI = "google.com";
     public enum SYNC_INTERVAL_TYPE
     {
@@ -80,35 +81,30 @@ public class GameSetting : ScriptableObject
     }
     public SYNC_INTERVAL_TYPE syncIntervalType = SYNC_INTERVAL_TYPE.MINUTE;
 
-    [Range(1, 60)]
-    public int syncInterval = 30;
-
-    [Range(4, 60)]
-    public int syncLimitSeconds = 4;
+    [Tooltip("갱신 주기")]
+    [Range(1, 60)] public int syncInterval = 30;
+    [Range(4, 60)] public int syncLimitSeconds = 4;
 
 
 
 
     //////////////////////////////////////////////////////////////////////////////////////////////
-    // 타일 설정 /////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////////////
+    [Header("타일 설정")]
 
-    [Range(0f, 2f)]
-    public float ellipseRatio = 0.75f;
+    [Tooltip("충돌용 타원 비율")]
+    [Range(0f, 2f)] public float ellipseRatio = 0.75f;
+
+    [Tooltip("타일 가로 세로 비율")]
     public float tileXY = 1.8f;
 
 
 
     //////////////////////////////////////////////////////////////////////////////////////////////
-    // 캐릭터 설정 ///////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////////////
+    [Header("유닛 설정")]
 
-    [Range(0f, 1f)]
-    public float returnHPRaito = 0.2f;
-    [Range(0f, 1f)]
-    public float returnStaminaRaito = 0.2f;
-    [Range(0f, 1f)]
-    public float returnStressRaito = 0.2f;
+    [Range(0f, 1f)] public float returnHPRaito = 0.2f;
+    [Range(0f, 1f)] public float returnStaminaRaito = 0.2f;
+    [Range(0f, 1f)] public float returnStressRaito = 0.2f;
 
     public int staminaReduceAmount = 1;
     public int stressReduceAmount = 1;
@@ -121,24 +117,33 @@ public class GameSetting : ScriptableObject
     public float autoGachaSeconds = 90f;
     public int autoGachaMaxCount = 99;
 
+    [Tooltip("캐릭터 보유 수 기본값")]
     public int defaultUnitLimit = 4;
+
+    [Tooltip("평타 화살 투사체 속도")]
     public float defaultBowProjectileSpeed = 4f;
+    [Tooltip("평타 마법 투사체 속도")]
     public float defaultMagicProjectileSpeed = 4f;
+
+    [Tooltip("배회 경로 재탐색 시간")]
+    public float idleRerouteTime = 3f;
+    [Tooltip("공격 대상 재탐색 시간")]
+    public float traceRerouteTime = 20f;
 
     //////////////////////////////////////////////////////////////////////////////////////////////
     // 몬스터 설정 ///////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////
 
-    [Range(0f, 60f)]
-    public float monsterRoamSeconds = 2f;
+    //[Range(0f, 60f)]
+    //public float monsterRoamSeconds = 2f;
 
 
     //////////////////////////////////////////////////////////////////////////////////////////////
-    // 기타 설정 /////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////////////
+    [Header("기타 설정")]
 
     public float projectileSize = 0.5f;
     public int goldID = 8000001;
+    public string gachaPrefabName = "Char_Gacha";
     public string touchEffectName = string.Empty;
     public float touchEffectScale = 1f;
     public Color hitEffectColor = Color.red;

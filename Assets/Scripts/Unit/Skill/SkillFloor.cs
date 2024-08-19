@@ -6,6 +6,7 @@ public class SkillFloor : ISkillStrategy
 {
     private Ellipse attackEllipse = null;
     private Ellipse buffEllipse = null;
+    private Vector3 targetPos;
 
     public void Use(UnitStats owner, Skill skill, CombatUnit targetUnit)
     {
@@ -14,9 +15,12 @@ public class SkillFloor : ISkillStrategy
         if (combat == null)
             return;
 
+        if (targetUnit != null)
+            targetPos = targetUnit.transform.position;
+
         //범위 설정
-        attackEllipse = new(skill.Data.SkillAttackRange, targetUnit.transform.position);
-        buffEllipse = new(skill.Data.BuffRange, combat.attackTarget.transform.position);
+        attackEllipse = new(skill.Data.SkillAttackRange, targetPos);
+        buffEllipse = new(skill.Data.BuffRange, targetPos);
 
         //대상 설정
         List<CombatUnit> targetList = new();
@@ -102,17 +106,33 @@ public class SkillFloor : ISkillStrategy
         var handle = Addressables.InstantiateAsync("Projectile");
         var proj = handle.WaitForCompletion().GetComponent<Projectile>();
         proj.Init(skill.Data);
-        proj.ResetProjectile(
+        if (targetUnit != null)
+        {
+            proj.ResetProjectile(
             Mathf.FloorToInt(skill.Damage * skill.Data.SkillFloorDmgRatio),
-            targetUnit.transform.position,
+            targetPos,
             targetUnit,
             owner);
-
+        }
+        else
+        {
+            proj.ResetProjectile(
+            Mathf.FloorToInt(skill.Damage * skill.Data.SkillFloorDmgRatio),
+            targetPos,
+            targetPos,
+            owner);
+        }
         //이펙트
         //TODO addressable 수정 필요 - 오브젝트 풀이나 미리 로드하는 방식 사용
         var effect = GameManager.effectManager.GetEffect(skill.Data.SkillEffectName, SORT_LAYER.OverUnit);
-        effect.transform.position = targetUnit.transform.position;
+        effect.transform.position = targetPos;
         if (combat.isFlip)
             effect.transform.Rotate(Vector3.up, 180f);
+    }
+
+    public void Use(UnitStats owner, Skill skil, Vector3 targetPos)
+    {
+        this.targetPos = targetPos;
+        Use(owner, skil, null);
     }
 }

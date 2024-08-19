@@ -253,7 +253,7 @@ public class UnitStats
 
         SetConstantStats(data);
 
-        if(!doGacha)
+        if (!doGacha)
         {
             foreach (var skill in Skills)
             {
@@ -331,7 +331,22 @@ public class UnitStats
             if (collisionDepth >= 0f)
             {
                 var prePos = objectTransform.position;
-                objectTransform.position -= (other.transform.position - objectTransform.position).normalized * collisionDepth;
+                var directionToOther = (other.transform.position - objectTransform.position).normalized;
+                objectTransform.position -= directionToOther * collisionDepth;
+
+                var unit = objectTransform.GetComponent<Unit>();
+                if (unit != null && unit.IsMoved)
+                {
+                    var deltaDistance = Vector3.Distance(objectTransform.position, prePos);
+                    var cross = Vector3.Cross(directionToOther, unit.LastDirection.normalized);
+                    Vector3 direc;
+                    if(cross.z < 0f)
+                        direc = Quaternion.Euler(0f, 0f, -90f) * unit.LastDirection;
+                    else
+                        direc = Quaternion.Euler(0f, 0f, 90f) * unit.LastDirection;
+
+                    objectTransform.position += direc.normalized * deltaDistance;
+                }
 
                 if (gridMap != null
                     && gridMap.PosToIndex(objectTransform.position) == Vector2Int.one * -1)

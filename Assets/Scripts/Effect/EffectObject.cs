@@ -16,7 +16,7 @@ public class EffectObjectReference : AssetReferenceT<EffectObject>
 public class EffectObject : MonoBehaviour
 {
     private List<ParticleSystem> particleSystems = new();
-    public SortingGroup sortingGroup;
+    [HideInInspector] public SortingGroup sortingGroup;
 
     private bool isStopped = false;
     public bool isLoop = false;
@@ -63,7 +63,7 @@ public class EffectObject : MonoBehaviour
             gameObject.SetActive(!isParticleStopped);
         }
 
-        if (!isStopped)
+        if (!isStopped && sortingGroup.sortingLayerName != SORT_LAYER.UI.ToString())
         {
             sortingGroup.sortingOrder = -Mathf.FloorToInt(gameObject.transform.position.y);
         }
@@ -100,6 +100,6 @@ public class EffectObject : MonoBehaviour
     {
         var delta = targetPos - transform.position;
         var rotationDeg = Mathf.Rad2Deg * Mathf.Atan2(delta.y, delta.x);
-        transform.eulerAngles = new (0f, isFlip ? 180f : 0f, isFlip ? 180f - rotationDeg : rotationDeg);
+        transform.eulerAngles = new(0f, isFlip ? 180f : 0f, isFlip ? 180f - rotationDeg : rotationDeg);
     }
 }

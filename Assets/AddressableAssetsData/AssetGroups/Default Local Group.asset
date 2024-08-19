@@ -532,6 +532,46 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 77778d34ffd910148bb7bccd3f2afc65
+    m_Address: rpg_item_icon_stone_20
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 36dc31035e857574e82508ae6f38a3dd
+    m_Address: rpg_item_icon_iron_ingot_33
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 54e2d494129b3c1448d2295b80105f7b
+    m_Address: rpg_item_icon_crate_138
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 21850015823e36e40850181e6b2bf1d0
+    m_Address: rpg_item_icon_copper_ore_22
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b1cfe36a6d12b7a428f612cfcf17b204
+    m_Address: rpg_item_icon_coin_102
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5e6b827c4eb31164395292c21efa302c
+    m_Address: rpg_item_icon_log_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 91f195151c47c6844849da1992c322fb
+    m_Address: Char_Gacha
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cb73b0e4f0cc8ef46a007a1422c9eca1
+    m_Address: WhiteScreen
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 06eaf29b6f1bf084f803a683a0542cea, type: 2}
   m_SchemaSet:

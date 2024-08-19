@@ -111,6 +111,10 @@ public class Skill
     {
         skillBehaviour?.Use(owner, this, targetUnit);
     }
+    public void Use(Vector3 targetPos)
+    {
+        skillBehaviour?.Use(owner, this, targetPos);
+    }
 
     private void ConditionUpdate()
     {
