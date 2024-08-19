@@ -31,8 +31,8 @@ MonoBehaviour:
   autoGachaSeconds: 90
   autoGachaMaxCount: 15
   defaultUnitLimit: 4
-  defaultBowProjectileSpeed: 4
-  defaultMagicProjectileSpeed: 4
+  defaultBowProjectileSpeed: 30
+  defaultMagicProjectileSpeed: 12
   monsterRoamSeconds: 2
   projectileSize: 0.5
   goldID: 8000001
