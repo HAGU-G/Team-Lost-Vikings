@@ -57,7 +57,7 @@ public class Projectile : MonoBehaviour
         if (!IsFloor)
         {
             if (targetUnit != null
-            && !targetUnit.gameObject.activeSelf
+            && targetUnit.gameObject.activeSelf
             && !targetUnit.IsDead)
             {
                 direction = (targetUnit.transform.position - transform.position).normalized;
@@ -116,7 +116,8 @@ public class Projectile : MonoBehaviour
                 }
             }
 
-            if (Vector3.Distance(transform.position, destination) <= skillData.ProjectileSpeed * Time.deltaTime)
+            if ((targetUnit == null || targetUnit.IsDead || !targetUnit.gameObject.activeSelf)
+                && Vector3.Distance(transform.position, destination) <= skillData.ProjectileSpeed * Time.deltaTime)
                 Remove();
         }
 
