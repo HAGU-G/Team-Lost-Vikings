@@ -292,7 +292,7 @@ public class HuntZone : MonoBehaviour
     public void KillLastSpawnedMonster()
     {
         if (Monsters.Count > 0)
-            Monsters[0].TakeDamage(Monsters[0].stats.HP.max, ATTACK_TYPE.NONE);
+            Monsters[0].TakeDamage(Monsters[0].stats.HP.max, ATTACK_TYPE.NONE, false);
     }
 
     public void SpawnUnit(int instanceID)

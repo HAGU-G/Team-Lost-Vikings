@@ -142,7 +142,7 @@ public class CameraManager : MonoBehaviour
             return;
         }
 
-        Zoom(maxZoom);
+        Zoom(minZoom);
         var position = focusingUnit.objectTransform.position;
         position.z = -10;
         SetLocation(focusingUnit.Location, focusingUnit.HuntZoneNum);
