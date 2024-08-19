@@ -1,14 +1,17 @@
-﻿using UnityEngine;
+﻿using UnityEditor.PackageManager.Requests;
+using UnityEngine;
 
 public class IdleOnHunt : State<CombatUnit>
 {
     private bool isMoving;
     private Vector3 dest;
+    private float timer;
 
     public override void EnterState()
     {
         owner.currentState = CombatUnit.STATE.IDLE;
         owner.isTargetFixed = false;
+        timer = 0f;
         //owner.spriteRenderer.color = Color.white;
     }
 
@@ -55,12 +58,18 @@ public class IdleOnHunt : State<CombatUnit>
         }
         else
         {
-            owner.MoveToDestination(dest, Time.deltaTime);
+            var deltatTime = Time.deltaTime;
+            timer += deltatTime;
+            owner.MoveToDestination(dest, deltatTime);
             //owner.transform.position += (dest - owner.transform.position).normalized
             //    * owner.stats.MoveSpeed.Current * Time.deltaTime;
 
-            if (Vector3.Distance(dest, owner.transform.position) <= 0.2f)
+            if (Vector3.Distance(dest, owner.transform.position) <= 0.2f
+                || timer >= GameSetting.Instance.idleRerouteTime)
+            { 
                 isMoving = false;
+                timer = 0f;
+            }
         }
     }
 
