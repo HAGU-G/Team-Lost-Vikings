@@ -241,6 +241,8 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
         }
 
         bool isCritical = Random.Range(0, 100) < stats.CritChance.Current;
+        if (stats.Data.BasicAttackMotion != ATTACK_MOTION.BASIC)
+            isCritical = false;
         var criticalWeight = isCritical ? stats.CritWeight.Current : 1f;
         var damage = Mathf.FloorToInt(stats.CombatPoint * criticalWeight);
 
