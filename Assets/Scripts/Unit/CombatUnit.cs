@@ -229,16 +229,13 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
     protected override void OnAnimationAttackHit()
     {
         if (!HasTarget())
-        {
             isTargetFixed = false;
-            return;
-        }
 
         base.OnAnimationAttackHit();
 
-
-        if (!attackTarget.isTargetFixed)
+        if (attackTarget != null && !attackTarget.isTargetFixed)
         {
+            LookAt(attackTarget.transform);
             attackTarget.isTargetFixed = true;
             attackTarget.attackTarget = this;
         }

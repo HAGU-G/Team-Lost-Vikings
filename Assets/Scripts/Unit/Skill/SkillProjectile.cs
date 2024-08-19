@@ -1,14 +1,20 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 public class SkillProjectile : ISkillStrategy
 {
+    private Vector3 targetPos;
+
     public void Use(UnitStats owner, Skill skill, CombatUnit targetUnit)
     {
         var combat = owner.objectTransform.GetComponent<CombatUnit>();
 
         if (combat == null)
             return;
+
+        if (targetUnit != null)
+            targetPos = targetUnit.transform.position;
 
         //대상 설정
         List<CombatUnit> targetList = new();
@@ -49,34 +55,45 @@ public class SkillProjectile : ISkillStrategy
                 break;
 
             case TARGET_TYPE.ENEMY:
-                if (combat.HasTarget())
-                    targetList.Add(combat.attackTarget);
+                if (targetUnit != null && !targetUnit.IsDead && targetUnit.gameObject.activeSelf)
+                    targetList.Add(targetUnit);
                 break;
         }
 
         
 
-
         //투사체 생성
         var handle = Addressables.InstantiateAsync("Projectile");
         var proj = handle.WaitForCompletion().GetComponent<Projectile>();
         proj.Init(skill.Data);
-        proj.ResetProjectile(
+
+        if (targetUnit != null)
+        {
+            proj.ResetProjectile(
             skill.Damage,
             combat.transform.position,
             targetUnit,
             owner);
-
+        }
+        else
+        {
+            proj.ResetProjectile(
+            skill.Damage,
+            combat.transform.position,
+            targetPos,
+            owner);
+        }
         //버프
 
         if (targetList.Count == 0)
             return;
 
         targetList[0].stats.ApplyBuff(new(skill));
+    }
 
-        //이펙트
-
-
-
+    public void Use(UnitStats owner, Skill skil, Vector3 targetPos)
+    {
+        this.targetPos = targetPos;
+        Use(owner, skil, null);
     }
 }

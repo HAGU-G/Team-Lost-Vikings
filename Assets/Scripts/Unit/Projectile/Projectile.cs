@@ -16,6 +16,7 @@ public class Projectile : MonoBehaviour
 
     private Vector3 direction = Vector3.zero;
     private CombatUnit targetUnit;
+    private Vector3 targetPos;
     private Vector3 destination = Vector3.zero;
 
     private bool IsFloor => skillData.SkillAttackType == SKILL_ATTACK_TYPE.FLOOR;
@@ -59,6 +60,7 @@ public class Projectile : MonoBehaviour
             && !targetUnit.IsDead)
             {
                 direction = (targetUnit.transform.position - transform.position).normalized;
+                targetPos = targetUnit.transform.position;
                 destination = targetUnit.transform.position;
             }
             else
@@ -172,6 +174,12 @@ public class Projectile : MonoBehaviour
         ellipse = new(projectileSize);
     }
 
+    public void ResetProjectile(int damage, Vector3 position, Vector3 targetPos, UnitStats owner)
+    {
+        this.targetPos = targetPos;
+        ResetProjectile(damage, position, null, owner);
+    }
+
     public void ResetProjectile(int damage, Vector3 position, CombatUnit targetUnit, UnitStats owner)
     {
         lifeTimer = skillData.SkillDuration;
@@ -181,9 +189,13 @@ public class Projectile : MonoBehaviour
         targets = owner.objectTransform.GetComponent<CombatUnit>().Enemies;
 
         SetPosition(position);
+
         this.targetUnit = targetUnit;
-        destination = targetUnit.transform.position;
-        direction = (targetUnit.transform.position - position).normalized;
+        if (targetUnit != null)
+            targetPos = targetUnit.transform.position;
+
+        destination = targetPos;
+        direction = (targetPos - position).normalized;
 
         isActive = true;
         gameObject.SetActive(true);
@@ -204,7 +216,7 @@ public class Projectile : MonoBehaviour
             else
             {
                 //effect.transform.localScale = Vector3.one * GameSetting.Instance.projectileSize;
-                effect.LookAt(targetUnit.transform.position);
+                effect.LookAt(targetPos);
             }
         }
     }

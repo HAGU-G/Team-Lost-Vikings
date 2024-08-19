@@ -6,6 +6,7 @@ public class SkillNoneAttack : ISkillStrategy
     private Ellipse attackEllipse = null;
     private Ellipse buffEllipse = null;
 
+    private Vector3 targetPos;
 
 
     public void Use(UnitStats owner, Skill skill, CombatUnit targetUnit)
@@ -17,6 +18,9 @@ public class SkillNoneAttack : ISkillStrategy
 
         if (combat == null)
             return;
+
+        if (targetUnit != null)
+            targetPos = targetUnit.transform.position;
 
         buffEllipse = new(skill.Data.BuffRange, combat.attackTarget.transform.position);
 
@@ -88,5 +92,11 @@ public class SkillNoneAttack : ISkillStrategy
             if (combat.isFlip)
                 effect.transform.Rotate(Vector3.up, 180f);
         }
+    }
+
+    public void Use(UnitStats owner, Skill skil, Vector3 targetPos)
+    {
+        this.targetPos = targetPos;
+        Use(owner, skil, null);
     }
 }

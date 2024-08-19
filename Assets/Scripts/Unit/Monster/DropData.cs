@@ -21,7 +21,7 @@ public class DropData : ITableAvaialable<int>, ITableExtraLoadable
 
     public int TableID => DropId;
 
-    private static readonly string formatDropItemID = "DropItemId{0}";
+    private static readonly string formatDropItemID = "DropCurrencyId{0}";
     private static readonly string formatDropChance = "DropChance{0}";
     private static readonly string formatDropMin = "DropMinNum{0}";
     private static readonly string formatDropMax = "DropMaxNum{0}";
@@ -56,7 +56,7 @@ public class DropData : ITableAvaialable<int>, ITableExtraLoadable
     public Dictionary<int, int> DropItem()
     {
         Dictionary<int, int> result = new();
-
+        var im = GameManager.itemManager;
         for (int i = 0; i < DropChances.Count; i++)
         {
             if (DropCurrenyIds[i] == 0)
@@ -64,10 +64,7 @@ public class DropData : ITableAvaialable<int>, ITableExtraLoadable
 
             if (Random.Range(0, 100) < DropChances[i])
             {
-                if (result.ContainsKey(DropCurrenyIds[i]))
-                    result.Add(DropCurrenyIds[i], Random.Range(DropMinNums[i], DropMaxNums[i]));
-                else
-                    result[DropCurrenyIds[i]] += Random.Range(DropMinNums[i], DropMaxNums[i]);
+                im.AddItem(DropCurrenyIds[i], Random.Range(DropMinNums[i], DropMaxNums[i]));
             }
         }
         return result;
