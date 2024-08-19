@@ -28,7 +28,7 @@ MonoBehaviour:
   overrollSuperRare: 180
   overrollRare: 170
   overrollNormal: 140
-  autoGachaSeconds: 999
+  autoGachaSeconds: 90
   autoGachaMaxCount: 15
   defaultUnitLimit: 4
   defaultBowProjectileSpeed: 4
