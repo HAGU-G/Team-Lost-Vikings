@@ -66,10 +66,12 @@ public class CameraManager : MonoBehaviour
             && im.receiver.Received
             && (!GameManager.uiManager.isWindowOn || GameManager.villageManager.constructMode.isConstructMode))
         {
-            SetPosition(transform.position - im.WorldDeltaPos);
+            SetPosition(transform.position - im.WorldCenterDeltaPos);
         }
 
-        if (!GameManager.uiManager.isWindowOn)
+        if (im.Zoom != 0f
+            && im.receiver.Received
+            && !GameManager.uiManager.isWindowOn)
         {
             Zoom(ZoomValue - im.Zoom * zoomMagnification);
         }
