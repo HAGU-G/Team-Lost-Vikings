@@ -12,7 +12,6 @@ using UnityEngine.UI;
 using Random = UnityEngine.Random;
 using AssetKits.ParticleImage.Enumerations;
 using Unity.Collections;
-using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 using UnityEngine.Sprites;
 using PlayMode = AssetKits.ParticleImage.Enumerations.PlayMode;

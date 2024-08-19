@@ -5,7 +5,8 @@ using Unity.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace AssetKits.ParticleImage {
+namespace AssetKits.ParticleImage
+{
     public class Particle
     {
         private ParticleImage _source;
