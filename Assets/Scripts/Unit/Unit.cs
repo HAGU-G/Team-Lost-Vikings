@@ -80,6 +80,9 @@ public abstract class Unit : MonoBehaviour, IPointerClickHandler
 
     protected virtual void Update()
     {
+        if (animator != null)
+            animator.SetHide(GameManager.cameraManager.isHideUnits);
+
         sortingGroup.sortingOrder = Mathf.FloorToInt(-transform.position.y);
         stats.UpdateTimers(Time.deltaTime);
         OnUpdated?.Invoke();
@@ -169,11 +172,8 @@ public abstract class Unit : MonoBehaviour, IPointerClickHandler
         if (stats.Data.UnitType != UNIT_TYPE.CHARACTER)
             return;
 
-        var gm = GameManager.cameraManager;
-        gm.SetLocation(stats.Location);
-        gm.prevZoom = gm.ZoomValue;
-        gm.focousingUnit = stats;
-        gm.isFocousOnUnit = true;
+        var cm = GameManager.cameraManager;
+        cm.StartFocusOnUnit(stats);
         GameManager.uiManager.currentUnitStats = stats;
 
         if (GameManager.villageManager.constructMode.isConstructMode)

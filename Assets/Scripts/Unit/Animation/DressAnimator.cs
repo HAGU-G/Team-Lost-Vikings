@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Color = UnityEngine.Color;
 
 public class DressAnimator
 {
@@ -13,6 +14,7 @@ public class DressAnimator
     private static readonly int triggerSkill = Animator.StringToHash("Skill");
     private static readonly int triggerDeath = Animator.StringToHash("Death");
     private static readonly int triggerHit = Animator.StringToHash("Hit");
+    private static readonly int triggerGacha = Animator.StringToHash("Gacha");
 
     private static readonly int paramMoveSpeed = Animator.StringToHash("MoveSpeed");
     private static readonly int paramAttackSpeed = Animator.StringToHash("AttackSpeed");
@@ -23,9 +25,11 @@ public class DressAnimator
     public StatFloat moveSpeed;
     public StatFloat attackSpeed;
     public float castTime;
+    private bool isHide;
 
     private List<SpriteRenderer> renderers = new();
-    private List<Color> originalColors = new();
+    private List<Color> defaultColors = new();
+    private List<Color> prevColors = new();
 
     public void Init(Animator animator, StatFloat moveSpeed, StatFloat attackSpeed)
     {
@@ -39,12 +43,14 @@ public class DressAnimator
         listener.ResetEvent();
 
         renderers = animator.GetComponentsInChildren<SpriteRenderer>().ToList();
-        originalColors.Clear();
-        foreach(var renderer in renderers)
+        defaultColors.Clear();
+        prevColors.Clear();
+        foreach (var renderer in renderers)
         {
-            originalColors.Add(renderer.color);
+            defaultColors.Add(renderer.color);
+            prevColors.Add(renderer.color);
         }
-        listener.OnHitEffectEndEvent += ResetColors;
+        listener.OnHitEffectEndEvent += ResetColor;
     }
 
     public void AnimDeath()
@@ -116,17 +122,96 @@ public class DressAnimator
 
         animator.SetTrigger(triggerHit);
         var hitColor = GameSetting.Instance.hitEffectColor;
-        foreach(var renderer in renderers)
+        SetColor(hitColor);
+    }
+
+    public void AnimGacha()
+    {
+        if (animator == null)
+            return;
+
+        animator.SetTrigger(triggerGacha);
+    }
+
+    public void ResetColor()
+    {
+        if (isHide)
         {
-            renderer.color = hitColor;
+            for (int i = 0; i < prevColors.Count; i++)
+            {
+                prevColors[i] = defaultColors[i];
+            }
+        }
+        else
+        {
+            for (int i = 0; i < renderers.Count; i++)
+            {
+                renderers[i].color = defaultColors[i];
+            }
         }
     }
 
-    public void ResetColors()
+    public void SetAlpha(float alpha)
     {
-        for (int i = 0; i < renderers.Count; i++)
+        if (isHide)
         {
-            renderers[i].color = originalColors[i];
+            for (int i = 0; i < prevColors.Count; i++)
+            {
+                var color = renderers[i].color;
+                color.a = alpha;
+                prevColors[i] = color;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < renderers.Count; i++)
+            {
+                var color = renderers[i].color;
+                color.a = alpha;
+                renderers[i].color = color;
+            }
+        }
+    }
+
+    public void SetColor(Color color)
+    {
+        if (isHide)
+        {
+            for (int i = 0; i < prevColors.Count; i++)
+            {
+                prevColors[i] = color;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < renderers.Count; i++)
+            {
+                prevColors[i] = renderers[i].color;
+                renderers[i].color = color;
+            }
+        }
+    }
+
+    public void SetHide(bool isHide)
+    {
+        if (this.isHide == isHide)
+            return;
+
+        this.isHide = isHide;
+        if (isHide)
+        {
+            for (int i = 0; i < renderers.Count; i++)
+            {
+                prevColors[i] = renderers[i].color;
+                renderers[i].color = Color.clear;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < renderers.Count; i++)
+            {
+                renderers[i].color = prevColors[i];
+            }
         }
     }
 }

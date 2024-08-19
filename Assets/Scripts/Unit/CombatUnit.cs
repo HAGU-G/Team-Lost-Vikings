@@ -119,7 +119,7 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
         FSM.Update();
 
         //FSM 이후에 복귀나 사망으로 stats가 변할 수 있으므로 재검사
-        if (stats == null || gameObject.activeSelf == false)
+        if (IsDead || gameObject.activeSelf == false)
             return;
 
         stats.Collision(CurrentHuntZone.gridMap, CurrentHuntZone.Units.ToArray());

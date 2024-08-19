@@ -143,6 +143,7 @@ public class GameSetting : ScriptableObject
 
     public float projectileSize = 0.5f;
     public int goldID = 8000001;
+    public string gachaPrefabName = "Char_Gacha";
     public string touchEffectName = string.Empty;
     public float touchEffectScale = 1f;
     public Color hitEffectColor = Color.red;

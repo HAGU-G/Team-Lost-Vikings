@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd05155e8efca8240a16f18f58d714c0, type: 3}
   m_Name: Game Setting
   m_EditorClassIdentifier: 
-  useSaveDataWhenEditor: 1
+  useSaveDataWhenEditor: 0
   serverURI: google.com
   syncIntervalType: 0
   syncInterval: 30
@@ -33,7 +33,8 @@ MonoBehaviour:
   defaultUnitLimit: 4
   defaultBowProjectileSpeed: 30
   defaultMagicProjectileSpeed: 12
-  monsterRoamSeconds: 2
+  idleRerouteTime: 3
+  traceRerouteTime: 20
   projectileSize: 0.5
   goldID: 8000001
   touchEffectName: VFX_Touch_001
