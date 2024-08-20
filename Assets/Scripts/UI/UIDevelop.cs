@@ -216,7 +216,7 @@ public class UIDevelop : MonoBehaviour
 
     public void SetVillageLevel()
     {
-        villageLevel.text = $"마을 회관 \nLv : {GameManager.villageManager.VillageHallLevel.ToString()}";
+        villageLevel.text = $"{GameManager.villageManager.VillageHallLevel.ToString()}";
         gold.text = $"{GameManager.itemManager.Gold}";
     }
 
