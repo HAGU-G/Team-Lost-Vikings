@@ -3,12 +3,17 @@ using UnityEngine;
 
 public class SkillSingle : ISkillStrategy
 {
+    Vector3 targetPos;
+
     public void Use(UnitStats owner, Skill skill, CombatUnit targetUnit)
     {
         var combat = owner.objectTransform.GetComponent<CombatUnit>();
 
         if (combat == null)
             return;
+
+        if (targetUnit != null)
+            targetPos = targetUnit.transform.position;
 
         //대상 설정
         List<CombatUnit> targetList = new();
@@ -49,8 +54,8 @@ public class SkillSingle : ISkillStrategy
                 break;
 
             case TARGET_TYPE.ENEMY:
-                if (combat.HasTarget())
-                    targetList.Add(combat.attackTarget);
+                if (targetUnit != null && !targetUnit.IsDead && targetUnit.gameObject.activeSelf)
+                    targetList.Add(targetUnit);
                 break;
         }
 
@@ -63,8 +68,13 @@ public class SkillSingle : ISkillStrategy
 
         var appliedDamage = 0;
         if (damage > 0)
-            appliedDamage = targetList[0].TakeDamage(damage, skill.Data.SkillType).Item2;
+        {
+            bool isCritical = Random.Range(0, 100) < owner.CritChance.Current;
+            var criticalWeight = isCritical ? owner.CritWeight.Current : 1f;
+            var critDamage = Mathf.FloorToInt(damage * criticalWeight);
 
+            appliedDamage = targetList[0].TakeDamage(critDamage, skill.Data.SkillType, isCritical).Item2;
+        }
 
         //흡혈
         if (skill.Data.VitDrainRatio > 0f && appliedDamage > 0)
@@ -78,5 +88,11 @@ public class SkillSingle : ISkillStrategy
         effect.transform.position = targetList[0].transform.position;
         if (combat.isFlip)
             effect.transform.Rotate(Vector3.up, 180f);
+    }
+
+    public void Use(UnitStats owner, Skill skil, Vector3 targetPos)
+    {
+        this.targetPos = targetPos;
+        Use(owner, skil, null);
     }
 }

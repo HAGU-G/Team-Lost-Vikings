@@ -13,6 +13,8 @@ public abstract class Unit : MonoBehaviour, IPointerClickHandler
     [HideInInspector] public bool isFlip = true;
 
     private SortingGroup sortingGroup = null;
+    public Vector3 LastDirection {get;private set;}
+    public bool IsMoved { get; private set; } = false;
 
     public bool IsDead
     {
@@ -77,11 +79,18 @@ public abstract class Unit : MonoBehaviour, IPointerClickHandler
 
     protected virtual void Update()
     {
+        if (animator != null)
+            animator.SetHide(GameManager.cameraManager.isHideUnits);
+
         sortingGroup.sortingOrder = Mathf.FloorToInt(-transform.position.y);
         stats.UpdateTimers(Time.deltaTime);
         OnUpdated?.Invoke();
     }
 
+    protected virtual void LateUpdate()
+    {
+        IsMoved = false;
+    }
 
     public virtual void OnRelease()
     {
@@ -102,6 +111,8 @@ public abstract class Unit : MonoBehaviour, IPointerClickHandler
 
     public void SetPosition(Vector3 pos, bool playAnimation = false)
     {
+        IsMoved = true;
+        LastDirection = pos - transform.position;
         if (playAnimation && animator != null)
         {
             LookAt(pos);
@@ -121,6 +132,8 @@ public abstract class Unit : MonoBehaviour, IPointerClickHandler
     public void MoveToDestination(Vector3 destination, float deltaTime) => MoveToDirection(destination - transform.position, deltaTime);
     public void MoveToDirection(Vector3 direction, float deltaTime)
     {
+        IsMoved = true;
+        LastDirection = direction;
         LookDirection(direction);
         animator.AnimRun();
 
@@ -158,11 +171,8 @@ public abstract class Unit : MonoBehaviour, IPointerClickHandler
         if (stats.Data.UnitType != UNIT_TYPE.CHARACTER)
             return;
 
-        var gm = GameManager.cameraManager;
-        gm.SetLocation(stats.Location);
-        gm.prevZoom = gm.ZoomValue;
-        gm.focousingUnit = stats;
-        gm.isFocousOnUnit = true;
+        var cm = GameManager.cameraManager;
+        cm.StartFocusOnUnit(stats);
         GameManager.uiManager.currentUnitStats = stats;
 
         if (GameManager.villageManager.constructMode.isConstructMode)

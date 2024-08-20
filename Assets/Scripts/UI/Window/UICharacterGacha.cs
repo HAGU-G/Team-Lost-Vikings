@@ -1,7 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.AddressableAssets;
 public class UICharacterGacha : UIWindow
 {
     public override WINDOW_NAME WindowName => WINDOW_NAME.GACHA_UI;
@@ -81,14 +81,131 @@ public class UICharacterGacha : UIWindow
         var result = GameManager.unitManager.GachaCharacter(GameManager.playerManager.recruitLevel);
         im.Gold -= requireGold;
         SetGachaUI();
-        var uiResult = GameManager.uiManager.windows[WINDOW_NAME.GACHA_RESULT] as UIGachaResult;
-        uiResult.SetResult(result);
-        uiResult.Open();
+        //가챠 연출, 결과창 보여주는 건 아래 메서드 마지막 부분으로 옮김.
+        PlayGachaAnimation(result);
     }
 
     public void OnButtonExit()
     {
         isOpen = false;
         Close();
+    }
+
+    private void PlayGachaAnimation(UnitStats result)
+    {
+        if (result == null)
+            return;
+
+        var cm = GameManager.cameraManager;
+        var vm = GameManager.villageManager;
+        ///////////////////////////
+        ////////// 시작 ///////////
+        ///////////////////////////
+
+        // TODO 레터박스 제외 UI 숨기기 필요
+        Close();
+
+        // 카메라 상태 저장
+        GameManager.inputManager.receiver.enabled = false;
+
+        var cameraFocusing = cm.isFocusOnUnit;
+        var cameraPositin = cm.transform.position;
+        var cameraLocation = cm.LookLocation;
+        var cameraHuntZoneNum = cm.HuntZoneNum;
+        var cameraZoom = cm.ZoomValue;
+        var isHideUnits = cm.isHideUnits;
+
+
+
+        ///////////////////////////
+        ////////// 연출 ///////////
+        ///////////////////////////
+        
+        // 카메라 세팅
+        cm.isHideUnits = true;
+        cm.FinishFocousOnUnit();
+        cm.SetLocation(LOCATION.VILLAGE);
+        cm.Zoom(7.4f);
+        var standardBuilding = vm.GetBuilding(STRUCTURE_ID.STANDARD);
+        Vector3 centerPos = Vector3.zero;
+        if (standardBuilding != null)
+        {
+            var index = vm.gridMap.PosToIndex(standardBuilding.transform.position);
+            index -= new Vector2Int(1, 1);
+            centerPos = vm.gridMap.IndexToPos(index);
+            cm.SetPosition(centerPos);
+        }
+
+        // 연출용 프리펩 생성
+        DressAnimator animator = new();
+        var gachaPrefab = Addressables.InstantiateAsync(
+            GameSetting.Instance.gachaPrefabName,
+            centerPos,
+            Quaternion.identity).WaitForCompletion();
+        gachaPrefab.transform.localScale = Vector3.one * 2f;
+        animator.Init(gachaPrefab.GetComponentInChildren<Animator>(), new() { defaultValue = 3f }, new() { defaultValue = 1f });
+        
+        // 애니메이션 재생
+        animator.AnimRun();
+        animator.AnimGacha();
+
+        // 결과 프리펩 생성
+        var resultCharacter = Addressables.InstantiateAsync(
+            result.Data.UnitAssetFileName,
+            centerPos,
+            Quaternion.identity).WaitForCompletion();
+
+        resultCharacter.transform.localScale = Vector3.one * 2f;
+        resultCharacter.SetActive(false);
+
+        // 달려와서 정지
+        animator.listener.OnGachaWaitEventOnce += () =>
+        {
+            animator.AnimIdle();
+            var screenEffect = GameManager.effectManager.GetEffect("WhiteScreen");
+            screenEffect.transform.position = centerPos;
+            screenEffect.transform.localScale = Vector3.one * 1000f;
+        };
+
+        // 결과 보여주기
+        animator.listener.OnGachaShowEventOnce += () =>
+        {
+            animator.SetAlpha(0f);
+            resultCharacter.SetActive(true);
+        };
+
+        //종료
+        animator.listener.OnGachaEndEventOnce += () =>
+            {
+                ///////////////////////////
+                ////////// 종료 ///////////
+                ///////////////////////////
+
+                // TODO UI 숨기기 해제 필요
+
+
+                // 연출용 캐릭터 삭제
+                Addressables.ReleaseInstance(gachaPrefab);
+                Addressables.ReleaseInstance(resultCharacter);
+
+                // 카메라 상태 되돌리기
+                cm.isHideUnits = isHideUnits;
+                if (cameraFocusing)
+                {
+                    cm.StartFocusOnUnit(null);
+                }
+                else
+                {
+                    cm.SetLocation(cameraLocation, cameraHuntZoneNum);
+                    cm.SetPosition(cameraPositin);
+                    cm.ZoomValue = cameraZoom;
+                }
+                GameManager.inputManager.receiver.enabled = true;
+
+                //결과 표시
+                var uiResult = GameManager.uiManager.windows[WINDOW_NAME.GACHA_RESULT] as UIGachaResult;
+                uiResult.SetResult(result);
+                uiResult.Open();
+            };
     }
 }

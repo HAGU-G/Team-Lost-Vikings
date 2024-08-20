@@ -119,7 +119,7 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
         FSM.Update();
 
         //FSM 이후에 복귀나 사망으로 stats가 변할 수 있으므로 재검사
-        if (stats == null || gameObject.activeSelf == false)
+        if (IsDead || gameObject.activeSelf == false)
             return;
 
         stats.Collision(CurrentHuntZone.gridMap, CurrentHuntZone.Units.ToArray());
@@ -145,7 +145,7 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
         return true;
     }
 
-    public (bool, int) TakeDamage(int damage, ATTACK_TYPE type)
+    public (bool, int) TakeDamage(int damage, ATTACK_TYPE type, bool isCritical)
     {
         float def = type switch
         {
@@ -157,13 +157,13 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
         var calculatedDamage = Mathf.FloorToInt(damage * (1f - def / 100f));
 
         stats.HP.Current -= calculatedDamage;
-            animator?.AnimHit();
-        
+        animator?.AnimHit();
+
         OnDamaged?.Invoke();
         GameManager.effectManager.GetDamageEffect(
             calculatedDamage.ToString(),
             damageEffectPosition.position,
-            Color.white);
+            isCritical ? Color.red : Color.white);
 
         if (!IsDead && stats.HP.Current <= 0)
         {
@@ -229,25 +229,24 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
     protected override void OnAnimationAttackHit()
     {
         if (!HasTarget())
-        {
             isTargetFixed = false;
-            return;
-        }
 
         base.OnAnimationAttackHit();
 
-
-        if (!attackTarget.isTargetFixed)
+        if (attackTarget != null && !attackTarget.isTargetFixed)
         {
+            LookAt(attackTarget.transform);
             attackTarget.isTargetFixed = true;
             attackTarget.attackTarget = this;
         }
 
         bool isCritical = Random.Range(0, 100) < stats.CritChance.Current;
+        if (stats.Data.BasicAttackMotion != ATTACK_MOTION.BASIC)
+            isCritical = false;
         var criticalWeight = isCritical ? stats.CritWeight.Current : 1f;
         var damage = Mathf.FloorToInt(stats.CombatPoint * criticalWeight);
 
-        if (attackBehaviour.Attack(attackTarget, damage, stats.Data.BasicAttackType))
+        if (attackBehaviour.Attack(attackTarget, damage, isCritical, stats.Data.BasicAttackType))
         {
             attackTarget = null;
             stats.Stress.Current -= GameSetting.Instance.stressReduceAmount;

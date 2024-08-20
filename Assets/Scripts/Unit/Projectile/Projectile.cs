@@ -16,6 +16,7 @@ public class Projectile : MonoBehaviour
 
     private Vector3 direction = Vector3.zero;
     private CombatUnit targetUnit;
+    private Vector3 targetPos;
     private Vector3 destination = Vector3.zero;
 
     private bool IsFloor => skillData.SkillAttackType == SKILL_ATTACK_TYPE.FLOOR;
@@ -50,15 +51,17 @@ public class Projectile : MonoBehaviour
             }
             gameObject.SetActive(false);
             Addressables.ReleaseInstance(gameObject);
+            return;
         }
 
         if (!IsFloor)
         {
             if (targetUnit != null
-            && !targetUnit.gameObject.activeSelf
+            && targetUnit.gameObject.activeSelf
             && !targetUnit.IsDead)
             {
                 direction = (targetUnit.transform.position - transform.position).normalized;
+                targetPos = targetUnit.transform.position;
                 destination = targetUnit.transform.position;
             }
             else
@@ -67,16 +70,24 @@ public class Projectile : MonoBehaviour
             }
         }
 
+        var deltaTime = Time.deltaTime;
+        if (!IsFloor
+            && (targetUnit == null || targetUnit.IsDead || !targetUnit.gameObject.activeSelf)
+            && Vector3.Distance(transform.position, destination) <= skillData.ProjectileSpeed * deltaTime)
+        {
+            Remove();
+            return;
+        }
 
-        SetPosition(transform.position + direction * skillData.ProjectileSpeed * Time.deltaTime);
+        SetPosition(transform.position + direction * skillData.ProjectileSpeed * deltaTime);
 
-        lifeTimer -= Time.deltaTime;
+        lifeTimer -= deltaTime;
 
         int appliedDamage = 0;
 
         if (IsFloor)
         {
-            attackTimer -= Time.deltaTime;
+            attackTimer -= deltaTime;
             if (attackTimer < 0f)
             {
                 attackTimer += skillData.SkillFloorActiveTerm;
@@ -93,7 +104,10 @@ public class Projectile : MonoBehaviour
             }
 
             if (lifeTimer <= 0f)
+            {
                 Remove();
+                return;
+            }
         }
         else
         {
@@ -109,12 +123,9 @@ public class Projectile : MonoBehaviour
                 {
                     ApplyDamage(target);
                     Remove();
-                    break;
+                    return;
                 }
             }
-
-            if (Vector3.Distance(transform.position, destination) <= skillData.ProjectileSpeed * Time.deltaTime)
-                Remove();
         }
 
         //흡혈
@@ -124,7 +135,11 @@ public class Projectile : MonoBehaviour
 
     private int ApplyDamage(CombatUnit target)
     {
-        var damageResult = target.TakeDamage(damage, skillData.SkillType);
+        bool isCritical = Random.Range(0, 100) < owner.CritChance.Current;
+        var criticalWeight = isCritical ? owner.CritWeight.Current : 1f;
+        var critDamage = Mathf.FloorToInt(damage * criticalWeight);
+
+        var damageResult = target.TakeDamage(critDamage, skillData.SkillType, isCritical);
         if (damageResult.Item1 && isDefaultAttack)
             owner.Stress.Current -= GameSetting.Instance.stressReduceAmount;
 
@@ -172,18 +187,33 @@ public class Projectile : MonoBehaviour
         ellipse = new(projectileSize);
     }
 
+    public void ResetProjectile(int damage, Vector3 position, Vector3 targetPos, UnitStats owner)
+    {
+        this.targetPos = targetPos;
+        ResetProjectile(damage, position, null, owner);
+    }
+
     public void ResetProjectile(int damage, Vector3 position, CombatUnit targetUnit, UnitStats owner)
     {
         lifeTimer = skillData.SkillDuration;
         attackTimer = 0f;
         this.damage = damage;
         this.owner = owner;
-        targets = owner.objectTransform.GetComponent<CombatUnit>().Enemies;
+
+        var combat = owner.objectTransform.GetComponent<CombatUnit>();
+        if (combat == null && targetUnit != null)
+            targets = targetUnit.Allies;
+        else
+            targets = combat.Enemies;
 
         SetPosition(position);
+
         this.targetUnit = targetUnit;
-        destination = targetUnit.transform.position;
-        direction = (targetUnit.transform.position - position).normalized;
+        if (targetUnit != null)
+            targetPos = targetUnit.transform.position;
+
+        destination = targetPos;
+        direction = (targetPos - position).normalized;
 
         isActive = true;
         gameObject.SetActive(true);
@@ -204,7 +234,7 @@ public class Projectile : MonoBehaviour
             else
             {
                 //effect.transform.localScale = Vector3.one * GameSetting.Instance.projectileSize;
-                effect.LookAt(targetUnit.transform.position);
+                effect.LookAt(targetPos);
             }
         }
     }

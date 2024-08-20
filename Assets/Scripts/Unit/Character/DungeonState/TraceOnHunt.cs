@@ -3,10 +3,11 @@
 public class TraceOnHunt : State<CombatUnit>
 {
     private bool isCollidedWithTarget;
-
+    private float timer;
     public override void EnterState()
     {
         owner.currentState = CombatUnit.STATE.TRACE;
+        timer = 0f;
         //owner.spriteRenderer.color = Color.yellow;
     }
 
@@ -24,14 +25,25 @@ public class TraceOnHunt : State<CombatUnit>
         if (Transition())
             return;
 
-        if(isCollidedWithTarget)
+        if (isCollidedWithTarget)
         {
             owner.LookAt(owner.attackTarget.transform);
             owner.animator.AnimIdle();
             return;
         }
 
-        owner.MoveToDestination(owner.attackTarget.transform, Time.deltaTime);
+        var deltaTime = Time.deltaTime;
+        timer += deltaTime;
+        if (timer > GameSetting.Instance.traceRerouteTime)
+        {
+            owner.attackTarget = null;
+            owner.isTargetFixed = true;
+            timer = 0f;
+        }
+        else
+        {
+            owner.MoveToDestination(owner.attackTarget.transform, deltaTime);
+        }
     }
 
 
