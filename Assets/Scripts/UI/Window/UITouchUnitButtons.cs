@@ -1,10 +1,8 @@
 ﻿using TMPro;
 using UnityEngine.UI;
 using UnityEngine.AddressableAssets;
-using System.ComponentModel;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine;
-using System.Linq;
 using System.Collections.Generic;
 
 public class UITouchUnitButtons : UIWindow

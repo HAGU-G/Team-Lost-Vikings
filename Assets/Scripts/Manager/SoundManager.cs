@@ -3,9 +3,7 @@ using UnityEngine.Audio;
 using System.Collections.Generic;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using System.ComponentModel;
 using UnityEngine.Pool;
-using UnityEngine.InputSystem.Utilities;
 
 public class SoundManager : MonoBehaviour
 {
