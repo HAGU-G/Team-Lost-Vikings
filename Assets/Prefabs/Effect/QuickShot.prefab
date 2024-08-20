@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 513744167198204770}
+  - component: {fileID: 7049725196960337003}
+  - component: {fileID: -3096965267063183659}
   m_Layer: 0
   m_Name: QuickShot
   m_TagString: Untagged
@@ -32,6 +34,35 @@ Transform:
   - {fileID: 7707018872945091818}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!210 &7049725196960337003
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 118506644555141593}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
+--- !u!114 &-3096965267063183659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 118506644555141593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5234ae4836998a547a2ab215c6abcfb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingGroup: {fileID: 0}
+  isLoop: 0
+  isFlip: 0
+  isTouchEffect: 0
+  isOnProjectile: 0
 --- !u!1001 &7379956196572226183
 PrefabInstance:
   m_ObjectHideFlags: 0

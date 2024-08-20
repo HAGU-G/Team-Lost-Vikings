@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 537074552}
   - component: {fileID: 537074551}
   m_Layer: 0
-  m_Name: Music
+  m_Name: BGM
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -402,13 +402,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mixer: {fileID: 24100000, guid: 5407cf7e6d51bee4f8349a6ed9b2ffee, type: 2}
-  musicGroup: {fileID: -3684838084034547950, guid: 5407cf7e6d51bee4f8349a6ed9b2ffee, type: 2}
+  bgmGroup: {fileID: -3684838084034547950, guid: 5407cf7e6d51bee4f8349a6ed9b2ffee, type: 2}
   sfxGroup: {fileID: -849738218059397722, guid: 5407cf7e6d51bee4f8349a6ed9b2ffee, type: 2}
-  musicSource: {fileID: 537074551}
-  musicCilps:
+  bgmSource: {fileID: 537074551}
+  bgmCilps:
   - {fileID: 8300000, guid: 6f16d37bec659474eaf02133a7e76e43, type: 3}
   - {fileID: 8300000, guid: d0da50bfac1c4504c9888367370ab50e, type: 3}
-  sfxSource: {fileID: 1143543128}
+  uiSource: {fileID: 1143543128}
   locationSourcePrefab: {fileID: 5374949532592636877, guid: 71064254931cc1746a785360397e7b8f, type: 3}
 --- !u!4 &1080553366
 Transform:
@@ -484,7 +484,7 @@ GameObject:
   - component: {fileID: 1143543129}
   - component: {fileID: 1143543128}
   m_Layer: 0
-  m_Name: Sfx
+  m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
