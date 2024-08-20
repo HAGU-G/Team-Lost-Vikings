@@ -21,7 +21,7 @@ public class UIDevelop : MonoBehaviour
 
     private bool isDevelopTextOn = true;
 
-    public TextMeshProUGUI villageLevel;
+    public TextMeshProUGUI playerLevel;
     public TextMeshProUGUI gold;
     private List<Sprite> loadedSprite = new();
     public List<Image> itemSprites = new();
@@ -36,6 +36,8 @@ public class UIDevelop : MonoBehaviour
     public Button destroyBuilding;
 
     public GameObject constructComplete;
+
+    public GameObject levelUpPopUp;
 
     private void Awake()
     {
@@ -214,10 +216,9 @@ public class UIDevelop : MonoBehaviour
         GameManager.uiManager.windows[WINDOW_NAME.WAIT_FOR_CBT].Open();
     }
 
-    public void SetVillageLevel()
+    public void SetPlayerLevel()
     {
-        villageLevel.text = $"{GameManager.villageManager.VillageHallLevel.ToString()}";
-        gold.text = $"{GameManager.itemManager.Gold}";
+        playerLevel.text = $"{GameManager.playerManager.level.ToString()}";
     }
 
     public void SetItem(int id, int value)
@@ -341,9 +342,16 @@ public class UIDevelop : MonoBehaviour
             currentStageText.text = $"STAGE {GameManager.huntZoneManager.HuntZones[GameManager.cameraManager.HuntZoneNum].Stage.ToString()}";
     }
 
+    public void LevelUp()
+    {
+        levelUpPopUp.SetActive(true);
+        levelUpPopUp.GetComponent<LevelUpPopUp>().SetPopUp();
+        SetPlayerLevel();
+    }
+
     private void Start()
     {
-        SetVillageLevel();
+        SetPlayerLevel();
         textHuntZone.text = $"HuntZone {1}";
         inputStageNum.text = 1.ToString();
         onHuntZone.SetActive(false);
