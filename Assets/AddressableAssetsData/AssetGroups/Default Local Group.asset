@@ -812,6 +812,136 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 28146042351ece94ebd2717e9e90cbd2
+    m_Address: FinalAttack_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b7e9322ec65084848bc7f63fbe4d18ef
+    m_Address: MultiShot_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 174f82bd9860ae940bbe9b816d84177e
+    m_Address: Slash_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cd03e24fdf97063489a762f2b4d1a770
+    m_Address: StaminaUp_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 95ca3882d69632e4dbe457110cb20e31
+    m_Address: ManaExplosion_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a0e23b42350ec4341903920d407aab70
+    m_Address: VitUp_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d878894db9386fa459c6b02445df054e
+    m_Address: Focus_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ed911e1e295229f4d8ab132625d72a78
+    m_Address: DoubleShot_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 61427b695a921544f8ccf3ff393e2df2
+    m_Address: SlashStraight_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5068238b9f089cf4988ee66787a20035
+    m_Address: Morale_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 99f297dafb3f0384dae2e4afccd31fa4
+    m_Address: FireWall_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c1d2270a2e2723f46a02b9bb531cfdcf
+    m_Address: AgiUp_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 83032b53dba857149a4b16195f7bac24
+    m_Address: VoidSphere_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3925081a1e2f81248bb6deed43bdf516
+    m_Address: RapidImpale_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ec2eed54ba8391348864a29099fdd901
+    m_Address: ShockBlast_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1e5977b12d55806428105fb9de3e30a8
+    m_Address: PoisonBoom_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8718a2cf3d140e247b4b94a9f1b8fa48
+    m_Address: ColdBurst_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3c737500af83ac345b8120f10d5bd0e0
+    m_Address: IntUp_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3bab39c1ffef9244a8e1e1aec00a1160
+    m_Address: Rupture_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2b78a21b73cb8d248993028ca2ed1a69
+    m_Address: StrUp_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8296ff1838bbd334fbe7cb25804e248f
+    m_Address: CrichanceUp_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ef9ed1788bfdda041ada6d0dc336e688
+    m_Address: CriweightUp_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7241b631fbddf13489d24113267b8ed8
+    m_Address: MentalUp_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8543d0d15f5a99a4ab6489cb65cd68da
+    m_Address: QuickShot_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a3d436a070288c54da4f3147a405ad4f
+    m_Address: Bash_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b213a8fafcca35b42a808a7dc7ae85bd
+    m_Address: Brandish_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 06eaf29b6f1bf084f803a683a0542cea, type: 2}
   m_SchemaSet:
