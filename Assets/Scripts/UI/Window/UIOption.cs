@@ -91,22 +91,21 @@ public class UIOption : UIWindow
         var volume = Mathf.RoundToInt(value * 100);
         sfxInputField.text = volume.ToString();
         SoundManager.SFXVolume = value;
-        Debug.Log($"{SoundManager.BGMVolume}, {SoundManager.SFXVolume}");
     }
 
     private void OnButtonAccount()
     {
-        //계정창 여는 내용
+        GameManager.uiManager.windows[WINDOW_NAME.ACCOUNT].Open();
     }
 
     private void OnButtonFrame30()
     {
-
+        Application.targetFrameRate = 30;
     }
 
     private void OnButtonFrame60()
     {
-
+        Application.targetFrameRate = 60;
     }
 
     private void OnButtonGameQuit()

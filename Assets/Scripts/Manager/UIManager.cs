@@ -23,6 +23,7 @@ public enum WINDOW_NAME
     REVIVE_POPUP,
     TOUCH_UNIT_BUTTONS,
     OPTION,
+    ACCOUNT,
 }
 
 
