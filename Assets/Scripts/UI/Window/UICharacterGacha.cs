@@ -136,10 +136,20 @@ public class UICharacterGacha : UIWindow
             cm.SetPosition(centerPos);
         }
 
+        string prefabName = result.UnitGrade switch
+        {
+            UNIT_GRADE.NORMAL => GameSetting.Instance.gachaPrefabName,
+            UNIT_GRADE.COMMON => GameSetting.Instance.gachaPrefabName,
+            UNIT_GRADE.RARE => GameSetting.Instance.gachaPrefabName,
+            UNIT_GRADE.SUPER_RARE => GameSetting.Instance.gachaPrefabRareName,
+            UNIT_GRADE.ULTRA_RARE => GameSetting.Instance.gachaPrefabRareName,
+            _ => GameSetting.Instance.gachaPrefabName
+        };
+
         // 연출용 프리펩 생성
         DressAnimator animator = new();
         var gachaPrefab = Addressables.InstantiateAsync(
-            GameSetting.Instance.gachaPrefabName,
+            prefabName,
             centerPos,
             Quaternion.identity).WaitForCompletion();
         gachaPrefab.transform.localScale = Vector3.one * 2f;

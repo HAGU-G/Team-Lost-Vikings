@@ -109,18 +109,13 @@ public class GameSetting : ScriptableObject
     public int staminaReduceAmount = 1;
     public int stressReduceAmount = 1;
 
+    [Space(5f)]
     public int overrollUltraRare = 231;
     public int overrollSuperRare = 121;
     public int overrollRare = 91;
     public int overrollNormal = 51;
 
-    public float autoGachaSeconds = 90f;
-    public int autoGachaMaxCount = 99;
-
-    [Tooltip("캐릭터 보유 수 기본값")]
-    public int defaultUnitLimit = 4;
-
-
+    [Space(5f)]
     [Tooltip("배회 경로 재탐색 시간")]
     public float idleRerouteTime = 3f;
     [Tooltip("공격 대상 재탐색 시간")]
@@ -143,8 +138,19 @@ public class GameSetting : ScriptableObject
     [Header("기타 설정")]
 
     public int goldID = 8000001;
-    public string gachaPrefabName = "Char_Gacha";
     public string touchEffectName = string.Empty;
     public float touchEffectScale = 1f;
     public Color hitEffectColor = Color.red;
+
+
+    [Header("뽑기 설정")]
+    [Tooltip("캐릭터 보유 수 기본값")]
+    public int defaultUnitLimit = 4;
+    [Tooltip("캐릭터 대기열 수")]
+    public int waitListLimit = 99;
+    public float autoGachaSeconds = 90f;
+
+    [Space(5f)]
+    public string gachaPrefabRareName = "Char_Gacha_Rare";
+    public string gachaPrefabName = "Char_Gacha";
 }
