@@ -65,7 +65,7 @@ public class SoundManager : MonoBehaviour
             if (sm == null)
                 return;
 
-            sm.mixer.SetFloat(paramMasterVolume, FloatToDb(value));
+            sm.mixer.SetFloat(paramBGMVolume, FloatToDb(value));
             sm._bgmVolume = Mathf.Clamp(value, 0f, 1f);
         }
     }
@@ -85,7 +85,7 @@ public class SoundManager : MonoBehaviour
             if (sm == null)
                 return;
 
-            sm.mixer.SetFloat(paramMasterVolume, FloatToDb(value));
+            sm.mixer.SetFloat(paramSFXVolume, FloatToDb(value));
             sm._sfxVolume = Mathf.Clamp(value, 0f, 1f);
         }
     }
@@ -259,6 +259,11 @@ public class SoundManager : MonoBehaviour
         if (sm.clipHandles.ContainsKey(clipName))
         {
             clip = sm.clipHandles[clipName].Result;
+        }
+        else if (Addressables.LoadResourceLocationsAsync(clipName).WaitForCompletion().Count <= 0)
+        {
+            if (!(clipName == string.Empty || clipName == "0"))
+                Debug.LogWarning($"{clipName} 사운드가 존재하지 않습니다.");
         }
         else
         {

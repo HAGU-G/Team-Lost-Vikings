@@ -73,6 +73,7 @@ public class UseSkillOnHunt : State<CombatUnit>
             target = null;
         }
         isPlaying = true;
+
         if (skill.Data.SkillCastTime <= 0f)
             UseSkill();
         else
@@ -84,6 +85,7 @@ public class UseSkillOnHunt : State<CombatUnit>
 
     private void UseSkill()
     {
+        SoundManager.PlaySFX(skill.Data.SkillSEName, owner.stats.Location, owner.CurrentHuntZone.HuntZoneNum);
         owner.LookAt(lastTargetPos);
         if (owner.HasTarget())
             skill?.Use(target);
