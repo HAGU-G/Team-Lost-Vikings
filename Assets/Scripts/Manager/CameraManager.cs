@@ -91,6 +91,11 @@ public class CameraManager : MonoBehaviour
     public void SetLocation(LOCATION location, int huntzoneNum = -1)
     {
         LookLocation = location;
+
+        var sm = GameManager.soundManager;
+        if (sm != null)
+            sm.SetLocation(location, huntzoneNum);
+
         switch (location)
         {
             case LOCATION.NONE:

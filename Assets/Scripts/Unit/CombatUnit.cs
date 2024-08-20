@@ -160,6 +160,7 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
         animator?.AnimHit();
 
         OnDamaged?.Invoke();
+        SoundManager.PlaySFX("SFX_Hit_001", stats.Location, CurrentHuntZone.HuntZoneNum);
         GameManager.effectManager.GetDamageEffect(
             calculatedDamage.ToString(),
             damageEffectPosition.position,
