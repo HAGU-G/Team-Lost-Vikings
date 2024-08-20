@@ -33,6 +33,7 @@ public abstract class Unit : MonoBehaviour, IPointerClickHandler
     }
 
     public event System.Action OnUpdated;
+    public event System.Action OnRemoveOnce;
 
     public virtual void Init()
     {
@@ -100,11 +101,16 @@ public abstract class Unit : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    public virtual void RemoveUnit() { }
+    public virtual void RemoveUnit()
+    {
+        OnRemoveOnce?.Invoke();
+        OnRemoveOnce = null;
+    }
 
     protected virtual void ResetEvents()
     {
         OnUpdated = null;
+        OnRemoveOnce = null;
     }
 
     protected virtual void OnAnimationAttackHit() { }

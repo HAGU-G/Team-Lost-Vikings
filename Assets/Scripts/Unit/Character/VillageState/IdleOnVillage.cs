@@ -21,7 +21,7 @@ public class IdleOnVillage : State<UnitOnVillage>
 
     public override void ResetState()
     {
-        
+        isIdle = false;
     }
 
     public override void Update()
