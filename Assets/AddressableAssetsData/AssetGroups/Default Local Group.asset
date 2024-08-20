@@ -542,16 +542,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 54e2d494129b3c1448d2295b80105f7b
-    m_Address: Assets/Scenes/Design/Icon/rpg_item_icon_crate_138.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 36dc31035e857574e82508ae6f38a3dd
-    m_Address: Assets/Scenes/Design/Icon/rpg_item_icon_iron_ingot_33.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5e6b827c4eb31164395292c21efa302c
     m_Address: Assets/Scenes/Design/Icon/rpg_item_icon_log_1.png
     m_ReadOnly: 0
@@ -619,6 +609,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 43d93d0b7d008b841907413106bb5fd4
     m_Address: Assets/Pick_Asset/2WEEK/GradeIcon/Grade_5.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e0296518cd08af940aaf99952f9b7a02
+    m_Address: Assets/Scenes/Design/Icon/rpg_item_icon_silver_ore_25.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
