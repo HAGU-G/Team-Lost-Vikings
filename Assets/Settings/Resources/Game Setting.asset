@@ -28,9 +28,6 @@ MonoBehaviour:
   overrollSuperRare: 180
   overrollRare: 170
   overrollNormal: 140
-  autoGachaSeconds: 90
-  autoGachaMaxCount: 15
-  defaultUnitLimit: 4
   idleRerouteTime: 3
   traceRerouteTime: 20
   projectileSize: 0.5
@@ -39,7 +36,11 @@ MonoBehaviour:
   arrowEffectName: BowProjectile
   magicEffectName: MagicProjectile
   goldID: 8000001
-  gachaPrefabName: Char_Gacha
   touchEffectName: VFX_Touch_001
   touchEffectScale: 0.21
   hitEffectColor: {r: 1, g: 0, b: 0, a: 1}
+  defaultUnitLimit: 4
+  waitListLimit: 99
+  autoGachaSeconds: 90
+  gachaPrefabRareName: Char_Gacha_Rare
+  gachaPrefabName: Char_Gacha
