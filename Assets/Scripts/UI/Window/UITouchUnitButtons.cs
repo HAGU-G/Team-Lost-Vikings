@@ -82,9 +82,9 @@ public class UITouchUnitButtons : UIWindow
     private void SetParameterBar()
     {
         var stats = um.currentUnitStats;
-        hpBar.value = stats.HP.Current / stats.HP.max;
-        staminaBar.value = stats.Stamina.Current / stats.Stamina.max;
-        mentalBar.value = stats.Stress.Current / stats.Stress.max;
+        hpBar.value = (float)stats.HP.Current / (float)stats.HP.max;
+        staminaBar.value = (float)stats.Stamina.Current / (float)stats.Stamina.max;
+        mentalBar.value = (float)stats.Stress.Current / (float)stats.Stress.max;
     }
 
     private void Update()

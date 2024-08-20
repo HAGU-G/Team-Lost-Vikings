@@ -572,6 +572,56 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2af4cf39271a9c34a82b68886665c0b5
+    m_Address: Assets/Scenes/Design/Icon_Grade/Grade_1.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: acae2f203e2acc04a96e0478dbdc2620
+    m_Address: Assets/Scenes/Design/Icon_Grade/Grade_2.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3fcb503148851274b8cb4a4dd99344b8
+    m_Address: Assets/Scenes/Design/Icon_Grade/Grade_3.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c6b72ceea80cf9c47b61804cf61567ab
+    m_Address: Assets/Scenes/Design/Icon_Grade/Grade_4.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8a1a996e1fceea94182f3fa426fc851c
+    m_Address: Assets/Scenes/Design/Icon_Grade/Grade_5.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b8a45f59ab8237442a5e8b99ead42c63
+    m_Address: Assets/Pick_Asset/2WEEK/GradeIcon/Grade_1.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5c4fa322a54d2de4da34b4c2c3bbe70a
+    m_Address: Assets/Pick_Asset/2WEEK/GradeIcon/Grade_2.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bd1ad817d02e10541a769508492d4807
+    m_Address: Assets/Pick_Asset/2WEEK/GradeIcon/Grade_3.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8815146a8eff12a4ca0de32d3f8a2180
+    m_Address: Assets/Pick_Asset/2WEEK/GradeIcon/Grade_4.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 43d93d0b7d008b841907413106bb5fd4
+    m_Address: Assets/Pick_Asset/2WEEK/GradeIcon/Grade_5.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 06eaf29b6f1bf084f803a683a0542cea, type: 2}
   m_SchemaSet:
