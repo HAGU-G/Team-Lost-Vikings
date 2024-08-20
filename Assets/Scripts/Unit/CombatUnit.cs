@@ -68,15 +68,17 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
                 skill.SkillType = stats.Data.BasicAttackType;
                 skill.SkillAttackType = SKILL_ATTACK_TYPE.PROJECTILE;
                 skill.SkillTarget = TARGET_TYPE.ENEMY;
+
+                var setting = GameSetting.Instance;
                 switch (stats.Data.BasicAttackMotion)
                 {
                     case ATTACK_MOTION.MAGIC:
-                        skill.ProjectileFileName = "MagicProjectile";
-                        skill.ProjectileSpeed = GameSetting.Instance.defaultMagicProjectileSpeed;
+                        skill.ProjectileFileName = setting.magicEffectName;
+                        skill.ProjectileSpeed = setting.defaultMagicProjectileSpeed;
                         break;
                     default:
-                        skill.ProjectileFileName = "BowProjectile";
-                        skill.ProjectileSpeed = GameSetting.Instance.defaultBowProjectileSpeed;
+                        skill.ProjectileFileName = setting.arrowEffectName;
+                        skill.ProjectileSpeed = setting.defaultBowProjectileSpeed;
                         break;
                 };
                 skill.SkillEffectName = string.Empty;

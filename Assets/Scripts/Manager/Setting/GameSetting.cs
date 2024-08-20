@@ -120,10 +120,6 @@ public class GameSetting : ScriptableObject
     [Tooltip("캐릭터 보유 수 기본값")]
     public int defaultUnitLimit = 4;
 
-    [Tooltip("평타 화살 투사체 속도")]
-    public float defaultBowProjectileSpeed = 4f;
-    [Tooltip("평타 마법 투사체 속도")]
-    public float defaultMagicProjectileSpeed = 4f;
 
     [Tooltip("배회 경로 재탐색 시간")]
     public float idleRerouteTime = 3f;
@@ -131,17 +127,21 @@ public class GameSetting : ScriptableObject
     public float traceRerouteTime = 20f;
 
     //////////////////////////////////////////////////////////////////////////////////////////////
-    // 몬스터 설정 ///////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////////////
+    [Header("투사체 설정")]
 
-    //[Range(0f, 60f)]
-    //public float monsterRoamSeconds = 2f;
-
+    public float projectileSize = 0.5f;
+    [Tooltip("평타 화살 투사체 속도")]
+    public float defaultBowProjectileSpeed = 4f;
+    [Tooltip("평타 마법 투사체 속도")]
+    public float defaultMagicProjectileSpeed = 4f;
+    [Tooltip("평타 화살 투사체 이펙트 이름")]
+    public string arrowEffectName = "BowProjectile";
+    [Tooltip("평타 마법 투사체 이펙트 이름")]
+    public string magicEffectName = "MagicProjectile";
 
     //////////////////////////////////////////////////////////////////////////////////////////////
     [Header("기타 설정")]
 
-    public float projectileSize = 0.5f;
     public int goldID = 8000001;
     public string gachaPrefabName = "Char_Gacha";
     public string touchEffectName = string.Empty;
