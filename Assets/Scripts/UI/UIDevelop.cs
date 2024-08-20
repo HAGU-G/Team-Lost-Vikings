@@ -26,6 +26,7 @@ public class UIDevelop : MonoBehaviour
     private List<Sprite> loadedSprite = new();
     public List<Image> itemSprites = new();
     public List<TextMeshProUGUI> itemTexts = new();
+    public Slider expBar;
 
     public TextMeshProUGUI textVersion;
 
@@ -55,12 +56,19 @@ public class UIDevelop : MonoBehaviour
 
     private void OnGameReady()
     {
+        SetExpBar();
         var itemDatas = DataTableManager.itemTable.GetDatas();
         for (int i = 0; i < itemSprites.Count; ++i)
         {
             GameManager.itemManager.ownItemList.TryGetValue(itemDatas[i].TableID, out int value);
             itemTexts[i].text = value.ToString();
         }
+    }
+
+    public void SetExpBar()
+    {
+        var pm = GameManager.playerManager;
+        expBar.value = (float)pm.Exp / (float)DataTableManager.playerTable.GetData(pm.level).Exp;
     }
 
     private void OnLoadDone(AsyncOperationHandle<Sprite> obj)
@@ -208,7 +216,7 @@ public class UIDevelop : MonoBehaviour
 
     public void SetVillageLevel()
     {
-        villageLevel.text = $"마을 회관 \nLv : {GameManager.villageManager.VillageHallLevel.ToString()}";
+        villageLevel.text = $"{GameManager.villageManager.VillageHallLevel.ToString()}";
         gold.text = $"{GameManager.itemManager.Gold}";
     }
 
