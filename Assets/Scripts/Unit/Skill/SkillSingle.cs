@@ -68,8 +68,13 @@ public class SkillSingle : ISkillStrategy
 
         var appliedDamage = 0;
         if (damage > 0)
-            appliedDamage = targetList[0].TakeDamage(damage, skill.Data.SkillType).Item2;
+        {
+            bool isCritical = Random.Range(0, 100) < owner.CritChance.Current;
+            var criticalWeight = isCritical ? owner.CritWeight.Current : 1f;
+            var critDamage = Mathf.FloorToInt(damage * criticalWeight);
 
+            appliedDamage = targetList[0].TakeDamage(critDamage, skill.Data.SkillType, isCritical).Item2;
+        }
 
         //흡혈
         if (skill.Data.VitDrainRatio > 0f && appliedDamage > 0)

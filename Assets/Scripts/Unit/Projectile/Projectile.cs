@@ -51,6 +51,7 @@ public class Projectile : MonoBehaviour
             }
             gameObject.SetActive(false);
             Addressables.ReleaseInstance(gameObject);
+            return;
         }
 
         if (!IsFloor)
@@ -126,7 +127,11 @@ public class Projectile : MonoBehaviour
 
     private int ApplyDamage(CombatUnit target)
     {
-        var damageResult = target.TakeDamage(damage, skillData.SkillType);
+        bool isCritical = Random.Range(0, 100) < owner.CritChance.Current;
+        var criticalWeight = isCritical ? owner.CritWeight.Current : 1f;
+        var critDamage = Mathf.FloorToInt(damage * criticalWeight);
+
+        var damageResult = target.TakeDamage(critDamage, skillData.SkillType, isCritical);
         if (damageResult.Item1 && isDefaultAttack)
             owner.Stress.Current -= GameSetting.Instance.stressReduceAmount;
 

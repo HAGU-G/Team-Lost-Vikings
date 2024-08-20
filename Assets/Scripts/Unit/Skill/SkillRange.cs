@@ -86,7 +86,10 @@ public class SkillRange : ISkillStrategy
         {
             foreach (var target in targetList)
             {
-                appliedDamage += target.TakeDamage(damage, skill.Data.SkillType).Item2;
+                bool isCritical = Random.Range(0, 100) < owner.CritChance.Current;
+                var criticalWeight = isCritical ? owner.CritWeight.Current : 1f;
+                var critDamage = Mathf.FloorToInt(damage * criticalWeight);
+                appliedDamage += target.TakeDamage(critDamage, skill.Data.SkillType, isCritical).Item2;
             }
         }
 
