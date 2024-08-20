@@ -66,6 +66,12 @@ public class UnitOnVillage : Unit
         VillageFSM.ResetFSM();
     }
 
+    public override void RemoveUnit()
+    {
+        base.RemoveUnit();
+        villageManager.village.RemoveUnit(this);
+    }
+
     protected override void Update()
     {
         base.Update();

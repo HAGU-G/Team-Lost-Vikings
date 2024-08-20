@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UI.CanvasScaler;
 
 public class Village : MonoBehaviour
 {
@@ -138,10 +139,15 @@ public class Village : MonoBehaviour
         if (!units.Contains(unit)
             || !GameManager.huntZoneManager.HuntZones.ContainsKey(unit.stats.HuntZoneNum))
             return;
+        
+        var stats = unit.stats;
+        RemoveUnit(unit);
+        stats.SetLocation(LOCATION.NONE, LOCATION.HUNTZONE);
+    }
 
+    public void RemoveUnit(UnitOnVillage unit)
+    {
         units.Remove(unit);
-        unit.stats.SetLocation(LOCATION.NONE, LOCATION.HUNTZONE);
-        GameManager.unitManager.SpawnOnNextLocation(unit.stats);
         Destroy(unit.gameObject);
     }
 

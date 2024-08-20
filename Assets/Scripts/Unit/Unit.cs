@@ -13,7 +13,7 @@ public abstract class Unit : MonoBehaviour, IPointerClickHandler
     [HideInInspector] public bool isFlip = true;
 
     private SortingGroup sortingGroup = null;
-    public Vector3 LastDirection {get;private set;}
+    public Vector3 LastDirection { get; private set; }
     public bool IsMoved { get; private set; } = false;
 
     public bool IsDead

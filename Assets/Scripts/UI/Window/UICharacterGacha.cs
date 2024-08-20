@@ -67,10 +67,7 @@ public class UICharacterGacha : UIWindow
             requireGoldText.color = Color.red;
             isEnough = false;
         }
-        gacha.interactable = isEnough;
-
-        if (GameManager.unitManager.unitLimitCount <= GameManager.unitManager.Units.Count)
-            gacha.interactable = false;
+        gacha.interactable = isEnough && GameManager.unitManager.CanGacha;
 
         //모집소 건물이 없을 시 가챠되지 않도록 설정
 

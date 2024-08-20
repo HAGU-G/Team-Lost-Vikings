@@ -220,6 +220,9 @@ public class SoundManager : MonoBehaviour
         if (sm == null)
             return;
 
+        if (clip == null)
+            return;
+
         switch (location)
         {
             case LOCATION.NONE:
