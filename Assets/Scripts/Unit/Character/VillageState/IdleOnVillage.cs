@@ -35,7 +35,6 @@ public class IdleOnVillage : State<UnitOnVillage>
             MoveToRandomTile();
             return;
         }
-
     }
 
     protected override bool Transition()
@@ -46,12 +45,25 @@ public class IdleOnVillage : State<UnitOnVillage>
             || owner.destination != null
             || owner.isRecoveryQuited == true)
         {
+            if (owner.CheckParameter() != UnitOnVillage.LACKING_PARAMETER.NONE
+                && !owner.villageManager.FindBuilding(STRUCTURE_TYPE.PARAMETER_RECOVERY,
+                   (x) =>
+                   {
+                       if (x.GetComponent<ParameterRecoveryBuilding>() != null)
+                       {
+                           return (int)x.GetComponent<ParameterRecoveryBuilding>().parameterType == (int)owner.CheckParameter();
+                       }
+
+                       return false;
+                   }))
+            {
+                return false;
+            }
+
             controller.ChangeState((int)UnitOnVillage.STATE.GOTO);
             return true;
         }
-            
-
-        return false;
+            return false;
     }
 
     private void MoveToRandomTile()

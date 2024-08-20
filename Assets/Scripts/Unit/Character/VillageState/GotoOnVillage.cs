@@ -171,6 +171,7 @@ public class GotoOnVillage : State<UnitOnVillage>
         {
             //해당 건물 없을 때 Idle 상태
             controller.ChangeState((int)UnitOnVillage.STATE.IDLE);
+            owner.isBuildingExist = false;
         }
 
     }
