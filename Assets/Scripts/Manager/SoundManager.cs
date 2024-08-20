@@ -1,10 +1,15 @@
 ﻿using UnityEngine;
+using UnityEngine.Audio;
 
 public class SoundManager : MonoBehaviour
 {
-    public AudioSource audioSource;
-    public AudioClip[] audioClips;
-    private int currentClip = 0;
+    public AudioMixer mixer;
+    public AudioMixerGroup groupMusic;
+    public AudioMixerGroup groupSfx;
+
+    public AudioSource musicSource;
+    public AudioClip[] musicCilps;
+    private int currentMusicClip = 0;
 
     private void Awake()
     {
@@ -16,6 +21,8 @@ public class SoundManager : MonoBehaviour
 
         GameManager.soundManager = this;
 
+        musicSource.outputAudioMixerGroup = groupMusic;
+
         GameManager.Subscribe(EVENT_TYPE.START, OnGameStart);
     }
 
@@ -26,7 +33,7 @@ public class SoundManager : MonoBehaviour
 
     private void Update()
     {
-        if (!audioSource.isPlaying)
+        if (!musicSource.isPlaying && Application.isFocused)
         {
             PlayBGM();
         }
@@ -34,17 +41,16 @@ public class SoundManager : MonoBehaviour
 
     private void PlayBGM()
     {
-        currentClip = currentClip % audioClips.Length;
-        audioSource.clip = audioClips[currentClip];
-        audioSource.Play();
-        ++currentClip;
+        currentMusicClip = currentMusicClip % musicCilps.Length;
+        musicSource.PlayOneShot(musicCilps[currentMusicClip]);
+        ++currentMusicClip;
     }
 
     private void SetAudioPlay()
     {
-        if(GameManager.villageManager.constructMode.currentTimeScale == 0f)
+        if (GameManager.villageManager.constructMode.currentTimeScale == 0f)
         {
-            audioSource.pitch = 1f;
+            musicSource.pitch = 1f;
         }
     }
 
