@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using System.ComponentModel;
+using UnityEngine.Pool;
+using UnityEngine.InputSystem.Utilities;
 
 public class SoundManager : MonoBehaviour
 {
@@ -21,12 +23,12 @@ public class SoundManager : MonoBehaviour
     private int currentBGMClip = 0;
 
     [Header("효과음")]
-    public AudioSource uiSource;
+    public IObjectPool<AudioSource> uiSource;
 
     private float _masterVolume = 1f;
     private float _bgmVolume = 1f;
     private float _sfxVolume = 1f;
-    
+
     public static float MasterVolume
     {
         get
@@ -47,7 +49,6 @@ public class SoundManager : MonoBehaviour
             sm._masterVolume = Mathf.Clamp(value, 0f, 1f);
         }
     }
-
     public static float BGMVolume
     {
         get
@@ -64,11 +65,10 @@ public class SoundManager : MonoBehaviour
             if (sm == null)
                 return;
 
-            sm.mixer.SetFloat(paramMasterVolume, FloatToDb(value));
+            sm.mixer.SetFloat(paramBGMVolume, FloatToDb(value));
             sm._bgmVolume = Mathf.Clamp(value, 0f, 1f);
         }
     }
-
     public static float SFXVolume
     {
         get
@@ -85,15 +85,20 @@ public class SoundManager : MonoBehaviour
             if (sm == null)
                 return;
 
-            sm.mixer.SetFloat(paramMasterVolume, FloatToDb(value));
+            sm.mixer.SetFloat(paramSFXVolume, FloatToDb(value));
             sm._sfxVolume = Mathf.Clamp(value, 0f, 1f);
         }
     }
 
     public AudioSource locationSourcePrefab;
-    private Dictionary<int, AudioSource> locationSources = new();
-
+    private Dictionary<int, IObjectPool<AudioSource>> locationPool = new();
+    private Dictionary<int, List<AudioSource>> locationSources = new();
+    private LOCATION location = LOCATION.VILLAGE;
+    private int currentHuntZoneNum = -1;
     private Dictionary<string, AsyncOperationHandle<AudioClip>> clipHandles = new();
+
+
+
 
     private void Awake()
     {
@@ -112,17 +117,58 @@ public class SoundManager : MonoBehaviour
 
     private void OnGameStart()
     {
+        //UI 오디오 소스 추가
+        uiSource = new LinkedPool<AudioSource>(
+            () =>
+            {
+                var source = Instantiate(locationSourcePrefab, transform);
+                source.name = $"UI";
+                source.GetComponent<AudioSourcePoolObject>().pool = uiSource;
+                AddSource(source, LOCATION.NONE);
+                return source;
+            },
+            (x) => x.gameObject.SetActive(true),
+            (x) => x.gameObject.SetActive(false),
+            null,
+            true, 1000);
+
         //마을 오디오 소스 추가
-        var villageSource = Instantiate(locationSourcePrefab, transform);
-        villageSource.name = $"Village";
-        locationSources.Add(-1, villageSource);
+        IObjectPool<AudioSource> tempVPool = null;
+        IObjectPool<AudioSource> villagePool = new LinkedPool<AudioSource>(
+            () =>
+            {
+                var villageSource = Instantiate(locationSourcePrefab, transform);
+                villageSource.name = $"Village";
+                villageSource.GetComponent<AudioSourcePoolObject>().pool = tempVPool;
+                AddSource(villageSource, LOCATION.VILLAGE);
+                return villageSource;
+            },
+            (x) => x.gameObject.SetActive(true),
+            (x) => x.gameObject.SetActive(false),
+            null,
+            true, 1000);
+        tempVPool = villagePool;
+        locationPool.Add(-1, villagePool);
 
         //사냥터 오디오 소스 추가
         foreach (var huntZone in GameManager.huntZoneManager.HuntZones)
         {
-            var huntZoneSource = Instantiate(locationSourcePrefab, transform);
-            huntZoneSource.name = $"HuntZone {huntZone.Key}";
-            locationSources.Add(huntZone.Key, huntZoneSource);
+            IObjectPool<AudioSource> tempHPool = null;
+            IObjectPool<AudioSource> huntZonePool = new LinkedPool<AudioSource>(
+                () =>
+                {
+                    var huntZoneSource = Instantiate(locationSourcePrefab, transform);
+                    huntZoneSource.name = $"HuntZone {huntZone.Key}";
+                    huntZoneSource.GetComponent<AudioSourcePoolObject>().pool = tempHPool;
+                    AddSource(huntZoneSource, LOCATION.HUNTZONE, huntZone.Key);
+                    return huntZoneSource;
+                },
+                (x) => x.gameObject.SetActive(true),
+                (x) => x.gameObject.SetActive(false),
+                null,
+                true, 1000);
+            tempHPool = huntZonePool;
+            locationPool.Add(huntZone.Key, huntZonePool);
         }
 
         //위치 설정
@@ -177,19 +223,19 @@ public class SoundManager : MonoBehaviour
         switch (location)
         {
             case LOCATION.NONE:
-                sm.uiSource.PlayOneShot(clip, volumeScale);
+                sm.uiSource.Get().PlayOneShot(clip, volumeScale);
                 break;
             case LOCATION.VILLAGE:
-                sm.locationSources[-1].PlayOneShot(clip, volumeScale);
+                sm.locationPool[-1].Get().PlayOneShot(clip, volumeScale);
                 break;
             case LOCATION.HUNTZONE:
-                if (sm.locationSources.ContainsKey(huntZoneNum))
+                if (sm.locationPool.ContainsKey(huntZoneNum))
                 {
-                    sm.locationSources[huntZoneNum].PlayOneShot(clip, volumeScale);
+                    sm.locationPool[huntZoneNum].Get().PlayOneShot(clip, volumeScale);
                 }
                 else
                 {
-                    sm.uiSource.PlayOneShot(clip, volumeScale);
+                    sm.uiSource.Get().PlayOneShot(clip, volumeScale);
                     Debug.LogWarning($"사냥터 {huntZoneNum}번이 존재하지 않습니다. UI사운드로 재생합니다.");
                 }
                 break;
@@ -213,6 +259,11 @@ public class SoundManager : MonoBehaviour
         if (sm.clipHandles.ContainsKey(clipName))
         {
             clip = sm.clipHandles[clipName].Result;
+        }
+        else if (Addressables.LoadResourceLocationsAsync(clipName).WaitForCompletion().Count <= 0)
+        {
+            if (!(clipName == string.Empty || clipName == "0"))
+                Debug.LogWarning($"{clipName} 사운드가 존재하지 않습니다.");
         }
         else
         {
@@ -254,21 +305,50 @@ public class SoundManager : MonoBehaviour
             case LOCATION.NONE:
                 break;
             case LOCATION.VILLAGE:
-                foreach (var source in locationSources)
+                this.location = location;
+                foreach (var sources in locationSources)
                 {
-                    if (source.Key == -1)
-                        source.Value.mute = false;
+                    if (sources.Key == -2)
+                        continue;
+
+                    if (sources.Key == -1)
+                    {
+                        foreach (var source in sources.Value)
+                        {
+                            source.mute = false;
+                        }
+                    }
                     else
-                        source.Value.mute = true;
+                    {
+                        foreach (var source in sources.Value)
+                        {
+                            source.mute = true;
+                        }
+                    }
                 }
                 break;
             case LOCATION.HUNTZONE:
-                foreach (var source in locationSources)
+                this.location = location;
+                currentHuntZoneNum = huntZoneNum;
+                foreach (var sources in locationSources)
                 {
-                    if (source.Key == huntZoneNum)
-                        source.Value.mute = false;
+                    if (sources.Key == -2)
+                        continue;
+
+                    if (sources.Key == huntZoneNum)
+                    {
+                        foreach (var source in sources.Value)
+                        {
+                            source.mute = false;
+                        }
+                    }
                     else
-                        source.Value.mute = true;
+                    {
+                        foreach (var source in sources.Value)
+                        {
+                            source.mute = true;
+                        }
+                    }
                 }
                 break;
         }
@@ -280,5 +360,47 @@ public class SoundManager : MonoBehaviour
             return -144.0f;
         else
             return Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20f;
+    }
+
+    public void AddSource(AudioSource source, LOCATION location, int huntZoneNum = -1)
+    {
+        switch (location)
+        {
+            case LOCATION.NONE:
+                if (locationSources.TryGetValue(-2, out var uiList))
+                {
+                    if (!uiList.Contains(source))
+                        uiList.Add(source);
+                }
+                else
+                {
+                    locationSources.Add(-2, new() { source });
+                }
+                break;
+            case LOCATION.VILLAGE:
+                source.mute = this.location != location;
+                if (locationSources.TryGetValue(-1, out var villageList))
+                {
+                    if (!villageList.Contains(source))
+                        villageList.Add(source);
+                }
+                else
+                {
+                    locationSources.Add(-1, new() { source });
+                }
+                break;
+            case LOCATION.HUNTZONE:
+                source.mute = !(this.location == location && currentHuntZoneNum == huntZoneNum);
+                if (locationSources.TryGetValue(huntZoneNum, out var hunZoneList))
+                {
+                    if (!hunZoneList.Contains(source))
+                        hunZoneList.Add(source);
+                }
+                else
+                {
+                    locationSources.Add(huntZoneNum, new() { source });
+                }
+                break;
+        }
     }
 }

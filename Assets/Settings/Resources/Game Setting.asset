@@ -31,11 +31,13 @@ MonoBehaviour:
   autoGachaSeconds: 90
   autoGachaMaxCount: 15
   defaultUnitLimit: 4
-  defaultBowProjectileSpeed: 30
-  defaultMagicProjectileSpeed: 12
   idleRerouteTime: 3
   traceRerouteTime: 20
   projectileSize: 0.5
+  defaultBowProjectileSpeed: 30
+  defaultMagicProjectileSpeed: 12
+  arrowEffectName: BowProjectile
+  magicEffectName: MagicProjectile
   goldID: 8000001
   gachaPrefabName: Char_Gacha
   touchEffectName: VFX_Touch_001

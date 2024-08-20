@@ -6,11 +6,12 @@ public class AttackProjectile : IAttackStrategy
     public UnitStats owner = null;
     public SkillData skill = null;
     public Vector3 targetPos;
+    public static readonly string projectilePrefabName = "Projectile";
 
     public bool Attack(IDamagedable target, int damage, bool isCritical, ATTACK_TYPE type = ATTACK_TYPE.NONE)
     {
 
-        var handle = Addressables.InstantiateAsync("Projectile");
+        var handle = Addressables.InstantiateAsync(projectilePrefabName);
         var proj = handle.WaitForCompletion().GetComponent<Projectile>();
 
         var targetCombat = target as CombatUnit;
