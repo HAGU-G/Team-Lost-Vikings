@@ -22,6 +22,8 @@ public enum WINDOW_NAME
     BUILDING_DETAIL,
     REVIVE_POPUP,
     TOUCH_UNIT_BUTTONS,
+    OPTION,
+    ACCOUNT,
 }
 
 

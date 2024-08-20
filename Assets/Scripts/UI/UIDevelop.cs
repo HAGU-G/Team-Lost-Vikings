@@ -318,6 +318,11 @@ public class UIDevelop : MonoBehaviour
         destroyBuilding.gameObject.SetActive(false);
     }
 
+    public void OnButtonOption()
+    {
+        GameManager.uiManager.windows[WINDOW_NAME.OPTION].Open();
+    }
+
     public void OnButtonQuit()
     {
         var constructMode = GameManager.uiManager.windows[WINDOW_NAME.CONSTRUCT_MODE] as UIConstructMode;

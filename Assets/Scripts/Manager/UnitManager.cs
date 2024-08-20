@@ -15,10 +15,9 @@ public class UnitManager
     [JsonProperty] public Dictionary<int, UnitStats> DeadUnits { get; private set; } = new();
     [JsonProperty] public Dictionary<int, UnitStats> Waitings { get; private set; } = new();
 
-    public bool IsMaxWait => Waitings.Count >= GameSetting.Instance.autoGachaMaxCount;
+    public bool IsMaxWait => Waitings.Count >= GameSetting.Instance.waitListLimit;
     public bool CanGacha => !((IsMaxWait && Units.Count >= unitLimitCount)
                               || GetGachaPool(GameManager.playerManager.recruitLevel).Count == 0);
-
     public int unitLimitCount = GameSetting.Instance.defaultUnitLimit;
 
     [JsonProperty] public System.DateTime lastAutoGachaTime = System.DateTime.Now;
