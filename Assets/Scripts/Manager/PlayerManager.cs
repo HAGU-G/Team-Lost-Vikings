@@ -13,6 +13,7 @@ public class PlayerManager
         {
             _exp = value;
             var levelUpExp = DataTableManager.playerTable.GetData(level).Exp;
+            GameManager.uiManager.uiDevelop.SetExpBar();
             while (_exp >= levelUpExp)
             {
                 _exp -= levelUpExp;

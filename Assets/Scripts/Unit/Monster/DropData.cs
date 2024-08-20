@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public enum DROP_TYPE
+public enum exp_TYPE
 {
     ALL,
     ONE
