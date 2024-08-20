@@ -86,7 +86,7 @@ public class EffectManager : MonoBehaviour
         {
             damageEffects.Add(damagePool.Get());
         }
-        foreach(var de in damageEffects)
+        foreach (var de in damageEffects)
         {
             de.gameObject.SetActive(false);
         }
@@ -146,8 +146,10 @@ public class EffectManager : MonoBehaviour
             return true;
 
         if (Addressables.LoadResourceLocationsAsync(effectName).WaitForCompletion().Count <= 0)
+        {
+            Debug.LogWarning($"{effectName} 이펙트가 존재하지 않습니다.");
             return false;
-
+        }
         var handle = Addressables.LoadAssetAsync<GameObject>(effectName);
         var go = handle.WaitForCompletion();
         var effect = go.GetComponent<EffectObject>();
