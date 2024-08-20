@@ -88,6 +88,12 @@ public class UITouchUnitButtons : UIWindow
 
     private void Update()
     {
+        if (um.currentUnitStats.isDead)
+        {
+            OnButtonClose();
+            GameManager.cameraManager.SetLocation(LOCATION.VILLAGE);
+        }
+
         SetParameterBar();
     }
 
