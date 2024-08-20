@@ -692,6 +692,121 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 67ec7748e2a25ac4b8253ef55570de31
+    m_Address: BaseArcher_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 43ffc585023ee0743990faa5031ec86d
+    m_Address: BaseArcher_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2e4db0b09f1e52547b66d875966af291
+    m_Address: BaseMagican_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 532fa613d66948841b9ee9ecd02ad152
+    m_Address: BaseMagican_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0be43461497da054fbc614bb7610380c
+    m_Address: BaseWarrior_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a4e828363e08ea941ad446224921b621
+    m_Address: BaseWarrior_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4cfd77f931c2fd9429919310a491253a
+    m_Address: Boss_Monster_001
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 88a2f67d348cc684ab812c48dd99b85d
+    m_Address: Boss_Monster_002
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 243dc1ffa1fabe74bae4e7168b844d12
+    m_Address: Boss_Monster_003
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 967e3787cc56b5d4f84dd3c1302f730f
+    m_Address: Normal_Monster_002
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7ec7df9850ba94240a36758da308ff0c
+    m_Address: Normal_Monster_003
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4fccd7d9f7de8d84b84263402362f09d
+    m_Address: Defender
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 963d74694897da54db619f9d40faa9c9
+    m_Address: Hunter
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6d5b198c33628094a8aceda3b9853d58
+    m_Address: Monk
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 228abeb3072449a4fb973843aa1af631
+    m_Address: NormalArcher
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 46893147b5c4acc4f9c38c6b1479de9b
+    m_Address: NormalMagician
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4e1ee6838a469fd448031a9d31ad74bb
+    m_Address: NormalWarrior
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 663404168343a9145ae871450a260e2e
+    m_Address: RareArcher
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0a423e134b612a44cb6970327a2182ba
+    m_Address: RareMagican
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1c037e7fa29245144a3ff0c33fc6d117
+    m_Address: RareWarrior
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 065f89fc537e8a84282b7316b4b8f6f4
+    m_Address: RobinHood
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 66e39d0db3727e247b8c07371b7cdf87
+    m_Address: Sorcery
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3f78e2a6cc8b6ac4389fec3ed993a720
+    m_Address: Spearman
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 06eaf29b6f1bf084f803a683a0542cea, type: 2}
   m_SchemaSet:
