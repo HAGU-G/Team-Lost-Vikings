@@ -346,6 +346,7 @@ public class UIDevelop : MonoBehaviour
     {
         levelUpPopUp.SetActive(true);
         levelUpPopUp.GetComponent<LevelUpPopUp>().SetPopUp();
+        SetExpBar();
         SetPlayerLevel();
     }
 

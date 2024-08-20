@@ -11,6 +11,8 @@ public class LevelUpPopUp : MonoBehaviour
 
     public Button close;
 
+    private EffectObject effect = null;
+
     private void Start()
     {
         //close.onClick.AddListener(OnButtonClose);
@@ -31,18 +33,27 @@ public class LevelUpPopUp : MonoBehaviour
 
     private void PlayLevelUpSfx()
     {
-        //SoundManager.PlaySFX();
+        SoundManager.PlaySFX("LevelUP");
     }
 
     private void PlayParticle()
     {
-        GameManager.effectManager.GetEffect("LevelUp");
+        effect = GameManager.effectManager.GetEffect("LevelUp",SORT_LAYER.OverUI);
+        effect.transform.localScale = new Vector3(5f,5f,5f);
+        effect.transform.position = transform.position;
+
     }
 
     private void Update()
     {
         if (GameManager.inputManager.Tap)
+        {
             gameObject.SetActive(false);
+
+            if (effect.isActiveAndEnabled)
+                effect.Stop();
+        }
+            
             
     }
 }
