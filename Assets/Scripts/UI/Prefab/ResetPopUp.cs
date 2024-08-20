@@ -10,22 +10,32 @@ public class ResetPopUp : MonoBehaviour
 
     private void Awake()
     {
-        GameManager.Subscribe(EVENT_TYPE.START, OnGameStart);
+        yesButton.onClick.AddListener(OnButtonYes);
+        noButton.onClick.AddListener(OnButtonNo);
+        //GameManager.Subscribe(EVENT_TYPE.START, OnGameStart);
     }
 
     private void OnGameStart()
     {
-        yesButton.onClick.AddListener(OnButtonYes);
-        noButton.onClick.AddListener(OnButtonNo);
+
+        Debug.Log("ongamestart");
+        
     }
 
     private void OnButtonYes()
     {
-
+        Debug.Log("yes");
+        var remove = SaveManager.RemoveSaveFile();
+        GameManager.IsReady = false;
+        Application.Quit();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
     }
 
     private void OnButtonNo()
-    { 
+    {
+        Debug.Log("no");
         gameObject.SetActive(false);
     }
 }

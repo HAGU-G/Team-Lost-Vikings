@@ -33,7 +33,7 @@ public static class GameManager
     public static DialogManager dialogManager = new();
     public static EffectManager effectManager = null;
 
-    public static bool IsReady { get; private set; } = false;
+    public static bool IsReady { get; set; } = false;
 
     private static IDictionary<EVENT_TYPE, UnityEvent> events = new Dictionary<EVENT_TYPE, UnityEvent>();
 

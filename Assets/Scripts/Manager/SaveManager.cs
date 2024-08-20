@@ -223,4 +223,16 @@ public static class SaveManager
 
         return rijndaelManaged;
     }
+
+    public static bool RemoveSaveFile()
+    {
+        var path = Path.Combine(fileDirectory, fileName);
+        if (File.Exists(path))
+        {
+            File.Delete(path);
+            return true;
+        }
+
+        return false;
+    }
 }
