@@ -95,10 +95,10 @@ public class ItemManager
                     ownItemList[id] = Mathf.Max(goldLimit, ownItemList[id]);
                 else
                     ownItemList[id] = afterAmount;
-                GameManager.uiManager.uiDevelop.SetGold(ownItemList[id]);
                 break;
             default:
                 ownItemList[id] = afterAmount;
+                GameManager.uiManager.uiDevelop.SetItem(id, ownItemList[id]);
                 break;
         }
 
@@ -123,9 +123,9 @@ public class ItemManager
         switch (id)
         {
             case int goldID when goldID == GameSetting.Instance.goldID:
-                GameManager.uiManager.uiDevelop.SetGold(ownItemList[id]);
                 break;
             default:
+                GameManager.uiManager.uiDevelop.SetItem(id, ownItemList[id]);
                 break;
         }
 

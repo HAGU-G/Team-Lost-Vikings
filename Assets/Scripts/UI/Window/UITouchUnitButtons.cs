@@ -41,7 +41,6 @@ public class UITouchUnitButtons : UIWindow
         for(int i = 1; i <= 5; ++i)
         {
             var newpath = $"{path}{i}.png";
-            Debug.Log(newpath);
             Addressables.LoadAssetAsync<Sprite>(newpath).Completed += OnLoadDone;
         }
 
