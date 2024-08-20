@@ -622,6 +622,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bcbccbfb8f306e545b931110a5fb8e24
+    m_Address: SFX_Hit_001
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 06eaf29b6f1bf084f803a683a0542cea, type: 2}
   m_SchemaSet:

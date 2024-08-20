@@ -20,16 +20,16 @@ public enum EVENT_TYPE
 
 public static class GameManager
 {
-    public static VillageManager villageManager;
-    public static HuntZoneManager huntZoneManager;
-    public static UIManager uiManager;
+    public static VillageManager villageManager = null;
+    public static HuntZoneManager huntZoneManager = null;
+    public static UIManager uiManager = null;
     public static UnitManager unitManager = null;
-    public static InputManager inputManager;
+    public static InputManager inputManager = null;
     public static PlayerManager playerManager = null;
     public static QuestManager questManager = null;
     public static ItemManager itemManager = null;
-    public static CameraManager cameraManager;
-    public static SoundManager soundManager;
+    public static CameraManager cameraManager = null;
+    public static SoundManager soundManager = null;
     public static DialogManager dialogManager = new();
     public static EffectManager effectManager = null;
 

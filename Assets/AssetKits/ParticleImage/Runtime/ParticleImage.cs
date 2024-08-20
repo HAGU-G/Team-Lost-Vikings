@@ -2598,10 +2598,10 @@ namespace AssetKits.ParticleImage
             }
         }
 
-        [SerializeField][Obsolete("Use sprite instead")]
+        [SerializeField]//[Obsolete("Use sprite instead")]
         private Texture m_Texture;
 
-        [Obsolete("Use sprite instead")]
+        //[Obsolete("Use sprite instead")]
         public Texture texture
         {
             get

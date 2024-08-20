@@ -15,6 +15,7 @@ public class Monster : CombatUnit, ISubject<Monster>
         ResetEvents();
         stats.InitStats(isBoss ? huntZone.GetCurrentBoss() : huntZone.GetCurrentMonster());
         stats.ResetStats();
+        stats.SetLocation(LOCATION.HUNTZONE);
         stats.isBoss = isBoss;
         attackTarget = null;
 
