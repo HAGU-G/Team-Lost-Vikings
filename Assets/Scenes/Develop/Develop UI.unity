@@ -11166,8 +11166,9 @@ GameObject:
   - component: {fileID: 267201352}
   - component: {fileID: 267201354}
   - component: {fileID: 267201353}
+  - component: {fileID: 267201355}
   m_Layer: 5
-  m_Name: GetCharError_01
+  m_Name: RecruitPopUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11185,9 +11186,9 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1374918382}
   - {fileID: 1122277641}
   - {fileID: 1342144306}
-  - {fileID: 1374918382}
   m_Father: {fileID: 1620207143}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
@@ -11233,6 +11234,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 267201351}
   m_CullTransparentMesh: 1
+--- !u!114 &267201355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 267201351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b91da5b1bfaa66a48902f918e2fdeb0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 1374918383}
+  exit: {fileID: 1342144307}
 --- !u!1 &270914515
 GameObject:
   m_ObjectHideFlags: 0
@@ -16791,6 +16806,7 @@ MonoBehaviour:
   skillPopUp: {fileID: 0}
   kickOutPopUp: {fileID: 0}
   combatPopUp: {fileID: 0}
+  recruitPopUp: {fileID: 0}
 --- !u!1 &389250272
 GameObject:
   m_ObjectHideFlags: 0
@@ -20917,10 +20933,10 @@ RectTransform:
   - {fileID: 850752462}
   m_Father: {fileID: 1354831106}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 93.79995, y: -74.532}
-  m_SizeDelta: {x: 167.5999, y: 129.064}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &464288516
 GameObject:
@@ -38164,6 +38180,7 @@ MonoBehaviour:
   skillPopUp: {fileID: 0}
   kickOutPopUp: {fileID: 0}
   combatPopUp: {fileID: 0}
+  recruitPopUp: {fileID: 0}
 --- !u!114 &802451329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77724,6 +77741,7 @@ MonoBehaviour:
   skillPopUp: {fileID: 1442265288}
   kickOutPopUp: {fileID: 1528058355}
   combatPopUp: {fileID: 1235579359}
+  recruitPopUp: {fileID: 267201351}
 --- !u!114 &1620207145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86474,10 +86492,10 @@ RectTransform:
   - {fileID: 331266599}
   m_Father: {fileID: 1354831106}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 271.39984, y: -74.532}
-  m_SizeDelta: {x: 167.5999, y: 129.064}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1822804419
 GameObject:
@@ -97343,10 +97361,10 @@ RectTransform:
   - {fileID: 1492395263}
   m_Father: {fileID: 1354831106}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 448.99976, y: -74.532}
-  m_SizeDelta: {x: 167.5999, y: 129.064}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2038342654
 GameObject:

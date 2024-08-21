@@ -21,7 +21,6 @@ public class UIUnitsInformation : UIWindow
 
     private int unitCnt = 0; 
     
-    private string path = "Assets/Pick_Asset/2WEEK/GradeIcon/Grade_";
     private Dictionary<int, Sprite> gradeIcons = new();
     protected override void OnGameStart()
     {
@@ -72,12 +71,12 @@ public class UIUnitsInformation : UIWindow
             var info = obj.GetComponent<CharacterInfo>();
             info.characterName.text = $"{unit.Value.Data.Name}";
             info.gradeIcon.sprite = gradeIcons[(int)unit.Value.UnitGrade];
-            info.information.onClick.AddListener(() =>
-            {
-                GameManager.uiManager.currentUnitStats = unit.Value;
-                OnButtonUnit(unit.Value);
-                Close();
-            });
+            //info.information.onClick.AddListener(() =>
+            //{
+            //    GameManager.uiManager.currentUnitStats = unit.Value;
+            //    OnButtonUnit(unit.Value);
+            //    Close();
+            //});
             info.characterIcon.uvRect
                 = GameManager.uiManager.unitRenderTexture.LoadRenderTexture(unit.Value.Data.UnitAssetFileName);
             info.information.onClick.AddListener(
