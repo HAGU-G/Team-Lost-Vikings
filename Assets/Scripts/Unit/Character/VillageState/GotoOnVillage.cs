@@ -103,6 +103,18 @@ public class GotoOnVillage : State<UnitOnVillage>
 
     public override void ResetState()
     {
+        owner.unitMove.OnTargetTile -= OnEntranceTile;
+        ParameterRecoveryBuilding building = null;
+        if (owner.forceDestination != null)
+            building = owner.forceDestination.GetComponent<ParameterRecoveryBuilding>();
+
+        if (owner.destination != null)
+            building = owner.destination.GetComponent<ParameterRecoveryBuilding>();
+
+        if (building != null)
+        {
+            building.RemoveMovingUnit(owner);
+        }
         owner.destination = null;
         owner.destinationTile = null;
     }
@@ -159,6 +171,7 @@ public class GotoOnVillage : State<UnitOnVillage>
         {
             //해당 건물 없을 때 Idle 상태
             controller.ChangeState((int)UnitOnVillage.STATE.IDLE);
+            owner.isBuildingExist = false;
         }
 
     }

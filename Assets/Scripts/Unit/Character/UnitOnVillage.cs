@@ -13,6 +13,8 @@ public class UnitOnVillage : Unit
     public VillageManager villageManager;
     public UnitMove unitMove;
 
+    public bool isBuildingExist = true;
+
     private bool isRecoveryQuitedTest = false;
     public bool isRecoveryQuited
     {
@@ -39,10 +41,10 @@ public class UnitOnVillage : Unit
 
     public enum LACKING_PARAMETER
     {
+        NONE,
         HP,
         STAMINA,
         STRESS,
-        NONE,
     }
 
     public override void Init()
@@ -64,6 +66,13 @@ public class UnitOnVillage : Unit
         base.ResetUnit(unitStats);
         stats.SetLocation(LOCATION.VILLAGE);
         VillageFSM.ResetFSM();
+    }
+
+    public override void RemoveUnit()
+    {
+        base.RemoveUnit();
+        VillageFSM.ResetFSM();
+        villageManager.village.RemoveUnit(this);
     }
 
     protected override void Update()

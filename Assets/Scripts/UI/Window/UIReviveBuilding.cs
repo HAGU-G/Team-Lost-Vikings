@@ -65,8 +65,8 @@ public class UIReviveBuilding : UIWindow
 
         isOpen = true;
 
-        requireItemIds = grade[upgradeComponent.UpgradeGrade -1].ItemIds;
-        requireItemNums = grade[upgradeComponent.UpgradeGrade -1].ItemNums;
+        requireItemIds = grade[upgradeComponent.UpgradeGrade - 1].ItemIds;
+        requireItemNums = grade[upgradeComponent.UpgradeGrade - 1].ItemNums;
 
         SetUI();
     }
@@ -148,7 +148,7 @@ public class UIReviveBuilding : UIWindow
 
         for (int i = 0; i < resourceList.Count; ++i)
         {
-            var upgradeData = grade[upgradeComponent.UpgradeGrade -1];
+            var upgradeData = grade[upgradeComponent.UpgradeGrade - 1];
             if (upgradeData.ItemNums[i] <= im.GetItem(requireItemIds[i]))
             {
                 resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.black;
@@ -172,6 +172,9 @@ public class UIReviveBuilding : UIWindow
 
     public void SetProgressBar(float timer, float reviveTime)
     {
+        //CharacterInfo의 id를 참조하여 timer 값을 불러오기 때문에
+        //timer를 사용하지 않게 됨.
+
         if (vm.village.upgrade == null)
             return;
 
@@ -184,9 +187,11 @@ public class UIReviveBuilding : UIWindow
             var character = reviveList[i];
             var info = character.GetComponent<CharacterInfo>();
             var unit = GameManager.unitManager.GetUnit(info.characterId);
-            info.parameterBar.value = timer / reviveTime;
 
-            if (timer / reviveTime >= 1f)
+            if (unit != null)
+                info.parameterBar.value = unit.reviveTimer / reviveTime;
+
+            if (unit == null || (unit.reviveTimer / reviveTime >= 1f))
             {
                 Destroy(character);
                 reviveList.RemoveAt(i);

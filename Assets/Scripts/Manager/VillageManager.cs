@@ -351,14 +351,14 @@ public class VillageManager : MonoBehaviour
 
     private void VillageSet(GridMap gridMap)
     {
-        selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.HP_RECOVERY);
-        var hp = construct.PlaceBuilding(selectedObj, GetTile(13, 19, gridMap), gridMap);
+        //selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.HP_RECOVERY);
+        //var hp = construct.PlaceBuilding(selectedObj, GetTile(13, 19, gridMap), gridMap);
 
-        selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STAMINA_RECOVERY);
-        var stamina = construct.PlaceBuilding(selectedObj, GetTile(13, 16, gridMap), gridMap);
+        //selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STAMINA_RECOVERY);
+        //var stamina = construct.PlaceBuilding(selectedObj, GetTile(13, 16, gridMap), gridMap);
 
-        selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STRESS_RECOVERY);
-        var stress = construct.PlaceBuilding(selectedObj, GetTile(13, 13, gridMap), gridMap);
+        //selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STRESS_RECOVERY);
+        //var stress = construct.PlaceBuilding(selectedObj, GetTile(13, 13, gridMap), gridMap);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STANDARD);
         var standard = construct.PlaceBuilding(selectedObj, GetTile(17, 17, gridMap), gridMap);

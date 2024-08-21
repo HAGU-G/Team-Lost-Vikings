@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Pool;
 
 public class HuntZoneManager : MonoBehaviour
 {
-    //어드레서블로 교체
     public UnitOnHunt unitPrefab;
     public Monster monsterPrefab;
 
@@ -34,6 +35,20 @@ public class HuntZoneManager : MonoBehaviour
         GameManager.huntZoneManager = this;
 
         GameManager.Subscribe(EVENT_TYPE.INIT, OnGameInit);
+    }
+
+    private void Update()
+    {
+
+        //TESTCODE
+        if (Keyboard.current.deleteKey.wasPressedThisFrame)
+        {
+            GameManager.unitManager.DiscardCharacter(GameManager.unitManager.Units.Last().Value.InstanceID);
+        }
+        if (Keyboard.current.endKey.wasPressedThisFrame)
+        {
+            GameManager.itemManager.Gold += 10000;
+        }
     }
 
     private void OnGameInit()
@@ -200,9 +215,9 @@ public class HuntZoneManager : MonoBehaviour
 
     public void SetDevelopText(bool isOn)
     {
-        for(int i = 0; i < HuntZones.Count; ++i)
+        for (int i = 0; i < HuntZones.Count; ++i)
         {
-            foreach (var tile in HuntZones.GetValueOrDefault(i+1).gridMap.tiles)
+            foreach (var tile in HuntZones.GetValueOrDefault(i + 1).gridMap.tiles)
             {
                 var component = tile.Value.GetComponentInChildren<TextMeshPro>();
                 if (component != null)

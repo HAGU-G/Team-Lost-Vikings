@@ -117,7 +117,7 @@ public class BuildingUpgrade : MonoBehaviour
                 break;
             case (int)STRUCTURE_TYPE.STANDARD:
                 GameManager.villageManager.VillageHallLevel = currentGrade; 
-                GameManager.uiManager.uiDevelop.SetVillageLevel();
+                //GameManager.uiManager.uiDevelop.SetPlayerLevel();
                 SetBuildingUpgrade();
                 break;
             case (int)STRUCTURE_TYPE.REVIVE:

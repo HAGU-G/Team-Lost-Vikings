@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class ResetPopUp : MonoBehaviour
@@ -24,7 +22,6 @@ public class ResetPopUp : MonoBehaviour
 
     private void OnButtonYes()
     {
-        Debug.Log("yes");
         var remove = SaveManager.RemoveSaveFile();
         GameManager.IsReady = false;
         Application.Quit();
@@ -35,7 +32,6 @@ public class ResetPopUp : MonoBehaviour
 
     private void OnButtonNo()
     {
-        Debug.Log("no");
         gameObject.SetActive(false);
     }
 }

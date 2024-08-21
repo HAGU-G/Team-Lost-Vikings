@@ -15,7 +15,9 @@ public class UnitManager
     [JsonProperty] public Dictionary<int, UnitStats> DeadUnits { get; private set; } = new();
     [JsonProperty] public Dictionary<int, UnitStats> Waitings { get; private set; } = new();
 
-    public bool IsMaxWait => Waitings.Count >= GameSetting.Instance.autoGachaMaxCount;
+    public bool IsMaxWait => Waitings.Count >= GameSetting.Instance.waitListLimit;
+    public bool CanGacha => !((IsMaxWait && Units.Count >= unitLimitCount)
+                              || GetGachaPool(GameManager.playerManager.recruitLevel).Count == 0);
     public int unitLimitCount = GameSetting.Instance.defaultUnitLimit;
 
     [JsonProperty] public System.DateTime lastAutoGachaTime = System.DateTime.Now;
@@ -84,15 +86,15 @@ public class UnitManager
         if (Units.ContainsKey(instanceID))
             return Units[instanceID];
         if (Waitings.ContainsKey(instanceID))
-            return Units[instanceID];
+            return Waitings[instanceID];
         if (DeadUnits.ContainsKey(instanceID))
-            return Units[instanceID];
+            return DeadUnits[instanceID];
 
         Debug.LogWarning($"{instanceID} 존재하지 않는 유닛입니다.");
         return null;
     }
 
-    private StatsData GachaUnitData(int level)
+    private List<StatsData> GetGachaPool(int level)
     {
         var gachaList = new List<StatsData>();
 
@@ -116,6 +118,14 @@ public class UnitManager
                 gachaList.Add(data);
             }
         }
+
+        return gachaList;
+    }
+
+    private StatsData GachaUnitData(int level)
+    {
+        var gachaList = GetGachaPool(level);
+        Debug.Log(unitLimitCount);
         StatsData result = null;
         if (gachaList.Count > 0)
             result = gachaList[Random.Range(0, gachaList.Count)];
@@ -159,14 +169,15 @@ public class UnitManager
             case LOCATION.VILLAGE:
                 GameManager.villageManager.village.UnitSpawn(stats.InstanceID,
                     (stats.isDead) ? STRUCTURE_TYPE.REVIVE : STRUCTURE_TYPE.PORTAL);
-                    break;
+                break;
             case LOCATION.HUNTZONE:
                 GameManager.huntZoneManager.HuntZones[stats.HuntZoneNum].SpawnUnit(stats.InstanceID);
                 break;
         }
     }
 
-    public UnitStats GachaCharacter(int level)
+    /// <param name="isIgnoreLimit">유닛 수 제한을 무시할 경우 true</param>
+    public UnitStats GachaCharacter(int level, bool isIgnoreLimit = false)
     {
         var data = GachaUnitData(level);
 
@@ -185,7 +196,7 @@ public class UnitManager
             if (unit.Id == waitCharacter.Id)
                 isDupli = true;
         }
-        if (!isDupli)
+        if ((!isDupli && Units.Count < unitLimitCount) || isIgnoreLimit)
             PickUpCharacter(waitCharacter.InstanceID);
 
         SaveManager.SaveGame();
@@ -217,7 +228,7 @@ public class UnitManager
         {
             yield return new WaitForSeconds(GameSetting.Instance.autoGachaSeconds - autoGachaTimeCorrection);
 
-            if (IsMaxWait && Units.Count >= unitLimitCount)
+            if (!CanGacha)
             {
                 autoGachaTimeCorrection = GameSetting.Instance.autoGachaSeconds - 1f;
                 continue;
@@ -251,5 +262,26 @@ public class UnitManager
     public void SetUnitLimit(int value)
     {
         unitLimitCount = value;
+    }
+
+    /// <returns>방출에 성공한 경우 드랍된 아이템 반환, 드랍된 아이템이 없거나 방출에 실패했을 경우 null 반환, (ItemData, 아이템 개수) </returns>
+    public List<(ItemData, int)> DiscardCharacter(int instanceID)
+    {
+        UnitStats target = GetUnit(instanceID);
+
+        if (target == null)
+        {
+            Debug.Log($"유닛 {instanceID}이(가) 존재하지 않습니다");
+            return null;
+        }
+
+        Units.Remove(instanceID);
+        Waitings.Remove(instanceID);
+        DeadUnits.Remove(instanceID);
+
+        target.ResetHuntZone();
+        target.objectTransform?.GetComponent<Unit>()?.RemoveUnit();
+
+        return null;
     }
 }

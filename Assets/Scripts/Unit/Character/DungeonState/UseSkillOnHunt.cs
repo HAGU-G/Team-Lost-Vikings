@@ -93,6 +93,7 @@ public class UseSkillOnHunt : State<CombatUnit>
             skill?.Use(lastTargetPos);
         useCount++;
         isPlaying = false;
+        
     }
 
     protected override bool Transition()

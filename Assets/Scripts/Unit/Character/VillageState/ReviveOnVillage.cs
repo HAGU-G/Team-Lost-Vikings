@@ -27,12 +27,24 @@ public class ReviveOnVillage : State<UnitOnVillage>
 
     public override void ExitState()
     {
-        
+        reviveBuilding?.revivingUnits.Remove(owner);
+        isReviving = false;
+        GameManager.uiManager.windows[WINDOW_NAME.REVIVE_POPUP].GetComponent<UIReviveBuilding>().SetRevivingList();
+        foreach (var render in renderers)
+        {
+            render.enabled = true;
+        }
     }
 
     public override void ResetState()
     {
-        
+        reviveBuilding?.revivingUnits.Remove(owner);
+        isReviving = false;
+        GameManager.uiManager.windows[WINDOW_NAME.REVIVE_POPUP].GetComponent<UIReviveBuilding>().SetRevivingList();
+        foreach (var render in renderers)
+        {
+            render.enabled = true;
+        }
     }
 
     public override void Update()

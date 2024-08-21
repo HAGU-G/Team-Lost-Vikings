@@ -67,10 +67,7 @@ public class UICharacterGacha : UIWindow
             requireGoldText.color = Color.red;
             isEnough = false;
         }
-        gacha.interactable = isEnough;
-
-        if (GameManager.unitManager.unitLimitCount <= GameManager.unitManager.Units.Count)
-            gacha.interactable = false;
+        gacha.interactable = isEnough && GameManager.unitManager.CanGacha;
 
         //모집소 건물이 없을 시 가챠되지 않도록 설정
 
@@ -136,10 +133,20 @@ public class UICharacterGacha : UIWindow
             cm.SetPosition(centerPos);
         }
 
+        string prefabName = result.UnitGrade switch
+        {
+            UNIT_GRADE.NORMAL => GameSetting.Instance.gachaPrefabName,
+            UNIT_GRADE.COMMON => GameSetting.Instance.gachaPrefabName,
+            UNIT_GRADE.RARE => GameSetting.Instance.gachaPrefabName,
+            UNIT_GRADE.SUPER_RARE => GameSetting.Instance.gachaPrefabRareName,
+            UNIT_GRADE.ULTRA_RARE => GameSetting.Instance.gachaPrefabRareName,
+            _ => GameSetting.Instance.gachaPrefabName
+        };
+
         // 연출용 프리펩 생성
         DressAnimator animator = new();
         var gachaPrefab = Addressables.InstantiateAsync(
-            GameSetting.Instance.gachaPrefabName,
+            prefabName,
             centerPos,
             Quaternion.identity).WaitForCompletion();
         gachaPrefab.transform.localScale = Vector3.one * 2f;
