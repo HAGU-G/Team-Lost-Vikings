@@ -41,6 +41,6 @@ MonoBehaviour:
   hitEffectColor: {r: 1, g: 0, b: 0, a: 1}
   defaultUnitLimit: 4
   waitListLimit: 99
-  autoGachaSeconds: 90
+  autoGachaSeconds: 10
   gachaPrefabRareName: Char_Gacha_Rare
   gachaPrefabName: Char_Gacha
