@@ -18,10 +18,10 @@ public class UIUnitDetailInformation : UIWindow
     public Image gradeIcon;
     public TextMeshProUGUI characterJob;
 
-    public Image skill1_Icon;
+    public Button skill1_Icon;
     public TextMeshProUGUI skill1_Name;
     public TextMeshProUGUI skill1_Desc;
-    public Image skill2_Icon;
+    public Button skill2_Icon;
     public TextMeshProUGUI skill2_Name;
     public TextMeshProUGUI skill2_Desc;
 
@@ -65,12 +65,17 @@ public class UIUnitDetailInformation : UIWindow
     private string path = "Assets/0820Pick/Icon/";
     private Dictionary<int, Sprite> skillIcons = new();
 
+    public GameObject skillPopUp;
+    public GameObject kickOutPopUp;
+    public GameObject combatPopUp;
+
     private void OnEnable()
     {
         if (!IsReady)
             return;
         unit = GameManager.uiManager.currentUnitStats;
         SetInfo();
+        TurnOffPopUps();
     }
 
     protected override void OnGameStart()
@@ -135,14 +140,20 @@ public class UIUnitDetailInformation : UIWindow
         if (unit.Skills.Count >= 1)
         {
             skillIcons.TryGetValue(unit.Skills[0].Data.SkillId, out var value);
-            skill1_Icon.sprite = value;
+            skill1_Icon.image.sprite = value;
+            skill1_Icon.onClick.AddListener(
+                ()=> SetSkillPopUp(unit.Skills[0])
+                );
             skill1_Name.text = unit.Skills[0].Data.SkillName;
             skill1_Desc.text = unit.Skills[0].Data.SkillDesc;
         }
         if (unit.Skills.Count >= 2)
         {
             skillIcons.TryGetValue(unit.Skills[1].Data.SkillId, out var value);
-            skill2_Icon.sprite = value;
+            skill2_Icon.image.sprite = value;
+            skill2_Icon.onClick.AddListener(
+                () => SetSkillPopUp(unit.Skills[1])
+                );
             skill2_Name.text = unit.Skills[1].Data.SkillName;
             skill2_Desc.text = unit.Skills[1].Data.SkillDesc;
         }
@@ -164,7 +175,8 @@ public class UIUnitDetailInformation : UIWindow
         totalCombatValue.text = unit.CombatPoint.ToString();
         combatDetail.onClick.AddListener(() =>
         {
-
+            combatPopUp.SetActive(true);
+            SetCombatPopUp(unit);
         });
 
         strValue.text = unit.BaseStr.Current.ToString();
@@ -190,8 +202,72 @@ public class UIUnitDetailInformation : UIWindow
 
     private void OnButtonKickOut()
     {
-        //수정 예정
-        GameManager.unitManager.DiscardCharacter(unit.InstanceID);
-        Close();
+        kickOutPopUp.SetActive(true);
+    }
+
+    private void SetSkillPopUp(Skill skill)
+    {
+        skillPopUp.SetActive(true);
+        var skillInfo = skillPopUp.GetComponent<SkillInformation>();
+        skillInfo.skillName.text = skill.Data.SkillName;
+        skillInfo.skillIcon.sprite = skillIcons.GetValueOrDefault(skill.Data.SkillId);
+        skillInfo.skillDesc.text = skill.Data.SkillDesc;
+        string cool = "";
+        switch (skill.Data.SkillActiveType)
+        {
+            case SKILL_ACTIVE_TYPE.ALWAYS:
+                cool = "패시브 스킬";
+                break;
+            case SKILL_ACTIVE_TYPE.COOLTIME:
+                cool = $"재사용 대기시간 : {skill.Data.SkillActiveValue}초";
+                break;
+            case SKILL_ACTIVE_TYPE.BASIC_ATTACK_PROBABILITY:
+                cool = $"기본 공격 시 {skill.Data.SkillActiveValue*100}% 확률로 발동";
+                break;
+            case SKILL_ACTIVE_TYPE.BASIC_ATTACK_COUNT:
+                cool = $"기본 공격 {skill.Data.SkillActiveValue}회마다 발동";
+                break;
+        }
+        skillInfo.skillCool.text = cool;
+        skillInfo.skillDetailDesc.text = skill.Data.SkillDetail;
+    }
+
+    private void SetCombatPopUp(UnitStats unit)
+    {
+        var combatDetail = combatPopUp.GetComponent<CombatDetailPopUp>();
+        combatDetail.totalCombat.text = unit.CombatPoint.ToString();
+        string jobBonus = "";
+        switch(unit.Data.Job)
+        {
+            case UNIT_JOB.WARRIOR:
+                jobBonus = GameManager.playerManager.warriorWeight.Current.ToString();
+                break;
+            case UNIT_JOB.MAGICIAN:
+                jobBonus = GameManager.playerManager.magicianWeight.Current.ToString();
+                break;
+            case UNIT_JOB.ARCHER:
+                jobBonus = GameManager.playerManager.archerWeight.Current.ToString();
+                break;
+            default:
+                jobBonus = "0";
+                break;
+        }
+        combatDetail.jobCombatBonus.text = $"{jobBonus}%";
+        combatDetail.strCombat.text = Mathf.FloorToInt(unit.BaseStr.Current * unit.Data.StrWeight).ToString();
+        combatDetail.currStr.text = unit.BaseStr.Current.ToString();
+        combatDetail.strApplyAmount.text = $"{unit.Data.StrWeight * 100}%";
+        combatDetail.magCombat.text = Mathf.FloorToInt(unit.BaseWiz.Current * unit.Data.WizWeight).ToString();
+        combatDetail.currMag.text = unit.BaseWiz.Current.ToString();
+        combatDetail.magApplyAmount.text = $"{unit.Data.WizWeight * 100}%";
+        combatDetail.agiCombat.text = Mathf.FloorToInt(unit.BaseAgi.Current * unit.Data.AgiWeight).ToString();
+        combatDetail.currAgi.text = unit.BaseAgi.Current.ToString();
+        combatDetail.agiApplyAmount.text = $"{unit.Data.AgiWeight * 100}%";
+    }
+
+    private void TurnOffPopUps()
+    {
+        skillPopUp.SetActive(false); 
+        kickOutPopUp.SetActive(false);
+        combatPopUp.SetActive(false);
     }
 }
