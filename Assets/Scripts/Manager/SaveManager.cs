@@ -109,7 +109,13 @@ public static class SaveManager
         {
             GameManager.huntZoneManager.HuntZones[huntZoneInfo.HuntZoneNum].Info = huntZoneInfo;
         }
-        GameManager.huntZoneManager.UnitDeployment = save.UnitDeployment;
+
+        var unitDeploy = GameManager.huntZoneManager.UnitDeployment;
+        foreach (var deploy in save.UnitDeployment)
+        {
+            if (unitDeploy.ContainsKey(deploy.Key))
+                unitDeploy[deploy.Key] = deploy.Value;
+        }
 
 
         foreach (var key in save.buildings.Keys)
