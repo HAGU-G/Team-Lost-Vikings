@@ -231,5 +231,5 @@ public class HuntZoneManager : MonoBehaviour
     }
 
     public void DeployChanged() => OnDeploymentChaneged?.Invoke();
-    public void HuntZoneInfoChange() => OnHuntZoneInfoChanged?.Invoke();
+    public void HuntZoneInfoChanged() => OnHuntZoneInfoChanged?.Invoke();
 }
