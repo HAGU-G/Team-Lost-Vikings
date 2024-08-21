@@ -93,11 +93,11 @@ public class UIUnitDetailInformation : UIWindow
 
             if (Addressables.LoadResourceLocationsAsync(skillName).WaitForCompletion().Count <= 0)
             {
-                if ((skillName == string.Empty || skillName == "0"))
+                if (!(skillName == string.Empty || skillName == "0"))
                 {
                     Debug.LogWarning($"{skillName} 스킬 이름이 존재하지 않습니다.");
-                    continue;
                 }
+                continue;
             }
             Addressables.LoadAssetAsync<Sprite>(skillName).Completed += (obj) => OnLoadDone(obj, id);
         }
@@ -124,7 +124,7 @@ public class UIUnitDetailInformation : UIWindow
         staminaBar.value = (float)unit.Stamina.Current / (float)unit.Stamina.max;
         stressBar.value = (float)unit.Stress.Current / (float)unit.Stress.max;
 
-        hpText.text = $"{unit.HP.Current} / {unit.HP.max}"; 
+        hpText.text = $"{unit.HP.Current} / {unit.HP.max}";
         staminaText.text = $"{unit.Stamina.Current} / {unit.Stamina.max}";
         stressText.text = $"{unit.Stress.Current} / {unit.Stress.max}";
     }
@@ -142,7 +142,7 @@ public class UIUnitDetailInformation : UIWindow
             skillIcons.TryGetValue(unit.Skills[0].Data.SkillId, out var value);
             skill1_Icon.image.sprite = value;
             skill1_Icon.onClick.AddListener(
-                ()=> SetSkillPopUp(unit.Skills[0])
+                () => SetSkillPopUp(unit.Skills[0])
                 );
             skill1_Name.text = unit.Skills[0].Data.SkillName;
             skill1_Desc.text = unit.Skills[0].Data.SkillDesc;
@@ -157,13 +157,13 @@ public class UIUnitDetailInformation : UIWindow
             skill2_Name.text = unit.Skills[1].Data.SkillName;
             skill2_Desc.text = unit.Skills[1].Data.SkillDesc;
         }
-        
+
         attributeText.text = unit.Data.BasicAttackType.ToString();
 
         hpBar.interactable = false;
         hpBar.value = (float)unit.HP.Current / (float)unit.HP.max;
         hpText.text = $"{unit.HP.Current} / {unit.HP.max}";
-        
+
         staminaBar.interactable = false;
         staminaBar.value = (float)unit.Stamina.Current / (float)unit.Stamina.max;
         staminaText.text = $"{unit.Stamina.Current} / {unit.Stamina.max}";
@@ -269,7 +269,7 @@ public class UIUnitDetailInformation : UIWindow
                 cool = $"재사용 대기시간 : {skill.Data.SkillActiveValue}초";
                 break;
             case SKILL_ACTIVE_TYPE.BASIC_ATTACK_PROBABILITY:
-                cool = $"기본 공격 시 {skill.Data.SkillActiveValue*100}% 확률로 발동";
+                cool = $"기본 공격 시 {skill.Data.SkillActiveValue * 100}% 확률로 발동";
                 break;
             case SKILL_ACTIVE_TYPE.BASIC_ATTACK_COUNT:
                 cool = $"기본 공격 {skill.Data.SkillActiveValue}회마다 발동";
@@ -284,7 +284,7 @@ public class UIUnitDetailInformation : UIWindow
         var combatDetail = combatPopUp.GetComponent<CombatDetailPopUp>();
         combatDetail.totalCombat.text = unit.CombatPoint.ToString();
         string jobBonus = "";
-        switch(unit.Data.Job)
+        switch (unit.Data.Job)
         {
             case UNIT_JOB.WARRIOR:
                 jobBonus = GameManager.playerManager.warriorWeight.Current.ToString();
@@ -313,7 +313,7 @@ public class UIUnitDetailInformation : UIWindow
 
     private void TurnOffPopUps()
     {
-        skillPopUp.SetActive(false); 
+        skillPopUp.SetActive(false);
         kickOutPopUp.SetActive(false);
         combatPopUp.SetActive(false);
         recruitPopUp.SetActive(false);
