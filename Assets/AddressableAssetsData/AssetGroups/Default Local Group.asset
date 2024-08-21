@@ -92,11 +92,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 54d6dec0559b7a549b08d6a1ab7c5e0d
-    m_Address: Assets/DataTable/SkillTable.csv
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 481a82e76c7de474ea8a88341361d7f3
     m_Address: 28_SkullKnight
     m_ReadOnly: 0
@@ -262,11 +257,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 73f0221536f172947b9fc2118b2ca925
-    m_Address: Assets/DataTable/UpgradeTable.csv
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e4e93accc86216745a0192e85541d74e
     m_Address: Projectile
     m_ReadOnly: 0
@@ -279,11 +269,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1538d7f62dfba2840b987ced4115f079
     m_Address: Assets/DataTable/LevelTable.csv
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 14aa998e0142e9c42bf955679810242a
-    m_Address: Assets/DataTable/UnitTable.csv
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -944,6 +929,106 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8e94dcbee80cd3747a4e66748aa73222
     m_Address: PopUp_effect
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d97829280fade5648b17d6829e44fdd0
+    m_Address: Slash2_SE
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a066bd5a5b4f6ee409b8497166348a1f
+    m_Address: Bossskill_SE
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 62879de2efdf42248a356fff9a73c2e9
+    m_Address: Bow3_SE
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9985b5e2c469e624891436c2ef6b7a45
+    m_Address: Voidsphere_SE
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 23c341fb8d4bb774084dc54619bed66f
+    m_Address: Slash1_SE
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4c2d23872781905439daba5e07800c29
+    m_Address: Coldburst_SE
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7d274923e51fbd1498b6052bdfdb0b50
+    m_Address: Focus_SE
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 304e924e431ee9a41b219f6cf82080c3
+    m_Address: Manaexplosion_SE
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1293bbcb2774855408cbcab64adb5511
+    m_Address: Bow1_SE
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1023e562ea3b74741b199fba2186c0f9
+    m_Address: Spear_SE
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 30a5db936d7ddda46b2c249121735fd8
+    m_Address: Shockblast_SE
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e70100c478f52b547b838a722e12b9da
+    m_Address: Bow4_SE
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8d3bac98846ec464697028783dffad8b
+    m_Address: Firewall_SE
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b7501fc1a8793b04681cef0bcc8c015f
+    m_Address: Moral_SE
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 19837ba6654cd3c49b8a46778959e6e1
+    m_Address: Slash4_SE
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2dd226a09630c1e44902ff7ef4fec573
+    m_Address: Slash3_SE
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bcab09832502e4e4fa4be33b843859a8
+    m_Address: Bow2_SE
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 54d6dec0559b7a549b08d6a1ab7c5e0d
+    m_Address: Assets/DataTable/SkillTable.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 14aa998e0142e9c42bf955679810242a
+    m_Address: Assets/DataTable/UnitTable.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 73f0221536f172947b9fc2118b2ca925
+    m_Address: Assets/DataTable/UpgradeTable.csv
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
