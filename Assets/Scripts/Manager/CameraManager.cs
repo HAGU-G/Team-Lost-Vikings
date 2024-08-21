@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class CameraManager : MonoBehaviour
 
     public bool isFocusOnUnit = false;
     public UnitStats focusingUnit;
+
+    public event Action OnLocationChanged;
 
     public float ZoomValue
     {
@@ -125,6 +128,8 @@ public class CameraManager : MonoBehaviour
                 }
                 break;
         }
+
+        OnLocationChanged?.Invoke();
     }
 
     public void SetPosition(Vector3 pos)

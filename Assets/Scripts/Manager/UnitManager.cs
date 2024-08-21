@@ -125,7 +125,6 @@ public class UnitManager
     private StatsData GachaUnitData(int level)
     {
         var gachaList = GetGachaPool(level);
-        Debug.Log(unitLimitCount);
         StatsData result = null;
         if (gachaList.Count > 0)
             result = gachaList[Random.Range(0, gachaList.Count)];
