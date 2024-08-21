@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -9,6 +11,9 @@ public class UIUnitsInformation : UIWindow
     public override WINDOW_NAME WindowName => WINDOW_NAME.UNITS_INFORMATION;
 
     public Button exit;
+    public Button goStash;
+
+    public TextMeshProUGUI ownUnitCount;
 
     public Transform content;
     public GameObject unitInfo;
@@ -17,23 +22,28 @@ public class UIUnitsInformation : UIWindow
     private int unitCnt = 0; 
     
     private string path = "Assets/Pick_Asset/2WEEK/GradeIcon/Grade_";
-    private List<Sprite> gradeIcons = new();
+    private Dictionary<int, Sprite> gradeIcons = new();
     protected override void OnGameStart()
     {
         base.OnGameStart();
 
-        for (int i = 1; i <= 5; ++i)
+        var cnt = Enum.GetValues(typeof(UNIT_GRADE)).Length;
+        for (int i = 0; i <= cnt; ++i)
         {
-            var newpath = $"{path}{i}.png";
-            Addressables.LoadAssetAsync<Sprite>(newpath).Completed += OnLoadDone;
+            var path = $"Grade_0{i + 1}";
+            var id = i;
+            Addressables.LoadAssetAsync<Sprite>(path).Completed += (obj) => OnLoadDone(obj, id);
         }
+
+        exit.onClick.AddListener(OnButtonExit);
+        goStash.onClick.AddListener(OnButtonStash);
     }
 
-    private void OnLoadDone(AsyncOperationHandle<Sprite> obj)
+    private void OnLoadDone(AsyncOperationHandle<Sprite> obj, int id)
     {
         if (obj.Status == AsyncOperationStatus.Succeeded)
         {
-            gradeIcons.Add(obj.Result);
+            gradeIcons.Add(id, obj.Result);
         }
     }
 
@@ -82,21 +92,7 @@ public class UIUnitsInformation : UIWindow
             infos.Add(obj);
         }
 
-        //for (int i = 0; i < units.Count; ++i)
-        //{
-        //    var button = GameObject.Instantiate(unitInfo, content);
-        //    var unit = button.GetComponent<CharacterInfo>();
-        //    unit.characterName.text = $"{units.GetValueOrDefault(i).Name}";
-        //    unit.characterGrade.text = $"{units.GetValueOrDefault(i).UnitGrade}";
-            
-        //    unit.information.onClick.AddListener(
-        //    () =>
-        //    {
-        //        GameManager.uiManager.currentUnitStats = units[i];
-        //        GameManager.uiManager.windows[(int)WINDOW_NAME.UNIT_DETAIL_INFORMATION].Open();
-        //    }
-        //        );
-        //}
+        ownUnitCount.text = $"{infos.Count} / {GameManager.unitManager.unitLimitCount}";
     }
 
     private void Update()
@@ -173,6 +169,11 @@ public class UIUnitsInformation : UIWindow
             }
             charInfo.location_state.text = $"{location} - {state}";
         }
+    }
+
+    private void OnButtonStash()
+    {
+        GameManager.uiManager.windows[WINDOW_NAME.CHARACTER_STASH].Open();
     }
 
     public void OnButtonUnit(UnitStats unit)
