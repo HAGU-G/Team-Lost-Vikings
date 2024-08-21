@@ -93,11 +93,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3165184348931370308, guid: 19f6db3a801b7af418fb435a0ec5849d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3165184348931370308, guid: 19f6db3a801b7af418fb435a0ec5849d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3165184348931370308, guid: 19f6db3a801b7af418fb435a0ec5849d, type: 3}
       propertyPath: m_LocalRotation.y
@@ -109,7 +109,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3165184348931370308, guid: 19f6db3a801b7af418fb435a0ec5849d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3165184348931370308, guid: 19f6db3a801b7af418fb435a0ec5849d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -118,6 +118,22 @@ PrefabInstance:
     - target: {fileID: 3165184348931370308, guid: 19f6db3a801b7af418fb435a0ec5849d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3165184348931370310, guid: 19f6db3a801b7af418fb435a0ec5849d, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 3165184348931370310, guid: 19f6db3a801b7af418fb435a0ec5849d, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3165184348931370310, guid: 19f6db3a801b7af418fb435a0ec5849d, type: 3}
+      propertyPath: m_RenderMode
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3165184348931370310, guid: 19f6db3a801b7af418fb435a0ec5849d, type: 3}
+      propertyPath: m_RenderAlignment
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3165184348931370310, guid: 19f6db3a801b7af418fb435a0ec5849d, type: 3}
       propertyPath: m_Materials.Array.size

@@ -13,11 +13,18 @@ public class InputManager : MonoBehaviour
     public bool Tap { get; private set; }
     public bool Moved { get; private set; }
     public float Zoom { get; private set; }
+
     public Vector2 Pos { get; private set; }
     public Vector3 WorldPos => Camera.main.ScreenToWorldPoint(Pos);
     public Vector2 DeltaPos { get; private set; }
     public Vector3 WorldDeltaPos { get; private set; }
     public Vector2 PrevPos { get; private set; }
+
+    public Vector2 CenterPos { get; private set; }
+    public Vector2 WorldCenterPos => Camera.main.ScreenToWorldPoint(CenterPos);
+    public Vector2 CenterDeltaPos { get; private set; }
+    public Vector3 WorldCenterDeltaPos { get; private set; }
+
     public float MoveDistance { get; private set; }
 
     private float tapAllowInch = 0.2f;
@@ -57,6 +64,10 @@ public class InputManager : MonoBehaviour
         {
             Pressed = true;
 
+            CenterPos = Vector2.zero;
+            CenterDeltaPos = Vector2.zero;
+            WorldCenterDeltaPos = Vector2.zero;
+
             foreach (var touch in UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches)
             {
                 if (firstID == touch.finger)
@@ -72,12 +83,16 @@ public class InputManager : MonoBehaviour
                             Pos = touch.screenPosition;
                             PrevPos = touch.screenPosition;
                             Press = true;
+
+                            CenterPos += Pos;
                         }
                         else if (secondID == null)
                         {
                             secondID = touch.finger;
                             SecondPos = touch.screenPosition;
                             TouchDistance = Vector2.Distance(Pos, SecondPos);
+
+                            CenterPos += SecondPos;
                         }
                         break;
                     case TouchPhase.Moved:
@@ -89,13 +104,20 @@ public class InputManager : MonoBehaviour
                             MoveDistance += DeltaPos.magnitude;
                             isOutTapDistance = MoveDistance * Screen.dpi > tapAllowInch;
                             WorldDeltaPos = Camera.main.ScreenToWorldPoint(Pos) - Camera.main.ScreenToWorldPoint(PrevPos);
+                            
+                            CenterDeltaPos += touch.delta;
+                            WorldCenterDeltaPos += WorldDeltaPos;
                         }
                         if (secondID == touch.finger)
                         {
+                            WorldCenterDeltaPos += (Camera.main.ScreenToWorldPoint(touch.screenPosition) - Camera.main.ScreenToWorldPoint(SecondPos));
+
                             SecondPos = touch.screenPosition;
                             if (TouchDistance > 0f)
                                 Zoom = Vector2.Distance(Pos, SecondPos) - TouchDistance;
                             TouchDistance = Vector2.Distance(Pos, SecondPos);
+                            
+                            CenterDeltaPos += touch.delta;
                         }
                         break;
                     case TouchPhase.Ended:
@@ -118,6 +140,10 @@ public class InputManager : MonoBehaviour
                 if (firstID == touch.finger)
                     PrevPos = touch.screenPosition;
             }
+
+            CenterPos /= touchCount;
+            CenterDeltaPos /= touchCount;
+            WorldCenterDeltaPos /= touchCount;
         }
         MouseInput();
     }
@@ -131,20 +157,20 @@ public class InputManager : MonoBehaviour
         bool outTapDistance = false;
         if (mouse.leftButton.wasPressedThisFrame)
         {
-            Pos = PrevPos = mouse.position.value;
+            CenterPos = Pos = PrevPos = mouse.position.value;
             Pressed = true;
             Press = true;
         }
         if (mouse.leftButton.isPressed)
         {
             Pressed = true;
-            Pos = mouse.position.value;
+            CenterPos = Pos = mouse.position.value;
 
-            DeltaPos = Pos - PrevPos;
+            CenterDeltaPos = DeltaPos = Pos - PrevPos;
             Moved = DeltaPos != Vector2.zero;
             MoveDistance += DeltaPos.magnitude;
             outTapDistance = MoveDistance * Screen.dpi > tapAllowInch;
-            WorldDeltaPos = Camera.main.ScreenToWorldPoint(Pos) - Camera.main.ScreenToWorldPoint(PrevPos);
+            WorldCenterDeltaPos = WorldDeltaPos = Camera.main.ScreenToWorldPoint(Pos) - Camera.main.ScreenToWorldPoint(PrevPos);
             PrevPos = mouse.position.value;
         }
         if (mouse.leftButton.wasReleasedThisFrame)

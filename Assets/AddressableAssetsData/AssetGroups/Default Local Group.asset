@@ -533,32 +533,32 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 77778d34ffd910148bb7bccd3f2afc65
-    m_Address: rpg_item_icon_stone_20
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 36dc31035e857574e82508ae6f38a3dd
-    m_Address: rpg_item_icon_iron_ingot_33
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 54e2d494129b3c1448d2295b80105f7b
-    m_Address: rpg_item_icon_crate_138
+    m_Address: Assets/Scenes/Design/Icon/rpg_item_icon_stone_20.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 21850015823e36e40850181e6b2bf1d0
-    m_Address: rpg_item_icon_copper_ore_22
+    m_Address: Assets/Scenes/Design/Icon/rpg_item_icon_copper_ore_22.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: b1cfe36a6d12b7a428f612cfcf17b204
-    m_Address: rpg_item_icon_coin_102
+  - m_GUID: 54e2d494129b3c1448d2295b80105f7b
+    m_Address: Assets/Scenes/Design/Icon/rpg_item_icon_crate_138.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 36dc31035e857574e82508ae6f38a3dd
+    m_Address: Assets/Scenes/Design/Icon/rpg_item_icon_iron_ingot_33.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5e6b827c4eb31164395292c21efa302c
-    m_Address: rpg_item_icon_log_1
+    m_Address: Assets/Scenes/Design/Icon/rpg_item_icon_log_1.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b1cfe36a6d12b7a428f612cfcf17b204
+    m_Address: Assets/Scenes/Design/Icon/rpg_item_icon_coin_102.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -569,6 +569,126 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: cb73b0e4f0cc8ef46a007a1422c9eca1
     m_Address: WhiteScreen
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2af4cf39271a9c34a82b68886665c0b5
+    m_Address: Assets/Scenes/Design/Icon_Grade/Grade_1.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: acae2f203e2acc04a96e0478dbdc2620
+    m_Address: Assets/Scenes/Design/Icon_Grade/Grade_2.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3fcb503148851274b8cb4a4dd99344b8
+    m_Address: Assets/Scenes/Design/Icon_Grade/Grade_3.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c6b72ceea80cf9c47b61804cf61567ab
+    m_Address: Assets/Scenes/Design/Icon_Grade/Grade_4.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8a1a996e1fceea94182f3fa426fc851c
+    m_Address: Assets/Scenes/Design/Icon_Grade/Grade_5.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b8a45f59ab8237442a5e8b99ead42c63
+    m_Address: Assets/Pick_Asset/2WEEK/GradeIcon/Grade_1.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5c4fa322a54d2de4da34b4c2c3bbe70a
+    m_Address: Assets/Pick_Asset/2WEEK/GradeIcon/Grade_2.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bd1ad817d02e10541a769508492d4807
+    m_Address: Assets/Pick_Asset/2WEEK/GradeIcon/Grade_3.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8815146a8eff12a4ca0de32d3f8a2180
+    m_Address: Assets/Pick_Asset/2WEEK/GradeIcon/Grade_4.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 43d93d0b7d008b841907413106bb5fd4
+    m_Address: Assets/Pick_Asset/2WEEK/GradeIcon/Grade_5.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bcbccbfb8f306e545b931110a5fb8e24
+    m_Address: SFX_Hit_001
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e0296518cd08af940aaf99952f9b7a02
+    m_Address: Assets/Scenes/Design/Icon/rpg_item_icon_silver_ore_25.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5625087bb845fc04e8754e7ce23d0d5b
+    m_Address: BossSkill
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a27a476bcae307743827b58b0a5397bc
+    m_Address: PosionBoom
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 132973df2fa41f14db3fe727c84c47af
+    m_Address: Focus
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 51121ac8b58187141874a2f47032625d
+    m_Address: DoubleShot
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 76355d068c187614eb708107ccb17238
+    m_Address: ShockBlastFloor
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 21a7193df2661954aa4a6c41d7375c2c
+    m_Address: ShockBlast
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 88a78a521becbf64590c441c6188e3cf
+    m_Address: ColdBurst
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 303a7aa7c6cf6864db02630e9295c9e8
+    m_Address: VoidSphere
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 99373655a8120464a830418b48d461d6
+    m_Address: VoidSphereProjectile
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2111f7a0444dfba4a8ccf6d9033a6194
+    m_Address: Rupture
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 50d9a2aae0a1f834f9800c5f2bc44a7a
+    m_Address: Brandish
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6c9e6b0ddf87d5941819e447fc790ac4
+    m_Address: Bash
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

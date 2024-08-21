@@ -1,5 +1,9 @@
-﻿using TMPro;
+﻿using System.Collections.Generic;
+using System.Net;
+using TMPro;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 
 public class UIDevelop : MonoBehaviour
@@ -19,6 +23,10 @@ public class UIDevelop : MonoBehaviour
 
     public TextMeshProUGUI villageLevel;
     public TextMeshProUGUI gold;
+    private List<Sprite> loadedSprite = new();
+    public List<Image> itemSprites = new();
+    public List<TextMeshProUGUI> itemTexts = new();
+    public Slider expBar;
 
     public TextMeshProUGUI textVersion;
 
@@ -28,6 +36,47 @@ public class UIDevelop : MonoBehaviour
     public Button destroyBuilding;
 
     public GameObject constructComplete;
+
+    private void Awake()
+    {
+        GameManager.Subscribe(EVENT_TYPE.INIT, OnGameInit);
+        GameManager.Subscribe(EVENT_TYPE.GAME_READY, OnGameReady);
+    }
+
+    private void OnGameInit()
+    {
+        var path = "Assets/Scenes/Design/Icon/";
+        var itemDatas = DataTableManager.itemTable.GetDatas();
+        for(int i = 0; i < itemDatas.Count; ++i)
+        {
+            var newPath = $"{path}{itemDatas[i].CurrencyAssetFileName}.png";
+            Addressables.LoadAssetAsync<Sprite>(newPath).Completed += OnLoadDone;
+        }
+    }
+
+    private void OnGameReady()
+    {
+        SetExpBar();
+        var itemDatas = DataTableManager.itemTable.GetDatas();
+        for (int i = 0; i < itemSprites.Count; ++i)
+        {
+            GameManager.itemManager.ownItemList.TryGetValue(itemDatas[i].TableID, out int value);
+            itemTexts[i].text = value.ToString();
+        }
+    }
+
+    public void SetExpBar()
+    {
+        var pm = GameManager.playerManager;
+        expBar.value = (float)pm.Exp / (float)DataTableManager.playerTable.GetData(pm.level).Exp;
+    }
+
+    private void OnLoadDone(AsyncOperationHandle<Sprite> obj)
+    {
+        loadedSprite.Add(obj.Result);
+        var index = loadedSprite.IndexOf(obj.Result);
+        itemSprites[index].sprite = obj.Result;
+    }
 
     public void OnButtonVillage()
     {
@@ -167,13 +216,14 @@ public class UIDevelop : MonoBehaviour
 
     public void SetVillageLevel()
     {
-        villageLevel.text = $"마을 회관 \nLv : {GameManager.villageManager.VillageHallLevel.ToString()}";
+        villageLevel.text = $"{GameManager.villageManager.VillageHallLevel.ToString()}";
         gold.text = $"{GameManager.itemManager.Gold}";
     }
 
-    public void SetGold(int gold)
+    public void SetItem(int id, int value)
     {
-        this.gold.text = gold.ToString();
+        int adjust = 8000001;
+        itemTexts[id - adjust].text = value.ToString();
     }
 
     public void GoldCheat()
@@ -266,6 +316,11 @@ public class UIDevelop : MonoBehaviour
         changePlacement.gameObject.SetActive(false);
         rotateBuilding.gameObject.SetActive(false);
         destroyBuilding.gameObject.SetActive(false);
+    }
+
+    public void OnButtonOption()
+    {
+        GameManager.uiManager.windows[WINDOW_NAME.OPTION].Open();
     }
 
     public void OnButtonQuit()

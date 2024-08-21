@@ -66,10 +66,12 @@ public class CameraManager : MonoBehaviour
             && im.receiver.Received
             && (!GameManager.uiManager.isWindowOn || GameManager.villageManager.constructMode.isConstructMode))
         {
-            SetPosition(transform.position - im.WorldDeltaPos);
+            SetPosition(transform.position - im.WorldCenterDeltaPos);
         }
 
-        if (!GameManager.uiManager.isWindowOn)
+        if (im.Zoom != 0f
+            && im.receiver.Received
+            && !GameManager.uiManager.isWindowOn)
         {
             Zoom(ZoomValue - im.Zoom * zoomMagnification);
         }
@@ -89,6 +91,11 @@ public class CameraManager : MonoBehaviour
     public void SetLocation(LOCATION location, int huntzoneNum = -1)
     {
         LookLocation = location;
+
+        var sm = GameManager.soundManager;
+        if (sm != null)
+            sm.SetLocation(location, huntzoneNum);
+
         switch (location)
         {
             case LOCATION.NONE:

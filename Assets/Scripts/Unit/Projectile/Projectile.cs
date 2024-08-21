@@ -57,7 +57,7 @@ public class Projectile : MonoBehaviour
         if (!IsFloor)
         {
             if (targetUnit != null
-            && !targetUnit.gameObject.activeSelf
+            && targetUnit.gameObject.activeSelf
             && !targetUnit.IsDead)
             {
                 direction = (targetUnit.transform.position - transform.position).normalized;
@@ -70,16 +70,24 @@ public class Projectile : MonoBehaviour
             }
         }
 
+        var deltaTime = Time.deltaTime;
+        if (!IsFloor
+            && (targetUnit == null || targetUnit.IsDead || !targetUnit.gameObject.activeSelf)
+            && Vector3.Distance(transform.position, destination) <= skillData.ProjectileSpeed * deltaTime)
+        {
+            Remove();
+            return;
+        }
 
-        SetPosition(transform.position + direction * skillData.ProjectileSpeed * Time.deltaTime);
+        SetPosition(transform.position + direction * skillData.ProjectileSpeed * deltaTime);
 
-        lifeTimer -= Time.deltaTime;
+        lifeTimer -= deltaTime;
 
         int appliedDamage = 0;
 
         if (IsFloor)
         {
-            attackTimer -= Time.deltaTime;
+            attackTimer -= deltaTime;
             if (attackTimer < 0f)
             {
                 attackTimer += skillData.SkillFloorActiveTerm;
@@ -96,7 +104,10 @@ public class Projectile : MonoBehaviour
             }
 
             if (lifeTimer <= 0f)
+            {
                 Remove();
+                return;
+            }
         }
         else
         {
@@ -112,12 +123,9 @@ public class Projectile : MonoBehaviour
                 {
                     ApplyDamage(target);
                     Remove();
-                    break;
+                    return;
                 }
             }
-
-            if (Vector3.Distance(transform.position, destination) <= skillData.ProjectileSpeed * Time.deltaTime)
-                Remove();
         }
 
         //흡혈
@@ -191,7 +199,12 @@ public class Projectile : MonoBehaviour
         attackTimer = 0f;
         this.damage = damage;
         this.owner = owner;
-        targets = owner.objectTransform.GetComponent<CombatUnit>().Enemies;
+
+        var combat = owner.objectTransform.GetComponent<CombatUnit>();
+        if (combat == null && targetUnit != null)
+            targets = targetUnit.Allies;
+        else
+            targets = combat.Enemies;
 
         SetPosition(position);
 
