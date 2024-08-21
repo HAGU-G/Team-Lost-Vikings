@@ -1781,6 +1781,8 @@ MonoBehaviour:
   gradeICon: {fileID: 0}
   unitImage: {fileID: 0}
   unitName: {fileID: 0}
+  information: {fileID: 0}
+  reRecruit: {fileID: 0}
   exit: {fileID: 0}
 --- !u!114 &35419608
 MonoBehaviour:
@@ -38380,6 +38382,8 @@ MonoBehaviour:
   gradeICon: {fileID: 0}
   unitImage: {fileID: 0}
   unitName: {fileID: 0}
+  information: {fileID: 0}
+  reRecruit: {fileID: 0}
   exit: {fileID: 325187586}
 --- !u!114 &802055817
 MonoBehaviour:
@@ -42644,6 +42648,8 @@ MonoBehaviour:
   gradeICon: {fileID: 1432649541}
   unitImage: {fileID: 1831699691}
   unitName: {fileID: 1143881417}
+  information: {fileID: 0}
+  reRecruit: {fileID: 0}
   exit: {fileID: 2001336094}
 --- !u!114 &891668042
 MonoBehaviour:
@@ -69265,7 +69271,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1413340625
 RectTransform:
   m_ObjectHideFlags: 0
@@ -69308,6 +69314,8 @@ MonoBehaviour:
   gradeICon: {fileID: 0}
   unitImage: {fileID: 0}
   unitName: {fileID: 0}
+  information: {fileID: 0}
+  reRecruit: {fileID: 0}
   exit: {fileID: 0}
 --- !u!114 &1413340627
 MonoBehaviour:
@@ -84343,6 +84351,8 @@ MonoBehaviour:
   gradeICon: {fileID: 0}
   unitImage: {fileID: 0}
   unitName: {fileID: 0}
+  information: {fileID: 0}
+  reRecruit: {fileID: 0}
   exit: {fileID: 0}
 --- !u!114 &1730923681
 MonoBehaviour:
@@ -92672,6 +92682,8 @@ MonoBehaviour:
   gradeICon: {fileID: 0}
   unitImage: {fileID: 0}
   unitName: {fileID: 0}
+  information: {fileID: 0}
+  reRecruit: {fileID: 0}
   exit: {fileID: 0}
 --- !u!114 &1931636291
 MonoBehaviour:
