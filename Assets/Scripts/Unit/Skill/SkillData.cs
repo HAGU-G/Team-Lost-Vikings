@@ -7,9 +7,13 @@
 public enum SKILL_ACTIVE_TYPE
 {
     NONE = -1,
+    /// <summary> 패시브, value 사용 안함 </summary>
     ALWAYS,
+    /// <summary> 쿨타임 value초 </summary>
     COOLTIME,
+    /// <summary> 확률 0f ~ 1f, 1f = 100% </summary>
     BASIC_ATTACK_PROBABILITY,
+    /// <summary> 기본 공격 횟수, value회 기본 공격 후 스킬 사용 </summary>
     BASIC_ATTACK_COUNT
 }
 

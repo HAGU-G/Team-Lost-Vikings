@@ -21,7 +21,7 @@ public class UIRenderTexture : MonoBehaviour
         scale = size * 0.65f;
         nextPos = zeroPos = new(-size * (rowsAndColumns / 2f - 0.5f), size * (rowsAndColumns / 2f - 0.85f), 1f);
 
-        GameManager.Subscribe(EVENT_TYPE.INIT,OnGameStart);
+        GameManager.Subscribe(EVENT_TYPE.INIT, OnGameStart);
     }
     protected void OnGameStart()
     {
@@ -29,7 +29,7 @@ public class UIRenderTexture : MonoBehaviour
         GameManager.uiManager.unitRenderTexture = this;
     }
 
-        public Rect LoadRenderTexture(string prefabName)
+    public Rect LoadRenderTexture(string prefabName)
     {
         if (PrefabRect.ContainsKey(prefabName))
             return PrefabRect[prefabName];
@@ -70,7 +70,7 @@ public class UIRenderTexture : MonoBehaviour
     private void ChangeLayer(Transform trans)
     {
         trans.gameObject.layer = layer;
-        for (int i = 0; i < trans.childCount;i++)
+        for (int i = 0; i < trans.childCount; i++)
         {
             ChangeLayer(trans.GetChild(i).transform);
         }

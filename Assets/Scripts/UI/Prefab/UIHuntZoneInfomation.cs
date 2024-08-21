@@ -12,6 +12,7 @@ public class UIHuntZoneInfomation : MonoBehaviour
 
     private CameraManager cm = null;
     private HuntZoneManager hm = null;
+    private UIManager um = null;
 
     private void Awake()
     {
@@ -26,6 +27,8 @@ public class UIHuntZoneInfomation : MonoBehaviour
 
         hm = GameManager.huntZoneManager;
         hm.OnDeploymentChaneged += UpdateInfo;
+
+        um = GameManager.uiManager;
     }
 
     private void OnDestroy()
@@ -62,7 +65,9 @@ public class UIHuntZoneInfomation : MonoBehaviour
 
     public void ShowDetailInfo()
     {
-        //세부 정보 띄우기
-        //GameManager.uiManager.OpenWindow();
+        var windowDetail = um.windows[WINDOW_NAME.HUNTZONE_DETAIL] as UIWindowHuntZoneDetail;
+
+        windowDetail.SetHuntZoneNum(cm.HuntZoneNum);
+        windowDetail.Open();
     }
 }
