@@ -140,6 +140,8 @@ public class HuntZone : MonoBehaviour
         }
 
         IsReady = true;
+
+        GameManager.huntZoneManager.HuntZoneInfoChange();
     }
 
     public HuntZoneData GetCurrentData()
@@ -149,12 +151,22 @@ public class HuntZone : MonoBehaviour
 
     public StatsData GetCurrentMonster()
     {
-        return DataTableManager.unitTable.GetData(HuntZoneDatas[Info.Stage].NormalMonsterId);
+        var id = HuntZoneDatas[Info.Stage].NormalMonsterId;
+        var unitTable = DataTableManager.unitTable;
+        if (unitTable.ContainsKey(id))
+            return unitTable.GetData(id);
+        else
+            return null;
     }
 
     public StatsData GetCurrentBoss()
     {
-        return DataTableManager.unitTable.GetData(HuntZoneDatas[Info.Stage].BossMonsterId);
+        var id = HuntZoneDatas[Info.Stage].BossMonsterId;
+        var unitTable = DataTableManager.unitTable;
+        if (unitTable.ContainsKey(id))
+            return unitTable.GetData(id);
+        else
+            return null;
     }
 
     public void SetStage(int stageNum)
@@ -163,6 +175,8 @@ public class HuntZone : MonoBehaviour
             ResetHuntZone(false);
 
         Info.Stage = stageNum;
+
+        GameManager.huntZoneManager.HuntZoneInfoChange();
     }
 
     public void UpdateRegenPoints()
@@ -241,6 +255,8 @@ public class HuntZone : MonoBehaviour
         {
             unit.ForceChangeTarget(boss);
         }
+
+        GameManager.huntZoneManager.HuntZoneInfoChange();
     }
 
     public void EndBossBattle(bool isWin)
@@ -263,6 +279,8 @@ public class HuntZone : MonoBehaviour
 
         BossTimer = 0f;
         IsBossBattle = false;
+
+        GameManager.huntZoneManager.HuntZoneInfoChange();
     }
 
     public void ReceiveBossNotify()

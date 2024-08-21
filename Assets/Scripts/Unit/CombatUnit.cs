@@ -154,7 +154,7 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
             ATTACK_TYPE.PHYSICAL => stats.PhysicalDef.Current,
             ATTACK_TYPE.MAGIC => stats.MagicalDef.Current,
             ATTACK_TYPE.SPECIAL => stats.SpecialDef.Current,
-            _ => 0
+            _ => 0f
         };
         var calculatedDamage = Mathf.FloorToInt(damage * (1f - def / 100f));
 

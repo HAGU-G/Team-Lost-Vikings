@@ -24,6 +24,7 @@ public class HuntZoneManager : MonoBehaviour
     public Dictionary<int, List<int>> UnitDeployment { get; set; } = new();
 
     public event Action OnDeploymentChaneged;
+    public event Action OnHuntZoneInfoChanged;
 
     private IObjectPool<Monster> MonsterPool { get; set; }
     private IObjectPool<UnitOnHunt> UnitPool { get; set; }
@@ -229,8 +230,6 @@ public class HuntZoneManager : MonoBehaviour
         }
     }
 
-    public void DeployChanged()
-    {
-        OnDeploymentChaneged?.Invoke();
-    }    
+    public void DeployChanged() => OnDeploymentChaneged?.Invoke();
+    public void HuntZoneInfoChange() => OnHuntZoneInfoChanged?.Invoke();
 }
