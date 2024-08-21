@@ -178,6 +178,8 @@ public class UnitStats
             GameManager.unitManager.SpawnOnNextLocation(this);
     }
 
+
+
     public bool SetHuntZone(int huntZoneNum)
     {
         var hm = GameManager.huntZoneManager;
@@ -208,6 +210,7 @@ public class UnitStats
 
         }
 
+        hm.DeployChanged();
         return true;
     }
 
@@ -227,6 +230,8 @@ public class UnitStats
                 unitOnVillage.VillageFSM.ChangeState((int)UnitOnVillage.STATE.IDLE);
             }
         }
+
+        GameManager.huntZoneManager.DeployChanged();
     }
 
     public void ForceReturn()

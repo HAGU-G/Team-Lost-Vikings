@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -21,6 +22,8 @@ public class HuntZoneManager : MonoBehaviour
     /// Key: 사냥터 Num, Value: 사냥터에 배치된 유닛 instanceID List
     /// </summary>
     public Dictionary<int, List<int>> UnitDeployment { get; set; } = new();
+
+    public event Action OnDeploymentChaneged;
 
     private IObjectPool<Monster> MonsterPool { get; set; }
     private IObjectPool<UnitOnHunt> UnitPool { get; set; }
@@ -225,4 +228,9 @@ public class HuntZoneManager : MonoBehaviour
             }
         }
     }
+
+    public void DeployChanged()
+    {
+        OnDeploymentChaneged?.Invoke();
+    }    
 }

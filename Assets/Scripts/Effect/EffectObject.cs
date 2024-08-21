@@ -4,6 +4,8 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.Rendering;
 using System.Collections.Generic;
 using System.Linq;
+using System;
+using AssetKits.ParticleImage;
 
 public class EffectObjectReference : AssetReferenceT<EffectObject>
 {
@@ -15,6 +17,7 @@ public class EffectObjectReference : AssetReferenceT<EffectObject>
 [RequireComponent(typeof(SortingGroup))]
 public class EffectObject : MonoBehaviour
 {
+    public List<ParticleImage> particleImages = new();
     private List<ParticleSystem> particleSystems = new();
     [HideInInspector] public SortingGroup sortingGroup;
 
@@ -25,6 +28,7 @@ public class EffectObject : MonoBehaviour
     [HideInInspector] public bool isOnProjectile = false;
     public IObjectPool<EffectObject> pool;
 
+    public Vector3 prevPos;
 
     private void Awake()
     {
@@ -42,6 +46,11 @@ public class EffectObject : MonoBehaviour
         {
             p.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         }
+        foreach (var p in particleImages)
+        {
+            p.Stop();
+        }
+
         isStopped = true;
     }
 
@@ -56,6 +65,10 @@ public class EffectObject : MonoBehaviour
         {
             bool isParticleStopped = true;
             foreach (var p in particleSystems)
+            {
+                isParticleStopped &= p.isStopped;
+            }
+            foreach (var p in particleImages)
             {
                 isParticleStopped &= p.isStopped;
             }
@@ -77,6 +90,19 @@ public class EffectObject : MonoBehaviour
 
             gameObject.SetActive(!isParticleStopped);
         }
+    }
+
+    private void LateUpdate()
+    {
+        if (prevPos != transform.position)
+        {
+            foreach (var p in particleImages)
+            {
+                p.transform.position = transform.position;
+            }
+        }
+
+        prevPos = transform.position;
     }
 
     private void OnEnable()

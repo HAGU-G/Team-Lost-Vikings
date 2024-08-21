@@ -34,6 +34,7 @@ public class UIQuestDevelop : MonoBehaviour
 
         if (qm.CurrentQuest.IsSatisfied)
          GameManager.questManager.QuestClear(GameManager.questManager.CurrentQuest.Id);
+
     }
 
     private void UpdateInfo()

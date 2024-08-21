@@ -92,8 +92,7 @@ public class EffectManager : MonoBehaviour
         }
 
         // 사용하는 유닛의 이펙트, 등장할 몬스터의 이펙트들 미리 생성
-        List<string> effectNames = new();
-        effectNames.Add(GameSetting.Instance.touchEffectName);
+        List<string> effectNames = new() { GameSetting.Instance.touchEffectName };
 
         foreach (var unit in GameManager.unitManager.Units.Values)
         {

@@ -38,6 +38,7 @@ public static class GameManager
     private static IDictionary<EVENT_TYPE, UnityEvent> events = new Dictionary<EVENT_TYPE, UnityEvent>();
 
     private static float prevTimeScale;
+    private static readonly string formatPublishMessage = "#### 게임매니저 {0} 시작 ####";
 
     public static void Subscribe(EVENT_TYPE eventType, in UnityAction listener)
     {
@@ -60,13 +61,13 @@ public static class GameManager
     {
         if (events.TryGetValue(eventType, out var action))
         {
-            Debug.LogWarning("해제됨");
             action.RemoveListener(listener);
         }
     }
 
     public static void Publish(EVENT_TYPE eventType)
     {
+        Debug.Log(string.Format(formatPublishMessage, eventType));
         if (events.TryGetValue(eventType, out var action))
         {
             action.Invoke();
@@ -79,12 +80,10 @@ public static class GameManager
     {
         UnitStats.existIDs.Clear();
 
-        Debug.Log(EVENT_TYPE.LOADED);
         Publish(EVENT_TYPE.LOADED);
-        Debug.Log(EVENT_TYPE.INIT);
         Publish(EVENT_TYPE.INIT);
 
-        Debug.Log("LOAD_SAVE_DATA");
+        Debug.Log(string.Format(formatPublishMessage, "LoadGame"));
         SaveManager.LoadGame();
 
         playerManager ??= new();
@@ -99,17 +98,17 @@ public static class GameManager
 
         dialogManager ??= new();
 
-        Debug.Log(EVENT_TYPE.START);
         Publish(EVENT_TYPE.START);
-        Debug.Log(EVENT_TYPE.CONFIGURE);
         Publish(EVENT_TYPE.CONFIGURE);
+
+        Debug.Log(string.Format(formatPublishMessage, "Set FirstPlay"));
         playerManager.firstPlay = false;
         IsReady = true;
 
+        Debug.Log(string.Format(formatPublishMessage, "Show Dialogue"));
         if (dialogManager.DialogQueue.Count > 0)
             dialogManager.Start(dialogManager.DialogQueue.Peek());
 
-        Debug.Log(EVENT_TYPE.GAME_READY);
         Publish(EVENT_TYPE.GAME_READY);
     }
 

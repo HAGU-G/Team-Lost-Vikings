@@ -125,7 +125,6 @@ public class UnitManager
     private StatsData GachaUnitData(int level)
     {
         var gachaList = GetGachaPool(level);
-        Debug.Log(unitLimitCount);
         StatsData result = null;
         if (gachaList.Count > 0)
             result = gachaList[Random.Range(0, gachaList.Count)];
@@ -264,12 +263,12 @@ public class UnitManager
         unitLimitCount = value;
     }
 
-    /// <returns>방출에 성공한 경우 드랍된 아이템 반환, 드랍된 아이템이 없거나 방출에 실패했을 경우 null 반환, (ItemData, 아이템 개수) </returns>
-    public List<(ItemData, int)> DiscardCharacter(int instanceID)
+    /// <returns>방출에 성공한 경우 드랍된 아이템 반환, 드랍된 아이템이 없거나 방출에 실패했을 경우 null 반환, Key: ID, Value: 아이템 개수 </returns>
+    public Dictionary<int, int> DiscardCharacter(int instanceID)
     {
-        UnitStats target = GetUnit(instanceID);
+        UnitStats discardUnit = GetUnit(instanceID);
 
-        if (target == null)
+        if (discardUnit == null)
         {
             Debug.Log($"유닛 {instanceID}이(가) 존재하지 않습니다");
             return null;
@@ -279,9 +278,33 @@ public class UnitManager
         Waitings.Remove(instanceID);
         DeadUnits.Remove(instanceID);
 
-        target.ResetHuntZone();
-        target.objectTransform?.GetComponent<Unit>()?.RemoveUnit();
+        discardUnit.ResetHuntZone();
+        if (discardUnit.objectTransform != null)
+        {
+            if (discardUnit.objectTransform.TryGetComponent<Unit>(out var unit))
+                unit.RemoveUnit();
+        }
 
-        return null;
+        if (discardUnit.Data.DropId == 0)
+            return null;
+
+        var dropData = DataTableManager.dropTable.GetData(discardUnit.Data.DropId);
+        var im = GameManager.itemManager;
+
+        GameManager.playerManager.Exp += dropData.DropExp;
+        Dictionary<int, int> dropList = new();
+        foreach (var item in dropData.DropItem())
+        {
+            im.AddItem(item.Key, item.Value);
+            if (dropList.ContainsKey(item.Key))
+                dropList[item.Key] += item.Value;
+            else
+                dropList.Add(item.Key, item.Value);
+        }
+
+        if (dropList.Count > 0)
+            return dropList;
+        else
+            return null;
     }
 }

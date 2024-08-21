@@ -88,7 +88,6 @@ public class ItemManager
 
         var prevAmount = ownItemList[id];
         var afterAmount = ownItemList[id] + amount;
-        GameManager.uiManager.uiDevelop.SetItem(id, ownItemList[id]);
         switch (id)
         {
             case int goldID when goldID == GameSetting.Instance.goldID:
@@ -108,6 +107,7 @@ public class ItemManager
             ACHIEVEMENT_TYPE.ITEM_GET,
             ownItemList[id] - prevAmount);
 
+        GameManager.uiManager.uiDevelop.SetItem(id, ownItemList[id]);
         OnItemChangedCallback?.Invoke();
     }
 
@@ -121,7 +121,6 @@ public class ItemManager
 
         ownItemList[id] -= amount;
 
-        GameManager.uiManager.uiDevelop.SetItem(id, ownItemList[id]);
         switch (id)
         {
             case int goldID when goldID == GameSetting.Instance.goldID:
@@ -130,9 +129,14 @@ public class ItemManager
                 break;
         }
 
-        OnItemChangedCallback?.Invoke();
 
-        GameManager.questManager.SetAchievementCountByTargetID(id, ACHIEVEMENT_TYPE.ITEM_USE, amount);
+        GameManager.questManager.SetAchievementCountByTargetID(
+            id,
+            ACHIEVEMENT_TYPE.ITEM_USE,
+            amount);
+
+        GameManager.uiManager.uiDevelop.SetItem(id, ownItemList[id]);
+        OnItemChangedCallback?.Invoke();
         return true;
     }
 
