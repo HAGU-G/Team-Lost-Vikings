@@ -942,8 +942,28 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8e94dcbee80cd3747a4e66748aa73222
-    m_Address: PopUp_effect
+  - m_GUID: 2e1806a9a7129464c9e3d6422b6b7dee
+    m_Address: Grade_04
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 62edcc8984edeb84f8b4b7bf59aa63f0
+    m_Address: Grade_02
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d62a68c7482f32240b1f8eb0a4edc9f1
+    m_Address: Grade_03
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 979baa6461b76ce428a142b8a51fceca
+    m_Address: Grade_05
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 28feccc6af5188e4d97002f4b71a8e8f
+    m_Address: Grade_01
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
