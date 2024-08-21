@@ -24,6 +24,7 @@ public enum WINDOW_NAME
     TOUCH_UNIT_BUTTONS,
     OPTION,
     ACCOUNT,
+    HUNTZONE_DETAIL,
 }
 
 
