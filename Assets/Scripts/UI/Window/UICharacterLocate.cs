@@ -87,14 +87,7 @@ public class UICharacterLocate : UIWindow
             });
         }
 
-        //for (int i = 0; i < huntzones.Length; ++i)
-        //{
-        //    int huntzoneNum = i;
-        //    huntzones[i].onClick.AddListener(() =>
-        //    {
-        //        SetUnitHuntZone(GameManager.huntZoneManager.HuntZones[huntzoneNum + 1].Info.HuntZoneNum);
-        //    });
-        //}
+        exit.onClick.AddListener(OnButtonExit);
     }
 
     private void OnEnable()
@@ -102,6 +95,17 @@ public class UICharacterLocate : UIWindow
         if (!IsReady)
             return;
         unit = GameManager.uiManager.currentUnitStats;
+
+        foreach (var building in GameManager.villageManager.constructedBuildings)
+        {
+            var id = building.GetComponent<Building>().StructureId;
+            if ((int)STRUCTURE_ID.HP_RECOVERY == id)
+                hpRecovery.gameObject.SetActive(true);
+            if ((int)STRUCTURE_ID.STAMINA_RECOVERY == id)
+                staminaRecovery.gameObject.SetActive(true);
+            if ((int)STRUCTURE_ID.STRESS_RECOVERY == id)
+                stressRecovery.gameObject.SetActive(true);
+        }
     }
 
     public void OnButtonExit()

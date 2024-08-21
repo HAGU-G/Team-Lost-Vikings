@@ -49,7 +49,7 @@ public class UICharacterStash : UIWindow
         base.OnGameStart();
 
         var cnt = Enum.GetValues(typeof(UNIT_GRADE)).Length;
-        for (int i = 0; i <= cnt; ++i)
+        for (int i = 0; i < cnt; ++i)
         {
             var path = $"Grade_0{i+1}";
             var id = i;
