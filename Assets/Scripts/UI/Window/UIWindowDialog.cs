@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -91,7 +90,7 @@ public class UIWindowDialog : UIWindow
             textScript.text = dm.CurrentScript.DialogText;
 
             var imageName = dm.CurrentScript.ImageFileName;
-            if (Addressables.LoadResourceLocationsAsync(imageName).WaitForCompletion().Count <= 0)
+            if (!loadedSprites.ContainsKey(imageName) && Addressables.LoadResourceLocationsAsync(imageName).WaitForCompletion().Count <= 0)
             {
                 if (!(imageName == "0" || imageName == string.Empty))
                 {
@@ -152,10 +151,12 @@ public class UIWindowDialog : UIWindow
             case DIRECTION_HORIZENTAL.LEFT:
                 imageLeft.sprite = sprite;
                 imageLeft.enabled = sprite != null;
+                imageRight.enabled = false;
                 break;
             case DIRECTION_HORIZENTAL.RIGHT:
                 imageRight.sprite = sprite;
                 imageRight.enabled = sprite != null;
+                imageLeft.enabled = false;
                 break;
             case DIRECTION_HORIZENTAL.BOTH:
                 imageLeft.sprite = sprite;

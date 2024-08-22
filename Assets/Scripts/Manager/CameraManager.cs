@@ -91,8 +91,11 @@ public class CameraManager : MonoBehaviour
         Camera.main.orthographicSize = ZoomValue;
     }
 
-    public void SetLocation(LOCATION location, int huntzoneNum = -1)
+    public void SetLocation(LOCATION location, int huntzoneNum = -1, bool isFinishFocusing = true)
     {
+        if (isFinishFocusing)
+            FinishFocousOnUnit();
+
         LookLocation = location;
 
         var sm = GameManager.soundManager;
@@ -157,7 +160,7 @@ public class CameraManager : MonoBehaviour
         Zoom(minZoom);
         var position = focusingUnit.objectTransform.position;
         position.z = -10;
-        SetLocation(focusingUnit.Location, focusingUnit.HuntZoneNum);
+        SetLocation(focusingUnit.Location, focusingUnit.HuntZoneNum, false);
         SetPosition(position);
     }
 
@@ -166,9 +169,12 @@ public class CameraManager : MonoBehaviour
         if (stats == focusingUnit && isFocusOnUnit)
             return;
 
-        prevZoom = ZoomValue;
+        if (!isFocusOnUnit)
+            prevZoom = ZoomValue;
+
         if (stats != null)
             focusingUnit = stats;
+
         isFocusOnUnit = true;
     }
 
