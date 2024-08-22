@@ -89,7 +89,7 @@ public class UIPlacement : UIWindow
             {
                 var requireLv = huntZones[index + 1].GetCurrentData().RequirePlayerLv;
 
-                if (GameManager.playerManager.level > requireLv)
+                if (GameManager.playerManager.level >= requireLv)
                 {
                     currHuntZoneNum = index + 1;
                     SetText();
@@ -118,7 +118,7 @@ public class UIPlacement : UIWindow
     {
         huntZoneName.text = $"사냥터 {currHuntZoneNum}";
         var huntZone = GameManager.huntZoneManager.HuntZones[currHuntZoneNum];
-        ownCount.text = $"{huntZone.Units.Count}/{huntZone.GetCurrentData().UnitCapacity}";
+        ownCount.text = $"{GameManager.huntZoneManager.UnitDeployment[currHuntZoneNum].Count}/{huntZone.GetCurrentData().UnitCapacity}";
     }
 
     //private void CheckHuntZoneAvailable()
@@ -216,6 +216,7 @@ public class UIPlacement : UIWindow
                 }
                 SetHuntZoneTransform(currHuntZoneNum);
                 SetOwnTransform(currHuntZoneNum);
+                SetText();
             });
 
         return obj;

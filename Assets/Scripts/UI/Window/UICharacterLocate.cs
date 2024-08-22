@@ -1,5 +1,8 @@
-﻿using UnityEngine;
+﻿using Newtonsoft.Json;
+using System;
+using UnityEngine;
 using UnityEngine.UI;
+using static UIWindowMessage;
 
 public class UICharacterLocate : UIWindow
 {
@@ -70,6 +73,7 @@ public class UICharacterLocate : UIWindow
         var huntzones = GameManager.huntZoneManager.HuntZones;
         for(int i = 0; i < huntzones.Count; ++i)
         {
+            int index = i;
             GameManager.cameraManager.FinishFocousOnUnit();
             int huntzoneNum = i;
             var location = Instantiate(locationPrefab, content);
@@ -77,7 +81,20 @@ public class UICharacterLocate : UIWindow
             locationComponent.locationName.text = $"{huntzoneNum + 1}번 사냥터";
             locationComponent.button.onClick.AddListener(() =>
             {
-                GameManager.cameraManager.FinishFocousOnUnit();
+                var requireLv = GameManager.huntZoneManager.HuntZones[index + 1].GetCurrentData().RequirePlayerLv;
+                if (GameManager.playerManager.level < requireLv)
+                {
+                    var message = GameManager.uiManager.windows[WINDOW_NAME.MESSAGE_POPUP] as UIWindowMessage;
+                    message.ShowMessage(
+                        $"유저 레벨 {requireLv}에 들어갈 수 있습니다.",
+                        true,
+                        1.2f,
+                        openAnimation: UIWindowMessage.OPEN_ANIMATION.FADEINOUT,
+                        closeType: CLOSE_TYPE.TOUCH);
+                    return;
+                }
+
+                    GameManager.cameraManager.FinishFocousOnUnit();
                 
                 if (GameManager.huntZoneManager.IsDeployed(unit.InstanceID, huntzoneNum + 1))
                     return;
