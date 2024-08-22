@@ -107,9 +107,10 @@ public class UIPlacement : UIWindow
                     var message = GameManager.uiManager.windows[WINDOW_NAME.MESSAGE_POPUP] as UIWindowMessage;
                     message.ShowMessage(
                         $"유저 레벨 {requireLv}에 들어갈 수 있습니다.", 
-                        false, 
+                        true, 
                         1.2f, 
-                        openAnimation: UIWindowMessage.OPEN_ANIMATION.BLACKOUT);
+                        openAnimation: UIWindowMessage.OPEN_ANIMATION.FADEINOUT,
+                        closeType: CLOSE_TYPE.TOUCH);
                 }
                     
             });

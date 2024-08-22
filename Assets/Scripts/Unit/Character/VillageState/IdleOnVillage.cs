@@ -41,8 +41,8 @@ public class IdleOnVillage : State<UnitOnVillage>
     {
         if(owner.CheckParameter() != UnitOnVillage.LACKING_PARAMETER.NONE
             ||GameManager.huntZoneManager.HuntZones.ContainsKey(owner.stats.HuntZoneNum)
-            || owner.forceDestination != null
-            || owner.destination != null
+            //|| owner.forceDestination != null
+            //|| owner.destination != null
             || owner.isRecoveryQuited == true)
         {
             if (owner.CheckParameter() != UnitOnVillage.LACKING_PARAMETER.NONE
