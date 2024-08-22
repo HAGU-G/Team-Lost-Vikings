@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 
 public class UIBuildingParameterPopUp : UIWindow
@@ -32,6 +34,8 @@ public class UIBuildingParameterPopUp : UIWindow
     public List<int> requireItemIds;
     public List<int> requireItemNums;
 
+    private Dictionary<int, Sprite> itemIcons = new();
+
     private bool isOpen = false;
 
     protected override void Awake()
@@ -47,6 +51,20 @@ public class UIBuildingParameterPopUp : UIWindow
         im = GameManager.itemManager;
 
         GameManager.Subscribe(EVENT_TYPE.CONFIGURE, OnGameConfigure);
+
+        var path = "Assets/Scenes/Design/Icon/";
+        var itemDatas = DataTableManager.itemTable.GetDatas();
+        for (int i = 0; i < itemDatas.Count; ++i)
+        {
+            var newPath = $"{path}{itemDatas[i].CurrencyAssetFileName}.png";
+            var id = itemDatas[i].CurrencyId;
+            Addressables.LoadAssetAsync<Sprite>(newPath).Completed += (obj) => OnLoadDone(obj, id);
+        }
+    }
+
+    private void OnLoadDone(AsyncOperationHandle<Sprite> obj, int id)
+    {
+        itemIcons.Add(id, obj.Result);
     }
 
     private void OnGameConfigure()
@@ -76,7 +94,6 @@ public class UIBuildingParameterPopUp : UIWindow
         requireItemNums = grade[upgradeComponent.UpgradeGrade - 1].ItemNums;
         SetPopUp();
     }
-
 
     private void CheckCurrentBuilding()
     {
@@ -144,9 +161,7 @@ public class UIBuildingParameterPopUp : UIWindow
         buildingName.text = um.currentNormalBuidling.StructureName;
         defaultDescription.text = um.currentNormalBuidling.StructureDesc;
         if (upgradeComponent.UpgradeGrade < grade.Count)
-            //nextEffectDescription.text = UpgradeData.GetUpgradeData(upgradeComponent.UpgradeId, upgradeComponent.UpgradeGrade + 1).UpgradeDesc;
-            //프로토타입까지는 다음 레벨 효과가 아닌 현재 레벨 효과로 글자 출력
-            nextEffectDescription.text = UpgradeData.GetUpgradeData(upgradeComponent.UpgradeId, upgradeComponent.UpgradeGrade).UpgradeDesc;
+            nextEffectDescription.text = UpgradeData.GetUpgradeData(upgradeComponent.UpgradeId, upgradeComponent.UpgradeGrade + 1).UpgradeDesc;
         else
         {
             nextEffectDescription.text = $"현재 마지막 업그레이드 단계입니다.";
@@ -232,10 +247,19 @@ public class UIBuildingParameterPopUp : UIWindow
             var resource = Instantiate(upgradeResource, resourceLayout);
             resource.GetComponentInChildren<TextMeshProUGUI>().text = $"{im.GetItem(requireItemIds[i])} / {requireItemNums[i]}";
 
-            //var fileName = DataTableManager.itemTable.GetData(requireItemIds[i]).CurrencyAssetFileName;
-            //resource.GetComponent<Image>().sprite = ;
+            var fileName = DataTableManager.upgradeTable.GetData(upgradeComponent.UpgradeId)[upgradeComponent.UpgradeGrade].ItemIds[i]; 
+            var exist = itemIcons.TryGetValue(fileName, out var value);
+            resource.GetComponentInChildren<Image>().sprite = value;
 
             resourceList.Add(resource);
+
+            if (value == null)
+            {
+                Destroy(resource);
+                resourceList.Remove(resource);
+            }
+                
+
         }
     }
 
@@ -262,7 +286,7 @@ public class UIBuildingParameterPopUp : UIWindow
     {
         bool check = true;
 
-        for (int i = 0; i < requireItemIds.Count; ++i)
+        for (int i = 0; i < resourceList.Count; ++i)
         {
             if (requireItemNums[i] <= im.GetItem(requireItemIds[i]))
             {
