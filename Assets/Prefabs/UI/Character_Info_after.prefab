@@ -333,6 +333,7 @@ MonoBehaviour:
   characterIcon: {fileID: 6836721415715554110}
   characterButton: {fileID: 3729576618507410975}
   location_state: {fileID: 2220684842663011337}
+  unitButton: {fileID: 3729576618507410975}
   characterId: 0
 --- !u!1 &5762456379987243970
 GameObject:

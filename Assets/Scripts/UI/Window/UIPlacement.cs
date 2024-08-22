@@ -15,6 +15,7 @@ public class UIPlacement : UIWindow
 {
     public override WINDOW_NAME WindowName => WINDOW_NAME.PLACEMENT;
 
+    public Button dropdownButton;
     public Button exit;
     
     public Transform huntZoneTransform;
@@ -23,11 +24,17 @@ public class UIPlacement : UIWindow
     public TextMeshProUGUI huntZoneName;
     public TextMeshProUGUI ownCount;
 
+    public GameObject huntZoneListPopUp;
+
     public GameObject unitPrefab;
+    public GameObject huntZoneButtonPrefab;
+
+    public Transform huntZoneDropdown;
     
     private Dictionary<int, Sprite> gradeIcons = new();
     private List<GameObject> huntZoneFrames = new();
     private List<GameObject> ownListFrames = new();
+    private List<GameObject> huntZoneList = new();
 
     private int currHuntZoneNum = 1;
 
@@ -43,6 +50,15 @@ public class UIPlacement : UIWindow
             Addressables.LoadAssetAsync<Sprite>(path).Completed += (obj) => OnLoadDone(obj, id);
         }
 
+        dropdownButton.onClick.AddListener(() =>
+        {
+            if (huntZoneListPopUp.activeSelf)
+                huntZoneListPopUp.SetActive(false);
+            else
+                huntZoneListPopUp.SetActive(true);
+        });
+
+        SetDropDownList();
         exit.onClick.AddListener(OnButtonExit);
     }
 
@@ -56,13 +72,57 @@ public class UIPlacement : UIWindow
 
     private void OnEnable()
     {
+        SetText();
+        huntZoneListPopUp.SetActive(false);
         SetHuntZoneTransform(currHuntZoneNum);
-        SetOwnTransform();
+        SetOwnTransform(currHuntZoneNum);
+    }
+
+    private void SetDropDownList()
+    {
+        var huntZones = GameManager.huntZoneManager.HuntZones;
+
+        for(int i = 0; i < huntZones.Count; ++i)
+        {
+            var index = i;
+            var obj = GameObject.Instantiate(huntZoneButtonPrefab, huntZoneDropdown);
+            obj.GetComponent<Button>().onClick.AddListener(() =>
+            {
+                currHuntZoneNum = index + 1;
+                SetText();
+                SetHuntZoneTransform(currHuntZoneNum);
+                SetOwnTransform(currHuntZoneNum);
+                huntZoneListPopUp.SetActive(false);
+            });
+            obj.GetComponentInChildren<TextMeshProUGUI>().text = $"사냥터 {i+1}";
+            huntZoneList.Add(obj);
+        }
+    }
+
+    private void SetText()
+    {
+        huntZoneName.text = $"사냥터 {currHuntZoneNum}";
+        var huntZone = GameManager.huntZoneManager.HuntZones[currHuntZoneNum];
+        ownCount.text = $"{huntZone.Units.Count}/{huntZone.GetCurrentData().UnitCapacity}";
+    }
+
+    private void CheckHuntZoneAvailable()
+    {
+        var huntZones = GameManager.huntZoneManager.HuntZones;
+        for (int i = 0; i < huntZoneList.Count; ++i)
+        {
+            if (GameManager.playerManager.level > huntZones[i + 1].GetCurrentData().RequirePlayerLv)
+            {
+                huntZoneList[i].GetComponent<Button>().interactable = true;
+            }
+            else
+                huntZoneList[i].GetComponent<Button>().interactable = false;
+        }
     }
 
     private void SetHuntZoneTransform(int huntZoneNum)
     {
-        var huntZone = GameManager.huntZoneManager.HuntZones[huntZoneNum];
+        var hm = GameManager.huntZoneManager;
         
         foreach(var frame in huntZoneFrames)
         {
@@ -70,13 +130,15 @@ public class UIPlacement : UIWindow
         }
         huntZoneFrames.Clear();
 
-        foreach(var unit in huntZone.Units)
+        foreach(var unit in hm.UnitDeployment[huntZoneNum])
         {
-            huntZoneFrames.Add(InstantiateUnitFrame(unit.stats, huntZoneTransform));
+            huntZoneFrames.Add(InstantiateUnitFrame(GameManager.unitManager.GetUnit(unit), huntZoneTransform));
         }
+
+        
     }
 
-    private void SetOwnTransform()
+    private void SetOwnTransform(int huntZoneNum)
     {
         foreach (var frame in ownListFrames)
         {
@@ -86,21 +148,25 @@ public class UIPlacement : UIWindow
 
         foreach(var unit in GameManager.unitManager.Units.Values)
         {
-            if (unit.HuntZoneNum == currHuntZoneNum)
+            if(GameManager.huntZoneManager.UnitDeployment[currHuntZoneNum].Contains(unit.InstanceID))
                 continue;
 
             ownListFrames.Add(InstantiateUnitFrame(unit, ownTransform));
         }
 
-        foreach (var unit in GameManager.unitManager.Waitings.Values)
-        {
-            ownListFrames.Add(InstantiateUnitFrame(unit, ownTransform));
-        }
+        //foreach (var unit in GameManager.unitManager.Waitings.Values)
+        //{
+        //    if (GameManager.huntZoneManager.UnitDeployment[currHuntZoneNum].Contains(unit.InstanceID))
+        //        continue;
+        //    ownListFrames.Add(InstantiateUnitFrame(unit, ownTransform));
+        //}
 
-        foreach (var unit in GameManager.unitManager.DeadUnits.Values)
-        {
-            ownListFrames.Add(InstantiateUnitFrame(unit, ownTransform));
-        }
+        //foreach (var unit in GameManager.unitManager.DeadUnits.Values)
+        //{
+        //    if (GameManager.huntZoneManager.UnitDeployment[currHuntZoneNum].Contains(unit.InstanceID))
+        //        continue;
+        //    ownListFrames.Add(InstantiateUnitFrame(unit, ownTransform));
+        //}
     }
 
     private GameObject InstantiateUnitFrame(UnitStats unit, Transform content)
@@ -111,21 +177,36 @@ public class UIPlacement : UIWindow
         info.gradeIcon.sprite = gradeIcons[(int)unit.UnitGrade];
         info.characterIcon.uvRect
             = GameManager.uiManager.unitRenderTexture.LoadRenderTexture(unit.Data.UnitAssetFileName);
-        info.information.onClick.AddListener(
-        () =>
+        info.information.onClick.AddListener(() =>
         {
             GameManager.uiManager.currentUnitStats = unit;
             GameManager.uiManager.windows[WINDOW_NAME.UNIT_DETAIL_INFORMATION].Open();
-        }
-            );
+        });
         info.location_state.text = $"";
         info.characterId = unit.InstanceID;
+        info.unitButton.onClick.AddListener(() =>
+            {
+                if (GameManager.huntZoneManager.IsDeployed(unit.InstanceID, currHuntZoneNum))
+                {
+                    unit.ResetHuntZone();
+                    unit.ForceReturn();
+                }
+                else
+                {
+                    unit.SetHuntZone(currHuntZoneNum);
+                }
+                SetHuntZoneTransform(currHuntZoneNum);
+                SetOwnTransform(currHuntZoneNum);
+            });
 
         return obj;
     }
 
     private void Update()
     {
+        if (huntZoneListPopUp.activeSelf)
+            CheckHuntZoneAvailable();
+
         SetUnitLocationState();
     }
 
@@ -206,8 +287,8 @@ public class UIPlacement : UIWindow
             switch (unit.Location)
             {
                 case LOCATION.NONE:
-                    location = "";
-                    state = "";
+                    location = "대기소";
+                    state = "대기 중";
                     break;
                 case LOCATION.VILLAGE:
                     location = "마을";
