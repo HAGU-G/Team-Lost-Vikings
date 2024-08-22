@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
@@ -16,7 +17,7 @@ public class UIConstructMode : UIWindow
     public GameObject buidlingUIPrefab;
 
     public Button constructOff;
-    public GameObject constructModeinProgress;
+    //public GameObject constructModeinProgress;
 
     public GameObject destroyPopUp;
 
@@ -26,7 +27,7 @@ public class UIConstructMode : UIWindow
     private Dictionary<BuildingData, GameObject> buildings = new();
     private Dictionary<Button, bool> buttonActivationStatus = new();
 
-    private UIBuildingDetail buildingDetail;
+    private UIBuildingDetail buildingDetail = null;
 
     public bool isConstructing = false;
     private bool isReplacing = false;
@@ -50,7 +51,7 @@ public class UIConstructMode : UIWindow
         um = GameManager.uiManager;
         vm = GameManager.villageManager;
         constructMode = vm.constructMode;
-        constructModeinProgress.SetActive(false);
+        //constructModeinProgress.SetActive(false);
 
         buildingDatas = DataTableManager.buildingTable.GetDatas();
         upgradeDatas = DataTableManager.upgradeTable.GetDatas();
@@ -106,8 +107,10 @@ public class UIConstructMode : UIWindow
     public void FinishConstructMode()
     {
         GameManager.villageManager.constructMode.isConstructMode = false;
-        constructModeinProgress.SetActive(false);
+        //constructModeinProgress.SetActive(false);
 
+        if (buildingDetail.isOpened)
+            buildingDetail.Close();
         um.uiDevelop.constructComplete.SetActive(false);
         isConstructing = false;
         isReplacing = false;
@@ -119,7 +122,7 @@ public class UIConstructMode : UIWindow
     {
         GameManager.villageManager.constructMode.isConstructMode = true;
         MakeBuildingList();
-        constructModeinProgress.SetActive(true);
+        //constructModeinProgress.SetActive(true);
 
         GameManager.uiManager.uiDevelop.ConstructButtonsOff();
         destroyPopUp.SetActive(false);
@@ -267,6 +270,7 @@ public class UIConstructMode : UIWindow
             handle.WaitForCompletion();
 
             var frame = b.GetComponent<BuildingFrame>();
+            frame.buildingName.text = buildingData.StructureName;
             frame.buildingImage.sprite = handle.Result.GetComponentInChildren<SpriteRenderer>().sprite;
             var button = frame.button;
             var buildingDetailWindow = GameManager.uiManager.windows[WINDOW_NAME.BUILDING_DETAIL] as UIBuildingDetail;
