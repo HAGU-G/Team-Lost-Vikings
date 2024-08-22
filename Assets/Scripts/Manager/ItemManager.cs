@@ -65,7 +65,7 @@ public class ItemManager
     [JsonProperty] public int Rune { get; set; }
 
     [JsonProperty] public Dictionary<int, int> ownItemList = new();
-    public int goldLimit = 4000;
+    public int itemLimit = 4000;
 
     public delegate void OnItemChanged();
     public event OnItemChanged OnItemChangedCallback;
@@ -88,19 +88,11 @@ public class ItemManager
 
         var prevAmount = ownItemList[id];
         var afterAmount = ownItemList[id] + amount;
-        switch (id)
-        {
-            case int goldID when goldID == GameSetting.Instance.goldID:
-                if (afterAmount > goldLimit)
-                    ownItemList[id] = Mathf.Max(goldLimit, ownItemList[id]);
-                else
-                    ownItemList[id] = afterAmount;
-                break;
-            default:
-                ownItemList[id] = afterAmount;
-                
-                break;
-        }
+
+        if (afterAmount > itemLimit)
+            ownItemList[id] = Mathf.Max(itemLimit, ownItemList[id]);
+        else
+            ownItemList[id] = afterAmount;
 
         GameManager.questManager.SetAchievementCountByTargetID(
             id,

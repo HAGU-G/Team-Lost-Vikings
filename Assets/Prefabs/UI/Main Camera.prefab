@@ -108,7 +108,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minZoom: 5
   maxZoom: 30
-  zoomMagnification: 0.01
+  zoomMagnification: 0.03
+  prevZoom: 0
+  isHideUnits: 0
+  isFocusOnUnit: 0
 --- !u!114 &7161997688394204381
 MonoBehaviour:
   m_ObjectHideFlags: 0
