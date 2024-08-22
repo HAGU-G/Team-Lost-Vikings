@@ -4,9 +4,7 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.Rendering;
 using System.Collections.Generic;
 using System.Linq;
-using System;
 using AssetKits.ParticleImage;
-using UnityEditor.UIElements;
 
 public class EffectObjectReference : AssetReferenceT<EffectObject>
 {
