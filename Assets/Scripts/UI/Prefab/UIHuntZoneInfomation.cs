@@ -20,6 +20,9 @@ public class UIHuntZoneInfomation : MonoBehaviour
         GameManager.Subscribe(EVENT_TYPE.INIT, OnGameInit);
         buttonDetailInfo.onClick.AddListener(ShowDetailInfo);
         buttonName.onClick.AddListener(StageDown);
+
+        buttonDetailInfo.onClick.AddListener(GameManager.PlayButtonSFX);
+        buttonName.onClick.AddListener(GameManager.PlayButtonSFX);
     }
 
     private void OnGameInit()

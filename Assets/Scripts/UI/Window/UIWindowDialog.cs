@@ -45,6 +45,9 @@ public class UIWindowDialog : UIWindow
         buttonPrev.onClick.AddListener(dm.Prev);
         buttonSkip.onClick.AddListener(dm.End);
         buttonNext.onClick.AddListener(OnClickNext);
+        buttonPrev.onClick.AddListener(GameManager.PlayButtonSFX);
+        buttonSkip.onClick.AddListener(GameManager.PlayButtonSFX);
+        buttonNext.onClick.AddListener(GameManager.PlayButtonSFX);
 
         dm.OnScriptChanged += UpdateInfo;
         dm.OnDialogStart += Open;
