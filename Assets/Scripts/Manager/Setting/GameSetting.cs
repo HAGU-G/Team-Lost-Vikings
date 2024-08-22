@@ -136,8 +136,8 @@ public class GameSetting : ScriptableObject
 
     //////////////////////////////////////////////////////////////////////////////////////////////
     [Header("기타 설정")]
-
     public int goldID = 8000001;
+    public int defaultItemLimit = 20000;
     public string touchEffectName = string.Empty;
     public float touchEffectScale = 1f;
     public Color hitEffectColor = Color.red;

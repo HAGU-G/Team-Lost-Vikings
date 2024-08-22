@@ -65,7 +65,7 @@ public class ItemManager
     [JsonProperty] public int Rune { get; set; }
 
     [JsonProperty] public Dictionary<int, int> ownItemList = new();
-    public int itemLimit = 4000;
+    public int itemLimit = GameSetting.Instance.defaultItemLimit;
 
     public delegate void OnItemChanged();
     public event OnItemChanged OnItemChangedCallback;

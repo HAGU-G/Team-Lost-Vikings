@@ -36,8 +36,7 @@ public class LevelUpPopUp : MonoBehaviour
 
     private void PlayParticle()
     {
-        effect = GameManager.effectManager.GetEffect("LevelUp",SORT_LAYER.OverUI);
-        effect.transform.localScale = new Vector3(5f,5f,5f);
+        effect = GameManager.effectManager.GetEffect("PopUp_effect",SORT_LAYER.OverUI);
         effect.transform.position = transform.position;
 
     }

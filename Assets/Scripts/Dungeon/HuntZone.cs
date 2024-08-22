@@ -15,6 +15,9 @@ public class HuntZone : MonoBehaviour
     public Vector3 PortalPos { get; private set; }
     public Construct construct = new();
 
+    /// <summary>
+    /// Key: 스테이지, Value: 사냥터 데이터테이블
+    /// </summary>
     public Dictionary<int, HuntZoneData> HuntZoneDatas { get; private set; } = new();
     [field: SerializeField] public HuntZoneInfo Info { get; set; }
     public int HuntZoneNum => Info.HuntZoneNum; //기존 코드 유지용
@@ -64,8 +67,8 @@ public class HuntZone : MonoBehaviour
 
     private void Update()
     {
-        //보스 몬스터
-        if (IsBossBattle)
+        //보스 전투 시간
+        if (IsBossBattle && BossTimer > 0f)
         {
             BossTimer -= Time.deltaTime;
 
@@ -174,6 +177,9 @@ public class HuntZone : MonoBehaviour
 
     public void SetStage(int stageNum)
     {
+        if (!HuntZoneDatas.ContainsKey(stageNum))
+            return;
+
         if (Info.Stage != stageNum)
             ResetHuntZone(false);
 
