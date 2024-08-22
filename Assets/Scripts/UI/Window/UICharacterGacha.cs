@@ -182,7 +182,6 @@ public class UICharacterGacha : UIWindow
             animator.AnimIdle();
             var screenEffect = GameManager.effectManager.GetEffect("WhiteScreen");
             screenEffect.transform.position = centerPos;
-            screenEffect.transform.localScale = Vector3.one * 1000f;
         };
 
         // 결과 보여주기
