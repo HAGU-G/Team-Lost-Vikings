@@ -924,7 +924,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56b5928d32d2ef5499a6636b03d9a9c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isShowOnly: 1
+  isShowOnly: 0
   isOpened: 0
   textMessage: {fileID: 4116587330458285127}
   textButtonLeft: {fileID: 8380641786532784502}

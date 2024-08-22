@@ -37,7 +37,7 @@ public static class GameManager
 
     private static IDictionary<EVENT_TYPE, UnityEvent> events = new Dictionary<EVENT_TYPE, UnityEvent>();
 
-    private static float prevTimeScale;
+    private static float prevTimeScale = 1f;
     private static readonly string formatPublishMessage = "#### 게임매니저 {0} 시작 ####";
 
     public static void Subscribe(EVENT_TYPE eventType, in UnityAction listener)
@@ -133,5 +133,6 @@ public static class GameManager
     {
         Publish(EVENT_TYPE.RESUME);
         Time.timeScale = prevTimeScale;
+        prevTimeScale = Time.timeScale;
     }
 }

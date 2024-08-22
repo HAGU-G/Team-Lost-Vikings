@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
+using static UIWindowMessage;
 using static UnityEditor.FilePathAttribute;
 using static UnityEditor.PlayerSettings;
 using static UnityEngine.UI.CanvasScaler;
@@ -55,7 +56,10 @@ public class UIPlacement : UIWindow
             if (huntZoneListPopUp.activeSelf)
                 huntZoneListPopUp.SetActive(false);
             else
+            {
                 huntZoneListPopUp.SetActive(true);
+                //CheckHuntZoneAvailable();
+            }
         });
 
         SetDropDownList();
@@ -88,11 +92,26 @@ public class UIPlacement : UIWindow
             var obj = GameObject.Instantiate(huntZoneButtonPrefab, huntZoneDropdown);
             obj.GetComponent<Button>().onClick.AddListener(() =>
             {
-                currHuntZoneNum = index + 1;
-                SetText();
-                SetHuntZoneTransform(currHuntZoneNum);
-                SetOwnTransform(currHuntZoneNum);
-                huntZoneListPopUp.SetActive(false);
+                var requireLv = huntZones[index + 1].GetCurrentData().RequirePlayerLv;
+
+                if (GameManager.playerManager.level > requireLv)
+                {
+                    currHuntZoneNum = index + 1;
+                    SetText();
+                    SetHuntZoneTransform(currHuntZoneNum);
+                    SetOwnTransform(currHuntZoneNum);
+                    huntZoneListPopUp.SetActive(false);
+                }
+                else
+                {
+                    var message = GameManager.uiManager.windows[WINDOW_NAME.MESSAGE_POPUP] as UIWindowMessage;
+                    message.ShowMessage(
+                        $"유저 레벨 {requireLv}에 들어갈 수 있습니다.", 
+                        false, 
+                        1.2f, 
+                        openAnimation: UIWindowMessage.OPEN_ANIMATION.BLACKOUT);
+                }
+                    
             });
             obj.GetComponentInChildren<TextMeshProUGUI>().text = $"사냥터 {i+1}";
             huntZoneList.Add(obj);
@@ -106,19 +125,23 @@ public class UIPlacement : UIWindow
         ownCount.text = $"{huntZone.Units.Count}/{huntZone.GetCurrentData().UnitCapacity}";
     }
 
-    private void CheckHuntZoneAvailable()
-    {
-        var huntZones = GameManager.huntZoneManager.HuntZones;
-        for (int i = 0; i < huntZoneList.Count; ++i)
-        {
-            if (GameManager.playerManager.level > huntZones[i + 1].GetCurrentData().RequirePlayerLv)
-            {
-                huntZoneList[i].GetComponent<Button>().interactable = true;
-            }
-            else
-                huntZoneList[i].GetComponent<Button>().interactable = false;
-        }
-    }
+    //private void CheckHuntZoneAvailable()
+    //{
+    //    var huntZones = GameManager.huntZoneManager.HuntZones;
+    //    for (int i = 0; i < huntZoneList.Count; ++i)
+    //    {
+    //        if (GameManager.playerManager.level > huntZones[i + 1].GetCurrentData().RequirePlayerLv)
+    //        {
+    //            huntZoneList[i].GetComponent<Button>().onClick.RemoveAllListeners();
+    //            huntZoneList[i].GetComponent<Button>().onClick.AddListener(() =>
+    //            {
+
+    //            });
+    //        }
+    //        else
+    //            huntZoneList[i].GetComponent<Button>().interactable = false;
+    //    }
+    //}
 
     private void SetHuntZoneTransform(int huntZoneNum)
     {
@@ -204,9 +227,6 @@ public class UIPlacement : UIWindow
 
     private void Update()
     {
-        if (huntZoneListPopUp.activeSelf)
-            CheckHuntZoneAvailable();
-
         SetUnitLocationState();
     }
 
