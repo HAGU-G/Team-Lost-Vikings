@@ -10,10 +10,12 @@ public class UICameraMove : MonoBehaviour
     public Button villageButton;
     public GameObject buttonPrefab;
     public Button close;
+    public GameObject constructButton;
 
     private void Awake()
     {
         GameManager.Subscribe(EVENT_TYPE.START, OnGameStart);
+        constructButton.SetActive(true);
     }
 
     private void OnGameStart()
@@ -21,6 +23,7 @@ public class UICameraMove : MonoBehaviour
         villageButton.onClick.AddListener(() =>
             {
                 GameManager.cameraManager.SetLocation(LOCATION.VILLAGE);
+                constructButton.SetActive(true);
             });
 
         var huntzones = GameManager.huntZoneManager.HuntZones;
@@ -34,7 +37,16 @@ public class UICameraMove : MonoBehaviour
             button.onClick.AddListener(() =>
             {
                 GameManager.cameraManager.SetLocation(LOCATION.HUNTZONE, huntzoneNum + 1);
+                var constructMode = GameManager.uiManager.windows[WINDOW_NAME.CONSTRUCT_MODE] as UIConstructMode;
+                if (GameManager.villageManager.constructMode.isConstructMode)
+                {
+                    constructMode.FinishConstructMode();
+                    GameManager.Publish(EVENT_TYPE.CONSTRUCT);
+                }
+                constructButton.SetActive(false);
             });
+
+            
         }
 
         close.onClick.AddListener(() =>
