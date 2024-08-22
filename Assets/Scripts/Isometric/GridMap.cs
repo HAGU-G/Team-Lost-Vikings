@@ -298,7 +298,7 @@ public class GridMap : MonoBehaviour
             //ExcludeTiles(x, maxRow, y, maxCol);
             //x++;
 
-            if (minCol >= maxCol - y + 1 && minRow >= maxRow - x)
+            if (minCol >= maxCol - y && minRow >= maxRow - x)
                 break;
             y++;
             maxRow--;
