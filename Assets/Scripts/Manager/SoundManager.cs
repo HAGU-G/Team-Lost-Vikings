@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.Pool;
+using UnityEngine.EventSystems;
 
 public class SoundManager : MonoBehaviour
 {
@@ -21,6 +22,10 @@ public class SoundManager : MonoBehaviour
     private int currentBGMClip = 0;
 
     [Header("효과음")]
+    public AudioClip audioClickUnit;
+    public AudioClip audioClickButton;
+    public AudioClip audioClickBuilding;
+
     public IObjectPool<AudioSource> uiSource;
 
     private float _masterVolume = 1f;
@@ -405,4 +410,8 @@ public class SoundManager : MonoBehaviour
                 break;
         }
     }
+
+    public void PlayButtonSFX() => PlaySFX(audioClickButton);
+    public void PlayUnitSFX() => PlaySFX(audioClickUnit);
+    public void PlayBuildingSFX() => PlaySFX(audioClickBuilding);
 }
