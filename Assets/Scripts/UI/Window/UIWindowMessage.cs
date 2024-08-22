@@ -29,7 +29,19 @@ public class UIWindowMessage : UIWindow
         NONE,
         BLACKOUT,
         FADEOUT,
+        FADEINOUT,
     }
+
+    public enum CLOSE_TYPE
+    {
+        /// <summary>autoCloseTime이 0 이하일 경우: TOUCH, 이외: autoCloseTime에 맞춰 닫기</summary>
+        AUTO,
+        /// <summary>아무곳이나 터치했을 때 닫기</summary>
+        TOUCH,
+        /// <summary>버튼을 눌렀을 때 닫기(작동 안함)</summary>
+        BUTTON
+    }
+
     private OPEN_ANIMATION openAnimation;
     private static readonly int paramType = Animator.StringToHash("Type");
     private static readonly int paramIsOpended = Animator.StringToHash("IsOpened");
@@ -37,6 +49,7 @@ public class UIWindowMessage : UIWindow
     [Header("기타")]
     public GameObject window;
     public bool isAutoClose;
+    public CLOSE_TYPE closeType;
     public float closeTime;
     private float closeTimer = 0f;
 
@@ -49,6 +62,7 @@ public class UIWindowMessage : UIWindow
         public Action onOpen;
         public Action onClose;
         public OPEN_ANIMATION openAnimation;
+        public CLOSE_TYPE closeType;
     }
     public Queue<MessageInfo> waitList = new();
 
@@ -118,7 +132,8 @@ public class UIWindowMessage : UIWindow
                 info.autoCloseTime,
                 info.onOpen,
                 info.onClose,
-                info.openAnimation);
+                info.openAnimation,
+                info.closeType);
         }
     }
 
@@ -140,7 +155,8 @@ public class UIWindowMessage : UIWindow
         float autoCloseTime = 0f,
         Action onOpen = null,
         Action onClose = null,
-        OPEN_ANIMATION openAnimation = OPEN_ANIMATION.NONE)
+        OPEN_ANIMATION openAnimation = OPEN_ANIMATION.NONE,
+        CLOSE_TYPE closeType = CLOSE_TYPE.AUTO)
     {
         if (isOpened)
         {
@@ -151,13 +167,20 @@ public class UIWindowMessage : UIWindow
                 autoCloseTime = autoCloseTime,
                 onOpen = onOpen,
                 onClose = onClose,
-                openAnimation = openAnimation
+                openAnimation = openAnimation,
+                closeType = closeType
             });
             return;
         }
 
-        isAutoClose = autoCloseTime > 0f;
+        this.closeType = closeType;
         closeTime = autoCloseTime;
+
+        if (autoCloseTime > 0f)
+            isAutoClose = true;
+        else if (closeType == CLOSE_TYPE.AUTO)
+            closeType = CLOSE_TYPE.TOUCH;
+
 
         OnOpenOnce += onOpen;
         OnCloseOnce += onClose;
@@ -172,7 +195,7 @@ public class UIWindowMessage : UIWindow
 
     private void Update()
     {
-        if (isAutoClose)
+        if(isAutoClose)
         {
             closeTimer += Time.deltaTime;
 
@@ -180,16 +203,22 @@ public class UIWindowMessage : UIWindow
             {
                 closeTimer = 0f;
                 Close();
+                return;
             }
         }
 
-
-        // 닫기 처리
-        if (isShowButton || im == null || isAutoClose)
-            return;
-
-        isPressed |= im.Pressed;
-        if (isPressed && im.Up)
-            Close();
+        switch (closeType)
+        {
+            case CLOSE_TYPE.TOUCH:
+            case CLOSE_TYPE.BUTTON:
+                if (isShowButton || im == null)
+                    return;
+                isPressed |= im.Pressed;
+                if (isPressed && im.Up)
+                    Close();
+                break;
+            default:
+                break;
+        }
     }
 }

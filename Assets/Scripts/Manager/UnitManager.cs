@@ -225,13 +225,18 @@ public class UnitManager
     {
         while (true)
         {
-            yield return new WaitForSeconds(GameSetting.Instance.autoGachaSeconds - autoGachaTimeCorrection);
+            yield return null;
+
+            if (System.DateTime.Now.AddSeconds(-(GameSetting.Instance.autoGachaSeconds - autoGachaTimeCorrection)) < lastAutoGachaTime)
+                continue;
 
             if (!CanGacha)
             {
                 autoGachaTimeCorrection = GameSetting.Instance.autoGachaSeconds - 1f;
                 continue;
             }
+
+            Debug.Log("?");
 
             autoGachaTimeCorrection = 0f;
             if (GachaCharacter(GameManager.playerManager.recruitLevel) != null)
