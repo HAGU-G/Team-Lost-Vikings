@@ -29,6 +29,7 @@ public class UIWindowMessage : UIWindow
         NONE,
         BLACKOUT,
         FADEOUT,
+        FADEINOUT,
     }
     private OPEN_ANIMATION openAnimation;
     private static readonly int paramType = Animator.StringToHash("Type");
