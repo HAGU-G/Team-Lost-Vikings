@@ -11,6 +11,7 @@ public class CharacterInfo : MonoBehaviour
     public RawImage characterIcon;
     public Button characterButton;
     public TextMeshProUGUI location_state;
+    public Button unitButton;
 
     public int characterId;
 }

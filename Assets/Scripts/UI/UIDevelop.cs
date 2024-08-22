@@ -349,6 +349,11 @@ public class UIDevelop : MonoBehaviour
         SetPlayerLevel();
     }
 
+    public void OnButtonPlacement()
+    {
+        GameManager.uiManager.windows[WINDOW_NAME.PLACEMENT].Open();
+    }
+
     private void Start()
     {
         SetPlayerLevel();
