@@ -94,7 +94,7 @@ public class UIPlacement : UIWindow
             {
                 var requireLv = huntZones[index + 1].GetCurrentData().RequirePlayerLv;
 
-                if (GameManager.playerManager.level > requireLv)
+                if (GameManager.playerManager.level >= requireLv)
                 {
                     currHuntZoneNum = index + 1;
                     SetText();

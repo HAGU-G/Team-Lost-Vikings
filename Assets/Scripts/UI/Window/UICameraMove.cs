@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UIWindowMessage;
 
 public class UICameraMove : MonoBehaviour
 {
@@ -36,6 +38,19 @@ public class UICameraMove : MonoBehaviour
             text.text = $"{huntzoneNum + 1}번 사냥터";
             button.onClick.AddListener(() =>
             {
+                var requireLv = GameManager.huntZoneManager.HuntZones[huntzoneNum + 1].GetCurrentData().RequirePlayerLv;
+                if (GameManager.playerManager.level < requireLv)
+                {
+                    var message = GameManager.uiManager.windows[WINDOW_NAME.MESSAGE_POPUP] as UIWindowMessage;
+                    message.ShowMessage(
+                        $"유저 레벨 {requireLv}에 들어갈 수 있습니다.",
+                        true,
+                        1.2f,
+                        openAnimation: UIWindowMessage.OPEN_ANIMATION.FADEINOUT,
+                        closeType: CLOSE_TYPE.TOUCH);
+                    return;
+                }
+
                 GameManager.cameraManager.SetLocation(LOCATION.HUNTZONE, huntzoneNum + 1);
                 var constructMode = GameManager.uiManager.windows[WINDOW_NAME.CONSTRUCT_MODE] as UIConstructMode;
                 if (GameManager.villageManager.constructMode.isConstructMode)
