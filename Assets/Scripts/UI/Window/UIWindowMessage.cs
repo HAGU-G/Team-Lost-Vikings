@@ -100,6 +100,15 @@ public class UIWindowMessage : UIWindow
 
         animator.SetBool(paramIsOpended, isOpened);
 
+        var dm = GameManager.dialogManager;
+
+        if (GameManager.IsReady
+            && !dm.IsShowing
+            && dm.DialogQueue.Count > 0)
+        {
+            dm.Start(dm.DialogQueue.Peek());
+        }
+
         if (waitList.Count > 0)
         {
             var info = waitList.Dequeue();

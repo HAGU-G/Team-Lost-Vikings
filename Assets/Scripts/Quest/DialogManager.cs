@@ -38,8 +38,14 @@ public class DialogManager
 
         if (!DialogQueue.Contains(id) && !ShowedDialog.Contains(id))
             DialogQueue.Enqueue(id);
-        if (GameManager.IsReady && !IsShowing && DialogQueue.Count > 0)
+
+        if (GameManager.IsReady
+            && !IsShowing
+            && DialogQueue.Count > 0
+            && !GameManager.uiManager.windows[WINDOW_NAME.MESSAGE_POPUP].isOpened)
+        {
             Start(DialogQueue.Peek());
+        }
     }
 
     public void BookReward(int dialogID, QuestData questData)
