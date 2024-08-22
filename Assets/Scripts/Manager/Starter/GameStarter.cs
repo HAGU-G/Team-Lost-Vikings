@@ -25,6 +25,8 @@ public class GameStarter : MonoBehaviour
         else
             Destroy(gameObject);
 
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
+
         SyncedTime.Sync();
         DataTableManager.Load();
         LoadScenes();
