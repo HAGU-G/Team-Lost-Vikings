@@ -36,11 +36,12 @@ MonoBehaviour:
   arrowEffectName: BowProjectile
   magicEffectName: MagicProjectile
   goldID: 8000001
+  defaultItemLimit: 20000
   touchEffectName: VFX_Touch_001
   touchEffectScale: 0.21
   hitEffectColor: {r: 1, g: 0, b: 0, a: 1}
   defaultUnitLimit: 4
   waitListLimit: 99
-  autoGachaSeconds: 10
+  autoGachaSeconds: 3
   gachaPrefabRareName: Char_Gacha_Rare
   gachaPrefabName: Char_Gacha

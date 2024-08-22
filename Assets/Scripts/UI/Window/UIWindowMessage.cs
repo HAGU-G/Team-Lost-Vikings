@@ -10,13 +10,15 @@ public class UIWindowMessage : UIWindow
 
     [Header("텍스트")]
     public TextMeshProUGUI textMessage;
-    public TextMeshProUGUI textButtonLeft;
-    public TextMeshProUGUI textButtonRight;
+    public TextMeshProUGUI textButtonConfirm;
+    public TextMeshProUGUI textButtonCancel;
+    private static readonly string stringConfirmDefault = "확인";
+    private static readonly string stringCancelDefault = "취소";
 
     [Header("버튼")]
     public GameObject buttonLayout;
-    public Button buttonLeft;
-    public Button buttonRight;
+    public Button buttonConfirm;
+    public Button buttonCancel;
 
     [Header("배경")]
     public Image imageBackground;
@@ -34,11 +36,11 @@ public class UIWindowMessage : UIWindow
 
     public enum CLOSE_TYPE
     {
-        /// <summary>autoCloseTime이 0 이하일 경우: TOUCH, 이외: autoCloseTime에 맞춰 닫기</summary>
+        /// <summary,상황에 맞춰 닫기</summary>
         AUTO,
         /// <summary>아무곳이나 터치했을 때 닫기</summary>
         TOUCH,
-        /// <summary>버튼을 눌렀을 때 닫기(작동 안함)</summary>
+        /// <summary>버튼을 눌렀을 때 닫기</summary>
         BUTTON
     }
 
@@ -63,18 +65,23 @@ public class UIWindowMessage : UIWindow
         public Action onClose;
         public OPEN_ANIMATION openAnimation;
         public CLOSE_TYPE closeType;
+        public Action onConfirmButtonClick;
+        public Action onCancelButtonClick;
+        public string confirmButtonText;
+        public string cancelButtonText;
     }
     public Queue<MessageInfo> waitList = new();
 
     //이벤트
     private Action OnOpenOnce;
     private Action OnCloseOnce;
+    private Action OnConfirmButtonClickOnce;
+    private Action OnCancelButtonClickOnce;
 
     //입력
     private InputManager im;
     private bool isPressed = false;
     private bool isShowButton = false;
-
 
 
     public override void Open()
@@ -106,9 +113,13 @@ public class UIWindowMessage : UIWindow
     {
         base.Close();
 
+        isAutoClose = false;
         OnCloseOnce?.Invoke();
         OnCloseOnce = null;
         OnOpenOnce = null;
+        OnCancelButtonClickOnce = null;
+        OnConfirmButtonClickOnce = null;
+        buttonLayout.SetActive(false);
 
         isPressed = false;
 
@@ -133,7 +144,11 @@ public class UIWindowMessage : UIWindow
                 info.onOpen,
                 info.onClose,
                 info.openAnimation,
-                info.closeType);
+                info.closeType,
+                info.onConfirmButtonClick,
+                info.onCancelButtonClick,
+                info.confirmButtonText,
+                info.cancelButtonText);
         }
     }
 
@@ -149,6 +164,12 @@ public class UIWindowMessage : UIWindow
     /// <param name="onOpen">Open될 때 실행할 Action, Open Close될 때 제거</param>
     /// <param name="onClose">Close될 때 실행할 Action, Close될 때 제거</param>
     /// <param name="openAnimation">Open될 때 적용할 애니메이션</param>
+    /// <param name="openAnimation">Open될 때 적용할 애니메이션</param>
+    /// <param name="onConfirmButtonClick">확인 버튼을 클릭할 때 실행 및 제거, null이 아닐경우 버튼 ON</param>
+    /// <param name="onCancelButtonClick">취소 버튼을 클릭할 때 실행 및 제거, null이 아닐경우 버튼 ON</param>
+    /// <param name="confirmButtonText">확인 버튼 텍스트</param>
+    /// <param name="cancelButtonText">취소 버튼 텍스트</param>
+    /// 버튼에 닫기 기능만 주고 활성화하려면 빈 람다식을 매개변수로 주면 됩니다.
     public void ShowMessage(
         string message,
         bool isBlockOther,
@@ -156,7 +177,11 @@ public class UIWindowMessage : UIWindow
         Action onOpen = null,
         Action onClose = null,
         OPEN_ANIMATION openAnimation = OPEN_ANIMATION.NONE,
-        CLOSE_TYPE closeType = CLOSE_TYPE.AUTO)
+        CLOSE_TYPE closeType = CLOSE_TYPE.AUTO,
+        Action onConfirmButtonClick = null,
+        Action onCancelButtonClick = null,
+        string confirmButtonText = null,
+        string cancelButtonText = null)
     {
         if (isOpened)
         {
@@ -168,7 +193,11 @@ public class UIWindowMessage : UIWindow
                 onOpen = onOpen,
                 onClose = onClose,
                 openAnimation = openAnimation,
-                closeType = closeType
+                closeType = closeType,
+                onCancelButtonClick = onCancelButtonClick,
+                onConfirmButtonClick = onConfirmButtonClick,
+                confirmButtonText = confirmButtonText,
+                cancelButtonText = cancelButtonText
             });
             return;
         }
@@ -176,14 +205,42 @@ public class UIWindowMessage : UIWindow
         this.closeType = closeType;
         closeTime = autoCloseTime;
 
-        if (autoCloseTime > 0f)
-            isAutoClose = true;
-        else if (closeType == CLOSE_TYPE.AUTO)
-            closeType = CLOSE_TYPE.TOUCH;
-
-
+        OnCancelButtonClickOnce += onCancelButtonClick;
+        OnConfirmButtonClickOnce += onConfirmButtonClick;
         OnOpenOnce += onOpen;
         OnCloseOnce += onClose;
+
+        if (onCancelButtonClick != null)
+        {
+            isShowButton = true;
+            buttonLayout.gameObject.SetActive(true);
+            buttonCancel.gameObject.SetActive(true);
+            textButtonCancel.text = cancelButtonText != null ? cancelButtonText : stringCancelDefault;
+        }
+        else
+        {
+            buttonCancel.gameObject.SetActive(false);
+        }
+
+        if (onConfirmButtonClick != null)
+        {
+            isShowButton = true;
+            buttonLayout.gameObject.SetActive(true);
+            buttonConfirm.gameObject.SetActive(true);
+            textButtonConfirm.text = confirmButtonText != null ? confirmButtonText : stringConfirmDefault;
+        }
+        else
+        {
+            buttonConfirm.gameObject.SetActive(false);
+        }
+
+
+        if (autoCloseTime > 0f)
+            isAutoClose = true;
+        else if (closeType == CLOSE_TYPE.AUTO && isShowButton)
+            closeType = CLOSE_TYPE.BUTTON;
+        else
+            closeType = CLOSE_TYPE.TOUCH;
 
         this.isBlockOther = isBlockOther;
         SetMessage(message);
@@ -195,7 +252,7 @@ public class UIWindowMessage : UIWindow
 
     private void Update()
     {
-        if(isAutoClose)
+        if (isAutoClose)
         {
             closeTimer += Time.deltaTime;
 
@@ -210,7 +267,6 @@ public class UIWindowMessage : UIWindow
         switch (closeType)
         {
             case CLOSE_TYPE.TOUCH:
-            case CLOSE_TYPE.BUTTON:
                 if (isShowButton || im == null)
                     return;
                 isPressed |= im.Pressed;
@@ -220,5 +276,19 @@ public class UIWindowMessage : UIWindow
             default:
                 break;
         }
+    }
+
+    public void OnLeftButtonClick()
+    {
+        Close();
+        OnConfirmButtonClickOnce?.Invoke();
+        OnConfirmButtonClickOnce = null;
+    }
+
+    public void OnRightButtonClick()
+    {
+        Close();
+        OnCancelButtonClickOnce?.Invoke();
+        OnCancelButtonClickOnce = null;
     }
 }

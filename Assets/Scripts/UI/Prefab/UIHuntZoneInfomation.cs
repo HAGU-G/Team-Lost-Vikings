@@ -9,6 +9,7 @@ public class UIHuntZoneInfomation : MonoBehaviour
     public static readonly string formatDeployCount = "{0}/{1}";
 
     public Button buttonDetailInfo;
+    public Button buttonName;
 
     private CameraManager cm = null;
     private HuntZoneManager hm = null;
@@ -18,6 +19,7 @@ public class UIHuntZoneInfomation : MonoBehaviour
     {
         GameManager.Subscribe(EVENT_TYPE.INIT, OnGameInit);
         buttonDetailInfo.onClick.AddListener(ShowDetailInfo);
+        buttonName.onClick.AddListener(StageDown);
     }
 
     private void OnGameInit()
@@ -27,6 +29,7 @@ public class UIHuntZoneInfomation : MonoBehaviour
 
         hm = GameManager.huntZoneManager;
         hm.OnDeploymentChaneged += UpdateInfo;
+        hm.OnHuntZoneInfoChanged += UpdateInfo;
 
         um = GameManager.uiManager;
     }
@@ -36,7 +39,10 @@ public class UIHuntZoneInfomation : MonoBehaviour
         if (cm != null)
             cm.OnLocationChanged -= UpdateInfo;
         if (hm != null)
+        {
             hm.OnDeploymentChaneged -= UpdateInfo;
+            hm.OnHuntZoneInfoChanged -= UpdateInfo;
+        }
     }
 
     public void UpdateInfo()
@@ -69,5 +75,27 @@ public class UIHuntZoneInfomation : MonoBehaviour
 
         windowDetail.SetHuntZoneNum(cm.HuntZoneNum);
         windowDetail.Open();
+    }
+
+    private void StageDown()
+    {
+        if (hm == null || cm == null)
+            return;
+
+        var currentHuntZone = cm.HuntZoneNum;
+        if (!hm.HuntZones.ContainsKey(currentHuntZone)
+            || hm.HuntZones[currentHuntZone].Stage <= 1)
+            return;
+
+        var message = um.windows[WINDOW_NAME.MESSAGE_POPUP] as UIWindowMessage;
+        message.ShowMessage(
+            $"스테이지를 내립니다.\n되돌릴 수 없습니다.\n실행하시겠습니까?",
+            true,
+            onConfirmButtonClick: ()=>
+            {
+                hm.HuntZones[currentHuntZone].SetStage(hm.HuntZones[currentHuntZone].Stage - 1);
+            },
+            onCancelButtonClick: () => { }
+            );
     }
 }

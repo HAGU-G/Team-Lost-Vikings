@@ -236,8 +236,6 @@ public class UnitManager
                 continue;
             }
 
-            Debug.Log("?");
-
             autoGachaTimeCorrection = 0f;
             if (GachaCharacter(GameManager.playerManager.recruitLevel) != null)
             {
