@@ -408,6 +408,9 @@ MonoBehaviour:
   bgmCilps:
   - {fileID: 8300000, guid: 6f16d37bec659474eaf02133a7e76e43, type: 3}
   - {fileID: 8300000, guid: d0da50bfac1c4504c9888367370ab50e, type: 3}
+  audioClickUnit: {fileID: 8300000, guid: c391c829ce1c98346acb3d63e0c1706a, type: 3}
+  audioClickButton: {fileID: 8300000, guid: eb78716400a19844a9970c371211f795, type: 3}
+  audioClickBuilding: {fileID: 8300000, guid: 651bc63f92cf1ef439653ddcf727ace3, type: 3}
   locationSourcePrefab: {fileID: 5374949532592636877, guid: 71064254931cc1746a785360397e7b8f, type: 3}
 --- !u!4 &1080553366
 Transform:
