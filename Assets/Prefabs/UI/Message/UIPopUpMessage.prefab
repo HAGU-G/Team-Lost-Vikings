@@ -960,6 +960,7 @@ MonoBehaviour:
   isBlockOther: 0
   animator: {fileID: 3712299231082616524}
   window: {fileID: 6383760566031272993}
+  canvasGroup: {fileID: -1935039012816255386}
   isAutoClose: 0
   closeType: 0
   closeTime: 0

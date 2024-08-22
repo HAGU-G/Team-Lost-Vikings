@@ -138,7 +138,8 @@ public class EffectManager : MonoBehaviour
             }
         }
 
-        effect.UseScaledDeltaTime(!(layer == SORT_LAYER.OverUI || layer == SORT_LAYER.UI));
+        var sortingLayerName = effect.sortingGroup.sortingLayerName;
+        effect.UseScaledDeltaTime(!(sortingLayerName == SORT_LAYER.OverUI.ToString() || sortingLayerName == SORT_LAYER.UI.ToString()));
         return effect;
     }
 

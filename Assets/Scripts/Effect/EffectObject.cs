@@ -5,6 +5,7 @@ using UnityEngine.Rendering;
 using System.Collections.Generic;
 using System.Linq;
 using AssetKits.ParticleImage;
+using UnityEditor.AddressableAssets.BuildReportVisualizer;
 
 public class EffectObjectReference : AssetReferenceT<EffectObject>
 {
@@ -100,10 +101,13 @@ public class EffectObject : MonoBehaviour
         }
         foreach (var p in particleImages)
         {
-            p.timeScale =
-                isScaled
-                ? AssetKits.ParticleImage.Enumerations.TimeScale.Normal
-                : AssetKits.ParticleImage.Enumerations.TimeScale.Unscaled;
+            var timeScale = isScaled ? AssetKits.ParticleImage.Enumerations.TimeScale.Normal
+                                     : AssetKits.ParticleImage.Enumerations.TimeScale.Unscaled;
+            p.timeScale = timeScale;
+            foreach (var piChild in p.children)
+            {
+                piChild.timeScale = timeScale;
+            }
         }
     }
 
