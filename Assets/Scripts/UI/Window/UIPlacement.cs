@@ -123,7 +123,7 @@ public class UIPlacement : UIWindow
     {
         huntZoneName.text = $"사냥터 {currHuntZoneNum}";
         var huntZone = GameManager.huntZoneManager.HuntZones[currHuntZoneNum];
-        ownCount.text = $"{huntZone.Units.Count}/{huntZone.GetCurrentData().UnitCapacity}";
+        ownCount.text = $"{GameManager.huntZoneManager.UnitDeployment[currHuntZoneNum].Count}/{huntZone.GetCurrentData().UnitCapacity}";
     }
 
     //private void CheckHuntZoneAvailable()
@@ -221,6 +221,7 @@ public class UIPlacement : UIWindow
                 }
                 SetHuntZoneTransform(currHuntZoneNum);
                 SetOwnTransform(currHuntZoneNum);
+                SetText();
             });
 
         return obj;
