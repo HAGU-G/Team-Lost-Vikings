@@ -129,7 +129,14 @@ public class EffectManager : MonoBehaviour
 
         var effect = effectPools[effectName].Get();
         if (layer != SORT_LAYER.NONE)
-            effect.sortingGroup.sortingLayerName = layer.ToString();
+        {
+            var layerName = layer.ToString();
+            effect.sortingGroup.sortingLayerName = layerName;
+            foreach (var canvas in effect.canvases)
+            {
+                canvas.sortingLayerName = layerName;
+            }
+        }
         return effect;
     }
 
@@ -197,6 +204,14 @@ public class EffectManager : MonoBehaviour
         effectObject.isOnProjectile = false;
         effectObject.transform.rotation = Quaternion.identity;
         effectObject.isTouchEffect = false;
+        effectObject.isFlip = false;
+
+        var layerName = effectObject.defaultSortLayer.ToString();
+        effectObject.sortingGroup.sortingLayerName = layerName;
+        foreach(var canvas in effectObject.canvases)
+        {
+            canvas.sortingLayerName = layerName;
+        }
     }
 
     private void OnDestroyEffect(EffectObject effectObject) { }

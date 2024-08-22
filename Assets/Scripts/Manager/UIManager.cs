@@ -25,6 +25,7 @@ public enum WINDOW_NAME
     OPTION,
     ACCOUNT,
     HUNTZONE_DETAIL,
+    MESSAGE_POPUP,
 }
 
 
