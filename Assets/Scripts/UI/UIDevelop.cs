@@ -38,6 +38,8 @@ public class UIDevelop : MonoBehaviour
 
     public GameObject levelUpPopUp;
 
+    public Animator cameraMoveAnimator;
+
     private void Awake()
     {
         GameManager.Subscribe(EVENT_TYPE.INIT, OnGameInit);
@@ -352,6 +354,11 @@ public class UIDevelop : MonoBehaviour
     public void OnButtonPlacement()
     {
         GameManager.uiManager.windows[WINDOW_NAME.PLACEMENT].Open();
+    }
+
+    public void OnButtonCameraMove()
+    {
+        cameraMoveAnimator.SetBool("move", true);
     }
 
     private void Start()
