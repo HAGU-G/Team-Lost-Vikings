@@ -296,6 +296,7 @@ public class SoundManager : MonoBehaviour
         foreach (var clipName in clipNames)
         {
             ReleaseClip(clipName);
+            clipHandles.Remove(clipName);
         }
     }
 

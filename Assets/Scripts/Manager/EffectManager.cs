@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.Rendering;
 
 /// <summary>
 /// 레이어 이름을 사용하기 때문에 코드 규칙을 따르지 않음
@@ -137,6 +138,8 @@ public class EffectManager : MonoBehaviour
                 canvas.sortingLayerName = layerName;
             }
         }
+
+        effect.UseScaledDeltaTime(!(layer == SORT_LAYER.OverUI || layer == SORT_LAYER.UI));
         return effect;
     }
 
@@ -208,7 +211,7 @@ public class EffectManager : MonoBehaviour
 
         var layerName = effectObject.defaultSortLayer.ToString();
         effectObject.sortingGroup.sortingLayerName = layerName;
-        foreach(var canvas in effectObject.canvases)
+        foreach (var canvas in effectObject.canvases)
         {
             canvas.sortingLayerName = layerName;
         }

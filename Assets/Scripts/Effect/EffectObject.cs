@@ -30,8 +30,8 @@ public class EffectObject : MonoBehaviour
     [HideInInspector] public bool isTouchEffect = false;
     [HideInInspector] public bool isOnProjectile = false;
     public IObjectPool<EffectObject> pool;
-    public bool IsParticleStopped 
-        {
+    public bool IsParticleStopped
+    {
         get
         {
             bool isParticleStopped = true;
@@ -45,7 +45,7 @@ public class EffectObject : MonoBehaviour
             }
             return isParticleStopped;
         }
-        }
+    }
     public Vector3 prevPos;
 
     private void Awake()
@@ -90,6 +90,23 @@ public class EffectObject : MonoBehaviour
         }
         if ((!isLoop && !isOnProjectile) || isStopped)
             gameObject.SetActive(!IsParticleStopped);
+    }
+
+    public void UseScaledDeltaTime(bool isScaled)
+    {
+
+        foreach (var p in particleSystems)
+        {
+            var main = p.main;
+            main.useUnscaledTime = !isScaled;
+        }
+        foreach (var p in particleImages)
+        {
+            p.timeScale =
+                isScaled
+                ? AssetKits.ParticleImage.Enumerations.TimeScale.Normal
+                : AssetKits.ParticleImage.Enumerations.TimeScale.Unscaled;
+        }
     }
 
     private void LateUpdate()
