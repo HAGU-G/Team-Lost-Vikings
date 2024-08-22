@@ -24,10 +24,10 @@ MonoBehaviour:
   returnStressRaito: 0.2
   staminaReduceAmount: 1
   stressReduceAmount: 1
-  overrollUltraRare: 231
-  overrollSuperRare: 180
-  overrollRare: 170
-  overrollNormal: 140
+  overrollUltraRare: 174
+  overrollSuperRare: 153
+  overrollRare: 127
+  overrollNormal: 96
   idleRerouteTime: 3
   traceRerouteTime: 20
   projectileSize: 0.5
