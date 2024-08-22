@@ -7154,6 +7154,7 @@ MonoBehaviour:
   villageButton: {fileID: 985097806}
   buttonPrefab: {fileID: 7325303378057749053, guid: f85727b91439e104c916a2efe8b978ad, type: 3}
   close: {fileID: 155446703}
+  constructButton: {fileID: 665063236}
 --- !u!1 &149228420
 GameObject:
   m_ObjectHideFlags: 0
