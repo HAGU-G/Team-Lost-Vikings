@@ -167,6 +167,7 @@ public class Building : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        GameManager.soundManager.PlayBuildingSFX();
         var building = GetComponent<Building>();
         var parameter = GetComponent<ParameterRecoveryBuilding>();
         var revive = GetComponent<ReviveBuilding>();

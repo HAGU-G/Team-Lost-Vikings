@@ -6,10 +6,9 @@ using UnityEngine.Rendering;
 public abstract class Unit : MonoBehaviour, IPointerClickHandler
 {
     public UnitStats stats = null;
-
-    public GameObject dress = null;
+    [HideInInspector] public GameObject dress = null;
     public DressAnimator animator = new();
-    public bool isActing = false;
+    [HideInInspector] public bool isActing = false;
     [HideInInspector] public bool isFlip = true;
 
     private SortingGroup sortingGroup = null;
@@ -40,8 +39,11 @@ public abstract class Unit : MonoBehaviour, IPointerClickHandler
         if (!TryGetComponent(out sortingGroup))
             sortingGroup = gameObject.AddComponent<SortingGroup>();
         sortingGroup.sortAtRoot = true;
+    }
 
-        gameObject.AddComponent<PolygonCollider2D>();
+    public virtual void OnEnable()
+    {
+
     }
 
     public virtual void ResetUnit(UnitStats stats)
@@ -176,6 +178,8 @@ public abstract class Unit : MonoBehaviour, IPointerClickHandler
     {
         if (stats.Data.UnitType != UNIT_TYPE.CHARACTER)
             return;
+
+        GameManager.soundManager.PlayUnitSFX();
 
         var cm = GameManager.cameraManager;
         cm.StartFocusOnUnit(stats);

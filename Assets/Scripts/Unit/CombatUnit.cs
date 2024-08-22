@@ -12,11 +12,11 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
     public List<CombatUnit> Enemies { get; protected set; }
     public List<CombatUnit> Allies { get; protected set; }
     public CombatUnit attackTarget;
-    public bool isTargetFixed;
-    public int usingSkillNum = -1;
+    [HideInInspector] public bool isTargetFixed;
+    [HideInInspector] public int usingSkillNum = -1;
 
     public abstract bool IsNeedReturn { get; }
-    public bool forceReturn = false;
+    [HideInInspector] public bool forceReturn = false;
 
 
     public enum STATE

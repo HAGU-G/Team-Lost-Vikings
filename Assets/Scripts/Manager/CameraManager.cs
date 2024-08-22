@@ -163,6 +163,9 @@ public class CameraManager : MonoBehaviour
 
     public void StartFocusOnUnit(UnitStats stats)
     {
+        if (stats == focusingUnit && isFocusOnUnit)
+            return;
+
         prevZoom = ZoomValue;
         if (stats != null)
             focusingUnit = stats;
