@@ -16,6 +16,6 @@ public class StorageBuilding : MonoBehaviour, IInteractableWithPlayer
 
     public void UpgradeGoldLimit(int gold)
     {
-        GameManager.itemManager.goldLimit = gold;
+        GameManager.itemManager.itemLimit = gold;
     }
 }
