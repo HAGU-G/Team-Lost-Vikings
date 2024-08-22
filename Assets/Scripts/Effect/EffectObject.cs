@@ -5,7 +5,6 @@ using UnityEngine.Rendering;
 using System.Collections.Generic;
 using System.Linq;
 using AssetKits.ParticleImage;
-using UnityEditor.AddressableAssets.BuildReportVisualizer;
 
 public class EffectObjectReference : AssetReferenceT<EffectObject>
 {
