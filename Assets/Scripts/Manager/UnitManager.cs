@@ -237,7 +237,7 @@ public class UnitManager
             if (GachaCharacter(GameManager.playerManager.recruitLevel) != null)
             {
                 lastAutoGachaTime = System.DateTime.Now;
-                (GameManager.uiManager.windows[WINDOW_NAME.CHARACTER_STASH] as UICharacterStash).LoadCharacterButtons(Waitings);
+                //(GameManager.uiManager.windows[WINDOW_NAME.CHARACTER_STASH] as UICharacterStash).LoadCharacterButtons(Waitings);
             }
             else
             {

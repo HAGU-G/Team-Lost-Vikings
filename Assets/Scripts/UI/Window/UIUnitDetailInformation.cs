@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 public class UIUnitDetailInformation : UIWindow
@@ -68,6 +69,7 @@ public class UIUnitDetailInformation : UIWindow
     public GameObject skillPopUp;
     public GameObject kickOutPopUp;
     public GameObject combatPopUp;
+    public GameObject recruitPopUp;
 
     private void OnEnable()
     {
@@ -99,8 +101,6 @@ public class UIUnitDetailInformation : UIWindow
             }
             Addressables.LoadAssetAsync<Sprite>(skillName).Completed += (obj) => OnLoadDone(obj, id);
         }
-
-        placement.onClick.AddListener(OnButtonPlacement);
         exit.onClick.AddListener(OnButtonExit);
         kickOut.onClick.AddListener(OnButtonKickOut);
     }
@@ -187,6 +187,51 @@ public class UIUnitDetailInformation : UIWindow
         moveSpeedValue.text = unit.MoveSpeed.Current.ToString();
         critValue.text = unit.CritChance.Current.ToString();
         critDamageValue.text = unit.CritWeight.Current.ToString();
+
+
+        if(GameManager.unitManager.Waitings.ContainsKey(unit.InstanceID))
+        {
+            placement.onClick.RemoveAllListeners();
+            placement.GetComponentInChildren<TextMeshProUGUI>().text = $"영입";
+            placement.onClick.AddListener(OnButtonRecruit);
+        }
+        else
+        {
+            placement.onClick.RemoveAllListeners();
+            placement.GetComponentInChildren<TextMeshProUGUI>().text = $"배치";
+            placement.onClick.AddListener(OnButtonPlacement);
+        }
+            
+    }
+
+    private void OnButtonRecruit()
+    {
+        recruitPopUp.SetActive(true);
+        var recruit = recruitPopUp.GetComponent<RecruitPopUp>();
+        recruit.exit.onClick.AddListener(() => recruitPopUp.SetActive(false));
+
+        foreach(var u in GameManager.unitManager.Units.Values)
+        {
+            if(u.Id == unit.Id)
+            {
+                recruit.text.text = $"같은 모험가를 2명 이상 보유할 수 없습니다. 영입을 원한다면 보유 중인 같은 모험가를 방출해주세요.";
+                return;
+            }
+        }
+        
+        if(GameManager.unitManager.unitLimitCount < GameManager.unitManager.Units.Count + 1)
+        {
+            recruit.text.text = $"여관이 꽉 차서 모험가를 더 보유할 수 없습니다. 여관을 업그레이드 하거나 모험가를 방출해 빈 자리를 만들어 주세요.";
+            return;
+        }
+        else
+        {
+            recruit.text.text = $"모험가가 마을에 합류했습니다.";
+            GameManager.unitManager.PickUpCharacter(unit.InstanceID);
+            recruit.exit.onClick.RemoveAllListeners();
+            recruit.exit.onClick.AddListener(OnButtonExit);
+            return;
+        }
     }
 
     public void OnButtonPlacement()
@@ -202,6 +247,8 @@ public class UIUnitDetailInformation : UIWindow
 
     private void OnButtonKickOut()
     {
+        //GameManager.uiManager.currentUnitStats = unit;
+        Debug.Log(unit.Data.Name);
         kickOutPopUp.SetActive(true);
     }
 
@@ -269,5 +316,6 @@ public class UIUnitDetailInformation : UIWindow
         skillPopUp.SetActive(false);
         kickOutPopUp.SetActive(false);
         combatPopUp.SetActive(false);
+        recruitPopUp.SetActive(false);
     }
 }

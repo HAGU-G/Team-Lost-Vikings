@@ -11,6 +11,7 @@ public class UICharacterGacha : UIWindow
     public Button gacha;
     public Button exit;
     public TextMeshProUGUI requireGoldText;
+    public TextMeshProUGUI autoGachaText;
 
     private int requireGold = 1000;
     private bool isOpen = false;
@@ -18,6 +19,16 @@ public class UICharacterGacha : UIWindow
     protected override void Awake()
     {
         base.Awake();
+    }
+
+    private void Update()
+    {
+        SetGachaTimeText(GameManager.unitManager.TimeToAutoGacha);
+    }
+
+    private void SetGachaTimeText(float time)
+    {
+        autoGachaText.text = $"자동 모집 남은 시간 : {time:0.0}초 남음";
     }
 
     protected override void OnGameStart()
