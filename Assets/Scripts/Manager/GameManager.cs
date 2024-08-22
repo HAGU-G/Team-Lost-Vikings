@@ -135,4 +135,18 @@ public static class GameManager
         Time.timeScale = prevTimeScale;
         prevTimeScale = Time.timeScale;
     }
+
+
+    public static void PlayButtonSFX()
+    {
+        soundManager?.PlayButtonSFX();
+    }
+    public static void PlayUnitSFX()
+    {
+        soundManager?.PlayUnitSFX();
+    }
+    public static void PlayBuildingSFX()
+    {
+        soundManager?.PlayBuildingSFX();
+    }
 }

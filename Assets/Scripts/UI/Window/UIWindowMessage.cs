@@ -280,15 +280,13 @@ public class UIWindowMessage : UIWindow
 
     public void OnLeftButtonClick()
     {
-        Close();
         OnConfirmButtonClickOnce?.Invoke();
-        OnConfirmButtonClickOnce = null;
+        Close();
     }
 
     public void OnRightButtonClick()
     {
-        Close();
         OnCancelButtonClickOnce?.Invoke();
-        OnCancelButtonClickOnce = null;
+        Close();
     }
 }
