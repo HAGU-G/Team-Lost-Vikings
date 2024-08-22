@@ -24,6 +24,7 @@ public class UIQuest : MonoBehaviour
     private void OnGameStart()
     {
         buttonClear.onClick.AddListener(OnButtonClick);
+
         var qm = GameManager.questManager;
         qm.OnAchievementUpdated += UpdateInfo;
         qm.OnQuestAccepted += UpdateInfo;
@@ -34,6 +35,8 @@ public class UIQuest : MonoBehaviour
 
     private void OnButtonClick()
     {
+        buttonClear.onClick.AddListener(GameManager.PlayButtonSFX);
+
         var qm = GameManager.questManager;
         if (qm.IsAllClear)
             return;

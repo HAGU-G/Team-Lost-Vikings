@@ -280,15 +280,15 @@ public class UIWindowMessage : UIWindow
 
     public void OnLeftButtonClick()
     {
-        Close();
+        GameManager.PlayButtonSFX();
         OnConfirmButtonClickOnce?.Invoke();
-        OnConfirmButtonClickOnce = null;
+        Close();
     }
 
     public void OnRightButtonClick()
     {
-        Close();
+        GameManager.PlayButtonSFX();
         OnCancelButtonClickOnce?.Invoke();
-        OnCancelButtonClickOnce = null;
+        Close();
     }
 }

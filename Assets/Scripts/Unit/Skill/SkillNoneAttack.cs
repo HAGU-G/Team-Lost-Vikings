@@ -22,7 +22,7 @@ public class SkillNoneAttack : ISkillStrategy
         if (targetUnit != null)
             targetPos = targetUnit.transform.position;
 
-        buffEllipse = new(skill.Data.BuffRange, combat.attackTarget.transform.position);
+        buffEllipse = new(skill.Data.BuffRange, targetPos);
 
         //대상 설정
         List<CombatUnit> targetList = new();

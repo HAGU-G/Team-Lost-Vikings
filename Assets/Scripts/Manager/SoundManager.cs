@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.Pool;
-using UnityEngine.EventSystems;
 
 public class SoundManager : MonoBehaviour
 {

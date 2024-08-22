@@ -261,6 +261,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5476149695428531946, guid: bb818bcd1f8fc4170ad421ddfa84c1e9, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5476149695428531946, guid: bb818bcd1f8fc4170ad421ddfa84c1e9, type: 3}
       propertyPath: _alignToDirection
       value: 1
       objectReference: {fileID: 0}

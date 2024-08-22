@@ -31,6 +31,7 @@ public class UIBossSpawn : MonoBehaviour
         GameManager.Subscribe(EVENT_TYPE.INIT, OnGameInit);
 
         buttonSpawn.onClick.AddListener(SpawnBoss);
+        buttonSpawn.onClick.AddListener(GameManager.PlayButtonSFX);
     }
 
     private void OnGameInit()
