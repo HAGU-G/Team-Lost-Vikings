@@ -11,11 +11,11 @@ public class UIDevelop : MonoBehaviour
     public Button buttonHuntZone;
     public TextMeshProUGUI textHuntZone;
 
-    public TextMeshProUGUI currentStageText;
+    //public TextMeshProUGUI currentStageText;
 
     public GameObject onVillage;
-    public GameObject onHuntZone;
-    public TextMeshProUGUI textBossButton;
+    //public GameObject onHuntZone;
+    //public TextMeshProUGUI textBossButton;
     public TMP_InputField inputStageNum;
 
     private bool isDevelopTextOn = true;
@@ -337,8 +337,8 @@ public class UIDevelop : MonoBehaviour
 
     public void SetHuntzoneStage()
     {
-        if (GameManager.huntZoneManager.HuntZones.ContainsKey(GameManager.cameraManager.HuntZoneNum))
-            currentStageText.text = $"STAGE {GameManager.huntZoneManager.HuntZones[GameManager.cameraManager.HuntZoneNum].Stage.ToString()}";
+        //if (GameManager.huntZoneManager.HuntZones.ContainsKey(GameManager.cameraManager.HuntZoneNum))
+        //    currentStageText.text = $"STAGE {GameManager.huntZoneManager.HuntZones[GameManager.cameraManager.HuntZoneNum].Stage.ToString()}";
     }
 
     public void LevelUp()
@@ -359,13 +359,13 @@ public class UIDevelop : MonoBehaviour
         SetPlayerLevel();
         textHuntZone.text = $"HuntZone {1}";
         inputStageNum.text = 1.ToString();
-        onHuntZone.SetActive(false);
+        //onHuntZone.SetActive(false);
         textVersion.text = Application.version;
     }
 
     private void Update()
     {
-        onHuntZone.SetActive(GameManager.cameraManager.LookLocation == LOCATION.HUNTZONE);
+        //onHuntZone.SetActive(GameManager.cameraManager.LookLocation == LOCATION.HUNTZONE);
 
         var huntNum = GameManager.cameraManager.HuntZoneNum;
         if (!GameManager.huntZoneManager.HuntZones.ContainsKey(GameManager.cameraManager.HuntZoneNum))
@@ -373,15 +373,15 @@ public class UIDevelop : MonoBehaviour
         textHuntZone.text = $"HuntZone {huntNum}";
 
 
-        if (GameManager.huntZoneManager.HuntZones.ContainsKey(GameManager.cameraManager.HuntZoneNum)
-            && !GameManager.huntZoneManager.HuntZones[GameManager.cameraManager.HuntZoneNum].CanSpawnBoss)
-        {
-            textBossButton.text = $"{GameManager.huntZoneManager.HuntZones[GameManager.cameraManager.HuntZoneNum].BossTimer:00} | {GameManager.huntZoneManager.HuntZones[GameManager.cameraManager.HuntZoneNum].RetryTimer:00}";
-        }
-        else
-        {
-            textBossButton.text = "보스 소환";
-        }
+        //if (GameManager.huntZoneManager.HuntZones.ContainsKey(GameManager.cameraManager.HuntZoneNum)
+        //    && !GameManager.huntZoneManager.HuntZones[GameManager.cameraManager.HuntZoneNum].CanSpawnBoss)
+        //{
+        //    textBossButton.text = $"{GameManager.huntZoneManager.HuntZones[GameManager.cameraManager.HuntZoneNum].BossTimer:00} | {GameManager.huntZoneManager.HuntZones[GameManager.cameraManager.HuntZoneNum].RetryTimer:00}";
+        //}
+        //else
+        //{
+        //    textBossButton.text = "보스 소환";
+        //}
 
         SetHuntzoneStage();
     }
