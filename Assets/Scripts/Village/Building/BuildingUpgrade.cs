@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEditor.Build.Pipeline.Utilities;
 using UnityEngine;
 
 [RequireComponent(typeof(Building))]
@@ -55,8 +56,7 @@ public class BuildingUpgrade : MonoBehaviour
         if (UpgradeId == 0)
             return;
         
-        if (GameManager.playerManager.buildingUpgradeGrades.TryGetValue(building.StructureId, out int value))
-            currentGrade = value;
+        Debug.Log($"setbuildingupgrade : {currentGrade}");
 
         UpgradeData upgrade = UpgradeData.GetUpgradeData(UpgradeId, currentGrade);
         if (upgrade == null)
@@ -97,8 +97,12 @@ public class BuildingUpgrade : MonoBehaviour
 
     public void Upgrade(bool load = false)
     {
-        if(!load)
+        if (GameManager.playerManager.buildingUpgradeGrades.TryGetValue(GetComponent<Building>().StructureId, out int value))
+            currentGrade = value;
+
+        if (!load)
             ++currentGrade;
+        Debug.Log($"currentGrade : {currentGrade}");
 
         switch (StructureType)
         {

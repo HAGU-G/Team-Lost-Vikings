@@ -88,7 +88,7 @@ public class UIBuildingParameterPopUp : UIWindow
             SetLastUpgrade();
             return;
         }
-
+        upgradeComponent = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
         requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
         requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
         SetPopUp();
@@ -132,6 +132,14 @@ public class UIBuildingParameterPopUp : UIWindow
     {
         GameManager.PlayButtonSFX();
         vm.village.Upgrade();
+        upgradeComponent = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
+
+        if (upgradeComponent.UpgradeGrade >= grade.Count)
+        {
+            SetLastUpgrade();
+            return;
+        }
+
         requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
         requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
         for (int i = 0; i < requireItemIds.Count; ++i)
@@ -144,11 +152,7 @@ public class UIBuildingParameterPopUp : UIWindow
         var buildingID = upgradeComponent.GetComponent<Building>().StructureId;
         GameManager.questManager.SetAchievementCountByTargetID(buildingID, ACHIEVEMENT_TYPE.BUILDING_UPGRADE, 1);
         
-        if (upgradeComponent.UpgradeGrade >= grade.Count)
-        {
-            SetLastUpgrade();
-            return;
-        }
+        
 
         SetPopUp();
     }
@@ -162,8 +166,10 @@ public class UIBuildingParameterPopUp : UIWindow
 
     public void SetText()
     {
+        upgradeComponent = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
         buildingName.text = um.currentNormalBuidling.StructureName;
         defaultDescription.text = um.currentNormalBuidling.StructureDesc;
+        Debug.Log(upgradeComponent.UpgradeGrade);
         if (upgradeComponent.UpgradeGrade < grade.Count)
             nextEffectDescription.text = UpgradeData.GetUpgradeData(upgradeComponent.UpgradeId, upgradeComponent.UpgradeGrade + 1).UpgradeDesc;
         else
