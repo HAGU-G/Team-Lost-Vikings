@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.Progress;
 
 [JsonObject(MemberSerialization.OptIn)]
 public class ItemManager
@@ -179,9 +180,16 @@ public class ItemManager
 
     public void CheatAllItem(int amount)
     {
+        List<int> ids = new();
         foreach (var item in ownItemList)
         {
-            AddItem(item.Key, amount);
+            ids.Add(item.Key);
+        }
+
+        foreach(var id in ids)
+        {
+
+            AddItem(id, amount);
         }
     }
 

@@ -112,6 +112,11 @@ public class UICharacterGacha : UIWindow
         ///////////////////////////
 
         // TODO 레터박스 제외 UI 숨기기 필요
+        foreach (var canvas in GameManager.uiManager.uiDevelop.canvases)
+        {
+            canvas.gameObject.SetActive(false);
+        }
+
         Close();
 
         // 카메라 상태 저장
@@ -189,7 +194,7 @@ public class UICharacterGacha : UIWindow
             screenEffect.transform.position = centerPos;
         };
 
-        // 결과 보여주기
+        // 결과 프리펩 보여주기
         animator.listener.OnGachaShowEventOnce += () =>
         {
             animator.SetAlpha(0f);
@@ -204,7 +209,10 @@ public class UICharacterGacha : UIWindow
                 ///////////////////////////
 
                 // TODO UI 숨기기 해제 필요
-
+                foreach (var canvas in GameManager.uiManager.uiDevelop.canvases)
+                {
+                    canvas.gameObject.SetActive(true);
+                }
 
                 // 연출용 캐릭터 삭제
                 Addressables.ReleaseInstance(gachaPrefab);
