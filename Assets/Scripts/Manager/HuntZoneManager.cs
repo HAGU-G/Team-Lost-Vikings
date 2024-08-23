@@ -40,14 +40,6 @@ public class HuntZoneManager : MonoBehaviour
         GameManager.Subscribe(EVENT_TYPE.INIT, OnGameInit);
     }
 
-    private void Update()
-    {
-        if (Keyboard.current.endKey.wasPressedThisFrame)
-        {
-            GameManager.itemManager.Gold += 1000;
-        }
-    }
-
     private void OnGameInit()
     {
         SetMonsterPool();

@@ -85,15 +85,18 @@ public class UseSkillOnHunt : State<CombatUnit>
 
     private void UseSkill()
     {
-        SoundManager.PlaySFX(skill.Data.SkillSEName, owner.stats.Location, owner.CurrentHuntZone.HuntZoneNum);
+        useCount++;
+        isPlaying = false;
+
+        if (owner.IsDead)
+            return;
+
         owner.LookAt(lastTargetPos);
+        SoundManager.PlaySFX(skill.Data.SkillSEName, owner.stats.Location, owner.CurrentHuntZone.HuntZoneNum);
         if (owner.HasTarget())
             skill?.Use(target);
         else
             skill?.Use(lastTargetPos);
-        useCount++;
-        isPlaying = false;
-        
     }
 
     protected override bool Transition()
