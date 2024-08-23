@@ -86,8 +86,8 @@ public class UIBuildingPopUp : UIWindow
             return;
         }
 
-        requireItemIds = grade[upgradeComponent.UpgradeGrade -1].ItemIds;
-        requireItemNums = grade[upgradeComponent.UpgradeGrade -1].ItemNums;
+        requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
+        requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
         vm.village.upgrade = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
         SetPopUp();
     }
@@ -114,8 +114,8 @@ public class UIBuildingPopUp : UIWindow
         vm.village.upgrade = upgradeComponent;
         vm.village.Upgrade();
 
-        requireItemIds = grade[upgradeComponent.UpgradeGrade - 1].ItemIds;
-        requireItemNums = grade[upgradeComponent.UpgradeGrade - 1].ItemNums;
+        requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
+        requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
         for (int i = 0; i < requireItemIds.Count; ++i)
         {
             im.SpendItem(requireItemIds[i], requireItemNums[i]);

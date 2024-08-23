@@ -89,32 +89,31 @@ public class UIBuildingParameterPopUp : UIWindow
             return;
         }
 
-
-        requireItemIds = grade[upgradeComponent.UpgradeGrade - 1].ItemIds;
-        requireItemNums = grade[upgradeComponent.UpgradeGrade - 1].ItemNums;
+        requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
+        requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
         SetPopUp();
     }
 
-    private void CheckCurrentBuilding()
-    {
-        Debug.Log($"upgrade : {vm.village.upgrade} / current : {um.currentParameterBuilding}");
-        if (vm.village.upgrade != um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>())
-        {
-            vm.village.upgrade = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
-            upgradeComponent = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
-            grade = DataTableManager.upgradeTable.GetData(um.currentNormalBuidling.UpgradeId);
+    //private void CheckCurrentBuilding()
+    //{
+    //    Debug.Log($"upgrade : {vm.village.upgrade} / current : {um.currentParameterBuilding}");
+    //    if (vm.village.upgrade != um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>())
+    //    {
+    //        vm.village.upgrade = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
+    //        upgradeComponent = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
+    //        grade = DataTableManager.upgradeTable.GetData(um.currentNormalBuidling.UpgradeId);
 
-            if (upgradeComponent.UpgradeGrade >= grade.Count)
-            {
-                SetLastUpgrade();
-                return;
-            }
+    //        if (upgradeComponent.UpgradeGrade >= grade.Count)
+    //        {
+    //            SetLastUpgrade();
+    //            return;
+    //        }
 
-            requireItemIds = grade[upgradeComponent.UpgradeGrade - 1].ItemIds;
-            requireItemNums = grade[upgradeComponent.UpgradeGrade - 1].ItemNums;
-            SetPopUp();
-        }
-    }
+    //        requireItemIds = grade[upgradeComponent.UpgradeGrade - 1].ItemIds;
+    //        requireItemNums = grade[upgradeComponent.UpgradeGrade - 1].ItemNums;
+    //        SetPopUp();
+    //    }
+    //}
 
 
     private void SetPopUp()
@@ -132,8 +131,8 @@ public class UIBuildingParameterPopUp : UIWindow
     public void OnButtonUpgrade()
     {
         vm.village.Upgrade();
-        requireItemIds = grade[upgradeComponent.UpgradeGrade - 1].ItemIds;
-        requireItemNums = grade[upgradeComponent.UpgradeGrade - 1].ItemNums;
+        requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
+        requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
         for (int i = 0; i < requireItemIds.Count; ++i)
         {
             Debug.Log($"{requireItemIds[i]}, {requireItemNums[i]}");

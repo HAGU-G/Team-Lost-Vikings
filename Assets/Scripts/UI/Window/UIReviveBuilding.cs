@@ -82,8 +82,8 @@ public class UIReviveBuilding : UIWindow
 
         isOpen = true;
 
-        requireItemIds = grade[upgradeComponent.UpgradeGrade - 1].ItemIds;
-        requireItemNums = grade[upgradeComponent.UpgradeGrade - 1].ItemNums;
+        requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
+        requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
 
         SetUI();
     }
@@ -175,7 +175,7 @@ public class UIReviveBuilding : UIWindow
 
         for (int i = 0; i < resourceList.Count; ++i)
         {
-            var upgradeData = grade[upgradeComponent.UpgradeGrade - 1];
+            var upgradeData = grade[upgradeComponent.UpgradeGrade];
             if (upgradeData.ItemNums[i] <= im.GetItem(requireItemIds[i]))
             {
                 resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.black;
@@ -232,8 +232,8 @@ public class UIReviveBuilding : UIWindow
     {
         vm.village.Upgrade();
 
-        requireItemIds = grade[upgradeComponent.UpgradeGrade - 1].ItemIds;
-        requireItemNums = grade[upgradeComponent.UpgradeGrade - 1].ItemNums;
+        requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
+        requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
         for (int i = 0; i < requireItemIds.Count; ++i)
         {
             im.SpendItem(requireItemIds[i], requireItemNums[i]);
