@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.Rendering;
 
 /// <summary>
 /// 레이어 이름을 사용하기 때문에 코드 규칙을 따르지 않음
@@ -130,8 +131,9 @@ public class EffectManager : MonoBehaviour
         }
 
         var effect = effectPools[effectName].Get();
-        var layerName = (layer != SORT_LAYER.NONE) ? effect.defaultSortLayer : layer;
+        var layerName = (layer == SORT_LAYER.NONE) ? effect.defaultSortLayer : layer;
         effect.sortingGroup.sortingLayerName = layerName.ToString();
+        effect.sortingGroup.sortAtRoot = true;
 
         foreach (var canvas in effect.canvases)
         {

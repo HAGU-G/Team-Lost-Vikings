@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Rendering;
 public class UICharacterGacha : UIWindow
 {
     public override WINDOW_NAME WindowName => WINDOW_NAME.GACHA_UI;
@@ -162,6 +163,8 @@ public class UICharacterGacha : UIWindow
             Quaternion.identity).WaitForCompletion();
         gachaPrefab.transform.localScale = Vector3.one * 2f;
         animator.Init(gachaPrefab.GetComponentInChildren<Animator>(), new() { defaultValue = 3f }, new() { defaultValue = 1f });
+        gachaPrefab.gameObject.AddComponent<SortingGroup>().sortingLayerName = SORT_LAYER.OverUnit.ToString();
+
 
         // 애니메이션 재생
         animator.AnimRun();
@@ -175,6 +178,8 @@ public class UICharacterGacha : UIWindow
 
         resultCharacter.transform.localScale = Vector3.one * 2f;
         resultCharacter.SetActive(false);
+        resultCharacter.gameObject.AddComponent<SortingGroup>().sortingLayerName = SORT_LAYER.OverUnit.ToString();
+
 
         // 달려와서 정지
         animator.listener.OnGachaWaitEventOnce += () =>

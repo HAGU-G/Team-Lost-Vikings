@@ -49,7 +49,6 @@ public class EffectObject : MonoBehaviour
     private void Awake()
     {
         sortingGroup = GetComponent<SortingGroup>();
-        sortingGroup.sortAtRoot = true;
         particleSystems = GetComponentsInChildren<ParticleSystem>().ToList();
 
         if (!GameManager.IsReady)
