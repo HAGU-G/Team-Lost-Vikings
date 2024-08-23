@@ -28,7 +28,7 @@ public class UnitMove : MonoBehaviour
 
     private void Awake()
     {
-        gridMap = GameObject.FindWithTag("GridMap").GetComponent<GridMap>();
+        gridMap = GameManager.villageManager.gridMap;
         unitOnVillage = GetComponentInChildren<UnitOnVillage>();
     }
 
@@ -42,6 +42,8 @@ public class UnitMove : MonoBehaviour
         //    return;
 
         //Move();
+        if (path == null || path.Count == 0)
+            return;
         end = gridMap.IndexToPos(path[0].tileInfo.id);
         var dis = Vector3.Distance(start, end);
         //Debug.Log(dis);
@@ -95,9 +97,7 @@ public class UnitMove : MonoBehaviour
 
         path = gridMap.PathFinding(startTile, target);
         if (path == null || path.Count == 0)
-        {
             return false;
-        }
 
         path = gridMap.PathFinding(isMoving ? path[0] : startTile, target);
         if (path.Count == 0)
