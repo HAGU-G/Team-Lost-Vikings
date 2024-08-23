@@ -218,6 +218,10 @@ PrefabInstance:
       propertyPath: <MonsterDatas>k__BackingField.Array.data[0].<MonsterAssetFileName>k__BackingField
       value: Boss_Monster_000
       objectReference: {fileID: 0}
+    - target: {fileID: 2755290866444920816, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: gridInfo
+      value: 
+      objectReference: {fileID: 11400000, guid: b98baaa8571bc074b9a6633a693caa3d, type: 2}
     - target: {fileID: 3743196961969806013, guid: f867158148268024182e917058a08578, type: 3}
       propertyPath: m_LocalPosition.x
       value: 19.3
@@ -408,6 +412,10 @@ PrefabInstance:
       propertyPath: <MonsterDatas>k__BackingField.Array.data[0].<MonsterAssetFileName>k__BackingField
       value: Boss_Monster_000
       objectReference: {fileID: 0}
+    - target: {fileID: 2755290866444920816, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: gridInfo
+      value: 
+      objectReference: {fileID: 11400000, guid: 4c31c9ccc101db14c907247a2c1cbea2, type: 2}
     - target: {fileID: 3743196961969806013, guid: f867158148268024182e917058a08578, type: 3}
       propertyPath: m_LocalPosition.x
       value: 20

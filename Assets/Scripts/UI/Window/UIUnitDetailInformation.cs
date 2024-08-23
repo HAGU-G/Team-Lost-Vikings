@@ -3,7 +3,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 public class UIUnitDetailInformation : UIWindow

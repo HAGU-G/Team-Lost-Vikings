@@ -360,16 +360,18 @@ public class VillageManager : MonoBehaviour
         //selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STRESS_RECOVERY);
         //var stress = construct.PlaceBuilding(selectedObj, GetTile(13, 13, gridMap), gridMap);
 
+        //8,8 ~ 16,16
+
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STANDARD);
-        var standard = construct.PlaceBuilding(selectedObj, GetTile(17, 17, gridMap), gridMap);
+        var standard = construct.PlaceBuilding(selectedObj, GetTile(12, 12, gridMap), gridMap);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.PORTAL);
-        var portal = construct.PlaceBuilding(selectedObj, GetTile(20, 19, gridMap), gridMap);
+        var portal = construct.PlaceBuilding(selectedObj, GetTile(15, 15, gridMap), gridMap);
         var portalBuilding = portal.GetComponent<Building>();
         portalBuilding.RotateBuilding(portalBuilding);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.REVIVE);
-        construct.PlaceBuilding(selectedObj, GetTile(20, 16, gridMap), gridMap);
+        construct.PlaceBuilding(selectedObj, GetTile(9, 15, gridMap), gridMap);
 
         SetDevelopText(false);
     }

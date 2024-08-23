@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 using static UIWindowMessage;
-using static UnityEditor.FilePathAttribute;
-using static UnityEditor.PlayerSettings;
-using static UnityEngine.UI.CanvasScaler;
 
 public class UIPlacement : UIWindow
 {

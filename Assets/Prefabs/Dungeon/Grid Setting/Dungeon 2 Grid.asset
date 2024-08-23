@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a3c60f404e6e80b4ca41a98d79b8038f, type: 3}
-  m_Name: GridTest
+  m_Name: Dungeon 2 Grid
   m_EditorClassIdentifier: 
-  row: 25
-  col: 25
-  minRow: 9
-  minCol: 9
+  row: 8
+  col: 8
+  minRow: 8
+  minCol: 8
   cellSize: 5

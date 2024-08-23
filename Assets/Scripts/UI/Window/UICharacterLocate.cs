@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using static UIWindowMessage;
 

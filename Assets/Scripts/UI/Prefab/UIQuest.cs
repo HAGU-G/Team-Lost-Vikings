@@ -62,6 +62,7 @@ public class UIQuest : MonoBehaviour
             }
             buttonClear.gameObject.SetActive(true);
             buttonClear.interactable = false;
+            textButtonClear.text = stringAllClear;
             return;
         }
 

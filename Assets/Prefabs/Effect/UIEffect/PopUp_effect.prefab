@@ -42,8 +42,8 @@ SortingGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7637145757125928131}
   m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1637995381
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_SortAtRoot: 0
 --- !u!114 &1431523323333814506
@@ -63,7 +63,7 @@ MonoBehaviour:
   canvases:
   - {fileID: 6202561174079246191}
   sortingGroup: {fileID: 0}
-  defaultSortLayer: 6
+  defaultSortLayer: 7
   isLoop: 0
   isFlip: 0
   isTouchEffect: 0
@@ -183,11 +183,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8650440552136605504, guid: ccfd51973564fcc4d8e4a6d5e37306b5, type: 3}
       propertyPath: m_SortingOrder
-      value: 1000
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8650440552136605504, guid: ccfd51973564fcc4d8e4a6d5e37306b5, type: 3}
       propertyPath: m_SortingLayerID
-      value: -61406659
+      value: 1637995381
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 388602287769826261, guid: ccfd51973564fcc4d8e4a6d5e37306b5, type: 3}
