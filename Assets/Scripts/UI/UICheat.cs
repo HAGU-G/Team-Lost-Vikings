@@ -8,6 +8,10 @@ public class UICheat : MonoBehaviour
 
     private void Awake()
     {
+#if !UNITY_EDITOR
+        //gameObject.SetActive(false);
+        //return;
+#endif
         buttonGold.onClick.AddListener(() =>
         {
             GameManager.PlayButtonSFX();

@@ -141,6 +141,9 @@ public class HuntZone : MonoBehaviour
             if (i < Monsters.Count && (!IsBossBattle || !Monsters[i].stats.isBoss))
                 Monsters[i].RemoveUnit();
 
+            if (IsBossBattle)
+                EndBossBattle(false);
+
             if (isRemoveUnit && i < Units.Count)
                 (Units[i] as UnitOnHunt).ReturnToVillage();
         }

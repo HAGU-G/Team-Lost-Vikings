@@ -40,7 +40,7 @@ MonoBehaviour:
   touchEffectName: VFX_Touch_001
   touchEffectScale: 0.21
   hitEffectColor: {r: 1, g: 0, b: 0, a: 1}
-  defaultUnitLimit: 4
+  defaultUnitLimit: 8
   waitListLimit: 15
   autoGachaSeconds: 90
   gachaPrefabRareName: Char_Gacha_Rare
