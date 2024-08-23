@@ -230,6 +230,7 @@ public class UIReviveBuilding : UIWindow
 
     public void OnButtonUpgrade()
     {
+        GameManager.PlayButtonSFX();
         vm.village.Upgrade();
 
         requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
@@ -243,6 +244,7 @@ public class UIReviveBuilding : UIWindow
 
     public void OnButtonExit()
     {
+        GameManager.PlayButtonSFX();
         isOpen = false;
         Close();
     }

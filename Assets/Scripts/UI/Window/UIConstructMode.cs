@@ -60,22 +60,26 @@ public class UIConstructMode : UIWindow
 
     public void OnButtonChangePlacement()
     {
+        GameManager.PlayButtonSFX();
         isReplacing = true;
         vm.construct.MakeBuildingGrid();
     }
 
     public void OnButtonRotateBuilding()
     {
+        GameManager.PlayButtonSFX();
         um.currentNormalBuidling.RotateBuilding(um.currentNormalBuidling);
     }
 
     public void OnButtonDestroyBuilding()
     {
+        GameManager.PlayButtonSFX();
         destroyPopUp.SetActive(true);
     }
 
     public void OnButtonDestroyCommit()
     {
+        GameManager.PlayButtonSFX();
         constructMode.construct.RemoveBuilding(um.currentNormalBuidling, vm.gridMap);
         destroyPopUp.SetActive(false);
 
@@ -95,11 +99,13 @@ public class UIConstructMode : UIWindow
 
     public void OnButtonDestroyExit()
     {
+        GameManager.PlayButtonSFX();
         destroyPopUp.SetActive(false);
     }
 
     public void OnButtonExit()
     {
+        GameManager.PlayButtonSFX();
         FinishConstructMode();
     }
 

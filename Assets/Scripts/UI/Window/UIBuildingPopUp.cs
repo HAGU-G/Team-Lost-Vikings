@@ -111,6 +111,7 @@ public class UIBuildingPopUp : UIWindow
 
     public void OnButtonUpgrade()
     {
+        GameManager.PlayButtonSFX();
         vm.village.upgrade = upgradeComponent;
         vm.village.Upgrade();
 
@@ -136,6 +137,7 @@ public class UIBuildingPopUp : UIWindow
 
     public void OnButtonExit()
     {
+        GameManager.PlayButtonSFX();
         isOpen = false;
         vm.village.Cancel();
         Close();

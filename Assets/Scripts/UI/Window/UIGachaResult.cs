@@ -61,6 +61,7 @@ public class UIGachaResult : UIWindow
                 gachaResultDesc.text = $"보유 중인 모험가가 모집되어 대기소에 배치되었습니다.";
                 reRecruit.GetComponentInChildren<TextMeshProUGUI>().text = "대기소로";
                 reRecruit.onClick.RemoveAllListeners();
+                reRecruit.onClick.AddListener(GameManager.PlayButtonSFX);
                 reRecruit.onClick.AddListener(
                     () => GameManager.uiManager.windows[WINDOW_NAME.CHARACTER_STASH].Open());
             }
@@ -71,6 +72,7 @@ public class UIGachaResult : UIWindow
             gachaResultDesc.text = $"자리가 없어서 대기소에 배치되었습니다.";
             reRecruit.GetComponentInChildren<TextMeshProUGUI>().text = "대기소로";
             reRecruit.onClick.RemoveAllListeners();
+            reRecruit.onClick.AddListener(GameManager.PlayButtonSFX);
             reRecruit.onClick.AddListener(
                 () => GameManager.uiManager.windows[WINDOW_NAME.CHARACTER_STASH].Open());
         }
@@ -79,6 +81,7 @@ public class UIGachaResult : UIWindow
             gachaResultDesc.text = $"새로운 모험가가 합류했습니다."; 
             reRecruit.GetComponentInChildren<TextMeshProUGUI>().text = "다시 모집";
             reRecruit.onClick.RemoveAllListeners();
+            reRecruit.onClick.AddListener(GameManager.PlayButtonSFX);
             reRecruit.onClick.AddListener(
                 () => GameManager.uiManager.windows[WINDOW_NAME.GACHA_UI].Open());
         }
@@ -95,12 +98,14 @@ public class UIGachaResult : UIWindow
 
     private void OnButtonInformation()
     {
+        GameManager.PlayButtonSFX();
         GameManager.uiManager.currentUnitStats = resultUnit;
         GameManager.uiManager.windows[WINDOW_NAME.UNIT_DETAIL_INFORMATION].Open();
     }
 
     public void OnButtonExit()
     {
+        GameManager.PlayButtonSFX();
         Close();
     }
 }

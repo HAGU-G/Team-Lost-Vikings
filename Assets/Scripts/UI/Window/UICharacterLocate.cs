@@ -26,6 +26,7 @@ public class UICharacterLocate : UIWindow
 
         village.onClick.AddListener(() =>
         {
+            GameManager.PlayButtonSFX();
             GameManager.cameraManager.FinishFocousOnUnit();
             unit.ResetHuntZone();
             unit.ForceReturn();
@@ -34,6 +35,7 @@ public class UICharacterLocate : UIWindow
 
         hpRecovery.onClick.AddListener(() =>
         {
+            GameManager.PlayButtonSFX();
             GameManager.cameraManager.FinishFocousOnUnit();
             unit.ForceReturn();
             unit.parameterType = PARAMETER_TYPE.HP;
@@ -46,6 +48,7 @@ public class UICharacterLocate : UIWindow
 
         staminaRecovery.onClick.AddListener(() =>
         {
+            GameManager.PlayButtonSFX();
             GameManager.cameraManager.FinishFocousOnUnit();
             unit.ForceReturn();
             unit.parameterType = PARAMETER_TYPE.STAMINA;
@@ -58,6 +61,7 @@ public class UICharacterLocate : UIWindow
 
         stressRecovery.onClick.AddListener(() =>
         {
+            GameManager.PlayButtonSFX();
             GameManager.cameraManager.FinishFocousOnUnit();
             unit.ForceReturn();
             unit.parameterType = PARAMETER_TYPE.MENTAL;
@@ -125,6 +129,7 @@ public class UICharacterLocate : UIWindow
 
     public void OnButtonExit()
     {
+        GameManager.PlayButtonSFX();
         GameManager.cameraManager.FinishFocousOnUnit();
         Close();
     }

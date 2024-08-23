@@ -166,16 +166,19 @@ public class UIUnitsInformation : UIWindow
 
     private void OnButtonStash()
     {
+        GameManager.PlayButtonSFX();
         GameManager.uiManager.windows[WINDOW_NAME.CHARACTER_STASH].Open();
     }
 
     public void OnButtonUnit(UnitStats unit)
     {
+        GameManager.PlayButtonSFX();
         GameManager.uiManager.windows[WINDOW_NAME.NOTIFICATION].Open();
     }
 
     public void OnButtonExit()
     {
+        GameManager.PlayButtonSFX();
         Close();
     }
 }

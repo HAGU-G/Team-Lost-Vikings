@@ -20,8 +20,9 @@ public class UICameraMove : MonoBehaviour
     private void OnGameStart()
     {
         villageButton.onClick.AddListener(() =>
-            {
-                GameManager.cameraManager.SetLocation(LOCATION.VILLAGE);
+        {
+            GameManager.PlayButtonSFX();
+            GameManager.cameraManager.SetLocation(LOCATION.VILLAGE);
                 constructButton.SetActive(true);
             });
 
@@ -63,6 +64,7 @@ public class UICameraMove : MonoBehaviour
 
         close.onClick.AddListener(() =>
         {
+            GameManager.PlayButtonSFX();
             var animator = GetComponent<Animator>();
             animator.SetBool("move", false);
         });

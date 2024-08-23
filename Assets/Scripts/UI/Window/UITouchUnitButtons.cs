@@ -97,17 +97,20 @@ public class UITouchUnitButtons : UIWindow
 
     private void OnButtonInformation()
     {
-       GameManager.uiManager.windows[WINDOW_NAME.UNIT_DETAIL_INFORMATION].Open();
+        GameManager.PlayButtonSFX();
+        GameManager.uiManager.windows[WINDOW_NAME.UNIT_DETAIL_INFORMATION].Open();
     }
 
     private void OnButtonClose()
     {
+        GameManager.PlayButtonSFX();
         GameManager.cameraManager.FinishFocousOnUnit();
         Close();
     }
 
     private void OnButtonPlacement()
     {
+        GameManager.PlayButtonSFX();
         GameManager.uiManager.windows[WINDOW_NAME.CHARACTER_LOCATE].Open();
     }
 }

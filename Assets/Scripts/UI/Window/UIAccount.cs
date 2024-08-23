@@ -24,16 +24,19 @@ public class UIAccount : UIWindow
 
     private void OnButtonOption()
     {
+        GameManager.PlayButtonSFX();
         GameManager.uiManager.windows[WINDOW_NAME.OPTION].Open();
     }
 
     private void OnButtonReset()
     {
+        GameManager.PlayButtonSFX();
         resetPopup.SetActive(true);
     }
 
     private void OnButtonGameQuit()
     {
+        GameManager.PlayButtonSFX();
         var constructMode = GameManager.uiManager.windows[WINDOW_NAME.CONSTRUCT_MODE] as UIConstructMode;
         if (GameManager.villageManager.constructMode.isConstructMode)
         {
@@ -46,6 +49,7 @@ public class UIAccount : UIWindow
 
     private void OnButtonClose()
     {
+        GameManager.PlayButtonSFX();
         Close();
     }
 }

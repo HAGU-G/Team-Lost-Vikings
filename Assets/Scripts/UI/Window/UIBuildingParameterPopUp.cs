@@ -130,6 +130,7 @@ public class UIBuildingParameterPopUp : UIWindow
 
     public void OnButtonUpgrade()
     {
+        GameManager.PlayButtonSFX();
         vm.village.Upgrade();
         requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
         requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
@@ -154,6 +155,7 @@ public class UIBuildingParameterPopUp : UIWindow
 
     public void OnButtonExit()
     {
+        GameManager.PlayButtonSFX();
         isOpen = false;
         Close();
     }

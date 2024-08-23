@@ -25,6 +25,7 @@ public class CombatDetailPopUp : MonoBehaviour
 
     private void OnButtonExit()
     {
+        GameManager.PlayButtonSFX();
         gameObject.SetActive(false);
     }
 }

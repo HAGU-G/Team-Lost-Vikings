@@ -13,6 +13,7 @@ public class UICharacterManagement : UIWindow
 
     public void OnButtonExit()
     {
+        GameManager.PlayButtonSFX();
         Close();
     }
 }

@@ -22,6 +22,7 @@ public class ResetPopUp : MonoBehaviour
 
     private void OnButtonYes()
     {
+        GameManager.PlayButtonSFX();
         var remove = SaveManager.RemoveSaveFile();
         GameManager.IsReady = false;
         Application.Quit();
@@ -32,6 +33,7 @@ public class ResetPopUp : MonoBehaviour
 
     private void OnButtonNo()
     {
+        GameManager.PlayButtonSFX();
         gameObject.SetActive(false);
     }
 }

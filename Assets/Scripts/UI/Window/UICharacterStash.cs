@@ -25,6 +25,7 @@ public class UICharacterStash : UIWindow
 
     public void OnButtonExit()
     {
+        GameManager.PlayButtonSFX();
         Close();
     }
 
@@ -100,6 +101,7 @@ public class UICharacterStash : UIWindow
 
     private void OnButtonOwnUnit()
     {
+        GameManager.PlayButtonSFX();
         GameManager.uiManager.windows[WINDOW_NAME.UNITS_INFORMATION].Open();
     }
 }

@@ -20,6 +20,7 @@ public class BuildComplete : MonoBehaviour
 
     private void OnButtonYes()
     {
+        GameManager.PlayButtonSFX();
         var constructMode = GameManager.uiManager.windows[WINDOW_NAME.CONSTRUCT_MODE] as UIConstructMode;
         if(constructMode.isConstructing)
             constructMode.ConstructDecide();
@@ -31,6 +32,7 @@ public class BuildComplete : MonoBehaviour
 
     private void OnButtonNo()
     {
+        GameManager.PlayButtonSFX();
         var constructMode = GameManager.uiManager.windows[WINDOW_NAME.CONSTRUCT_MODE] as UIConstructMode;
         constructMode.ConstructCancel();
         GameManager.villageManager.construct.ResetPrevTileColor();

@@ -238,6 +238,7 @@ public class UIUnitDetailInformation : UIWindow
 
     private void OnButtonRecruit()
     {
+        GameManager.PlayButtonSFX();
         recruitPopUp.SetActive(true);
         var recruit = recruitPopUp.GetComponent<RecruitPopUp>();
         recruit.exit.onClick.AddListener(() => recruitPopUp.SetActive(false));
@@ -268,17 +269,20 @@ public class UIUnitDetailInformation : UIWindow
 
     public void OnButtonPlacement()
     {
+        GameManager.PlayButtonSFX();
         GameManager.uiManager.windows[WINDOW_NAME.CHARACTER_LOCATE].Open();
     }
 
     public void OnButtonExit()
     {
+        GameManager.PlayButtonSFX();
         GameManager.cameraManager.FinishFocousOnUnit();
         Close();
     }
 
     private void OnButtonKickOut()
     {
+        GameManager.PlayButtonSFX();
         //GameManager.uiManager.currentUnitStats = unit;
         Debug.Log(unit.Data.Name);
         kickOutPopUp.SetActive(true);
