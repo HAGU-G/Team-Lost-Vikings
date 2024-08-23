@@ -232,6 +232,12 @@ public class UIReviveBuilding : UIWindow
     {
         vm.village.Upgrade();
 
+        if (upgradeComponent.UpgradeGrade >= grade.Count)
+        {
+            SetLastUpgrade();
+            return;
+        }
+
         requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
         requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
         for (int i = 0; i < requireItemIds.Count; ++i)
@@ -258,5 +264,20 @@ public class UIReviveBuilding : UIWindow
             upgrade.interactable = false;
         else
             upgrade.interactable = true;
+    }
+
+    public void SetLastUpgrade()
+    {
+        SetUI();
+
+        for (int i = 0; i < resourceList.Count; ++i)
+        {
+            Destroy(resourceList[i].gameObject);
+        }
+        resourceList.Clear();
+        var time = um.currentNormalBuidling.gameObject.GetComponent<ReviveBuilding>().reviveTime;
+        reviveTimeText.text = $"마지막 업그레이드 단계입니다.\n부활 대기시간 {time}초";
+
+        upgrade.interactable = false;
     }
 }

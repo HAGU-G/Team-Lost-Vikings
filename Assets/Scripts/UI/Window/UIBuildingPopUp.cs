@@ -113,7 +113,12 @@ public class UIBuildingPopUp : UIWindow
     {
         vm.village.upgrade = upgradeComponent;
         vm.village.Upgrade();
-
+        Debug.Log(upgradeComponent.UpgradeGrade);
+        if (upgradeComponent.UpgradeGrade >= grade.Count)
+        {
+            SetLastUpgrade();
+            return;
+        }
         requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
         requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
         for (int i = 0; i < requireItemIds.Count; ++i)
@@ -125,11 +130,7 @@ public class UIBuildingPopUp : UIWindow
         var buildingID = upgradeComponent.GetComponent<Building>().StructureId;
         GameManager.questManager.SetAchievementCountByTargetID(buildingID, ACHIEVEMENT_TYPE.BUILDING_UPGRADE, 1);
 
-        if (upgradeComponent.UpgradeGrade >= grade.Count)
-        {
-            SetLastUpgrade();
-            return;
-        }
+        
 
         SetPopUp();
     }
@@ -220,6 +221,8 @@ public class UIBuildingPopUp : UIWindow
             Destroy(resourceList[i].gameObject);
         }
         resourceList.Clear();
+
+        nextEffectDescription.text = "마지막 업그레이드 단계입니다.";
 
         upgrade.interactable = false;
     }
