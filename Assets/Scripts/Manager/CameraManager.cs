@@ -54,14 +54,8 @@ public class CameraManager : MonoBehaviour
 
     private void Update()
     {
-        if (!IsReady)
+        if (!IsReady || isFocusOnUnit)
             return;
-
-        if (isFocusOnUnit)
-        {
-            SetPositionOnUnit();
-            return;
-        }
 
         var im = GameManager.inputManager;
 
@@ -82,6 +76,9 @@ public class CameraManager : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (isFocusOnUnit)
+            SetPositionOnUnit();
+
         DeltaPos = Vector3.zero;
     }
 
@@ -151,7 +148,7 @@ public class CameraManager : MonoBehaviour
 
     private void SetPositionOnUnit()
     {
-        if (focusingUnit == null)
+        if (focusingUnit == null || focusingUnit.isDead)
         {
             FinishFocousOnUnit();
             return;

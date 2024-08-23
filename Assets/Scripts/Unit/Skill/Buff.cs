@@ -33,10 +33,26 @@ public class Buff
             case STAT_VALUE_TYPE.NONE:
                 break;
             case STAT_VALUE_TYPE.ADD:
-                stat.buffValue += Mathf.FloorToInt(Value);
+                switch (type)
+                {
+                    case STAT_TYPE.ATTACK_SPEED:
+                        stat.buffValue -= Mathf.FloorToInt(Value);
+                        break;
+                    default:
+                        stat.buffValue += Mathf.FloorToInt(Value);
+                        break;
+                }
                 break;
             case STAT_VALUE_TYPE.RATIO:
-                stat.ratioBuffValue += Value;
+                switch (type)
+                {
+                    case STAT_TYPE.ATTACK_SPEED:
+                        stat.ratioBuffValue -= Value;
+                        break;
+                    default:
+                        stat.ratioBuffValue += Value;
+                        break;
+                }
                 break;
         }
     }
@@ -48,10 +64,26 @@ public class Buff
             case STAT_VALUE_TYPE.NONE:
                 break;
             case STAT_VALUE_TYPE.ADD:
-                stat.buffValue += Value;
+                switch (type)
+                {
+                    case STAT_TYPE.ATTACK_SPEED:
+                        stat.buffValue -= Value;
+                        break;
+                    default:
+                        stat.buffValue += Value;
+                        break;
+                }
                 break;
             case STAT_VALUE_TYPE.RATIO:
-                stat.ratioBuffValue += Value;
+                switch (type)
+                {
+                    case STAT_TYPE.ATTACK_SPEED:
+                        stat.ratioBuffValue -= Value;
+                        break;
+                    default:
+                        stat.ratioBuffValue += Value;
+                        break;
+                }
                 break;
         }
     }
@@ -63,10 +95,26 @@ public class Buff
             case STAT_VALUE_TYPE.NONE:
                 break;
             case STAT_VALUE_TYPE.ADD:
-                stat.buffValue -= Mathf.FloorToInt(Value);
+                switch (type)
+                {
+                    case STAT_TYPE.ATTACK_SPEED:
+                        stat.buffValue += Mathf.FloorToInt(Value);
+                        break;
+                    default:
+                        stat.buffValue -= Mathf.FloorToInt(Value);
+                        break;
+                }
                 break;
             case STAT_VALUE_TYPE.RATIO:
-                stat.ratioBuffValue -= Value;
+                switch (type)
+                {
+                    case STAT_TYPE.ATTACK_SPEED:
+                        stat.ratioBuffValue += Value;
+                        break;
+                    default:
+                        stat.ratioBuffValue -= Value;
+                        break;
+                }
                 break;
         }
     }
@@ -78,10 +126,26 @@ public class Buff
             case STAT_VALUE_TYPE.NONE:
                 break;
             case STAT_VALUE_TYPE.ADD:
-                stat.buffValue -= Value;
+                switch (type)
+                {
+                    case STAT_TYPE.ATTACK_SPEED:
+                        stat.buffValue += Value;
+                        break;
+                    default:
+                        stat.buffValue -= Value;
+                        break;
+                }
                 break;
             case STAT_VALUE_TYPE.RATIO:
-                stat.ratioBuffValue -= Value;
+                switch (type)
+                {
+                    case STAT_TYPE.ATTACK_SPEED:
+                        stat.ratioBuffValue += Value;
+                        break;
+                    default:
+                        stat.ratioBuffValue -= Value;
+                        break;
+                }
                 break;
         }
     }

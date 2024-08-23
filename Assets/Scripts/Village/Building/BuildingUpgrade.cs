@@ -31,6 +31,8 @@ public class BuildingUpgrade : MonoBehaviour
     [field: SerializeField]
     public float ProgressVarReturn { get; set; }
     [field: SerializeField]
+    public int DropId { get; set; }
+    [field: SerializeField]
     public List<int> ItemIds { get; set; }
     [field: SerializeField]
     public List<int> ItemNums { get; set; }
@@ -52,6 +54,9 @@ public class BuildingUpgrade : MonoBehaviour
         UpgradeId = building.UpgradeId;
         if (UpgradeId == 0)
             return;
+        
+        if (GameManager.playerManager.buildingUpgradeGrades.TryGetValue(building.StructureId, out int value))
+            currentGrade = value;
 
         UpgradeData upgrade = UpgradeData.GetUpgradeData(UpgradeId, currentGrade);
         if (upgrade == null)
@@ -80,9 +85,9 @@ public class BuildingUpgrade : MonoBehaviour
         UpgradeDesc = upgrade.UpgradeDesc;
         StructureAssetFileName = upgrade.StructureAssetFileName;
 
-        if (GameManager.playerManager.buildingUpgradeGrades.TryGetValue(building.StructureId, out int value))
+        if (GameManager.playerManager.buildingUpgradeGrades.TryGetValue(building.StructureId, out int grade))
         {
-            value = currentGrade;
+            GameManager.playerManager.buildingUpgradeGrades[building.StructureId] = currentGrade;
         }
         else
         {
@@ -113,6 +118,7 @@ public class BuildingUpgrade : MonoBehaviour
                     SetBuildingUpgrade();
                     parameter.recoveryAmount = ParameterRecovery;
                     parameter.recoveryTime = RecoveryTime;
+                    parameter.requireGold = DropId;
                 }
                 break;
             case (int)STRUCTURE_TYPE.STANDARD:

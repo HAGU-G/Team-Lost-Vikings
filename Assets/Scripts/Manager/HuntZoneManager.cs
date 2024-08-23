@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -39,20 +38,6 @@ public class HuntZoneManager : MonoBehaviour
         GameManager.huntZoneManager = this;
 
         GameManager.Subscribe(EVENT_TYPE.INIT, OnGameInit);
-    }
-
-    private void Update()
-    {
-
-        //TESTCODE
-        if (Keyboard.current.deleteKey.wasPressedThisFrame)
-        {
-            GameManager.unitManager.DiscardCharacter(GameManager.unitManager.Units.Last().Value.InstanceID);
-        }
-        if (Keyboard.current.endKey.wasPressedThisFrame)
-        {
-            GameManager.itemManager.Gold += 10000;
-        }
     }
 
     private void OnGameInit()

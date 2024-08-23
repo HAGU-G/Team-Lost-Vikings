@@ -15,6 +15,7 @@ public class UpgradeData : ITableAvaialable<int>, ITableExtraLoadable
     [field: SerializeField] public float RecoveryTime { get; set; }
     [field: SerializeField] public int ProgressVarType { get; set; }
     [field: SerializeField] public float ProgressVarReturn { get; set; }
+    [field: SerializeField] public int DropId { get; set; }
     [field: SerializeField] public List<int> ItemIds { get; private set; } = new();
     [field: SerializeField] public List<int> ItemNums { get; private set; } = new();
     [field: SerializeField] public string UpgradeDesc { get; set; }

@@ -130,8 +130,9 @@ public class EffectManager : MonoBehaviour
         }
 
         var effect = effectPools[effectName].Get();
-        var layerName = (layer != SORT_LAYER.NONE) ? effect.defaultSortLayer : layer;
+        var layerName = (layer == SORT_LAYER.NONE) ? effect.defaultSortLayer : layer;
         effect.sortingGroup.sortingLayerName = layerName.ToString();
+        effect.sortingGroup.sortAtRoot = true;
 
         foreach (var canvas in effect.canvases)
         {

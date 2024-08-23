@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class InteractOnVillage : State<UnitOnVillage>
 {
     private Action OnInteract;
     private IInteractableWithUnit unitInteractBuilding;
+    private List<SpriteRenderer> renderers = new();
 
     public override void EnterState()
     {
@@ -14,15 +17,23 @@ public class InteractOnVillage : State<UnitOnVillage>
         Interact(owner.destination);
 
         //TODO 애니메이션 대신 프리펩 비활성화, 상호작용 완료시 다시 활성화
-        owner.animator.AnimIdle();
+        //owner.animator.AnimIdle();
+        renderers = owner.gameObject.GetComponentsInChildren<SpriteRenderer>().ToList();
+        foreach (var render in renderers)
+        {
+            render.enabled = false;
+        }
+
 
         OnInteract?.Invoke();
     }
 
     public override void ExitState()
     {
-        //OnInteract = null;
-
+        foreach (var render in renderers)
+        {
+            render.enabled = true;
+        }
     }
 
     public override void ResetState()
