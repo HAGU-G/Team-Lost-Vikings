@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 
 public class UIBuildingPopUp : UIWindow
@@ -31,6 +33,8 @@ public class UIBuildingPopUp : UIWindow
 
     private bool isOpen = false;
 
+    private Dictionary<int, Sprite> itemIcons = new();
+
     protected override void Awake()
     {
         base.Awake();
@@ -44,6 +48,20 @@ public class UIBuildingPopUp : UIWindow
         im = GameManager.itemManager;
 
         GameManager.Subscribe(EVENT_TYPE.CONFIGURE, OnGameConfigure);
+
+        var path = "Assets/Scenes/Design/Icon/";
+        var itemDatas = DataTableManager.itemTable.GetDatas();
+        for (int i = 0; i < itemDatas.Count; ++i)
+        {
+            var newPath = $"{path}{itemDatas[i].CurrencyAssetFileName}.png";
+            var id = itemDatas[i].CurrencyId;
+            Addressables.LoadAssetAsync<Sprite>(newPath).Completed += (obj) => OnLoadDone(obj, id);
+        }
+    }
+
+    private void OnLoadDone(AsyncOperationHandle<Sprite> obj, int id)
+    {
+        itemIcons.Add(id, obj.Result);
     }
 
     private void OnGameConfigure()
@@ -96,6 +114,8 @@ public class UIBuildingPopUp : UIWindow
         vm.village.upgrade = upgradeComponent;
         vm.village.Upgrade();
 
+        requireItemIds = grade[upgradeComponent.UpgradeGrade - 1].ItemIds;
+        requireItemNums = grade[upgradeComponent.UpgradeGrade - 1].ItemNums;
         for (int i = 0; i < requireItemIds.Count; ++i)
         {
             im.SpendItem(requireItemIds[i], requireItemNums[i]);
@@ -151,10 +171,17 @@ public class UIBuildingPopUp : UIWindow
             var resource = Instantiate(upgradeResource, resourceLayout);
             resource.GetComponentInChildren<TextMeshProUGUI>().text = $"{im.GetItem(requireItemIds[i])} / {requireItemNums[i]}";
 
-            //var fileName = DataTableManager.itemTable.GetData(requireItemIds[i]).CurrencyAssetFileName;
-            //resource.GetComponent<Image>().sprite = ;
+            var fileName = DataTableManager.upgradeTable.GetData(upgradeComponent.UpgradeId)[upgradeComponent.UpgradeGrade].ItemIds[i];
+            var exist = itemIcons.TryGetValue(fileName, out var value);
+            resource.GetComponentInChildren<Image>().sprite = value;
 
             resourceList.Add(resource);
+
+            if (value == null)
+            {
+                Destroy(resource);
+                resourceList.Remove(resource);
+            }
         }
     }
 
@@ -162,7 +189,7 @@ public class UIBuildingPopUp : UIWindow
     {
         bool check = true;
 
-        for (int i = 0; i < requireItemIds.Count; ++i)
+        for (int i = 0; i < resourceList.Count; ++i)
         {
             if (requireItemNums[i] <= im.GetItem(requireItemIds[i]))
             {
