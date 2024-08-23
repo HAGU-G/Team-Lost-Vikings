@@ -132,7 +132,7 @@ public class UICharacterGacha : UIWindow
 
         // 카메라 세팅
         cm.isHideUnits = true;
-        cm.FinishFocousOnUnit();
+        cm.FinishFocusOnUnit();
         cm.SetLocation(LOCATION.VILLAGE);
         cm.Zoom(7.4f);
         var standardBuilding = vm.GetBuilding(STRUCTURE_ID.STANDARD);

@@ -91,7 +91,7 @@ public class CameraManager : MonoBehaviour
     public void SetLocation(LOCATION location, int huntzoneNum = -1, bool isFinishFocusing = true)
     {
         if (isFinishFocusing)
-            FinishFocousOnUnit();
+            FinishFocusOnUnit();
 
         LookLocation = location;
 
@@ -150,7 +150,7 @@ public class CameraManager : MonoBehaviour
     {
         if (focusingUnit == null || focusingUnit.isDead)
         {
-            FinishFocousOnUnit();
+            FinishFocusOnUnit();
             return;
         }
 
@@ -175,7 +175,7 @@ public class CameraManager : MonoBehaviour
         isFocusOnUnit = true;
     }
 
-    public void FinishFocousOnUnit()
+    public void FinishFocusOnUnit()
     {
         if (isFocusOnUnit)
             ZoomValue = prevZoom;

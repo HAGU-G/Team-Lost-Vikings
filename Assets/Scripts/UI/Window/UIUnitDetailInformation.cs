@@ -273,7 +273,7 @@ public class UIUnitDetailInformation : UIWindow
 
     public void OnButtonExit()
     {
-        GameManager.cameraManager.FinishFocousOnUnit();
+        GameManager.cameraManager.FinishFocusOnUnit();
         Close();
     }
 
