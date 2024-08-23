@@ -8,6 +8,7 @@ public class WaitForCBT : UIWindow
 
     public void OnButtonExit()
     {
+        GameManager.PlayButtonSFX();
         Close();
     }
 }

@@ -87,6 +87,7 @@ public class UICharacterGacha : UIWindow
 
     public void OnButtonGacha()
     {
+        GameManager.PlayButtonSFX();
         var result = GameManager.unitManager.GachaCharacter(GameManager.playerManager.recruitLevel);
         im.Gold -= requireGold;
         SetGachaUI();
@@ -96,6 +97,7 @@ public class UICharacterGacha : UIWindow
 
     public void OnButtonExit()
     {
+        GameManager.PlayButtonSFX();
         isOpen = false;
         Close();
     }

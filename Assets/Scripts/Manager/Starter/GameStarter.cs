@@ -26,6 +26,7 @@ public class GameStarter : MonoBehaviour
             Destroy(gameObject);
 
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
+        Application.targetFrameRate = 60;
 
         SyncedTime.Sync();
         DataTableManager.Load();

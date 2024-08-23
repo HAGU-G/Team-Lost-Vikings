@@ -5,6 +5,7 @@ using static UIWindowMessage;
 
 public class UICameraMove : MonoBehaviour
 {
+    public Animator animator;
     public Transform buttonTransform;
     public Button villageButton;
     public GameObject buttonPrefab;
@@ -13,6 +14,7 @@ public class UICameraMove : MonoBehaviour
 
     private void Awake()
     {
+        animator.keepAnimatorStateOnDisable = true;
         GameManager.Subscribe(EVENT_TYPE.START, OnGameStart);
         constructButton.SetActive(true);
     }
@@ -20,8 +22,9 @@ public class UICameraMove : MonoBehaviour
     private void OnGameStart()
     {
         villageButton.onClick.AddListener(() =>
-            {
-                GameManager.cameraManager.SetLocation(LOCATION.VILLAGE);
+        {
+            GameManager.PlayButtonSFX();
+            GameManager.cameraManager.SetLocation(LOCATION.VILLAGE);
                 constructButton.SetActive(true);
             });
 
@@ -63,6 +66,7 @@ public class UICameraMove : MonoBehaviour
 
         close.onClick.AddListener(() =>
         {
+            GameManager.PlayButtonSFX();
             var animator = GetComponent<Animator>();
             animator.SetBool("move", false);
         });

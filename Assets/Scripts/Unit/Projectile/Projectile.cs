@@ -58,7 +58,8 @@ public class Projectile : MonoBehaviour
         {
             if (targetUnit != null
             && targetUnit.gameObject.activeSelf
-            && !targetUnit.IsDead)
+            && !targetUnit.IsDead
+            && targetUnit.stats != null)
             {
                 direction = (targetUnit.transform.position - transform.position).normalized;
                 targetPos = targetUnit.transform.position;
@@ -166,8 +167,7 @@ public class Projectile : MonoBehaviour
             return;
 
         if (doRotate)
-            effect.LookAt(effectPos.position);
-
+            effect.LookAt(effectPos.position, IsFloor);
         effect.transform.position = effectPos.position;
 
     }

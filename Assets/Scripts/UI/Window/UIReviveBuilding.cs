@@ -230,6 +230,7 @@ public class UIReviveBuilding : UIWindow
 
     public void OnButtonUpgrade()
     {
+        GameManager.PlayButtonSFX();
         vm.village.Upgrade();
 
         if (upgradeComponent.UpgradeGrade >= grade.Count)
@@ -249,6 +250,7 @@ public class UIReviveBuilding : UIWindow
 
     public void OnButtonExit()
     {
+        GameManager.PlayButtonSFX();
         isOpen = false;
         Close();
     }

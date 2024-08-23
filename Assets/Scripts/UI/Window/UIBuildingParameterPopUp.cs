@@ -130,6 +130,7 @@ public class UIBuildingParameterPopUp : UIWindow
 
     public void OnButtonUpgrade()
     {
+        GameManager.PlayButtonSFX();
         vm.village.Upgrade();
         upgradeComponent = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
 
@@ -158,6 +159,7 @@ public class UIBuildingParameterPopUp : UIWindow
 
     public void OnButtonExit()
     {
+        GameManager.PlayButtonSFX();
         isOpen = false;
         Close();
     }

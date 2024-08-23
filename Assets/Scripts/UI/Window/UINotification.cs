@@ -40,7 +40,7 @@ public class UINotification : UIWindow
     {
         Close();
         var cm = GameManager.cameraManager;
-
+        GameManager.PlayButtonSFX();
         cm.SetLocation(unit.Location, unit.HuntZoneNum);
         cm.SetPosition(unit.objectTransform.position);
        //GameManager.cameraManager.SetViewPoint(unit);
@@ -48,6 +48,7 @@ public class UINotification : UIWindow
 
     public void OnButtonExit()
     {
+        GameManager.PlayButtonSFX();
         Close();
     }
 

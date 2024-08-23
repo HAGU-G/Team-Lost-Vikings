@@ -52,6 +52,7 @@ public class UIOption : UIWindow
 
     private void OnButtonBGMInput(string value)
     {
+        GameManager.PlayButtonSFX();
         if (float.TryParse(value, out float volume))
         {
             volume = Mathf.Clamp(volume, 0, 100);
@@ -72,6 +73,7 @@ public class UIOption : UIWindow
 
     private void OnButtonSFXInput(string value)
     {
+        GameManager.PlayButtonSFX();
         if (float.TryParse(value, out float volume))
         {
             volume = Mathf.Clamp(volume, 0, 100);
@@ -92,21 +94,25 @@ public class UIOption : UIWindow
 
     private void OnButtonAccount()
     {
+        GameManager.PlayButtonSFX();
         GameManager.uiManager.windows[WINDOW_NAME.ACCOUNT].Open();
     }
 
     private void OnButtonFrame30()
     {
+        GameManager.PlayButtonSFX();
         Application.targetFrameRate = 30;
     }
 
     private void OnButtonFrame60()
     {
+        GameManager.PlayButtonSFX();
         Application.targetFrameRate = 60;
     }
 
     private void OnButtonGameQuit()
     {
+        GameManager.PlayButtonSFX();
         var constructMode = GameManager.uiManager.windows[WINDOW_NAME.CONSTRUCT_MODE] as UIConstructMode;
         if (GameManager.villageManager.constructMode.isConstructMode)
         {
@@ -119,6 +125,7 @@ public class UIOption : UIWindow
 
     private void OnButtonClose()
     {
+        GameManager.PlayButtonSFX();
         Close();
     }
 }

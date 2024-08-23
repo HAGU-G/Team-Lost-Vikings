@@ -48,6 +48,7 @@ public class UIPlacement : UIWindow
 
         dropdownButton.onClick.AddListener(() =>
         {
+            GameManager.PlayButtonSFX();
             if (huntZoneListPopUp.activeSelf)
                 huntZoneListPopUp.SetActive(false);
             else
@@ -362,6 +363,7 @@ public class UIPlacement : UIWindow
 
     private void OnButtonExit()
     {
+        GameManager.PlayButtonSFX();
         Close();
     }
 }

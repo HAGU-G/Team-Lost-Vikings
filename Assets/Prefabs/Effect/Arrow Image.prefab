@@ -58,11 +58,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5234ae4836998a547a2ab215c6abcfb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particleImages: []
+  canvases: []
   sortingGroup: {fileID: 0}
+  defaultSortLayer: 4
   isLoop: 1
   isFlip: 0
   isTouchEffect: 0
   isOnProjectile: 0
+  prevPos: {x: 0, y: 0, z: 0}
 --- !u!1 &4852486578113018001
 GameObject:
   m_ObjectHideFlags: 0
@@ -90,7 +94,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4179989729965807001}

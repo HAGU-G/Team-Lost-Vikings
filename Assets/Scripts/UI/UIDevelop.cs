@@ -84,6 +84,7 @@ public class UIDevelop : MonoBehaviour
 
     public void OnButtonVillage()
     {
+        GameManager.PlayButtonSFX();
         //onVillage.SetActive(true);
 
         //Camera.main.transform.position = Vector3.zero + Vector3.forward * -10f;
@@ -93,6 +94,7 @@ public class UIDevelop : MonoBehaviour
 
     public void OnButtonHuntZone()
     {
+        GameManager.PlayButtonSFX();
         //onVillage.SetActive(false);
         constructButton.gameObject.SetActive(false);
         var constructMode = GameManager.uiManager.windows[WINDOW_NAME.CONSTRUCT_MODE] as UIConstructMode;
@@ -129,6 +131,7 @@ public class UIDevelop : MonoBehaviour
 
     public void OnButtonDevelopText()
     {
+        GameManager.PlayButtonSFX();
         GameManager.villageManager.SetDevelopText(isDevelopTextOn);
         GameManager.huntZoneManager.SetDevelopText(isDevelopTextOn);
         isDevelopTextOn = !isDevelopTextOn;
@@ -136,56 +139,68 @@ public class UIDevelop : MonoBehaviour
 
     public void OnButtonReduceHP()
     {
+        GameManager.PlayButtonSFX();
         GameManager.villageManager.village.ReduceHp();
     }
     public void OnButtonReduceStamina()
     {
+        GameManager.PlayButtonSFX();
         GameManager.villageManager.village.ReduceStamina();
     }
     public void OnButtonReduceStress()
     {
+        GameManager.PlayButtonSFX();
         GameManager.villageManager.village.ReduceStress();
     }
     public void OnButtonSpawnUnitOnVillage()
     {
+        GameManager.PlayButtonSFX();
         //GameManager.villageManager.village.UnitSpawn();
     }
 
     public void OnButtonUpgrade()
     {
+        GameManager.PlayButtonSFX();
         GameManager.villageManager.village.Upgrade();
     }
 
     public void OnButtonCancel()
     {
+        GameManager.PlayButtonSFX();
         GameManager.villageManager.village.Cancel();
     }
 
     public void OnButtonSpawnMonster()
     {
+        GameManager.PlayButtonSFX();
         GameManager.huntZoneManager.HuntZones[GameManager.cameraManager.HuntZoneNum].SpawnMonster(1);
     }
     public void OnButtonSpawnUnitOnHunt()
     {
+        GameManager.PlayButtonSFX();
         //TODO 사용하지 않는 버튼. 제거 필요
         //GameManager.huntZoneManager.HuntZones[GameManager.cameraManager.HuntZoneNum].SpawnUnit();
     }
     public void OnButtonKillLastSpawnedMonster()
     {
+        GameManager.PlayButtonSFX();
         GameManager.huntZoneManager.HuntZones[GameManager.cameraManager.HuntZoneNum].KillLastSpawnedMonster();
 
     }
     public void OnButtonUpdateRegenPoint()
     {
+        GameManager.PlayButtonSFX();
         GameManager.huntZoneManager.HuntZones[GameManager.cameraManager.HuntZoneNum].UpdateRegenPoints();
     }
 
     public void OnButtonChangeStage()
     {
+        GameManager.PlayButtonSFX();
         GameManager.huntZoneManager.HuntZones[GameManager.cameraManager.HuntZoneNum].SetStage(int.Parse(inputStageNum.text));
     }
     public void OnButtonSpawnBoss()
     {
+        GameManager.PlayButtonSFX();
         if (!GameManager.huntZoneManager.HuntZones[GameManager.cameraManager.HuntZoneNum].CanSpawnBoss)
             return;
 
@@ -195,26 +210,31 @@ public class UIDevelop : MonoBehaviour
 
     public void OnButtonTutorialPopUp()
     {
+        GameManager.PlayButtonSFX();
         GameManager.uiManager.windows[(int)WINDOW_NAME.TUTORIAL_POPUP].Open();
     }
 
     public void OnButtonGachaUI()
     {
+        GameManager.PlayButtonSFX();
         GameManager.uiManager.windows[WINDOW_NAME.GACHA_UI].Open();
     }
 
     public void OnButtonUnit()
     {
+        GameManager.PlayButtonSFX();
         GameManager.uiManager.windows[WINDOW_NAME.UNITS_INFORMATION].Open();
     }
 
     public void OnButtonUnitStash()
     {
+        GameManager.PlayButtonSFX();
         GameManager.uiManager.windows[WINDOW_NAME.CHARACTER_STASH].Open();
     }
 
     public void OnButtonPrepare()
     {
+        GameManager.PlayButtonSFX();
         GameManager.uiManager.windows[WINDOW_NAME.WAIT_FOR_CBT].Open();
     }
 
@@ -323,11 +343,13 @@ public class UIDevelop : MonoBehaviour
 
     public void OnButtonOption()
     {
+        GameManager.PlayButtonSFX();
         GameManager.uiManager.windows[WINDOW_NAME.OPTION].Open();
     }
 
     public void OnButtonQuit()
     {
+        GameManager.PlayButtonSFX();
         var constructMode = GameManager.uiManager.windows[WINDOW_NAME.CONSTRUCT_MODE] as UIConstructMode;
         if (GameManager.villageManager.constructMode.isConstructMode)
         {
@@ -354,11 +376,13 @@ public class UIDevelop : MonoBehaviour
 
     public void OnButtonPlacement()
     {
+        GameManager.PlayButtonSFX();
         GameManager.uiManager.windows[WINDOW_NAME.PLACEMENT].Open();
     }
 
     public void OnButtonCameraMove()
     {
+        GameManager.PlayButtonSFX();
         cameraMoveAnimator.SetBool("move", true);
     }
 

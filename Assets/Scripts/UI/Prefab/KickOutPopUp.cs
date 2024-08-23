@@ -16,6 +16,7 @@ public class KickOutPopUp : MonoBehaviour
 
     private void OnButtonYes()
     {
+        GameManager.PlayButtonSFX();
         unit = GameManager.uiManager.currentUnitStats;
         Debug.Log(unit.Data.Name);
         GameManager.unitManager.DiscardCharacter(unit.InstanceID);
@@ -27,6 +28,7 @@ public class KickOutPopUp : MonoBehaviour
 
     private void OnButtonNo()
     {
+        GameManager.PlayButtonSFX();
         gameObject.SetActive(false);
     }
 }

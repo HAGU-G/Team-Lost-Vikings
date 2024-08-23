@@ -18,6 +18,7 @@ public class SkillInformation : MonoBehaviour
 
     private void OnButtonExit()
     {
+        GameManager.PlayButtonSFX();
         gameObject.SetActive(false);
     }
 }

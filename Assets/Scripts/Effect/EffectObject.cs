@@ -143,9 +143,14 @@ public class EffectObject : MonoBehaviour
             Destroy(gameObject);
     }
 
-    public void LookAt(Vector3 targetPos)
+    public void LookAt(Vector3 targetPos, bool isOnlyFlip = false)
     {
         var delta = targetPos - transform.position;
+        if (isOnlyFlip)
+        {
+            delta.y = transform.position.y;
+            delta.z = transform.position.z;
+        }
         var rotationDeg = Mathf.Rad2Deg * Mathf.Atan2(delta.y, delta.x);
         transform.eulerAngles = new(0f, isFlip ? 180f : 0f, isFlip ? 180f - rotationDeg : rotationDeg);
     }

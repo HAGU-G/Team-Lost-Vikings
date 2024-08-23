@@ -28,12 +28,14 @@ public class UITutorialPopUp : UIWindow
 
     public void OnButtonExit()
     {
+        GameManager.PlayButtonSFX();
         Close();
     }
 
     public void OnButtonPrevious()
     {
-        if(currentPage <= 0)
+        GameManager.PlayButtonSFX();
+        if (currentPage <= 0)
         {
             CheckPage();
             Debug.Log(currentPage);
@@ -50,6 +52,7 @@ public class UITutorialPopUp : UIWindow
 
     public void OnButtonNext()
     {
+        GameManager.PlayButtonSFX();
         if (currentPage >= GameManager.uiManager.tutorialPages.Length - 1)
         {
             CheckPage();

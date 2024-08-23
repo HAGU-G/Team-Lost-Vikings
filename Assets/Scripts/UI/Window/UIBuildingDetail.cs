@@ -196,6 +196,7 @@ public class UIBuildingDetail : UIWindow
 
     public void OnButtonConstruct()
     {
+        GameManager.PlayButtonSFX();
         exceptWindows[0] = um.windows[WINDOW_NAME.CONSTRUCT_MODE];
         um.CloseWindows(exceptWindows);
         //um.uiDevelop.ConstructButtonsOff();
@@ -224,6 +225,7 @@ public class UIBuildingDetail : UIWindow
 
     public void OnButtonExit()
     {
+        GameManager.PlayButtonSFX();
         exceptWindows[0] = um.windows[WINDOW_NAME.CONSTRUCT_MODE];
         um.CloseWindows(exceptWindows);
         isOpen = false;
