@@ -52,6 +52,9 @@ public class BuildingUpgrade : MonoBehaviour
         UpgradeId = building.UpgradeId;
         if (UpgradeId == 0)
             return;
+        
+        if (GameManager.playerManager.buildingUpgradeGrades.TryGetValue(building.StructureId, out int value))
+            currentGrade = value;
 
         UpgradeData upgrade = UpgradeData.GetUpgradeData(UpgradeId, currentGrade);
         if (upgrade == null)
@@ -80,9 +83,9 @@ public class BuildingUpgrade : MonoBehaviour
         UpgradeDesc = upgrade.UpgradeDesc;
         StructureAssetFileName = upgrade.StructureAssetFileName;
 
-        if (GameManager.playerManager.buildingUpgradeGrades.TryGetValue(building.StructureId, out int value))
+        if (GameManager.playerManager.buildingUpgradeGrades.TryGetValue(building.StructureId, out int grade))
         {
-            value = currentGrade;
+            GameManager.playerManager.buildingUpgradeGrades[building.StructureId] = currentGrade;
         }
         else
         {

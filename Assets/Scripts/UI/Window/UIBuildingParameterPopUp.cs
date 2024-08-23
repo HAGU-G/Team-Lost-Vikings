@@ -132,8 +132,11 @@ public class UIBuildingParameterPopUp : UIWindow
     public void OnButtonUpgrade()
     {
         vm.village.Upgrade();
+        requireItemIds = grade[upgradeComponent.UpgradeGrade - 1].ItemIds;
+        requireItemNums = grade[upgradeComponent.UpgradeGrade - 1].ItemNums;
         for (int i = 0; i < requireItemIds.Count; ++i)
         {
+            Debug.Log($"{requireItemIds[i]}, {requireItemNums[i]}");
             im.SpendItem(requireItemIds[i], requireItemNums[i]);
         }
 
