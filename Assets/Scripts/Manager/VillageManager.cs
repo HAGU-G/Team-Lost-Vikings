@@ -159,6 +159,8 @@ public class VillageManager : MonoBehaviour
             upgradeComponent.ProgressVarType = upgradeData.ProgressVarType;
             upgradeComponent.ProgressVarReturn = upgradeData.ProgressVarReturn;
 
+            upgradeComponent.DropId = upgradeData.DropId;
+
             upgradeComponent.ItemIds = new();
             upgradeComponent.ItemNums = new();
 
@@ -187,6 +189,7 @@ public class VillageManager : MonoBehaviour
                     parameterComponent.building = buildingComponenet;
                     parameterComponent.parameterType = (PARAMETER_TYPE)upgradeData.ParameterType;
                     parameterComponent.recoveryAmount = upgradeData.ParameterRecovery;
+                    parameterComponent.requireGold = upgradeData.DropId;
                     parameterComponent.recoveryTime = upgradeData.RecoveryTime;
                     break;
                 case STRUCTURE_TYPE.STAT_UPGRADE:

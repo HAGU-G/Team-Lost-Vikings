@@ -31,6 +31,8 @@ public class BuildingUpgrade : MonoBehaviour
     [field: SerializeField]
     public float ProgressVarReturn { get; set; }
     [field: SerializeField]
+    public int DropId { get; set; }
+    [field: SerializeField]
     public List<int> ItemIds { get; set; }
     [field: SerializeField]
     public List<int> ItemNums { get; set; }
@@ -116,6 +118,7 @@ public class BuildingUpgrade : MonoBehaviour
                     SetBuildingUpgrade();
                     parameter.recoveryAmount = ParameterRecovery;
                     parameter.recoveryTime = RecoveryTime;
+                    parameter.requireGold = DropId;
                 }
                 break;
             case (int)STRUCTURE_TYPE.STANDARD:
