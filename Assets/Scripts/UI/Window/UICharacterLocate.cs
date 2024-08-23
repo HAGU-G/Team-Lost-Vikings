@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using static UIWindowMessage;
 
 public class UICharacterLocate : UIWindow
 {
@@ -70,6 +71,7 @@ public class UICharacterLocate : UIWindow
         var huntzones = GameManager.huntZoneManager.HuntZones;
         for(int i = 0; i < huntzones.Count; ++i)
         {
+            int index = i;
             GameManager.cameraManager.FinishFocousOnUnit();
             int huntzoneNum = i;
             var location = Instantiate(locationPrefab, content);
@@ -77,7 +79,20 @@ public class UICharacterLocate : UIWindow
             locationComponent.locationName.text = $"{huntzoneNum + 1}번 사냥터";
             locationComponent.button.onClick.AddListener(() =>
             {
-                GameManager.cameraManager.FinishFocousOnUnit();
+                var requireLv = GameManager.huntZoneManager.HuntZones[index + 1].GetCurrentData().RequirePlayerLv;
+                if (GameManager.playerManager.level < requireLv)
+                {
+                    var message = GameManager.uiManager.windows[WINDOW_NAME.MESSAGE_POPUP] as UIWindowMessage;
+                    message.ShowMessage(
+                        $"유저 레벨 {requireLv}에 들어갈 수 있습니다.",
+                        true,
+                        1.2f,
+                        openAnimation: UIWindowMessage.OPEN_ANIMATION.FADEINOUT,
+                        closeType: CLOSE_TYPE.TOUCH);
+                    return;
+                }
+
+                    GameManager.cameraManager.FinishFocousOnUnit();
                 
                 if (GameManager.huntZoneManager.IsDeployed(unit.InstanceID, huntzoneNum + 1))
                     return;
@@ -87,14 +102,7 @@ public class UICharacterLocate : UIWindow
             });
         }
 
-        //for (int i = 0; i < huntzones.Length; ++i)
-        //{
-        //    int huntzoneNum = i;
-        //    huntzones[i].onClick.AddListener(() =>
-        //    {
-        //        SetUnitHuntZone(GameManager.huntZoneManager.HuntZones[huntzoneNum + 1].Info.HuntZoneNum);
-        //    });
-        //}
+        exit.onClick.AddListener(OnButtonExit);
     }
 
     private void OnEnable()
@@ -102,6 +110,17 @@ public class UICharacterLocate : UIWindow
         if (!IsReady)
             return;
         unit = GameManager.uiManager.currentUnitStats;
+
+        foreach (var building in GameManager.villageManager.constructedBuildings)
+        {
+            var id = building.GetComponent<Building>().StructureId;
+            if ((int)STRUCTURE_ID.HP_RECOVERY == id)
+                hpRecovery.gameObject.SetActive(true);
+            if ((int)STRUCTURE_ID.STAMINA_RECOVERY == id)
+                staminaRecovery.gameObject.SetActive(true);
+            if ((int)STRUCTURE_ID.STRESS_RECOVERY == id)
+                stressRecovery.gameObject.SetActive(true);
+        }
     }
 
     public void OnButtonExit()

@@ -16,7 +16,9 @@ public enum SORT_LAYER
     Default,
     OverUnit,
     UI,
-    OverUI
+    OverUI,
+    Message,
+    OverMessage,
 }
 
 
@@ -128,8 +130,25 @@ public class EffectManager : MonoBehaviour
         }
 
         var effect = effectPools[effectName].Get();
-        if (layer != SORT_LAYER.NONE)
-            effect.sortingGroup.sortingLayerName = layer.ToString();
+        var layerName = (layer != SORT_LAYER.NONE) ? effect.defaultSortLayer : layer;
+        effect.sortingGroup.sortingLayerName = layerName.ToString();
+
+        foreach (var canvas in effect.canvases)
+        {
+            canvas.sortingLayerName = layerName.ToString();
+            canvas.sortingOrder = layerName switch
+            {
+                SORT_LAYER.OverUnit => -1,
+                SORT_LAYER.UI => 0,
+                SORT_LAYER.OverUI => 1,
+                SORT_LAYER.Message => 2,
+                SORT_LAYER.OverMessage => 3,
+                _ => -2,
+            };
+        }
+
+        var sortingLayerName = effect.sortingGroup.sortingLayerName;
+        effect.UseScaledDeltaTime(!(sortingLayerName == SORT_LAYER.OverUI.ToString() || sortingLayerName == SORT_LAYER.UI.ToString()));
         return effect;
     }
 
@@ -197,6 +216,14 @@ public class EffectManager : MonoBehaviour
         effectObject.isOnProjectile = false;
         effectObject.transform.rotation = Quaternion.identity;
         effectObject.isTouchEffect = false;
+        effectObject.isFlip = false;
+
+        var layerName = effectObject.defaultSortLayer.ToString();
+        effectObject.sortingGroup.sortingLayerName = layerName;
+        foreach (var canvas in effectObject.canvases)
+        {
+            canvas.sortingLayerName = layerName;
+        }
     }
 
     private void OnDestroyEffect(EffectObject effectObject) { }

@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
-using static UnityEngine.UI.CanvasScaler;
 
 public class UIGachaResult : UIWindow
 {
@@ -19,6 +18,7 @@ public class UIGachaResult : UIWindow
     public Button reRecruit;
 
     public Button exit;
+    private UnitStats resultUnit = new();
 
     private Dictionary<int, Sprite> gradeIcons = new();
 
@@ -32,7 +32,7 @@ public class UIGachaResult : UIWindow
         base.OnGameStart();
 
         var cnt = Enum.GetValues(typeof(UNIT_GRADE)).Length;
-        for (int i = 0; i <= cnt; ++i)
+        for (int i = 0; i < cnt; ++i)
         {
             var path = $"Grade_0{i + 1}";
             var id = i;
@@ -52,6 +52,8 @@ public class UIGachaResult : UIWindow
 
     public void SetResult(UnitStats unitStats)
     {
+        SetUnit(unitStats);
+
         foreach (var u in GameManager.unitManager.Units.Values)
         {
             if (u.Id == unitStats.Id)
@@ -86,8 +88,14 @@ public class UIGachaResult : UIWindow
         unitName.text = unitStats.Data.Name;
     }
 
+    private void SetUnit(UnitStats unit)
+    {
+        resultUnit = unit;
+    }
+
     private void OnButtonInformation()
     {
+        GameManager.uiManager.currentUnitStats = resultUnit;
         GameManager.uiManager.windows[WINDOW_NAME.UNIT_DETAIL_INFORMATION].Open();
     }
 

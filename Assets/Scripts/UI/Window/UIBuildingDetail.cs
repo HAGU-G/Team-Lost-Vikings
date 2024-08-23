@@ -110,7 +110,7 @@ public class UIBuildingDetail : UIWindow
         buildingImage.sprite = handle.Result.GetComponentInChildren<SpriteRenderer>().sprite;
 
         unlockTownLevel.text = $"요구 마을회관 레벨 : {buildingData.UnlockTownLevel.ToString()}";
-        //buidlingSize.text = $"{buildingData.Width} X {buildingData.Length}";
+        buidlingSize.text = $"{buildingData.Width} X {buildingData.Length}";
         buildingDesc.text = buildingData.StructureDesc.ToString();
 
         foreach (var r in resources)
@@ -178,6 +178,11 @@ public class UIBuildingDetail : UIWindow
             }
         }
 
+        if(buildingData.UnlockTownLevel > vm.VillageHallLevel)
+        {
+            check = false;
+        }
+
         if (check)
             construct.targetGraphic.color = trueColor;
         else
@@ -193,6 +198,7 @@ public class UIBuildingDetail : UIWindow
     {
         exceptWindows[0] = um.windows[WINDOW_NAME.CONSTRUCT_MODE];
         um.CloseWindows(exceptWindows);
+        //um.uiDevelop.ConstructButtonsOff();
         UIConstructMode constructMode = um.windows[WINDOW_NAME.CONSTRUCT_MODE] as UIConstructMode;
         constructMode.isConstructing = true;
         vm.construct.MakeBuildingGrid();

@@ -24,23 +24,24 @@ MonoBehaviour:
   returnStressRaito: 0.2
   staminaReduceAmount: 1
   stressReduceAmount: 1
-  overrollUltraRare: 231
-  overrollSuperRare: 180
-  overrollRare: 170
-  overrollNormal: 140
+  overrollUltraRare: 174
+  overrollSuperRare: 153
+  overrollRare: 127
+  overrollNormal: 96
   idleRerouteTime: 3
   traceRerouteTime: 20
-  projectileSize: 0.5
+  projectileSize: 0.3
   defaultBowProjectileSpeed: 30
   defaultMagicProjectileSpeed: 12
   arrowEffectName: BowProjectile
   magicEffectName: MagicProjectile
   goldID: 8000001
+  defaultItemLimit: 20000
   touchEffectName: VFX_Touch_001
   touchEffectScale: 0.21
   hitEffectColor: {r: 1, g: 0, b: 0, a: 1}
   defaultUnitLimit: 4
-  waitListLimit: 99
-  autoGachaSeconds: 10
+  waitListLimit: 15
+  autoGachaSeconds: 90
   gachaPrefabRareName: Char_Gacha_Rare
   gachaPrefabName: Char_Gacha

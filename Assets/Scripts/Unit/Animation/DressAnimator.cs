@@ -47,6 +47,9 @@ public class DressAnimator
         prevColors.Clear();
         foreach (var renderer in renderers)
         {
+            if(renderer == null)
+                continue;
+
             defaultColors.Add(renderer.color);
             prevColors.Add(renderer.color);
         }
@@ -146,6 +149,9 @@ public class DressAnimator
         {
             for (int i = 0; i < renderers.Count; i++)
             {
+                if (renderers[i] == null)
+                    continue;
+
                 renderers[i].color = defaultColors[i];
             }
         }
@@ -157,6 +163,9 @@ public class DressAnimator
         {
             for (int i = 0; i < prevColors.Count; i++)
             {
+                if (renderers[i] == null)
+                    continue;
+
                 var color = renderers[i].color;
                 color.a = alpha;
                 prevColors[i] = color;
@@ -166,6 +175,9 @@ public class DressAnimator
         {
             for (int i = 0; i < renderers.Count; i++)
             {
+                if (renderers[i] == null)
+                    continue;
+
                 var color = renderers[i].color;
                 color.a = alpha;
                 renderers[i].color = color;
@@ -186,6 +198,9 @@ public class DressAnimator
         {
             for (int i = 0; i < renderers.Count; i++)
             {
+                if (renderers[i] == null)
+                    continue;
+
                 prevColors[i] = renderers[i].color;
                 renderers[i].color = color;
             }
@@ -202,6 +217,9 @@ public class DressAnimator
         {
             for (int i = 0; i < renderers.Count; i++)
             {
+                if (renderers[i] == null)
+                    continue;
+
                 prevColors[i] = renderers[i].color;
                 renderers[i].color = Color.clear;
             }
@@ -210,6 +228,9 @@ public class DressAnimator
         {
             for (int i = 0; i < renderers.Count; i++)
             {
+                if (renderers[i] == null)
+                    continue;
+
                 renderers[i].color = prevColors[i];
             }
         }

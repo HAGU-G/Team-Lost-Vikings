@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json.Bson;
-using System.Security.Cryptography.X509Certificates;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -42,9 +40,12 @@ public class UIWindowHuntZoneDetail : UIWindow
         GameManager.Subscribe(EVENT_TYPE.INIT, OnGameInit);
 
         buttonClose.onClick.AddListener(Close);
-
         buttonNormal.onClick.AddListener(ShowNormal);
         buttonBoss.onClick.AddListener(ShowBoss);
+
+        buttonClose.onClick.AddListener(GameManager.PlayButtonSFX);
+        buttonNormal.onClick.AddListener(GameManager.PlayButtonSFX);
+        buttonBoss.onClick.AddListener(GameManager.PlayButtonSFX);
     }
 
     private void OnGameInit()

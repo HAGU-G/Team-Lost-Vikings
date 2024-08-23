@@ -43,6 +43,9 @@ public static class SaveManager
         }
         save.UnitDeployment = GameManager.huntZoneManager.UnitDeployment;
 
+
+        save.buildings.Clear();
+        save.buildingFlip.Clear();
         for (int i = 0; i < GameManager.villageManager.constructedBuildings.Count; ++i)
         {
             var building = GameManager.villageManager.constructedBuildings[i].GetComponent<Building>();
@@ -53,7 +56,11 @@ public static class SaveManager
             if (!save.buildings.ContainsKey(tileId))
             {
                 save.buildings.Add(tileId, structureId);
-                save.buildingFlip.Add(structureId, building.isFlip);
+    
+                if(save.buildingFlip.TryGetValue(structureId, out var value))
+                    save.buildingFlip[structureId] = value;
+                else
+                    save.buildingFlip.Add(structureId, building.isFlip);
             }
 
         }
@@ -109,7 +116,13 @@ public static class SaveManager
         {
             GameManager.huntZoneManager.HuntZones[huntZoneInfo.HuntZoneNum].Info = huntZoneInfo;
         }
-        GameManager.huntZoneManager.UnitDeployment = save.UnitDeployment;
+
+        var unitDeploy = GameManager.huntZoneManager.UnitDeployment;
+        foreach (var deploy in save.UnitDeployment)
+        {
+            if (unitDeploy.ContainsKey(deploy.Key))
+                unitDeploy[deploy.Key] = deploy.Value;
+        }
 
 
         foreach (var key in save.buildings.Keys)

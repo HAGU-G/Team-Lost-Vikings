@@ -128,7 +128,7 @@ public class UICharacterGacha : UIWindow
         ///////////////////////////
         ////////// 연출 ///////////
         ///////////////////////////
-        
+
         // 카메라 세팅
         cm.isHideUnits = true;
         cm.FinishFocousOnUnit();
@@ -162,7 +162,7 @@ public class UICharacterGacha : UIWindow
             Quaternion.identity).WaitForCompletion();
         gachaPrefab.transform.localScale = Vector3.one * 2f;
         animator.Init(gachaPrefab.GetComponentInChildren<Animator>(), new() { defaultValue = 3f }, new() { defaultValue = 1f });
-        
+
         // 애니메이션 재생
         animator.AnimRun();
         animator.AnimGacha();
@@ -182,7 +182,6 @@ public class UICharacterGacha : UIWindow
             animator.AnimIdle();
             var screenEffect = GameManager.effectManager.GetEffect("WhiteScreen");
             screenEffect.transform.position = centerPos;
-            screenEffect.transform.localScale = Vector3.one * 1000f;
         };
 
         // 결과 보여주기
@@ -208,16 +207,10 @@ public class UICharacterGacha : UIWindow
 
                 // 카메라 상태 되돌리기
                 cm.isHideUnits = isHideUnits;
-                if (cameraFocusing)
-                {
-                    cm.StartFocusOnUnit(null);
-                }
-                else
-                {
-                    cm.SetLocation(cameraLocation, cameraHuntZoneNum);
-                    cm.SetPosition(cameraPositin);
-                    cm.ZoomValue = cameraZoom;
-                }
+                cm.SetLocation(cameraLocation, cameraHuntZoneNum);
+                cm.SetPosition(cameraPositin);
+                cm.ZoomValue = cameraZoom;
+                Camera.main.orthographicSize = cameraZoom;
                 GameManager.inputManager.receiver.enabled = true;
 
                 //결과 표시

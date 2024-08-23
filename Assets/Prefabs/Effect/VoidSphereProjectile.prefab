@@ -58,11 +58,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5234ae4836998a547a2ab215c6abcfb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particleImages: []
   sortingGroup: {fileID: 0}
+  defaultSortLayer: 4
   isLoop: 0
   isFlip: 0
   isTouchEffect: 0
   isOnProjectile: 0
+  prevPos: {x: 0, y: 0, z: 0}
 --- !u!1001 &9074312352376729660
 PrefabInstance:
   m_ObjectHideFlags: 0

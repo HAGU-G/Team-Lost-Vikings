@@ -64,7 +64,7 @@ public class DropData : ITableAvaialable<int>, ITableExtraLoadable
 
             if (Random.Range(0, 100) < DropChances[i])
             {
-                im.AddItem(DropCurrenyIds[i], Random.Range(DropMinNums[i], DropMaxNums[i]));
+                im.AddItem(DropCurrenyIds[i], Random.Range(DropMinNums[i], DropMaxNums[i] + 1));
             }
         }
         return result;

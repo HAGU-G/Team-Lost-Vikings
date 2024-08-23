@@ -4,7 +4,6 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.Rendering;
 using System.Collections.Generic;
 using System.Linq;
-using System;
 using AssetKits.ParticleImage;
 
 public class EffectObjectReference : AssetReferenceT<EffectObject>
@@ -19,15 +18,32 @@ public class EffectObject : MonoBehaviour
 {
     public List<ParticleImage> particleImages = new();
     private List<ParticleSystem> particleSystems = new();
+    public List<Canvas> canvases = new();
     [HideInInspector] public SortingGroup sortingGroup;
 
     private bool isStopped = false;
+    public SORT_LAYER defaultSortLayer = SORT_LAYER.Default;
     public bool isLoop = false;
-    public bool isFlip = false;
-    public bool isTouchEffect = false;
+    [HideInInspector] public bool isFlip = false;
+    [HideInInspector] public bool isTouchEffect = false;
     [HideInInspector] public bool isOnProjectile = false;
     public IObjectPool<EffectObject> pool;
-
+    public bool IsParticleStopped
+    {
+        get
+        {
+            bool isParticleStopped = true;
+            foreach (var p in particleSystems)
+            {
+                isParticleStopped &= p.isStopped;
+            }
+            foreach (var p in particleImages)
+            {
+                isParticleStopped &= p.isStopped;
+            }
+            return isParticleStopped;
+        }
+    }
     public Vector3 prevPos;
 
     private void Awake()
@@ -56,39 +72,41 @@ public class EffectObject : MonoBehaviour
 
     private void Update()
     {
-        if (isTouchEffect)
+        if (sortingGroup.sortingLayerName == SORT_LAYER.OverUI.ToString()
+            || sortingGroup.sortingLayerName == SORT_LAYER.UI.ToString())
         {
-            transform.localScale = Vector3.one * Camera.main.orthographicSize * GameSetting.Instance.touchEffectScale;
+            transform.localScale =
+                Vector3.one
+                * Camera.main.orthographicSize
+                * (isTouchEffect ? GameSetting.Instance.touchEffectScale : 1f);
+
             transform.position += GameManager.cameraManager.DeltaPos;
-        }
-        if (!isLoop && !isOnProjectile)
-        {
-            bool isParticleStopped = true;
-            foreach (var p in particleSystems)
-            {
-                isParticleStopped &= p.isStopped;
-            }
-            foreach (var p in particleImages)
-            {
-                isParticleStopped &= p.isStopped;
-            }
-
-            gameObject.SetActive(!isParticleStopped);
-        }
-
-        if (!isStopped && sortingGroup.sortingLayerName != SORT_LAYER.UI.ToString())
-        {
-            sortingGroup.sortingOrder = -Mathf.FloorToInt(gameObject.transform.position.y);
         }
         else
         {
-            bool isParticleStopped = true;
-            foreach (var p in particleSystems)
-            {
-                isParticleStopped &= p.isStopped;
-            }
+            sortingGroup.sortingOrder = -Mathf.FloorToInt(gameObject.transform.position.y);
+        }
+        if ((!isLoop && !isOnProjectile) || isStopped)
+            gameObject.SetActive(!IsParticleStopped);
+    }
 
-            gameObject.SetActive(!isParticleStopped);
+    public void UseScaledDeltaTime(bool isScaled)
+    {
+
+        foreach (var p in particleSystems)
+        {
+            var main = p.main;
+            main.useUnscaledTime = !isScaled;
+        }
+        foreach (var p in particleImages)
+        {
+            var timeScale = isScaled ? AssetKits.ParticleImage.Enumerations.TimeScale.Normal
+                                     : AssetKits.ParticleImage.Enumerations.TimeScale.Unscaled;
+            p.timeScale = timeScale;
+            foreach (var piChild in p.children)
+            {
+                piChild.timeScale = timeScale;
+            }
         }
     }
 
@@ -111,6 +129,10 @@ public class EffectObject : MonoBehaviour
         foreach (var p in particleSystems)
         {
             p.Play(true);
+        }
+        foreach (var p in particleImages)
+        {
+            p.Play();
         }
     }
 

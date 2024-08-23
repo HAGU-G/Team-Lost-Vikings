@@ -3,7 +3,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 public class UIUnitDetailInformation : UIWindow
@@ -135,7 +134,14 @@ public class UIUnitDetailInformation : UIWindow
         characterIcon.uvRect
                 = GameManager.uiManager.unitRenderTexture.LoadRenderTexture(unit.Data.UnitAssetFileName);
         gradeIcon.sprite = GameManager.uiManager.gradeIcons[(int)unit.UnitGrade];
-        characterJob.text = unit.Data.Job.ToString();
+        characterJob.text = unit.Data.Job switch
+        {
+            UNIT_JOB.MAGICIAN => "법사",
+            UNIT_JOB.WARRIOR => "전사",
+            UNIT_JOB.ARCHER => "궁수",
+            UNIT_JOB.NONE => "용병",
+            _ => string.Empty
+        };
 
         if (unit.Skills.Count >= 1)
         {
@@ -158,7 +164,14 @@ public class UIUnitDetailInformation : UIWindow
             skill2_Desc.text = unit.Skills[1].Data.SkillDesc;
         }
 
-        attributeText.text = unit.Data.BasicAttackType.ToString();
+        attributeText.text = unit.Data.BasicAttackType switch
+        {
+            ATTACK_TYPE.NONE => "고정 공격",
+            ATTACK_TYPE.PHYSICAL => "물리 공격",
+            ATTACK_TYPE.MAGIC => "마법 공격",
+            ATTACK_TYPE.SPECIAL => "특수 공격",
+            _ => string.Empty
+        };
 
         hpBar.interactable = false;
         hpBar.value = (float)unit.HP.Current / (float)unit.HP.max;
@@ -183,10 +196,10 @@ public class UIUnitDetailInformation : UIWindow
         magValue.text = unit.BaseWiz.Current.ToString();
         agiValue.text = unit.BaseAgi.Current.ToString();
 
-        attackSpeedValue.text = unit.AttackSpeed.Current.ToString();
-        moveSpeedValue.text = unit.MoveSpeed.Current.ToString();
-        critValue.text = unit.CritChance.Current.ToString();
-        critDamageValue.text = unit.CritWeight.Current.ToString();
+        attackSpeedValue.text = $"{unit.AttackSpeed.Current:0.00}";
+        moveSpeedValue.text = $"{unit.MoveSpeed.Current:0.00}";
+        critValue.text = $"{unit.CritChance.Current:0}%";
+        critDamageValue.text = $"{unit.CritWeight.Current*100f:0}%";
 
 
         if(GameManager.unitManager.Waitings.ContainsKey(unit.InstanceID))

@@ -194,6 +194,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: HuntZone (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 1264079050973307882, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.76
+      objectReference: {fileID: 0}
+    - target: {fileID: 1264079050973307882, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.81
+      objectReference: {fileID: 0}
     - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
       propertyPath: <HuntZoneID>k__BackingField
       value: 2
@@ -210,13 +218,17 @@ PrefabInstance:
       propertyPath: <MonsterDatas>k__BackingField.Array.data[0].<MonsterAssetFileName>k__BackingField
       value: Boss_Monster_000
       objectReference: {fileID: 0}
+    - target: {fileID: 2755290866444920816, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: gridInfo
+      value: 
+      objectReference: {fileID: 11400000, guid: b98baaa8571bc074b9a6633a693caa3d, type: 2}
     - target: {fileID: 3743196961969806013, guid: f867158148268024182e917058a08578, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 20
+      value: 19.3
       objectReference: {fileID: 0}
     - target: {fileID: 3743196961969806013, guid: f867158148268024182e917058a08578, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 17.5
       objectReference: {fileID: 0}
     - target: {fileID: 3743196961969806013, guid: f867158148268024182e917058a08578, type: 3}
       propertyPath: m_LocalPosition.z
@@ -309,7 +321,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3625024494866102459, guid: f867158148268024182e917058a08578, type: 3}
       propertyPath: maxSpawnCount
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3743196961969806013, guid: f867158148268024182e917058a08578, type: 3}
       propertyPath: m_LocalPosition.x
@@ -318,6 +330,99 @@ PrefabInstance:
     - target: {fileID: 3743196961969806013, guid: f867158148268024182e917058a08578, type: 3}
       propertyPath: m_LocalPosition.y
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3743196961969806013, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3743196961969806013, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3743196961969806013, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3743196961969806013, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3743196961969806013, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3743196961969806013, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3743196961969806013, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3743196961969806013, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4980112733981367176, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 7699926321438720417, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: m_Name
+      value: Grid
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f867158148268024182e917058a08578, type: 3}
+--- !u!1001 &1591193262
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 593837593685945524, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: m_Name
+      value: HuntZone (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2132455484492134616, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 2132455484492134616, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <HuntZoneID>k__BackingField
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <HuntZoneNum>k__BackingField
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <Info>k__BackingField.<HuntZoneNum>k__BackingField
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: <MonsterDatas>k__BackingField.Array.data[0].<MonsterAssetFileName>k__BackingField
+      value: Boss_Monster_000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2755290866444920816, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: gridInfo
+      value: 
+      objectReference: {fileID: 11400000, guid: 4c31c9ccc101db14c907247a2c1cbea2, type: 2}
+    - target: {fileID: 3743196961969806013, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3743196961969806013, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3743196961969806013, guid: f867158148268024182e917058a08578, type: 3}
       propertyPath: m_LocalPosition.z
@@ -367,3 +472,4 @@ SceneRoots:
   - {fileID: 202036501}
   - {fileID: 1545385441}
   - {fileID: 1441405838}
+  - {fileID: 1591193262}

@@ -15,6 +15,9 @@ public class HuntZone : MonoBehaviour
     public Vector3 PortalPos { get; private set; }
     public Construct construct = new();
 
+    /// <summary>
+    /// Key: 스테이지, Value: 사냥터 데이터테이블
+    /// </summary>
     public Dictionary<int, HuntZoneData> HuntZoneDatas { get; private set; } = new();
     [field: SerializeField] public HuntZoneInfo Info { get; set; }
     public int HuntZoneNum => Info.HuntZoneNum; //기존 코드 유지용
@@ -64,8 +67,8 @@ public class HuntZone : MonoBehaviour
 
     private void Update()
     {
-        //보스 몬스터
-        if (IsBossBattle)
+        //보스 전투 시간
+        if (IsBossBattle && BossTimer > 0f)
         {
             BossTimer -= Time.deltaTime;
 
@@ -76,10 +79,15 @@ public class HuntZone : MonoBehaviour
         }
 
         //재도전 타이머
-        if (Info.RetryTimer <= 0f)
+        if (Info.RetryTimer <= 0f && !Info.CanSpawnBoss)
+        {
             Info.CanSpawnBoss = true;
+            GameManager.huntZoneManager.HuntZoneInfoChanged();
+        }
         else
+        {
             Info.RetryTimer -= Time.deltaTime;
+        }
 
         //일반 몬스터 스폰
         if (Monsters.Count >= HuntZoneDatas[Info.Stage].MaxMonNum)
@@ -114,8 +122,8 @@ public class HuntZone : MonoBehaviour
         GameManager.huntZoneManager.AddHuntZone(this);
 
         //타일 설치
-        var maxtile = new Vector2Int(gridMap.gridInfo.row - 1, gridMap.gridInfo.col - 1);
-        entranceTiles = construct.PlaceBuilding(standardBuildingPrefab, gridMap.tiles[new Vector2Int(6, 6)], gridMap)
+        var buildingPos = new Vector2Int(gridMap.gridInfo.row - 2, gridMap.gridInfo.col - 2);
+        entranceTiles = construct.PlaceBuilding(standardBuildingPrefab, gridMap.tiles[buildingPos], gridMap)
             .GetComponent<Building>().entranceTiles;
         PortalPos = entranceTiles[Random.Range(0, entranceTiles.Count)].transform.position;
     }
@@ -131,17 +139,15 @@ public class HuntZone : MonoBehaviour
         for (int i = maxIndex; i >= 0; i--)
         {
             if (i < Monsters.Count && (!IsBossBattle || !Monsters[i].stats.isBoss))
-            {
                 Monsters[i].RemoveUnit();
-            }
 
             if (isRemoveUnit && i < Units.Count)
-                Units[i].RemoveUnit();
+                (Units[i] as UnitOnHunt).ReturnToVillage();
         }
 
         IsReady = true;
 
-        GameManager.huntZoneManager.HuntZoneInfoChange();
+        GameManager.huntZoneManager.HuntZoneInfoChanged();
     }
 
     public HuntZoneData GetCurrentData()
@@ -171,12 +177,15 @@ public class HuntZone : MonoBehaviour
 
     public void SetStage(int stageNum)
     {
+        if (!HuntZoneDatas.ContainsKey(stageNum))
+            return;
+
         if (Info.Stage != stageNum)
             ResetHuntZone(false);
 
         Info.Stage = stageNum;
 
-        GameManager.huntZoneManager.HuntZoneInfoChange();
+        GameManager.huntZoneManager.HuntZoneInfoChanged();
     }
 
     public void UpdateRegenPoints()
@@ -256,7 +265,7 @@ public class HuntZone : MonoBehaviour
             unit.ForceChangeTarget(boss);
         }
 
-        GameManager.huntZoneManager.HuntZoneInfoChange();
+        GameManager.huntZoneManager.HuntZoneInfoChanged();
     }
 
     public void EndBossBattle(bool isWin)
@@ -269,18 +278,36 @@ public class HuntZone : MonoBehaviour
 
             if (HuntZoneDatas.ContainsKey(nextStage))
                 SetStage(nextStage);
+
+            var message = GameManager.uiManager.windows[WINDOW_NAME.MESSAGE_POPUP] as UIWindowMessage;
+            message.ShowMessage(
+                string.Format("승리했습니다!"),
+                false,
+                1.0f,
+                onOpen: () =>
+                {
+                    var effect = GameManager.effectManager.GetEffect("PopUp_effect", SORT_LAYER.UI);
+                    effect.transform.position = message.window.transform.position;
+                });
         }
         else
         {
             boss.RemoveUnit();
             boss = null;
             StartRetryTimer();
+
+            var message = GameManager.uiManager.windows[WINDOW_NAME.MESSAGE_POPUP] as UIWindowMessage;
+            message.ShowMessage(
+                string.Format("패배했습니다..."),
+                false,
+                1.5f,
+                openAnimation: UIWindowMessage.OPEN_ANIMATION.FADEOUT);
         }
 
         BossTimer = 0f;
         IsBossBattle = false;
 
-        GameManager.huntZoneManager.HuntZoneInfoChange();
+        GameManager.huntZoneManager.HuntZoneInfoChanged();
     }
 
     public void ReceiveBossNotify()

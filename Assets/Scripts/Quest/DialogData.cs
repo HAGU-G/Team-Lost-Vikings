@@ -1,16 +1,16 @@
 ﻿public enum DIRECTION_VERTICAL
 {
-    MIDDLE,
-    LEFT,
-    RIGHT,
+    NONE,
+    UP,
+    DOWN,
     BOTH
 }
 
 public enum DIRECTION_HORIZENTAL
 {
-    MIDDLE,
-    UP,
-    DOWN,
+    NONE,
+    LEFT,
+    RIGHT,
     BOTH
 }
 
@@ -27,7 +27,7 @@ public class DialogData : ITableAvaialable<int>
     public int Id { get; set; }
     public string SpeakerName { get; set; }
     public string ImageFileName { get; set; }
-    public DIRECTION_VERTICAL ImageMarker { get; set; }
+    public DIRECTION_HORIZENTAL ImageMarker { get; set; }
     public string DialogText { get; set; }
     public BUTTON_SHOW_TYPE SkipBtnEnable { get; set; }
     public int TableID => Id;

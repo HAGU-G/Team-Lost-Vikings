@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -25,6 +24,9 @@ public enum WINDOW_NAME
     OPTION,
     ACCOUNT,
     HUNTZONE_DETAIL,
+    MESSAGE_POPUP,
+    DIALOG,
+    PLACEMENT,
 }
 
 
@@ -44,7 +46,18 @@ public class UIManager : MonoBehaviour
     public UnitStats currentUnitStats;
     public BuildingData currentBuildingData;
 
-    public bool isWindowOn = false;
+    public bool IsWindowOn
+    {
+        get
+        {
+            bool isOpened = false;
+            foreach (var window in windows.Values)
+            {
+                isOpened |= window.isOpened;
+            }
+            return isOpened;
+        }
+    }
 
     public Sprite[] gradeIcons;
     public Sprite[] tutorialPages;
@@ -64,7 +77,7 @@ public class UIManager : MonoBehaviour
         GameManager.uiManager = this;
     }
 
-    
+
 
     public void OnShowCharacter(int instanceID)
     {
@@ -93,7 +106,7 @@ public class UIManager : MonoBehaviour
     // Function -> UI ///////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////
 
-    
+
 
 
 
@@ -111,7 +124,7 @@ public class UIManager : MonoBehaviour
             Debug.Log($"윈도우 이름({windowName})이 이미 등록되어있습니다.");
             return;
         }
-                
+
         windows.Add(windowName, window);
     }
 

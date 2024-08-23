@@ -67,14 +67,14 @@ public class CameraManager : MonoBehaviour
 
         if (im.Moved
             && im.receiver.Received
-            && (!GameManager.uiManager.isWindowOn || GameManager.villageManager.constructMode.isConstructMode))
+            && (!GameManager.uiManager.IsWindowOn || GameManager.villageManager.constructMode.isConstructMode))
         {
             SetPosition(transform.position - im.WorldCenterDeltaPos);
         }
 
         if (im.Zoom != 0f
             && im.receiver.Received
-            && !GameManager.uiManager.isWindowOn)
+            && !GameManager.uiManager.IsWindowOn)
         {
             Zoom(ZoomValue - im.Zoom * zoomMagnification);
         }
@@ -91,8 +91,11 @@ public class CameraManager : MonoBehaviour
         Camera.main.orthographicSize = ZoomValue;
     }
 
-    public void SetLocation(LOCATION location, int huntzoneNum = -1)
+    public void SetLocation(LOCATION location, int huntzoneNum = -1, bool isFinishFocusing = true)
     {
+        if (isFinishFocusing)
+            FinishFocousOnUnit();
+
         LookLocation = location;
 
         var sm = GameManager.soundManager;
@@ -157,15 +160,21 @@ public class CameraManager : MonoBehaviour
         Zoom(minZoom);
         var position = focusingUnit.objectTransform.position;
         position.z = -10;
-        SetLocation(focusingUnit.Location, focusingUnit.HuntZoneNum);
+        SetLocation(focusingUnit.Location, focusingUnit.HuntZoneNum, false);
         SetPosition(position);
     }
 
     public void StartFocusOnUnit(UnitStats stats)
     {
-        prevZoom = ZoomValue;
+        if (stats == focusingUnit && isFocusOnUnit)
+            return;
+
+        if (!isFocusOnUnit)
+            prevZoom = ZoomValue;
+
         if (stats != null)
             focusingUnit = stats;
+
         isFocusOnUnit = true;
     }
 
