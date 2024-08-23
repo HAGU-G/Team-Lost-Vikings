@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd05155e8efca8240a16f18f58d714c0, type: 3}
   m_Name: Game Setting
   m_EditorClassIdentifier: 
-  useSaveDataWhenEditor: 0
+  useSaveDataWhenEditor: 1
   serverURI: google.com
   syncIntervalType: 0
   syncInterval: 30
