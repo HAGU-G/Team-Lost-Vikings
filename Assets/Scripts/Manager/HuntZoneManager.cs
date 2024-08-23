@@ -43,15 +43,9 @@ public class HuntZoneManager : MonoBehaviour
 
     private void Update()
     {
-
-        //TESTCODE
-        if (Keyboard.current.deleteKey.wasPressedThisFrame)
-        {
-            GameManager.unitManager.DiscardCharacter(GameManager.unitManager.Units.Last().Value.InstanceID);
-        }
         if (Keyboard.current.endKey.wasPressedThisFrame)
         {
-            GameManager.itemManager.Gold += 10000;
+            GameManager.itemManager.Gold += 1000;
         }
     }
 

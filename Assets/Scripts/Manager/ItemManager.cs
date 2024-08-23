@@ -89,6 +89,8 @@ public class ItemManager
         var prevAmount = ownItemList[id];
         var afterAmount = ownItemList[id] + amount;
 
+        if(prevAmount > itemLimit)
+            ownItemList[id] = prevAmount;
         if (afterAmount > itemLimit)
             ownItemList[id] = Mathf.Max(itemLimit, ownItemList[id]);
         else
