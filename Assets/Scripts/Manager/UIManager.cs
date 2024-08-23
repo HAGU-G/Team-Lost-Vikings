@@ -59,7 +59,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public Sprite[] gradeIcons;
+    //public Sprite[] gradeIcons;
     public Sprite[] tutorialPages;
 
     /////////////////////////////////////////////////////////////////
