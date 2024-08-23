@@ -9,8 +9,10 @@ public class UICheat : MonoBehaviour
     private void Awake()
     {
 #if !UNITY_EDITOR
-        //gameObject.SetActive(false);
-        //return;
+        buttonGold.gameObject.SetActive(false);
+        buttonAll.gameObject.SetActive(false);
+        buttonLevel.gameObject.SetActive(false);
+        return;
 #endif
         buttonGold.onClick.AddListener(() =>
         {
