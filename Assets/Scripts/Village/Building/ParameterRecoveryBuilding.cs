@@ -40,6 +40,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
     {
         //isRecovering = true;
         Debug.Log($"hp : {unit.stats.HP} stamina : {unit.stats.Stamina} stress : {unit.stats.Stress}");
+        GameManager.cameraManager.FinishFocusOnUnit();
         interactingUnits.Add(unit);
         bool isComplete = false;
         GameManager.uiManager.windows[WINDOW_NAME.PARAMETER_POPUP].GetComponent<UIBuildingParameterPopUp>().SetCharacterInformation();

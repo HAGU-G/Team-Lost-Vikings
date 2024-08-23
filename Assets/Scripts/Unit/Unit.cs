@@ -179,8 +179,14 @@ public abstract class Unit : MonoBehaviour, IPointerClickHandler
         if (stats.Data.UnitType != UNIT_TYPE.CHARACTER)
             return;
 
-        GameManager.soundManager.PlayUnitSFX();
+        var unitOnVillage = GetComponent<UnitOnVillage>();
+        if (unitOnVillage != null
+            && unitOnVillage.currentState == UnitOnVillage.STATE.INTERACT)
+        {
+            return;
+        }
 
+        GameManager.soundManager.PlayUnitSFX();
         var cm = GameManager.cameraManager;
         cm.StartFocusOnUnit(stats);
         GameManager.uiManager.currentUnitStats = stats;
