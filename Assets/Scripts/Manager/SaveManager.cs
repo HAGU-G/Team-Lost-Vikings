@@ -154,10 +154,14 @@ public static class SaveManager
 
             var upId = DataTableManager.buildingTable.GetData(structureId).UpgradeId;
 
-            up.currentGrade = save.buildingUpgrade[structureId];
-            up.SetBuildingUpgrade();
-            //up.GetComponent<StatUpgradeBuilding>()?.RiseStat();
-            up.Upgrade(true);
+
+            if(save.buildingUpgrade.TryGetValue(structureId, out var value))
+            {
+                up.currentGrade = save.buildingUpgrade[structureId];
+                up.SetBuildingUpgrade();
+                //up.GetComponent<StatUpgradeBuilding>()?.RiseStat();
+                up.Upgrade(true);
+            }
 
             
 

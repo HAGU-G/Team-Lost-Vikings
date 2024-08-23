@@ -109,7 +109,8 @@ public class UnitSpawnTester : MonoBehaviour
 //            }
 //        }
 
-//        text1.text = SyncedTime.IsSynced ? $"{SyncedTime.Now:yyyy-MM-dd HH:mm:ss.fff} FPS : {1f / Time.deltaTime:0.00}" : "Loading...";
+//        text1.text = SyncedTime.IsSynced ? $"{SyncedTime.Now:yyyy-MM-dd HH:mm:ss.fff}
+//        : {1f / Time.deltaTime:0.00}" : "Loading...";
 //        if (selected != null)
 //        {
 //            if (selected.StatGroup == STAT_GROUP.UNIT_ON_DUNGEON)
