@@ -158,12 +158,11 @@ public static class SaveManager
             if(save.buildingUpgrade.TryGetValue(structureId, out var value))
             {
                 up.currentGrade = save.buildingUpgrade[structureId];
-                up.SetBuildingUpgrade();
-                //up.GetComponent<StatUpgradeBuilding>()?.RiseStat();
-                up.Upgrade(true);
             }
+            up.SetBuildingUpgrade();
+            //up.GetComponent<StatUpgradeBuilding>()?.RiseStat();
+            up.Upgrade(true);
 
-            
 
             GameManager.villageManager.SetDevelopText(false);
         }
