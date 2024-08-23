@@ -16,7 +16,7 @@ PlayerSettings:
   productName: "\uB358\uC804 \uB9C8\uC744 \uD0C0\uC774\uCFE4"
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
-  m_SplashScreenBackgroundColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
+  m_SplashScreenBackgroundColor: {r: 0.84313726, g: 0.8862745, b: 0.92156863, a: 1}
   m_ShowUnitySplashScreen: 1
   m_ShowUnitySplashLogo: 1
   m_SplashScreenOverlayOpacity: 1
@@ -139,7 +139,7 @@ PlayerSettings:
   loadStoreDebugModeEnabled: 0
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
-  bundleVersion: 0.2.6 - 240822 (CBT week)
+  bundleVersion: 0.2.7 - 240823 (CBT 001)
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
