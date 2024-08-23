@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class UIDevelop : MonoBehaviour
 {
+    public Canvas[] canvases;
     public Button buttonVillage;
     public Button buttonHuntZone;
     public TextMeshProUGUI textHuntZone;
