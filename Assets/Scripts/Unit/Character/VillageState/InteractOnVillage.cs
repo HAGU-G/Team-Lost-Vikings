@@ -14,10 +14,8 @@ public class InteractOnVillage : State<UnitOnVillage>
         owner.currentState = UnitOnVillage.STATE.INTERACT;
         //var currentTile = owner.villageManager.GetTile(owner.gameObject.transform.position);
         //var building = currentTile.tileInfo.ObjectLayer.LayerObject;
-        Interact(owner.destination);
-
-        //TODO 애니메이션 대신 프리펩 비활성화, 상호작용 완료시 다시 활성화
-        //owner.animator.AnimIdle();
+        Interact(owner.destination);        
+        
         renderers = owner.gameObject.GetComponentsInChildren<SpriteRenderer>().ToList();
         foreach (var render in renderers)
         {

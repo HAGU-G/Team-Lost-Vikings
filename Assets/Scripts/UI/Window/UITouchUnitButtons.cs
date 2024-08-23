@@ -104,7 +104,7 @@ public class UITouchUnitButtons : UIWindow
     private void OnButtonClose()
     {
         GameManager.PlayButtonSFX();
-        GameManager.cameraManager.FinishFocousOnUnit();
+        GameManager.cameraManager.FinishFocusOnUnit();
         Close();
     }
 

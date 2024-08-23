@@ -276,7 +276,7 @@ public class UIUnitDetailInformation : UIWindow
     public void OnButtonExit()
     {
         GameManager.PlayButtonSFX();
-        GameManager.cameraManager.FinishFocousOnUnit();
+        GameManager.cameraManager.FinishFocusOnUnit();
         Close();
     }
 
