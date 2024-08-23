@@ -109,7 +109,7 @@ public class UIReviveBuilding : UIWindow
 
         var time = um.currentNormalBuidling.gameObject.GetComponent<ReviveBuilding>().reviveTime;
         reviveTimeText.text = $"부활 대기시간 {time}초";
-
+        //reviveTimeText.text = $"{grade[upgradeComponent.UpgradeGrade].UpgradeDesc}";
         SetUpgradeItemList();
         CheckResource();
     }

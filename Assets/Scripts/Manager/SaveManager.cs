@@ -66,12 +66,16 @@ public static class SaveManager
         }
 
         save.buildingUpgrade.Clear();
-        foreach (var building in GameManager.villageManager.constructedBuildings)
+        foreach(var grade in GameManager.playerManager.buildingUpgradeGrades)
         {
-            var up = building.GetComponent<BuildingUpgrade>();
-            var id = building.GetComponent<Building>().StructureId;
-            save.buildingUpgrade.Add(id, up == null ? 0 : up.currentGrade);
+            save.buildingUpgrade.Add(grade.Key, grade.Value);
         }
+        //foreach (var building in GameManager.villageManager.constructedBuildings)
+        //{
+        //    var up = building.GetComponent<BuildingUpgrade>();
+        //    var id = building.GetComponent<Building>().StructureId;
+        //    save.buildingUpgrade.Add(id, up == null ? 0 : up.currentGrade);
+        //}
 
 
         SaveFile();
@@ -124,6 +128,10 @@ public static class SaveManager
                 unitDeploy[deploy.Key] = deploy.Value;
         }
 
+        foreach(var grade in save.buildingUpgrade)
+        {
+            GameManager.playerManager.buildingUpgradeGrades.Add(grade.Key, grade.Value);
+        }
 
         foreach (var key in save.buildings.Keys)
         {
@@ -150,6 +158,8 @@ public static class SaveManager
             up.SetBuildingUpgrade();
             //up.GetComponent<StatUpgradeBuilding>()?.RiseStat();
             up.Upgrade(true);
+
+            
 
             GameManager.villageManager.SetDevelopText(false);
         }
