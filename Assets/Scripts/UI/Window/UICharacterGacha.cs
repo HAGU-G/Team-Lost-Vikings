@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Rendering;
 public class UICharacterGacha : UIWindow
 {
     public override WINDOW_NAME WindowName => WINDOW_NAME.GACHA_UI;
@@ -111,6 +112,11 @@ public class UICharacterGacha : UIWindow
         ///////////////////////////
 
         // TODO 레터박스 제외 UI 숨기기 필요
+        foreach (var canvas in GameManager.uiManager.uiDevelop.canvases)
+        {
+            canvas.gameObject.SetActive(false);
+        }
+
         Close();
 
         // 카메라 상태 저장
@@ -131,7 +137,7 @@ public class UICharacterGacha : UIWindow
 
         // 카메라 세팅
         cm.isHideUnits = true;
-        cm.FinishFocousOnUnit();
+        cm.FinishFocusOnUnit();
         cm.SetLocation(LOCATION.VILLAGE);
         cm.Zoom(7.4f);
         var standardBuilding = vm.GetBuilding(STRUCTURE_ID.STANDARD);
@@ -162,6 +168,8 @@ public class UICharacterGacha : UIWindow
             Quaternion.identity).WaitForCompletion();
         gachaPrefab.transform.localScale = Vector3.one * 2f;
         animator.Init(gachaPrefab.GetComponentInChildren<Animator>(), new() { defaultValue = 3f }, new() { defaultValue = 1f });
+        gachaPrefab.gameObject.AddComponent<SortingGroup>().sortingLayerName = SORT_LAYER.OverUnit.ToString();
+
 
         // 애니메이션 재생
         animator.AnimRun();
@@ -175,6 +183,8 @@ public class UICharacterGacha : UIWindow
 
         resultCharacter.transform.localScale = Vector3.one * 2f;
         resultCharacter.SetActive(false);
+        resultCharacter.gameObject.AddComponent<SortingGroup>().sortingLayerName = SORT_LAYER.OverUnit.ToString();
+
 
         // 달려와서 정지
         animator.listener.OnGachaWaitEventOnce += () =>
@@ -184,7 +194,7 @@ public class UICharacterGacha : UIWindow
             screenEffect.transform.position = centerPos;
         };
 
-        // 결과 보여주기
+        // 결과 프리펩 보여주기
         animator.listener.OnGachaShowEventOnce += () =>
         {
             animator.SetAlpha(0f);
@@ -199,7 +209,10 @@ public class UICharacterGacha : UIWindow
                 ///////////////////////////
 
                 // TODO UI 숨기기 해제 필요
-
+                foreach (var canvas in GameManager.uiManager.uiDevelop.canvases)
+                {
+                    canvas.gameObject.SetActive(true);
+                }
 
                 // 연출용 캐릭터 삭제
                 Addressables.ReleaseInstance(gachaPrefab);

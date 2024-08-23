@@ -102,7 +102,7 @@ public class UITouchUnitButtons : UIWindow
 
     private void OnButtonClose()
     {
-        GameManager.cameraManager.FinishFocousOnUnit();
+        GameManager.cameraManager.FinishFocusOnUnit();
         Close();
     }
 

@@ -13,6 +13,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
     public List<UnitOnVillage> movingUnits;
     public int recoveryAmount;
     public float recoveryTime;
+    public int requireGold;
     //private bool isRecovering;
 
     public event Action<PARAMETER_TYPE> OnRecoveryDone;
@@ -39,6 +40,8 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
     {
         //isRecovering = true;
         Debug.Log($"hp : {unit.stats.HP} stamina : {unit.stats.Stamina} stress : {unit.stats.Stress}");
+        if(GameManager.cameraManager.focusingUnit == unit.stats)
+            GameManager.cameraManager.FinishFocusOnUnit();
         interactingUnits.Add(unit);
         bool isComplete = false;
         GameManager.uiManager.windows[WINDOW_NAME.PARAMETER_POPUP].GetComponent<UIBuildingParameterPopUp>().SetCharacterInformation();
@@ -64,6 +67,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
                 {
                     case PARAMETER_TYPE.HP:
                         unit.stats.HP.Current += recoveryAmount;
+                        GameManager.itemManager.Gold += requireGold;
                         Debug.Log($"hp : {unit.stats.HP.Current}");
                         if (unit.stats.HP.Current < unit.stats.HP.max)
                             yield return new WaitForSeconds(recoveryTime);
@@ -77,6 +81,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
                         break;
                     case PARAMETER_TYPE.STAMINA:
                         unit.stats.Stamina.Current += recoveryAmount;
+                        GameManager.itemManager.Gold += requireGold;
                         Debug.Log($"stamina : {unit.stats.Stamina}");
                         if (unit.stats.Stamina.Current < unit.stats.Stamina.max)
                             yield return new WaitForSeconds(recoveryTime);
@@ -90,6 +95,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
                         break;
                     case PARAMETER_TYPE.MENTAL:
                         unit.stats.Stress.Current += recoveryAmount;
+                        GameManager.itemManager.Gold += requireGold;
                         Debug.Log($"stress : {unit.stats.Stress}");
                         if (unit.stats.Stress.Current < unit.stats.Stress.max)
                             yield return new WaitForSeconds(recoveryTime);

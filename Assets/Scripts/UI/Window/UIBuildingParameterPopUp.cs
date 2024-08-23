@@ -88,33 +88,32 @@ public class UIBuildingParameterPopUp : UIWindow
             SetLastUpgrade();
             return;
         }
-
-
-        requireItemIds = grade[upgradeComponent.UpgradeGrade - 1].ItemIds;
-        requireItemNums = grade[upgradeComponent.UpgradeGrade - 1].ItemNums;
+        upgradeComponent = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
+        requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
+        requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
         SetPopUp();
     }
 
-    private void CheckCurrentBuilding()
-    {
-        Debug.Log($"upgrade : {vm.village.upgrade} / current : {um.currentParameterBuilding}");
-        if (vm.village.upgrade != um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>())
-        {
-            vm.village.upgrade = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
-            upgradeComponent = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
-            grade = DataTableManager.upgradeTable.GetData(um.currentNormalBuidling.UpgradeId);
+    //private void CheckCurrentBuilding()
+    //{
+    //    Debug.Log($"upgrade : {vm.village.upgrade} / current : {um.currentParameterBuilding}");
+    //    if (vm.village.upgrade != um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>())
+    //    {
+    //        vm.village.upgrade = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
+    //        upgradeComponent = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
+    //        grade = DataTableManager.upgradeTable.GetData(um.currentNormalBuidling.UpgradeId);
 
-            if (upgradeComponent.UpgradeGrade >= grade.Count)
-            {
-                SetLastUpgrade();
-                return;
-            }
+    //        if (upgradeComponent.UpgradeGrade >= grade.Count)
+    //        {
+    //            SetLastUpgrade();
+    //            return;
+    //        }
 
-            requireItemIds = grade[upgradeComponent.UpgradeGrade - 1].ItemIds;
-            requireItemNums = grade[upgradeComponent.UpgradeGrade - 1].ItemNums;
-            SetPopUp();
-        }
-    }
+    //        requireItemIds = grade[upgradeComponent.UpgradeGrade - 1].ItemIds;
+    //        requireItemNums = grade[upgradeComponent.UpgradeGrade - 1].ItemNums;
+    //        SetPopUp();
+    //    }
+    //}
 
 
     private void SetPopUp()
@@ -132,8 +131,19 @@ public class UIBuildingParameterPopUp : UIWindow
     public void OnButtonUpgrade()
     {
         vm.village.Upgrade();
+        upgradeComponent = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
+
+        if (upgradeComponent.UpgradeGrade >= grade.Count)
+        {
+            SetLastUpgrade();
+            return;
+        }
+
+        requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
+        requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
         for (int i = 0; i < requireItemIds.Count; ++i)
         {
+            Debug.Log($"{requireItemIds[i]}, {requireItemNums[i]}");
             im.SpendItem(requireItemIds[i], requireItemNums[i]);
         }
 
@@ -141,11 +151,7 @@ public class UIBuildingParameterPopUp : UIWindow
         var buildingID = upgradeComponent.GetComponent<Building>().StructureId;
         GameManager.questManager.SetAchievementCountByTargetID(buildingID, ACHIEVEMENT_TYPE.BUILDING_UPGRADE, 1);
         
-        if (upgradeComponent.UpgradeGrade >= grade.Count)
-        {
-            SetLastUpgrade();
-            return;
-        }
+        
 
         SetPopUp();
     }
@@ -158,8 +164,10 @@ public class UIBuildingParameterPopUp : UIWindow
 
     public void SetText()
     {
+        upgradeComponent = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
         buildingName.text = um.currentNormalBuidling.StructureName;
         defaultDescription.text = um.currentNormalBuidling.StructureDesc;
+        Debug.Log(upgradeComponent.UpgradeGrade);
         if (upgradeComponent.UpgradeGrade < grade.Count)
             nextEffectDescription.text = UpgradeData.GetUpgradeData(upgradeComponent.UpgradeId, upgradeComponent.UpgradeGrade + 1).UpgradeDesc;
         else

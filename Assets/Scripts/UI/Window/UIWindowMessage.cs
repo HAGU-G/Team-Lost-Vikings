@@ -50,6 +50,7 @@ public class UIWindowMessage : UIWindow
 
     [Header("기타")]
     public GameObject window;
+    public CanvasGroup canvasGroup;
     public bool isAutoClose;
     public CLOSE_TYPE closeType;
     public float closeTime;
@@ -120,7 +121,7 @@ public class UIWindowMessage : UIWindow
         OnCancelButtonClickOnce = null;
         OnConfirmButtonClickOnce = null;
         buttonLayout.SetActive(false);
-
+        canvasGroup.alpha = 1.0f;
         isPressed = false;
 
         animator.SetBool(paramIsOpended, isOpened);

@@ -49,7 +49,6 @@ public class EffectObject : MonoBehaviour
     private void Awake()
     {
         sortingGroup = GetComponent<SortingGroup>();
-        sortingGroup.sortAtRoot = true;
         particleSystems = GetComponentsInChildren<ParticleSystem>().ToList();
 
         if (!GameManager.IsReady)
@@ -100,10 +99,13 @@ public class EffectObject : MonoBehaviour
         }
         foreach (var p in particleImages)
         {
-            p.timeScale =
-                isScaled
-                ? AssetKits.ParticleImage.Enumerations.TimeScale.Normal
-                : AssetKits.ParticleImage.Enumerations.TimeScale.Unscaled;
+            var timeScale = isScaled ? AssetKits.ParticleImage.Enumerations.TimeScale.Normal
+                                     : AssetKits.ParticleImage.Enumerations.TimeScale.Unscaled;
+            p.timeScale = timeScale;
+            foreach (var piChild in p.children)
+            {
+                piChild.timeScale = timeScale;
+            }
         }
     }
 

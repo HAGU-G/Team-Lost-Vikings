@@ -93,7 +93,11 @@ public class UIWindowDialog : UIWindow
             textScript.text = dm.CurrentScript.DialogText;
 
             var imageName = dm.CurrentScript.ImageFileName;
-            if (!loadedSprites.ContainsKey(imageName) && Addressables.LoadResourceLocationsAsync(imageName).WaitForCompletion().Count <= 0)
+            if (loadedSprites.ContainsKey(imageName))
+            {
+                //이미 로드를 시작함. 아무행동 하지 않음.
+            }
+            else if (Addressables.LoadResourceLocationsAsync(imageName).WaitForCompletion().Count <= 0)
             {
                 if (!(imageName == "0" || imageName == string.Empty))
                 {
@@ -102,22 +106,23 @@ public class UIWindowDialog : UIWindow
             }
             else
             {
+                loadedSprites.Add(imageName, null);
                 var handle = Addressables.LoadAssetAsync<Sprite>(imageName);
-
-                handle.Completed += (x) =>
-                {
-                    if (x.Status != AsyncOperationStatus.Succeeded
-                    || dm.CurrentScript.ImageFileName != imageName)
-                        return;
-
-                    if (loadedSprites.TryAdd(imageName, x.Result))
-                        UpdateImage();
-                };
-
                 if (!handles.Contains(handle))
                     handles.Add(handle);
+                handle.Completed += (x) =>
+                {
+                    if (x.Status != AsyncOperationStatus.Succeeded)
+                    {
+                        loadedSprites.Remove(imageName);
+                        handles.Remove(handle);
+                        Addressables.Release(handle);
+                        return;
+                    }
+                    loadedSprites[imageName] = x.Result;
+                    UpdateImage();
+                };
             }
-
             UpdateImage();
         }
 

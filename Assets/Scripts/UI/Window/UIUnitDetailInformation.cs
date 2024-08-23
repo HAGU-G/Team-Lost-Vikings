@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -63,6 +64,7 @@ public class UIUnitDetailInformation : UIWindow
     public UnitStats unit;
 
     private string path = "Assets/0820Pick/Icon/";
+    private Dictionary<int, Sprite> gradeIcons = new();
     private Dictionary<int, Sprite> skillIcons = new();
 
     public GameObject skillPopUp;
@@ -100,6 +102,15 @@ public class UIUnitDetailInformation : UIWindow
             }
             Addressables.LoadAssetAsync<Sprite>(skillName).Completed += (obj) => OnLoadDone(obj, id);
         }
+
+        var cnt = Enum.GetValues(typeof(UNIT_GRADE)).Length;
+        for (int i = 0; i < cnt; ++i)
+        {
+            var path = $"Grade_0{i + 1}";
+            var id = i;
+            Addressables.LoadAssetAsync<Sprite>(path).Completed += (obj) => OnGradeIconsLoadDone(obj, id);
+        }
+
         exit.onClick.AddListener(OnButtonExit);
         kickOut.onClick.AddListener(OnButtonKickOut);
     }
@@ -109,6 +120,14 @@ public class UIUnitDetailInformation : UIWindow
         if (obj.Status == AsyncOperationStatus.Succeeded)
         {
             skillIcons.Add(id, obj.Result);
+        }
+    }
+
+    private void OnGradeIconsLoadDone(AsyncOperationHandle<Sprite> obj, int id)
+    {
+        if (obj.Status == AsyncOperationStatus.Succeeded)
+        {
+            gradeIcons.Add(id, obj.Result);
         }
     }
 
@@ -133,7 +152,7 @@ public class UIUnitDetailInformation : UIWindow
         characterName.text = unit.Data.Name;
         characterIcon.uvRect
                 = GameManager.uiManager.unitRenderTexture.LoadRenderTexture(unit.Data.UnitAssetFileName);
-        gradeIcon.sprite = GameManager.uiManager.gradeIcons[(int)unit.UnitGrade];
+        gradeIcon.sprite = gradeIcons[(int)unit.UnitGrade];
         characterJob.text = unit.Data.Job switch
         {
             UNIT_JOB.MAGICIAN => "법사",
@@ -254,7 +273,7 @@ public class UIUnitDetailInformation : UIWindow
 
     public void OnButtonExit()
     {
-        GameManager.cameraManager.FinishFocousOnUnit();
+        GameManager.cameraManager.FinishFocusOnUnit();
         Close();
     }
 

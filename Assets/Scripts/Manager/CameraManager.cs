@@ -54,27 +54,21 @@ public class CameraManager : MonoBehaviour
 
     private void Update()
     {
-        if (!IsReady)
+        if (!IsReady || isFocusOnUnit)
             return;
-
-        if (isFocusOnUnit)
-        {
-            SetPositionOnUnit();
-            return;
-        }
 
         var im = GameManager.inputManager;
 
         if (im.Moved
             && im.receiver.Received
-            && (!GameManager.uiManager.isWindowOn || GameManager.villageManager.constructMode.isConstructMode))
+            && (!GameManager.uiManager.IsWindowOn || GameManager.villageManager.constructMode.isConstructMode))
         {
             SetPosition(transform.position - im.WorldCenterDeltaPos);
         }
 
         if (im.Zoom != 0f
             && im.receiver.Received
-            && !GameManager.uiManager.isWindowOn)
+            && !GameManager.uiManager.IsWindowOn)
         {
             Zoom(ZoomValue - im.Zoom * zoomMagnification);
         }
@@ -82,6 +76,9 @@ public class CameraManager : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (isFocusOnUnit)
+            SetPositionOnUnit();
+
         DeltaPos = Vector3.zero;
     }
 
@@ -94,7 +91,7 @@ public class CameraManager : MonoBehaviour
     public void SetLocation(LOCATION location, int huntzoneNum = -1, bool isFinishFocusing = true)
     {
         if (isFinishFocusing)
-            FinishFocousOnUnit();
+            FinishFocusOnUnit();
 
         LookLocation = location;
 
@@ -151,9 +148,9 @@ public class CameraManager : MonoBehaviour
 
     private void SetPositionOnUnit()
     {
-        if (focusingUnit == null)
+        if (focusingUnit == null || focusingUnit.isDead)
         {
-            FinishFocousOnUnit();
+            FinishFocusOnUnit();
             return;
         }
 
@@ -178,7 +175,7 @@ public class CameraManager : MonoBehaviour
         isFocusOnUnit = true;
     }
 
-    public void FinishFocousOnUnit()
+    public void FinishFocusOnUnit()
     {
         if (isFocusOnUnit)
             ZoomValue = prevZoom;

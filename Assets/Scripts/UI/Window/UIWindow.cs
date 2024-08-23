@@ -24,7 +24,6 @@ public abstract class UIWindow : MonoBehaviour
     public virtual void Open()
     {
         isOpened = true;
-        GameManager.uiManager.isWindowOn = true;
         gameObject.SetActive(true);
 
         if (isShowOnly)
@@ -45,6 +44,5 @@ public abstract class UIWindow : MonoBehaviour
             if (window.Value.gameObject.activeSelf)
                 return;
         }
-        GameManager.uiManager.isWindowOn = false;
     }
 }

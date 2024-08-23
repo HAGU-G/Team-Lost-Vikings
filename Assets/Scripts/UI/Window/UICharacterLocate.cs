@@ -26,7 +26,7 @@ public class UICharacterLocate : UIWindow
 
         village.onClick.AddListener(() =>
         {
-            GameManager.cameraManager.FinishFocousOnUnit();
+            GameManager.cameraManager.FinishFocusOnUnit();
             unit.ResetHuntZone();
             unit.ForceReturn();
             Close();
@@ -34,7 +34,7 @@ public class UICharacterLocate : UIWindow
 
         hpRecovery.onClick.AddListener(() =>
         {
-            GameManager.cameraManager.FinishFocousOnUnit();
+            GameManager.cameraManager.FinishFocusOnUnit();
             unit.ForceReturn();
             unit.parameterType = PARAMETER_TYPE.HP;
             if (unit.Location == LOCATION.HUNTZONE)
@@ -46,7 +46,7 @@ public class UICharacterLocate : UIWindow
 
         staminaRecovery.onClick.AddListener(() =>
         {
-            GameManager.cameraManager.FinishFocousOnUnit();
+            GameManager.cameraManager.FinishFocusOnUnit();
             unit.ForceReturn();
             unit.parameterType = PARAMETER_TYPE.STAMINA;
             if (unit.Location == LOCATION.HUNTZONE)
@@ -58,7 +58,7 @@ public class UICharacterLocate : UIWindow
 
         stressRecovery.onClick.AddListener(() =>
         {
-            GameManager.cameraManager.FinishFocousOnUnit();
+            GameManager.cameraManager.FinishFocusOnUnit();
             unit.ForceReturn();
             unit.parameterType = PARAMETER_TYPE.MENTAL;
             if (unit.Location == LOCATION.HUNTZONE)
@@ -72,7 +72,7 @@ public class UICharacterLocate : UIWindow
         for(int i = 0; i < huntzones.Count; ++i)
         {
             int index = i;
-            GameManager.cameraManager.FinishFocousOnUnit();
+            GameManager.cameraManager.FinishFocusOnUnit();
             int huntzoneNum = i;
             var location = Instantiate(locationPrefab, content);
             var locationComponent = location.GetComponent<Location>();
@@ -92,7 +92,7 @@ public class UICharacterLocate : UIWindow
                     return;
                 }
 
-                    GameManager.cameraManager.FinishFocousOnUnit();
+                    GameManager.cameraManager.FinishFocusOnUnit();
                 
                 if (GameManager.huntZoneManager.IsDeployed(unit.InstanceID, huntzoneNum + 1))
                     return;
@@ -125,7 +125,7 @@ public class UICharacterLocate : UIWindow
 
     public void OnButtonExit()
     {
-        GameManager.cameraManager.FinishFocousOnUnit();
+        GameManager.cameraManager.FinishFocusOnUnit();
         Close();
     }
 

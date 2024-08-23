@@ -30,7 +30,14 @@ public class Construct
         var buildingComponent = instancedObj.GetComponent<Building>();
         buildingComponent.gridMap = gridMap;
         SetBuildingInfo(instancedObj, tile, gridMap);
-        
+
+        //설치하며 이전 업그레이드 단계가 있었는지 검사 후 적용
+        if(gridMap == GameManager.villageManager.gridMap
+            && GameManager.playerManager.buildingUpgradeGrades.TryGetValue(buildingComponent.StructureId, out var value)
+            && instancedObj.GetComponent<BuildingUpgrade>() != null)
+        {
+            instancedObj.GetComponent<BuildingUpgrade>().Upgrade(true);
+        }
         
         isSelected = false;
         if(gridMap == GameManager.villageManager.gridMap)

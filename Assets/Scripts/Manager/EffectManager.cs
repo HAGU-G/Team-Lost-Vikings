@@ -16,7 +16,9 @@ public enum SORT_LAYER
     Default,
     OverUnit,
     UI,
-    OverUI
+    OverUI,
+    Message,
+    OverMessage,
 }
 
 
@@ -128,17 +130,26 @@ public class EffectManager : MonoBehaviour
         }
 
         var effect = effectPools[effectName].Get();
-        if (layer != SORT_LAYER.NONE)
+        var layerName = (layer == SORT_LAYER.NONE) ? effect.defaultSortLayer : layer;
+        effect.sortingGroup.sortingLayerName = layerName.ToString();
+        effect.sortingGroup.sortAtRoot = true;
+
+        foreach (var canvas in effect.canvases)
         {
-            var layerName = layer.ToString();
-            effect.sortingGroup.sortingLayerName = layerName;
-            foreach (var canvas in effect.canvases)
+            canvas.sortingLayerName = layerName.ToString();
+            canvas.sortingOrder = layerName switch
             {
-                canvas.sortingLayerName = layerName;
-            }
+                SORT_LAYER.OverUnit => -1,
+                SORT_LAYER.UI => 0,
+                SORT_LAYER.OverUI => 1,
+                SORT_LAYER.Message => 2,
+                SORT_LAYER.OverMessage => 3,
+                _ => -2,
+            };
         }
 
-        effect.UseScaledDeltaTime(!(layer == SORT_LAYER.OverUI || layer == SORT_LAYER.UI));
+        var sortingLayerName = effect.sortingGroup.sortingLayerName;
+        effect.UseScaledDeltaTime(!(sortingLayerName == SORT_LAYER.OverUI.ToString() || sortingLayerName == SORT_LAYER.UI.ToString()));
         return effect;
     }
 

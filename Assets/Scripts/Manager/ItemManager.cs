@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using static UnityEditor.Progress;
 
 [JsonObject(MemberSerialization.OptIn)]
 public class ItemManager
@@ -89,6 +91,8 @@ public class ItemManager
         var prevAmount = ownItemList[id];
         var afterAmount = ownItemList[id] + amount;
 
+        if (prevAmount > itemLimit)
+            ownItemList[id] = prevAmount;
         if (afterAmount > itemLimit)
             ownItemList[id] = Mathf.Max(itemLimit, ownItemList[id]);
         else
@@ -167,4 +171,33 @@ public class ItemManager
     //    ownItemList[0] -= amount;
     //    return true;
     //}
+
+
+    public void CheatGold(int amount)
+    {
+        Gold += amount;
+    }
+
+    public void CheatAllItem(int amount)
+    {
+        List<int> ids = new();
+        foreach (var item in ownItemList)
+        {
+            ids.Add(item.Key);
+        }
+
+        foreach(var id in ids)
+        {
+
+            AddItem(id, amount);
+        }
+    }
+
+    public void CheatLevel(int amount)
+    {
+        if (GameManager.playerManager == null)
+            return;
+
+        GameManager.playerManager.Exp += amount;
+    }
 }
