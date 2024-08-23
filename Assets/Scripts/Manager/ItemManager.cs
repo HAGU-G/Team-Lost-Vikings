@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using static UnityEditor.Progress;
 
 [JsonObject(MemberSerialization.OptIn)]
 public class ItemManager

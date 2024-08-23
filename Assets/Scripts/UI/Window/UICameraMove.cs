@@ -5,6 +5,7 @@ using static UIWindowMessage;
 
 public class UICameraMove : MonoBehaviour
 {
+    public Animator animator;
     public Transform buttonTransform;
     public Button villageButton;
     public GameObject buttonPrefab;
@@ -13,6 +14,7 @@ public class UICameraMove : MonoBehaviour
 
     private void Awake()
     {
+        animator.keepAnimatorStateOnDisable = true;
         GameManager.Subscribe(EVENT_TYPE.START, OnGameStart);
         constructButton.SetActive(true);
     }
