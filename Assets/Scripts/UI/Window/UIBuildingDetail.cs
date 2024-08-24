@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 public class UIBuildingDetail : UIWindow
 {
@@ -32,6 +34,8 @@ public class UIBuildingDetail : UIWindow
     public List<int> requireItemIds;
     public List<int> requireItemNums;
 
+    private Dictionary<int, Sprite> itemIcons = new();
+
     private bool isOpen = false;
 
 
@@ -56,10 +60,23 @@ public class UIBuildingDetail : UIWindow
         buildingDatas = DataTableManager.buildingTable.GetDatas();
         upgradeDatas = DataTableManager.upgradeTable.GetDatas();
 
-        
+        var path = "Assets/Scenes/Design/Icon/";
+        var itemDatas = DataTableManager.itemTable.GetDatas();
+        for (int i = 0; i < itemDatas.Count; ++i)
+        {
+            var newPath = $"{path}{itemDatas[i].CurrencyAssetFileName}.png";
+            var id = itemDatas[i].CurrencyId;
+            Addressables.LoadAssetAsync<Sprite>(newPath).Completed += (obj) => OnLoadDone(obj, id);
+        }
 
         GameManager.Subscribe(EVENT_TYPE.CONFIGURE, OnGameConfigure);
     }
+
+    private void OnLoadDone(AsyncOperationHandle<Sprite> obj, int id)
+    {
+        itemIcons.Add(id, obj.Result);
+    }
+
 
     private void OnEnable()
     {
@@ -127,10 +144,17 @@ public class UIBuildingDetail : UIWindow
                 var resource = GameObject.Instantiate(upgradeResource, requireTransform);
 
                 var asset = upgrade.ItemIds[i];
-                //resource.GetComponentInChildren<Image>().sprite = ;
+                itemIcons.TryGetValue(asset, out var value);
+                resource.GetComponentInChildren<Image>().sprite = value;
 
                 resource.GetComponentInChildren<TextMeshProUGUI>().text
                     = $"{im.GetItem(upgrade.ItemIds[i])} / {upgrade.ItemNums[i]}";
+
+                if (value == null)
+                {
+                    Destroy(resource);
+                    resources.Remove(resource);
+                }
 
                 resources.Add(resource);
             }
