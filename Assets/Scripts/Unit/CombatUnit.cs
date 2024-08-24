@@ -236,6 +236,9 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
 
     protected override void OnAnimationAttackHit()
     {
+        if(IsDead)
+            return;
+
         if (!HasTarget())
             isTargetFixed = false;
 

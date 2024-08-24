@@ -152,6 +152,7 @@ public class EffectObject : MonoBehaviour
             delta.z = transform.position.z;
         }
         var rotationDeg = Mathf.Rad2Deg * Mathf.Atan2(delta.y, delta.x);
-        transform.eulerAngles = new(0f, isFlip ? 180f : 0f, isFlip ? 180f - rotationDeg : rotationDeg);
+        float angleZ = isOnlyFlip ? transform.rotation.z : (isFlip ? 180f - rotationDeg : rotationDeg);
+        transform.eulerAngles = new(0f, isFlip ? 180f : 0f, angleZ);
     }
 }
