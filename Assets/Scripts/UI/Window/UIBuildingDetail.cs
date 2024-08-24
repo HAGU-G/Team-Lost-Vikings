@@ -102,6 +102,7 @@ public class UIBuildingDetail : UIWindow
         requireItemIds = grade[0].ItemIds;
         requireItemNums = grade[0].ItemNums;
 
+        Debug.Log(resources.Count);
         for (int i = 0; i < resources.Count; ++i)
         {
             resources[i].GetComponentInChildren<TextMeshProUGUI>().text = $"{im.GetItem(requireItemIds[i])} / {requireItemNums[i]}";
@@ -223,6 +224,7 @@ public class UIBuildingDetail : UIWindow
         GameManager.PlayButtonSFX();
         exceptWindows[0] = um.windows[WINDOW_NAME.CONSTRUCT_MODE];
         um.CloseWindows(exceptWindows);
+        isOpen = false;
         //um.uiDevelop.ConstructButtonsOff();
         UIConstructMode constructMode = um.windows[WINDOW_NAME.CONSTRUCT_MODE] as UIConstructMode;
         constructMode.isConstructing = true;
