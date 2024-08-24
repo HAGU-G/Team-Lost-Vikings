@@ -16,8 +16,19 @@ public class UnitManager
     [JsonProperty] public Dictionary<int, UnitStats> Waitings { get; private set; } = new();
 
     public bool IsMaxWait => Waitings.Count >= GameSetting.Instance.waitListLimit;
-    public bool CanGacha => !((IsMaxWait && Units.Count >= unitLimitCount)
-                              || GetGachaPool(GameManager.playerManager.recruitLevel).Count == 0);
+    public bool CanGacha
+    {
+        get
+        {
+            if (IsMaxWait)
+                return false;
+
+            if (GetGachaPool(GameManager.playerManager.recruitLevel).Count <= 0)
+                return false;
+
+            return true;
+        }
+    }
     public int unitLimitCount = GameSetting.Instance.defaultUnitLimit;
 
     [JsonProperty] public System.DateTime lastAutoGachaTime = System.DateTime.Now;
@@ -242,14 +253,9 @@ public class UnitManager
 
             autoGachaTimeCorrection = 0f;
             if (GachaCharacter(GameManager.playerManager.recruitLevel) != null)
-            {
                 lastAutoGachaTime = System.DateTime.Now;
-                //(GameManager.uiManager.windows[WINDOW_NAME.CHARACTER_STASH] as UICharacterStash).LoadCharacterButtons(Waitings);
-            }
             else
-            {
                 autoGachaTimeCorrection = GameSetting.Instance.autoGachaSeconds - 1f;
-            }
         }
     }
 
