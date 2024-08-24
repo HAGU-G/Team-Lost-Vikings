@@ -122,10 +122,7 @@ public class UIBuildingParameterPopUp : UIWindow
         SetRequireItem();
         SetCharacterInformation();
 
-        if (!CheckRequireItem())
-            upgrade.interactable = false;
-        else
-            upgrade.interactable = true;
+        upgrade.interactable = CheckRequireItem();
     }
 
     public void OnButtonUpgrade()
@@ -280,10 +277,7 @@ public class UIBuildingParameterPopUp : UIWindow
             resourceList[i].GetComponentInChildren<TextMeshProUGUI>().text = $"{im.GetItem(requireItemIds[i])} / {requireItemNums[i]}";
         }
 
-        if (!CheckRequireItem())
-            upgrade.interactable = false;
-        else
-            upgrade.interactable = true;
+        upgrade.interactable = CheckRequireItem();
     }
 
     private void OnItemChanged()
