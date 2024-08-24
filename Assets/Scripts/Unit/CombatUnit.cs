@@ -276,7 +276,6 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
 
     public void TakeHeal(int heal)
     {
-        Debug.Log(heal);
         stats.HP.Current += heal;
         GameManager.effectManager.GetDamageEffect(
             heal.ToString(),
