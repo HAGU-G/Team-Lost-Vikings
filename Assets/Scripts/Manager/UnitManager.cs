@@ -37,9 +37,8 @@ public class UnitManager
     {
         get
         {
-            float sec = (System.DateTime.Now - lastAutoGachaTime).Seconds;
-            float milliSec = (System.DateTime.Now - lastAutoGachaTime).Milliseconds * 0.001f;
-            return Mathf.Max(0f, GameSetting.Instance.autoGachaSeconds - sec - milliSec - autoGachaTimeCorrection);
+            float sec = (float)(System.DateTime.Now - lastAutoGachaTime).TotalSeconds;
+            return Mathf.Max(0f, GameSetting.Instance.autoGachaSeconds - sec - autoGachaTimeCorrection);
         }
     }
 
