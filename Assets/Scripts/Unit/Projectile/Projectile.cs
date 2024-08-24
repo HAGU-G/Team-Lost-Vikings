@@ -37,6 +37,7 @@ public class Projectile : MonoBehaviour
 
     private void Update()
     {
+        //투사체 삭제
         if (!isActive)
         {
             if (!IsFloor)
@@ -49,18 +50,27 @@ public class Projectile : MonoBehaviour
                         hitEffect.transform.Rotate(Vector3.up, 180f);
                 }
             }
+
+            if (effect != null)
+            {
+                effect.Stop();
+                effect = null;
+            }
             gameObject.SetActive(false);
             Addressables.ReleaseInstance(gameObject);
+
             return;
         }
 
+        //타겟 검사
         if (!IsFloor)
         {
             if (targetUnit != null
             && targetUnit.gameObject.activeSelf
             && !targetUnit.IsDead
             && owner != null
-            && owner.HuntZoneNum == targetUnit.stats.HuntZoneNum)
+            && targetUnit.CurrentHuntZone != null
+            && targetUnit.CurrentHuntZone.HuntZoneNum == owner.HuntZoneNum)
             {
                 direction = (targetUnit.transform.position - transform.position).normalized;
                 targetPos = targetUnit.transform.position;
@@ -79,10 +89,7 @@ public class Projectile : MonoBehaviour
             && Vector3.Distance(transform.position, destination) <= skillData.ProjectileSpeed * deltaTime)
         {
             SetPosition(destination);
-            if (targetUnit == null
-                || targetUnit.IsDead
-                || !targetUnit.gameObject.activeSelf
-                || owner.HuntZoneNum != targetUnit.stats.HuntZoneNum)
+            if (targetUnit == null)
             {
                 Remove();
                 return;
@@ -94,8 +101,8 @@ public class Projectile : MonoBehaviour
         }
 
 
+        //데미지 처리
         int appliedDamage = 0;
-
         if (IsFloor)
         {
             attackTimer -= deltaTime;
@@ -112,11 +119,16 @@ public class Projectile : MonoBehaviour
                     if (ellipse.IsCollidedWith(target.stats.SizeEllipse))
                         appliedDamage += ApplyDamage(target);
                 }
+
+
+                if (skillData.VitDrainRatio > 0f && appliedDamage > 0)
+                    owner.objectTransform.GetComponent<CombatUnit>()?.TakeHeal(Mathf.FloorToInt(appliedDamage * skillData.VitDrainRatio));
+
             }
 
             if (lifeTimer > 0f)
-            { 
-                lifeTimer -= deltaTime; 
+            {
+                lifeTimer -= deltaTime;
             }
             else
             {
@@ -137,15 +149,15 @@ public class Projectile : MonoBehaviour
                 if (ellipse.IsCollidedWith(target.stats.SizeEllipse))
                 {
                     appliedDamage += ApplyDamage(target);
+
+                    if (skillData.VitDrainRatio > 0f && appliedDamage > 0)
+                        owner.objectTransform.GetComponent<CombatUnit>()?.TakeHeal(Mathf.FloorToInt(appliedDamage * skillData.VitDrainRatio));
+
                     Remove();
                     return;
                 }
             }
         }
-
-        //흡혈
-        if (skillData.VitDrainRatio > 0f && appliedDamage > 0)
-            owner.objectTransform.GetComponent<CombatUnit>()?.TakeHeal(Mathf.FloorToInt(appliedDamage * skillData.VitDrainRatio));
     }
 
     private int ApplyDamage(CombatUnit target)
@@ -164,12 +176,6 @@ public class Projectile : MonoBehaviour
     private void Remove()
     {
         isActive = false;
-
-        if (effect == null)
-            return;
-
-        effect.Stop();
-        effect = null;
     }
 
     public void SetPosition(Vector3 pos, bool doRotate = true)
