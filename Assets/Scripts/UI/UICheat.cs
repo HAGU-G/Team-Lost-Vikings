@@ -27,7 +27,9 @@ public class UICheat : MonoBehaviour
         buttonLevel.onClick.AddListener(() =>
         {
             GameManager.PlayButtonSFX();
-            GameManager.itemManager?.CheatLevel(5000);
+
+            if (DataTableManager.playerTable.ContainsKey(GameManager.playerManager.level))
+                GameManager.itemManager?.CheatLevel(DataTableManager.playerTable.GetData(GameManager.playerManager.level).Exp);
         });
     }
 }

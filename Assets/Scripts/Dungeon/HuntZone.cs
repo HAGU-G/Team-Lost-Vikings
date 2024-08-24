@@ -150,6 +150,9 @@ public class HuntZone : MonoBehaviour
 
         IsReady = true;
 
+        if (GameManager.IsReady)
+            SaveManager.SaveGame();
+
         GameManager.huntZoneManager.HuntZoneInfoChanged();
     }
 
@@ -268,6 +271,9 @@ public class HuntZone : MonoBehaviour
             unit.ForceChangeTarget(boss);
         }
 
+        if (GameManager.IsReady)
+            SaveManager.SaveGame();
+
         GameManager.huntZoneManager.HuntZoneInfoChanged();
     }
 
@@ -309,6 +315,9 @@ public class HuntZone : MonoBehaviour
 
         BossTimer = 0f;
         IsBossBattle = false;
+
+        if (GameManager.IsReady)
+            SaveManager.SaveGame();
 
         GameManager.huntZoneManager.HuntZoneInfoChanged();
     }

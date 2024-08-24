@@ -54,6 +54,7 @@ public class UnitManager
         }
 
         GameManager.Subscribe(EVENT_TYPE.START, OnGameStart);
+        GameManager.Subscribe(EVENT_TYPE.GAME_READY, OnGameReady);
     }
 
     private void OnGameStart()
@@ -62,20 +63,22 @@ public class UnitManager
         {
             SpawnOnLocation(unit.Value);
         }
+    }
+
+    private void OnGameReady()
+    {
         //누적된 가챠 진행
-        var sleepSeconds = (System.DateTime.Now - lastAutoGachaTime).Seconds;
+        float sleepSeconds = (float)(System.DateTime.Now - lastAutoGachaTime).TotalSeconds;
         var gachaCount = Mathf.FloorToInt(sleepSeconds / GameSetting.Instance.autoGachaSeconds);
 
         Debug.Log($"지난 시간: {sleepSeconds}, 누적된 가챠 수: {gachaCount}");
 
-        while (gachaCount > 0 && !IsMaxWait)
+        while (gachaCount > 0 && CanGacha)
         {
             gachaCount--;
             GachaCharacter(GameManager.playerManager.recruitLevel);
         }
-        autoGachaTimeCorrection = sleepSeconds - gachaCount;
-
-
+        autoGachaTimeCorrection = sleepSeconds - gachaCount * GameSetting.Instance.autoGachaSeconds;
 
         CoroutineObject.CreateCorutine(CoAutoGacha());
     }
@@ -198,7 +201,8 @@ public class UnitManager
         if ((!isDupli && Units.Count < unitLimitCount) || isIgnoreLimit)
             PickUpCharacter(waitCharacter.InstanceID);
 
-        SaveManager.SaveGame();
+        if (GameManager.IsReady)
+            SaveManager.SaveGame();
 
         return waitCharacter;
     }

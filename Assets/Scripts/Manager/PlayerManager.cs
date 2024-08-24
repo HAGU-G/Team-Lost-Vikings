@@ -7,13 +7,20 @@ public class PlayerManager
     [JsonProperty] public int level = 1;
     [JsonProperty] public int _exp;
     public int prevLevel = 0;
-    public int Exp 
+    public int Exp
     {
         get => _exp;
         set
         {
             _exp = value;
-            var levelUpExp = DataTableManager.playerTable.GetData(level).Exp;
+
+            int levelUpExp;
+
+            if (DataTableManager.playerTable.ContainsKey(level))
+                levelUpExp = DataTableManager.playerTable.GetData(level).Exp;
+            else
+                return;
+
             GameManager.uiManager.uiDevelop.SetExpBar();
             while (_exp >= levelUpExp)
             {
@@ -22,7 +29,10 @@ public class PlayerManager
                 level++;
                 GameManager.villageManager.LevelUp();
                 GameManager.uiManager.uiDevelop.LevelUp();
-                levelUpExp = DataTableManager.playerTable.GetData(level).Exp;
+                if (DataTableManager.playerTable.ContainsKey(level))
+                    levelUpExp = DataTableManager.playerTable.GetData(level).Exp;
+                else
+                    break;
             }
         }
     }
