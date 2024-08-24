@@ -69,7 +69,6 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
                 skill.SkillType = stats.Data.BasicAttackType;
                 skill.SkillAttackType = SKILL_ATTACK_TYPE.PROJECTILE;
                 skill.SkillTarget = TARGET_TYPE.ENEMY;
-                skill.VitDrainRatio = 1f;
 
                 var setting = GameSetting.Instance;
                 switch (stats.Data.BasicAttackMotion)
