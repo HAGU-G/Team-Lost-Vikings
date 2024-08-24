@@ -59,7 +59,8 @@ public class Projectile : MonoBehaviour
             if (targetUnit != null
             && targetUnit.gameObject.activeSelf
             && !targetUnit.IsDead
-            && targetUnit.stats != null)
+            && owner != null
+            && owner.HuntZoneNum == targetUnit.stats.HuntZoneNum)
             {
                 direction = (targetUnit.transform.position - transform.position).normalized;
                 targetPos = targetUnit.transform.position;
@@ -72,17 +73,26 @@ public class Projectile : MonoBehaviour
         }
 
         var deltaTime = Time.deltaTime;
+
+        //투사체 움직임
         if (!IsFloor
-            && (targetUnit == null || targetUnit.IsDead || !targetUnit.gameObject.activeSelf)
             && Vector3.Distance(transform.position, destination) <= skillData.ProjectileSpeed * deltaTime)
         {
-            Remove();
-            return;
+            SetPosition(destination);
+            if (targetUnit == null
+                || targetUnit.IsDead
+                || !targetUnit.gameObject.activeSelf
+                || owner.HuntZoneNum != targetUnit.stats.HuntZoneNum)
+            {
+                Remove();
+                return;
+            }
+        }
+        else
+        {
+            SetPosition(transform.position + direction * skillData.ProjectileSpeed * deltaTime);
         }
 
-        SetPosition(transform.position + direction * skillData.ProjectileSpeed * deltaTime);
-
-        lifeTimer -= deltaTime;
 
         int appliedDamage = 0;
 
@@ -100,11 +110,15 @@ public class Projectile : MonoBehaviour
                         continue;
 
                     if (ellipse.IsCollidedWith(target.stats.SizeEllipse))
-                        ApplyDamage(target);
+                        appliedDamage += ApplyDamage(target);
                 }
             }
 
-            if (lifeTimer <= 0f)
+            if (lifeTimer > 0f)
+            { 
+                lifeTimer -= deltaTime; 
+            }
+            else
             {
                 Remove();
                 return;
@@ -122,7 +136,7 @@ public class Projectile : MonoBehaviour
 
                 if (ellipse.IsCollidedWith(target.stats.SizeEllipse))
                 {
-                    ApplyDamage(target);
+                    appliedDamage += ApplyDamage(target);
                     Remove();
                     return;
                 }
@@ -130,7 +144,7 @@ public class Projectile : MonoBehaviour
         }
 
         //흡혈
-        if (skillData.VitDrainRatio > 0f && appliedDamage > 0f)
+        if (skillData.VitDrainRatio > 0f && appliedDamage > 0)
             owner.objectTransform.GetComponent<CombatUnit>()?.TakeHeal(Mathf.FloorToInt(appliedDamage * skillData.VitDrainRatio));
     }
 
