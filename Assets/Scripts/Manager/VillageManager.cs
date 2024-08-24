@@ -158,6 +158,7 @@ public class VillageManager : MonoBehaviour
             upgradeComponent.RecoveryTime = upgradeData.RecoveryTime;
             upgradeComponent.ProgressVarType = upgradeData.ProgressVarType;
             upgradeComponent.ProgressVarReturn = upgradeData.ProgressVarReturn;
+            upgradeComponent.RequirePlayerLv = upgradeData.RequirePlayerLv;
 
             upgradeComponent.DropId = upgradeData.DropId;
 

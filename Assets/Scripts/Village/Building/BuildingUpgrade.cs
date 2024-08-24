@@ -72,6 +72,7 @@ public class BuildingUpgrade : MonoBehaviour
         RecoveryTime = upgrade.RecoveryTime;
         ProgressVarType = upgrade.ProgressVarType;
         ProgressVarReturn = upgrade.ProgressVarReturn;
+        RequirePlayerLv = upgrade.RequirePlayerLv;
 
         ItemIds.Clear();
         ItemNums.Clear();
