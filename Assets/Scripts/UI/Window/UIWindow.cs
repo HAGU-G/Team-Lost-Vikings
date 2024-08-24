@@ -39,10 +39,5 @@ public abstract class UIWindow : MonoBehaviour
     {
         isOpened = false;
         gameObject.SetActive(false);
-        foreach (var window in GameManager.uiManager.windows)
-        {
-            if (window.Value.gameObject.activeSelf)
-                return;
-        }
     }
 }

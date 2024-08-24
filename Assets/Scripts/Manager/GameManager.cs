@@ -37,6 +37,7 @@ public static class GameManager
 
     private static IDictionary<EVENT_TYPE, UnityEvent> events = new Dictionary<EVENT_TYPE, UnityEvent>();
 
+    private static bool isPause = false;
     private static float prevTimeScale = 1f;
     private static readonly string formatPublishMessage = "#### 게임매니저 {0} 시작 ####";
 
@@ -124,6 +125,10 @@ public static class GameManager
 
     public static void GamePause()
     {
+        if (isPause)
+            return;
+
+        isPause = true;
         Publish(EVENT_TYPE.PAUSE);
         prevTimeScale = Time.timeScale;
         Time.timeScale = 0f;
@@ -131,9 +136,12 @@ public static class GameManager
 
     public static void GameResume()
     {
+        if (!isPause)
+            return;
+
+        isPause = false;
         Publish(EVENT_TYPE.RESUME);
         Time.timeScale = prevTimeScale;
-        prevTimeScale = Time.timeScale;
     }
 
 
