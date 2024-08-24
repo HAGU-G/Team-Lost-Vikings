@@ -72,7 +72,10 @@ public class UIDevelop : MonoBehaviour
     public void SetExpBar()
     {
         var pm = GameManager.playerManager;
-        expBar.value = (float)pm.Exp / (float)DataTableManager.playerTable.GetData(pm.level).Exp;
+        if (DataTableManager.playerTable.ContainsKey(pm.level))
+            expBar.value = (float)pm.Exp / DataTableManager.playerTable.GetData(pm.level).Exp;
+        else
+            expBar.value = 0f;
     }
 
     private void OnLoadDone(AsyncOperationHandle<Sprite> obj)

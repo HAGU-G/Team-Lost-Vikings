@@ -107,13 +107,14 @@ public class UICharacterGacha : UIWindow
         if (result == null)
             return;
 
-        var cm = GameManager.cameraManager;
-        var vm = GameManager.villageManager;
         ///////////////////////////
         ////////// 시작 ///////////
         ///////////////////////////
+        
+        GameManager.PlayAnimation();
+        var cm = GameManager.cameraManager;
+        var vm = GameManager.villageManager;
 
-        // TODO 레터박스 제외 UI 숨기기 필요
         foreach (var canvas in GameManager.uiManager.uiDevelop.canvases)
         {
             canvas.gameObject.SetActive(false);
@@ -210,7 +211,6 @@ public class UICharacterGacha : UIWindow
                 ////////// 종료 ///////////
                 ///////////////////////////
 
-                // TODO UI 숨기기 해제 필요
                 foreach (var canvas in GameManager.uiManager.uiDevelop.canvases)
                 {
                     canvas.gameObject.SetActive(true);
@@ -232,6 +232,8 @@ public class UICharacterGacha : UIWindow
                 var uiResult = GameManager.uiManager.windows[WINDOW_NAME.GACHA_RESULT] as UIGachaResult;
                 uiResult.SetResult(result);
                 uiResult.Open();
+
+                GameManager.StopAnimation();
             };
     }
 }

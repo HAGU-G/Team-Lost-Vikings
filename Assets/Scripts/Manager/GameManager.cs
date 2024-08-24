@@ -1,6 +1,7 @@
 ﻿//임시로 사용 중
 
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -16,6 +17,8 @@ public enum EVENT_TYPE
     CONSTRUCT,
     CONFIGURE,
     GAME_READY,
+    PLAY_ANIMATION,
+    STOP_ANIMATION,
 }
 
 public static class GameManager
@@ -37,7 +40,11 @@ public static class GameManager
 
     private static IDictionary<EVENT_TYPE, UnityEvent> events = new Dictionary<EVENT_TYPE, UnityEvent>();
 
+    public static bool IsPause { get; private set; } = false;
     private static float prevTimeScale = 1f;
+
+    public static bool IsPlayingAnimation { get; private set; } = false;
+
     private static readonly string formatPublishMessage = "#### 게임매니저 {0} 시작 ####";
 
     public static void Subscribe(EVENT_TYPE eventType, in UnityAction listener)
@@ -124,6 +131,10 @@ public static class GameManager
 
     public static void GamePause()
     {
+        if (IsPause)
+            return;
+
+        IsPause = true;
         Publish(EVENT_TYPE.PAUSE);
         prevTimeScale = Time.timeScale;
         Time.timeScale = 0f;
@@ -131,9 +142,28 @@ public static class GameManager
 
     public static void GameResume()
     {
+        if (!IsPause)
+            return;
+
+        IsPause = false;
         Publish(EVENT_TYPE.RESUME);
         Time.timeScale = prevTimeScale;
-        prevTimeScale = Time.timeScale;
+    }
+
+    public static void PlayAnimation()
+    {
+        IsPlayingAnimation = true;
+        Publish(EVENT_TYPE.PLAY_ANIMATION);
+    }
+
+    public static void StopAnimation()
+    {
+        IsPlayingAnimation = false;
+        Publish(EVENT_TYPE.STOP_ANIMATION);
+
+        var dm = dialogManager;
+        if (dm.CanStart && dm.DialogQueue.Count > 0)
+            dm.Start(dm.DialogQueue.Peek());
     }
 
 

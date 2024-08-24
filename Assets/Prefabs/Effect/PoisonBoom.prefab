@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 328957742645031651}
   - component: {fileID: 2951732976062994134}
   m_Layer: 0
-  m_Name: PosionBoom
+  m_Name: PoisonBoom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

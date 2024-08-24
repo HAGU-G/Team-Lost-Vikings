@@ -12,6 +12,7 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
     public List<CombatUnit> Enemies { get; protected set; }
     public List<CombatUnit> Allies { get; protected set; }
     public CombatUnit attackTarget;
+    private Vector3 lastTargetPos;
     [HideInInspector] public bool isTargetFixed;
     [HideInInspector] public int usingSkillNum = -1;
 
@@ -124,6 +125,7 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
         if (IsDead || gameObject.activeSelf == false)
             return;
 
+        HasTarget();
         stats.Collision(CurrentHuntZone.gridMap, CurrentHuntZone.Units.ToArray());
         stats.Collision(CurrentHuntZone.gridMap, CurrentHuntZone.Monsters.ToArray());
     }
@@ -143,8 +145,11 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
             attackTarget = null;
             return false;
         }
-
-        return true;
+        else
+        {
+            lastTargetPos = attackTarget.transform.position;
+            return true;
+        }
     }
 
     public (bool, int) TakeDamage(int damage, ATTACK_TYPE type, bool isCritical)
@@ -231,6 +236,9 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
 
     protected override void OnAnimationAttackHit()
     {
+        if(IsDead)
+            return;
+
         if (!HasTarget())
             isTargetFixed = false;
 
@@ -248,16 +256,27 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
             isCritical = false;
         var criticalWeight = isCritical ? stats.CritWeight.Current : 1f;
         var damage = Mathf.FloorToInt(stats.CombatPoint * criticalWeight);
-
-        if (attackBehaviour.Attack(attackTarget, damage, isCritical, stats.Data.BasicAttackType))
+        if (attackTarget == null)
         {
-            attackTarget = null;
-            stats.Stress.Current -= GameSetting.Instance.stressReduceAmount;
+            if (attackBehaviour.Attack(lastTargetPos, damage, isCritical, stats.Data.BasicAttackType))
+            {
+                attackTarget = null;
+                stats.Stress.Current -= GameSetting.Instance.stressReduceAmount;
+            }
+        }
+        else
+        {
+            if (attackBehaviour.Attack(attackTarget, damage, isCritical, stats.Data.BasicAttackType))
+            {
+                attackTarget = null;
+                stats.Stress.Current -= GameSetting.Instance.stressReduceAmount;
+            }
         }
     }
 
     public void TakeHeal(int heal)
     {
+        Debug.Log(heal);
         stats.HP.Current += heal;
         GameManager.effectManager.GetDamageEffect(
             heal.ToString(),

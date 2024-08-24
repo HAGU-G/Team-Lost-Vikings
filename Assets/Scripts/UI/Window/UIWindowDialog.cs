@@ -58,15 +58,17 @@ public class UIWindowDialog : UIWindow
 
     public override void Open()
     {
+        var prevState = isOpened;
         base.Open();
-        if (GameManager.IsReady)
+        if (prevState != isOpened && GameManager.IsReady)
             GameManager.GamePause();
     }
 
     public override void Close()
     {
+        var prevState = isOpened;
         base.Close();
-        if (GameManager.IsReady)
+        if (prevState != isOpened && GameManager.IsReady)
             GameManager.GameResume();
     }
 

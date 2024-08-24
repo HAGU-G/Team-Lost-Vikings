@@ -9,10 +9,10 @@ public class UICheat : MonoBehaviour
     private void Awake()
     {
 #if !UNITY_EDITOR
-        buttonGold.gameObject.SetActive(false);
-        buttonAll.gameObject.SetActive(false);
-        buttonLevel.gameObject.SetActive(false);
-        return;
+        //buttonGold.gameObject.SetActive(false);
+        //buttonAll.gameObject.SetActive(false);
+        //buttonLevel.gameObject.SetActive(false);
+        //return;
 #endif
         buttonGold.onClick.AddListener(() =>
         {
@@ -27,7 +27,9 @@ public class UICheat : MonoBehaviour
         buttonLevel.onClick.AddListener(() =>
         {
             GameManager.PlayButtonSFX();
-            GameManager.itemManager?.CheatLevel(5000);
+
+            if (DataTableManager.playerTable.ContainsKey(GameManager.playerManager.level))
+                GameManager.itemManager?.CheatLevel(DataTableManager.playerTable.GetData(GameManager.playerManager.level).Exp);
         });
     }
 }

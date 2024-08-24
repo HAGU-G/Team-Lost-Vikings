@@ -13,7 +13,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
     public List<UnitOnVillage> movingUnits;
     public int recoveryAmount;
     public float recoveryTime;
-    public int requireGold;
+    public int rewardDropID;
     //private bool isRecovering;
 
     public event Action<PARAMETER_TYPE> OnRecoveryDone;
@@ -67,7 +67,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
                 {
                     case PARAMETER_TYPE.HP:
                         unit.stats.HP.Current += recoveryAmount;
-                        GameManager.itemManager.Gold += requireGold;
+                        DataTableManager.dropTable.GetData(rewardDropID).DropItem();
                         Debug.Log($"hp : {unit.stats.HP.Current}");
                         if (unit.stats.HP.Current < unit.stats.HP.max)
                             yield return new WaitForSeconds(recoveryTime);
@@ -81,7 +81,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
                         break;
                     case PARAMETER_TYPE.STAMINA:
                         unit.stats.Stamina.Current += recoveryAmount;
-                        GameManager.itemManager.Gold += requireGold;
+                        DataTableManager.dropTable.GetData(rewardDropID).DropItem();
                         Debug.Log($"stamina : {unit.stats.Stamina}");
                         if (unit.stats.Stamina.Current < unit.stats.Stamina.max)
                             yield return new WaitForSeconds(recoveryTime);
@@ -95,7 +95,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
                         break;
                     case PARAMETER_TYPE.MENTAL:
                         unit.stats.Stress.Current += recoveryAmount;
-                        GameManager.itemManager.Gold += requireGold;
+                        DataTableManager.dropTable.GetData(rewardDropID).DropItem();
                         Debug.Log($"stress : {unit.stats.Stress}");
                         if (unit.stats.Stress.Current < unit.stats.Stress.max)
                             yield return new WaitForSeconds(recoveryTime);

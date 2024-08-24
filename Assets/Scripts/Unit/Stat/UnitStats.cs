@@ -211,6 +211,10 @@ public class UnitStats
         }
 
         hm.DeployChanged();
+
+        if (GameManager.IsReady)
+            SaveManager.SaveGame();
+
         return true;
     }
 
@@ -232,6 +236,9 @@ public class UnitStats
         }
 
         GameManager.huntZoneManager.DeployChanged();
+
+        if (GameManager.IsReady)
+            SaveManager.SaveGame();
     }
 
     public void ForceReturn()

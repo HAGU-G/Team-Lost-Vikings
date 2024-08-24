@@ -133,7 +133,7 @@ public class UIManager : MonoBehaviour
         var excepts = exceptWindow.ToList();
         foreach (var window in windows)
         {
-            if (excepts.Contains(window.Value))
+            if (excepts.Contains(window.Value) || !window.Value.isOpened)
                 continue;
 
             window.Value.Close();

@@ -623,7 +623,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a27a476bcae307743827b58b0a5397bc
-    m_Address: PosionBoom
+    m_Address: PoisonBoom
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

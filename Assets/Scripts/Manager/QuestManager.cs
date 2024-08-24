@@ -184,6 +184,10 @@ public class QuestManager
             QuestAccept(nextQuestID);
         else
             currentQuestID = -1;
+
+
+        if (GameManager.IsReady)
+            SaveManager.SaveGame();
     }
 
     private void QuestAccept(int id)
@@ -194,6 +198,10 @@ public class QuestManager
         if (dialogID != 0)
             GameManager.dialogManager.Book(dialogID);
         CheckQuestSatisfy(id);
+
+
+        if (GameManager.IsReady)
+            SaveManager.SaveGame();
     }
 
 }

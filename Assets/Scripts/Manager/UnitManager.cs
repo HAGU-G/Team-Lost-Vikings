@@ -16,8 +16,19 @@ public class UnitManager
     [JsonProperty] public Dictionary<int, UnitStats> Waitings { get; private set; } = new();
 
     public bool IsMaxWait => Waitings.Count >= GameSetting.Instance.waitListLimit;
-    public bool CanGacha => !((IsMaxWait && Units.Count >= unitLimitCount)
-                              || GetGachaPool(GameManager.playerManager.recruitLevel).Count == 0);
+    public bool CanGacha
+    {
+        get
+        {
+            if (IsMaxWait)
+                return false;
+
+            if (GetGachaPool(GameManager.playerManager.recruitLevel).Count <= 0)
+                return false;
+
+            return true;
+        }
+    }
     public int unitLimitCount = GameSetting.Instance.defaultUnitLimit;
 
     [JsonProperty] public System.DateTime lastAutoGachaTime = System.DateTime.Now;
@@ -54,6 +65,7 @@ public class UnitManager
         }
 
         GameManager.Subscribe(EVENT_TYPE.START, OnGameStart);
+        GameManager.Subscribe(EVENT_TYPE.GAME_READY, OnGameReady);
     }
 
     private void OnGameStart()
@@ -62,20 +74,22 @@ public class UnitManager
         {
             SpawnOnLocation(unit.Value);
         }
+    }
+
+    private void OnGameReady()
+    {
         //누적된 가챠 진행
-        var sleepSeconds = (System.DateTime.Now - lastAutoGachaTime).Seconds;
+        float sleepSeconds = (float)(System.DateTime.Now - lastAutoGachaTime).TotalSeconds;
         var gachaCount = Mathf.FloorToInt(sleepSeconds / GameSetting.Instance.autoGachaSeconds);
 
         Debug.Log($"지난 시간: {sleepSeconds}, 누적된 가챠 수: {gachaCount}");
 
-        while (gachaCount > 0 && !IsMaxWait)
+        while (gachaCount > 0 && CanGacha)
         {
             gachaCount--;
             GachaCharacter(GameManager.playerManager.recruitLevel);
         }
-        autoGachaTimeCorrection = sleepSeconds - gachaCount;
-
-
+        autoGachaTimeCorrection = sleepSeconds - gachaCount * GameSetting.Instance.autoGachaSeconds;
 
         CoroutineObject.CreateCorutine(CoAutoGacha());
     }
@@ -198,7 +212,8 @@ public class UnitManager
         if ((!isDupli && Units.Count < unitLimitCount) || isIgnoreLimit)
             PickUpCharacter(waitCharacter.InstanceID);
 
-        SaveManager.SaveGame();
+        if (GameManager.IsReady)
+            SaveManager.SaveGame();
 
         return waitCharacter;
     }
@@ -238,14 +253,9 @@ public class UnitManager
 
             autoGachaTimeCorrection = 0f;
             if (GachaCharacter(GameManager.playerManager.recruitLevel) != null)
-            {
                 lastAutoGachaTime = System.DateTime.Now;
-                //(GameManager.uiManager.windows[WINDOW_NAME.CHARACTER_STASH] as UICharacterStash).LoadCharacterButtons(Waitings);
-            }
             else
-            {
                 autoGachaTimeCorrection = GameSetting.Instance.autoGachaSeconds - 1f;
-            }
         }
     }
 
