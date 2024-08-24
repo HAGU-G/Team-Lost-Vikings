@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd05155e8efca8240a16f18f58d714c0, type: 3}
   m_Name: Game Setting
   m_EditorClassIdentifier: 
-  useSaveDataWhenEditor: 0
+  useSaveDataWhenEditor: 1
   serverURI: google.com
   syncIntervalType: 0
   syncInterval: 30
@@ -24,10 +24,10 @@ MonoBehaviour:
   returnStressRaito: 0.2
   staminaReduceAmount: 1
   stressReduceAmount: 1
-  overrollUltraRare: 174
-  overrollSuperRare: 153
-  overrollRare: 127
-  overrollNormal: 96
+  overrollUltraRare: 148
+  overrollSuperRare: 131
+  overrollRare: 112
+  overrollNormal: 86
   idleRerouteTime: 3
   traceRerouteTime: 20
   projectileSize: 0.3

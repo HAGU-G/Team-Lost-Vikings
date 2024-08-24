@@ -189,7 +189,7 @@ public class VillageManager : MonoBehaviour
                     parameterComponent.building = buildingComponenet;
                     parameterComponent.parameterType = (PARAMETER_TYPE)upgradeData.ParameterType;
                     parameterComponent.recoveryAmount = upgradeData.ParameterRecovery;
-                    parameterComponent.requireGold = upgradeData.DropId;
+                    parameterComponent.rewardDropID = upgradeData.DropId;
                     parameterComponent.recoveryTime = upgradeData.RecoveryTime;
                     break;
                 case STRUCTURE_TYPE.STAT_UPGRADE:

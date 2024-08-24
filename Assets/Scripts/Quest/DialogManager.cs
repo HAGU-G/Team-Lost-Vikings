@@ -28,6 +28,12 @@ public class DialogManager
     public bool IsFirstScript => PrevScript == null;
     public bool IsLastScript => NextScript == null;
 
+    public bool CanStart =>
+        GameManager.IsReady
+        && !GameManager.IsPlayingAnimation 
+        && !IsShowing 
+        && !GameManager.uiManager.windows[WINDOW_NAME.MESSAGE_POPUP].isOpened;
+
     public void Book(int id, bool doForceShow = false)
     {
         if (doForceShow)
@@ -39,10 +45,8 @@ public class DialogManager
         if (!DialogQueue.Contains(id) && !ShowedDialog.Contains(id))
             DialogQueue.Enqueue(id);
 
-        if (GameManager.IsReady
-            && !IsShowing
-            && DialogQueue.Count > 0
-            && !GameManager.uiManager.windows[WINDOW_NAME.MESSAGE_POPUP].isOpened)
+        if (CanStart
+            && DialogQueue.Count > 0)
         {
             Start(DialogQueue.Peek());
         }
@@ -56,6 +60,9 @@ public class DialogManager
 
     public void Start(int id)
     {
+        if (!CanStart)
+            return;
+
         currentData = DataTableManager.dialogTable.GetData(id);
         OnDialogStart?.Invoke();
         SetCurrentScript(0);
@@ -103,7 +110,7 @@ public class DialogManager
 
         DialogQueue.Dequeue();
 
-        if (GameManager.IsReady && !IsShowing && DialogQueue.Count > 0)
+        if (CanStart && DialogQueue.Count > 0)
             Start(DialogQueue.Peek());
     }
 

@@ -121,7 +121,7 @@ public class BuildingUpgrade : MonoBehaviour
                     SetBuildingUpgrade();
                     parameter.recoveryAmount = ParameterRecovery;
                     parameter.recoveryTime = RecoveryTime;
-                    parameter.requireGold = DropId;
+                    parameter.rewardDropID = DropId;
                 }
                 break;
             case (int)STRUCTURE_TYPE.STANDARD:
