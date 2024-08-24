@@ -1,8 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System.IO;
 using System.Security.Cryptography;
+using UnityEditor.AddressableAssets.BuildReportVisualizer;
 using UnityEngine;
-using CurrentSave = SaveDataV2;
+using CurrentSave = SaveDataV3;
 
 public static class SaveManager
 {
@@ -56,8 +57,8 @@ public static class SaveManager
             if (!save.buildings.ContainsKey(tileId))
             {
                 save.buildings.Add(tileId, structureId);
-    
-                if(save.buildingFlip.TryGetValue(structureId, out var value))
+
+                if (save.buildingFlip.TryGetValue(structureId, out var value))
                     save.buildingFlip[structureId] = value;
                 else
                     save.buildingFlip.Add(structureId, building.isFlip);
@@ -66,7 +67,7 @@ public static class SaveManager
         }
 
         save.buildingUpgrade.Clear();
-        foreach(var grade in GameManager.playerManager.buildingUpgradeGrades)
+        foreach (var grade in GameManager.playerManager.buildingUpgradeGrades)
         {
             save.buildingUpgrade.Add(grade.Key, grade.Value);
         }
@@ -77,6 +78,12 @@ public static class SaveManager
         //    save.buildingUpgrade.Add(id, up == null ? 0 : up.currentGrade);
         //}
 
+
+        //Version 3
+        save.masterVolume = SoundManager.MasterVolume;
+        save.bgmVolume = SoundManager.BGMVolume;
+        save.sfxVolume = SoundManager.SFXVolume;
+        save.frameRate = Application.targetFrameRate;
 
         SaveFile();
     }
@@ -128,7 +135,7 @@ public static class SaveManager
                 unitDeploy[deploy.Key] = deploy.Value;
         }
 
-        foreach(var grade in save.buildingUpgrade)
+        foreach (var grade in save.buildingUpgrade)
         {
             GameManager.playerManager.buildingUpgradeGrades.Add(grade.Key, grade.Value);
         }
@@ -155,7 +162,7 @@ public static class SaveManager
             var upId = DataTableManager.buildingTable.GetData(structureId).UpgradeId;
 
 
-            if(save.buildingUpgrade.TryGetValue(structureId, out var value))
+            if (save.buildingUpgrade.TryGetValue(structureId, out var value))
             {
                 up.currentGrade = save.buildingUpgrade[structureId];
             }
@@ -166,6 +173,12 @@ public static class SaveManager
 
             GameManager.villageManager.SetDevelopText(false);
         }
+
+        //Version 3
+        SoundManager.MasterVolume = save.masterVolume;
+        SoundManager.BGMVolume = save.bgmVolume;
+        SoundManager.SFXVolume = save.sfxVolume;
+        Application.targetFrameRate = save.frameRate;
     }
 
     private static void SaveFile()

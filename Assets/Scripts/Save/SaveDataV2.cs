@@ -38,6 +38,20 @@ public class SaveDataV2 : SaveData
 
     public override SaveData VersionUp()
     {
+        SaveDataV3 v3 = new();
+        //V2
+        v3.unitManager = unitManager;
+        v3.playerManager = playerManager;
+        v3.itemManager = itemManager;
+        v3.questManager = questManager;
+        v3.dialogManager = dialogManager;
+        v3.dialogQueue = dialogQueue;
+
+        v3.huntZones = huntZones;
+        v3.UnitDeployment = UnitDeployment;
+        v3.buildings = buildings;
+        v3.buildingUpgrade = buildingUpgrade;
+        v3.buildingFlip = buildingFlip;
         return this;
     }
 }
