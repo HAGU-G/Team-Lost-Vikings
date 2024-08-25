@@ -5,6 +5,7 @@ using UnityEngine.Rendering;
 
 public abstract class Unit : MonoBehaviour, IPointerClickHandler
 {
+    public HPBar hpBar;
     public UnitStats stats = null;
     [HideInInspector] public GameObject dress = null;
     public DressAnimator animator = new();
@@ -85,7 +86,6 @@ public abstract class Unit : MonoBehaviour, IPointerClickHandler
         if (animator != null)
             animator.SetHide(GameManager.cameraManager.isHideUnits);
 
-        sortingGroup.sortingOrder = Mathf.FloorToInt(-transform.position.y);
         stats.UpdateTimers(Time.deltaTime);
         OnUpdated?.Invoke();
     }
@@ -93,6 +93,23 @@ public abstract class Unit : MonoBehaviour, IPointerClickHandler
     protected virtual void LateUpdate()
     {
         IsMoved = false;
+
+        var sortingOrder = Mathf.FloorToInt(-transform.position.y);
+        sortingGroup.sortingOrder = sortingOrder;
+        hpBar.canvas.sortingOrder = sortingOrder;
+
+        if (stats != null
+            && !GameManager.IsPlayingAnimation
+            && GameManager.cameraManager != null
+            && !GameManager.cameraManager.isFocusOnUnit)
+        {
+            hpBar.gameObject.SetActive(true);
+            hpBar.slider.value = stats.HP.Ratio;
+        }
+        else
+        {
+            hpBar.gameObject.SetActive(false);
+        }
     }
 
     public virtual void OnRelease()

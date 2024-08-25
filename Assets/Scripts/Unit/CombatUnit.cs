@@ -130,11 +130,6 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
         stats.Collision(CurrentHuntZone.gridMap, CurrentHuntZone.Monsters.ToArray());
     }
 
-
-
-
-
-
     public bool HasTarget()
     {
         if (attackTarget == null
@@ -236,7 +231,7 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
 
     protected override void OnAnimationAttackHit()
     {
-        if(IsDead)
+        if (IsDead)
             return;
 
         if (!HasTarget())

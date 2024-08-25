@@ -97,6 +97,16 @@ public class UnitOnVillage : Unit
         }
     }
 
+    protected override void LateUpdate()
+    {
+        base.LateUpdate();
+        if(currentState == STATE.INTERACT
+            || currentState == STATE.REVIVE)
+        {
+            hpBar.gameObject.SetActive(false);
+        }
+    }
+
     public List<Cell> FindPath(Cell start, Cell end)
     {
         return villageManager.gridMap.PathFinding(start, end);
