@@ -104,7 +104,6 @@ public class UIReviveBuilding : UIWindow
         if (upgradeComponent.currentGrade >= grade.Count)
         {
             upgrade.interactable = false;
-
         }
 
         var time = um.currentNormalBuidling.gameObject.GetComponent<ReviveBuilding>().reviveTime;
@@ -147,6 +146,10 @@ public class UIReviveBuilding : UIWindow
 
         if (upgradeComponent.UpgradeGrade >= DataTableManager.upgradeTable.GetData(upgradeComponent.UpgradeId).Count)
             return;
+
+
+        requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
+        requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
 
         for (int i = 0; i < requireItemIds.Count; ++i)
         {
@@ -231,7 +234,6 @@ public class UIReviveBuilding : UIWindow
     public void OnButtonUpgrade()
     {
         GameManager.PlayButtonSFX();
-        vm.village.Upgrade();
 
         if (upgradeComponent.UpgradeGrade >= grade.Count)
         {
@@ -245,6 +247,8 @@ public class UIReviveBuilding : UIWindow
         {
             im.SpendItem(requireItemIds[i], requireItemNums[i]);
         }
+
+        vm.village.Upgrade();
         SetUI();
     }
 

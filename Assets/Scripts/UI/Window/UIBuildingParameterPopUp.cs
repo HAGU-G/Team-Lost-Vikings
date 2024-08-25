@@ -128,14 +128,9 @@ public class UIBuildingParameterPopUp : UIWindow
     public void OnButtonUpgrade()
     {
         GameManager.PlayButtonSFX();
-        vm.village.Upgrade();
         upgradeComponent = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
 
-        if (upgradeComponent.UpgradeGrade >= grade.Count)
-        {
-            SetLastUpgrade();
-            return;
-        }
+        
 
         requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
         requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
@@ -148,8 +143,14 @@ public class UIBuildingParameterPopUp : UIWindow
         //업적 카운팅
         var buildingID = upgradeComponent.GetComponent<Building>().StructureId;
         GameManager.questManager.SetAchievementCountByTargetID(buildingID, ACHIEVEMENT_TYPE.BUILDING_UPGRADE, 1);
-        
-        
+
+        vm.village.Upgrade();
+
+        if (upgradeComponent.UpgradeGrade >= grade.Count)
+        {
+            SetLastUpgrade();
+            return;
+        }
 
         SetPopUp();
     }
