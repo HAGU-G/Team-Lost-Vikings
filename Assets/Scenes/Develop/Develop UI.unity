@@ -56266,6 +56266,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 608057781}
     m_Modifications:
+    - target: {fileID: 1087628247889556348, guid: 739759ed9bdea7646acba736f39a1533, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -1169.772
+      objectReference: {fileID: 0}
+    - target: {fileID: 1087628247889556348, guid: 739759ed9bdea7646acba736f39a1533, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 84.886
+      objectReference: {fileID: 0}
+    - target: {fileID: 1220964826962183355, guid: 739759ed9bdea7646acba736f39a1533, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.000000044703484
+      objectReference: {fileID: 0}
+    - target: {fileID: 1220964826962183355, guid: 739759ed9bdea7646acba736f39a1533, type: 3}
+      propertyPath: m_Pivot.y
+      value: -0.000000023283064
+      objectReference: {fileID: 0}
+    - target: {fileID: 1220964826962183355, guid: 739759ed9bdea7646acba736f39a1533, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.000061035156
+      objectReference: {fileID: 0}
+    - target: {fileID: 1220964826962183355, guid: 739759ed9bdea7646acba736f39a1533, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2916733374295023804, guid: 739759ed9bdea7646acba736f39a1533, type: 3}
       propertyPath: m_Name
       value: Conversation_Layout
@@ -56353,6 +56377,18 @@ PrefabInstance:
     - target: {fileID: 3021188314912982427, guid: 739759ed9bdea7646acba736f39a1533, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3393163148967734141, guid: 739759ed9bdea7646acba736f39a1533, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.9999998
+      objectReference: {fileID: 0}
+    - target: {fileID: 3393163148967734141, guid: 739759ed9bdea7646acba736f39a1533, type: 3}
+      propertyPath: m_Pivot.y
+      value: -0.000000026077032
+      objectReference: {fileID: 0}
+    - target: {fileID: 3393163148967734141, guid: 739759ed9bdea7646acba736f39a1533, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.0004272461
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -70564,7 +70600,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 6a1b6b9cd16f3344a8e3e1016983ac20, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -70595,14 +70631,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
+    m_Left: 30
+    m_Right: 30
+    m_Top: 30
+    m_Bottom: 30
   m_ChildAlignment: 0
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
+  m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
