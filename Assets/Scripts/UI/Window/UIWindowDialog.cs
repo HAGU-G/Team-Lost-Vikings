@@ -149,8 +149,14 @@ public class UIWindowDialog : UIWindow
     {
         var dm = GameManager.dialogManager;
 
-        Sprite sprite = null;
-        loadedSprites.TryGetValue(dm.CurrentScript.ImageFileName, out sprite);
+        if(dm.CurrentScript == null)
+        {
+            imageLeft.enabled = false;
+            imageRight.enabled = false;
+            return;
+        }
+
+        loadedSprites.TryGetValue(dm.CurrentScript.ImageFileName, out var sprite);
 
         switch (dm.CurrentScript.ImageMarker)
         {

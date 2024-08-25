@@ -307,10 +307,10 @@ public class UIBuildingParameterPopUp : UIWindow
             }
         }
 
-        if (GameManager.playerManager.level < upgradeComponent.RequirePlayerLv)
+        if (upgradeComponent.UpgradeGrade >= grade.Count)
             return false;
 
-        if (upgradeComponent.UpgradeGrade >= grade.Count)
+        if (GameManager.playerManager.level < grade[upgradeComponent.UpgradeGrade].RequirePlayerLv)
             return false;
 
         return check;

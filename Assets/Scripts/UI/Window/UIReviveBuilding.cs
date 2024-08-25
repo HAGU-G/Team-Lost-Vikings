@@ -82,6 +82,12 @@ public class UIReviveBuilding : UIWindow
 
         isOpen = true;
 
+        if (upgradeComponent.UpgradeGrade >= grade.Count)
+        {
+            SetLastUpgrade();
+            return;
+        }
+
         requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
         requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
 
@@ -107,10 +113,14 @@ public class UIReviveBuilding : UIWindow
         }
 
         var time = um.currentNormalBuidling.gameObject.GetComponent<ReviveBuilding>().reviveTime;
-        reviveTimeText.text = $"부활 대기시간 {time}초";
-        //reviveTimeText.text = $"{grade[upgradeComponent.UpgradeGrade].UpgradeDesc}";
-        SetUpgradeItemList();
-        CheckResource();
+        //reviveTimeText.text = $"부활 대기시간 {time}초";
+
+        if (upgradeComponent.UpgradeGrade < grade.Count)
+        {
+            reviveTimeText.text = $"{grade[upgradeComponent.UpgradeGrade].UpgradeDesc}";
+            SetUpgradeItemList();
+            CheckResource();
+        }
     }
 
     public void SetRevivingList()
@@ -187,11 +197,10 @@ public class UIReviveBuilding : UIWindow
                 isEnough = false;
             }
         }
-
-        if (upgradeComponent.RequirePlayerLv > GameManager.playerManager.level)
+        if (upgradeComponent.UpgradeGrade >= grade.Count)
             isEnough = false;
 
-        if (upgradeComponent.UpgradeGrade >= grade.Count)
+        if (GameManager.playerManager.level < grade[upgradeComponent.UpgradeGrade].RequirePlayerLv)
             isEnough = false;
 
         upgrade.interactable = isEnough;
@@ -233,11 +242,6 @@ public class UIReviveBuilding : UIWindow
     {
         GameManager.PlayButtonSFX();
 
-        if (upgradeComponent.UpgradeGrade >= grade.Count)
-        {
-            SetLastUpgrade();
-            return;
-        }
 
         requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
         requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
@@ -247,6 +251,12 @@ public class UIReviveBuilding : UIWindow
         }
 
         vm.village.Upgrade();
+        
+        if (upgradeComponent.UpgradeGrade >= grade.Count)
+        {
+            SetLastUpgrade();
+            return;
+        }
         SetUI();
     }
 
@@ -280,8 +290,7 @@ public class UIReviveBuilding : UIWindow
         }
         resourceList.Clear();
         var time = um.currentNormalBuidling.gameObject.GetComponent<ReviveBuilding>().reviveTime;
-        reviveTimeText.text = $"마지막 업그레이드 단계입니다.\n부활 대기시간 {time}초";
-
+        reviveTimeText.text = $"마지막 업그레이드 단계입니다.";
         upgrade.interactable = false;
     }
 }
