@@ -149,14 +149,14 @@ public class UIBuildingDetail : UIWindow
 
                 resource.GetComponentInChildren<TextMeshProUGUI>().text
                     = $"{im.GetItem(upgrade.ItemIds[i])} / {upgrade.ItemNums[i]}";
-
+                
+                resources.Add(resource);
+                
                 if (value == null)
                 {
-                    Destroy(resource);
-                    resources.Remove(resource);
+                    resource.SetActive(false);
                 }
-
-                resources.Add(resource);
+                
             }
         }
         else

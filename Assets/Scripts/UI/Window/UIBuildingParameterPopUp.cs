@@ -267,8 +267,7 @@ public class UIBuildingParameterPopUp : UIWindow
 
             if (value == null)
             {
-                Destroy(resource);
-                resourceList.Remove(resource);
+                resource.SetActive(false);
             }
                 
 
