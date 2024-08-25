@@ -155,6 +155,9 @@ public class UIBuildingPopUp : UIWindow
 
     public void SetRequireItem()
     {
+        requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
+        requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
+
         for (int i = 0; i < resourceList.Count; ++i)
         {
             Destroy(resourceList[i].gameObject);

@@ -147,7 +147,6 @@ public class UIReviveBuilding : UIWindow
         if (upgradeComponent.UpgradeGrade >= DataTableManager.upgradeTable.GetData(upgradeComponent.UpgradeId).Count)
             return;
 
-
         requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
         requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
 

@@ -250,6 +250,9 @@ public class UIBuildingParameterPopUp : UIWindow
         if (upgradeComponent.UpgradeGrade >= grade.Count)
             return;
 
+        requireItemIds = grade[upgradeComponent.UpgradeGrade].ItemIds;
+        requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
+
         for (int i = 0; i < requireItemIds.Count; ++i)
         {
             var resource = Instantiate(upgradeResource, resourceLayout);
