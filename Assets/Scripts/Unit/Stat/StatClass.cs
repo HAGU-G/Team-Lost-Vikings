@@ -28,8 +28,8 @@ public abstract class StatClass<T>
         }
     }
     public StatClass<T> upgradeValue = null;
-    public T buffValue;
-    public float ratioBuffValue;
+    [JsonProperty] public T buffValue;
+    [JsonProperty] public float ratioBuffValue;
 
     public T Current =>
         Multiply(1f + ratioBuffValue,

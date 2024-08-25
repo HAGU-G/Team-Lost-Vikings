@@ -290,6 +290,7 @@ public class UnitManager
         Waitings.Remove(instanceID);
         DeadUnits.Remove(instanceID);
 
+        discardUnit.ResetUpgradeStatsEvent();
         discardUnit.ResetHuntZone();
         if (discardUnit.objectTransform != null)
         {
@@ -297,6 +298,8 @@ public class UnitManager
                 unit.RemoveUnit();
         }
 
+
+        //아이템 드랍
         if (discardUnit.Data.DropId == 0)
             return null;
 

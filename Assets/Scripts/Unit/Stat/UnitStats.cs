@@ -398,15 +398,15 @@ public class UnitStats
     public void ResetMaxParameter()
     {
         HP.max = BaseHP.Current + GetWeightedStat(BaseVit.Current, VitWeight.Current);
-        if (HP.Current > HP.max)
+        if (GameManager.IsReady && HP.Current > HP.max)
             HP.Current = HP.max;
 
         Stamina.max = BaseStamina.Current;
-        if (Stamina.Current > Stamina.max)
+        if (GameManager.IsReady && Stamina.Current > Stamina.max)
             Stamina.Current = Stamina.max;
 
         Stress.max = BaseStress.Current;
-        if (Stress.Current > Stress.max)
+        if (GameManager.IsReady && Stress.Current > Stress.max)
             Stress.Current = Stress.max;
     }
 

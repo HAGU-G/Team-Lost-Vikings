@@ -2,7 +2,7 @@
 using System.IO;
 using System.Security.Cryptography;
 using UnityEngine;
-using CurrentSave = SaveDataV3;
+using CurrentSave = SaveDataV4;
 
 public static class SaveManager
 {

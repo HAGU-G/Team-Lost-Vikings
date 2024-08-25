@@ -47,6 +47,41 @@ public class SaveDataV3 : SaveData
 
     public override SaveData VersionUp()
     {
-        return this;
+        SaveDataV4 v4 = new SaveDataV4();
+
+        //V2
+        v4.unitManager = unitManager;
+        v4.playerManager = playerManager;
+        v4.itemManager = itemManager;
+        v4.questManager = questManager;
+        v4.dialogManager = dialogManager;
+        v4.dialogQueue = dialogQueue;
+
+        v4.huntZones = huntZones;
+        v4.UnitDeployment = UnitDeployment;
+        v4.buildings = buildings;
+        v4.buildingUpgrade = buildingUpgrade;
+        v4.buildingFlip = buildingFlip;
+
+        //V3
+        v4.masterVolume = masterVolume;
+        v4.bgmVolume = bgmVolume;
+        v4.sfxVolume = sfxVolume;
+        v4.frameRate = frameRate;
+
+        foreach(var unit in v4.unitManager.Units.Values)
+        {
+            unit.Buffs.Clear();
+        }
+        foreach (var unit in v4.unitManager.Waitings.Values)
+        {
+            unit.Buffs.Clear();
+        }
+        foreach (var unit in v4.unitManager.DeadUnits.Values)
+        {
+            unit.Buffs.Clear();
+        }
+
+        return v4;
     }
 }

@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class SaveDataV2 : SaveData
+public class SaveDataV4 : SaveData
 {
-    public SaveDataV2() : base(2) { }
+    public SaveDataV4() : base(4) { }
 
+    //V2
     public UnitManager unitManager;
     public PlayerManager playerManager;
     public ItemManager itemManager;
@@ -19,26 +20,15 @@ public class SaveDataV2 : SaveData
     public Dictionary<int, int> buildingUpgrade = new();
     public Dictionary<int, bool> buildingFlip = new();
 
+    //V3
+    public float masterVolume = 1f;
+    public float bgmVolume = 1f;
+    public float sfxVolume = 1f;
+    public int frameRate = 60;
+
     public override SaveData VersionDown()
     {
-        SaveDataV1 v1 = new SaveDataV1();
-        v1.unitManager = unitManager;
-        v1.playerManager = playerManager;
-        v1.itemManager = itemManager;
-        v1.questManager = questManager;
-        v1.dialogManager = dialogManager;
-
-        v1.huntZones = huntZones;
-        v1.UnitDeployment = UnitDeployment;
-        v1.buildings = buildings;
-        v1.buildingUpgrade = buildingUpgrade;
-        v1.buildingFlip = buildingFlip;
-        return v1;
-    }
-
-    public override SaveData VersionUp()
-    {
-        SaveDataV3 v3 = new();
+        SaveDataV3 v3 = new SaveDataV3();
         //V2
         v3.unitManager = unitManager;
         v3.playerManager = playerManager;
@@ -52,6 +42,18 @@ public class SaveDataV2 : SaveData
         v3.buildings = buildings;
         v3.buildingUpgrade = buildingUpgrade;
         v3.buildingFlip = buildingFlip;
+
+        //V3
+        v3.masterVolume = masterVolume;
+        v3.bgmVolume = bgmVolume;
+        v3.sfxVolume = sfxVolume;
+        v3.frameRate = frameRate;
+
         return v3;
+    }
+
+    public override SaveData VersionUp()
+    {
+        return this;
     }
 }

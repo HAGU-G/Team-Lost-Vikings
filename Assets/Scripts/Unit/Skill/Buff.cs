@@ -150,7 +150,7 @@ public class Buff
         }
     }
 
-    public void Reset()
+    public void Reset(Buff buff = null)
     {
         Timer = Duration;
     }
