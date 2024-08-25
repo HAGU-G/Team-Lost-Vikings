@@ -12,7 +12,7 @@ public class UICheat : MonoBehaviour
         buttonGold.gameObject.SetActive(false);
         buttonAll.gameObject.SetActive(false);
         buttonLevel.gameObject.SetActive(false);
-        return;   
+        return;
 #endif
         buttonGold.onClick.AddListener(() =>
         {
