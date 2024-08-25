@@ -146,6 +146,7 @@ public class UIBuildingParameterPopUp : UIWindow
 
         vm.village.Upgrade();
 
+        Debug.Log(upgradeComponent.UpgradeGrade);
         if (upgradeComponent.UpgradeGrade >= grade.Count)
         {
             SetLastUpgrade();
