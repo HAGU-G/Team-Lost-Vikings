@@ -15,10 +15,10 @@ public class AttackProjectile : IAttackStrategy
         var proj = handle.WaitForCompletion().GetComponent<Projectile>();
 
         var targetCombat = target as CombatUnit;
-        if(targetCombat != null)
+        if (targetCombat != null)
             targetPos = targetCombat.transform.position;
 
-        proj.Init(skill);
+        proj.Init(skill, true);
         if (targetCombat != null)
         {
             proj.ResetProjectile(
