@@ -167,6 +167,22 @@ public class UnitStats
         BaseHP.SetUpgrade(GameManager.playerManager.unitHp);
         BaseStamina.SetUpgrade(GameManager.playerManager.unitStamina);
         BaseStress.SetUpgrade(GameManager.playerManager.unitMental);
+
+        BaseHP.upgradeValue.OnDefaultValueChanged += ResetMaxParameter;
+        BaseStamina.upgradeValue.OnDefaultValueChanged += ResetMaxParameter;
+        BaseStress.upgradeValue.OnDefaultValueChanged += ResetMaxParameter;
+    }
+
+    public void ResetUpgradeStatsEvent()
+    {
+        if (BaseHP.upgradeValue != null)
+            BaseHP.upgradeValue.OnDefaultValueChanged -= ResetMaxParameter;
+
+        if (BaseStamina.upgradeValue != null)
+            BaseStamina.upgradeValue.OnDefaultValueChanged -= ResetMaxParameter;
+
+        if (BaseStress.upgradeValue != null)
+            BaseStress.upgradeValue.OnDefaultValueChanged -= ResetMaxParameter;
     }
 
     public void SetLocation(LOCATION location, LOCATION nextLocation = LOCATION.NONE)
@@ -352,7 +368,7 @@ public class UnitStats
                     var deltaDistance = Vector3.Distance(objectTransform.position, prePos);
                     var cross = Vector3.Cross(directionToOther, unit.LastDirection.normalized);
                     Vector3 direc;
-                    if(cross.z < 0f)
+                    if (cross.z < 0f)
                         direc = Quaternion.Euler(0f, 0f, -90f) * unit.LastDirection;
                     else
                         direc = Quaternion.Euler(0f, 0f, 90f) * unit.LastDirection;
@@ -382,15 +398,15 @@ public class UnitStats
     public void ResetMaxParameter()
     {
         HP.max = BaseHP.Current + GetWeightedStat(BaseVit.Current, VitWeight.Current);
-        if (GameManager.IsReady && HP.Current > HP.max)
+        if (HP.Current > HP.max)
             HP.Current = HP.max;
 
         Stamina.max = BaseStamina.Current;
-        if (GameManager.IsReady && Stamina.Current > Stamina.max)
+        if (Stamina.Current > Stamina.max)
             Stamina.Current = Stamina.max;
 
         Stress.max = BaseStress.Current;
-        if (GameManager.IsReady && Stress.Current > Stress.max)
+        if (Stress.Current > Stress.max)
             Stress.Current = Stress.max;
     }
 

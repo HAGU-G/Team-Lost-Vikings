@@ -182,7 +182,7 @@ public class SoundManager : MonoBehaviour
     private void Update()
     {
         //배경음악 반복 재생
-        if (!bgmSource.isPlaying && Application.isFocused)
+        if (GameManager.IsReady && !bgmSource.isPlaying && Application.isFocused)
             AutoPlayBGM();
     }
 
