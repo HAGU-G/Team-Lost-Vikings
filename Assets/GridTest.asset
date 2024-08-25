@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   row: 25
   col: 25
-  minRow: 9
-  minCol: 9
+  minRow: 11
+  minCol: 11
   cellSize: 5

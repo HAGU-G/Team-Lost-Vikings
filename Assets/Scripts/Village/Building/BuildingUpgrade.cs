@@ -55,7 +55,7 @@ public class BuildingUpgrade : MonoBehaviour
         if (UpgradeId == 0)
             return;
         
-        Debug.Log($"setbuildingupgrade : {currentGrade}");
+        //Debug.Log($"setbuildingupgrade : {currentGrade}");
 
         UpgradeData upgrade = UpgradeData.GetUpgradeData(UpgradeId, currentGrade);
         if (upgrade == null)
@@ -102,7 +102,7 @@ public class BuildingUpgrade : MonoBehaviour
 
         if (!load)
             ++currentGrade;
-        Debug.Log($"currentGrade : {currentGrade}");
+        //Debug.Log($"currentGrade : {currentGrade}");
 
         switch (StructureType)
         {

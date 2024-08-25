@@ -7,7 +7,7 @@ using CurrentSave = SaveDataV4;
 public static class SaveManager
 {
     private static readonly string fileDirectory = $"{Application.persistentDataPath}/save";
-    private static readonly string fileName = "0_2_11_CBT0823";
+    private static readonly string fileName = "0_2_16_CBT0825";
     private static readonly string key = "89f0d73j038fjje0";
 
     private static SaveData saveData = null;
@@ -19,6 +19,7 @@ public static class SaveManager
         if (!GameSetting.Instance.useSaveDataWhenEditor)
             return;
 #endif
+        Debug.Log("게임 저장");
         if (saveData == null)
             saveData = new CurrentSave();
 
@@ -49,7 +50,7 @@ public static class SaveManager
         for (int i = 0; i < GameManager.villageManager.constructedBuildings.Count; ++i)
         {
             var building = GameManager.villageManager.constructedBuildings[i].GetComponent<Building>();
-            Debug.Log(GameManager.villageManager.constructedBuildings[i]);
+            //Debug.Log(GameManager.villageManager.constructedBuildings[i]);
             var tileId = building.standardTile.tileInfo.id;
             var structureId = building.StructureId;
 

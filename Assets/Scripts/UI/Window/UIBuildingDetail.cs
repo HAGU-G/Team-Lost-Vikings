@@ -101,7 +101,7 @@ public class UIBuildingDetail : UIWindow
         requireItemIds = grade[0].ItemIds;
         requireItemNums = grade[0].ItemNums;
 
-        Debug.Log(resources.Count);
+        //Debug.Log(resources.Count);
         for (int i = 0; i < resources.Count; ++i)
         {
             resources[i].GetComponentInChildren<TextMeshProUGUI>().text = $"{im.GetItem(requireItemIds[i])} / {requireItemNums[i]}";
