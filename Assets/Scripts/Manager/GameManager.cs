@@ -152,12 +152,14 @@ public static class GameManager
     public static void PlayAnimation()
     {
         IsPlayingAnimation = true;
+        uiManager.uiDevelop.touchBlocker.gameObject.SetActive(true);
         Publish(EVENT_TYPE.PLAY_ANIMATION);
     }
 
     public static void StopAnimation()
     {
         IsPlayingAnimation = false;
+        uiManager.uiDevelop.touchBlocker.gameObject.SetActive(false);
         Publish(EVENT_TYPE.STOP_ANIMATION);
 
         var dm = dialogManager;
