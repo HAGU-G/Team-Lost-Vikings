@@ -54,22 +54,19 @@ public class UIGachaResult : UIWindow
     {
         SetUnit(unitStats);
 
-        foreach (var u in GameManager.unitManager.Units.Values)
-        {
-            if (u.Id == unitStats.Id)
-            {
-                gachaResultDesc.text = $"보유 중인 모험가가 모집되어 대기소에 배치되었습니다.";
-                reRecruit.GetComponentInChildren<TextMeshProUGUI>().text = "대기소로";
-                reRecruit.onClick.RemoveAllListeners();
-                reRecruit.onClick.AddListener(GameManager.PlayButtonSFX);
-                reRecruit.onClick.AddListener(
-                    () => GameManager.uiManager.windows[WINDOW_NAME.CHARACTER_STASH].Open());
-            }
-        }
-
-        if (GameManager.unitManager.unitLimitCount < GameManager.unitManager.Units.Count + 1)
+        if (GameManager.unitManager.Waitings.ContainsKey(unitStats.InstanceID)
+            && GameManager.unitManager.unitLimitCount < GameManager.unitManager.Units.Count + 1)
         {
             gachaResultDesc.text = $"자리가 없어서 대기소에 배치되었습니다.";
+            reRecruit.GetComponentInChildren<TextMeshProUGUI>().text = "대기소로";
+            reRecruit.onClick.RemoveAllListeners();
+            reRecruit.onClick.AddListener(GameManager.PlayButtonSFX);
+            reRecruit.onClick.AddListener(
+                () => GameManager.uiManager.windows[WINDOW_NAME.CHARACTER_STASH].Open());
+        }
+        else if (GameManager.unitManager.Waitings.ContainsKey(unitStats.InstanceID))
+        {
+            gachaResultDesc.text = $"보유 중인 모험가가 모집되어 대기소에 배치되었습니다.";
             reRecruit.GetComponentInChildren<TextMeshProUGUI>().text = "대기소로";
             reRecruit.onClick.RemoveAllListeners();
             reRecruit.onClick.AddListener(GameManager.PlayButtonSFX);
