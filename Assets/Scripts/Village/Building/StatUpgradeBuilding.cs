@@ -46,7 +46,7 @@ public class StatUpgradeBuilding : MonoBehaviour, IInteractableWithPlayer
                 GameManager.playerManager.unitCritChance.defaultValue = upgradeValue;
                 break;
             case STAT_TYPE.CRIT_WEIGHT:
-                GameManager.playerManager.unitCritWeight.defaultValue = upgradeValue;
+                GameManager.playerManager.unitCritWeight.defaultValue = upgradeValue * 0.01f;
                 break;
             case STAT_TYPE.HP:
                 GameManager.playerManager.unitHp.defaultValue = upgradeValue;
