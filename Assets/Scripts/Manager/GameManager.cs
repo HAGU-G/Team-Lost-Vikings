@@ -1,7 +1,6 @@
 ﻿//임시로 사용 중
 
 using System.Collections.Generic;
-using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.Events;
 
