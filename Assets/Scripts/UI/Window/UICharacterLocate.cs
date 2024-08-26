@@ -159,7 +159,7 @@ public class UICharacterLocate : UIWindow
         if (unitOnVillage.currentState == UnitOnVillage.STATE.REVIVE)
             return;
 
-            foreach (var building in GameManager.villageManager.constructedBuildings)
+        foreach (var building in GameManager.villageManager.constructedBuildings)
         {
             if (building.GetComponent<ParameterRecoveryBuilding>() == null)
                 continue;

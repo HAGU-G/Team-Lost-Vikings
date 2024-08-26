@@ -181,8 +181,9 @@ public class GotoOnVillage : State<UnitOnVillage>
         if (owner.forceDestination != null)
         {
             owner.unitMove.OnTargetTile -= OnEntranceTile;
-            controller.ChangeState((int)UnitOnVillage.STATE.IDLE);
+            owner.destination = owner.forceDestination;
             owner.forceDestination = null;
+            controller.ChangeState((int)UnitOnVillage.STATE.INTERACT);
             return;
         }
 
