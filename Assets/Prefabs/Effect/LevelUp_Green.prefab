@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: -3790925386365254389}
   - component: {fileID: 3818720182429951048}
   m_Layer: 0
-  m_Name: LevelUp
+  m_Name: LevelUp_Green
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -133,7 +133,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6785772262510733942, guid: a03152fb8266fef4bbfb38f55c3c0b0a, type: 3}
       propertyPath: InitialModule.startColor.maxColor.b
-      value: 1
+      value: 0.23503351
       objectReference: {fileID: 0}
     - target: {fileID: 6785772262510733942, guid: a03152fb8266fef4bbfb38f55c3c0b0a, type: 3}
       propertyPath: InitialModule.startColor.maxColor.g
@@ -141,7 +141,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6785772262510733942, guid: a03152fb8266fef4bbfb38f55c3c0b0a, type: 3}
       propertyPath: InitialModule.startColor.maxColor.r
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6785772262510733943, guid: a03152fb8266fef4bbfb38f55c3c0b0a, type: 3}
       propertyPath: m_Mesh

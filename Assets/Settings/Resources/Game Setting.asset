@@ -24,7 +24,7 @@ MonoBehaviour:
   returnStressRaito: 0.2
   staminaReduceAmount: 1
   stressReduceAmount: 1
-  overrollUltraRare: 148
+  overrollUltraRare: 150
   overrollSuperRare: 131
   overrollRare: 112
   overrollNormal: 86
@@ -41,7 +41,7 @@ MonoBehaviour:
   touchEffectScale: 0.21
   hitEffectColor: {r: 1, g: 0, b: 0, a: 1}
   defaultUnitLimit: 8
-  waitListLimit: 15
+  waitListLimit: 5
   autoGachaSeconds: 90
   gachaPrefabRareName: Char_Gacha_Rare
   gachaPrefabName: Char_Gacha

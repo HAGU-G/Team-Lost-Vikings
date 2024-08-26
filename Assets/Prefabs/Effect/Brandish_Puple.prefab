@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3282464602033670479}
   - component: {fileID: 7455887144476183338}
   m_Layer: 0
-  m_Name: Brandish
+  m_Name: Brandish_Puple
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -105,11 +105,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8288126769186820214, guid: c2c43130bc4b01a488d3e68fea830c16, type: 3}
       propertyPath: InitialModule.startColor.maxColor.g
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8288126769186820214, guid: c2c43130bc4b01a488d3e68fea830c16, type: 3}
       propertyPath: InitialModule.startColor.maxColor.r
-      value: 1
+      value: 0.74792814
       objectReference: {fileID: 0}
     - target: {fileID: 8288126769186820215, guid: c2c43130bc4b01a488d3e68fea830c16, type: 3}
       propertyPath: m_LocalScale.x
