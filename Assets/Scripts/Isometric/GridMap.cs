@@ -9,6 +9,9 @@ public class GridMap : MonoBehaviour
     public Dictionary<Vector2Int, Cell> tiles = new Dictionary<Vector2Int, Cell>();
     public GameObject cellPrefab;
     private List<Cell> path;
+
+    public Sprite defaultTileSprite;
+    public Sprite unusableTileSprite;
     
 
     public List<Cell> usingTileList = new(); //gridMap 내에서 사용 가능한 타일 리스트
@@ -84,6 +87,7 @@ public class GridMap : MonoBehaviour
 
                 cell.name = $"{tile.tileInfo.id}";
                 text.text = $"{tile.tileInfo.id}";
+                cell.transform.SetAsFirstSibling();
                 tiles.Add(tile.tileInfo.id, tile);
                 tileArray[x, y] = tile;
             }
@@ -110,32 +114,42 @@ public class GridMap : MonoBehaviour
 
     public void ConcealGrid()
     {
-        foreach(var tile in tiles.Values)
+        var rendererSize = unusableTileSprite.bounds.size;
+        var scaleFactorX = gridInfo.cellSize / rendererSize.x;
+        var scaleFactorY = gridInfo.cellSize / rendererSize.y;
+        
+        foreach (var tile in tiles.Values)
         {
-            tile.GetComponent<SpriteRenderer>().enabled = false;
+            var tileSprite = tile.GetComponent<SpriteRenderer>().sprite;
+            tile.GetComponent<SpriteRenderer>().sprite = unusableTileSprite;
+            tile.transform.localScale = new Vector3 (scaleFactorX, scaleFactorY, 1f);
         }
     }
 
     public void SetUsingTileList(int level)
     {
-        usingTileList.Clear();
-
         int expandLevel = level / 10;
-
-        if(expandLevel > usableTileList.Count)
+        if (expandLevel > usableTileList.Count)
         {
             Debug.Log("최대로 확장되었습니다.");
             return;
         }
 
+        usingTileList.Clear();
         foreach (var tile in usableTileList[expandLevel])
         {
             usingTileList.Add(tile);
         }
 
-        foreach(var tile in usingTileList)
+        var rendererSize = defaultTileSprite.bounds.size;
+        var scaleFactorX = gridInfo.cellSize / rendererSize.x;
+        var scaleFactorY = gridInfo.cellSize / rendererSize.y;
+
+        foreach (var tile in usingTileList)
         {
-            tile.GetComponent<SpriteRenderer>().enabled = true;
+            var tileSprite = tile.GetComponent<SpriteRenderer>().sprite;
+            tile.GetComponent<SpriteRenderer>().sprite = defaultTileSprite;
+            tile.transform.localScale = new Vector3(scaleFactorX, scaleFactorY, 1f);
         }
     }
 

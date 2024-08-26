@@ -154,6 +154,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridInfo: {fileID: 11400000, guid: 9857686cf1910144e9950cc3ee0b9ab3, type: 2}
   cellPrefab: {fileID: 8088564192278140151, guid: e1eab14e1909461439e34a31a243accd, type: 3}
+  defaultTileSprite: {fileID: 21300000, guid: 77b4b7e94b571034da54339b1f62f62f, type: 3}
+  unusableTileSprite: {fileID: 21300000, guid: 7342e0718a47dc44e8c8de74bfbaaf99, type: 3}
   usingTileList: []
 --- !u!4 &286098944
 Transform:
@@ -251,7 +253,6 @@ MonoBehaviour:
   standardPrefab: {fileID: 3313551129836266134, guid: 568c83c00f47df44fb15e420920b1664, type: 3}
   roadPrefab: {fileID: 101424399208625417, guid: cba03f8874769744bb9e7ee7ac90b656, type: 3}
   buildingPrefab: {fileID: 888002931920025196, guid: 8746d58972713344ea05a8ff6b3b58d3, type: 3}
-  gridMaps: []
 --- !u!4 &927712893
 Transform:
   m_ObjectHideFlags: 0
@@ -377,6 +378,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fdfb9230d4b5a34aabbdf91b4e0d2d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <UpgradeName>k__BackingField: 
+  <UpgradeId>k__BackingField: 0
+  <UpgradeGrade>k__BackingField: 0
+  <RequirePlayerLv>k__BackingField: 0
+  <StructureLevel>k__BackingField: 0
+  <StructureType>k__BackingField: 0
+  <StatType>k__BackingField: 0
+  <StatReturn>k__BackingField: 0
+  <ParameterType>k__BackingField: 0
+  <ParameterRecovery>k__BackingField: 0
+  <RecoveryTime>k__BackingField: 0
+  <ProgressVarType>k__BackingField: 0
+  <ProgressVarReturn>k__BackingField: 0
+  <DropId>k__BackingField: 0
+  <ItemIds>k__BackingField: 
+  <ItemNums>k__BackingField: 
+  <UpgradeDesc>k__BackingField: 
+  <StructureAssetFileName>k__BackingField: 
   currentGrade: 0
 --- !u!114 &1399002950
 MonoBehaviour:
@@ -401,11 +420,62 @@ MonoBehaviour:
   <CanReplace>k__BackingField: 0
   <CanDestroy>k__BackingField: 0
   <UpgradeId>k__BackingField: 0
-  <StructureAssetFileName>k__BackingField: 
   <StructureDesc>k__BackingField: 
+  standardTile: {fileID: 0}
   placedTiles: []
-  entranceTile: {fileID: 0}
+  marginTiles: []
+  realOccupiedTiles: []
+  entranceTiles: []
+  isFlip: 0
   gridMap: {fileID: 0}
+--- !u!1 &1654015484
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1654015486}
+  - component: {fileID: 1654015485}
+  m_Layer: 0
+  m_Name: tileSpriteSet
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &1654015485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1654015484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a40711698e054ef4991f7a7d1be04bcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data:
+    data:
+    - key: {x: 0, y: 0}
+      value: {fileID: 0}
+--- !u!4 &1654015486
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1654015484}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -100, y: -19.375, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1883879125
 GameObject:
   m_ObjectHideFlags: 0
@@ -439,40 +509,6 @@ MonoBehaviour:
   villageManager: {fileID: 927712892}
   unitPrefab: {fileID: 8973577619717209016, guid: c521c0b593d9c1846bf53c434a7bd6ff, type: 3}
   units: []
-  unitStats: []
-  unitStatsData:
-    <Name>k__BackingField: 
-    <Id>k__BackingField: 0
-    <GachaChance>k__BackingField: 0
-    <GachaLevel>k__BackingField: 0
-    <Job>k__BackingField: 0
-    <BasicAttackType>k__BackingField: 0
-    <MaxHP>k__BackingField: 0
-    <MaxStamina>k__BackingField: 0
-    <MaxMental>k__BackingField: 0
-    <RecognizeRange>k__BackingField: 0
-    <SizeRange>k__BackingField: 0
-    <PresenseRange>k__BackingField: 0
-    <BasicAttackRange>k__BackingField: 0
-    <MoveSpeed>k__BackingField: 0
-    <StrMin>k__BackingField: 0
-    <StrMax>k__BackingField: 0
-    <StrWeight>k__BackingField: 0
-    <WizMin>k__BackingField: 0
-    <WizMax>k__BackingField: 0
-    <WizWeight>k__BackingField: 0
-    <AgiMin>k__BackingField: 0
-    <AgiMax>k__BackingField: 0
-    <AgiWeight>k__BackingField: 0
-    <AttackSpeed>k__BackingField: 0
-    <CritChance>k__BackingField: 0
-    <CritWeight>k__BackingField: 0
-    <VitMin>k__BackingField: 0
-    <VitMax>k__BackingField: 0
-    <VitWeight>k__BackingField: 0
-    <SkillPoolId1>k__BackingField: 0
-    <SkillPoolId2>k__BackingField: 0
-    <UnitAssetFileName>k__BackingField: 
   upgrade: {fileID: 0}
 --- !u!4 &1883879127
 Transform:
@@ -509,3 +545,4 @@ SceneRoots:
   - {fileID: 1883879127}
   - {fileID: 1399002948}
   - {fileID: 530307604}
+  - {fileID: 1654015486}
