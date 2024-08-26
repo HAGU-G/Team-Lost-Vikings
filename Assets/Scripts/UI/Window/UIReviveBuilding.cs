@@ -189,11 +189,11 @@ public class UIReviveBuilding : UIWindow
             var upgradeData = grade[upgradeComponent.UpgradeGrade];
             if (upgradeData.ItemNums[i] <= im.GetItem(requireItemIds[i]))
             {
-                resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.black;
+                resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.white;
             }
             else
             {
-                resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = new Color(255f / 255f, 8f / 255f, 0f / 255f);
+                resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
                 isEnough = false;
             }
         }

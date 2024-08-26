@@ -71,7 +71,7 @@ public class UICharacterGacha : UIWindow
         if (im.Gold >= requireGold)
         {
             gacha.targetGraphic.color = Color.green;
-            requireGoldText.color = Color.black;
+            requireGoldText.color = Color.white;
         }
         else
         {

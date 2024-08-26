@@ -298,7 +298,7 @@ public class UIBuildingParameterPopUp : UIWindow
         {
             if (requireItemNums[i] <= im.GetItem(requireItemIds[i]))
             {
-                resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.black;
+                resourceList[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.white;
             }
             else
             {

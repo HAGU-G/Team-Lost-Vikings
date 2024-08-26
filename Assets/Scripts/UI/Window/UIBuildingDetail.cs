@@ -183,7 +183,7 @@ public class UIBuildingDetail : UIWindow
         {
             if (requireItemNums[i] <= im.GetItem(requireItemIds[i]))
             {
-                resources[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.black;
+                resources[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.white;
             }
             else
             {
