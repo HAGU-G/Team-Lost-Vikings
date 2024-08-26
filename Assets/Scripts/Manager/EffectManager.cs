@@ -114,6 +114,10 @@ public class EffectManager : MonoBehaviour
         }
     }
 
+    public void GedtDamageEffectMulti(Vector3 position, Color color, DamageEffect.TYPE type, params string[] text)
+    {
+
+    }
     public DamageEffect GetDamageEffect(string text, Vector3 position, Color color, DamageEffect.TYPE type = DamageEffect.TYPE.DEFAULT)
     {
         var damageEffect = damagePool.Get();
@@ -228,4 +232,5 @@ public class EffectManager : MonoBehaviour
     }
 
     private void OnDestroyEffect(EffectObject effectObject) { }
+
 }
