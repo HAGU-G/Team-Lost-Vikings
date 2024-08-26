@@ -54,8 +54,8 @@ public class VillageManager : MonoBehaviour
     private void OnGameStart()
     {
         //GameManager.Subscribe(EVENT_TYPE.QUIT, OnGameQuit);
-        gridMap.ConcealGrid();
         gridMap.SetUsingTileList(GameManager.playerManager.level);
+        gridMap.ConcealGrid();
 
         if(GameManager.playerManager.firstPlay)
             VillageSet(gridMap);

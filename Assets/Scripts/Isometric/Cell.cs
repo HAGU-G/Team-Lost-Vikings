@@ -13,7 +13,7 @@ public enum Sides
 public class Cell : MonoBehaviour
 {
     public CellInfo tileInfo;
-
+    public SpriteRenderer spriteRenderer;
     public Cell[] adjacentTiles { get; } = new Cell[4];
     public Cell previous = null;
     public GridMap gridMap; //자신이 속한 gridMap
@@ -76,14 +76,14 @@ public class Cell : MonoBehaviour
     public void TileColorChange(bool canBuild)
     {
         if(canBuild)
-            GetComponent<SpriteRenderer>().material.color = Color.green;
+            spriteRenderer.material.color = Color.green;
         else
-            GetComponent<SpriteRenderer>().material.color = Color.red;
+            spriteRenderer.material.color = Color.red;
     }
 
     public void RestoreTileColor()
     {
-        GetComponent<SpriteRenderer>().material.color = Color.white;
+        spriteRenderer.material.color = Color.white;
     }
 
 
