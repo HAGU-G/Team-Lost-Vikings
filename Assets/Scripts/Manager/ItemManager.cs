@@ -78,10 +78,10 @@ public class ItemManager
             return 0;
     }
 
-    public void AddItem(int id, int amount)
+    public bool AddItem(int id, int amount)
     {
-        if (amount < 0)
-            return;
+        if (amount < 0 || id == 0)
+            return false;
 
         if (!ownItemList.ContainsKey(id))
             ownItemList.Add(id, 0);
@@ -103,6 +103,8 @@ public class ItemManager
 
         GameManager.uiManager.uiDevelop.SetItem(id, ownItemList[id]);
         OnItemChangedCallback?.Invoke();
+
+        return true;
     }
 
     public bool SpendItem(int id, int amount, bool doForceSpend = false)

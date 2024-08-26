@@ -141,6 +141,8 @@ public class GameSetting : ScriptableObject
     public string touchEffectName = string.Empty;
     public float touchEffectScale = 1f;
     public Color hitEffectColor = Color.red;
+    public float dropEffectInterval = 0.2f;
+    public float dropEffectPosDelta = 0.5f;
 
 
     [Header("뽑기 설정")]

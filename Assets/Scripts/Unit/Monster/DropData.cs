@@ -1,6 +1,7 @@
 ﻿using CsvHelper;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEditor.AddressableAssets.BuildReportVisualizer;
 
 public enum exp_TYPE
 {
@@ -53,6 +54,10 @@ public class DropData : ITableAvaialable<int>, ITableExtraLoadable
         }
     }
 
+    /// <summary>
+    /// Key: 아이템ID, Value: 드롭량
+    /// </summary>
+    /// <returns></returns>
     public Dictionary<int, int> DropItem()
     {
         Dictionary<int, int> result = new();
@@ -64,7 +69,14 @@ public class DropData : ITableAvaialable<int>, ITableExtraLoadable
 
             if (Random.Range(0, 100) < DropChances[i])
             {
-                im.AddItem(DropCurrenyIds[i], Random.Range(DropMinNums[i], DropMaxNums[i] + 1));
+                int dropID = DropCurrenyIds[i];
+                int dropAmount = Random.Range(DropMinNums[i], DropMaxNums[i] + 1);
+                im.AddItem(dropID, dropAmount);
+
+                if (result.ContainsKey(dropID))
+                    result[dropID] += dropAmount;
+                else
+                    result.Add(dropID, dropAmount);
             }
         }
         return result;

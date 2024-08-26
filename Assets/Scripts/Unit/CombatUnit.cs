@@ -4,6 +4,7 @@ using UnityEngine;
 public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
 {
     public Transform damageEffectPosition;
+    public Transform dropEffectPosition;
     public HuntZone CurrentHuntZone { get; protected set; } = null;
     public Vector3 PortalPos { get; protected set; }
 
