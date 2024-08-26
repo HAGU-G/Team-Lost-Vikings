@@ -119,18 +119,20 @@ public class GridMap : MonoBehaviour
         {
             if (usingTileList.Contains(tile))
                 continue;
+            tile.spriteRenderer.sprite = gridInfo.unusableTileSprite;
             for (int i = 0; i < gridInfo.images.Count; ++i)
             {
                 if (gridInfo.images[i].key == tile.tileInfo.id)
                 {
                     var image = gridInfo.images[i].value.unUsingImage;
                     if (image != null)
+                    {
                         tile.spriteRenderer.sprite = image;
-                    else
-                        tile.spriteRenderer.sprite = gridInfo.unusableTileSprite;
-                    tile.transform.localScale = new Vector3(scaleFactorX, scaleFactorY, 1f);
+                        break;
+                    }    
                 }
             }
+            tile.transform.localScale = new Vector3(scaleFactorX, scaleFactorY, 1f);
         }
     }
 

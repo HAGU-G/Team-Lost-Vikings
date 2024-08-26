@@ -25,13 +25,13 @@ MonoBehaviour:
         unUsingImage: {fileID: 0}
     - key: {x: 22, y: 18}
       value:
-        usingImage: {fileID: 0}
+        usingImage: {fileID: 21300000, guid: c0ae42a165cb12449b2831d60a2fe0b0, type: 3}
         unUsingImage: {fileID: 21300000, guid: 5c365afd532c1c646af3621b4e2f8c4d, type: 3}
-    - key: {x: 22, y: 22}
+    - key: {x: 22, y: 25}
       value:
         usingImage: {fileID: 21300000, guid: 325b66b96beacd849b9b2cd469dbe8da, type: 3}
         unUsingImage: {fileID: 21300000, guid: f24adaee8cddf0d4693a1e40ccb1cc60, type: 3}
-    - key: {x: 23, y: 23}
+    - key: {x: 22, y: 25}
       value:
         usingImage: {fileID: 21300000, guid: 325b66b96beacd849b9b2cd469dbe8da, type: 3}
         unUsingImage: {fileID: 0}
