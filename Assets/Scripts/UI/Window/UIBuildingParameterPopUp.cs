@@ -18,6 +18,7 @@ public class UIBuildingParameterPopUp : UIWindow
 
     public TextMeshProUGUI buildingName;
     public TextMeshProUGUI defaultDescription;
+    public TextMeshProUGUI currEffectDescription;
     public TextMeshProUGUI nextEffectDescription;
 
     public GameObject characterInformation;
@@ -168,6 +169,7 @@ public class UIBuildingParameterPopUp : UIWindow
         upgradeComponent = um.currentNormalBuidling.gameObject.GetComponent<BuildingUpgrade>();
         buildingName.text = um.currentNormalBuidling.StructureName;
         defaultDescription.text = um.currentNormalBuidling.StructureDesc;
+        currEffectDescription.text = UpgradeData.GetUpgradeData(upgradeComponent.UpgradeId, upgradeComponent.UpgradeGrade).UpgradeDesc;
         //Debug.Log(upgradeComponent.UpgradeGrade);
         if (upgradeComponent.UpgradeGrade < grade.Count)
             nextEffectDescription.text = UpgradeData.GetUpgradeData(upgradeComponent.UpgradeId, upgradeComponent.UpgradeGrade + 1).UpgradeDesc;
