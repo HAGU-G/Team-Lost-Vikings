@@ -44,7 +44,7 @@ Camera:
   m_GameObject: {fileID: 7375869506817564143}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.84313726, g: 0.8862745, b: 0.92156863, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minZoom: 5
-  maxZoom: 30
+  maxZoom: 17
   zoomMagnification: 0.03
   prevZoom: 0
   isHideUnits: 0
