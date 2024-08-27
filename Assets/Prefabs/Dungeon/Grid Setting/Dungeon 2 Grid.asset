@@ -12,6 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3c60f404e6e80b4ca41a98d79b8038f, type: 3}
   m_Name: Dungeon 2 Grid
   m_EditorClassIdentifier: 
+  useSprites:
+  - {fileID: 21300000, guid: 7c920aec703065e48a631d6f29ae7fb6, type: 3}
+  - {fileID: 21300000, guid: 8a5ec075534464d4995108738dd9c9c6, type: 3}
+  - {fileID: 21300000, guid: 82958aeee371a734e8119ec56056631d, type: 3}
+  - {fileID: 21300000, guid: 707af669b58711c42bafbf34e9f69111, type: 3}
+  - {fileID: 21300000, guid: 17586bd583d2be148996bad548716a9b, type: 3}
+  - {fileID: 21300000, guid: 0657d3ef253ed6f479848a5fe5c578ba, type: 3}
+  - {fileID: 21300000, guid: 8640099164be5a9409facf487c3995bd, type: 3}
+  - {fileID: 21300000, guid: 34d8de2e6de7378428cd108e18db6542, type: 3}
+  - {fileID: 21300000, guid: c7adc2fa53dda644a8e0d9a107033f06, type: 3}
+  - {fileID: 21300000, guid: c4be255bd7b0b2f41adf52576adcbd56, type: 3}
+  - {fileID: 21300000, guid: 93ea6ef8804af4949814ffd458610ccc, type: 3}
+  - {fileID: 21300000, guid: 3998b6976e4adef4c992cecf6e344fdc, type: 3}
+  - {fileID: 21300000, guid: 959496b7e381fa647841dc048b7491d3, type: 3}
+  - {fileID: 21300000, guid: 5d3ecac45de4f134ca7675363def5d6b, type: 3}
+  - {fileID: 21300000, guid: dc863659ad1b9c84b9a8e7e2b56acb80, type: 3}
   row: 8
   col: 8
   minRow: 8
@@ -19,5 +35,7 @@ MonoBehaviour:
   cellSize: 5
   images:
     data: []
-  defaultTileSprite: {fileID: 0}
-  unusableTileSprite: {fileID: 0}
+  fixImages:
+    data: []
+  defaultTileSprite: {fileID: 21300000, guid: 77b4b7e94b571034da54339b1f62f62f, type: 3}
+  unusableTileSprite: {fileID: 21300000, guid: 77b4b7e94b571034da54339b1f62f62f, type: 3}
