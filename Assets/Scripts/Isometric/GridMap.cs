@@ -241,7 +241,8 @@ public class GridMap : MonoBehaviour
 
         for (int i = 0; i < gridInfo.useSprites.Length; ++i)
         {
-            tileImages.Add(gridInfo.useSprites[i].name, gridInfo.useSprites[i]);
+            if(!tileImages.ContainsKey(gridInfo.useSprites[i].name))
+                tileImages.Add(gridInfo.useSprites[i].name, gridInfo.useSprites[i]);
         }
 
         var tileTable = dataTable;
