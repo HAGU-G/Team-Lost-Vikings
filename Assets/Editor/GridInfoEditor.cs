@@ -47,17 +47,21 @@ public class GridInfoEditor : Editor
 
         MakeLabelBox("기본 타일 이미지 설정");
         EditorGUIUtility.labelWidth = 60;
-        EditorGUILayout.BeginHorizontal();
-        gridInfo.defaultTileSprite = (Sprite)EditorGUILayout.ObjectField(
-                "확장 타일",
-                gridInfo.defaultTileSprite,
-                typeof(Sprite), true);
+        EditorGUILayout.Space();
 
-        gridInfo.unusableTileSprite = (Sprite)EditorGUILayout.ObjectField(
-                "미확장 타일",
-                gridInfo.unusableTileSprite,
-                typeof(Sprite), true);
-        EditorGUILayout.EndHorizontal();
+        EditorGUILayout.PropertyField(defaultTileSprite);
+        EditorGUILayout.PropertyField(unusableTileSprite);
+        //EditorGUILayout.BeginHorizontal();
+        //gridInfo.defaultTileSprite = (Sprite)EditorGUILayout.ObjectField(
+        //        "확장 타일",
+        //        gridInfo.defaultTileSprite,
+        //        typeof(Sprite), true);
+
+        //gridInfo.unusableTileSprite = (Sprite)EditorGUILayout.ObjectField(
+        //        "미확장 타일",
+        //        gridInfo.unusableTileSprite,
+        //        typeof(Sprite), true);
+        //EditorGUILayout.EndHorizontal();
         EditorGUILayout.Space();
 
         MakeLabelBox("지정 타일 이미지 설정");
