@@ -27,6 +27,8 @@ public static class DataTableManager
     public static TableDuplicatedID<int, DialogData> dialogTable = new("Assets/DataTable/DialogTable.csv");
     public static Table<int, QuestData> questTable = new("Assets/DataTable/QuestTable.csv");
 
+    public static Table<int, TileData> tileTable = new("Assets/DataTable/TownMapTable.csv");
+
     public static List<AsyncOperationHandle> handles;
     public static float progress = 0f;
     public static bool IsReady = false;
@@ -51,6 +53,8 @@ public static class DataTableManager
             achievementTable.Load(),
             dialogTable.Load(),
             questTable.Load(),
+
+            tileTable.Load(),
         };
     }
 

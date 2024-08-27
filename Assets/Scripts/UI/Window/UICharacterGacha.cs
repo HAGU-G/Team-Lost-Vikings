@@ -5,6 +5,7 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.Rendering;
 using Newtonsoft.Json;
 using static UIWindowMessage;
+using System.Linq;
 public class UICharacterGacha : UIWindow
 {
     public override WINDOW_NAME WindowName => WINDOW_NAME.GACHA_UI;
@@ -22,6 +23,7 @@ public class UICharacterGacha : UIWindow
     protected override void Awake()
     {
         base.Awake();
+        isShowOnly = false;
     }
 
     private void Update()
@@ -102,6 +104,7 @@ public class UICharacterGacha : UIWindow
 
     private bool CheckGacha()
     {
+        var vm = GameManager.villageManager;
         var message = GameManager.uiManager.windows[WINDOW_NAME.MESSAGE_POPUP] as UIWindowMessage;
         if (im.Gold < requireGold)
         {
@@ -113,6 +116,15 @@ public class UICharacterGacha : UIWindow
                 closeType: CLOSE_TYPE.TOUCH);
 
             return false;
+        }
+        else if (!vm.constructedBuildings.Contains(vm.GetBuilding(STRUCTURE_ID.RECRUIT)))
+        {
+            message.ShowMessage(
+                $"모집소가 없어 모험가를 모집을 할 수 없습니다.\n모집소 건물을 건설해주세요.",
+                true,
+                1.5f,
+                openAnimation: UIWindowMessage.OPEN_ANIMATION.FADEINOUT,
+                closeType: CLOSE_TYPE.TOUCH);
         }
         else if (!GameManager.unitManager.CanGacha)
         {
@@ -152,7 +164,7 @@ public class UICharacterGacha : UIWindow
         ///////////////////////////
         ////////// 시작 ///////////
         ///////////////////////////
-        
+
         GameManager.PlayAnimation();
         var cm = GameManager.cameraManager;
         var vm = GameManager.villageManager;
@@ -167,7 +179,8 @@ public class UICharacterGacha : UIWindow
         // 카메라 상태 저장
         GameManager.inputManager.receiver.enabled = false;
 
-        var cameraFocusing = cm.isFocusOnUnit;
+        var isFocusing = cm.isFocusOnUnit;
+        var focusingUnit = cm.focusingUnit;
         var cameraPositin = cm.transform.position;
         var cameraLocation = cm.LookLocation;
         var cameraHuntZoneNum = cm.HuntZoneNum;
@@ -263,13 +276,21 @@ public class UICharacterGacha : UIWindow
                 Addressables.ReleaseInstance(resultCharacter);
 
                 // 카메라 상태 되돌리기
+                GameManager.inputManager.receiver.enabled = true;
                 cm.isHideUnits = isHideUnits;
                 cm.SetLocation(cameraLocation, cameraHuntZoneNum);
                 cm.SetPosition(cameraPositin);
-                cm.ZoomValue = cameraZoom;
-                Camera.main.orthographicSize = cameraZoom;
-                GameManager.inputManager.receiver.enabled = true;
+                cm.isFocusOnUnit = isFocusing;
 
+                if (!isFocusing)
+                {
+                    cm.ZoomValue = cameraZoom;
+                    Camera.main.orthographicSize = cameraZoom;
+                }
+                else
+                {
+                    GameManager.uiManager.windows[WINDOW_NAME.TOUCH_UNIT_BUTTONS].Open();
+                }
                 //결과 표시
                 var uiResult = GameManager.uiManager.windows[WINDOW_NAME.GACHA_RESULT] as UIGachaResult;
                 uiResult.SetResult(result);

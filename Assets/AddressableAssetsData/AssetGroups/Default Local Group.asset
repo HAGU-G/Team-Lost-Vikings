@@ -1072,6 +1072,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3f241cc0fef30274295634a132d2b7a4
+    m_Address: Assets/DataTable/TownMapTable.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 06eaf29b6f1bf084f803a683a0542cea, type: 2}
   m_SchemaSet:

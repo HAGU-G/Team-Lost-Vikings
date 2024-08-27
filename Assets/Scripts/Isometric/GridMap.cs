@@ -10,13 +10,12 @@ public class GridMap : MonoBehaviour
     public GameObject cellPrefab;
     private List<Cell> path;
 
-    
-
     public List<Cell> usingTileList = new(); //gridMap 내에서 사용 가능한 타일 리스트
     public List<List<Cell>> usableTileList = new(); //usingTileList에 단계별로 할당하기 위한 List
 
-
     private SortingGroup sortingGroup = null;
+
+    public List<Sprite> tileSprites = new();
 
     public Cell GetTile(int x, int y)
     {

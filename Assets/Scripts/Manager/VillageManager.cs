@@ -30,6 +30,9 @@ public class VillageManager : MonoBehaviour
     public ConstructMode constructMode = new();
     public Dictionary<Vector2Int, int> saveBuildingsData = new();
 
+    public Dictionary<string, Sprite> tileImages = new();
+
+
     private void Awake()
     {
         if (GameManager.villageManager != null)
@@ -42,6 +45,7 @@ public class VillageManager : MonoBehaviour
 
         GameManager.Subscribe(EVENT_TYPE.INIT, OnGameInit);
         GameManager.Subscribe(EVENT_TYPE.START, OnGameStart);
+        GameManager.Subscribe(EVENT_TYPE.CONFIGURE, OnGameConfigure);
     }
 
 
@@ -49,17 +53,97 @@ public class VillageManager : MonoBehaviour
     {
         Init();
         constructMode.Init();
+
+        for(int i = 0; i < gridMap.tileSprites.Count; ++i)
+        {
+            tileImages.Add(gridMap.tileSprites[i].name, gridMap.tileSprites[i]);
+            Debug.Log(gridMap.tileSprites[i].name);
+        }
+        
+        //var path = "Assets/Isometric_Fantasy_Tiles/";
+        //var tileTable = DataTableManager.tileTable.GetDatas();
+        //var list = new List<String>();
+        //for (int i = 0; i < tileTable.Count; ++i)
+        //{
+        //    if (!list.Contains(tileTable[i].TownFileName))
+        //    {
+        //        Debug.Log("TownFileName load");
+        //        Debug.Log(tileTable[i].TownFileName);
+        //        list.Add(tileTable[i].TownFileName);
+        //        var newPath1 = $"{path}{tileTable[i].TownFileName}.png";
+        //        var id1 = tileTable[i].TownFileName;
+        //        Addressables.LoadAssetAsync<Sprite>(newPath1).Completed += (obj) => OnLoadDone(obj, id1);
+        //    }
+
+        //    if (!list.Contains(tileTable[i].OutlandFileName))
+        //    {
+        //        Debug.Log("OutlandFileName load");
+        //        Debug.Log(tileTable[i].OutlandFileName);
+        //        list.Add(tileTable[i].OutlandFileName);
+        //        var newPath2 = $"{path}{tileTable[i].OutlandFileName}.png";
+        //        var id2 = tileTable[i].OutlandFileName;
+        //        Addressables.LoadAssetAsync<Sprite>(newPath2).Completed += (obj) => OnLoadDone(obj, id2);
+        //    }
+        //}
     }
+
+    //private void OnLoadDone(AsyncOperationHandle<Sprite> obj, string id)
+    //{
+    //    if (obj.Status == AsyncOperationStatus.Succeeded)
+    //    {
+    //        tileImages.Add(id, obj.Result);
+    //        Debug.Log("Sprite loaded successfully. Current count: " + tileImages.Count);
+    //    }
+    //    else
+    //    {
+    //        Debug.LogError($"Failed to load sprite for {id}. Error: {obj.OperationException}");
+    //    }
+    //}
 
     private void OnGameStart()
     {
-        //GameManager.Subscribe(EVENT_TYPE.QUIT, OnGameQuit);
+        SetGridInfoImages();
+
         gridMap.SetUsingTileList(GameManager.playerManager.level);
         gridMap.ConcealGrid();
 
-        if(GameManager.playerManager.firstPlay)
+        if (GameManager.playerManager.firstPlay)
             VillageSet(gridMap);
+    }
 
+    private void OnGameConfigure()
+    {
+        
+
+    }
+
+    private void SetGridInfoImages()
+    {
+        var tileTable = DataTableManager.tileTable;
+        for (int i = 0; i < tileTable.GetDatas().Count; ++i)
+        {
+            var id = tileTable.GetDatas()[i].Id;
+            var indexX = tileTable.GetData(id).Xindex;
+            var indexY = tileTable.GetData(id).Yindex;
+            var town = tileTable.GetData(id).TownFileName;
+            var outLand = tileTable.GetData(id).OutlandFileName;
+
+            SerializableData<SpriteImageSet> newData = new();
+            newData.key = new Vector2Int(indexX, indexY);
+            newData.value = new();
+            if (tileImages.TryGetValue(town, out var townImage))
+                newData.value.usingImage = townImage;
+            else
+                Debug.LogError($"{town}이 등록되지 않았습니다.");
+
+            if (tileImages.TryGetValue(outLand, out var outLandImage))
+                newData.value.unUsingImage = outLandImage;
+            else
+                Debug.LogError($"{outLand}이 등록되지 않았습니다.");
+
+            gridMap.gridInfo.images.AddData(newData);
+
+        }
     }
 
     //private void OnGameQuit()
