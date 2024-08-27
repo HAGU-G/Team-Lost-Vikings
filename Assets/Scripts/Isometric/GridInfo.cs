@@ -13,6 +13,7 @@ public class GridInfo : ScriptableObject
     public float cellSize;
 
     public SerializableDict<SpriteImageSet> images;
+    public SerializableDict<SpriteImageSet> fixImages;
 
     public Sprite defaultTileSprite;
     public Sprite unusableTileSprite;

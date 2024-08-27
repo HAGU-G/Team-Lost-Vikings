@@ -30,7 +30,7 @@ public class VillageManager : MonoBehaviour
     public ConstructMode constructMode = new();
     public Dictionary<Vector2Int, int> saveBuildingsData = new();
 
-    public Dictionary<string, Sprite> tileImages = new();
+    //public Dictionary<string, Sprite> tileImages = new();
 
 
     private void Awake()
@@ -45,7 +45,6 @@ public class VillageManager : MonoBehaviour
 
         GameManager.Subscribe(EVENT_TYPE.INIT, OnGameInit);
         GameManager.Subscribe(EVENT_TYPE.START, OnGameStart);
-        GameManager.Subscribe(EVENT_TYPE.CONFIGURE, OnGameConfigure);
     }
 
 
@@ -54,11 +53,7 @@ public class VillageManager : MonoBehaviour
         Init();
         constructMode.Init();
 
-        for(int i = 0; i < gridMap.tileSprites.Count; ++i)
-        {
-            tileImages.Add(gridMap.tileSprites[i].name, gridMap.tileSprites[i]);
-            Debug.Log(gridMap.tileSprites[i].name);
-        }
+        
         
         //var path = "Assets/Isometric_Fantasy_Tiles/";
         //var tileTable = DataTableManager.tileTable.GetDatas();
@@ -102,7 +97,7 @@ public class VillageManager : MonoBehaviour
 
     private void OnGameStart()
     {
-        SetGridInfoImages();
+        gridMap.SetGridInfoImages(DataTableManager.tileTable);
 
         gridMap.SetUsingTileList(GameManager.playerManager.level);
         gridMap.ConcealGrid();
@@ -111,40 +106,7 @@ public class VillageManager : MonoBehaviour
             VillageSet(gridMap);
     }
 
-    private void OnGameConfigure()
-    {
-        
-
-    }
-
-    private void SetGridInfoImages()
-    {
-        var tileTable = DataTableManager.tileTable;
-        for (int i = 0; i < tileTable.GetDatas().Count; ++i)
-        {
-            var id = tileTable.GetDatas()[i].Id;
-            var indexX = tileTable.GetData(id).Xindex;
-            var indexY = tileTable.GetData(id).Yindex;
-            var town = tileTable.GetData(id).TownFileName;
-            var outLand = tileTable.GetData(id).OutlandFileName;
-
-            SerializableData<SpriteImageSet> newData = new();
-            newData.key = new Vector2Int(indexX, indexY);
-            newData.value = new();
-            if (tileImages.TryGetValue(town, out var townImage))
-                newData.value.usingImage = townImage;
-            else
-                Debug.LogError($"{town}이 등록되지 않았습니다.");
-
-            if (tileImages.TryGetValue(outLand, out var outLandImage))
-                newData.value.unUsingImage = outLandImage;
-            else
-                Debug.LogError($"{outLand}이 등록되지 않았습니다.");
-
-            gridMap.gridInfo.images.AddData(newData);
-
-        }
-    }
+    
 
     //private void OnGameQuit()
     //{

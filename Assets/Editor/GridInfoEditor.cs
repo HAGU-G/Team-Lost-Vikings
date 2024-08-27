@@ -13,6 +13,7 @@ public class GridInfoEditor : Editor
     SerializedProperty minCol;
     SerializedProperty cellSize;
     SerializedProperty images;
+    SerializedProperty fixImages;
     SerializedProperty defaultTileSprite;
     SerializedProperty unusableTileSprite;
 
@@ -25,6 +26,7 @@ public class GridInfoEditor : Editor
         minCol = serializedObject.FindProperty("minCol");
         cellSize = serializedObject.FindProperty("cellSize");
         images = serializedObject.FindProperty("images");
+        fixImages = serializedObject.FindProperty("fixImages");
         defaultTileSprite = serializedObject.FindProperty("defaultTileSprite");
         unusableTileSprite = serializedObject.FindProperty("unusableTileSprite");
     }
@@ -79,6 +81,7 @@ public class GridInfoEditor : Editor
 
         MakeLabelBox("지정 타일 이미지 설정");
         EditorGUILayout.PropertyField(images);
+        EditorGUILayout.PropertyField(fixImages);
 
         //EditorGUIUtility.labelWidth = 60;
         //ShowImageList(gridInfo);
