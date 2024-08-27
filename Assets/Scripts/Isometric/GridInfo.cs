@@ -3,6 +3,8 @@
 [CreateAssetMenu(fileName = "Grid", menuName = "Grid")]
 public class GridInfo : ScriptableObject
 {
+    public Sprite[] useSprites;
+
     public int row;
     public int col;
 
