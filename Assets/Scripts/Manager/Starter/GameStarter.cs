@@ -11,6 +11,7 @@ public class GameStarter : MonoBehaviour
 
     public static GameStarter Instance { get; private set; }
 
+    public GameObject loadingUI;
     public List<AssetReference> scenes = new();
     private AsyncOperationHandle operation = default;
 
@@ -31,6 +32,13 @@ public class GameStarter : MonoBehaviour
         SyncedTime.Sync();
         DataTableManager.Load();
         LoadScenes();
+
+        GameManager.Subscribe(EVENT_TYPE.GAME_READY, LoadingUIOff);
+    }
+
+    private void LoadingUIOff()
+    {
+        loadingUI.SetActive(false);
     }
 
     private void LoadScenes()

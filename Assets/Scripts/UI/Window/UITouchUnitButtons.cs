@@ -4,6 +4,7 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class UITouchUnitButtons : UIWindow
 {
@@ -22,7 +23,7 @@ public class UITouchUnitButtons : UIWindow
 
     private UIManager um;
     private string path = "Assets/Pick_Asset/2WEEK/GradeIcon/Grade_";
-    private List<Sprite> gradeIcons = new();
+    private Dictionary<int, Sprite> gradeIcons = new();
 
     protected override void Awake()
     {
@@ -36,10 +37,12 @@ public class UITouchUnitButtons : UIWindow
 
         um = GameManager.uiManager;
 
-        for(int i = 1; i <= 5; ++i)
+        var cnt = Enum.GetValues(typeof(UNIT_GRADE)).Length;
+        for (int i = 0; i < cnt; ++i)
         {
-            var newpath = $"{path}{i}.png";
-            Addressables.LoadAssetAsync<Sprite>(newpath).Completed += OnLoadDone;
+            var path = $"Grade_0{i + 1}";
+            var id = i;
+            Addressables.LoadAssetAsync<Sprite>(path).Completed += (obj) => OnLoadDone(obj, id);
         }
 
         information.onClick.AddListener(OnButtonInformation);
@@ -47,11 +50,11 @@ public class UITouchUnitButtons : UIWindow
         placement.onClick.AddListener(OnButtonPlacement);
     }
 
-    private void OnLoadDone(AsyncOperationHandle<Sprite> obj)
+    private void OnLoadDone(AsyncOperationHandle<Sprite> obj, int id)
     {
         if (obj.Status == AsyncOperationStatus.Succeeded)
         {
-            gradeIcons.Add(obj.Result);
+            gradeIcons.Add(id, obj.Result);
         }
     }
 

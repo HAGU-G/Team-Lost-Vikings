@@ -133,7 +133,7 @@ public class UICharacterLocate : UIWindow
     public void OnButtonExit()
     {
         GameManager.PlayButtonSFX();
-        GameManager.cameraManager.FinishFocusOnUnit();
+        //GameManager.cameraManager.FinishFocusOnUnit();
         Close();
     }
 

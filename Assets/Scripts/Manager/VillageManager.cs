@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -30,6 +29,9 @@ public class VillageManager : MonoBehaviour
     public ConstructMode constructMode = new();
     public Dictionary<Vector2Int, int> saveBuildingsData = new();
 
+    //public Dictionary<string, Sprite> tileImages = new();
+
+
     private void Awake()
     {
         if (GameManager.villageManager != null)
@@ -49,18 +51,61 @@ public class VillageManager : MonoBehaviour
     {
         Init();
         constructMode.Init();
+
+        
+        
+        //var path = "Assets/Isometric_Fantasy_Tiles/";
+        //var tileTable = DataTableManager.tileTable.GetDatas();
+        //var list = new List<String>();
+        //for (int i = 0; i < tileTable.Count; ++i)
+        //{
+        //    if (!list.Contains(tileTable[i].TownFileName))
+        //    {
+        //        Debug.Log("TownFileName load");
+        //        Debug.Log(tileTable[i].TownFileName);
+        //        list.Add(tileTable[i].TownFileName);
+        //        var newPath1 = $"{path}{tileTable[i].TownFileName}.png";
+        //        var id1 = tileTable[i].TownFileName;
+        //        Addressables.LoadAssetAsync<Sprite>(newPath1).Completed += (obj) => OnLoadDone(obj, id1);
+        //    }
+
+        //    if (!list.Contains(tileTable[i].OutlandFileName))
+        //    {
+        //        Debug.Log("OutlandFileName load");
+        //        Debug.Log(tileTable[i].OutlandFileName);
+        //        list.Add(tileTable[i].OutlandFileName);
+        //        var newPath2 = $"{path}{tileTable[i].OutlandFileName}.png";
+        //        var id2 = tileTable[i].OutlandFileName;
+        //        Addressables.LoadAssetAsync<Sprite>(newPath2).Completed += (obj) => OnLoadDone(obj, id2);
+        //    }
+        //}
     }
+
+    //private void OnLoadDone(AsyncOperationHandle<Sprite> obj, string id)
+    //{
+    //    if (obj.Status == AsyncOperationStatus.Succeeded)
+    //    {
+    //        tileImages.Add(id, obj.Result);
+    //        Debug.Log("Sprite loaded successfully. Current count: " + tileImages.Count);
+    //    }
+    //    else
+    //    {
+    //        Debug.LogError($"Failed to load sprite for {id}. Error: {obj.OperationException}");
+    //    }
+    //}
 
     private void OnGameStart()
     {
-        //GameManager.Subscribe(EVENT_TYPE.QUIT, OnGameQuit);
+        gridMap.SetGridInfoImages(DataTableManager.tileTable);
+
         gridMap.SetUsingTileList(GameManager.playerManager.level);
         gridMap.ConcealGrid();
 
-        if(GameManager.playerManager.firstPlay)
+        if (GameManager.playerManager.firstPlay)
             VillageSet(gridMap);
-
     }
+
+    
 
     //private void OnGameQuit()
     //{

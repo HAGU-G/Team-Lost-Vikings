@@ -10,11 +10,8 @@ public class GridMap : MonoBehaviour
     public GameObject cellPrefab;
     private List<Cell> path;
 
-    
-
     public List<Cell> usingTileList = new(); //gridMap 내에서 사용 가능한 타일 리스트
     public List<List<Cell>> usableTileList = new(); //usingTileList에 단계별로 할당하기 위한 List
-
 
     private SortingGroup sortingGroup = null;
 
@@ -37,11 +34,6 @@ public class GridMap : MonoBehaviour
         if (!TryGetComponent(out sortingGroup))
             sortingGroup = gameObject.AddComponent<SortingGroup>();
         sortingGroup.sortingLayerName = "Grid"; //TODO 임시로 string 사용. 수정 필요
-    }
-
-    private void Start()
-    {
-
     }
 
     private void DrawGrid(int col, int row)
@@ -132,9 +124,32 @@ public class GridMap : MonoBehaviour
                     }    
                 }
             }
+
+            for (int i = 0; i < gridInfo.fixImages.Count; ++i)
+            {
+                if (gridInfo.fixImages[i].key == tile.tileInfo.id)
+                {
+                    var unUsingImage = gridInfo.fixImages[i].value.unUsingImage;
+
+                    if (unUsingImage != null)
+                        tile.spriteRenderer.sprite = unUsingImage;
+                    else
+                        tile.spriteRenderer.sprite = gridInfo.unusableTileSprite;
+
+                    rendererSize = tile.spriteRenderer.sprite.bounds.size;
+                    scaleFactorX = gridInfo.cellSize / rendererSize.x;
+                    scaleFactorY = gridInfo.cellSize / rendererSize.y;
+                    tile.transform.localScale = new Vector3(scaleFactorX, scaleFactorY, 1f);
+                }
+            }
+
+
             tile.transform.localScale = new Vector3(scaleFactorX, scaleFactorY, 1f);
         }
     }
+
+
+
 
     public void SetUsingTileList(int level)
     {
@@ -146,13 +161,11 @@ public class GridMap : MonoBehaviour
         }
 
         var prevUsingTileList = new List<Cell>(usingTileList);
-        Debug.Log($"prev : {prevUsingTileList.Count}");
         usingTileList.Clear();
         foreach (var tile in usableTileList[expandLevel])
         {
             usingTileList.Add(tile);
         }
-        Debug.Log($"curr : {usingTileList.Count}");
 
         var settingTileList = new List<Cell>();
         foreach(var tile in usingTileList)
@@ -171,7 +184,6 @@ public class GridMap : MonoBehaviour
                 settingTileList.Add(tile);
             }
         }
-        Debug.Log($"setting : {settingTileList.Count}");
 
         var rendererSize = gridInfo.defaultTileSprite.bounds.size;
         var scaleFactorX = gridInfo.cellSize / rendererSize.x;
@@ -199,6 +211,64 @@ public class GridMap : MonoBehaviour
                     tile.transform.localScale = new Vector3(scaleFactorX, scaleFactorY, 1f);
                 }
             }
+
+            for (int i = 0; i < gridInfo.fixImages.Count; ++i)
+            {
+                if (gridInfo.fixImages[i].key == tile.tileInfo.id)
+                {
+                    var usingImage = gridInfo.fixImages[i].value.usingImage;
+                    var unUsingImage = gridInfo.fixImages[i].value.unUsingImage;
+
+                    if (usingImage != null)
+                        tile.spriteRenderer.sprite = usingImage;
+                    else
+                        tile.spriteRenderer.sprite = gridInfo.defaultTileSprite;
+
+                    rendererSize = tile.spriteRenderer.sprite.bounds.size;
+                    scaleFactorX = gridInfo.cellSize / rendererSize.x;
+                    scaleFactorY = gridInfo.cellSize / rendererSize.y;
+                    tile.transform.localScale = new Vector3(scaleFactorX, scaleFactorY, 1f);
+                }
+            }
+        }
+    }
+
+    public void SetGridInfoImages(Table<int,TileData> dataTable)
+    {
+        gridInfo.images.ClearData();
+
+        Dictionary<string, Sprite> tileImages = new();
+
+        for (int i = 0; i < gridInfo.useSprites.Length; ++i)
+        {
+            if(!tileImages.ContainsKey(gridInfo.useSprites[i].name))
+                tileImages.Add(gridInfo.useSprites[i].name, gridInfo.useSprites[i]);
+        }
+
+        var tileTable = dataTable;
+        for (int i = 0; i < tileTable.GetDatas().Count; ++i)
+        {
+            var id = tileTable.GetDatas()[i].Id;
+            var indexX = tileTable.GetData(id).Xindex;
+            var indexY = tileTable.GetData(id).Yindex;
+            var town = tileTable.GetData(id).TownFileName;
+            var outLand = tileTable.GetData(id).OutlandFileName;
+
+            SerializableData<SpriteImageSet> newData = new();
+            newData.key = new Vector2Int(indexX, indexY);
+            newData.value = new();
+            if (tileImages.TryGetValue(town, out var townImage))
+                newData.value.usingImage = townImage;
+            else
+                Debug.LogError($"{town}이 등록되지 않았습니다.");
+
+            if (tileImages.TryGetValue(outLand, out var outLandImage))
+                newData.value.unUsingImage = outLandImage;
+            else
+                Debug.LogError($"{outLand}이 등록되지 않았습니다.");
+
+            gridInfo.images.AddData(newData);
+
         }
     }
 

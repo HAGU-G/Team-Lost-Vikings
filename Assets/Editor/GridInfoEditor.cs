@@ -6,23 +6,27 @@ using UnityEngine;
 [CustomEditor(typeof(GridInfo))]
 public class GridInfoEditor : Editor
 {
+    SerializedProperty useSprites;
     SerializedProperty row;
     SerializedProperty col;
     SerializedProperty minRow;
     SerializedProperty minCol;
     SerializedProperty cellSize;
     SerializedProperty images;
+    SerializedProperty fixImages;
     SerializedProperty defaultTileSprite;
     SerializedProperty unusableTileSprite;
 
     private void OnEnable()
     {
+        useSprites = serializedObject.FindProperty("useSprites");
         row = serializedObject.FindProperty("row");
         col = serializedObject.FindProperty("col");
         minRow = serializedObject.FindProperty("minRow");
         minCol = serializedObject.FindProperty("minCol");
         cellSize = serializedObject.FindProperty("cellSize");
         images = serializedObject.FindProperty("images");
+        fixImages = serializedObject.FindProperty("fixImages");
         defaultTileSprite = serializedObject.FindProperty("defaultTileSprite");
         unusableTileSprite = serializedObject.FindProperty("unusableTileSprite");
     }
@@ -30,6 +34,17 @@ public class GridInfoEditor : Editor
     {
         serializedObject.Update();
         GridInfo gridInfo = (GridInfo)target;
+
+        MakeLabelBox("버튼");
+        if (GUILayout.Button("변경점 저장"))
+        {
+            EditorUtility.SetDirty(target);
+        }
+        EditorGUILayout.Space();
+
+        MakeLabelBox("사용할 타일 이미지");
+        EditorGUILayout.PropertyField(useSprites);
+        EditorGUILayout.Space();
 
         MakeLabelBox("최대 타일 수");
         EditorGUILayout.PropertyField(row);
@@ -66,6 +81,7 @@ public class GridInfoEditor : Editor
 
         MakeLabelBox("지정 타일 이미지 설정");
         EditorGUILayout.PropertyField(images);
+        EditorGUILayout.PropertyField(fixImages);
 
         //EditorGUIUtility.labelWidth = 60;
         //ShowImageList(gridInfo);
@@ -105,8 +121,8 @@ public class GridInfoEditor : Editor
                 EditorGUILayout.HelpBox($"유효하지 않은 인덱스를 입력했습니다.: {item.key}", MessageType.Error);
             }
 
-            if ((item.value.usingImage != null && !AssetDatabase.GetAssetPath(item.value.usingImage).Contains("Isometric_Fantasy_Tiles"))
-                || (item.value.unUsingImage != null && !AssetDatabase.GetAssetPath(item.value.unUsingImage).Contains("Isometric_Fantasy_Tiles")))
+            if ((item.value.usingImage != null && !AssetDatabase.GetAssetPath(item.value.usingImage).Contains("TileImage"))
+                || (item.value.unUsingImage != null && !AssetDatabase.GetAssetPath(item.value.unUsingImage).Contains("TileImage")))
                 EditorGUILayout.HelpBox($"어어 그거 아니다: {item.key}", MessageType.Warning);
         }
         EditorUtility.SetDirty(target);
@@ -140,7 +156,7 @@ public class GridInfoEditor : Editor
                 "미확장타일", value.FindPropertyRelative("unUsingImage").objectReferenceValue, typeof(Sprite), allowSceneObjects: true);
             EditorGUILayout.EndHorizontal();
 
-            
+
 
             EditorGUILayout.EndVertical();
         }
