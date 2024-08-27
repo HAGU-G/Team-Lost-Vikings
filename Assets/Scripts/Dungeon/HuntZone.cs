@@ -121,7 +121,8 @@ public class HuntZone : MonoBehaviour
         bossObserver.OnNotified += ReceiveBossNotify;
         GameManager.huntZoneManager.AddHuntZone(this);
 
-        //타일 설치
+        //그리드 설정, 타일 설치
+        gridMap.SetUsingTileList(0);
         var buildingPos = new Vector2Int(gridMap.gridInfo.row - 2, gridMap.gridInfo.col - 2);
         entranceTiles = construct.PlaceBuilding(standardBuildingPrefab, gridMap.tiles[buildingPos], gridMap)
             .GetComponent<Building>().entranceTiles;

@@ -18,10 +18,6 @@ MonoBehaviour:
   minCol: 8
   cellSize: 5
   images:
-    data:
-    - key: {x: 0, y: 0}
-      value:
-        usingImage: {fileID: 0}
-        unUsingImage: {fileID: 0}
-  defaultTileSprite: {fileID: 5902650331669622779, guid: 0d8305e4f07f1456691eca235f76e8cd, type: 3}
+    data: []
+  defaultTileSprite: {fileID: 0}
   unusableTileSprite: {fileID: 0}
