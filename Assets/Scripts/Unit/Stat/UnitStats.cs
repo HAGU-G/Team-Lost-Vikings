@@ -269,6 +269,11 @@ public class UnitStats
     {
         ArriveVillage?.Invoke();
     }
+
+    public void ClearArriveVillageEvent()
+    {
+        ArriveVillage = null;
+    }
     #endregion
 
 

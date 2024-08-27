@@ -63,6 +63,8 @@ public class Village : MonoBehaviour
                     units.Add(unitOnVillage);
                     building.interactWithUnit?.InteractWithUnit(unitOnVillage);
                     isFind = true;
+
+                    unitOnVillage.stats.ClearArriveVillageEvent();
                     return;
                 }
                 spawnPos = building.entranceTiles[Random.Range(0, building.entranceTiles.Count)].gameObject.transform.position;
