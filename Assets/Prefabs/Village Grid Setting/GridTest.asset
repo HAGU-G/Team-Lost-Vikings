@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a3c60f404e6e80b4ca41a98d79b8038f, type: 3}
-  m_Name: Dungeon 3 Grid
+  m_Name: GridTest
   m_EditorClassIdentifier: 
-  row: 8
-  col: 8
-  minRow: 8
-  minCol: 8
+  row: 25
+  col: 25
+  minRow: 11
+  minCol: 11
   cellSize: 5
   images:
     data:
@@ -23,5 +23,5 @@ MonoBehaviour:
       value:
         usingImage: {fileID: 0}
         unUsingImage: {fileID: 0}
-  defaultTileSprite: {fileID: 5902650331669622779, guid: 0d8305e4f07f1456691eca235f76e8cd, type: 3}
-  unusableTileSprite: {fileID: 0}
+  defaultTileSprite: {fileID: 21300000, guid: 6a64eea10f6d5214a89b74019643c70e, type: 3}
+  unusableTileSprite: {fileID: 21300000, guid: 7342e0718a47dc44e8c8de74bfbaaf99, type: 3}

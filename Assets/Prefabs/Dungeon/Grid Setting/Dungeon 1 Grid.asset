@@ -17,3 +17,11 @@ MonoBehaviour:
   minRow: 8
   minCol: 8
   cellSize: 5
+  images:
+    data:
+    - key: {x: 0, y: 0}
+      value:
+        usingImage: {fileID: 0}
+        unUsingImage: {fileID: 0}
+  defaultTileSprite: {fileID: 0}
+  unusableTileSprite: {fileID: 0}
