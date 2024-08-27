@@ -1142,18 +1142,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 3f241cc0fef30274295634a132d2b7a4
-    m_Address: Assets/DataTable/TownMapTable.csv
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3f6ba26a94352724f80bca4d3441b525
     m_Address: Assets/DataTable/HuntZone2MapTable.csv
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 093f4ff89edfbc1439eb800238744eb0
-    m_Address: Assets/DataTable/HuntZone3MapTable.csv
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

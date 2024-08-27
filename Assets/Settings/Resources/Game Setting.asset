@@ -17,6 +17,7 @@ MonoBehaviour:
   syncIntervalType: 0
   syncInterval: 30
   syncLimitSeconds: 4
+  firstSyncTimeout: 60
   ellipseRatio: 0.75
   tileXY: 1.8
   returnHPRaito: 0.2

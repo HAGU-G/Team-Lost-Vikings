@@ -128,7 +128,7 @@ public class QuestManager
 
         //모집소 첫 설치시 자동가챠 시간 감소, ID 하드코딩 대체 필요
         if(GameManager.IsReady && id == 10000035 && Achievements[id] == 1)
-            GameManager.unitManager.lastAutoGachaTime = System.DateTime.Now.AddSeconds(-GameSetting.Instance.autoGachaSeconds);
+            GameManager.unitManager.lastAutoGachaTime = SyncedTime.Now.AddSeconds(-GameSetting.Instance.autoGachaSeconds);
 
         OnAchievementUpdated?.Invoke();
         if (CurrentQuest != null)

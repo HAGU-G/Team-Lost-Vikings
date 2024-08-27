@@ -108,7 +108,12 @@ public static class GameManager
         Publish(EVENT_TYPE.CONFIGURE);
 
         Debug.Log(string.Format(formatPublishMessage, "Set FirstPlay"));
+        if(playerManager.firstPlay)
+        {
+            unitManager.lastAutoGachaTime = SyncedTime.Now;
+        }
         playerManager.firstPlay = false;
+
         IsReady = true;
 
         Debug.Log(string.Format(formatPublishMessage, "Show Dialogue"));
