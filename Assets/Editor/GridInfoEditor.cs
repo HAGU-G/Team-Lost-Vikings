@@ -63,7 +63,7 @@ public class GridInfoEditor : Editor
         MakeLabelBox("지정 타일 이미지 설정");
         EditorGUILayout.PropertyField(images);
 
-        EditorGUIUtility.labelWidth = 60;
+        //EditorGUIUtility.labelWidth = 60;
         //ShowImageList(gridInfo);
 
         //EditorGUILayout.BeginHorizontal();
@@ -87,6 +87,7 @@ public class GridInfoEditor : Editor
         serializedObject.ApplyModifiedProperties();
 
         HashSet<Vector2Int> keySet = new HashSet<Vector2Int>();
+
         foreach (var item in gridInfo.images.data)
         {
             if (!keySet.Add(item.key))
@@ -103,8 +104,8 @@ public class GridInfoEditor : Editor
             if ((item.value.usingImage != null && !AssetDatabase.GetAssetPath(item.value.usingImage).Contains("Isometric_Fantasy_Tiles"))
                 || (item.value.unUsingImage != null && !AssetDatabase.GetAssetPath(item.value.unUsingImage).Contains("Isometric_Fantasy_Tiles")))
                 EditorGUILayout.HelpBox($"어어 그거 아니다: {item.key}", MessageType.Warning);
-
         }
+        EditorUtility.SetDirty(target);
     }
 
     private void MakeLabelBox(string label)
