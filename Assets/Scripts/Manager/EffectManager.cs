@@ -3,6 +3,9 @@ using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using System.Collections;
+using UnityEditor.AddressableAssets.BuildReportVisualizer;
+using System.Linq;
 
 /// <summary>
 /// 레이어 이름을 사용하기 때문에 코드 규칙을 따르지 않음
@@ -111,6 +114,23 @@ public class EffectManager : MonoBehaviour
         foreach (var effectName in effectNames)
         {
             AddPool(effectName);
+        }
+    }
+
+    public void PlayDropEffect(Vector3 position, float interval, params string[] text)
+    {
+        StartCoroutine(CoPlayDropEffect(position, interval, text));
+    }
+
+    private IEnumerator CoPlayDropEffect(Vector3 position, float interval, params string[] text)
+    {
+        List<string> texts = text.ToList();
+        while (texts.Count > 0)
+        {
+            GetDamageEffect(texts[^1], position, Color.white);
+            texts.RemoveAt(texts.Count - 1);
+            position.y += GameSetting.Instance.dropEffectPosDelta;
+            yield return new WaitForSeconds(interval);
         }
     }
 
@@ -228,4 +248,20 @@ public class EffectManager : MonoBehaviour
     }
 
     private void OnDestroyEffect(EffectObject effectObject) { }
+
+
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+        List<string> effectNames = new();
+        foreach (var key in effectPools.Keys)
+        {
+            effectNames.Add(key);
+        }
+
+        foreach (var effectName in effectNames)
+        {
+            RemovePool(effectName);
+        }
+    }
 }

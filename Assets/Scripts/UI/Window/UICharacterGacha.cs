@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Rendering;
+using Newtonsoft.Json;
+using static UIWindowMessage;
 public class UICharacterGacha : UIWindow
 {
     public override WINDOW_NAME WindowName => WINDOW_NAME.GACHA_UI;
@@ -62,7 +64,7 @@ public class UICharacterGacha : UIWindow
             SetGachaUI();
     }
 
-    public void SetGachaUI()
+    public bool SetGachaUI()
     {
         requireGoldText.text = $"{im.Gold} / {requireGold}";
 
@@ -71,7 +73,7 @@ public class UICharacterGacha : UIWindow
         if (im.Gold >= requireGold)
         {
             gacha.targetGraphic.color = Color.green;
-            requireGoldText.color = Color.black;
+            requireGoldText.color = Color.white;
         }
         else
         {
@@ -79,20 +81,60 @@ public class UICharacterGacha : UIWindow
             requireGoldText.color = Color.red;
             isEnough = false;
         }
-        gacha.interactable = isEnough && GameManager.unitManager.CanGacha;
 
-        //모집소 건물이 없을 시 가챠되지 않도록 설정
-
+        //gacha.interactable = isEnough && GameManager.unitManager.CanGacha;
+        return isEnough;
     }
 
     public void OnButtonGacha()
     {
         GameManager.PlayButtonSFX();
+
+        if (!CheckGacha())
+            return;
+
         var result = GameManager.unitManager.GachaCharacter(GameManager.playerManager.recruitLevel);
         im.Gold -= requireGold;
         SetGachaUI();
         //가챠 연출, 결과창 보여주는 건 아래 메서드 마지막 부분으로 옮김.
         PlayGachaAnimation(result);
+    }
+
+    private bool CheckGacha()
+    {
+        var message = GameManager.uiManager.windows[WINDOW_NAME.MESSAGE_POPUP] as UIWindowMessage;
+        if (im.Gold < requireGold)
+        {
+            message.ShowMessage(
+                $"모집에 필요한 재화가 부족합니다.",
+                true,
+                1.5f,
+                openAnimation: UIWindowMessage.OPEN_ANIMATION.FADEINOUT,
+                closeType: CLOSE_TYPE.TOUCH);
+
+            return false;
+        }
+        else if (!GameManager.unitManager.CanGacha)
+        {
+            if (GameManager.unitManager.IsMaxWait)
+                message.ShowMessage(
+                $"대기소에 빈 공간이 없어 모집을 진행할 수 없습니다.\n대기소를 비워주세요",
+                true,
+                1.5f,
+                openAnimation: UIWindowMessage.OPEN_ANIMATION.FADEINOUT,
+                closeType: CLOSE_TYPE.TOUCH);
+            else if (GameManager.unitManager.GetGachaPool(GameManager.playerManager.recruitLevel).Count <= 0)
+                message.ShowMessage(
+               $"모집할 수 있는 모든 모험가를 모집했습니다.\n모집소 건물을 업그레이드해주세요.",
+               true,
+               1.5f,
+               openAnimation: UIWindowMessage.OPEN_ANIMATION.FADEINOUT,
+               closeType: CLOSE_TYPE.TOUCH);
+
+            return false;
+        }
+
+        return true;
     }
 
     public void OnButtonExit()

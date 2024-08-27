@@ -99,7 +99,10 @@ public class UICharacterLocate : UIWindow
                     GameManager.cameraManager.FinishFocusOnUnit();
                 
                 if (GameManager.huntZoneManager.IsDeployed(unit.InstanceID, huntzoneNum + 1))
+                {
+                    Close();
                     return;
+                }
                 SetUnitHuntZone(GameManager.huntZoneManager.HuntZones[huntzoneNum + 1].Info.HuntZoneNum);
 
                 Close();

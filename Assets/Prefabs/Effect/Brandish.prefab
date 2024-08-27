@@ -58,11 +58,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5234ae4836998a547a2ab215c6abcfb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particleImages: []
+  canvases: []
   sortingGroup: {fileID: 0}
+  defaultSortLayer: 4
   isLoop: 0
   isFlip: 0
   isTouchEffect: 0
   isOnProjectile: 0
+  prevPos: {x: 0, y: 0, z: 0}
 --- !u!1001 &1501392330356651027
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -94,6 +98,18 @@ PrefabInstance:
     - target: {fileID: 8288126769186820214, guid: c2c43130bc4b01a488d3e68fea830c16, type: 3}
       propertyPath: looping
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8288126769186820214, guid: c2c43130bc4b01a488d3e68fea830c16, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8288126769186820214, guid: c2c43130bc4b01a488d3e68fea830c16, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8288126769186820214, guid: c2c43130bc4b01a488d3e68fea830c16, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8288126769186820215, guid: c2c43130bc4b01a488d3e68fea830c16, type: 3}
       propertyPath: m_LocalScale.x

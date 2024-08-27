@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -53,8 +54,8 @@ public class VillageManager : MonoBehaviour
     private void OnGameStart()
     {
         //GameManager.Subscribe(EVENT_TYPE.QUIT, OnGameQuit);
-        gridMap.ConcealGrid();
         gridMap.SetUsingTileList(GameManager.playerManager.level);
+        gridMap.ConcealGrid();
 
         if(GameManager.playerManager.firstPlay)
             VillageSet(gridMap);
@@ -180,7 +181,14 @@ public class VillageManager : MonoBehaviour
 
             sprite.sprite = handle.Result.GetComponentInChildren<SpriteRenderer>().sprite;
 
-            b.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
+            var renderSize = b.GetComponent<Renderer>().bounds.size;
+            var size = sprite.size;
+            var scaleFactorX = gridMap.gridInfo.cellSize / renderSize.x;
+            var scaleFactorY = gridMap.gridInfo.cellSize / renderSize.y;
+            //var scaleFactorZ = gridMap.gridInfo.cellSize / size.z;
+
+            var originScale = b.transform.localScale;
+            b.transform.localScale = new Vector3(0.25f,0.25f,0.25f);
             var collider = b.AddComponent<PolygonCollider2D>();
 
             switch (buildingComponenet.StructureType)

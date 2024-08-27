@@ -107,7 +107,7 @@ public class UnitManager
         return null;
     }
 
-    private List<StatsData> GetGachaPool(int level)
+    public List<StatsData> GetGachaPool(int level)
     {
         var gachaList = new List<StatsData>();
 
@@ -310,7 +310,6 @@ public class UnitManager
         Dictionary<int, int> dropList = new();
         foreach (var item in dropData.DropItem())
         {
-            im.AddItem(item.Key, item.Value);
             if (dropList.ContainsKey(item.Key))
                 dropList[item.Key] += item.Value;
             else

@@ -221,13 +221,43 @@ public class UIDevelop : MonoBehaviour
     public void OnButtonGachaUI()
     {
         GameManager.PlayButtonSFX();
-        GameManager.uiManager.windows[WINDOW_NAME.GACHA_UI].Open();
+        var gachaUI = GameManager.uiManager.windows[WINDOW_NAME.GACHA_UI];
+        if (gachaUI.isOpened)
+            GameManager.uiManager.windows[WINDOW_NAME.GACHA_UI].Close();
+        else
+            GameManager.uiManager.windows[WINDOW_NAME.GACHA_UI].Open();
+
     }
 
     public void OnButtonUnit()
     {
         GameManager.PlayButtonSFX();
-        GameManager.uiManager.windows[WINDOW_NAME.UNITS_INFORMATION].Open();
+        var informationUI = GameManager.uiManager.windows[WINDOW_NAME.UNITS_INFORMATION];
+        if (informationUI.isOpened)
+            GameManager.uiManager.windows[WINDOW_NAME.UNITS_INFORMATION].Close();
+        else
+            GameManager.uiManager.windows[WINDOW_NAME.UNITS_INFORMATION].Open();
+    }
+
+    public void OnButtonPlacement()
+    {
+        GameManager.PlayButtonSFX();
+        var placementUI = GameManager.uiManager.windows[WINDOW_NAME.PLACEMENT];
+        if (placementUI.isOpened)
+            GameManager.uiManager.windows[WINDOW_NAME.PLACEMENT].Close();
+        else  
+            GameManager.uiManager.windows[WINDOW_NAME.PLACEMENT].Open();
+    }
+
+    public void OnButtonCameraMove()
+    {
+        GameManager.PlayButtonSFX();
+        var placementUI = GameManager.uiManager.windows[WINDOW_NAME.PLACEMENT];
+
+        if (!cameraMoveAnimator.GetBool("move"))
+            cameraMoveAnimator.SetBool("move", true);
+        else
+            cameraMoveAnimator.SetBool("move", false);
     }
 
     public void OnButtonUnitStash()
@@ -378,17 +408,7 @@ public class UIDevelop : MonoBehaviour
         SetPlayerLevel();
     }
 
-    public void OnButtonPlacement()
-    {
-        GameManager.PlayButtonSFX();
-        GameManager.uiManager.windows[WINDOW_NAME.PLACEMENT].Open();
-    }
-
-    public void OnButtonCameraMove()
-    {
-        GameManager.PlayButtonSFX();
-        cameraMoveAnimator.SetBool("move", true);
-    }
+    
 
     private void Start()
     {

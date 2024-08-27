@@ -848,7 +848,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 99f297dafb3f0384dae2e4afccd31fa4
-    m_Address: FireWall_icon
+    m_Address: blaze_icon
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -923,7 +923,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b213a8fafcca35b42a808a7dc7ae85bd
-    m_Address: Brandish_icon
+    m_Address: Sweeping_icon
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -1069,6 +1069,76 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f7e7bd5750e3d3146b9c1fbf06c8b5f0
     m_Address: Player_Idle
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7efa36bd56d7e6749988ea86912bfe1e
+    m_Address: Player_Idle2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8869de65b7decd6468c63e6751716611
+    m_Address: NPC_Idle2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a9ee339f7758250428b1113395d4d7f5
+    m_Address: FireWall_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9aa995d379255b241b51663597d6fc61
+    m_Address: Brandish_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d1fe5209582a2e04daad586353ac60dc
+    m_Address: CircleCut_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f3907bf256dd2c14ba76500ca26a6620
+    m_Address: Lightning_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d215f410db8e1494ca8e2de3ad82600f
+    m_Address: Battlecry_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 434d5186ede21cc4c9f6b3128040b4bc
+    m_Address: SingleStrike_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fcae8533acf268941ba04a3172d32639
+    m_Address: Piercing_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ecf3a67912db8ab4683956969948110f
+    m_Address: RapidImpale_Red
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 24eeb75c134e78348ba66504cb40462c
+    m_Address: BossSkill_Yellow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 85376ced87848fb49b8ef5f8f0258c47
+    m_Address: QuickShot_DarkRed
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 68a3c710c4b2d6440aa0d01efdd840ae
+    m_Address: LevelUp_Green
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 063ad993296d6b84f9a7fa953356d8d7
+    m_Address: Brandish_Puple
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

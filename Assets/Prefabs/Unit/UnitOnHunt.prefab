@@ -110,11 +110,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73768bb8fed880847b50eec115ccb1ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hpBar: {fileID: 6122884847913253127}
   dress: {fileID: 0}
   isActing: 0
   isFlip: 1
-  hpBar: {fileID: 6122884847913253127}
   damageEffectPosition: {fileID: 5885151081174132433}
+  dropEffectPosition: {fileID: 2564846826660857173}
   attackTarget: {fileID: 0}
   isTargetFixed: 0
   usingSkillNum: -1

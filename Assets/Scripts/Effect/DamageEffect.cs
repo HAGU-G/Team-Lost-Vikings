@@ -13,6 +13,7 @@ public class DamageEffect : MonoBehaviour
 
     public IObjectPool<DamageEffect> pool;
 
+    public Transform textRoot;
     public TextMeshPro text;
 
     public Animator animator;
@@ -40,6 +41,7 @@ public class DamageEffect : MonoBehaviour
     private void OnEffectEnd()
     {
         gameObject.SetActive(false);
+        textRoot.position = Vector3.zero;
     }
 
     public void Set(string text, Vector3 position, Color color) => Set(text, position, color, TYPE.DEFAULT);

@@ -85,6 +85,7 @@ public class UIUnitDetailInformation : UIWindow
     {
         base.OnGameStart();
 
+        isShowOnly = false;
         var datas = DataTableManager.skillTable.GetDatas();
         for (int i = 0; i < datas.Count; ++i)
         {
