@@ -310,7 +310,6 @@ public class UnitManager
         Dictionary<int, int> dropList = new();
         foreach (var item in dropData.DropItem())
         {
-            im.AddItem(item.Key, item.Value);
             if (dropList.ContainsKey(item.Key))
                 dropList[item.Key] += item.Value;
             else

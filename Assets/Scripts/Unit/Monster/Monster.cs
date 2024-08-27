@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 
 public class Monster : CombatUnit, ISubject<Monster>
 {
@@ -68,12 +69,35 @@ public class Monster : CombatUnit, ISubject<Monster>
             return;
 
         var dropData = DataTableManager.dropTable.GetData(stats.Data.DropId);
+        var it = DataTableManager.itemTable;
         var im = GameManager.itemManager;
 
         GameManager.playerManager.Exp += dropData.DropExp;
+
+        //드롭 이펙트 출력
+        List<string> dropEffectStrings = new();
+        StringBuilder sb = new StringBuilder();
+        string add = "+";
+        string space = " ";
+
         foreach (var item in dropData.DropItem())
         {
-            im.AddItem(item.Key, item.Value);
+            sb.Clear();
+            sb.Append(add);
+
+            if (it.ContainsKey(item.Key))
+                sb.Append(it.GetData(item.Key).Name);
+            else
+                sb.Append("?");
+
+            sb.Append(space);
+            sb.Append(item.Value);
+            dropEffectStrings.Add(sb.ToString());
         }
+
+        GameManager.effectManager.PlayDropEffect(
+            dropEffectPosition.position,
+            GameSetting.Instance.dropEffectInterval,
+            dropEffectStrings.ToArray());
     }
 }
