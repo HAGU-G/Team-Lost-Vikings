@@ -129,7 +129,9 @@ public class HuntZone : MonoBehaviour
         gridMap.SetGridInfoImages(tileTable);
         gridMap.SetUsingTileList(0);
         gridMap.ConcealGrid();
-        var buildingPos = new Vector2Int(gridMap.gridInfo.minRow - 2, gridMap.gridInfo.minCol - 2);
+        var buildingPos = new Vector2Int(
+            gridMap.gridInfo.row - Mathf.FloorToInt((gridMap.gridInfo.row - gridMap.gridInfo.minRow) / 2f) - 2,
+            gridMap.gridInfo.col - Mathf.FloorToInt((gridMap.gridInfo.col - gridMap.gridInfo.minCol) / 2f) - 2);
         entranceTiles = construct.PlaceBuilding(standardBuildingPrefab, gridMap.tiles[buildingPos], gridMap)
             .GetComponent<Building>().entranceTiles;
         PortalPos = entranceTiles[Random.Range(0, entranceTiles.Count)].transform.position;
