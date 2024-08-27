@@ -9,7 +9,7 @@ public class UICameraMove : MonoBehaviour
     public Transform buttonTransform;
     public Button villageButton;
     public GameObject buttonPrefab;
-    public Button close;
+    //public Button close;
     public GameObject constructButton;
 
     private void Awake()
@@ -64,11 +64,11 @@ public class UICameraMove : MonoBehaviour
             
         }
 
-        close.onClick.AddListener(() =>
-        {
-            GameManager.PlayButtonSFX();
-            var animator = GetComponent<Animator>();
-            animator.SetBool("move", false);
-        });
+        //close.onClick.AddListener(() =>
+        //{
+        //    GameManager.PlayButtonSFX();
+        //    var animator = GetComponent<Animator>();
+        //    animator.SetBool("move", false);
+        //});
     }
 }

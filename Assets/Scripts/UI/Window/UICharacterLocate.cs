@@ -99,7 +99,10 @@ public class UICharacterLocate : UIWindow
                     GameManager.cameraManager.FinishFocusOnUnit();
                 
                 if (GameManager.huntZoneManager.IsDeployed(unit.InstanceID, huntzoneNum + 1))
+                {
+                    Close();
                     return;
+                }
                 SetUnitHuntZone(GameManager.huntZoneManager.HuntZones[huntzoneNum + 1].Info.HuntZoneNum);
 
                 Close();
@@ -159,7 +162,7 @@ public class UICharacterLocate : UIWindow
         if (unitOnVillage.currentState == UnitOnVillage.STATE.REVIVE)
             return;
 
-            foreach (var building in GameManager.villageManager.constructedBuildings)
+        foreach (var building in GameManager.villageManager.constructedBuildings)
         {
             if (building.GetComponent<ParameterRecoveryBuilding>() == null)
                 continue;

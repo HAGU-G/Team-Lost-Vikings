@@ -107,7 +107,7 @@ public class UnitManager
         return null;
     }
 
-    private List<StatsData> GetGachaPool(int level)
+    public List<StatsData> GetGachaPool(int level)
     {
         var gachaList = new List<StatsData>();
 

@@ -9,4 +9,9 @@ public class GridInfo : ScriptableObject
     public int minRow;
     public int minCol;
     public float cellSize;
+
+    public SerializableDict<SpriteImageSet> images;
+
+    public Sprite defaultTileSprite;
+    public Sprite unusableTileSprite;
 }
