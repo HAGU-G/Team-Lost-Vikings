@@ -377,7 +377,10 @@ public class UnitStats
                 }
 
                 if (gridMap != null
-                    && gridMap.PosToIndex(objectTransform.position) == Vector2Int.one * -1)
+                    && gridMap.usingTileList.Exists((x) =>
+                    {
+                        return x.tileInfo.id == gridMap.PosToIndex(objectTransform.transform.position);
+                    }))
                 {
                     objectTransform.position = prePos;
                 }
