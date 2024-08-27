@@ -221,7 +221,8 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
 
     public void ForceChangeTarget(CombatUnit enemy)
     {
-        if (enemy == null
+        if (IsDead
+            || enemy == null
             || !enemy.gameObject.activeSelf
             || !Enemies.Contains(enemy))
             return;
