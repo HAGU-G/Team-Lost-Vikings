@@ -4,7 +4,6 @@ using UnityEngine.Pool;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using System.Collections;
-using UnityEditor.AddressableAssets.BuildReportVisualizer;
 using System.Linq;
 
 /// <summary>

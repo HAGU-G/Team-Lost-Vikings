@@ -10,6 +10,8 @@ public class HuntZone : MonoBehaviour
     public GameObject regenPointsRoot;
     public GameObject unitsRoot;
     public GameObject monstersRoot;
+
+    public string dataTablePath;
     #endregion
 
     public Vector3 PortalPos { get; private set; }
@@ -122,7 +124,9 @@ public class HuntZone : MonoBehaviour
         GameManager.huntZoneManager.AddHuntZone(this);
 
         //그리드 설정, 타일 설치
-        gridMap.SetGridInfoImages(DataTableManager.huntZoneMapTable_1);
+        Table<int, TileData> tileTable = new(dataTablePath);
+        tileTable.Load().WaitForCompletion();
+        gridMap.SetGridInfoImages(tileTable);
         gridMap.SetUsingTileList(0);
         gridMap.ConcealGrid();
         var buildingPos = new Vector2Int(gridMap.gridInfo.minRow - 2, gridMap.gridInfo.minCol - 2);

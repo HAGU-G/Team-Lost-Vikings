@@ -39,7 +39,15 @@ public class SerializableDict<T>
 
     public void AddData(SerializableData<T> value)
     {
-        data.Add(value);
+        if (!data.Contains(value))
+        {
+            data.Add(value);
+        }
+    }
+
+    public void ClearData()
+    {
+        data.Clear();
     }
 
     public Dictionary<Vector2Int, T> GetDictionary()

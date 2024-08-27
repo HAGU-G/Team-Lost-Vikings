@@ -28,8 +28,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 959496b7e381fa647841dc048b7491d3, type: 3}
   - {fileID: 21300000, guid: 5d3ecac45de4f134ca7675363def5d6b, type: 3}
   - {fileID: 21300000, guid: dc863659ad1b9c84b9a8e7e2b56acb80, type: 3}
-  row: 8
-  col: 8
+  row: 10
+  col: 10
   minRow: 8
   minCol: 8
   cellSize: 5
@@ -38,4 +38,4 @@ MonoBehaviour:
   fixImages:
     data: []
   defaultTileSprite: {fileID: 21300000, guid: 77b4b7e94b571034da54339b1f62f62f, type: 3}
-  unusableTileSprite: {fileID: 21300000, guid: 77b4b7e94b571034da54339b1f62f62f, type: 3}
+  unusableTileSprite: {fileID: 21300000, guid: f3164b2d0bf5d7d489510cb1baa4f3f6, type: 3}

@@ -235,12 +235,13 @@ public class GridMap : MonoBehaviour
 
     public void SetGridInfoImages(Table<int,TileData> dataTable)
     {
+        gridInfo.images.ClearData();
+
         Dictionary<string, Sprite> tileImages = new();
 
         for (int i = 0; i < gridInfo.useSprites.Length; ++i)
         {
             tileImages.Add(gridInfo.useSprites[i].name, gridInfo.useSprites[i]);
-            Debug.Log(gridInfo.useSprites[i].name);
         }
 
         var tileTable = dataTable;
