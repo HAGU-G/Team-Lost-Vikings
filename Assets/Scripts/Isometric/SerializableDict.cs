@@ -6,7 +6,7 @@ using UnityEngine;
 [Serializable]
 public class SerializableDict<T>
 {
-    public List<SerializableData<T>> data;
+    public List<SerializableData<T>> data = new();
     public int Count { get { return data.Count; } }
 
     public SerializableData<T> this[int index]
