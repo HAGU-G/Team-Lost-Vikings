@@ -91,6 +91,12 @@ public class UnitManager
             gachaCount--;
             GachaCharacter(GameManager.playerManager.recruitLevel);
         }
+
+        if (gachaCount > 0)
+            lastAutoGachaTime = SyncedTime.Now.AddSeconds(-GameSetting.Instance.autoGachaSeconds);
+        else
+            lastAutoGachaTime = SyncedTime.Now;
+
         autoGachaTimeCorrection = sleepSeconds - gachaCount * GameSetting.Instance.autoGachaSeconds;
 
         CoroutineObject.CreateCorutine(CoAutoGacha());
