@@ -80,7 +80,12 @@ public class UIGachaResult : UIWindow
             reRecruit.onClick.RemoveAllListeners();
             reRecruit.onClick.AddListener(GameManager.PlayButtonSFX);
             reRecruit.onClick.AddListener(
-                () => GameManager.uiManager.windows[WINDOW_NAME.GACHA_UI].Open());
+                () =>
+                {
+                    Debug.Log("다시 모집");
+                    Close();
+                    GameManager.uiManager.windows[WINDOW_NAME.GACHA_UI].Open();
+                });
         }
 
         unitImage.uvRect = GameManager.uiManager.unitRenderTexture.LoadRenderTexture(unitStats.Data.UnitAssetFileName);

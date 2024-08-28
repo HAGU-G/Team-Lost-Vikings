@@ -122,24 +122,6 @@ public class UIPlacement : UIWindow
         ownCount.text = $"{GameManager.huntZoneManager.UnitDeployment[currHuntZoneNum].Count}/{huntZone.GetCurrentData().UnitCapacity}";
     }
 
-    //private void CheckHuntZoneAvailable()
-    //{
-    //    var huntZones = GameManager.huntZoneManager.HuntZones;
-    //    for (int i = 0; i < huntZoneList.Count; ++i)
-    //    {
-    //        if (GameManager.playerManager.level > huntZones[i + 1].GetCurrentData().RequirePlayerLv)
-    //        {
-    //            huntZoneList[i].GetComponent<Button>().onClick.RemoveAllListeners();
-    //            huntZoneList[i].GetComponent<Button>().onClick.AddListener(() =>
-    //            {
-
-    //            });
-    //        }
-    //        else
-    //            huntZoneList[i].GetComponent<Button>().interactable = false;
-    //    }
-    //}
-
     private void SetHuntZoneTransform(int huntZoneNum)
     {
         var hm = GameManager.huntZoneManager;
@@ -154,8 +136,6 @@ public class UIPlacement : UIWindow
         {
             huntZoneFrames.Add(InstantiateUnitFrame(GameManager.unitManager.GetUnit(unit), huntZoneTransform));
         }
-
-        
     }
 
     private void SetOwnTransform(int huntZoneNum)
@@ -173,20 +153,6 @@ public class UIPlacement : UIWindow
 
             ownListFrames.Add(InstantiateUnitFrame(unit, ownTransform));
         }
-
-        //foreach (var unit in GameManager.unitManager.Waitings.Values)
-        //{
-        //    if (GameManager.huntZoneManager.UnitDeployment[currHuntZoneNum].Contains(unit.InstanceID))
-        //        continue;
-        //    ownListFrames.Add(InstantiateUnitFrame(unit, ownTransform));
-        //}
-
-        //foreach (var unit in GameManager.unitManager.DeadUnits.Values)
-        //{
-        //    if (GameManager.huntZoneManager.UnitDeployment[currHuntZoneNum].Contains(unit.InstanceID))
-        //        continue;
-        //    ownListFrames.Add(InstantiateUnitFrame(unit, ownTransform));
-        //}
     }
 
     private GameObject InstantiateUnitFrame(UnitStats unit, Transform content)
@@ -234,6 +200,14 @@ public class UIPlacement : UIWindow
         {
             var charInfo = info.GetComponent<CharacterInfo>();
             UnitStats unit = GameManager.unitManager.GetUnit(charInfo.characterId);
+            
+            if (unit == null)
+            {
+                SetHuntZoneTransform(currHuntZoneNum);
+                return;
+            }
+                
+
             string location;
             string state;
 
@@ -299,6 +273,13 @@ public class UIPlacement : UIWindow
         {
             var charInfo = info.GetComponent<CharacterInfo>();
             UnitStats unit = GameManager.unitManager.GetUnit(charInfo.characterId);
+
+            if (unit == null)
+            {
+                SetOwnTransform(currHuntZoneNum);
+                return;
+            }
+
             string location;
             string state;
 
