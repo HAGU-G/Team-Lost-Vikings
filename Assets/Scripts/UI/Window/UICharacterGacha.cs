@@ -17,7 +17,7 @@ public class UICharacterGacha : UIWindow
     public TextMeshProUGUI requireGoldText;
     public TextMeshProUGUI autoGachaText;
 
-    private int requireGold = 1000;
+    private int requireRune = 1000;
     private bool isOpen = false;
 
     protected override void Awake()
@@ -68,11 +68,12 @@ public class UICharacterGacha : UIWindow
 
     public bool SetGachaUI()
     {
-        requireGoldText.text = $"{im.Gold} / {requireGold}";
+        int runeAmount = im.GetItem(GameSetting.Instance.runeID);
+        requireGoldText.text = $"{runeAmount} / {requireRune}";
 
         bool isEnough = true;
 
-        if (im.Gold >= requireGold)
+        if (runeAmount >= requireRune)
         {
             gacha.targetGraphic.color = Color.green;
             requireGoldText.color = Color.white;
@@ -96,7 +97,7 @@ public class UICharacterGacha : UIWindow
             return;
 
         var result = GameManager.unitManager.GachaCharacter(GameManager.playerManager.recruitLevel);
-        im.Gold -= requireGold;
+        im.SpendItem(GameSetting.Instance.runeID, requireRune);
         SetGachaUI();
         //가챠 연출, 결과창 보여주는 건 아래 메서드 마지막 부분으로 옮김.
         PlayGachaAnimation(result);
@@ -106,7 +107,7 @@ public class UICharacterGacha : UIWindow
     {
         var vm = GameManager.villageManager;
         var message = GameManager.uiManager.windows[WINDOW_NAME.MESSAGE_POPUP] as UIWindowMessage;
-        if (im.Gold < requireGold)
+        if (im.GetItem(GameSetting.Instance.runeID) < requireRune)
         {
             message.ShowMessage(
                 $"모집에 필요한 재화가 부족합니다.",
