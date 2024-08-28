@@ -11,6 +11,9 @@ public class LevelUpPopUp : MonoBehaviour
 
     private EffectObject effect = null;
 
+    private float closeTime = 2.0f;
+    private float timer = 0f;
+
     private void Start()
     {
         //close.onClick.AddListener(OnButtonClose);
@@ -38,7 +41,6 @@ public class LevelUpPopUp : MonoBehaviour
     {
         effect = GameManager.effectManager.GetEffect("PopUp_effect",SORT_LAYER.OverUI);
         effect.transform.position = transform.position;
-
     }
 
     private void Update()
@@ -50,7 +52,16 @@ public class LevelUpPopUp : MonoBehaviour
             if (effect.isActiveAndEnabled)
                 effect.Stop();
         }
-            
-            
+
+        timer += Time.deltaTime;
+        if(timer >= closeTime)
+        {
+            timer = 0f;
+
+            gameObject.SetActive(false);
+
+            if (effect.isActiveAndEnabled)
+                effect.Stop();
+        }
     }
 }
