@@ -84,7 +84,6 @@ public class UIWindowMessage : UIWindow
     private bool isPressed = false;
     private bool isShowButton = false;
 
-
     public override void Open()
     {
         base.Open();
@@ -123,6 +122,8 @@ public class UIWindowMessage : UIWindow
         buttonLayout.SetActive(false);
         canvasGroup.alpha = 1.0f;
         isPressed = false;
+        closeTimer = 0f;
+
 
         animator.SetBool(paramIsOpended, isOpened);
 
@@ -135,6 +136,11 @@ public class UIWindowMessage : UIWindow
             dm.Start(dm.DialogQueue.Peek());
         }
 
+        ShowWaitMessage();
+    }
+
+    public bool ShowWaitMessage()
+    {
         if (waitList.Count > 0)
         {
             var info = waitList.Dequeue();
@@ -150,7 +156,11 @@ public class UIWindowMessage : UIWindow
                 info.onCancelButtonClick,
                 info.confirmButtonText,
                 info.cancelButtonText);
+
+            return true;
         }
+
+        return false;
     }
 
     public void SetMessage(string message)
@@ -164,7 +174,6 @@ public class UIWindowMessage : UIWindow
     /// <param name="autoCloseTime">자동으로 닫히는 시간, 0이하의 값일 경우 자동으로 닫히지 않음</param>
     /// <param name="onOpen">Open될 때 실행할 Action, Open Close될 때 제거</param>
     /// <param name="onClose">Close될 때 실행할 Action, Close될 때 제거</param>
-    /// <param name="openAnimation">Open될 때 적용할 애니메이션</param>
     /// <param name="openAnimation">Open될 때 적용할 애니메이션</param>
     /// <param name="onConfirmButtonClick">확인 버튼을 클릭할 때 실행 및 제거, null이 아닐경우 버튼 ON</param>
     /// <param name="onCancelButtonClick">취소 버튼을 클릭할 때 실행 및 제거, null이 아닐경우 버튼 ON</param>
@@ -184,7 +193,7 @@ public class UIWindowMessage : UIWindow
         string confirmButtonText = null,
         string cancelButtonText = null)
     {
-        if (isOpened)
+        if (isOpened || waitList.Count > 0)
         {
             waitList.Enqueue(new()
             {
@@ -255,11 +264,10 @@ public class UIWindowMessage : UIWindow
     {
         if (isAutoClose)
         {
-            closeTimer += Time.deltaTime;
+            closeTimer += Time.unscaledDeltaTime;
 
             if (closeTimer >= closeTime)
             {
-                closeTimer = 0f;
                 Close();
                 return;
             }
