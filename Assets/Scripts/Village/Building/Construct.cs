@@ -549,7 +549,8 @@ public class Construct
         {
             foreach (var tile in previousHighlightedCells)
             {
-                if (!tile.tileInfo.MarginLayer.IsEmpty || !tile.tileInfo.ObjectLayer.IsEmpty)
+                if (!tile.tileInfo.MarginLayer.IsEmpty || !tile.tileInfo.ObjectLayer.IsEmpty
+                    || !GameManager.villageManager.gridMap.usingTileList.Contains(tile))
                     tile.TileColorChange(false);
                 else
                     tile.TileColorChange(true);
@@ -569,7 +570,8 @@ public class Construct
                     continue;
                 }
 
-                if (!tile.tileInfo.MarginLayer.IsEmpty || !tile.tileInfo.ObjectLayer.IsEmpty)
+                if (!tile.tileInfo.MarginLayer.IsEmpty || !tile.tileInfo.ObjectLayer.IsEmpty
+                    || !GameManager.villageManager.gridMap.usingTileList.Contains(tile))
                     tile.TileColorChange(false);
                 else
                     tile.TileColorChange(true);

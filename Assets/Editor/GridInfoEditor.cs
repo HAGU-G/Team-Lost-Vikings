@@ -121,8 +121,8 @@ public class GridInfoEditor : Editor
                 EditorGUILayout.HelpBox($"유효하지 않은 인덱스를 입력했습니다.: {item.key}", MessageType.Error);
             }
 
-            if ((item.value.usingImage != null && !AssetDatabase.GetAssetPath(item.value.usingImage).Contains("TileImage"))
-                || (item.value.unUsingImage != null && !AssetDatabase.GetAssetPath(item.value.unUsingImage).Contains("TileImage")))
+            if ((item.value.usingImage != null && !AssetDatabase.GetAssetPath(item.value.usingImage).Contains("Isometric_Fantasy_Tiles"))
+                || (item.value.unUsingImage != null && !AssetDatabase.GetAssetPath(item.value.unUsingImage).Contains("Isometric_Fantasy_Tiles")))
                 EditorGUILayout.HelpBox($"어어 그거 아니다: {item.key}", MessageType.Warning);
         }
         EditorUtility.SetDirty(target);
