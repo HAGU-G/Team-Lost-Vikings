@@ -19,6 +19,8 @@ public class UIOption : UIWindow
     public Button gameQuit;
     public Button close;
 
+    private int currFrame = 60;
+
 
     protected override void OnGameStart()
     {
@@ -48,6 +50,24 @@ public class UIOption : UIWindow
         bgmInputField.text = Mathf.FloorToInt(SoundManager.BGMVolume * 100).ToString();
         sfxBar.value = SoundManager.SFXVolume;
         sfxInputField.text = Mathf.FloorToInt(SoundManager.SFXVolume * 100).ToString();
+
+        SetFrameButtonColor();
+    }
+
+    private void SetFrameButtonColor()
+    {
+        switch (currFrame)
+        {
+            case 30:
+                frame_30.targetGraphic.color = Color.gray;
+                frame_60.targetGraphic.color = Color.white;
+                break;
+            case 60:
+                frame_60.targetGraphic.color = Color.gray;
+                frame_30.targetGraphic.color = Color.white;
+                break;
+        }
+
     }
 
     private void OnButtonBGMInput(string value)
@@ -101,13 +121,15 @@ public class UIOption : UIWindow
     private void OnButtonFrame30()
     {
         GameManager.PlayButtonSFX();
-        Application.targetFrameRate = 30;
+        currFrame = Application.targetFrameRate = 30;
+        SetFrameButtonColor();        
     }
 
     private void OnButtonFrame60()
     {
         GameManager.PlayButtonSFX();
-        Application.targetFrameRate = 60;
+        currFrame = Application.targetFrameRate = 60;
+        SetFrameButtonColor();
     }
 
     private void OnButtonGameQuit()
