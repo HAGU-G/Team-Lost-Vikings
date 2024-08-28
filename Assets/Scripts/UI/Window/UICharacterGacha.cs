@@ -125,6 +125,7 @@ public class UICharacterGacha : UIWindow
                 1.5f,
                 openAnimation: UIWindowMessage.OPEN_ANIMATION.FADEINOUT,
                 closeType: CLOSE_TYPE.TOUCH);
+            return false;
         }
         else if (!GameManager.unitManager.CanGacha)
         {
