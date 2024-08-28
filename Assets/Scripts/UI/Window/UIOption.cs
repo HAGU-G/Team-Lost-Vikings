@@ -19,7 +19,7 @@ public class UIOption : UIWindow
     public Button gameQuit;
     public Button close;
 
-    private int currFrame = 60;
+    private int currFrame;
 
 
     protected override void OnGameStart()
@@ -42,6 +42,7 @@ public class UIOption : UIWindow
         sfxBar.onValueChanged.AddListener(OnSFXBarChanged);
         sfxInputField.onSubmit.AddListener(OnButtonSFXInput);
 
+        currFrame  = Application.targetFrameRate;
     }
 
     private void OnEnable()
@@ -56,7 +57,7 @@ public class UIOption : UIWindow
 
     private void SetFrameButtonColor()
     {
-        switch (currFrame)
+        switch (Application.targetFrameRate)
         {
             case 30:
                 frame_30.targetGraphic.color = Color.gray;
