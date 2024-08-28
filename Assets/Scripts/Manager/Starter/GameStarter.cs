@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using System.Text;
+using UnityEngine.UI;
+using TMPro;
 
 public class GameStarter : MonoBehaviour
 {
@@ -11,13 +13,20 @@ public class GameStarter : MonoBehaviour
 
     public static GameStarter Instance { get; private set; }
 
+
     public GameObject loadingUI;
+    public GameObject netWorkErrorUI;
+    public Slider loadingSlider;
+    public TextMeshProUGUI loadingText;
+
     public List<AssetReference> scenes = new();
     private AsyncOperationHandle operation = default;
 
     private int completeCount = 0;
     private float completedProgress;
     public bool IsSceneLoaded { get; private set; } = false;
+
+    private float syncTimer = 0f;
 
     private void Awake()
     {
@@ -102,20 +111,40 @@ public class GameStarter : MonoBehaviour
     private void UpdateProgress()
     {
         DataTableManager.Update();
-        float current = DataTableManager.progress + completedProgress + operation.PercentComplete / scenes.Count;
-        Debug.Log($"{current / 2f * 100f}%");
+        var currentLoad = DataTableManager.progress + completedProgress + operation.PercentComplete / scenes.Count;
+        var loadNormalize = currentLoad / 2f;
+        if (loadingSlider != null)
+            loadingSlider.value = loadNormalize;
+        if (loadingText != null)
+            loadingText.text = $"{loadNormalize * (SyncedTime.IsSynced ? 100f : 99f):0}%";
     }
 
     private void Update()
     {
+        syncTimer += Time.unscaledDeltaTime;
+        if (!SyncedTime.IsSynced && syncTimer >= GameSetting.Instance.firstSyncTimeout)
+        {
+            netWorkErrorUI.gameObject.SetActive(true);
+            return;
+        }
+
         UpdateProgress();
 
-        if (IsSceneLoaded
+        if (SyncedTime.IsSynced
+            && IsSceneLoaded
             && DataTableManager.IsReady)
         {
             UpdateProgress();
             GameManager.GameLoaded();
             gameObject.SetActive(false);
         }
+    }
+
+    public void OnButtonGameQuit()
+    {
+        Application.Quit();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
     }
 }

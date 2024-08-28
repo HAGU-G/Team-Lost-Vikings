@@ -31,13 +31,16 @@ public class UnitManager
     }
     public int unitLimitCount = GameSetting.Instance.defaultUnitLimit;
 
-    [JsonProperty] public System.DateTime lastAutoGachaTime = System.DateTime.Now;
+    [JsonProperty] public System.DateTime lastAutoGachaTime;
     private float autoGachaTimeCorrection = 0f;
     public float TimeToAutoGacha
     {
         get
         {
-            float sec = (float)(System.DateTime.Now - lastAutoGachaTime).TotalSeconds;
+            if (!GameManager.IsReady)
+                return 8282f;
+
+            float sec = (float)(SyncedTime.Now - lastAutoGachaTime).TotalSeconds;
             return Mathf.Max(0f, GameSetting.Instance.autoGachaSeconds - sec - autoGachaTimeCorrection);
         }
     }
@@ -78,10 +81,10 @@ public class UnitManager
     private void OnGameReady()
     {
         //누적된 가챠 진행
-        float sleepSeconds = (float)(System.DateTime.Now - lastAutoGachaTime).TotalSeconds;
+        float sleepSeconds = (float)(SyncedTime.Now - lastAutoGachaTime).TotalSeconds;
         var gachaCount = Mathf.FloorToInt(sleepSeconds / GameSetting.Instance.autoGachaSeconds);
 
-        Debug.Log($"지난 시간: {sleepSeconds}, 누적된 가챠 수: {gachaCount}");
+        Debug.Log($"마지막 가챠로 부터 지난 시간: {sleepSeconds}, 누적된 가챠 수: {gachaCount}");
 
         while (gachaCount > 0 && CanGacha)
         {
@@ -241,7 +244,7 @@ public class UnitManager
         {
             yield return null;
 
-            if (System.DateTime.Now.AddSeconds(-(GameSetting.Instance.autoGachaSeconds - autoGachaTimeCorrection)) < lastAutoGachaTime)
+            if (SyncedTime.Now.AddSeconds(-(GameSetting.Instance.autoGachaSeconds - autoGachaTimeCorrection)) < lastAutoGachaTime)
                 continue;
 
             if (!CanGacha)
@@ -252,7 +255,7 @@ public class UnitManager
 
             autoGachaTimeCorrection = 0f;
             if (GachaCharacter(GameManager.playerManager.recruitLevel) != null)
-                lastAutoGachaTime = System.DateTime.Now;
+                lastAutoGachaTime = SyncedTime.Now;
             else
                 autoGachaTimeCorrection = GameSetting.Instance.autoGachaSeconds - 1f;
         }

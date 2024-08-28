@@ -84,7 +84,7 @@ public class GameSetting : ScriptableObject
     [Tooltip("갱신 주기")]
     [Range(1, 60)] public int syncInterval = 30;
     [Range(4, 60)] public int syncLimitSeconds = 4;
-
+    [Range(10f, 120f)] public float firstSyncTimeout = 60f;
 
 
 
