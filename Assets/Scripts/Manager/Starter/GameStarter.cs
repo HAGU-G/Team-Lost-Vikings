@@ -18,6 +18,7 @@ public class GameStarter : MonoBehaviour
     public GameObject netWorkErrorUI;
     public Slider loadingSlider;
     public TextMeshProUGUI loadingText;
+    public TextMeshProUGUI loadingDotText;
 
     public List<AssetReference> scenes = new();
     private AsyncOperationHandle operation = default;
@@ -27,6 +28,10 @@ public class GameStarter : MonoBehaviour
     public bool IsSceneLoaded { get; private set; } = false;
 
     private float syncTimer = 0f;
+
+    private float timer = 0f;
+    private float dotTimer = 0.25f;
+    private int dotCount = 0;
 
     private void Awake()
     {
@@ -123,8 +128,29 @@ public class GameStarter : MonoBehaviour
             loadingText.text = $"{loadNormalize * (SyncedTime.IsSynced ? 100f : 99f):0}%";
     }
 
+    private void UpdateLoadProduction()
+    {
+        dotCount = (dotCount + 1) % 4;
+
+        loadingDotText.text = dotCount switch
+        {
+            0 => "",
+            1 => ".",
+            2 => "..",
+            3 => "...",
+            _ => ""
+        };
+    }
+
     private void Update()
     {
+        timer += Time.unscaledDeltaTime;
+        if(timer >= dotTimer)
+        {
+            timer = 0f;
+            UpdateLoadProduction();
+        }
+
         syncTimer += Time.unscaledDeltaTime;
         if (!SyncedTime.IsSynced && syncTimer >= GameSetting.Instance.firstSyncTimeout)
         {
