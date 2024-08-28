@@ -37,6 +37,7 @@ MonoBehaviour:
   arrowEffectName: BowProjectile
   magicEffectName: MagicProjectile
   goldID: 8000001
+  runeID: 8000005
   defaultItemLimit: 20000
   touchEffectName: VFX_Touch_001
   touchEffectScale: 0.21
