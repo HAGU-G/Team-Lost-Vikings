@@ -32,8 +32,6 @@ public class UIBossSpawn : MonoBehaviour
     /// </summary>
     private List<int> spawnCalls = new();
 
-    private bool isBossSpawned = false;
-
     private void Awake()
     {
         GameManager.Subscribe(EVENT_TYPE.INIT, OnGameInit);
