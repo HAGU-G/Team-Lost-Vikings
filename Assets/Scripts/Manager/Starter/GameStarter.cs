@@ -30,6 +30,10 @@ public class GameStarter : MonoBehaviour
 
     private void Awake()
     {
+#if !UNITY_EDITOR
+        loadingSlider.gameObject.SetActive(false);
+        loadingText.gameObject.SetActive(false);
+#endif
         if (Instance == null)
             Instance = this;
         else
