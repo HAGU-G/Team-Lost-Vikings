@@ -92,7 +92,7 @@ public class CameraManager : MonoBehaviour
     {
         if (isFinishFocusing)
             FinishFocusOnUnit();
-
+        var prevLocation = LookLocation;
         LookLocation = location;
 
         var sm = GameManager.soundManager;
@@ -129,7 +129,8 @@ public class CameraManager : MonoBehaviour
                 break;
         }
 
-        OnLocationChanged?.Invoke();
+        if (prevLocation != LookLocation)
+            OnLocationChanged?.Invoke();
     }
 
     public void SetPosition(Vector3 pos)
