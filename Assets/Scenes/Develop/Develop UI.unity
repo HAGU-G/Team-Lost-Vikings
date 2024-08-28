@@ -23962,7 +23962,7 @@ MonoBehaviour:
   - {fileID: 369366272}
   expBar: {fileID: 1895657059}
   textVersion: {fileID: 1300055091}
-  constructButton: {fileID: 1103690107}
+  constructButton: {fileID: 1033756678}
   changePlacement: {fileID: 2038307292}
   rotateBuilding: {fileID: 1096231835}
   destroyBuilding: {fileID: 1499784116}
