@@ -303,13 +303,13 @@ public class UIUnitDetailInformation : UIWindow
                 cool = "패시브 스킬";
                 break;
             case SKILL_ACTIVE_TYPE.COOLTIME:
-                cool = $"재사용 대기시간 : {skill.Data.SkillActiveValue}초";
+                cool = $"쿨타임 : {skill.Data.SkillActiveValue}초";
                 break;
             case SKILL_ACTIVE_TYPE.BASIC_ATTACK_PROBABILITY:
                 cool = $"기본 공격 시 {skill.Data.SkillActiveValue * 100}% 확률로 발동";
                 break;
             case SKILL_ACTIVE_TYPE.BASIC_ATTACK_COUNT:
-                cool = $"기본 공격 {skill.Data.SkillActiveValue}회마다 발동";
+                cool = $"기본 공격 {skill.Data.SkillActiveValue}회\n마다 발동";
                 break;
         }
         skillInfo.skillCool.text = cool;
