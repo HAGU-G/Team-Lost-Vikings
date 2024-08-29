@@ -62,12 +62,14 @@ public class UIConstructMode : UIWindow
     {
         GameManager.PlayButtonSFX();
         isReplacing = true;
+        destroyPopUp.SetActive(false);
         vm.construct.MakeBuildingGrid();
     }
 
     public void OnButtonRotateBuilding()
     {
         GameManager.PlayButtonSFX();
+        destroyPopUp.SetActive(false);
         um.currentNormalBuidling.RotateBuilding(um.currentNormalBuidling);
     }
 
