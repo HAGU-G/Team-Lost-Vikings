@@ -50,7 +50,7 @@ public class UICameraMove : MonoBehaviour
                         closeType: CLOSE_TYPE.TOUCH);
                     return;
                 }
-
+                
                 GameManager.cameraManager.SetLocation(LOCATION.HUNTZONE, huntzoneNum + 1);
                 var constructMode = GameManager.uiManager.windows[WINDOW_NAME.CONSTRUCT_MODE] as UIConstructMode;
                 if (GameManager.villageManager.constructMode.isConstructMode)

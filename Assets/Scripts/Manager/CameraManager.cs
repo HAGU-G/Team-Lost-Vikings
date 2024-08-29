@@ -93,6 +93,7 @@ public class CameraManager : MonoBehaviour
         if (isFinishFocusing)
             FinishFocusOnUnit();
         var prevLocation = LookLocation;
+        var prevHuntZoneNum = HuntZoneNum;
         LookLocation = location;
 
         var sm = GameManager.soundManager;
@@ -129,7 +130,8 @@ public class CameraManager : MonoBehaviour
                 break;
         }
 
-        if (prevLocation != LookLocation)
+        if (prevLocation != LookLocation
+            || prevHuntZoneNum != HuntZoneNum)
             OnLocationChanged?.Invoke();
     }
 
