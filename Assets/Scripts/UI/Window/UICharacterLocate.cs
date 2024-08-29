@@ -133,7 +133,7 @@ public class UICharacterLocate : UIWindow
     public void OnButtonExit()
     {
         GameManager.PlayButtonSFX();
-        GameManager.cameraManager.FinishFocusOnUnit();
+        //GameManager.cameraManager.FinishFocusOnUnit();
         Close();
     }
 
@@ -158,6 +158,8 @@ public class UICharacterLocate : UIWindow
         Debug.Log("이벤트 함수 실행");
 
         var unitOnVillage = unit.objectTransform.GetComponent<UnitOnVillage>();
+        if (unitOnVillage == null)
+            Debug.LogError("unitOnVillage가 null입니다.");
 
         if (unitOnVillage.currentState == UnitOnVillage.STATE.REVIVE)
             return;

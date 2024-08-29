@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd05155e8efca8240a16f18f58d714c0, type: 3}
   m_Name: Game Setting
   m_EditorClassIdentifier: 
-  useSaveDataWhenEditor: 0
+  useSaveDataWhenEditor: 1
   serverURI: google.com
   syncIntervalType: 0
   syncInterval: 30
   syncLimitSeconds: 4
+  firstSyncTimeout: 60
   ellipseRatio: 0.75
   tileXY: 1.8
   returnHPRaito: 0.2
@@ -36,6 +37,7 @@ MonoBehaviour:
   arrowEffectName: BowProjectile
   magicEffectName: MagicProjectile
   goldID: 8000001
+  runeID: 8000005
   defaultItemLimit: 20000
   touchEffectName: VFX_Touch_001
   touchEffectScale: 0.21

@@ -61,6 +61,7 @@ public class UIDevelop : MonoBehaviour
 
     private void OnGameReady()
     {
+        GameManager.cameraManager.OnLocationChanged += UpdateLookLocation;
         SetExpBar();
         var itemDatas = DataTableManager.itemTable.GetDatas();
         for (int i = 0; i < itemSprites.Count; ++i)
@@ -69,6 +70,15 @@ public class UIDevelop : MonoBehaviour
             itemTexts[i].text = value.ToString();
         }
     }
+
+    private void UpdateLookLocation()
+    {
+        if (GameManager.cameraManager.LookLocation == LOCATION.VILLAGE)
+            constructButton.gameObject.SetActive(true);
+        else
+            constructButton.gameObject.SetActive(false);
+    }
+
 
     public void SetExpBar()
     {
@@ -297,6 +307,12 @@ public class UIDevelop : MonoBehaviour
             {
                 window.Close();
             }
+        }
+
+        if(GameManager.cameraManager.isFocusOnUnit)
+        {
+            GameManager.cameraManager.FinishFocusOnUnit();
+            GameManager.uiManager.windows[WINDOW_NAME.TOUCH_UNIT_BUTTONS].Close();
         }
 
         GameManager.Publish(EVENT_TYPE.CONSTRUCT);

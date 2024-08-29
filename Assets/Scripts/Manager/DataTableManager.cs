@@ -27,6 +27,11 @@ public static class DataTableManager
     public static TableDuplicatedID<int, DialogData> dialogTable = new("Assets/DataTable/DialogTable.csv");
     public static Table<int, QuestData> questTable = new("Assets/DataTable/QuestTable.csv");
 
+    public static Table<int, TileData> tileTable = new("Assets/DataTable/TownMapTable.csv");
+    //public static Table<int, TileData> huntZoneMapTable_1 = new("Assets/DataTable/HuntZone1MapTable.csv");
+    //public static Table<int, TileData> huntZoneMapTable_2 = new("Assets/DataTable/HuntZone2MapTable.csv");
+    //public static Table<int, TileData> huntZoneMapTable_3 = new("Assets/DataTable/HuntZone3MapTable.csv");
+
     public static List<AsyncOperationHandle> handles;
     public static float progress = 0f;
     public static bool IsReady = false;
@@ -51,6 +56,11 @@ public static class DataTableManager
             achievementTable.Load(),
             dialogTable.Load(),
             questTable.Load(),
+
+            tileTable.Load(),
+            //huntZoneMapTable_1.Load(),
+            //huntZoneMapTable_2.Load(),
+            //huntZoneMapTable_3.Load(),
         };
     }
 

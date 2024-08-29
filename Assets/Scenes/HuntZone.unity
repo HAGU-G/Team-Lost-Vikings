@@ -203,6 +203,10 @@ PrefabInstance:
       value: -2.81
       objectReference: {fileID: 0}
     - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: dataTablePath
+      value: Assets/DataTable/HuntZone2MapTable.csv
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
       propertyPath: <HuntZoneID>k__BackingField
       value: 2
       objectReference: {fileID: 0}
@@ -286,6 +290,10 @@ PrefabInstance:
     - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
       propertyPath: spawnCount
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: dataTablePath
+      value: Assets/DataTable/HuntZone1MapTable.csv
       objectReference: {fileID: 0}
     - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
       propertyPath: <HuntZoneID>k__BackingField
@@ -395,6 +403,10 @@ PrefabInstance:
     - target: {fileID: 2132455484492134616, guid: f867158148268024182e917058a08578, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
+      propertyPath: dataTablePath
+      value: Assets/DataTable/HuntZone3MapTable.csv
       objectReference: {fileID: 0}
     - target: {fileID: 2283691549314386899, guid: f867158148268024182e917058a08578, type: 3}
       propertyPath: <HuntZoneID>k__BackingField

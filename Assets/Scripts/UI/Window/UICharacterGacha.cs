@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Rendering;
-using Newtonsoft.Json;
 using static UIWindowMessage;
 public class UICharacterGacha : UIWindow
 {
@@ -16,12 +15,13 @@ public class UICharacterGacha : UIWindow
     public TextMeshProUGUI requireGoldText;
     public TextMeshProUGUI autoGachaText;
 
-    private int requireGold = 1000;
+    private int requireRune = 1000;
     private bool isOpen = false;
 
     protected override void Awake()
     {
         base.Awake();
+        isShowOnly = false;
     }
 
     private void Update()
@@ -66,11 +66,12 @@ public class UICharacterGacha : UIWindow
 
     public bool SetGachaUI()
     {
-        requireGoldText.text = $"{im.Gold} / {requireGold}";
+        int runeAmount = im.GetItem(GameSetting.Instance.runeID);
+        requireGoldText.text = $"{runeAmount} / {requireRune}";
 
         bool isEnough = true;
 
-        if (im.Gold >= requireGold)
+        if (runeAmount >= requireRune)
         {
             gacha.targetGraphic.color = Color.green;
             requireGoldText.color = Color.white;
@@ -94,7 +95,7 @@ public class UICharacterGacha : UIWindow
             return;
 
         var result = GameManager.unitManager.GachaCharacter(GameManager.playerManager.recruitLevel);
-        im.Gold -= requireGold;
+        im.SpendItem(GameSetting.Instance.runeID, requireRune);
         SetGachaUI();
         //가챠 연출, 결과창 보여주는 건 아래 메서드 마지막 부분으로 옮김.
         PlayGachaAnimation(result);
@@ -102,8 +103,9 @@ public class UICharacterGacha : UIWindow
 
     private bool CheckGacha()
     {
+        var vm = GameManager.villageManager;
         var message = GameManager.uiManager.windows[WINDOW_NAME.MESSAGE_POPUP] as UIWindowMessage;
-        if (im.Gold < requireGold)
+        if (im.GetItem(GameSetting.Instance.runeID) < requireRune)
         {
             message.ShowMessage(
                 $"모집에 필요한 재화가 부족합니다.",
@@ -112,6 +114,16 @@ public class UICharacterGacha : UIWindow
                 openAnimation: UIWindowMessage.OPEN_ANIMATION.FADEINOUT,
                 closeType: CLOSE_TYPE.TOUCH);
 
+            return false;
+        }
+        else if (!vm.constructedBuildings.Contains(vm.GetBuilding(STRUCTURE_ID.RECRUIT)))
+        {
+            message.ShowMessage(
+                $"모집소가 없어 모험가를 모집을 할 수 없습니다.\n모집소 건물을 건설해주세요.",
+                true,
+                1.5f,
+                openAnimation: UIWindowMessage.OPEN_ANIMATION.FADEINOUT,
+                closeType: CLOSE_TYPE.TOUCH);
             return false;
         }
         else if (!GameManager.unitManager.CanGacha)
@@ -152,7 +164,7 @@ public class UICharacterGacha : UIWindow
         ///////////////////////////
         ////////// 시작 ///////////
         ///////////////////////////
-        
+
         GameManager.PlayAnimation();
         var cm = GameManager.cameraManager;
         var vm = GameManager.villageManager;
@@ -167,7 +179,8 @@ public class UICharacterGacha : UIWindow
         // 카메라 상태 저장
         GameManager.inputManager.receiver.enabled = false;
 
-        var cameraFocusing = cm.isFocusOnUnit;
+        var isFocusing = cm.isFocusOnUnit;
+        var focusingUnit = cm.focusingUnit;
         var cameraPositin = cm.transform.position;
         var cameraLocation = cm.LookLocation;
         var cameraHuntZoneNum = cm.HuntZoneNum;
@@ -263,13 +276,21 @@ public class UICharacterGacha : UIWindow
                 Addressables.ReleaseInstance(resultCharacter);
 
                 // 카메라 상태 되돌리기
+                GameManager.inputManager.receiver.enabled = true;
                 cm.isHideUnits = isHideUnits;
                 cm.SetLocation(cameraLocation, cameraHuntZoneNum);
                 cm.SetPosition(cameraPositin);
-                cm.ZoomValue = cameraZoom;
-                Camera.main.orthographicSize = cameraZoom;
-                GameManager.inputManager.receiver.enabled = true;
+                cm.isFocusOnUnit = isFocusing;
 
+                if (!isFocusing)
+                {
+                    cm.ZoomValue = cameraZoom;
+                    Camera.main.orthographicSize = cameraZoom;
+                }
+                else
+                {
+                    GameManager.uiManager.windows[WINDOW_NAME.TOUCH_UNIT_BUTTONS].Open();
+                }
                 //결과 표시
                 var uiResult = GameManager.uiManager.windows[WINDOW_NAME.GACHA_RESULT] as UIGachaResult;
                 uiResult.SetResult(result);

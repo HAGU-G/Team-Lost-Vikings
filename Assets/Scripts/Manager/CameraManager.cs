@@ -92,7 +92,7 @@ public class CameraManager : MonoBehaviour
     {
         if (isFinishFocusing)
             FinishFocusOnUnit();
-
+        var prevLocation = LookLocation;
         LookLocation = location;
 
         var sm = GameManager.soundManager;
@@ -129,7 +129,8 @@ public class CameraManager : MonoBehaviour
                 break;
         }
 
-        OnLocationChanged?.Invoke();
+        if (prevLocation != LookLocation)
+            OnLocationChanged?.Invoke();
     }
 
     public void SetPosition(Vector3 pos)
@@ -137,8 +138,7 @@ public class CameraManager : MonoBehaviour
         if (gridMap == null || !IsReady)
             return;
 
-        if ((LookLocation == LOCATION.HUNTZONE && gridMap.PosToIndex(pos) != (-1 * Vector2Int.one))
-            || gridMap.usingTileList.Exists((x) => { return x.tileInfo.id == gridMap.PosToIndex(pos); }))
+        if (gridMap.usingTileList.Exists((x) => { return x.tileInfo.id == gridMap.PosToIndex(pos); }))
         {
             var position = pos;
             position.z = -10;

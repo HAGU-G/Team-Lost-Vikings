@@ -84,7 +84,7 @@ public class GameSetting : ScriptableObject
     [Tooltip("갱신 주기")]
     [Range(1, 60)] public int syncInterval = 30;
     [Range(4, 60)] public int syncLimitSeconds = 4;
-
+    [Range(10f, 120f)] public float firstSyncTimeout = 60f;
 
 
 
@@ -137,6 +137,7 @@ public class GameSetting : ScriptableObject
     //////////////////////////////////////////////////////////////////////////////////////////////
     [Header("기타 설정")]
     public int goldID = 8000001;
+    public int runeID = 8000005;
     public int defaultItemLimit = 20000;
     public string touchEffectName = string.Empty;
     public float touchEffectScale = 1f;

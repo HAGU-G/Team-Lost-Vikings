@@ -110,6 +110,10 @@ public class DialogManager
 
         DialogQueue.Dequeue();
 
+        var message = GameManager.uiManager.windows[WINDOW_NAME.MESSAGE_POPUP] as UIWindowMessage;
+        if (message.ShowWaitMessage())
+            return;
+
         if (CanStart && DialogQueue.Count > 0)
             Start(DialogQueue.Peek());
     }

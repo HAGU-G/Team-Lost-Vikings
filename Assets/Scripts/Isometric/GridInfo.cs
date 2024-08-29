@@ -3,6 +3,8 @@
 [CreateAssetMenu(fileName = "Grid", menuName = "Grid")]
 public class GridInfo : ScriptableObject
 {
+    public Sprite[] useSprites;
+
     public int row;
     public int col;
 
@@ -11,6 +13,7 @@ public class GridInfo : ScriptableObject
     public float cellSize;
 
     public SerializableDict<SpriteImageSet> images;
+    public SerializableDict<SpriteImageSet> fixImages;
 
     public Sprite defaultTileSprite;
     public Sprite unusableTileSprite;

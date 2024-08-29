@@ -39,7 +39,7 @@ public class IdleOnHunt : State<CombatUnit>
         {
             int count = 0;
             Cell cell = null;
-
+            var gridMap = owner.CurrentHuntZone.gridMap;
             do
             {
                 dest = owner.transform.position + (Vector3)Random.insideUnitCircle.normalized * owner.stats.MoveSpeed.Current;
@@ -47,8 +47,12 @@ public class IdleOnHunt : State<CombatUnit>
                 cell = owner.CurrentHuntZone.gridMap.GetTile(index.x, index.y);
                 count++;
             }
-            while (count <= 10
-                   && (cell == null ? true : !cell.tileInfo.ObjectLayer.IsEmpty));
+            while (count <= 3
+                   && (cell == null || !cell.tileInfo.ObjectLayer.IsEmpty
+                        || !gridMap.usingTileList.Exists((x) =>
+                        {
+                            return x.tileInfo.id == gridMap.PosToIndex(cell.transform.position);
+                        })));
 
             if (owner.CurrentHuntZone.gridMap.PosToIndex(dest) == Vector2Int.one * -1)
                 dest = owner.CurrentHuntZone.transform.position;
@@ -65,7 +69,7 @@ public class IdleOnHunt : State<CombatUnit>
 
             if (Vector3.Distance(dest, owner.transform.position) <= 0.2f
                 || timer >= GameSetting.Instance.idleRerouteTime)
-            { 
+            {
                 isMoving = false;
                 timer = 0f;
             }

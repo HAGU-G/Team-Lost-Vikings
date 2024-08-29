@@ -4,12 +4,21 @@ using UnityEngine.SceneManagement;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using System.Text;
+using UnityEngine.UI;
+using TMPro;
 
 public class GameStarter : MonoBehaviour
 {
     private GameStarter() { }
 
     public static GameStarter Instance { get; private set; }
+
+
+    public GameObject loadingUI;
+    public GameObject netWorkErrorUI;
+    public Slider loadingSlider;
+    public TextMeshProUGUI loadingText;
+    public TextMeshProUGUI loadingDotText;
 
     public List<AssetReference> scenes = new();
     private AsyncOperationHandle operation = default;
@@ -18,8 +27,18 @@ public class GameStarter : MonoBehaviour
     private float completedProgress;
     public bool IsSceneLoaded { get; private set; } = false;
 
+    private float syncTimer = 0f;
+
+    private float timer = 0f;
+    private float dotTimer = 0.25f;
+    private int dotCount = 0;
+
     private void Awake()
     {
+#if !UNITY_EDITOR
+        loadingSlider.gameObject.SetActive(false);
+        loadingText.gameObject.SetActive(false);
+#endif
         if (Instance == null)
             Instance = this;
         else
@@ -31,6 +50,13 @@ public class GameStarter : MonoBehaviour
         SyncedTime.Sync();
         DataTableManager.Load();
         LoadScenes();
+
+        GameManager.Subscribe(EVENT_TYPE.GAME_READY, LoadingUIOff);
+    }
+
+    private void LoadingUIOff()
+    {
+        loadingUI.SetActive(false);
     }
 
     private void LoadScenes()
@@ -94,20 +120,61 @@ public class GameStarter : MonoBehaviour
     private void UpdateProgress()
     {
         DataTableManager.Update();
-        float current = DataTableManager.progress + completedProgress + operation.PercentComplete / scenes.Count;
-        Debug.Log($"{current / 2f * 100f}%");
+        var currentLoad = DataTableManager.progress + completedProgress + operation.PercentComplete / scenes.Count;
+        var loadNormalize = currentLoad / 2f;
+        if (loadingSlider != null)
+            loadingSlider.value = loadNormalize;
+        if (loadingText != null)
+            loadingText.text = $"{loadNormalize * (SyncedTime.IsSynced ? 100f : 99f):0}%";
+    }
+
+    private void UpdateLoadProduction()
+    {
+        dotCount = (dotCount + 1) % 4;
+
+        loadingDotText.text = dotCount switch
+        {
+            0 => "",
+            1 => ".",
+            2 => "..",
+            3 => "...",
+            _ => ""
+        };
     }
 
     private void Update()
     {
+        timer += Time.unscaledDeltaTime;
+        if(timer >= dotTimer)
+        {
+            timer = 0f;
+            UpdateLoadProduction();
+        }
+
+        syncTimer += Time.unscaledDeltaTime;
+        if (!SyncedTime.IsSynced && syncTimer >= GameSetting.Instance.firstSyncTimeout)
+        {
+            netWorkErrorUI.gameObject.SetActive(true);
+            return;
+        }
+
         UpdateProgress();
 
-        if (IsSceneLoaded
+        if (SyncedTime.IsSynced
+            && IsSceneLoaded
             && DataTableManager.IsReady)
         {
             UpdateProgress();
             GameManager.GameLoaded();
             gameObject.SetActive(false);
         }
+    }
+
+    public void OnButtonGameQuit()
+    {
+        Application.Quit();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
     }
 }

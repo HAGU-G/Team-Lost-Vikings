@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,6 +26,11 @@ public class UIBossSpawn : MonoBehaviour
     public static readonly string formatTimer = "{0:0}";
 
     private HuntZone currentHuntZone = null;
+
+    /// <summary>
+    /// 사냥터 번호
+    /// </summary>
+    private List<int> spawnCalls = new();
 
     private void Awake()
     {
@@ -61,26 +67,35 @@ public class UIBossSpawn : MonoBehaviour
 
     private void SpawnBoss()
     {
-        if (currentHuntZone == null)
+        var cachedHuntZone = currentHuntZone;
+
+        if (cachedHuntZone == null)
             return;
 
-        if (currentHuntZone.CanSpawnBoss)
+
+        if (cachedHuntZone.CanSpawnBoss
+            && !spawnCalls.Contains(cachedHuntZone.HuntZoneNum))
         {
+            spawnCalls.Add(cachedHuntZone.HuntZoneNum);
             var message = um.windows[WINDOW_NAME.MESSAGE_POPUP] as UIWindowMessage;
             message.ShowMessage(
-                string.Format(formatSpawnMessage, currentHuntZone.GetCurrentBoss()?.Name),
+                string.Format(formatSpawnMessage, cachedHuntZone.GetCurrentBoss()?.Name),
                 true,
                 1.3f,
-                onClose: StartBossBattle,
+                onClose: () => { StartBossBattle(cachedHuntZone); },
                 openAnimation: UIWindowMessage.OPEN_ANIMATION.BLACKOUT
                 );
         }
     }
 
-    private void StartBossBattle()
+    private void StartBossBattle(HuntZone huntZone)
     {
-        currentHuntZone.ResetHuntZone(false);
-        currentHuntZone.StartBossBattle();
+        spawnCalls.RemoveAll((x) => x == huntZone.HuntZoneNum);
+        if (!huntZone.CanSpawnBoss)
+            return;
+
+        huntZone.ResetHuntZone(false);
+        huntZone.StartBossBattle();
     }
 
 
@@ -107,6 +122,7 @@ public class UIBossSpawn : MonoBehaviour
         gameObject.SetActive(true);
 
         animator.SetBool(paramPlay, currentHuntZone.CanSpawnBoss);
+
         UpdateButtonText();
         UpdateIcon();
     }
