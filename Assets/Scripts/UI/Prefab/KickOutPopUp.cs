@@ -18,7 +18,7 @@ public class KickOutPopUp : MonoBehaviour
     {
         GameManager.PlayButtonSFX();
         unit = GameManager.uiManager.currentUnitStats;
-        Debug.Log(unit.Data.Name);
+        //Debug.Log(unit.Data.Name);
         GameManager.unitManager.DiscardCharacter(unit.InstanceID);
         var detailUI = GameManager.uiManager.windows[WINDOW_NAME.UNIT_DETAIL_INFORMATION] as UIUnitDetailInformation;
         detailUI.Close();

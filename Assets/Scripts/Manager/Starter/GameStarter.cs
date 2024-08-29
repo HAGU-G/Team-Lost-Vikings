@@ -93,7 +93,7 @@ public class GameStarter : MonoBehaviour
 
         if (completeCount == 0)
         {
-            Debug.LogError(sb);
+            //Debug.LogError(sb);
             return;
         }
 
@@ -109,7 +109,7 @@ public class GameStarter : MonoBehaviour
             sb.Append($"{i}, ");
         }
 
-        Debug.LogError(sb);
+        //Debug.LogError(sb);
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else

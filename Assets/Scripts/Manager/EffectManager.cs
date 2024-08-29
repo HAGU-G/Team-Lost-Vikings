@@ -186,7 +186,9 @@ public class EffectManager : MonoBehaviour
         if (Addressables.LoadResourceLocationsAsync(effectName).WaitForCompletion().Count <= 0)
         {
             if (!(effectName == string.Empty || effectName == "0"))
-                Debug.LogWarning($"{effectName} 이펙트가 존재하지 않습니다.");
+            {
+                //Debug.LogWarning($"{effectName} 이펙트가 존재하지 않습니다.");
+            }
             return false;
         }
         var handle = Addressables.LoadAssetAsync<GameObject>(effectName);

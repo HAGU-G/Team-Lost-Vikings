@@ -97,7 +97,7 @@ public class UIUnitDetailInformation : UIWindow
             {
                 if (!(skillName == string.Empty || skillName == "0"))
                 {
-                    Debug.LogWarning($"{skillName} 스킬 이름이 존재하지 않습니다.");
+                    //Debug.LogWarning($"{skillName} 스킬 이름이 존재하지 않습니다.");
                 }
                 continue;
             }
@@ -285,7 +285,7 @@ public class UIUnitDetailInformation : UIWindow
     {
         GameManager.PlayButtonSFX();
         //GameManager.uiManager.currentUnitStats = unit;
-        Debug.Log(unit.Data.Name);
+        //Debug.Log(unit.Data.Name);
         kickOutPopUp.SetActive(true);
     }
 

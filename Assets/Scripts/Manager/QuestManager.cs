@@ -94,14 +94,14 @@ public class QuestManager
 
         if (achieveID == 0)
         {
-            Debug.Log($"{targetID}를 사용하는 {type}의 업적이 없습니다.");
+            //Debug.Log($"{targetID}를 사용하는 {type}의 업적이 없습니다.");
             return;
         }
 
         if (type == ACHIEVEMENT_TYPE.BUILDING_BUILD
             && Achievements[achieveID] >= 1)
         {
-            Debug.Log($"{targetID}를 사용하는 {type}의 업적을 이미 달성했습니다.");
+            //Debug.Log($"{targetID}를 사용하는 {type}의 업적을 이미 달성했습니다.");
             return;
         }
 
@@ -113,14 +113,14 @@ public class QuestManager
 
         if (!Achievements.ContainsKey(id))
         {
-            Debug.LogError($"업적 {id}이(가) 없습니다.");
+            //Debug.LogError($"업적 {id}이(가) 없습니다.");
             return;
         }
 
         if (DataTableManager.achievementTable.GetData(id).AchieveType == ACHIEVEMENT_TYPE.BUILDING_BUILD
             && Achievements[id] >= 1)
         {
-            Debug.Log($"업적 {id}을(를) 이미 달성했습니다.");
+            //Debug.Log($"업적 {id}을(를) 이미 달성했습니다.");
             return;
         }
 
@@ -139,7 +139,7 @@ public class QuestManager
     {
         if (!GuideQuests.ContainsKey(id))
         {
-            Debug.LogError($"퀘스트 {id}이(가) 없습니다.");
+            //Debug.LogError($"퀘스트 {id}이(가) 없습니다.");
             return;
         }
 
@@ -161,7 +161,7 @@ public class QuestManager
     {
         if (!GuideQuests.ContainsKey(id))
         {
-            Debug.LogError($"퀘스트 {id}이(가) 없습니다.");
+            //Debug.LogError($"퀘스트 {id}이(가) 없습니다.");
             return;
         }
 

@@ -123,7 +123,7 @@ public class UIBuildingPopUp : UIWindow
         GameManager.questManager.SetAchievementCountByTargetID(buildingID, ACHIEVEMENT_TYPE.BUILDING_UPGRADE, 1);
 
         vm.village.Upgrade(); 
-        Debug.Log(upgradeComponent.UpgradeGrade);
+        //Debug.Log(upgradeComponent.UpgradeGrade);
         if (upgradeComponent.UpgradeGrade >= grade.Count)
         {
             SetLastUpgrade();

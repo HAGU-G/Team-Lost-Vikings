@@ -19,7 +19,7 @@ public static class SaveManager
         if (!GameSetting.Instance.useSaveDataWhenEditor)
             return;
 #endif
-        Debug.Log("게임 저장");
+        //Debug.Log("게임 저장");
         if (saveData == null)
             saveData = new CurrentSave();
 

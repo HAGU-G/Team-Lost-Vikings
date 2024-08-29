@@ -259,7 +259,7 @@ public class HuntZone : MonoBehaviour
 
         if (spawnCount > 0)
         {
-            Debug.LogWarning($"{spawnCount}마리 소환 실패 : 리젠 포인트 모두 사용 중");
+            //Debug.LogWarning($"{spawnCount}마리 소환 실패 : 리젠 포인트 모두 사용 중");
         }
     }
 

@@ -52,7 +52,9 @@ public abstract class Unit : MonoBehaviour, IPointerClickHandler
         ResetEvents();
 
         if (stats == null)
-            Debug.LogWarning("유닛의 스탯이 재설정되지 않았습니다.", gameObject);
+        {
+            //Debug.LogWarning("유닛의 스탯이 재설정되지 않았습니다.", gameObject);
+        }
         else
             this.stats = stats;
 

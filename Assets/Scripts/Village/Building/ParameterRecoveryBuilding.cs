@@ -39,7 +39,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
     private IEnumerator CoRecovery(UnitOnVillage unit)
     {
         //isRecovering = true;
-        Debug.Log($"hp : {unit.stats.HP} stamina : {unit.stats.Stamina} stress : {unit.stats.Stress}");
+        //Debug.Log($"hp : {unit.stats.HP} stamina : {unit.stats.Stamina} stress : {unit.stats.Stress}");
         if(GameManager.cameraManager.focusingUnit == unit.stats)
             GameManager.cameraManager.FinishFocusOnUnit();
         interactingUnits.Add(unit);
@@ -68,7 +68,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
                     case PARAMETER_TYPE.HP:
                         unit.stats.HP.Current += recoveryAmount;
                         DataTableManager.dropTable.GetData(rewardDropID).DropItem();
-                        Debug.Log($"hp : {unit.stats.HP.Current}");
+                        //Debug.Log($"hp : {unit.stats.HP.Current}");
                         if (unit.stats.HP.Current < unit.stats.HP.max)
                             yield return new WaitForSeconds(recoveryTime);
                         else if (unit.stats.HP.Current >= unit.stats.HP.max)
@@ -82,7 +82,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
                     case PARAMETER_TYPE.STAMINA:
                         unit.stats.Stamina.Current += recoveryAmount;
                         DataTableManager.dropTable.GetData(rewardDropID).DropItem();
-                        Debug.Log($"stamina : {unit.stats.Stamina}");
+                        //Debug.Log($"stamina : {unit.stats.Stamina}");
                         if (unit.stats.Stamina.Current < unit.stats.Stamina.max)
                             yield return new WaitForSeconds(recoveryTime);
                         else if (unit.stats.Stamina.Current >= unit.stats.Stamina.max)
@@ -96,7 +96,7 @@ public class ParameterRecoveryBuilding : MonoBehaviour, IInteractableWithUnit
                     case PARAMETER_TYPE.MENTAL:
                         unit.stats.Stress.Current += recoveryAmount;
                         DataTableManager.dropTable.GetData(rewardDropID).DropItem();
-                        Debug.Log($"stress : {unit.stats.Stress}");
+                        //Debug.Log($"stress : {unit.stats.Stress}");
                         if (unit.stats.Stress.Current < unit.stats.Stress.max)
                             yield return new WaitForSeconds(recoveryTime);
                         else if (unit.stats.Stress.Current >= unit.stats.Stress.max)

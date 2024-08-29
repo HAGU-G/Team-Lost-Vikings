@@ -17,7 +17,7 @@ public class Construct
     {
         if (!CanBuildBuilding(obj, tile, gridMap))
         {
-            Debug.Log("건물을 설치할 수 없습니다.");
+            //Debug.Log("건물을 설치할 수 없습니다.");
             isSelected = false;
             return null;
         }
@@ -85,7 +85,7 @@ public class Construct
 
         if (!CanDestroyBuilding(obj))
         {
-            Debug.Log("철거할 수 없는 건물입니다.");
+            //Debug.Log("철거할 수 없는 건물입니다.");
             return null;
         }
 

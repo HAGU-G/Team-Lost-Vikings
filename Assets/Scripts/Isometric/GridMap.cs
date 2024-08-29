@@ -156,7 +156,7 @@ public class GridMap : MonoBehaviour
         int expandLevel = level / 10;
         if (expandLevel > usableTileList.Count)
         {
-            Debug.Log("최대로 확장되었습니다.");
+            //Debug.Log("최대로 확장되었습니다.");
             return;
         }
 
@@ -259,13 +259,13 @@ public class GridMap : MonoBehaviour
             newData.value = new();
             if (tileImages.TryGetValue(town, out var townImage))
                 newData.value.usingImage = townImage;
-            else
-                Debug.LogError($"{town}이 등록되지 않았습니다.");
+            //else
+            //    Debug.LogError($"{town}이 등록되지 않았습니다.");
 
             if (tileImages.TryGetValue(outLand, out var outLandImage))
                 newData.value.unUsingImage = outLandImage;
-            else
-                Debug.LogError($"{outLand}이 등록되지 않았습니다.");
+            //else
+            //    Debug.LogError($"{outLand}이 등록되지 않았습니다.");
 
             gridInfo.images.AddData(newData);
 

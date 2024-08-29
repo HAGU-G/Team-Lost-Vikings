@@ -84,7 +84,7 @@ public class UnitManager
         float sleepSeconds = (float)(SyncedTime.Now - lastAutoGachaTime).TotalSeconds;
         var gachaCount = Mathf.FloorToInt(sleepSeconds / GameSetting.Instance.autoGachaSeconds);
 
-        Debug.Log($"마지막 가챠로 부터 지난 시간: {sleepSeconds}, 누적된 가챠 수: {gachaCount}");
+        //Debug.Log($"마지막 가챠로 부터 지난 시간: {sleepSeconds}, 누적된 가챠 수: {gachaCount}");
 
         while (gachaCount > 0 && CanGacha)
         {
@@ -112,7 +112,7 @@ public class UnitManager
         if (DeadUnits.ContainsKey(instanceID))
             return DeadUnits[instanceID];
 
-        Debug.LogWarning($"{instanceID} 존재하지 않는 유닛입니다.");
+        //Debug.LogWarning($"{instanceID} 존재하지 않는 유닛입니다.");
         return null;
     }
 
@@ -291,7 +291,7 @@ public class UnitManager
 
         if (discardUnit == null)
         {
-            Debug.Log($"유닛 {instanceID}이(가) 존재하지 않습니다");
+            //Debug.Log($"유닛 {instanceID}이(가) 존재하지 않습니다");
             return null;
         }
 

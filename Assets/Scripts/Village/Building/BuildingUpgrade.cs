@@ -60,7 +60,7 @@ public class BuildingUpgrade : MonoBehaviour
         UpgradeData upgrade = UpgradeData.GetUpgradeData(UpgradeId, currentGrade);
         if (upgrade == null)
         {
-            Debug.Log($"업그레이드 {currentGrade}단계가 없습니다.", gameObject);
+            //Debug.Log($"업그레이드 {currentGrade}단계가 없습니다.", gameObject);
             return;
         }
 

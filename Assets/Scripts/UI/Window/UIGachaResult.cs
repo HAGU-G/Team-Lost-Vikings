@@ -82,7 +82,6 @@ public class UIGachaResult : UIWindow
             reRecruit.onClick.AddListener(
                 () =>
                 {
-                    Debug.Log("다시 모집");
                     Close();
                     GameManager.uiManager.windows[WINDOW_NAME.GACHA_UI].Open();
                 });

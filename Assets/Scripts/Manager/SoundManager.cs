@@ -241,7 +241,7 @@ public class SoundManager : MonoBehaviour
                 else
                 {
                     sm.uiSource.Get().PlayOneShot(clip, volumeScale);
-                    Debug.LogWarning($"사냥터 {huntZoneNum}번이 존재하지 않습니다. UI사운드로 재생합니다.");
+                    //Debug.LogWarning($"사냥터 {huntZoneNum}번이 존재하지 않습니다. UI사운드로 재생합니다.");
                 }
                 break;
         }
@@ -267,8 +267,8 @@ public class SoundManager : MonoBehaviour
         }
         else if (Addressables.LoadResourceLocationsAsync(clipName).WaitForCompletion().Count <= 0)
         {
-            if (!(clipName == string.Empty || clipName == "0"))
-                Debug.LogWarning($"{clipName} 사운드가 존재하지 않습니다.");
+            //if (!(clipName == string.Empty || clipName == "0"))
+            //    Debug.LogWarning($"{clipName} 사운드가 존재하지 않습니다.");
         }
         else
         {

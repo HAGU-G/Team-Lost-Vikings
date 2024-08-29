@@ -181,7 +181,7 @@ public class Village : MonoBehaviour
 
     public void Upgrade()
     {
-        Debug.Log("업그레이드");
+        //Debug.Log("업그레이드");
         upgrade?.Upgrade();
     }
 

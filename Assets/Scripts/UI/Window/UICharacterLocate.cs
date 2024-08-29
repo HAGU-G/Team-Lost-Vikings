@@ -155,11 +155,11 @@ public class UICharacterLocate : UIWindow
     public void VillageAraive()
     {
         unit.ArriveVillage -= VillageAraive;
-        Debug.Log("이벤트 함수 실행");
+        //Debug.Log("이벤트 함수 실행");
 
         var unitOnVillage = unit.objectTransform.GetComponent<UnitOnVillage>();
         if (unitOnVillage == null)
-            Debug.LogError("unitOnVillage가 null입니다.");
+            //Debug.LogError("unitOnVillage가 null입니다.");
 
         if (unitOnVillage.currentState == UnitOnVillage.STATE.REVIVE)
             return;

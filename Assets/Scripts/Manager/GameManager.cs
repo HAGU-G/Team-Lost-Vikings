@@ -73,7 +73,7 @@ public static class GameManager
 
     public static void Publish(EVENT_TYPE eventType)
     {
-        Debug.Log(string.Format(formatPublishMessage, eventType));
+        //Debug.Log(string.Format(formatPublishMessage, eventType));
         if (events.TryGetValue(eventType, out var action))
         {
             action.Invoke();
@@ -89,7 +89,7 @@ public static class GameManager
         Publish(EVENT_TYPE.LOADED);
         Publish(EVENT_TYPE.INIT);
 
-        Debug.Log(string.Format(formatPublishMessage, "LoadGame"));
+        //Debug.Log(string.Format(formatPublishMessage, "LoadGame"));
         SaveManager.LoadGame();
 
         playerManager ??= new();
@@ -107,7 +107,7 @@ public static class GameManager
         Publish(EVENT_TYPE.START);
         Publish(EVENT_TYPE.CONFIGURE);
 
-        Debug.Log(string.Format(formatPublishMessage, "Set FirstPlay"));
+        //Debug.Log(string.Format(formatPublishMessage, "Set FirstPlay"));
         if(playerManager.firstPlay)
         {
             unitManager.lastAutoGachaTime = SyncedTime.Now;
@@ -116,7 +116,7 @@ public static class GameManager
 
         IsReady = true;
 
-        Debug.Log(string.Format(formatPublishMessage, "Show Dialogue"));
+        //Debug.Log(string.Format(formatPublishMessage, "Show Dialogue"));
         if (dialogManager.DialogQueue.Count > 0)
             dialogManager.Start(dialogManager.DialogQueue.Peek());
 

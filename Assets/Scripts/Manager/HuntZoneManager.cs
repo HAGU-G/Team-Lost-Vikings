@@ -186,7 +186,7 @@ public class HuntZoneManager : MonoBehaviour
     {
         if (HuntZones.ContainsKey(huntZone.HuntZoneNum))
         {
-            Debug.LogError($"사냥터 {huntZone.HuntZoneNum} 이(가) 이미 존재합니다.");
+            //Debug.LogError($"사냥터 {huntZone.HuntZoneNum} 이(가) 이미 존재합니다.");
             return;
         }
 

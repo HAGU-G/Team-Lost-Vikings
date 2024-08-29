@@ -62,7 +62,7 @@ public static class SyncedTime
 
         if (!IsNetworkReachable())
         {
-            Debug.LogWarning("네트워크에 연결할 수 없습니다.");
+            //Debug.LogWarning("네트워크에 연결할 수 없습니다.");
             return;
         }
 
@@ -102,23 +102,23 @@ public static class SyncedTime
 
     public static void Sync()
     {
-        Debug.Log("시간 동기화 시도");
+        //Debug.Log("시간 동기화 시도");
 
         if (!IsNetworkReachable())
         {
-            Debug.LogWarning("네트워크에 연결할 수 없습니다.");
+            //Debug.LogWarning("네트워크에 연결할 수 없습니다.");
             return;
         }
 
         if (IsSyncing || webRequest != null)
         {
-            Debug.LogWarning("이미 동기화 시도 중입니다.");
+            //Debug.LogWarning("이미 동기화 시도 중입니다.");
             return;
         }
 
         if(IsSynced && (Now - lastSyncedTime).Seconds < setting.syncLimitSeconds)
         {
-            Debug.Log("최근 동기화를 완료했습니다. 잠시 후 다시 시도해주세요.");
+            //Debug.Log("최근 동기화를 완료했습니다. 잠시 후 다시 시도해주세요.");
             return;
         }
 
@@ -179,7 +179,7 @@ public static class SyncedTime
 
     private static void Error(string message)
     {
-        Debug.LogError(message);
+        //Debug.LogError(message);
     }
 
     private static bool IsNetworkReachable()

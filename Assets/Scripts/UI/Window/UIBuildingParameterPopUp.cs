@@ -137,7 +137,6 @@ public class UIBuildingParameterPopUp : UIWindow
         requireItemNums = grade[upgradeComponent.UpgradeGrade].ItemNums;
         for (int i = 0; i < requireItemIds.Count; ++i)
         {
-            Debug.Log($"{requireItemIds[i]}, {requireItemNums[i]}");
             im.SpendItem(requireItemIds[i], requireItemNums[i]);
         }
 
@@ -147,7 +146,6 @@ public class UIBuildingParameterPopUp : UIWindow
 
         vm.village.Upgrade();
 
-        Debug.Log(upgradeComponent.UpgradeGrade);
         if (upgradeComponent.UpgradeGrade >= grade.Count)
         {
             SetLastUpgrade();
@@ -170,7 +168,7 @@ public class UIBuildingParameterPopUp : UIWindow
         buildingName.text = um.currentNormalBuidling.StructureName;
         defaultDescription.text = um.currentNormalBuidling.StructureDesc;
         currEffectDescription.text = UpgradeData.GetUpgradeData(upgradeComponent.UpgradeId, upgradeComponent.UpgradeGrade).UpgradeDesc;
-        //Debug.Log(upgradeComponent.UpgradeGrade);
+        
         if (upgradeComponent.UpgradeGrade < grade.Count)
             nextEffectDescription.text = UpgradeData.GetUpgradeData(upgradeComponent.UpgradeId, upgradeComponent.UpgradeGrade + 1).UpgradeDesc;
         else

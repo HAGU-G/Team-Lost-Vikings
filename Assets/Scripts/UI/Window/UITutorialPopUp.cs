@@ -15,7 +15,7 @@ public class UITutorialPopUp : UIWindow
     private void OnEnable()
     {
         SetTutorial();
-        Debug.Log(currentPage);
+        //Debug.Log(currentPage);
     }
 
     private void SetTutorial()
@@ -38,13 +38,13 @@ public class UITutorialPopUp : UIWindow
         if (currentPage <= 0)
         {
             CheckPage();
-            Debug.Log(currentPage);
+            //Debug.Log(currentPage);
             currentPageImage.sprite = GameManager.uiManager.tutorialPages[currentPage];
         }
         else
         {
             --currentPage;
-            Debug.Log(currentPage);
+            //Debug.Log(currentPage);
             currentPageImage.sprite = GameManager.uiManager.tutorialPages[currentPage];
             CheckPage();
         }
@@ -56,13 +56,13 @@ public class UITutorialPopUp : UIWindow
         if (currentPage >= GameManager.uiManager.tutorialPages.Length - 1)
         {
             CheckPage();
-            Debug.Log(currentPage);
+            //Debug.Log(currentPage);
             currentPageImage.sprite = GameManager.uiManager.tutorialPages[currentPage];
         }
         else
         {
             ++currentPage;
-            Debug.Log(currentPage);
+            //Debug.Log(currentPage);
             currentPageImage.sprite = GameManager.uiManager.tutorialPages[currentPage];
             CheckPage();
         }

@@ -27,7 +27,7 @@ public class GotoOnVillage : State<UnitOnVillage>
             }
             else
             {
-                Debug.Log("가야할 건물의 타입이 없습니다.");
+                //Debug.Log("가야할 건물의 타입이 없습니다.");
             }
         }
 
@@ -80,8 +80,8 @@ public class GotoOnVillage : State<UnitOnVillage>
                 owner.unitMove.OnTargetTile += OnEntranceTile;
                 owner.unitMove.MoveTo(startTile, owner.destinationTile);
             }
-            else
-                Debug.Log("가야할 건물의 타입이 없습니다.");
+            //else
+            //    Debug.Log("가야할 건물의 타입이 없습니다.");
         }
     }
 

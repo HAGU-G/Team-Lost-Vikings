@@ -16,7 +16,7 @@ public class ResetPopUp : MonoBehaviour
     private void OnGameStart()
     {
 
-        Debug.Log("ongamestart");
+        //Debug.Log("ongamestart");
         
     }
 

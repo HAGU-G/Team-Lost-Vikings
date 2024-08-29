@@ -496,7 +496,7 @@ public class UIConstructMode : UIWindow
                 {
                     ReplaceFailParameterHandle();
                 }
-                Debug.Log("설치할 수 없는 위치입니다.");
+                //Debug.Log("설치할 수 없는 위치입니다.");
                 if (isFlip)
                 {
                     obj.GetComponent<Building>().RotateBuilding(obj.GetComponent<Building>());

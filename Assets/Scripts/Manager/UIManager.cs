@@ -82,11 +82,11 @@ public class UIManager : MonoBehaviour
     public void OnShowCharacter(int instanceID)
     {
         var selectedCharacter = GameManager.unitManager.GetUnit(instanceID);
-        Debug.Log(instanceID
-            + "\n"
-            + selectedCharacter.HP
-            + "\n"
-            + selectedCharacter.Location);
+       //Debug.Log(instanceID
+       //     + "\n"
+       //     + selectedCharacter.HP
+       //     + "\n"
+       //     + selectedCharacter.Location);
         if (selectedCharacter.Location != LOCATION.NONE)
             Camera.main.transform.position = selectedCharacter.objectTransform.position + Vector3.forward * -10f;
     }
@@ -121,7 +121,7 @@ public class UIManager : MonoBehaviour
     {
         if (windows.ContainsKey(windowName))
         {
-            Debug.Log($"윈도우 이름({windowName})이 이미 등록되어있습니다.");
+            //Debug.Log($"윈도우 이름({windowName})이 이미 등록되어있습니다.");
             return;
         }
 

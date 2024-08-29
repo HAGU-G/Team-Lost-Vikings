@@ -99,14 +99,14 @@ public class IdleOnVillage : State<UnitOnVillage>
                 else
                 {
                     isIdle = false;
-                    Debug.Log("이어진 길이 없습니다.");
+                    //Debug.Log("이어진 길이 없습니다.");
                     return;
                 }
             }
             else
             {
                 isIdle = false;
-                Debug.Log("경로를 다시 지정합니다.");
+                //Debug.Log("경로를 다시 지정합니다.");
                 return;
             }
         }

@@ -105,10 +105,10 @@ public class Table<T, U> where U : ITableAvaialable<T>
         switch (type)
         {
             case ERROR_TYPE.ID_DUPLICATED:
-                Debug.LogError(string.Format(formatIdDuplicated, fileName, errorInfo));
+                //Debug.LogError(string.Format(formatIdDuplicated, fileName, errorInfo));
                 break;
             case ERROR_TYPE.LOAD_FAILED:
-                Debug.LogError(string.Format(formatLoadFailed, fileName, errorInfo));
+                //Debug.LogError(string.Format(formatLoadFailed, fileName, errorInfo));
                 break;
         }
     }

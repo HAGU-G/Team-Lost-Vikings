@@ -103,7 +103,7 @@ public class UIWindowDialog : UIWindow
             {
                 if (!(imageName == "0" || imageName == string.Empty))
                 {
-                    Debug.Log($"{imageName} 로드 실패");
+                    //Debug.Log($"{imageName} 로드 실패");
                 }
             }
             else
