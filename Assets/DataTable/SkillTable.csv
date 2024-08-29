@@ -1,9 +1,9 @@
 스킬이름,스킬ID,스킬설명,스킬세부설명,적용대상,스킬발동타입,스킬속성,스킬공격타입,스킬발동비용,버프적용범위,버프효과타입,버프효과수치구분,버프효과적용치,스킬지속시간,스킬시전시간,스킬시전범위,스킬공격범위,시전횟수,장판효과적용간격,투사체속도,스킬데미지계수,힘스텟계수,지능스텟계수,민첩스텟계수,장판데미지계수,생명력흡수계수,스킬이펙트파일명,스킬아이콘파일명,스킬효과음파일명,스킬애니메이션,투사체리소스타입,투사체리소스파일명
 string,int,string,string,int,int,int,int,float,float,int,int,float,float,float,float,float,int,float,float,float,float,float,float,float,float,string,string,string,int,string,string
 SkillName,SkillId,SkillDesc,SkillDetail,SkillTarget,SkillActiveType,SkillType,SkillAttackType,SkillActiveValue,BuffRange,BuffType,BuffStatValueType,BuffStatValue,SkillDuration,SkillCastTime,SkillCastRange,SkillAttackRange,SkillActiveNum,SkillFloorActiveTerm,ProjectileSpeed,SkillDmgRatio,SkillStrRatio,SkillWizRatio,SkillAgiRatio,SkillFloorDmgRatio,VitDrainRatio,SkillEffectName,SkillIconName,SkillSEName,SkillAnime,ProjectileFileType,ProjectileFileName
-"슬래쉬(C) ",4310001,무기를 강하게 휘둘러 전방의 대상에게 데미지를 준다,자신의 총 전투력의 160% 데미지로 광역공격,3,1,1,2,6,0,0,0,0,0,1,1,1.5,1,0,0,1.6,0,0,0,0,0,Slash,Slash_icon,Slash1_SE,1,슬래쉬(전사기본),
-"슬래쉬(B) ",4310014,무기를 강하게 휘둘러 전방의 대상에게 데미지를 준다,자신의 총 전투력의 167% 데미지로 광역공격,3,1,1,2,6,0,0,0,0,0,1,1,1.5,1,0,0,1.67,0,0,0,0,0,Slash,Slash_icon,Slash1_SE,1,슬래쉬(전사기본),
-슬래쉬(A),4310015,무기를 강하게 휘둘러 전방의 대상에게 데미지를 준다,자신의 총 전투력의 174% 데미지로 광역공격,3,1,1,2,6,0,0,0,0,0,1,1,1.5,1,0,0,1.74,0,0,0,0,0,Slash,Slash_icon,Slash1_SE,1,슬래쉬(전사기본),
+"슬래쉬(C) ",4310001,무기를 강하게 휘둘러 전방의 대상에게 데미지를 준다,자신의 총 전투력의 160% 데미지로 광역공격,3,1,1,2,6,0,0,0,0,0,1,1,1.2,1,0,0,1.6,0,0,0,0,0,Slash,Slash_icon,Slash1_SE,1,슬래쉬(전사기본),
+"슬래쉬(B) ",4310014,무기를 강하게 휘둘러 전방의 대상에게 데미지를 준다,자신의 총 전투력의 167% 데미지로 광역공격,3,1,1,2,6,0,0,0,0,0,1,1,1.2,1,0,0,1.67,0,0,0,0,0,Slash,Slash_icon,Slash1_SE,1,슬래쉬(전사기본),
+슬래쉬(A),4310015,무기를 강하게 휘둘러 전방의 대상에게 데미지를 준다,자신의 총 전투력의 174% 데미지로 광역공격,3,1,1,2,6,0,0,0,0,0,1,1,1.2,1,0,0,1.74,0,0,0,0,0,Slash,Slash_icon,Slash1_SE,1,슬래쉬(전사기본),
 "배쉬(C) ",4310002,전방의 적을 강하게 내려친다,자신의 총 전투력의 180% 데미지로 공격,3,1,1,1,5,0,0,0,0,0,1,1,0,1,0,0,1.8,0,0,0,0,0,Bash,Bash_icon,Slash2_SE,1,배쉬(전사기본),
 배쉬(B),4310016,전방의 적을 강하게 내려친다,자신의 총 전투력의 187% 데미지로 공격,3,1,1,1,5,0,0,0,0,0,1,1,0,1,0,0,1.87,0,0,0,0,0,Bash,Bash_icon,Slash2_SE,1,배쉬(전사기본),
 배쉬(A),4310017,전방의 적을 강하게 내려친다,자신의 총 전투력의 194% 데미지로 공격,3,1,1,1,5,0,0,0,0,0,1,1,0,1,0,0,1.94,0,0,0,0,0,Bash,Bash_icon,Slash2_SE,1,배쉬(전사기본),
