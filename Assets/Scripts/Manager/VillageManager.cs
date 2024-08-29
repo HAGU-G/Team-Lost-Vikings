@@ -420,15 +420,15 @@ public class VillageManager : MonoBehaviour
         //8,8 ~ 16,16
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.STANDARD);
-        var standard = construct.PlaceBuilding(selectedObj, GetTile(12, 12, gridMap), gridMap);
+        var standard = construct.PlaceBuilding(selectedObj, GetTile(13, 16, gridMap), gridMap);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.PORTAL);
-        var portal = construct.PlaceBuilding(selectedObj, GetTile(15, 15, gridMap), gridMap);
+        var portal = construct.PlaceBuilding(selectedObj, GetTile(16, 16, gridMap), gridMap);
         var portalBuilding = portal.GetComponent<Building>();
         portalBuilding.RotateBuilding(portalBuilding);
 
         selectedObj = objectList.GetValueOrDefault((int)STRUCTURE_ID.REVIVE);
-        construct.PlaceBuilding(selectedObj, GetTile(9, 15, gridMap), gridMap);
+        construct.PlaceBuilding(selectedObj, GetTile(10, 16, gridMap), gridMap);
 
         SetDevelopText(false);
     }
