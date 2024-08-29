@@ -73,6 +73,11 @@ public class UIConstructMode : UIWindow
 
     public void OnButtonDestroyBuilding()
     {
+        ConstructCancel();
+        GameManager.villageManager.construct.ResetPrevTileColor();
+        var constructComplete = GameManager.uiManager.uiDevelop.constructComplete;
+        constructComplete.SetActive(false);
+
         GameManager.PlayButtonSFX();
         destroyPopUp.SetActive(true);
     }
