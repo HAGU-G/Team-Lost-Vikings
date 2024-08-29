@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd05155e8efca8240a16f18f58d714c0, type: 3}
   m_Name: Game Setting
   m_EditorClassIdentifier: 
-  useSaveDataWhenEditor: 1
+  useSaveDataWhenEditor: 0
   serverURI: google.com
   syncIntervalType: 0
   syncInterval: 30
@@ -46,6 +46,6 @@ MonoBehaviour:
   dropEffectPosDelta: 0.5
   defaultUnitLimit: 8
   waitListLimit: 5
-  autoGachaSeconds: 90
+  autoGachaSeconds: 600
   gachaPrefabRareName: Char_Gacha_Rare
   gachaPrefabName: Char_Gacha
