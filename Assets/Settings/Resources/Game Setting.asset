@@ -40,7 +40,7 @@ MonoBehaviour:
   runeID: 8000005
   defaultItemLimit: 20000
   touchEffectName: VFX_Touch_001
-  touchEffectScale: 0.21
+  touchEffectScale: 0.1
   hitEffectColor: {r: 1, g: 0, b: 0, a: 1}
   dropEffectInterval: 0.2
   dropEffectPosDelta: 0.5
