@@ -25,15 +25,15 @@ MonoBehaviour:
   returnStressRaito: 0.2
   staminaReduceAmount: 1
   stressReduceAmount: 1
-  overrollUltraRare: 231
-  overrollSuperRare: 121
-  overrollRare: 91
-  overrollNormal: 51
+  overrollUltraRare: 150
+  overrollSuperRare: 131
+  overrollRare: 113
+  overrollNormal: 86
   idleRerouteTime: 3
   traceRerouteTime: 20
   projectileSize: 0.5
-  defaultBowProjectileSpeed: 4
-  defaultMagicProjectileSpeed: 4
+  defaultBowProjectileSpeed: 15
+  defaultMagicProjectileSpeed: 15
   arrowEffectName: BowProjectile
   magicEffectName: MagicProjectile
   goldID: 8000001
@@ -44,7 +44,7 @@ MonoBehaviour:
   hitEffectColor: {r: 1, g: 0, b: 0, a: 1}
   dropEffectInterval: 0.2
   dropEffectPosDelta: 0.5
-  defaultUnitLimit: 4
+  defaultUnitLimit: 8
   waitListLimit: 5
   autoGachaSeconds: 600
   gachaPrefabRareName: Char_Gacha_Rare
