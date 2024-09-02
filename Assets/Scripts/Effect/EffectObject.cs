@@ -148,11 +148,11 @@ public class EffectObject : MonoBehaviour
         var delta = targetPos - transform.position;
         if (isOnlyFlip)
         {
-            delta.y = transform.position.y;
-            delta.z = transform.position.z;
+            delta.y = 0f;
+            delta.z = 0f;
         }
         var rotationDeg = Mathf.Rad2Deg * Mathf.Atan2(delta.y, delta.x);
         float angleZ = isOnlyFlip ? transform.rotation.z : (isFlip ? 180f - rotationDeg : rotationDeg);
-        transform.eulerAngles = new(0f, isFlip ? 180f : 0f, angleZ);
+        transform.rotation = Quaternion.Euler(0f, isFlip ? 180f : 0f, angleZ);
     }
 }
