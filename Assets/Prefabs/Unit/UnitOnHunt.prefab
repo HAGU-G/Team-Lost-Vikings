@@ -110,6 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73768bb8fed880847b50eec115ccb1ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lineMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   hpBar: {fileID: 6122884847913253127}
   dress: {fileID: 0}
   isActing: 0

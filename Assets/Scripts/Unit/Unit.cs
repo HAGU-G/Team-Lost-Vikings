@@ -5,6 +5,8 @@ using UnityEngine.Rendering;
 
 public abstract class Unit : MonoBehaviour, IPointerClickHandler
 {
+    public Material lineMaterial;
+
     public HPBar hpBar;
     public UnitStats stats = null;
     [HideInInspector] public GameObject dress = null;
