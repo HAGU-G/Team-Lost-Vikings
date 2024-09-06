@@ -91,11 +91,15 @@ public class SoundManager : MonoBehaviour
     }
 
     public AudioSource locationSourcePrefab;
+
     private IObjectPool<AudioSource> audioPool;
     private Dictionary<int, List<AudioSource>> locationSources = new();
+    private Dictionary<string, AsyncOperationHandle<AudioClip>> clipHandles = new();
+    private int activeSourceCount = 0;
+
     private LOCATION location = LOCATION.VILLAGE;
     private int currentHuntZoneNum = -1;
-    private Dictionary<string, AsyncOperationHandle<AudioClip>> clipHandles = new();
+    
 
 
 
@@ -129,18 +133,21 @@ public class SoundManager : MonoBehaviour
             (get) =>
             {
                 get.gameObject.SetActive(true);
+                activeSourceCount++;
             },
             (release) =>
             {
                 RemoveLocationSource(release);
                 release.gameObject.SetActive(false);
+                activeSourceCount--;
             },
             (destroy) =>
             {
                 RemoveLocationSource(destroy);
                 destroy.Stop();
+                activeSourceCount--;
             },
-            true, 32);
+            true, 31);
         tempPool = audioPool;
 
         //위치 설정
@@ -203,7 +210,7 @@ public class SoundManager : MonoBehaviour
 
 
         AudioSource audioSource = null;
-        if (sm.audioPool.CountInactive >= 32)
+        if (sm.activeSourceCount >= 31)
         {
             if (location == sm.location)
             {
@@ -225,6 +232,9 @@ public class SoundManager : MonoBehaviour
         {
             audioSource = sm.audioPool.Get();
         }
+
+        if (audioSource == null)
+            return;
 
         sm.AddSource(audioSource, location, huntZoneNum);
         audioSource.PlayOneShot(clip, volumeScale);
@@ -356,6 +366,7 @@ public class SoundManager : MonoBehaviour
         switch (location)
         {
             case LOCATION.NONE:
+                source.mute = false;
                 if (locationSources.TryGetValue(-2, out var uiList))
                 {
                     if (!uiList.Contains(source))
