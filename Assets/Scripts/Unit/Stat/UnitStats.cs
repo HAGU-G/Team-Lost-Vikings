@@ -361,34 +361,44 @@ public class UnitStats
                 continue;
 
             var collisionDepth = SizeEllipse.CollisionDepthWith(other.stats.SizeEllipse);
-            if (collisionDepth >= 0f)
+            if (collisionDepth > 0f)
             {
+                //충돌
                 var prePos = objectTransform.position;
                 var directionToOther = (other.transform.position - objectTransform.position).normalized;
                 objectTransform.position -= directionToOther * collisionDepth;
 
-                var unit = objectTransform.GetComponent<Unit>();
-                if (unit != null && unit.IsMoved)
-                {
-                    var deltaDistance = Vector3.Distance(objectTransform.position, prePos);
-                    var cross = Vector3.Cross(directionToOther, unit.LastDirection.normalized);
-                    Vector3 direc;
-                    if (cross.z < 0f)
-                        direc = Quaternion.Euler(0f, 0f, -90f) * unit.LastDirection;
-                    else
-                        direc = Quaternion.Euler(0f, 0f, 90f) * unit.LastDirection;
-
-                    objectTransform.position += direc.normalized * deltaDistance;
-                }
-
+                //구역 제한
                 if (gridMap != null
-                    && gridMap.usingTileList.Exists((x) =>
+                    && !gridMap.usingTileList.Exists((x) =>
                     {
                         return x.tileInfo.id == gridMap.PosToIndex(objectTransform.transform.position);
                     }))
                 {
                     objectTransform.position = prePos;
                 }
+                else
+                {
+                    //우회
+                    var unit = objectTransform.GetComponent<Unit>();
+                    if (unit.IsMoved)
+                    {
+                        var lastDirectNormal = unit.LastDirection.normalized;
+                        var cross = Vector3.Cross(directionToOther, lastDirectNormal);
+                        var dot = Vector3.Dot(directionToOther, lastDirectNormal);
+                        if (dot > 0f)
+                        {
+                            Vector3 direc;
+                            if (cross.z < 0f)
+                                direc = Quaternion.Euler(0f, 0f, 90f) * lastDirectNormal;
+                            else
+                                direc = Quaternion.Euler(0f, 0f, -90f) * lastDirectNormal;
+
+                           objectTransform.position += direc * collisionDepth;
+                        }
+                    }
+                }
+
 
                 UpdateEllipsePosition();
             }

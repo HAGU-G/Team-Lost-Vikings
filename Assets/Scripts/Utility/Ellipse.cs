@@ -63,7 +63,7 @@ public class Ellipse
 
     public static bool IsCollided(Ellipse ellipse1, Ellipse ellipse2)
     {
-        return CollisionDepth(ellipse1, ellipse2) > 0f;
+        return CollisionDepth(ellipse1, ellipse2) >= 0f;
     }
 
     public static float CollisionDepth(Ellipse ellipse1, Ellipse ellipse2)
