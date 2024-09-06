@@ -25,8 +25,6 @@ public class SoundManager : MonoBehaviour
     public AudioClip audioClickButton;
     public AudioClip audioClickBuilding;
 
-    public IObjectPool<AudioSource> uiSource;
-
     private float _masterVolume = 1f;
     private float _bgmVolume = 1f;
     private float _sfxVolume = 1f;
@@ -93,7 +91,7 @@ public class SoundManager : MonoBehaviour
     }
 
     public AudioSource locationSourcePrefab;
-    private Dictionary<int, IObjectPool<AudioSource>> locationPool = new();
+    private IObjectPool<AudioSource> audioPool;
     private Dictionary<int, List<AudioSource>> locationSources = new();
     private LOCATION location = LOCATION.VILLAGE;
     private int currentHuntZoneNum = -1;
@@ -119,64 +117,42 @@ public class SoundManager : MonoBehaviour
 
     private void OnGameStart()
     {
-        //UI 오디오 소스 추가
-        uiSource = new LinkedPool<AudioSource>(
-            () =>
-            {
-                var source = Instantiate(locationSourcePrefab, transform);
-                source.name = $"UI";
-                source.GetComponent<AudioSourcePoolObject>().pool = uiSource;
-                AddSource(source, LOCATION.NONE);
-                return source;
-            },
-            (x) => x.gameObject.SetActive(true),
-            (x) => x.gameObject.SetActive(false),
-            null,
-            true, 1000);
-
         //마을 오디오 소스 추가
-        IObjectPool<AudioSource> tempVPool = null;
-        IObjectPool<AudioSource> villagePool = new LinkedPool<AudioSource>(
+        IObjectPool<AudioSource> tempPool = null;
+        audioPool = new LinkedPool<AudioSource>(
             () =>
             {
-                var villageSource = Instantiate(locationSourcePrefab, transform);
-                villageSource.name = $"Village";
-                villageSource.GetComponent<AudioSourcePoolObject>().pool = tempVPool;
-                AddSource(villageSource, LOCATION.VILLAGE);
-                return villageSource;
+                var audioSource = Instantiate(locationSourcePrefab, transform);
+                audioSource.GetComponent<AudioSourcePoolObject>().pool = tempPool;
+                return audioSource;
             },
-            (x) => x.gameObject.SetActive(true),
-            (x) => x.gameObject.SetActive(false),
-            null,
-            true, 1000);
-        tempVPool = villagePool;
-        locationPool.Add(-1, villagePool);
-
-        //사냥터 오디오 소스 추가
-        foreach (var huntZone in GameManager.huntZoneManager.HuntZones)
-        {
-            IObjectPool<AudioSource> tempHPool = null;
-            IObjectPool<AudioSource> huntZonePool = new LinkedPool<AudioSource>(
-                () =>
-                {
-                    var huntZoneSource = Instantiate(locationSourcePrefab, transform);
-                    huntZoneSource.name = $"HuntZone {huntZone.Key}";
-                    huntZoneSource.GetComponent<AudioSourcePoolObject>().pool = tempHPool;
-                    AddSource(huntZoneSource, LOCATION.HUNTZONE, huntZone.Key);
-                    return huntZoneSource;
-                },
-                (x) => x.gameObject.SetActive(true),
-                (x) => x.gameObject.SetActive(false),
-                null,
-                true, 1000);
-            tempHPool = huntZonePool;
-            locationPool.Add(huntZone.Key, huntZonePool);
-        }
+            (get) =>
+            {
+                get.gameObject.SetActive(true);
+            },
+            (release) =>
+            {
+                RemoveLocationSource(release);
+                release.gameObject.SetActive(false);
+            },
+            (destroy) =>
+            {
+                RemoveLocationSource(destroy);
+                destroy.Stop();
+            },
+            true, 32);
+        tempPool = audioPool;
 
         //위치 설정
         SetLocation(LOCATION.VILLAGE);
+    }
 
-        //GameManager.Subscribe(EVENT_TYPE.CONSTRUCT, SetAudioPlay);
+    private void RemoveLocationSource(AudioSource audioSource)
+    {
+        foreach (var list in locationSources.Values)
+        {
+            list.Remove(audioSource);
+        }
     }
 
     private void Update()
@@ -225,26 +201,33 @@ public class SoundManager : MonoBehaviour
         if (clip == null)
             return;
 
-        switch (location)
+
+        AudioSource audioSource = null;
+        if (sm.audioPool.CountInactive >= 32)
         {
-            case LOCATION.NONE:
-                sm.uiSource.Get().PlayOneShot(clip, volumeScale);
-                break;
-            case LOCATION.VILLAGE:
-                sm.locationPool[-1].Get().PlayOneShot(clip, volumeScale);
-                break;
-            case LOCATION.HUNTZONE:
-                if (sm.locationPool.ContainsKey(huntZoneNum))
+            if (location == sm.location)
+            {
+                foreach (var list in sm.locationSources.Values)
                 {
-                    sm.locationPool[huntZoneNum].Get().PlayOneShot(clip, volumeScale);
+                    if (list.Count > 0)
+                    {
+                        list[0].GetComponent<AudioSourcePoolObject>().Release();
+                        break;
+                    }
                 }
-                else
-                {
-                    sm.uiSource.Get().PlayOneShot(clip, volumeScale);
-                    //Debug.LogWarning($"사냥터 {huntZoneNum}번이 존재하지 않습니다. UI사운드로 재생합니다.");
-                }
-                break;
+            }
+            else
+            {
+                return;
+            }
         }
+        else
+        {
+            audioSource = sm.audioPool.Get();
+        }
+
+        sm.AddSource(audioSource, location, huntZoneNum);
+        audioSource.PlayOneShot(clip, volumeScale);
     }
 
     /// <summary>

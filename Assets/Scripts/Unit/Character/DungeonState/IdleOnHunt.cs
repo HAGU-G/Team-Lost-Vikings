@@ -40,10 +40,10 @@ public class IdleOnHunt : State<CombatUnit>
             int count = 0;
             Cell cell = null;
             var gridMap = owner.CurrentHuntZone.gridMap;
+            Vector2Int index = owner.CurrentHuntZone.gridMap.PosToIndex(dest);
             do
             {
                 dest = owner.transform.position + (Vector3)Random.insideUnitCircle.normalized * owner.stats.MoveSpeed.Current;
-                Vector2Int index = owner.CurrentHuntZone.gridMap.PosToIndex(dest);
                 cell = owner.CurrentHuntZone.gridMap.GetTile(index.x, index.y);
                 count++;
             }
@@ -54,7 +54,10 @@ public class IdleOnHunt : State<CombatUnit>
                             return x.tileInfo.id == gridMap.PosToIndex(cell.transform.position);
                         })));
 
-            if (!gridMap.usingTileList.Exists((x) =>
+            cell = owner.CurrentHuntZone.gridMap.GetTile(index.x, index.y);
+            if (cell == null
+                || !cell.tileInfo.ObjectLayer.IsEmpty
+                || !gridMap.usingTileList.Exists((x) =>
             {
                 return x.tileInfo.id == gridMap.PosToIndex(cell.transform.position);
             }))

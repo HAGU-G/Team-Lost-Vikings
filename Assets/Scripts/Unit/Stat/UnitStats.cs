@@ -376,9 +376,9 @@ public class UnitStats
                     var cross = Vector3.Cross(directionToOther, unit.LastDirection);
                     Vector3 direc;
                     if (cross.z < 0f)
-                        direc = Quaternion.Euler(0f, 0f, 90f) * unit.LastDirection;
+                        direc = Quaternion.Euler(0f, 0f, 45f) * unit.LastDirection;
                     else
-                        direc = Quaternion.Euler(0f, 0f, -90f) * unit.LastDirection;
+                        direc = Quaternion.Euler(0f, 0f, -45f) * unit.LastDirection;
 
                     objectTransform.position += direc.normalized * Time.deltaTime * MoveSpeed.Current;
                 }

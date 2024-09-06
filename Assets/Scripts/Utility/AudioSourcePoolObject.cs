@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Pool;
 
-[RequireComponent (typeof(AudioSource))]
+[RequireComponent(typeof(AudioSource))]
 public class AudioSourcePoolObject : MonoBehaviour
 {
     public IObjectPool<AudioSource> pool;
@@ -15,8 +15,16 @@ public class AudioSourcePoolObject : MonoBehaviour
     private void Update()
     {
         if (!source.isPlaying)
-        {
+            Release();
+    }
+
+    public void Release()
+    {
+        source.Stop();
+
+        if (pool != null)
             pool.Release(source);
-        }
+        else
+            Destroy(source);
     }
 }
