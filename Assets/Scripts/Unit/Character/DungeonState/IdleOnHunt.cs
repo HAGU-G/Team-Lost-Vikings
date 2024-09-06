@@ -54,8 +54,13 @@ public class IdleOnHunt : State<CombatUnit>
                             return x.tileInfo.id == gridMap.PosToIndex(cell.transform.position);
                         })));
 
-            if (owner.CurrentHuntZone.gridMap.PosToIndex(dest) == Vector2Int.one * -1)
+            if (!gridMap.usingTileList.Exists((x) =>
+            {
+                return x.tileInfo.id == gridMap.PosToIndex(cell.transform.position);
+            }))
+            {
                 dest = owner.CurrentHuntZone.transform.position;
+            }
 
             isMoving = true;
         }

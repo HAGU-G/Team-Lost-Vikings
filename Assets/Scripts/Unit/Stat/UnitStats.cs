@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UI.CanvasScaler;
 
 
 public enum LOCATION
@@ -368,6 +369,20 @@ public class UnitStats
                 var directionToOther = (other.transform.position - objectTransform.position).normalized;
                 objectTransform.position -= directionToOther * collisionDepth;
 
+                var unit = objectTransform.GetComponent<Unit>();
+                var dot = Vector3.Dot(directionToOther, unit.LastDirection);
+                if (unit.IsMoved && dot >= 0f)
+                {
+                    var cross = Vector3.Cross(directionToOther, unit.LastDirection);
+                    Vector3 direc;
+                    if (cross.z < 0f)
+                        direc = Quaternion.Euler(0f, 0f, 90f) * unit.LastDirection;
+                    else
+                        direc = Quaternion.Euler(0f, 0f, -90f) * unit.LastDirection;
+
+                    objectTransform.position += direc.normalized * Time.deltaTime * MoveSpeed.Current;
+                }
+
                 //구역 제한
                 if (gridMap != null
                     && !gridMap.usingTileList.Exists((x) =>
@@ -377,27 +392,10 @@ public class UnitStats
                 {
                     objectTransform.position = prePos;
                 }
-                else
-                {
-                    //우회
-                    var unit = objectTransform.GetComponent<Unit>();
-                    if (unit.IsMoved)
-                    {
-                        var lastDirectNormal = unit.LastDirection.normalized;
-                        var cross = Vector3.Cross(directionToOther, lastDirectNormal);
-                        var dot = Vector3.Dot(directionToOther, lastDirectNormal);
-                        if (dot > 0f)
-                        {
-                            Vector3 direc;
-                            if (cross.z < 0f)
-                                direc = Quaternion.Euler(0f, 0f, 90f) * lastDirectNormal;
-                            else
-                                direc = Quaternion.Euler(0f, 0f, -90f) * lastDirectNormal;
 
-                           objectTransform.position += direc * collisionDepth;
-                        }
-                    }
-                }
+
+
+
 
 
                 UpdateEllipsePosition();

@@ -117,8 +117,9 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
         if (stats == null || gameObject.activeSelf == false)
             return;
 
-        base.Update();
+        var prePos = transform.position;
 
+        base.Update();
         stats.UpdateEllipsePosition();
         FSM.Update();
 
@@ -212,9 +213,9 @@ public abstract class CombatUnit : Unit, IDamagedable, IAttackable, IHealedable
         }
 
         targets.Sort((left, right) =>
-            {
-                return (int)Mathf.Sign(left.Item2 - right.Item2);
-            });
+        {
+            return (int)Mathf.Sign(right.Item2 - left.Item2);
+        });
 
         return targets;
     }
