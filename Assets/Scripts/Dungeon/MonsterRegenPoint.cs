@@ -19,13 +19,17 @@ public class MonsterRegenPoint : MonoBehaviour, IObserver<Monster>
         }
     }
 
-#if !UNITY_EDITOR
+#if UNITY_EDITOR
+    private void Update()
+    {
+        spriteRenderer.gameObject.SetActive(GameSetting.Instance.isShowSpawnPoint);
+    }
+#else
     private void Awake()
     {
         spriteRenderer.gameObject.SetActive(false);
     }
 #endif
-
     public void Spawned(Monster monster)
     {
         IsReady = ++spawnCount < maxSpawnCount;

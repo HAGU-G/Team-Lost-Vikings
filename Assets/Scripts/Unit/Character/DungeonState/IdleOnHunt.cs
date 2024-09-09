@@ -40,10 +40,11 @@ public class IdleOnHunt : State<CombatUnit>
             int count = 0;
             Cell cell = null;
             var gridMap = owner.CurrentHuntZone.gridMap;
-            Vector2Int index = owner.CurrentHuntZone.gridMap.PosToIndex(dest);
+            Vector2Int index = -Vector2Int.one;
             do
             {
                 dest = owner.transform.position + (Vector3)Random.insideUnitCircle.normalized * owner.stats.MoveSpeed.Current;
+                index = owner.CurrentHuntZone.gridMap.PosToIndex(dest);
                 cell = owner.CurrentHuntZone.gridMap.GetTile(index.x, index.y);
                 count++;
             }

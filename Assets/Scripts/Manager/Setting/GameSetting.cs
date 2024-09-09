@@ -62,7 +62,8 @@ public class GameSetting : ScriptableObject
 
     [Tooltip("에디터에서 저장/불러오기 사용")]
     public bool useSaveDataWhenEditor = false;
-
+    public bool isShowSpawnPoint = true;
+    public bool isShowSizeEllipse = false;
 
 
 

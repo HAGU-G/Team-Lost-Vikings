@@ -10,13 +10,12 @@ public class EllipseDrawer : MonoBehaviour
     private void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
-        owner = GetComponent<Unit>();
-
         lineRenderer.loop = true;
         lineRenderer.startWidth = 0.1f;
         lineRenderer.endWidth = 0.1f;
         lineRenderer.useWorldSpace = false;
 
+        owner = GetComponent<Unit>();
         if (owner != null)
             lineRenderer.material = owner.lineMaterial;
     }
@@ -31,6 +30,8 @@ public class EllipseDrawer : MonoBehaviour
 
     public void Update()
     {
+        lineRenderer.enabled = GameSetting.Instance.isShowSizeEllipse;
+
         if (owner != null && owner.stats != null)
             Draw(owner.stats.SizeEllipse.a * 0.5f, owner.stats.SizeEllipse.b * 0.5f, Vector2.zero, lineRenderer);
         else if (ellipse != null)
