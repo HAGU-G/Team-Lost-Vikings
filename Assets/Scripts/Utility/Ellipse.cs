@@ -61,6 +61,13 @@ public class Ellipse
         return GetPoint(ellipse.a, ellipse.b, ellipse.position, radian);
     }
 
+    public Vector2 GetNearPoint(Vector2 otherPoint)
+    {
+        var direc = otherPoint - position;
+        var angle = Mathf.Atan2(direc.y, direc.x);
+        return GetPoint(this, angle);
+    }
+
     public static bool IsCollided(Ellipse ellipse1, Ellipse ellipse2)
     {
         return CollisionDepth(ellipse1, ellipse2) >= 0f;
