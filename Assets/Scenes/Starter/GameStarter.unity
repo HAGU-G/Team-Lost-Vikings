@@ -1158,6 +1158,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 7146dc27b0f436d4690c312609aa008b, type: 3}
+    - target: {fileID: 7809179216591046269, guid: 711f70979f5cf3a45b9ffc5aacb08df9, type: 3}
+      propertyPath: m_text
+      value: "\uB124\uD2B8\uC6CC\uD06C \uC5F0\uACB0\uC5D0\n\uC2E4\uD328\uD588\uC2B5\uB2C8\uB2E4."
+      objectReference: {fileID: 0}
     - target: {fileID: 8661767118063034345, guid: 711f70979f5cf3a45b9ffc5aacb08df9, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

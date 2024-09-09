@@ -92,7 +92,7 @@ public class UIHuntZoneInfomation : MonoBehaviour
 
         var message = um.windows[WINDOW_NAME.MESSAGE_POPUP] as UIWindowMessage;
         message.ShowMessage(
-            $"스테이지를 내립니다.\n다시 보스를 잡아야 현재 스테이지로\n돌아올 수 있습니다.",
+            $"스테이지를 내립니다.\n다시 보스를 잡아야\n현재 스테이지로\n돌아올 수 있습니다.",
             true,
             onConfirmButtonClick: ()=>
             {

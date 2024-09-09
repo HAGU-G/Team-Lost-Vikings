@@ -19595,8 +19595,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particleImages: []
+  canvases: []
   sortingGroup: {fileID: 0}
-  defaultSortLayer: 7
+  defaultSortLayer: 9
   isLoop: 0
   isFlip: 0
   isTouchEffect: 0

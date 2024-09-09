@@ -48,9 +48,10 @@ public class EffectManager : MonoBehaviour
 
         if (im.Press)
         {
-            var touchEffect = GetEffect(GameSetting.Instance.touchEffectName, SORT_LAYER.OverUI);
+            var touchEffect = GetEffect(GameSetting.Instance.touchEffectName, SORT_LAYER.OverMessage);
             touchEffect.transform.position = new(im.WorldPos.x, im.WorldPos.y, 0f);
             touchEffect.isTouchEffect = true;
+            touchEffect.SortLayer();
         }
     }
 

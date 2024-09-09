@@ -71,7 +71,17 @@ public class EffectObject : MonoBehaviour
 
     private void Update()
     {
-        if (sortingGroup.sortingLayerName == SORT_LAYER.OverUI.ToString()
+        SortLayer();
+
+        if ((!isLoop && !isOnProjectile) || isStopped)
+            gameObject.SetActive(!IsParticleStopped);
+    }
+
+    public void SortLayer()
+    {
+        if (sortingGroup.sortingLayerName == SORT_LAYER.OverMessage.ToString()
+            || sortingGroup.sortingLayerName == SORT_LAYER.Message.ToString()
+            || sortingGroup.sortingLayerName == SORT_LAYER.OverUI.ToString()
             || sortingGroup.sortingLayerName == SORT_LAYER.UI.ToString())
         {
             transform.localScale =
@@ -85,8 +95,6 @@ public class EffectObject : MonoBehaviour
         {
             sortingGroup.sortingOrder = -Mathf.FloorToInt(gameObject.transform.position.y);
         }
-        if ((!isLoop && !isOnProjectile) || isStopped)
-            gameObject.SetActive(!IsParticleStopped);
     }
 
     public void UseScaledDeltaTime(bool isScaled)
