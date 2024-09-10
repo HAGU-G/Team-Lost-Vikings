@@ -4,23 +4,19 @@
 public class EllipseDrawer : MonoBehaviour
 {
     public LineRenderer lineRenderer;
-    public Ellipse ellipse;
-    public IStatUsable owner;
+    public Unit owner;
 
     private void Start()
     {
-        //lineRenderer = GetComponent<LineRenderer>();
-        //owner = GetComponent<IStatUsable>();
+        lineRenderer = GetComponent<LineRenderer>();
+        owner = GetComponent<Unit>();
 
-        //lineRenderer.loop = true;
-        //lineRenderer.startWidth = 0.1f;
-        //lineRenderer.endWidth = 0.1f;
-        //lineRenderer.useWorldSpace = false;
-
-        //ellipse = owner.GetStats.SizeEllipse;
-        //Draw(ellipse.a, ellipse.b, Vector2.zero, lineRenderer);
+        lineRenderer.loop = true;
+        lineRenderer.startWidth = 0.1f;
+        lineRenderer.endWidth = 0.1f;
+        lineRenderer.useWorldSpace = false;
+        lineRenderer.material = owner.lineMaterial;
     }
-
     public void Draw(float a, float b, Vector2 pos, LineRenderer lineRenderer)
     {
         lineRenderer.positionCount = 32;
@@ -32,7 +28,7 @@ public class EllipseDrawer : MonoBehaviour
 
     public void Update()
     {
-       // Draw(ellipse.a, ellipse.b, Vector2.zero, lineRenderer);
+        Draw(owner.stats.SizeEllipse.a * 0.5f, owner.stats.SizeEllipse.b * 0.5f, Vector2.zero, lineRenderer);
     }
 
 }
