@@ -90,16 +90,17 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    public AudioSource locationSourcePrefab;
+    public AudioSourcePoolObject locationSourcePrefab;
 
-    private IObjectPool<AudioSource> audioPool;
-    private Dictionary<int, List<AudioSource>> locationSources = new();
+    private IObjectPool<AudioSourcePoolObject> audioPool;
+    private Dictionary<int, LinkedList<AudioSourcePoolObject>> locationSources = new();
+    private LinkedList<AudioSourcePoolObject> playingSources = new();
     private Dictionary<string, AsyncOperationHandle<AudioClip>> clipHandles = new();
     private int activeSourceCount = 0;
 
     private LOCATION location = LOCATION.VILLAGE;
     private int currentHuntZoneNum = -1;
-    
+
 
 
 
@@ -122,12 +123,12 @@ public class SoundManager : MonoBehaviour
     private void OnGameStart()
     {
         //마을 오디오 소스 추가
-        IObjectPool<AudioSource> tempPool = null;
-        audioPool = new LinkedPool<AudioSource>(
+        IObjectPool<AudioSourcePoolObject> tempPool = null;
+        audioPool = new LinkedPool<AudioSourcePoolObject>(
             () =>
             {
                 var audioSource = Instantiate(locationSourcePrefab, transform);
-                audioSource.GetComponent<AudioSourcePoolObject>().pool = tempPool;
+                audioSource.pool = tempPool;
                 return audioSource;
             },
             (get) =>
@@ -150,15 +151,29 @@ public class SoundManager : MonoBehaviour
             true, 31);
         tempPool = audioPool;
 
+        List<AudioSourcePoolObject> sources = new();
+        for (int i = 0; i < 8; i++)
+        {
+            audioPool.Get();
+        }
+        foreach (var source in sources)
+        {
+            source.Release();
+        }
+
         //위치 설정
         SetLocation(LOCATION.VILLAGE);
     }
 
-    private void RemoveLocationSource(AudioSource audioSource)
+    private void RemoveLocationSource(AudioSourcePoolObject audioSource)
     {
         foreach (var list in locationSources.Values)
         {
-            list.Remove(audioSource);
+            if (list.Remove(audioSource))
+            {
+                playingSources.Remove(audioSource);
+                break;
+            }
         }
     }
 
@@ -209,23 +224,17 @@ public class SoundManager : MonoBehaviour
             return;
 
 
-        AudioSource audioSource = null;
+        AudioSourcePoolObject audioSource = null;
         if (sm.activeSourceCount >= 31)
         {
-            if (location == sm.location)
+            if (location == sm.location && sm.playingSources.Count > 0)
             {
-                foreach (var list in sm.locationSources.Values)
-                {
-                    if (list.Count > 0)
-                    {
-                        list[0].GetComponent<AudioSourcePoolObject>().Release();
-                        break;
-                    }
-                }
+                sm.playingSources.First.Value.Release();
+                audioSource = sm.audioPool.Get();
             }
             else
             {
-                return;
+                return; 
             }
         }
         else
@@ -312,16 +321,16 @@ public class SoundManager : MonoBehaviour
 
                     if (sources.Key == -1)
                     {
-                        foreach (var source in sources.Value)
+                        foreach (var sourceObject in sources.Value)
                         {
-                            source.mute = false;
+                            sourceObject.source.mute = false;
                         }
                     }
                     else
                     {
-                        foreach (var source in sources.Value)
+                        foreach (var sourceObject in sources.Value)
                         {
-                            source.mute = true;
+                            sourceObject.source.mute = true;
                         }
                     }
                 }
@@ -336,16 +345,16 @@ public class SoundManager : MonoBehaviour
 
                     if (sources.Key == huntZoneNum)
                     {
-                        foreach (var source in sources.Value)
+                        foreach (var sourceObject in sources.Value)
                         {
-                            source.mute = false;
+                            sourceObject.source.mute = false;
                         }
                     }
                     else
                     {
-                        foreach (var source in sources.Value)
+                        foreach (var sourceObject in sources.Value)
                         {
-                            source.mute = true;
+                            sourceObject.source.mute = true;
                         }
                     }
                 }
@@ -361,44 +370,48 @@ public class SoundManager : MonoBehaviour
             return Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20f;
     }
 
-    public void AddSource(AudioSource source, LOCATION location, int huntZoneNum = -1)
+    public void AddSource(AudioSourcePoolObject sourceObject, LOCATION location, int huntZoneNum = -1)
     {
+        playingSources.AddLast(sourceObject);
         switch (location)
         {
             case LOCATION.NONE:
-                source.mute = false;
+                sourceObject.source.mute = false;
                 if (locationSources.TryGetValue(-2, out var uiList))
                 {
-                    if (!uiList.Contains(source))
-                        uiList.Add(source);
+                    if (!uiList.Contains(sourceObject))
+                        uiList.AddLast(sourceObject);
                 }
                 else
                 {
-                    locationSources.Add(-2, new() { source });
+                    locationSources.Add(-2, new());
+                    locationSources[-2].AddLast(sourceObject);
                 }
                 break;
             case LOCATION.VILLAGE:
-                source.mute = this.location != location;
+                sourceObject.source.mute = this.location != location;
                 if (locationSources.TryGetValue(-1, out var villageList))
                 {
-                    if (!villageList.Contains(source))
-                        villageList.Add(source);
+                    if (!villageList.Contains(sourceObject))
+                        villageList.AddLast(sourceObject);
                 }
                 else
                 {
-                    locationSources.Add(-1, new() { source });
+                    locationSources.Add(-1, new());
+                    locationSources[-1].AddLast(sourceObject);
                 }
                 break;
             case LOCATION.HUNTZONE:
-                source.mute = !(this.location == location && currentHuntZoneNum == huntZoneNum);
+                sourceObject.source.mute = !(this.location == location && currentHuntZoneNum == huntZoneNum);
                 if (locationSources.TryGetValue(huntZoneNum, out var hunZoneList))
                 {
-                    if (!hunZoneList.Contains(source))
-                        hunZoneList.Add(source);
+                    if (!hunZoneList.Contains(sourceObject))
+                        hunZoneList.AddLast(sourceObject);
                 }
                 else
                 {
-                    locationSources.Add(huntZoneNum, new() { source });
+                    locationSources.Add(huntZoneNum, new());
+                    locationSources[huntZoneNum].AddLast(sourceObject);
                 }
                 break;
         }

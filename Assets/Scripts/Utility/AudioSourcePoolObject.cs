@@ -4,13 +4,8 @@ using UnityEngine.Pool;
 [RequireComponent(typeof(AudioSource))]
 public class AudioSourcePoolObject : MonoBehaviour
 {
-    public IObjectPool<AudioSource> pool;
-    private AudioSource source;
-
-    private void Awake()
-    {
-        source = GetComponent<AudioSource>();
-    }
+    public IObjectPool<AudioSourcePoolObject> pool;
+    public AudioSource source;
 
     private void Update()
     {
@@ -23,8 +18,14 @@ public class AudioSourcePoolObject : MonoBehaviour
         source.Stop();
 
         if (pool != null)
-            pool.Release(source);
+            pool.Release(this);
         else
-            Destroy(source);
+            Destroy(this);
     }
+
+    public void PlayOneShot(AudioClip clip, float volumeScale) => source.PlayOneShot(clip, volumeScale);
+    public void Stop() => source.Stop();
+    public void Pause() => source.Pause();
+    public void UnPause() => source.UnPause();
+
 }
