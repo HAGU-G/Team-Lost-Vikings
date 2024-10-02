@@ -74,10 +74,10 @@ public class UIWindowMessage : UIWindow
     public Queue<MessageInfo> waitList = new();
 
     //이벤트
-    private Action OnOpenOnce;
-    private Action OnCloseOnce;
-    private Action OnConfirmButtonClickOnce;
-    private Action OnCancelButtonClickOnce;
+    private event Action OnOpenOnce;
+    private event Action OnCloseOnce;
+    private event Action OnConfirmButtonClickOnce;
+    private event Action OnCancelButtonClickOnce;
 
     //입력
     private InputManager im;
